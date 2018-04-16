@@ -1,0 +1,304 @@
+<!-- Header -->
+<header class="masthead">
+  <div class="container">
+    <div class="intro-text">
+      <div class="intro-lead-in">Dětská vodácká skupina Šán</div>
+      <div class="intro-heading text-uppercase"></div>
+      <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#zazij">Pádluj!</a>
+    </div>
+  </div>
+</header>
+
+<!-- Services -->
+<section id="zazij">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">Zažij s námi</h2>
+        <h3 class="section-subheading text-muted">bohatou celoroční činnost, vodácký výcvik a tábor na ostrově uprostřed Labe.</h3>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-4 zazij-karta">
+        <div>
+          <img class="rounded img-fluid" src="img/sekce-zazij/tabor_small.jpg" alt="">
+          <h4 class="service-heading">Tábor na ostrově Šán</h4>
+          <p class="text-muted">Každý rok si užíváme obří porci zábavy na našem ostrově uprostřed Labe. Tři týdny dobrodružství, sportovních výzev a přátel. Letos na téma Cesta kolem světa za 80 dní.</p>
+          <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" href="tabor.php">Chci jet na tábor</a>
+        </div>
+      </div>
+      <div class="col-md-4 zazij-karta">
+        <div>
+          <img class="rounded img-fluid" src="img/sekce-zazij/akce_small.jpg" alt="">
+          <h4 class="service-heading">Akci každý druhý víkend</h4>
+          <p class="text-muted">Co 14 dní s námi o víkendu vyrazíš na vodu, za sněhem do hor nebo třeba za dobrodružstvím v pražských uličkách. Koukni na <a href="galerie.php">fotky</a> z minulých akcí a do <a href="program.php">programu</a> na co se můžeš těšit.</p>
+          <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" href="program.php">Chci jet na akci</a>
+        </div>
+      </div>
+      <div class="col-md-4 zazij-karta">
+        <div>
+          <img class="rounded img-fluid" src="img/sekce-zazij/schuzky_small.jpg" alt="">
+          <h4 class="service-heading">Schůzky každý týden</h4>
+          <p class="text-muted">Každý týden se scházíme v naší loděnici Bošán a hrajeme nejrůznější hry, vzděláváme se v tábornických dovednostech nebo vyrážíme na projížďky po Vltavě.</p>
+          <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" href="#zazij">Chci být Šánovec</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sekce nedavno probehlo -->
+<section class="bg-light" id="stalo-se">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">Nedávno proběhlo</h2>
+        <h3 class="section-subheading text-muted">koukni na fotky z posledních pár akcí a zavzpomínej na zážitky s kamarády Šánovci.</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-6 no-gutters">
+        <a href="galerie.php?album=album449&rok=2018">
+          <img class="img-fluid" src="/albums/album449/K_2.sized.jpg" alt="">
+        </a>
+        <div class="portfolio-caption">
+          <h4>Řekni mi vtip</h4>
+          <p class="text-muted">23.-25.3.2018</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6 no-gutters">
+        <a href="galerie.php?album=album443&rok=2018">
+          <img class="img-fluid" src="/albums/album443/ap_ap_oupy_oup.sized.jpg" alt="">
+        </a>
+        <div class="portfolio-caption">
+          <h4>Běžko Akce</h4>
+          <p class="text-muted">23.-25.2.2018</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6 no-gutters">
+        <a href="galerie.php?album=album441&rok=2018">
+          <img class="img-fluid" src="/albums/album441/IMG_0080.sized.jpg" alt="">
+        </a>
+        <div class="portfolio-caption">
+          <h4>Noc je dlouhá a plná hrůz</h4>
+          <p class="text-muted">12.-14.1.2018</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-light" id="testPHP">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <events-list></events-list>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="timelinesekce">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">Nejbližší akce</h2>
+        <h3 class="section-subheading text-muted">Kam se s námi vypravíš v příštích třiceti dnech.</h3>
+      </div>
+    </div>
+    <ul class="timeline clearfix">
+      <?php
+vypisAkce();
+?>
+    </ul>
+    <div class="text-center"><a href="program.php" class="btn btn-primary btn-xl text-uppercase">kompletní program</a></div>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="bg-light" id="team">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">Vedení skupiny</h2>
+        <h3 class="section-subheading text-muted">Na koho se obrátit, když něco potřebuješ.</h3>
+      </div>
+    </div>
+    <ul class="row list-unstyled contacts">
+      <li class="col-12 col-md-3">
+        <img src="img/team/slon.png" class="rounded-circle">
+        <div class="contact-details">
+          Slon <span class="text-muted small">(Michal Krkavec)</span>
+          <h4>hlavní vedoucí skupiny</h4>
+          <a href="mailto:slon@bosan.cz">slon@bosan.cz</a><br>
+          <a href="tel:+420 724 519 459">+420&nbsp;724 519 459</a><br>
+        </div>
+        <span class="clearfix"></span>
+      </li>
+      <li class="col-12 col-md-3">
+        <img src="https://i.imgur.com/hfH9CiC.png" class="rounded-circle">
+        <div class="contact-details">
+          Tyčka <span class="text-muted small">(Jan Svoboda)</span>
+          <h4>hospodář skupiny</h4>
+          <a href="mailto:tycka@bosan.cz">tycka@bosan.cz</a><br>
+          <a href="tel:+420 606 939 753">+420&nbsp;606 939 753</a><br>
+        </div>
+        <span class="clearfix"></span>
+      </li>
+      <li class="col-12 col-md-3">
+        <img src="https://i.imgur.com/hfH9CiC.png" class="rounded-circle">
+        <div class="contact-details">
+          Jára <span class="text-muted small">(Jaroslav Havelík)</span>
+          <h4>člen vedení</h4>
+          <a href="mailto:jara@bosan.cz">jara@bosan.cz</a><br>
+          <a href="tel:+420 721 833 194">+420&nbsp;721 833 194</a><br>
+        </div>
+        <span class="clearfix"></span>
+      </li>
+      <li class="col-12 col-md-3">
+        <img src="https://i.imgur.com/hfH9CiC.png" class="rounded-circle">
+        <div class="contact-details">
+          Pat <span class="text-muted small">(Vojtěch Hübner)</span>
+          <h4>člen vedení</h4>
+          <a href="mailto:pat@bosan.cz">pat@bosan.cz</a><br>
+          <a href="tel:+420 736 137 718">+420&nbsp;736 137 718</a><br>
+        </div>
+        <span class="clearfix"></span>
+      </li>
+    </ul>
+    <div class="row">
+      <div class="col-lg-12 mx-auto text-center">
+        <p class="large text-muted">Ve vedení skupiny jsou vždy zkušení členové, kteří zajišťují chod po stránce organizační a pomáhají mladším se zlepšovat a předávají jim své zkušenosti s cílem vychovat z nich své následovníky. Vedení je volené na jeden rok.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 mx-auto text-center">
+        <a href="kontakt.php" class="btn btn-primary btn-xl text-uppercase">Další kontakty</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Clients -->
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-6">
+        <a href="#">
+          <img class="img-fluid d-block mx-auto" src="img/partneri/KONDOR_small.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <a href="#">
+          <img class="img-fluid d-block mx-auto" src="" alt="">
+        </a>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <a href="#">
+          <img class="img-fluid d-block mx-auto" src="img/partneri/boatpark-logo.png" alt="">
+        </a>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <a href="#">
+          <img class="img-fluid d-block mx-auto" src="img/partneri/eurosignal-logo.png" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<!--
+<section id="contact">
+<div class="container">
+<div class="row">
+<div class="col-lg-12 text-center">
+<h2 class="section-heading text-uppercase">Novinky mailem</h2>
+<h3 class="section-subheading text-muted">Zadej svůj e-mail a dostaneš od nás každý měsíc přehled toho co se stalo a co nás čeká.</h3>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-12">
+<form id="contactForm" name="sentMessage" novalidate>
+<div class="row">
+<div class="col-md-6">
+<div class="form-group">
+<input class="form-control" id="name" type="text" placeholder="Jméno" required data-validation-required-message="Please enter your name.">
+<p class="help-block text-danger"></p>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group">
+<input class="form-control" id="email" type="email" placeholder="E-mail" required data-validation-required-message="Please enter your email address.">
+<p class="help-block text-danger"></p>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="clearfix"></div>
+<div class="col-lg-12 text-center">
+<div id="success"></div>
+<button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Přihlásit k odběru</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+-->
+
+<!-- Mapa -->
+<section id="map">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">Loděnice Bošán</h2>
+        <h3 class="section-subheading text-muted">Loděnici Bošán najdeš přímo naproti podolskému bazénu v Praze. <br>Adresa je Podolské nábřeží 1180/5, Praha 4, 147 00.</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 mapa">
+        <script src="https://api.mapy.cz/loader.js"></script>
+        <script>Loader.load();</script>
+        <div id="mapa" style="width: 100%; height:600px"></div>
+        <script>
+          var center = SMap.Coords.fromWGS84(14.416167467641344, 50.05118366586107);
+          var mapa = new SMap(JAK.gel("mapa"), center, 15);
+          mapa.addDefaultLayer(SMap.DEF_TURIST).enable();
+          var layer = new SMap.Layer.Marker();
+          mapa.addLayer(layer).enable();
+          var mCoord = SMap.Coords.fromWGS84(14.415099948453426,50.05059981802397);
+          var mOpt = {
+            anchor: {left:14, top:49},
+            url:SMap.CONFIG.img + "/marker/balloon-3.png"
+          };
+          var marker = new SMap.Marker(mCoord,"MyMarker", mOpt);
+          layer.addMarker(marker);
+          var scale = new SMap.Control.Scale();
+          mapa.addControl(scale, {left:"8px", bottom:"25px"});
+          //var msOpt = SMap.MOUSE_PAN | SMap.MOUSE_WHEEL | SMap.MOUSE_ZOOM;
+          var mouse = new SMap.Control.Mouse(msOpt);
+          mapa.addControl(mouse);
+          var keyboard = new SMap.Control.Keyboard(SMap.KB_PAN | SMap.KB_ZOOM);
+          mapa.addControl(keyboard);
+          var selection = new SMap.Control.Selection(2);
+          mapa.addControl(selection);
+          var zn = new SMap.Control.ZoomNotification();
+          mapa.addControl(zn);
+          var zoomOpt = {showZoomMenu:false};
+          var zoom = new SMap.Control.Zoom(null,{titles:["Přiblížit", "Oddálit"], showZoomMenu:false});
+          mapa.addControl(zoom, {right:"2px", top:"10x"});
+          var lnt = "Zobrazit na Mapy.cz";
+          var lnd = JAK.mel("a", {href:"https://mapy.cz/s/2t6Wy", target:"_blank", innerHTML:lnt});
+          lnd.style.cssText = "position:absolute;left:8px; bottom:54px;"+
+            "display:block; padding:4px 8px; background-color:#fff; border:medium none;"+
+            "border-radius:3px; box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);"+
+            "text-decoration:none; color:#6b7580;";
+          mapa.getContainer().appendChild(lnd);
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
