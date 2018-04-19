@@ -1,12 +1,7 @@
 <!-- Header -->
-<header class="masthead">
-  <div class="container">
-    <div class="intro-text">
-      <div class="intro-lead-in">Dětská vodácká skupina Šán</div>
-      <div class="intro-heading text-uppercase"></div>
-      <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#zazij">Pádluj!</a>
-    </div>
-  </div>
+<header>
+  <h1>Dětská vodácká skupina ŠÁN</h1>
+  <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#zazij">Pádluj!</a>
 </header>
 
 <!-- Services -->
@@ -21,7 +16,7 @@
     <div class="row text-center">
       <div class="col-md-4 zazij-karta">
         <div>
-          <img class="rounded img-fluid" src="img/sekce-zazij/tabor_small.jpg" alt="">
+          <img class="rounded img-fluid" src="assets/img/front-page/tabor_small.jpg" alt="">
           <h4 class="service-heading">Tábor na ostrově Šán</h4>
           <p class="text-muted">Každý rok si užíváme obří porci zábavy na našem ostrově uprostřed Labe. Tři týdny dobrodružství, sportovních výzev a přátel. Letos na téma Cesta kolem světa za 80 dní.</p>
           <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" href="tabor.php">Chci jet na tábor</a>
@@ -29,7 +24,7 @@
       </div>
       <div class="col-md-4 zazij-karta">
         <div>
-          <img class="rounded img-fluid" src="img/sekce-zazij/akce_small.jpg" alt="">
+          <img class="rounded img-fluid" src="assets/img/front-page/akce_small.jpg" alt="">
           <h4 class="service-heading">Akci každý druhý víkend</h4>
           <p class="text-muted">Co 14 dní s námi o víkendu vyrazíš na vodu, za sněhem do hor nebo třeba za dobrodružstvím v pražských uličkách. Koukni na <a href="galerie.php">fotky</a> z minulých akcí a do <a href="program.php">programu</a> na co se můžeš těšit.</p>
           <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" href="program.php">Chci jet na akci</a>
@@ -37,7 +32,7 @@
       </div>
       <div class="col-md-4 zazij-karta">
         <div>
-          <img class="rounded img-fluid" src="img/sekce-zazij/schuzky_small.jpg" alt="">
+          <img class="rounded img-fluid" src="assets/img/front-page/schuzky_small.jpg" alt="">
           <h4 class="service-heading">Schůzky každý týden</h4>
           <p class="text-muted">Každý týden se scházíme v naší loděnici Bošán a hrajeme nejrůznější hry, vzděláváme se v tábornických dovednostech nebo vyrážíme na projížďky po Vltavě.</p>
           <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" href="#zazij">Chci být Šánovec</a>
@@ -57,61 +52,31 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4 col-sm-6 no-gutters">
-        <a href="galerie.php?album=album449&rok=2018">
-          <img class="img-fluid" src="/albums/album449/K_2.sized.jpg" alt="">
+      <div *ngFor="let event of recentEvents" class="col-md-4 col-sm-6 no-gutters">
+        <a [routerLink]="getEventLink(event)">
+          <img class="img-fluid" [src]="event.image">
         </a>
         <div class="portfolio-caption">
-          <h4>Řekni mi vtip</h4>
-          <p class="text-muted">23.-25.3.2018</p>
+          <h4>{{event.name}}</h4>
+          <p class="text-muted">{{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M."}}</p>
         </div>
-      </div>
-      <div class="col-md-4 col-sm-6 no-gutters">
-        <a href="galerie.php?album=album443&rok=2018">
-          <img class="img-fluid" src="/albums/album443/ap_ap_oupy_oup.sized.jpg" alt="">
-        </a>
-        <div class="portfolio-caption">
-          <h4>Běžko Akce</h4>
-          <p class="text-muted">23.-25.2.2018</p>
-        </div>
-      </div>
-      <div class="col-md-4 col-sm-6 no-gutters">
-        <a href="galerie.php?album=album441&rok=2018">
-          <img class="img-fluid" src="/albums/album441/IMG_0080.sized.jpg" alt="">
-        </a>
-        <div class="portfolio-caption">
-          <h4>Noc je dlouhá a plná hrůz</h4>
-          <p class="text-muted">12.-14.1.2018</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="bg-light" id="testPHP">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <events-list></events-list>
       </div>
     </div>
   </div>
 </section>
 
 <!-- About -->
-<section id="timelinesekce">
+<section id="timeline">
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-center">
         <h2 class="section-heading text-uppercase">Nejbližší akce</h2>
-        <h3 class="section-subheading text-muted">Kam se s námi vypravíš v příštích třiceti dnech.</h3>
+        <h3 class="section-subheading text-muted">Kam se s námi vypravíš v příštích týdnech.</h3>
       </div>
     </div>
-    <ul class="timeline clearfix">
-      <?php
-vypisAkce();
-?>
-    </ul>
+
+    <events-timeline></events-timeline>
+
     <div class="text-center"><a href="program.php" class="btn btn-primary btn-xl text-uppercase">kompletní program</a></div>
   </div>
 </section>

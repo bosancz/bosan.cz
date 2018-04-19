@@ -5,7 +5,9 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build --prod",
-    "dev": "ng build --watch --aot"
+    "dev": "concurrently \"npm run dev-build\" \"npm run dev-server\"",
+    "dev-build": "ng build --watch --aot",
+    "dev-server": "json-server \"test-api/db.json\" --config test-api/json-server.json"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +30,7 @@
     "@angular/cli": "1.6.8",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
+    "json-server": "^0.12.1",
     "typescript": "~2.5.3"
   }
 }

@@ -6,24 +6,21 @@ import { ToastService } from "../../services/toast.service";
 import { Event } from "../../schema/event";
 
 @Component({
-  selector: 'front-page',
-  templateUrl: "front-page.template.html",
-  styleUrls: ["front-page.style.css"]
+  selector: 'events-timeline',
+  templateUrl: "events-timeline.template.html",
+  styleUrls: ["events-timeline.style.css"]
 })
-export class FrontPageComponent implements OnInit {
-  
-  recentEvents:Event[] = [];
+export class EventsTimelineComponent implements OnInit {
 
+  events:Event[]= [];
+  
   constructor(private dataService:DataService, private toastService:ToastService) { }
 
   ngOnInit() {
-    this.dataService.getEventsRecent({limit:3}) 
-      .then(events => this.recentEvents = events)
+        
+     this.dataService.getEventsUpcoming({limit:3}) 
+      .then(events => this.events = events)
       .catch(err => this.toastService.toast(err.message,"error"));
-  }
-  
-  getEventLink(event:Event){
-    return "/akce/" + event._id;
   }
 
 }
