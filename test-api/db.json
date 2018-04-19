@@ -1,0 +1,8 @@
+{
+  "events": [
+    { "_id": "1", "name": "Řekni mi vtip", "dateFrom": "2018-03-23", "dateTill": "2018-03-25" },
+    { "_id": "2", "name": "Běžko Akce", "dateFrom": "2018-02-23", "dateTill": "2018-02-25" },
+    { "_id": "3", "name": "Noc je dlouhá a plná hrůz", "dateFrom": "2018-01-12", "dateTill": "2018-01-14" },
+    { "_id": "4", "name": "Vietam War Games 2018", "dateFrom": "2018-06-01", "dateTill": "2018-06-03" }
+  ]
+}
