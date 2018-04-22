@@ -33,4 +33,8 @@ export class DataService {
 	getEventsUpcoming(options?):Promise<Event[]>{
     return this.http.get<Event[]>(this.root + "/events/upcoming" + toParams(options)).toPromise();
   }
+	
+	getGroupsColors():any{
+		return this.http.get<any>(this.root + "/groups/colors").toPromise();
+	}
 }

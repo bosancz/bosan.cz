@@ -8,5 +8,5 @@ export const environment = {
   
   api_root: "/api",
   
-  google_maps_key: "AIzaSyBQvjrdlWsSO0KtNAdznGAEunj2ODgLkVA"
+  google_maps_key: "YOUR API KEY"
 };

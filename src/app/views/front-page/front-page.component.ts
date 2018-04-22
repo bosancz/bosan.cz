@@ -17,7 +17,7 @@ export class FrontPageComponent implements OnInit {
   constructor(private dataService:DataService, private toastService:ToastService) { }
 
   ngOnInit() {
-    this.dataService.getEventsRecent({limit:3}) 
+    this.dataService.getEventsRecent({limit:5,images:1}) 
       .then(events => this.recentEvents = events)
       .catch(err => this.toastService.toast(err.message,"error"));
   }

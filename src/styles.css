@@ -1,8 +1,18 @@
-i.squad {width:20px;height:20px;border-radius:}
-.squad-3 { background-color: #e6ffe6; }
-.squad-4 {background-color: #e6f2ff;}
-.squad-5 {background-color: #ffe6e6;}
-.squad-6 {background-color: #e6ffe6;}
-.squad-7 {background-color: #e6f2ff;}
-.squad-8 {background-color: #ffffcc;}
-.squad-22 {background-color: #ffffcc;}
+body{font-family:"Roboto Condensed", Verdana, sans-serif;font-size:25px;}
+
+h1{
+  font-size: 80px;
+  font-weight:bold;
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-align:center;
+}
+
+
+h2 {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+p.subheading{text-align:center;}

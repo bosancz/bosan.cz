@@ -6,3 +6,7 @@
 
 # logs
 npm-debug.log
+
+# keys
+src/environment/environment.ts
+src/environment/environment.prod.ts

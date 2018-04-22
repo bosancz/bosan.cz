@@ -1,0 +1,4 @@
+.event .groups .group{display:inline-block;height:40px;width:40px;border-radius:20px;font-size:25px;font-weight:bold;color:#fff;text-align:center;line-height:40px;vertical-align:middle;margin-right:10px;}
+.event .groups .group:last-child{margin-right:0;}
+
+.event .description{margin-bottom:20px;text-align:justify;}

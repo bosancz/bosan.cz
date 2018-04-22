@@ -1,39 +1,36 @@
 <!-- Header -->
 <header>
-  <h1>Dětská vodácká skupina ŠÁN</h1>
-  <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#zazij">Pádluj!</a>
+  <strong>Dětská vodácká skupina ŠÁN</strong>
+  <a class="btn btn-primary" href="#zazij">Pádluj!</a>
 </header>
 
 <!-- Services -->
-<section id="zazij">
+<section id="we-offer">
+  <h1>Zažij s námi</h1>
+  <p class="subheading text-muted">bohatou celoroční činnost, vodácký výcvik a tábor na ostrově uprostřed Labe.</p>
+
   <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h2 class="section-heading text-uppercase">Zažij s námi</h2>
-        <h3 class="section-subheading text-muted">bohatou celoroční činnost, vodácký výcvik a tábor na ostrově uprostřed Labe.</h3>
-      </div>
-    </div>
     <div class="row text-center">
-      <div class="col-md-4 zazij-karta">
+      <div class="col-md-4 .card">
         <div>
           <img class="rounded img-fluid" src="assets/img/front-page/tabor_small.jpg" alt="">
-          <h4 class="service-heading">Tábor na ostrově Šán</h4>
+          <h2>Tábor na ostrově Šán</h2>
           <p class="text-muted">Každý rok si užíváme obří porci zábavy na našem ostrově uprostřed Labe. Tři týdny dobrodružství, sportovních výzev a přátel. Letos na téma Cesta kolem světa za 80 dní.</p>
-          <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" href="tabor.php">Chci jet na tábor</a>
+          <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" routerLink="/tabor">Chci jet na tábor</a>
         </div>
       </div>
-      <div class="col-md-4 zazij-karta">
+      <div class="col-md-4 .card">
         <div>
           <img class="rounded img-fluid" src="assets/img/front-page/akce_small.jpg" alt="">
-          <h4 class="service-heading">Akci každý druhý víkend</h4>
+          <h2>Akci každý druhý víkend</h2>
           <p class="text-muted">Co 14 dní s námi o víkendu vyrazíš na vodu, za sněhem do hor nebo třeba za dobrodružstvím v pražských uličkách. Koukni na <a href="galerie.php">fotky</a> z minulých akcí a do <a href="program.php">programu</a> na co se můžeš těšit.</p>
-          <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" href="program.php">Chci jet na akci</a>
+          <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" routerLink="/program">Chci jet na akci</a>
         </div>
       </div>
-      <div class="col-md-4 zazij-karta">
+      <div class="col-md-4 .card">
         <div>
           <img class="rounded img-fluid" src="assets/img/front-page/schuzky_small.jpg" alt="">
-          <h4 class="service-heading">Schůzky každý týden</h4>
+          <h2>Schůzky každý týden</h2>
           <p class="text-muted">Každý týden se scházíme v naší loděnici Bošán a hrajeme nejrůznější hry, vzděláváme se v tábornických dovednostech nebo vyrážíme na projížďky po Vltavě.</p>
           <a class="btn btn-primary btn-x2 text-uppercase js-scroll-trigger" href="#zazij">Chci být Šánovec</a>
         </div>
@@ -43,38 +40,38 @@
 </section>
 
 <!-- Sekce nedavno probehlo -->
-<section class="bg-light" id="stalo-se">
+<section class="bg-light" id="recentEvents">
+  <h1>Nedávno proběhlo</h1>
+  <p class="subheading text-muted">koukni na fotky z posledních pár akcí a zavzpomínej na zážitky s kamarády Šánovci.</p>
+
   <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h2 class="section-heading text-uppercase">Nedávno proběhlo</h2>
-        <h3 class="section-subheading text-muted">koukni na fotky z posledních pár akcí a zavzpomínej na zážitky s kamarády Šánovci.</h3>
+    
+    <div class="row firstRow">
+      <div *ngFor="let event of recentEvents | slice:0:2" class="col-md-6 col-sm-12 no-gutters event">
+        <a [routerLink]="getEventLink(event)" [style.background-image]="'url(' + event.image + ')'" class="rounded"></a>
+        <h2>{{event.name}}</h2>
+        <p class="text-muted">{{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M."}}</p>
       </div>
     </div>
-    <div class="row">
-      <div *ngFor="let event of recentEvents" class="col-md-4 col-sm-6 no-gutters">
-        <a [routerLink]="getEventLink(event)">
-          <img class="img-fluid" [src]="event.image">
-        </a>
-        <div class="portfolio-caption">
-          <h4>{{event.name}}</h4>
-          <p class="text-muted">{{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M."}}</p>
-        </div>
+
+    <div class="row secondRow">
+      <div *ngFor="let event of recentEvents | slice:2:5" class="col-md-4 col-sm-6 no-gutters event">
+        <a [routerLink]="getEventLink(event)" [style.background-image]="'url(' + event.image + ')'" class="rounded"></a>
+        <h2>{{event.name}}</h2>
+        <p class="text-muted">{{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M."}}</p>
       </div>
     </div>
+    
   </div>
 </section>
 
 <!-- About -->
 <section id="timeline">
+  <h1>Nejbližší akce</h1>
+  <p class="subheading text-muted">Kam se s námi vypravíš v příštích týdnech.</p>
+  
   <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h2 class="section-heading text-uppercase">Nejbližší akce</h2>
-        <h3 class="section-subheading text-muted">Kam se s námi vypravíš v příštích týdnech.</h3>
-      </div>
-    </div>
-
+    
     <events-timeline></events-timeline>
 
     <div class="text-center"><a href="program.php" class="btn btn-primary btn-xl text-uppercase">kompletní program</a></div>
@@ -83,13 +80,11 @@
 
 <!-- Team -->
 <section class="bg-light" id="team">
+  
+  <h1>Vedení skupiny</h1>
+  <p class="subheading text-muted">Na koho se obrátit, když něco potřebuješ.</p>
+  
   <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h2 class="section-heading text-uppercase">Vedení skupiny</h2>
-        <h3 class="section-subheading text-muted">Na koho se obrátit, když něco potřebuješ.</h3>
-      </div>
-    </div>
     <ul class="row list-unstyled contacts">
       <li class="col-12 col-md-3">
         <img src="img/team/slon.png" class="rounded-circle">
@@ -145,125 +140,14 @@
   </div>
 </section>
 
-<!-- Clients -->
-<section class="py-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3 col-sm-6">
-        <a href="#">
-          <img class="img-fluid d-block mx-auto" src="img/partneri/KONDOR_small.jpg" alt="">
-        </a>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <a href="#">
-          <img class="img-fluid d-block mx-auto" src="" alt="">
-        </a>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <a href="#">
-          <img class="img-fluid d-block mx-auto" src="img/partneri/boatpark-logo.png" alt="">
-        </a>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <a href="#">
-          <img class="img-fluid d-block mx-auto" src="img/partneri/eurosignal-logo.png" alt="">
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact -->
-<!--
-<section id="contact">
-<div class="container">
-<div class="row">
-<div class="col-lg-12 text-center">
-<h2 class="section-heading text-uppercase">Novinky mailem</h2>
-<h3 class="section-subheading text-muted">Zadej svůj e-mail a dostaneš od nás každý měsíc přehled toho co se stalo a co nás čeká.</h3>
-</div>
-</div>
-<div class="row">
-<div class="col-lg-12">
-<form id="contactForm" name="sentMessage" novalidate>
-<div class="row">
-<div class="col-md-6">
-<div class="form-group">
-<input class="form-control" id="name" type="text" placeholder="Jméno" required data-validation-required-message="Please enter your name.">
-<p class="help-block text-danger"></p>
-</div>
-</div>
-<div class="col-md-6">
-<div class="form-group">
-<input class="form-control" id="email" type="email" placeholder="E-mail" required data-validation-required-message="Please enter your email address.">
-<p class="help-block text-danger"></p>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="clearfix"></div>
-<div class="col-lg-12 text-center">
-<div id="success"></div>
-<button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Přihlásit k odběru</button>
-</div>
-</div>
-</form>
-</div>
-</div>
-</div>
-</section>
--->
-
 <!-- Mapa -->
-<section id="map">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h2 class="section-heading text-uppercase">Loděnice Bošán</h2>
-        <h3 class="section-subheading text-muted">Loděnici Bošán najdeš přímo naproti podolskému bazénu v Praze. <br>Adresa je Podolské nábřeží 1180/5, Praha 4, 147 00.</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12 mapa">
-        <script src="https://api.mapy.cz/loader.js"></script>
-        <script>Loader.load();</script>
-        <div id="mapa" style="width: 100%; height:600px"></div>
-        <script>
-          var center = SMap.Coords.fromWGS84(14.416167467641344, 50.05118366586107);
-          var mapa = new SMap(JAK.gel("mapa"), center, 15);
-          mapa.addDefaultLayer(SMap.DEF_TURIST).enable();
-          var layer = new SMap.Layer.Marker();
-          mapa.addLayer(layer).enable();
-          var mCoord = SMap.Coords.fromWGS84(14.415099948453426,50.05059981802397);
-          var mOpt = {
-            anchor: {left:14, top:49},
-            url:SMap.CONFIG.img + "/marker/balloon-3.png"
-          };
-          var marker = new SMap.Marker(mCoord,"MyMarker", mOpt);
-          layer.addMarker(marker);
-          var scale = new SMap.Control.Scale();
-          mapa.addControl(scale, {left:"8px", bottom:"25px"});
-          //var msOpt = SMap.MOUSE_PAN | SMap.MOUSE_WHEEL | SMap.MOUSE_ZOOM;
-          var mouse = new SMap.Control.Mouse(msOpt);
-          mapa.addControl(mouse);
-          var keyboard = new SMap.Control.Keyboard(SMap.KB_PAN | SMap.KB_ZOOM);
-          mapa.addControl(keyboard);
-          var selection = new SMap.Control.Selection(2);
-          mapa.addControl(selection);
-          var zn = new SMap.Control.ZoomNotification();
-          mapa.addControl(zn);
-          var zoomOpt = {showZoomMenu:false};
-          var zoom = new SMap.Control.Zoom(null,{titles:["Přiblížit", "Oddálit"], showZoomMenu:false});
-          mapa.addControl(zoom, {right:"2px", top:"10x"});
-          var lnt = "Zobrazit na Mapy.cz";
-          var lnd = JAK.mel("a", {href:"https://mapy.cz/s/2t6Wy", target:"_blank", innerHTML:lnt});
-          lnd.style.cssText = "position:absolute;left:8px; bottom:54px;"+
-            "display:block; padding:4px 8px; background-color:#fff; border:medium none;"+
-            "border-radius:3px; box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.3);"+
-            "text-decoration:none; color:#6b7580;";
-          mapa.getContainer().appendChild(lnd);
-        </script>
-      </div>
-    </div>
+<section>
+  
+  <h1>Vedení skupiny</h1>
+  <p class="subheading text-muted">Na koho se obrátit, když něco potřebuješ.</p>
+  
+  <div class="container-fluid" id="map">
+    <google-map></google-map>
   </div>
+  
 </section>

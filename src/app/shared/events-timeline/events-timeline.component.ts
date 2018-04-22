@@ -13,13 +13,16 @@ import { Event } from "../../schema/event";
 export class EventsTimelineComponent implements OnInit {
 
   events:Event[]= [];
-  
+
   constructor(private dataService:DataService, private toastService:ToastService) { }
 
   ngOnInit() {
-        
-     this.dataService.getEventsUpcoming({limit:3}) 
-      .then(events => this.events = events)
+
+    this.dataService.getEventsUpcoming({limit:4})
+      .then(events => {
+        events.sort((a,b) => (new Date(a.dateFrom)).getTime() - (new Date(b.dateFrom)).getTime());
+        this.events = events
+      })
       .catch(err => this.toastService.toast(err.message,"error"));
   }
 

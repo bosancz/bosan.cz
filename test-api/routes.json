@@ -1,6 +1,7 @@
 {
   "/events/recent": "/events?sort=-dateFrom",
-  "/events/recent?limit=:limit": "/events?sort=-dateFrom&limit=:limit",
+  "/events/recent?limit=:limit": "/events?sort=dateFrom&limit=:limit",
   "/events/upcoming": "/events?sort=dateFrom",
-  "/events/upcoming?limit=:limit": "/events?sort=dateFrom&limit=:limit"
+  "/events/upcoming?limit=:limit": "/events?sort=-dateFrom&limit=:limit",
+  "/groups/colors": "/groupColors"
 }

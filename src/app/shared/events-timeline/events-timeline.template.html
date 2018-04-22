@@ -1,0 +1,32 @@
+<ul class="timeline clearfix">
+  <li *ngFor="let event of events;let i = index" [class.timeline-inverted]="(i % 2) === 0" class="event">
+    <div class="timeline-badge success"><i class="timeicon flaticon-paintbrush"></i></div>
+    <div class="timeline-panel">
+      <div class="timeline-heading">
+        <h2 class="timeline-title">{{event.name}}</h2>
+        <p>
+          <small class="text-muted">
+            <i class="fa fa-calendar"></i>
+            {{event.dateFrom | date:"d. M. h:mm"}}
+            ~
+            <ng-container *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyTime">{{event.dateTill | date:"d. M. h:mm"}}</ng-container>
+            <ng-template #onlyTime>{{event.dateTill | date:"h:mm"}}</ng-template>
+          </small>
+        </p>
+      </div>
+      <div class="timeline-body">
+        <p class="text-muted description">{{event.description}}</p>
+        <div class="row">
+          <div class="col-9 groups">
+            <span *ngFor="let group of event.groups" [style.background-color]="group | groupColor" class="group">{{group}}</span>
+          </div>
+          <div class="col-3">
+            <a>Přihláška</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </li>
+</ul>
+<div class="text-center"><a href="program.php" class="btn btn-primary btn-xl text-uppercase">kompletní program</a></div>
