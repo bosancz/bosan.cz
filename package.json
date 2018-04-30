@@ -24,15 +24,15 @@
     "classlist.js": "^1.1.20150312",
     "concurrently": "^3.5.1",
     "core-js": "^2.4.1",
-    "rxjs": "^5.5.6",
+    "rxjs": "^5.5.10",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
-    "@angular/cli": "^1.6.8",
+    "@angular/cli": "^1.7.4",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
-    "json-server": "^0.12.1",
-    "typescript": "~2.5.3"
+    "json-server": "^0.12.2",
+    "typescript": "^2.5.3"
   }
 }
