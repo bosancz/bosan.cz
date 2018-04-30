@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-import { ToastService } from "./services/toast.service";
+import { ToastService, Toast } from "./services/toast.service";
+import { MenuService } from "./services/menu.service";
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,12 @@ import { ToastService } from "./services/toast.service";
   styleUrls: ["app.style.css"]
 })
 export class AppComponent {
-  title = 'app';
   
-  constructor(public toastService:ToastService){
-    
+  toasts:Toast[] = [];
+  
+  isMenuTransparent:boolean;
+  
+  constructor(public toastService:ToastService, public menuService:MenuService){
+    this.toasts = toastService.toasts;
   }
 }

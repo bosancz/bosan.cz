@@ -1,32 +1,51 @@
-<ul class="timeline clearfix">
-  <li *ngFor="let event of events;let i = index" [class.timeline-inverted]="(i % 2) === 0" class="event">
+<div class="filter">
+  <div *ngIf="groupsFilter" class="text-center groups">
+    <a *ngFor="let group of groups" [style.background-color]="groupColors[group._id] || '#ccc'" (click)="filteredGroup = group._id" [class.inactive]="filteredGroup && filteredGroup !== group._id" class="group">{{group._id}}</a>
+    <a *ngIf="filteredGroup" (click)="filteredGroup = null" class="all">vše</a>
+  </div>
+</div>
+
+<div class="timeline clearfix" [class.full]="full">
+  <div *ngFor="let event of events;let i = index" [class.timeline-inverted]="!full && (i % 2) === 1" (appear)="event.appeared = true" [@eventHide]="filteredGroup && event.groups.indexOf(filteredGroup) === -1 ? 'hidden' : 'visible'" [@eventWow]="event.appeared ? 'appeared' : 'notappeared'" class="event">
+    
+    <div *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay" class="timeline-date long">
+      {{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}<br>
+      {{event.dateFrom | date:"d. M."}} - {{event.dateTill | date:"d. M."}}
+    </div>
+    <ng-template #onlyDay>
+      <div class="timeline-date">{{event.dateFrom | date:"EEEEEE d. M."}}</div>
+    </ng-template>
+    
     <div class="timeline-badge success"><i class="timeicon flaticon-paintbrush"></i></div>
+    
     <div class="timeline-panel">
       <div class="timeline-heading">
         <h2 class="timeline-title">{{event.name}}</h2>
         <p>
           <small class="text-muted">
             <i class="fa fa-calendar"></i>
-            {{event.dateFrom | date:"d. M. h:mm"}}
+            {{event.dateFrom | date:"d. M. H:mm"}}
             ~
-            <ng-container *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyTime">{{event.dateTill | date:"d. M. h:mm"}}</ng-container>
-            <ng-template #onlyTime>{{event.dateTill | date:"h:mm"}}</ng-template>
+            <ng-container *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyTime">{{event.dateTill | date:"d. M. H:mm"}}</ng-container>
+            <ng-template #onlyTime>{{event.dateTill | date:"H:mm"}}</ng-template>
           </small>
         </p>
       </div>
       <div class="timeline-body">
         <p class="text-muted description">{{event.description}}</p>
+        <p class="text-muted leaders">
+          Vede <ng-container *ngFor="let member of event.leaders; first as isFirst; last as isLast"><ng-container *ngIf="!isFirst && !isLast">, </ng-container><ng-container *ngIf="!isFirst && isLast"> a </ng-container><a (click)="openContact(member)">{{member.nickname}}</a> ({{member.mobile}})</ng-container>
+        </p>
         <div class="row">
           <div class="col-9 groups">
-            <span *ngFor="let group of event.groups" [style.background-color]="group | groupColor" class="group">{{group}}</span>
+            <span *ngFor="let group of event.groups" [style.background-color]="groupColors[group] || '#ccc'" class="group">{{group}}</span>
           </div>
-          <div class="col-3">
-            <a>Přihláška</a>
+          <div class="col-3 text-right registration">
+            <a *ngIf="event.registration" href="/api/event/registration">Přihláška</a>
           </div>
         </div>
       </div>
 
     </div>
-  </li>
-</ul>
-<div class="text-center"><a href="program.php" class="btn btn-primary btn-xl text-uppercase">kompletní program</a></div>
+  </div>
+</div>

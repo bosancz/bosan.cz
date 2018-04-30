@@ -1,11 +1,17 @@
-
 <div id="toasts">
-  <div *ngFor="let toast of toastService.toasts" class="toast" [class]="toast.status">
-    {{ toast.text }}
-  </div>
+  <ul class="text-center">
+    <li *ngFor="let toast of toasts" [class]="toast.status" @toastsFadeOut>
+      <i *ngIf="toast.status=='check'" class="fa fa-2x fa-check"></i>
+      <i *ngIf="toast.status=='error'" class="fa fa-2x fa-exclamation-triangle"></i>
+      <i *ngIf="toast.status=='notice'" class="fa fa-2x fa-info-circle"></i>
+      <p>{{toast.text}}</p>
+    </li>
+  </ul>
 </div>
+
+
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="menuService.transparent">
   <div class="container">
     <a class="navbar-brand js-scroll-trigger" routerLink="/">Bosan.cz</a>
     <button class="navbar-toggler navbar-toggler-right" type="button">
@@ -15,19 +21,22 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav text-uppercase ml-auto">
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/">Úvod</a>
+          <a class="nav-link js-scroll-trigger" routerLink="/o-nas" routerLinkActive="active">O nás</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/program">Program</a>
+          <a class="nav-link js-scroll-trigger" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/tabor">Tábor</a>
+          <a class="nav-link js-scroll-trigger" routerLink="/program" routerLinkActive="active">Program</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/galerie">Fotogalerie</a>
+          <a class="nav-link js-scroll-trigger" routerLink="/tabor" routerLinkActive="active">Tábor</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/kontakt">Kontakty</a>
+          <a class="nav-link js-scroll-trigger" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
         </li>
         <li class="nav-item">
           <a href="http://www.bosan.cz/bogin.php" class="nav-link"><i class="fa fa-lock"></i></a>
@@ -44,41 +53,48 @@
 <footer>
   <div class="container">
     
-    <div class="row footlinks">
-      <div class="offset-md-2 col-md-2 col-sm-6 col-6">
-        <h3>ČINNOST</h3>
-        <p><a routerLink="/program.php">Program</a><br>
-          <a routerLink="/galerie.php">Fotogalerie</a><br>
-          <a routerLink="/tabor.php">Tábor</a><br>
-          Bazén (Suchdol)<br>          Kanál (Troja)</p>
+    <div class="row links">
+      
+      <div class="col-md-3 hidden-sm-down">
+        <img src="/assets/img/logo.png" class="logo">
       </div>
-      <div class="col-md-2 col-sm-6 col-6">
-        <h3>KONTAKT</h3>
-        <p><a routerLink="/kontakt.php#vedeni">Vedení skupiny</a><br>
-          <a routerLink="/kontakt.php#pondeli">Schůzky v pondělí</a><br>
-          <a routerLink="/kontakt.php#streda">Schůzky ve středu</a></p>
+      
+      <div class="col-md-3 col-6">
+        <h2 class="text-uppercase">Činnost</h2>
+        <p>
+          <a routerLink="/program">Program</a>
+          <a routerLink="/fotogalerie">Fotogalerie</a>
+          <a routerLink="/tabor">Tábor</a>
+          <a>Bazén (Suchdol)</a>
+          <a>Kanál (Troja)</a>
+        </p>
       </div>
-      <div class="col-md-2 col-sm-6 col-6">
-        <h3>OSTATNÍ</h3>
-        <p>Něco z historie<br>
-          Kroniky<br>
-          Devítikánoe<br>
-          <a href="http://www.kondor.info" target="_blank">KONDOR</a></p>
+      
+      <div class="col-md-3 col-6">
+        <h2 class="text-uppercase">Kontakty</h2>
+        <p>
+          <a routerLink="/kontakty#vedeni">Vedení skupiny</a>
+          <a routerLink="/kontakty#pondeli">Schůzky v pondělí</a>
+          <a routerLink="/kontakty#streda">Schůzky ve středu</a>
+        </p>
       </div>
-      <div class="col-md-2 col-sm-12 col-12">
-        <ul class="list-inline social-buttons">
-          <li class="list-inline-item">
-            <a href="https://www.facebook.com/bosan.cz/" target="_blank">
-              <i class="fa fa-facebook"></i>
-            </a>
-          </li>
-          <li class="list-inline-item">
-            <a href="https://www.youtube.com/channel/UCXYrg3UCZtu4_wlYR2Cj_5A" target="_blank">
-              <i class="fa fa-youtube-play"></i>
-            </a>
-          </li>
-        </ul>
+      
+      <div class="col-md-3 col-6">
+        <h2 class="text-uppercase">Naši sponzoři</h2>
+        <p>
+          <a href="https://www.eurosignal.cz/" target="_blank">Eurosignal</a>
+          <a href="https://www.boatpark.cz" target="_blank">Boatpark</a>
+          <a href="https://www.praha.eu" target="_blank">Hlavní město Praha</a>
+          <a href="http://www.praha4.cz/" target="_blank">MČ Praha 4</a>
+        </p>
       </div>
+      
     </div>
+    
+    <div class="text-center icons">
+      <a href="https://www.facebook.com/bosan.cz/" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.youtube.com/channel/UCXYrg3UCZtu4_wlYR2Cj_5A" target="_blank"><i class="fab fa-youtube"></i></a>
+    </div>
+    
   </div>
 </footer>

@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>Alba roku {{year}}</h1>
+  <a routerLink="../">zpět</a>
+  <ul>
+    <li *ngFor="let album of albums">
+      <a [routerLink]="album._id">{{album.name}}</a>
+    </li>
+  </ul>
+</div>

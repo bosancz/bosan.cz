@@ -1,7 +1,5 @@
 {
-  "/events/recent": "/events?sort=-dateFrom",
-  "/events/recent?limit=:limit": "/events?sort=dateFrom&limit=:limit",
-  "/events/upcoming": "/events?sort=dateFrom",
-  "/events/upcoming?limit=:limit": "/events?sort=-dateFrom&limit=:limit",
-  "/groups/colors": "/groupColors"
+  "/groups/colors": "/groupColors",
+  "/members/frontpage": "/membersFrontpage",
+  "/albums/years": "/albumYears"  
 }

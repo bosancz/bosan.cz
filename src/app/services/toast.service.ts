@@ -1,5 +1,9 @@
 import {Injectable} from '@angular/core';
 
+export class Toast{
+	text:string;
+	status:string;	
+}
 
 /**
   * Service to manage warning toasts
@@ -12,13 +16,15 @@ export class ToastService {
 	/**
 		* array of toasts
 		*/
-	toasts: Array<{text:string, status:string}> = [];
+	toasts:Toast[] = [];
 
 	/**
 		* text:string - text of toast
 		* status:string - status type of toast, translates possibly to class
 		*/
-	toast(text: string, status: string):void{
+	toast(text: string, status?: string):void{
+		
+		if(!status) status = "notice";
 
 		this.toasts.push({text:text, status: status ? status : "notice"});
 		

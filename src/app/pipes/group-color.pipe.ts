@@ -7,16 +7,19 @@ import { DataService } from "../services/data.service";
 })
 export class GroupColorPipe implements PipeTransform {
   
-  groupColors:any;
+  colors:any;
   
   constructor(dataService:DataService){
-    dataService.getGroupsColors()
-      .then(groupColors => this.groupColors = groupColors)
+    dataService.getGroups({fields:"_id,color"})
+      .then(groups => {
+        this.colors = {};
+        groups.forEach(group => this.colors[group._id] = group.color);
+      })
       .catch(err => console.error(err));
   }
 
-  transform(value:string):string{
-    return this.groupColors[value] || "#ccc";
+  transform(groupId:string):string{
+    return this.colors[groupId] || "#ccc";
   }
 
 }

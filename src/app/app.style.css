@@ -1,93 +1,27 @@
-body {
-  overflow-x: hidden;
-  font-family: "Roboto", Helvetica, Arial, sans-serif;
-}
 
-p {
-  line-height: 1.5;
-}
-
-a {
-  color: #00BFFF;
-}
-
-a:hover {
-  color: #fec503;
-}
-
-.text-primary {
-  color: #00BFFF !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 700;
-  font-family: "Roboto Condensed", Helvetica, Arial, sans-serif;
-}
-
-
-
-.btn {
-  font-family: "Roboto Condensed", Helvetica, Arial, sans-serif;
-  font-weight: 700;
-}
-
-.btn-xl {
-  font-size: 18px;
-  padding: 20px 40px;
-}
-
-.btn-primary {
-  background-color: #00BFFF;
-  border-color: #00BFFF;
-}
-
-.btn-primary:active, .btn-primary:focus, .btn-primary:hover {
-  background-color: #fec810 !important;
-  border-color: #fec810 !important;
-  color: white;
-}
-
-.btn-primary:active, .btn-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(254, 209, 55, 0.5) !important;
-}
-
-::-moz-selection {
-  background: #00BFFF;
-  text-shadow: none;
-}
-
-::selection {
-  background: #00BFFF;
-  text-shadow: none;
-}
-
-img::selection {
-  background: transparent;
-}
-
-img::-moz-selection {
-  background: transparent;
-}
-
+#toasts{position:fixed;width:100%;top:50%;overflow:visible; text-transform: uppercase;z-index:1000;}
+#toasts ul{display:block;position:absolute;top:0;left:0;right:0;list-style:none;margin:-50px 0 0 0;text-align:center;}
+#toasts li{display:inline-block;margin:0;padding:0;padding:10px 20px;margin:0 5px;background-color:rgba(0,0,0,.7);border-radius:10px;color:#fff;}
+#toasts li span p{margin-top: 5px;margin-bottom:0px;}
 
 /* === NAVBAR === */
 
 nav {
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  background-color: white;
-  z-index: 10;
+  background-color:#3e3e3e;
   letter-spacing: 0.1em;
   font-weight: bold;
   text-transform: uppercase;
 }
+
+nav.transparent {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  background-color:transparent;
+  z-index: 1000;
+}
+
 
 nav .navbar-toggler {
   font-size: 12px;
@@ -96,13 +30,11 @@ nav .navbar-toggler {
   text-transform: uppercase;
   color: black;
   border: 0;
-  font-family: "Roboto Condensed", Helvetica, Arial, sans-serif;
   letter-spacing: 0.2em;
 }
 
 nav .navbar-brand {
   color: black;
-  font-family: "Roboto Condensed", Helvetica, Arial, sans-serif;
 }
 
 nav .navbar-brand.active, nav .navbar-brand:active, nav .navbar-brand:focus, nav .navbar-brand:hover {
@@ -124,11 +56,7 @@ nav .navbar-nav .nav-item .nav-link.active, nav .navbar-nav .nav-item .nav-link:
 
 @media (min-width: 992px) {
   nav {
-    -webkit-transition: padding-top 0.3s, padding-bottom 0.3s;
-    -moz-transition: padding-top 0.3s, padding-bottom 0.3s;
-    transition: padding-top 0.3s, padding-bottom 0.3s;
     border: none;
-    background: linear-gradient(to bottom, rgba(50,50,50,0.7), transparent);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
     z-index: 10;
     text-transform: uppercase;
@@ -165,57 +93,9 @@ footer {
   color: #ccc;
 }
 
-footer h3 {
-  color: #E4E4E4;
-  border-bottom: 1px dotted #7C7C7C;
-  font-size: 20px;
-}
+footer img.logo{width:120px;}
 
-footer span.copyright, footer p.copyright {
-  font-size: 90%;
-  margin-top: 15px;
-  line-height: 25px;
-  text-transform: none;
-  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
+footer a{color:#ccc;}
+footer .links a{display:block;}
+footer .icons a{font-size:64px;margin:0 20px;}
 
-footer ul.quicklinks {
-  font-size: 90%;
-  line-height: 40px;
-  margin-bottom: 0;
-  text-transform: none;
-  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.footlinks a {
-  color: #ccc;
-}
-
-.footlinks a:hover {
-  color: white;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-ul.social-buttons {
-  margin-bottom: 0;
-}
-
-ul.social-buttons li a {
-  font-size: 30px;
-  line-height: 60px;
-  display: block;
-  width: 60px;
-  height: 60px;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
-  color: white;
-  border-radius: 100%;
-  outline: none;
-  background-color: #212529;
-}
-
-ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons li a:hover {
-  background-color: #00BFFF;
-}

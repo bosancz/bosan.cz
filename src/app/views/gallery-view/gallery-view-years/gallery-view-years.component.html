@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>Fotogalerie</h1>
+  
+  <ul>
+    <li *ngFor="let year of years">
+      <a [routerLink]="year">{{year}}</a>
+    </li>
+  </ul>
+</div>
