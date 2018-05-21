@@ -1,0 +1,24 @@
+<section>
+  <div class="container">
+    <table class="table table-striped table-hover table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th>Název alba</th>
+          <th>Akce</th>
+          <th>Datum</th>
+          <th>Počet fotek</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let album of albums">
+          <td>{{album.name}}</td>
+          <td>{{album.event?.name || "-"}}</td>
+          <td>{{album.published}}</td>
+          <td>{{album.photos.length}}</td>
+          <td class="text-right"><a>upravit</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 import { ToastService, Toast } from "./services/toast.service";
 import { MenuService } from "./services/menu.service";
@@ -10,11 +12,13 @@ import { MenuService } from "./services/menu.service";
 })
 export class AppComponent {
   
-  toasts:Toast[] = [];
-  
   isMenuTransparent:boolean;
   
-  constructor(public toastService:ToastService, public menuService:MenuService){
-    this.toasts = toastService.toasts;
+  isMenuCollapsed:boolean = true;
+  
+  constructor(public toastService:ToastService, public menuService:MenuService,private router:Router,private route:ActivatedRoute){
+  }
+  
+  ngOnInit(){
   }
 }

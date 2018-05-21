@@ -1,7 +1,8 @@
+<section>
+  <h1>{{album?.name}}</h1>
 
-<h1>{{album.name}}</h1>
-
-<div class="container">
-  <a routerLink="../">zpět</a>
-  <photo-gallery *ngIf="album" [photos]="album.photos" height="250" margin="5"></photo-gallery>
-</div>
+  <div *ngIf="album" class="container">
+    <a routerLink="../">zpět</a>
+    <photo-gallery *ngIf="album" [photos]="album.photos" height="250" margin="5"></photo-gallery>
+  </div>
+</section>

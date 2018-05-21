@@ -10,14 +10,14 @@ import { MenuService } from "../../services/menu.service";
 export class CampViewComponent implements OnInit, OnDestroy {
 
   constructor(private menuService:MenuService) {
-    //this.menuService.transparent = true;
+    this.menuService.transparent = true;
   }
 
   ngOnInit() {
   }
   
   ngOnDestroy(){
-    //this.menuService.transparent = false;
+    this.menuService.transparent = false;
   }
 
 }

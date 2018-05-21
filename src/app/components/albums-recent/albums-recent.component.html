@@ -1,0 +1,20 @@
+<ng-template #albumImage let-album="album">
+  <ng-container *ngIf="album._id; else blankalbum">
+    <a [routerLink]="getAlbumLink(album)" [style.background-image]="'url(' + getEventImageUrl(album) + ')'" class="rounded"></a>
+    <h2>{{album.name}}</h2>
+    <p *ngIf="album.event" class="text-muted">{{album.event.dateFrom | date:"d. M."}} ~ {{album.event.dateTill | date:"d. M."}}</p>
+  </ng-container>
+  <ng-template #blankalbum><a class="rounded"></a></ng-template>
+</ng-template>
+
+<div class="row firstRow">
+  <div *ngFor="let album of albums | slice:0:2" class="col-md-6 col-sm-12 no-gutters event">
+    <ng-container *ngTemplateOutlet="albumImage; context: {album:album}"></ng-container>
+  </div>
+</div>
+
+<div class="row secondRow">
+  <div *ngFor="let album of albums | slice:2:5" class="col-md-4 col-sm-6 no-gutters event">
+    <ng-container *ngTemplateOutlet="albumImage; context: {album:album}"></ng-container>
+  </div>
+</div>

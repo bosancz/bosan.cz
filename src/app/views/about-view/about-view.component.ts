@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from "@angular/router";
 
 import { DataService } from "../../services/data.service";
 import { ToastService } from "../../services/toast.service";
 import { MenuService } from "../../services/menu.service";
 
-import { Member } from "../../schema/member";
+import { Contact } from "../../schema/contact";
 
 @Component({
   selector: 'about-view',
@@ -13,18 +14,18 @@ import { Member } from "../../schema/member";
 })
 export class AboutViewComponent implements OnInit, OnDestroy {
   
-  contacts:Member[] = [];
+  contacts:Contact[] = [];
 
-  constructor(private dataService:DataService, private toastService:ToastService, private menuService:MenuService) {
+  constructor(private dataService:DataService, private toastService:ToastService, private menuService:MenuService, private router:Router) {
     this.menuService.transparent = true;
   }
 
   ngOnInit() {
     
-    this.dataService.getMembersFrontpage()
-      .then(members => members.sort((a,b) => a.frontpage - b.frontpage))
-      .then(members => this.contacts = members)
-      .catch(err => this.toastService.toast(err.message,"error"));
+    this.dataService.getConfig()
+      .then(config => {
+        this.contacts = config.about.contacts;
+      });
   }
   
   ngOnDestroy(){

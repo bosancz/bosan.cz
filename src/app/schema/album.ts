@@ -1,6 +1,8 @@
 export class Album {
   _id:string;
   name:string;
+  year:number;
+  titlePhoto:string;
   photos:AlbumPhoto[]
 }
 

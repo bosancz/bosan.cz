@@ -1,12 +1,9 @@
 <!-- Header -->
-<header>
-  <div class="title">
-    Dětská vodácká skupina ŠÁN
-    <br>
+<header class="header-large">
+  <div class="content">
+    <h1>Dětská vodácká skupina ŠÁN</h1>
     <a class="btn btn-primary" [ngx-scroll-to]="weOffer">Pádluj!</a>
   </div>
-  
-  <span class="shade"></span>
 </header>
 
 <!-- Services -->
@@ -54,7 +51,7 @@
 
   <div class="container">
 
-    <events-recent></events-recent>
+    <albums-recent></albums-recent>
 
   </div>
 </section>
@@ -75,7 +72,7 @@
 <section class="bg-light" #signup>
 
   <h1>Přihláška</h1>
-  <p class="subheading text-muted">Chceš-lise stát Šánovcem, stačí vyplnit přihlášku.</p>
+  <p class="subheading text-muted">Chceš se stát Šánovcem? Stačí vyplnit přihlášku!</p>
 
 </section>
 
@@ -88,16 +85,16 @@
   <div class="container">
 
     <div class="row contacts">
-      <div *ngFor="let member of contacts" class="col-12 col-md contact">
+      <div *ngFor="let contact of contacts" class="col-12 col-md-3 contact">
 
-        <img *ngIf="member.avatar" [src]="member.avatar" class="rounded-circle">
-        <img *ngIf="!member.avatar" src="/assets/img/avatar-default.png" class="rounded-circle">
+        <img *ngIf="contact.avatar" [src]="contact.avatar" class="rounded-circle">
+        <img *ngIf="!contact.avatar" src="/assets/img/avatar-default.png" class="rounded-circle">
 
-        <h2>{{member.nickname}}<br>{{member.firstName}} {{member.lastName}}</h2>
-        <h4>{{member.position}}</h4>
+        <h2>{{contact.nickname}}<br>{{contact.name}}</h2>
+        <h4>{{contact.role}}</h4>
         
-        <a [href]="'mailto:' + member.email">{{member.email}}</a><br>
-        <a [href]="'tel:' + member.mobile">{{member.mobile}}</a><br>
+        <a [href]="'mailto:' + contact.email">{{contact.email}}</a><br>
+        <a [href]="'tel:' + contact.mobile">{{contact.mobile}}</a><br>
       </div>
     </div>
 

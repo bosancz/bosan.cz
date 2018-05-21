@@ -2,16 +2,22 @@
 
 <section>
   <div class="container">
-    
-    <h1>Nedávno proběhlo</h1>
-    
-    
-    <p class="subheading text-muted">
-      <a class="scrollDown" [ngx-scroll-to]="timeline">Program <i class="fas fa-arrow-down"></i></a>
-      Koukni na fotky z posledních pár akcí a zavzpomínej na zážitky s kamarády Šánovci.
-    </p>
 
-    <events-recent></events-recent>
+    <h1>Nedávno proběhlo</h1>
+
+
+    <div class="row">
+      <div class="offset-md-2 col-md-8 col-12">
+        <p class="subheading text-muted">Koukni na fotky z posledních pár akcí a zavzpomínej na zážitky s kamarády Šánovci.</p>
+      </div>
+      <div class="col-md-2 col-12 text-md-right text-center">
+        <a [ngx-scroll-to]="timeline">Program <i class="fas fa-arrow-down"></i></a>
+      </div>
+    </div>
+    
+    <div class="content">
+      <albums-recent></albums-recent>
+    </div>
 
   </div>
 </section>

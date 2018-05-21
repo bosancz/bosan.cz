@@ -1,4 +1,5 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 export class Toast{
 	text:string;
@@ -18,6 +19,9 @@ export class ToastService {
 		*/
 	toasts:Toast[] = [];
 
+  constructor(){
+    
+  }
 	/**
 		* text:string - text of toast
 		* status:string - status type of toast, translates possibly to class
@@ -28,8 +32,12 @@ export class ToastService {
 
 		this.toasts.push({text:text, status: status ? status : "notice"});
 		
-		setTimeout(() => this.toasts.shift(), 2000);
+    setTimeout(() => this.toasts.shift(), 2000);
 	}
+  
+  clearToasts(){
+    this.toasts = [];
+  }
 
 
 

@@ -1,3 +1,4 @@
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 /* MAIN VIEWS */
@@ -13,10 +14,9 @@ import { GalleryViewYearsComponent } from './views/gallery-view/gallery-view-yea
 import { GalleryViewAlbumsComponent } from './views/gallery-view/gallery-view-albums/gallery-view-albums.component';
 import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
 
-const appRoutes:Routes = [
-  
+const routes: Routes = [
   {path: 'aktualne', component: NewsViewComponent},
-  
+
   {path: 'fotogalerie', component: GalleryViewComponent,
    children: [
      {path: ':year/:album', component: GalleryViewAlbumComponent},
@@ -24,19 +24,24 @@ const appRoutes:Routes = [
      {path: '', component: GalleryViewYearsComponent}
    ]
   },
-  
-  
+
+
   {path: 'kontakty', component: ContactsViewComponent},
-  
+
   {path: 'o-nas', component: AboutViewComponent},
-  
+
   {path: 'program', component: EventsViewComponent},  
-  
+
   {path: 'tabor', component: CampViewComponent},  
+
+  {path: 'interni', loadChildren: './admin/admin.module#AdminModule'},
   
-  
-  {path: '', redirectTo: 'aktualne', pathMatch: 'full'},
-  
+  {path: '', redirectTo: "o-nas", pathMatch: "full"}
+
 ];
 
-export const AppRouting = RouterModule.forRoot(appRoutes);
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

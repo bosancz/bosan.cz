@@ -18,7 +18,7 @@ class TimelineEvent extends Event {
   styleUrls: ["events-timeline.style.css"],
   animations: [
     trigger("eventWow", [
-      transition('notappeared => appeared', [style({opacity:0}),animate('500ms',style({opacity:1}))])
+      transition('notappeared => appeared', [style({opacity:0}),animate('500ms 100ms',style({opacity:1}))])
     ]),
     trigger("eventHide", [
       state("visible", style({opacity:1, display: 'block'})),
@@ -66,7 +66,7 @@ export class EventsTimelineComponent implements OnInit {
     
     this.dataService.getEvents(query)
       .then((events:TimelineEvent[]) => {
-        
+      
         //sort events by date asc, API does not guarantee sort order
         events.sort((a,b) => (new Date(a.dateFrom)).getTime() - (new Date(b.dateFrom)).getTime());
         
@@ -75,8 +75,7 @@ export class EventsTimelineComponent implements OnInit {
         
         //save events to component
         this.events = events;
-      })
-      .catch(err => this.toastService.toast(err.message,"error"));
+      });
     
     this.dataService.getGroups({fields:"_id,color"})
       .then(groups => {
@@ -84,7 +83,6 @@ export class EventsTimelineComponent implements OnInit {
         this.groupColors = {};
         groups.forEach(group => this.groupColors[group._id] = group.color);
       })
-      .catch(err => console.error(err));
   }
   
   filterEvents(events:TimelineEvent[], filteredGroup:string){
@@ -96,9 +94,4 @@ export class EventsTimelineComponent implements OnInit {
     let memberStrings = members.map(member => member.name + " (" + member.mobile + ")");
     return memberStrings.length > 1 ? (memberStrings.slice(0,memberStrings.length - 1).join(", ") + " a " + memberStrings[memberStrings.length - 1]) : memberStrings[0];
   }
-  
-  eventAppeared(event:any){
-    console.log(event);
-  }
-
 }

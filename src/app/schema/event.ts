@@ -4,4 +4,5 @@ export class Event {
   groups?:string[];
   dateFrom?:Date;
   dateTill?:Date;
+  image?:String;
 }

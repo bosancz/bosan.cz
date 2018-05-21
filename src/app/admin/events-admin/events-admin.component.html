@@ -1,0 +1,24 @@
+<section>
+  <div class="container">
+    <table class="table table-striped table-hover table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th>Název akce</th>
+          <th>Od</th>
+          <th>Do</th>
+          <th>Vede</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of events">
+          <td>{{event.name}}</td>
+          <td>{{event.dateFrom | date:"EEEEEE d. M. y"}}</td>
+          <td>{{event.dateTill | date:"EEEEEE d. M. y"}}</td>
+          <td></td>
+          <td class="text-right"><a>upravit</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

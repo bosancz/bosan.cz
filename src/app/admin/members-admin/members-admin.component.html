@@ -1,0 +1,22 @@
+<section>
+  <div class="container">
+    <table class="table table-striped table-hover table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th>Přezdívka</th>
+          <th>Příjmení</th>
+          <th>Jméno</th>
+          <th>Oddíl</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let member of members">
+          <td>{{member.nickname}}</td>
+          <td>{{member.name?.last}}</td>
+          <td>{{member.name?.first}}</td>
+          <td [style.color]="member.group?.color">{{member.group?.name}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

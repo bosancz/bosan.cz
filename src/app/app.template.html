@@ -1,6 +1,6 @@
 <div id="toasts">
-  <ul class="text-center">
-    <li *ngFor="let toast of toasts" [class]="toast.status" @toastsFadeOut>
+  <ul class="text-center" (click)="toastService.clearToasts()">
+    <li *ngFor="let toast of toastService.toasts" [class]="toast.status">
       <i *ngIf="toast.status=='check'" class="fa fa-2x fa-check"></i>
       <i *ngIf="toast.status=='error'" class="fa fa-2x fa-exclamation-triangle"></i>
       <i *ngIf="toast.status=='notice'" class="fa fa-2x fa-info-circle"></i>
@@ -13,33 +13,33 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="menuService.transparent">
   <div class="container">
-    <a class="navbar-brand js-scroll-trigger" routerLink="/">Bosan.cz</a>
-    <button class="navbar-toggler navbar-toggler-right" type="button">
+    <a class="navbar-brand" routerLink="/">Bosan.cz</a>
+    <button class="navbar-toggler navbar-toggler-right" (click)="isMenuCollapsed = !isMenuCollapsed" type="button">
       Menu
       <i class="fa fa-bars"></i>
     </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
+    <div class="collapse navbar-collapse" [collapse]="isMenuCollapsed" id="navbarResponsive">
       <ul class="navbar-nav text-uppercase ml-auto">
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/o-nas" routerLinkActive="active">O nás</a>
+          <a class="nav-link" routerLink="/o-nas" routerLinkActive="active">O nás</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
+          <a class="nav-link" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/program" routerLinkActive="active">Program</a>
+          <a class="nav-link" routerLink="/program" routerLinkActive="active">Program</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/tabor" routerLinkActive="active">Tábor</a>
+          <a class="nav-link" routerLink="/tabor" routerLinkActive="active">Tábor</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
+          <a class="nav-link" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
+          <a class="nav-link" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
         </li>
         <li class="nav-item">
-          <a href="http://www.bosan.cz/bogin.php" class="nav-link"><i class="fa fa-lock"></i></a>
+          <a class="nav-link" routerLink="/interni" routerLinkActive="active"><i class="fa fa-lock"></i></a>
         </li>
       </ul>
     </div>
