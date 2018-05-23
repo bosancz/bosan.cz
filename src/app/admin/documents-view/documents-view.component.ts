@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 import { DataService } from "../../services/data.service";
@@ -14,13 +14,12 @@ export class DocumentsViewComponent implements OnInit {
   
   url:SafeResourceUrl;
   
-  constructor(private domSanitizer:DomSanitizer, private dataService:DataService) {
+  constructor(private domSanitizer:DomSanitizer, private cd: ChangeDetectorRef, private dataService:DataService) {
   }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.dataService.getConfig().then(config => {
       this.url = this.domSanitizer.bypassSecurityTrustResourceUrl(config.documents.url);
-      this.loaded = false;
     });
   }
 

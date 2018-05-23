@@ -2,9 +2,9 @@
   <div class="container">
     <h2>Veřejné dokumenty na Google Drive</h2>
 
-    <ng-container *ngIf="url">
-      <p *ngIf="!loaded">načítám...</p>
-      <iframe [src]="url" (load)="loaded = true" style="width:100%; height:1000px; border:0;" seamless></iframe>
-    </ng-container>
+    <div *ngIf="url" class="googleDocsBlock">
+      <iframe [src]="url" style="width:100%; height:1000px; border:0;" seamless></iframe>
+    </div>
+    
   </div>
 </section>
