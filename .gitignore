@@ -4,3 +4,7 @@
 # config files
 config/config.production.js
 config/config.development.js
+
+# data
+data/
+!.gitkeep

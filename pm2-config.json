@@ -1,0 +1,19 @@
+{
+  "apps" : [{
+    "name"        : "bosancz-server",
+    "script"      : "./src/server.js",
+    
+    "watch"       : ["src","lib","config"],
+    "ignore_watch": ["node_modules","data"],
+    "watch_options": {
+    },
+
+    "min_uptime": "5s",
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "env_production" : {
+       "NODE_ENV": "production"
+    }
+  }]
+}

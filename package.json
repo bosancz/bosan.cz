@@ -4,7 +4,8 @@
   "description": "Server side part of bosan.cz website",
   "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=production node src/server.js",
+    "dev": "NODE_ENV=development nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,14 @@
   },
   "homepage": "https://github.com/bosancz/bosan.cz-server#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "express-dynacl": "^1.0.0",
+    "express-jsonschema": "^1.1.6",
+    "mongoose": "^5.1.1",
+    "mongoose-paginate": "^5.0.3"
+  },
+  "devDependencies": {
+    "mongo-express": "^0.47.0",
+    "nodemon": "^1.17.4"
   }
 }
