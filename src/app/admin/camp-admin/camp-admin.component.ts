@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 
 
 import { DataService } from "../../services/data.service";

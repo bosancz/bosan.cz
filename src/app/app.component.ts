@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { ToastService, Toast } from "./services/toast.service";
 import { MenuService } from "./services/menu.service";

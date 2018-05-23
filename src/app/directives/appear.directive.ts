@@ -1,8 +1,8 @@
 import { Directive, Output, ElementRef, OnDestroy, EventEmitter } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/startWith';
+import { Observable, Subscription, fromEvent } from 'rxjs';
+import { startWith } from "rxjs/operators";
+
+
 
 @Directive({
   selector: '[appear]'
@@ -19,7 +19,7 @@ export class AppearDirective implements OnDestroy {
   constructor(private element: ElementRef) { }
 
   ngOnInit(){
-    this.subscriptionScroll = Observable.fromEvent(window, 'scroll').startWith(null)
+    this.subscriptionScroll = fromEvent(window, 'scroll').pipe(startWith(null))
       .subscribe(() => {
 
         if(!this.appeared) this.checkPosition();
