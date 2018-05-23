@@ -5,9 +5,10 @@ import 'rxjs/add/operator/toPromise';
 
 import { environment } from '../../environments/environment';
 
-import { WebConfig } from "../schema/webconfig";
+import { Camp } from "../schema/camp";
 import { Contact } from "../schema/contact";
 import { Event } from "../schema/event";
+import { WebConfig } from "../schema/webconfig";
 
 function toParams(options){
 	if(!options) return "";
@@ -43,6 +44,18 @@ export class DataService {
     return this.http.get<any>(this.root + "/albums/years").toPromise();
   }
   
+  getCamps(){
+    return this.http.get<Camp[]>(this.root + "/camps").toPromise();
+  }
+  
+  getCamp(id:string){
+    return this.http.get<Camp>(this.root + "/camps/" + id).toPromise();
+  }
+  
+  saveCamp(id:string,camp:Camp){
+    return this.http.put(this.root + "/camps/" + id, camp, { responseType: "text" }).toPromise();
+  }
+  
   getConfig(update?:boolean){
     if(update || !this.config) this.config = this.http.get<WebConfig>(this.root + "/config").toPromise();
     return this.config;
@@ -58,6 +71,10 @@ export class DataService {
   
   getEvents(options?:any):Promise<Event[]>{
     return this.http.get<Event[]>(this.root + "/events" + toParams(options)).toPromise();
+  }
+  
+  getUpcomingEvents():Promise<Event[]>{
+    return this.http.get<Event[]>(this.root + "/events/upcoming").toPromise();
   }
   
 	getGroups(options?:any):Promise<any>{

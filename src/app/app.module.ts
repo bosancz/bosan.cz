@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppErrorHandler } from "./app.errorhandler";
 
 /* SHARED */
-import { SharedModule } from "./shared/shared.module";
+import { SharedModule } from "./modules/shared.module";
 
 /* SERVICES */
 import { DataService } from "./services/data.service";

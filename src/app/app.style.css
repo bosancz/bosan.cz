@@ -86,6 +86,9 @@ nav .navbar-nav .nav-item .nav-link.active, nav .navbar-nav .nav-item .nav-link:
     padding: 12px 0;
   }
 }
+@media (min-width: 992px) {
+  #page{min-height:600px;}
+}
 
 footer {
   padding: 25px 0;

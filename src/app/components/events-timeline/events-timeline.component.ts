@@ -58,13 +58,7 @@ export class EventsTimelineComponent implements OnInit {
 
   ngOnInit() {
     
-    let query:any = {
-      from: new Date()
-    };
-    if(this.limit) query.limit = this.limit;
-    if(this.limitDays) query.till = new Date(query.from.getTime() + (1000 * 60 * 60 * 24 * this.limitDays));
-    
-    this.dataService.getEvents(query)
+    this.dataService.getUpcomingEvents()
       .then((events:TimelineEvent[]) => {
       
         //sort events by date asc, API does not guarantee sort order
