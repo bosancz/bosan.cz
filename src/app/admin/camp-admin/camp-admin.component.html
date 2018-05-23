@@ -1,3 +1,25 @@
-<p>
-  camp-admin works!
-</p>
+<section>
+  <div class="container">
+
+
+    <div class="row">
+
+      <div class="col-3">
+        
+        <select class="form-control" [ngModel]="campId" (ngModelChange)="openCamp($event)">
+          <option *ngFor="let camp of camps" [value]="camp._id">{{camp.name}}</option>
+        </select>        
+
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Základní info</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../ucastnii" routerLinkActive="active">Účastníci a přihlášky</a></li>          
+        </ul>
+
+      </div>
+
+      <div class="col-9" [ngSwitch]="category">
+        <camp-admin-basic *ngSwitchCase="'basic'" [camp]="camp" (save)="saveCamp(camp)"></camp-admin-basic>
+      </div>
+    </div>
+  </div>
+</section>

@@ -8,6 +8,7 @@ import { DataAdminComponent } from './data-admin/data-admin.component';
 import { EventsAdminComponent } from './events-admin/events-admin.component';
 import { GalleryAdminComponent } from './gallery-admin/gallery-admin.component';
 import { MembersAdminComponent } from './members-admin/members-admin.component';
+import { GroupsAdminComponent } from './groups-admin/groups-admin.component';
 import { WebAdminComponent } from './web-admin/web-admin.component';
 
 import { DocumentsViewComponent } from './documents-view/documents-view.component';
@@ -31,8 +32,13 @@ const routes: Routes = [
 
       {path: 'nastaveni-webu/:cat', component: WebAdminComponent},
       {path: 'nastaveni-webu', redirectTo: "nastaveni-webu/o-nas", pathMatch: "full"},
+      
+      {path: 'oddily', component: GroupsAdminComponent},
             
+      {path: 'tabor/:camp/:cat', component: CampAdminComponent},
+      {path: 'tabor/:camp', redirectTo: "tabor/:camp/info", pathMatch: "full"},
       {path: 'tabor', component: CampAdminComponent},
+      
 
       {path: '', redirectTo: "program", pathMatch: "full"},
     ]

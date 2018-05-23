@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 
-import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { DataService } from "../../services/data.service";
 import { ToastService } from "../../services/toast.service";
@@ -30,7 +30,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     "dokumenty": "documents"
   }
   
-  paramsSubscription:Subscription
+  paramsSubscription:Subscription;
   
   constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
 

@@ -1,2 +1,4 @@
-.actions{white-space:nowrap;}
+.actions{white-space:nowrap;padding-left:5px;}
 .actions a{margin:0 5px;cursor:pointer;}
+
+.add{cursor:pointer;}

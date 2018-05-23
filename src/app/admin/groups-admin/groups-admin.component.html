@@ -1,0 +1,22 @@
+<section>
+  <div class="container">
+    <table class="table table-striped table-hover table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Oddíl</th>
+          <th>Barva</th>          
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let group of groups">
+          <td>{{group._id}}</td>
+          <td>{{group.name}}</td>
+          <td [style.color]="group.color"><i class="fas fa-square"></i> {{group.color}}</td>
+          <td class="text-right"><a>upravit</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

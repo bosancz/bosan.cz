@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SharedModule } from "../shared/shared.module";
+import { SharedModule } from "../modules/shared.module";
 
 import { AdminComponent } from './admin.component';
 
@@ -20,6 +20,8 @@ import { ConfigAboutComponent } from './web-admin/config-about/config-about.comp
 import { ConfigDocumentsComponent } from './web-admin/config-documents/config-documents.component';
 
 import { ContactsEditorComponent } from './web-admin/contacts-editor/contacts-editor.component';
+import { GroupsAdminComponent } from './groups-admin/groups-admin.component';
+import { CampAdminBasicComponent } from './camp-admin/camp-admin-basic/camp-admin-basic.component';
 
 @NgModule({
   imports: [
@@ -31,11 +33,14 @@ import { ContactsEditorComponent } from './web-admin/contacts-editor/contacts-ed
   declarations: [
     AdminComponent,
     
-    /* VIEWS */ EventsAdminComponent, GalleryAdminComponent, MembersAdminComponent, WebAdminComponent, DataAdminComponent, DocumentsViewComponent, CampAdminComponent,
+    /* VIEWS */ EventsAdminComponent, GalleryAdminComponent, MembersAdminComponent, WebAdminComponent, DataAdminComponent, DocumentsViewComponent, CampAdminComponent, GroupsAdminComponent,
     
     /* WEB CONFIG */ ConfigDocumentsComponent, ConfigAboutComponent,
     
-    ContactsEditorComponent
+    /* SHARED */ ContactsEditorComponent,
+    
+    CampAdminBasicComponent,
+    
   ]
 })
 export class AdminModule { }
