@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-var Camp = require("./album"); // load because of reference
+var Album = require("./album"); // load because of reference
 
 var campSchema = mongoose.Schema({
   "name": String,

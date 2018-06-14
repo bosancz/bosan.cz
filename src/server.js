@@ -1,11 +1,17 @@
 var express = require("express");
 var app = express();
 
+// polyfill before express allows for async middleware
+require('express-async-errors');
+
 var config = require("../config/config");
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support urlencoded bodies
+
+var jwt = require('express-jwt');
+app.use(jwt(config.jwt));
 
 var mongoose = require('mongoose');
 mongoose.plugin(require('mongoose-paginate'));
@@ -17,8 +23,15 @@ mongoose.connect('mongodb://' + config.database.host + '/' + config.database.db)
     throw new Error("Error when connectiong to DB " + config.database.db + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
   });
 
-var logger = (req,res,next) => { console.log(req.method + " " + req.originalUrl); next(); };
-app.use(logger);
+var dynaclOptions = {
+  roles: require("./acl"),
+  userRoles: req => req.user ? req.user.roles.concat(["user"]) : [],
+  defaultRole: "guest",
+  logConsole: true
+};
+
+var dynacl = require("express-dynacl");
+dynacl.config(dynaclOptions);
 
 var router = require("./router");
 app.use(router);

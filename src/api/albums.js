@@ -3,6 +3,7 @@ var router = module.exports = express.Router();
 
 var Album = require("../models/album");
 
+// LIST ALBUMS
 router.get("/", (req,res,next) => {
   
   var query = Album.find({});
@@ -18,16 +19,18 @@ router.get("/", (req,res,next) => {
     .catch(err => next(err));
 });
 
-router.get("/years", (req,res,next) => {
-  
-  Album.distinct("year")
-    .then(years => res.json(years))
-    .catch(err => next(err));
-});
+// CREATE NEW ALBUM */
+router.post("/", (req,res,next) => Album.create(req.body).res(res,next));
 
-router.get("/:album", (req,res,next) => {
+// GET THE DISTINCT YEARS OF ALBUMS
+router.get("/years", (req,res,next) => Album.distinct("year").res(res,next));
+
+// GET ALBUM BY ID
+router.get("/:album", (req,res,next) => Album.findOne({_id: req.params.album}).resJSON(res,next));
+
+// UPDATE ALBUM AT ID
+router.put("/:album",(req,res,next) => Album.findOneAndUpdate({_id: req.params.album}).resStatus(res,next));
+
+router.post("/:album/photos",(req,res,next) => {
   
-  Album.findOne({_id: req.params.album})
-    .then(album => res.json(album))
-    .catch(err => next(err));
 });
