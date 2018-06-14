@@ -14,6 +14,9 @@ import { GalleryViewYearsComponent } from './views/gallery-view/gallery-view-yea
 import { GalleryViewAlbumsComponent } from './views/gallery-view/gallery-view-albums/gallery-view-albums.component';
 import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
 
+/* SERVICES */
+import { ACLService } from "./services/acl.service";
+
 const routes: Routes = [
   {path: 'aktualne', component: NewsViewComponent},
 
@@ -34,7 +37,7 @@ const routes: Routes = [
 
   {path: 'tabor', component: CampViewComponent},  
 
-  {path: 'interni', loadChildren: './admin/admin.module#AdminModule'},
+  {path: 'interni', loadChildren: './admin/admin.module#AdminModule', canActivate: [ACLService]},
   
   {path: '', redirectTo: "o-nas", pathMatch: "full"}
 

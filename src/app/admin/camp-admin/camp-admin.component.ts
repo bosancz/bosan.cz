@@ -4,6 +4,7 @@ import { Subscription } from "rxjs";
 
 
 import { DataService } from "../../services/data.service";
+import { ToastService } from "../../services/toast.service";
 
 import { Camp } from "../../schema/camp";
 
@@ -16,20 +17,11 @@ export class CampAdminComponent implements OnInit {
 
   camp:Camp;
   
-  camps:Camp[];
-  
-  campId:string;
-  
   category:string;
-  categories = {
-    "info": "basic",
-    "ucastnici": "participants"    
-  };
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService,private route:ActivatedRoute, private router:Router) { }
-
+  constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
 
   ngOnInit() {
     
@@ -37,34 +29,18 @@ export class CampAdminComponent implements OnInit {
       
       if(params.camp && (!this.camp || this.camp._id !== params.camp)) this.loadCamp(params.camp);
       
-      this.category = this.categories[params.cat];
-    });
-    
-    this.loadCamps();
-  }
-
-  loadCamps():void{
-    this.dataService.getCamps().then(camps => {
-      this.camps = camps;
-      
-      if(!this.camp) this.openCamp(this.camps[0]._id);
+      this.category = params.cat;
     });
   }
   
-  loadCamp(id:string):void{
-    this.dataService.getCamp(id).then(camp => {
-      this.camp = camp;
-      this.campId = camp._id;
-    });
+  async loadCamp(id:string){
+    this.camp = await this.dataService.getCamp(id);     
   }
   
-  saveCamp(camp:Camp):void{
-    this.dataService.saveCamp(camp._id,camp).then(() => this.loadCamp(this.campId));
-  }
-  
-  openCamp(id:string):void{
-    console.log(id);
-    this.router.navigate(["/interni/tabor/" + id]);
+  async saveCamp(campData:Camp){
+    await this.dataService.saveCamp(this.camp._id,campData);
+    await this.loadCamp(this.camp._id);
+    this.toastService.toast("Uloženo.");
   }
 
 }

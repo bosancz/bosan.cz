@@ -1,0 +1,86 @@
+<section *ngIf="event">
+  <div class="container">
+
+    <h2>{{event.name}}</h2>
+
+    <div class="row">
+
+      <div class="col-3">
+
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Obecné informace</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../uctovani" routerLinkActive="active">Účastníci</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../ohlaska" routerLinkActive="active">Ohláška</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../uctovani" routerLinkActive="active">Účtování</a></li>
+          <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat akci</a></li>          
+        </ul>
+
+      </div>
+
+      <div class="col-9" [ngSwitch]="category">
+
+        <form *ngSwitchCase="'info'" class="form" #eventForm="ngForm" (ngSubmit)="saveEvent(eventForm)">
+
+          <div class="form-group">
+            <label for="campNameInput">Název akce</label>
+            <input type="text" name="name" [ngModel]="event.name" class="form-control" id="campNameInput" placeholder="Neočekávaný dýchánek" required>    
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="statusInput">Stav</label>
+              <select name="status" [ngModel]="event.status" class="form-control" id="statusInput" required>    
+                <option value="public">veřejná</option>
+                <option value="draft">v přípravě</option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label for="typeInput">Typ akce</label>
+              <select name="type" [ngModel]="event.type" class="form-control" id="typeInput" required>    
+                <option value="walking">pěší</option>
+                <option value="city">po městě</option>
+                <option value="canoe">kanoe</option>
+                <option value="kayak">kajaky</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="dateFromInput">Od</label>
+              <input type="date" name="dateFrom" [ngModel]="event.dateFrom | date: 'y-MM-dd'" class="form-control" id="dateFromInput" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="dateTillInput">Do</label>
+              <input type="date" name="dateTill" [ngModel]="event.dateTill | date: 'y-MM-dd'" class="form-control" id="dateTillInput" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="leaderInput">Vede</label>
+              <select name="leader" [ngModel]="event.leader" class="form-control" id="leaderInput">
+                <option value="">NIKDO</option>
+                <option *ngFor="let leader of leaders" [value]="leader._id">{{leader.name}}</option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label for="coleaderInput">Spoluvede</label>
+              <select name="coleader" [ngModel]="event.coleader" class="form-control" id="coleaderInput">
+                <option value="">NIKDO</option>
+                <option *ngFor="let leader of leaders" [value]="leader._id">{{leader.name}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="descriptionInput">Popis</label>
+            <textarea name="description" [ngModel]="event.descriptionInput" class="form-control" id="descriptionInput"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Uložit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -22,6 +22,9 @@ import { ConfigDocumentsComponent } from './web-admin/config-documents/config-do
 import { ContactsEditorComponent } from './web-admin/contacts-editor/contacts-editor.component';
 import { GroupsAdminComponent } from './groups-admin/groups-admin.component';
 import { CampAdminBasicComponent } from './camp-admin/camp-admin-basic/camp-admin-basic.component';
+import { CampsAdminComponent } from './camps-admin/camps-admin.component';
+import { EventAdminComponent } from './event-admin/event-admin.component';
+import { UsersAdminComponent } from './users-admin/users-admin.component';
 
 @NgModule({
   imports: [
@@ -40,6 +43,12 @@ import { CampAdminBasicComponent } from './camp-admin/camp-admin-basic/camp-admi
     /* SHARED */ ContactsEditorComponent,
     
     CampAdminBasicComponent,
+    
+    CampsAdminComponent,
+    
+    EventAdminComponent,
+    
+    UsersAdminComponent,
     
   ]
 })

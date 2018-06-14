@@ -38,9 +38,24 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/interni" routerLinkActive="active"><i class="fa fa-lock"></i></a>
-        </li>
+
+        <ng-container *ngIf="!authService.logged">
+          <li class="nav-item">
+            <a class="nav-link" (click)="openLogin()" title="Přihlásit se do interní sekce"><i class="fa fa-lock"></i></a>
+          </li>
+        </ng-container>
+        
+        <ng-container *ngIf="authService.logged">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/interni" routerLinkActive="active"><i class="fa fa-lock"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/interni/ucet" routerLinkActive="active" [title]="'Přihlášen: ' + authService.user._id"><i class="fas fa-user"></i></a>
+          </li>
+          <li class="nav-item">
+            <a *ngIf="authService.logged" class="nav-link" (click)="logout()" title="Odhlásit se"><i class="fas fa-sign-out-alt"></i></a>
+          </li>
+        </ng-container>
       </ul>
     </div>
   </div>
@@ -74,9 +89,9 @@
       <div class="col-md-3 col-6">
         <h2 class="text-uppercase">Kontakty</h2>
         <p>
-          <a routerLink="/kontakty#vedeni">Vedení skupiny</a>
-          <a routerLink="/kontakty#pondeli">Schůzky v pondělí</a>
-          <a routerLink="/kontakty#streda">Schůzky ve středu</a>
+          <a routerLink="/kontakty" fragment="vedeni">Vedení skupiny</a>
+          <a routerLink="/kontakty" fragment="pondeli">Schůzky v pondělí</a>
+          <a routerLink="/kontakty" fragment="streda">Schůzky ve středu</a>
         </p>
       </div>
       

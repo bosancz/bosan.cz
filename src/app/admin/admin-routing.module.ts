@@ -1,17 +1,31 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+/* MAIN ADMIN COMPONENT */
 import { AdminComponent } from "./admin.component";
 
+/* ADMIN MODULES */
 import { CampAdminComponent } from './camp-admin/camp-admin.component';
+import { CampsAdminComponent } from './camps-admin/camps-admin.component';
+
 import { DataAdminComponent } from './data-admin/data-admin.component';
-import { EventsAdminComponent } from './events-admin/events-admin.component';
-import { GalleryAdminComponent } from './gallery-admin/gallery-admin.component';
-import { MembersAdminComponent } from './members-admin/members-admin.component';
-import { GroupsAdminComponent } from './groups-admin/groups-admin.component';
-import { WebAdminComponent } from './web-admin/web-admin.component';
 
 import { DocumentsViewComponent } from './documents-view/documents-view.component';
+
+import { EventAdminComponent } from './event-admin/event-admin.component';
+import { EventsAdminComponent } from './events-admin/events-admin.component';
+
+import { GalleryAdminComponent } from './gallery-admin/gallery-admin.component';
+
+import { MembersAdminComponent } from './members-admin/members-admin.component';
+
+import { GroupsAdminComponent } from './groups-admin/groups-admin.component';
+
+import { UsersAdminComponent } from './users-admin/users-admin.component';
+
+import { WebAdminComponent } from './web-admin/web-admin.component';
+
+
 
 const routes: Routes = [
 
@@ -21,26 +35,29 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       {path: 'data', component: DataAdminComponent},
-      
+
       {path: 'databaze', component: MembersAdminComponent},
 
       {path: 'dokumenty', component: DocumentsViewComponent},
-      
-      {path: 'program', component: EventsAdminComponent},
+
+      {path: 'akce/:event/:cat', component: EventAdminComponent},
+      {path: 'akce/:camp', redirectTo: "akce/:camp/info", pathMatch: "full"},
+      {path: 'akce', component: EventsAdminComponent},
 
       {path: 'fotogalerie', component: GalleryAdminComponent},
 
       {path: 'nastaveni-webu/:cat', component: WebAdminComponent},
       {path: 'nastaveni-webu', redirectTo: "nastaveni-webu/o-nas", pathMatch: "full"},
-      
-      {path: 'oddily', component: GroupsAdminComponent},
-            
-      {path: 'tabor/:camp/:cat', component: CampAdminComponent},
-      {path: 'tabor/:camp', redirectTo: "tabor/:camp/info", pathMatch: "full"},
-      {path: 'tabor', component: CampAdminComponent},
-      
 
-      {path: '', redirectTo: "program", pathMatch: "full"},
+      {path: 'oddily', component: GroupsAdminComponent},
+
+      {path: 'tabory/:camp/:cat', component: CampAdminComponent},
+      {path: 'tabory/:camp', redirectTo: "tabory/:camp/info", pathMatch: "full"},
+      {path: 'tabory', component: CampsAdminComponent},
+
+      {path: 'uzivatele', component: UsersAdminComponent},      
+
+      {path: '', redirectTo: "akce", pathMatch: "full"},
     ]
   }
 

@@ -9,6 +9,8 @@ import { AppErrorHandler } from "./app.errorhandler";
 import { SharedModule } from "./modules/shared.module";
 
 /* SERVICES */
+import { ACLService } from "./services/acl.service";
+import { AuthService } from "./services/auth.service";
 import { DataService } from "./services/data.service";
 import { ToastService } from "./services/toast.service";
 import { MenuService } from "./services/menu.service";
@@ -30,17 +32,40 @@ import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-alb
 
 // Components
 import { AlbumsRecentComponent } from './components/albums-recent/albums-recent.component';
+import { ContactCardComponent } from './components/contact-card/contact-card.component';
 import { EventsTimelineComponent } from './components/events-timeline/events-timeline.component';
 import { GoogleMapComponent } from './components/google-map/google-map.component';
 import { GroupColorPipe } from './pipes/group-color.pipe';
+import { LoginFormComponent } from './components/login-form/login-form.component';
 import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
 
 // Directives
 import { AppearDirective } from './directives/appear.directive';
 
 /* THIRD PARTY */
-import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ModalModule } from 'ngx-bootstrap/modal';
+
+import { JwtModule } from '@auth0/angular-jwt';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+
+// settings for JWT
+export function JwtTokenGetter():string{
+  return localStorage.getItem('id_token') || ""
+}
+
+export const jwtOptions = {
+	config: {
+		tokenGetter: JwtTokenGetter,
+		whitelistedDomains: ['bosancz.smallhill.cz'],
+		throwNoTokenError: false,
+		skipWhenExpired: true
+	}
+};
+
+// App Config
+import { AppConfig, AppConfigData } from "./config/config";
+
 
 @NgModule({
   declarations: [
@@ -53,6 +78,12 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     
     /* DIRECTIVES */ AppearDirective,
     
+    ContactCardComponent,
+    
+    LoginFormComponent,
+    
+    
+    
   ],
   imports: [
     BrowserAnimationsModule,    
@@ -61,15 +92,17 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     SharedModule,
     
     CollapseModule.forRoot(),
-    ScrollToModule.forRoot()
+    ModalModule.forRoot(),
+    
+    ScrollToModule.forRoot(),
+    JwtModule.forRoot(jwtOptions)
   ],
   providers: [
-    DataService, ToastService, MenuService,
-    {
-      provide: ErrorHandler,
-      useClass: AppErrorHandler,
-    }
+    /* Services */ ACLService, AuthService, DataService, ToastService, MenuService,
+    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler },
+    /* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  entryComponents: [ LoginFormComponent ]
 })
 export class AppModule { }

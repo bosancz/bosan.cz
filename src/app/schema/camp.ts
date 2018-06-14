@@ -6,4 +6,5 @@ export class Camp {
   dateFrom:Date;
   dateTill:Date;
   album:Album;
+  theme:string;
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { NgForm } from "@angular/forms";
 
 import { Camp } from "../../../schema/camp";
 
@@ -12,6 +13,9 @@ export class CampAdminBasicComponent implements OnInit {
   @Input()
   camp:Camp;
   
+  @Output()
+  save:EventEmitter<Camp> = new EventEmitter();
+  
   defaultName:string = "ŠÁN " + (new Date()).getFullYear() + " - I. turnus";
   
   constructor() {
@@ -20,6 +24,10 @@ export class CampAdminBasicComponent implements OnInit {
 
   ngOnInit() {
     
+  }
+  
+  saveCamp(form:NgForm){
+    this.save.emit(form.value);
   }
 
 }

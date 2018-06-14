@@ -1,4 +1,4 @@
-<form *ngIf="camp">
+<form *ngIf="camp" #campForm="ngForm" (ngSubmit)="saveCamp(campForm)">
   <div class="form-group">
     <label for="campNameInput">Název tábora</label>
     <input type="text" name="name" [ngModel]="camp.name" class="form-control" id="campNameInput" [placeholder]="defaultName" required>    

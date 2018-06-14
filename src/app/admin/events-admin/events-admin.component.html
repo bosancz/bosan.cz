@@ -6,19 +6,23 @@
           <th>Název akce</th>
           <th>Od</th>
           <th>Do</th>
+          <th>Status</th>
           <th>Vede</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let event of events">
+        <tr *ngFor="let event of events" (click)="openEvent(event)">
           <td>{{event.name}}</td>
           <td>{{event.dateFrom | date:"EEEEEE d. M. y"}}</td>
           <td>{{event.dateTill | date:"EEEEEE d. M. y"}}</td>
+          <td>{{statuses[event.status] || "N/A"}}</td>
           <td></td>
-          <td class="text-right"><a>upravit</a></td>
+          <td class="text-right"><a [routerLink]="getEventLink(event)">otevřít</a></td>
         </tr>
       </tbody>
     </table>
+    
+    <a (click)="createEvent()">+ nová akce</a>
   </div>
 </section>

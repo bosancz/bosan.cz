@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
+    "@auth0/angular-jwt": "^2.0.0",
     "@nicky-lenaers/ngx-scroll-to": "^0.6.1",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.6",
@@ -31,5 +32,7 @@
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.19"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "tslint": "^5.10.0"
+  }
 }

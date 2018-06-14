@@ -8,5 +8,11 @@ export class WebConfig {
   
   documents?:{
     url:string
-  }
+  };
+    
+  groups:[{
+    id:string,
+    name:string,
+    color:string
+  }]
 }

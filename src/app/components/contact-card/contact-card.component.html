@@ -1,0 +1,8 @@
+<img *ngIf="contact.avatar" [src]="contact.avatar" class="rounded-circle">
+<img *ngIf="!contact.avatar" src="/assets/img/avatar-default.png" class="rounded-circle">
+
+<h2>{{contact.nickname}}<br>{{contact.name}}</h2>
+<div class="role">{{contact.role}}</div>
+
+<a [href]="'mailto:' + contact.email">{{contact.email}}</a><br>
+<a [href]="'tel:' + contact.mobile">{{contact.mobile}}</a><br>

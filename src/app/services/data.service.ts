@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 import { environment } from '../../environments/environment';
 
 import { Camp } from "../schema/camp";
@@ -52,8 +51,8 @@ export class DataService {
     return this.http.get<Camp>(this.root + "/camps/" + id).toPromise();
   }
   
-  saveCamp(id:string,camp:Camp){
-    return this.http.put(this.root + "/camps/" + id, camp, { responseType: "text" }).toPromise();
+  saveCamp(id:string,camp:Camp):Promise<Camp>{
+    return this.http.put<Camp>(this.root + "/camps/" + id, camp).toPromise();
   }
   
   getConfig(update?:boolean){
@@ -75,6 +74,22 @@ export class DataService {
   
   getUpcomingEvents():Promise<Event[]>{
     return this.http.get<Event[]>(this.root + "/events/upcoming").toPromise();
+  }
+  
+  getEvent(eventId:string):Promise<Event>{
+    return this.http.get<Event>(this.root + "/events/" + eventId).toPromise();
+  }
+  
+  createEvent(eventData:any):Promise<Event>{
+    return this.http.post<Event>(this.root + "/events",eventData).toPromise();
+  }
+  
+  saveEvent(eventId:string,eventData:any):Promise<Event>{
+    return this.http.put<Event>(this.root + "/events/" + eventId,eventData).toPromise();
+  }
+  
+  deleteEvent(eventId:string):Promise<string>{
+    return this.http.delete(this.root + "/events/" + eventId, {responseType:"text"}).toPromise();
   }
   
 	getGroups(options?:any):Promise<any>{

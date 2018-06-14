@@ -1,0 +1,3 @@
+<div class="breadcrumbs">
+  <a routerLink="/">bosan.cz</a>&nbsp;&raquo;&nbsp;<ng-container *ngFor="let bc of breadcrumbs;last as isLast"><a *ngIf="bc.url" [routerLink]="bc.url">{{bc.name}}</a><ng-container *ngIf="!bc.url">{{bc.name}}</ng-container><ng-container *ngIf="!isLast">&nbsp;&raquo;&nbsp;</ng-container></ng-container>
+</div>
