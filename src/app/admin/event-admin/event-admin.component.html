@@ -113,6 +113,12 @@
           <a>+ přidat ručně</a>
           
         </div>
+        
+        <div *ngSwitchCase="'smazat'">
+          <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tuto akci</label>
+          <br>
+          <button type="button" [disabled]="!deleteConfirmation" (click)="deleteEvent()" class="btn btn-danger">Smazat akci</button>
+        </div>
       </div>
     </div>
   </div>

@@ -21,6 +21,8 @@ export class EventAdminComponent implements OnInit {
   
   leaders:Member[] = [];
 
+  deleteConfirmation:boolean = false;
+  
   paramsSubscription:Subscription;
 
   constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
@@ -50,9 +52,14 @@ export class EventAdminComponent implements OnInit {
     this.router.navigate(["../"],{relativeTo:this.route});
   }
   
-  loadLeaders(){
-    
+  async deleteEvent(){
+    var name = this.event.name;
+    await this.dataService.deleteEvent(this.event._id)
+    this.toastService.toast("Akce " + name + " smazána.");
+    this.router.navigate(["/interni/akce"]);
   }
+  
+
   
   getAttendeeAge(attendee):number{
     let date = this.event.dateFrom;
