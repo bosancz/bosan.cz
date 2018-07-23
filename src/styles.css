@@ -80,7 +80,7 @@ a {color: #00BFFF;}
 
 a:not(.btn):hover {color: #fec503 !important;}
 
-.btn{font-size:24px;color:#fff;}
+.btn{color:#fff;}
 .btn-primary{color:#fff !important;}
 
 /* @media (min-width: 1600px) {
