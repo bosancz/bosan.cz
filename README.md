@@ -30,7 +30,7 @@ Použijte svůj oblíbený webový server pro vystavení složky ```dist```.
 
 ## Spuštění pro testovací provoz
 
-```npm run dev``` - spustí [angular-cli](https://github.com/angular/angular-cli) v režimu rekompilace v případě změn v adresáři ```src```
+```npm run dev``` - spustí [angular-cli](https://github.com/angular/angular-cli) v režimu automatické rekompilace v případě změn v adresáři ```src```
 
 ## Přispívání
 
