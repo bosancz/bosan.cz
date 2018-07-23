@@ -64,6 +64,7 @@ export class DataService {
     return this.http.delete(this.root + "/albums/" + albumId + "/photos/" + photoId,{responseType:"text"}).toPromise();
   }
   
+  /* CAMPS */
   getCamps(){
     return this.http.get<Camp[]>(this.root + "/camps").toPromise();
   }
@@ -76,6 +77,7 @@ export class DataService {
     return this.http.patch(this.root + "/camps/" + id, campData, {responseType:"text"}).toPromise();
   }
   
+  /* CONFIG */
   getConfig(update?:boolean){
     if(update || !this.config) this.config = this.http.get<WebConfig>(this.root + "/config").toPromise();
     return this.config;
@@ -85,10 +87,7 @@ export class DataService {
     return this.http.put(this.root + "/config", config, { responseType: "text" }).toPromise();
   }
   
-  getContacts(options?:any):Promise<Contact[]>{
-    return this.http.get<Contact[]>(this.root + "/contacts" + toParams(options)).toPromise();
-  }
-  
+  /* EVENTS */
   getEvents(options?:any):Promise<Event[]>{
     return this.http.get<Event[]>(this.root + "/events" + toParams(options)).toPromise();
   }
@@ -113,10 +112,13 @@ export class DataService {
     return this.http.delete(this.root + "/events/" + eventId, {responseType:"text"}).toPromise();
   }
   
+  
+  /* GROUPS */
 	getGroups(options?:any):Promise<any>{
 		return this.http.get<any>(this.root + "/groups" + toParams(options)).toPromise();
 	}
   
+  /* MEMBERS */
   getMembers(options?:any):Promise<any>{
     return this.http.get<any>(this.root + "/members" + toParams(options)).toPromise();
   }
