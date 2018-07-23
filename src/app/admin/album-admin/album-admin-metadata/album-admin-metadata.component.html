@@ -1,0 +1,25 @@
+<form class="form" #albumForm="ngForm" (ngSubmit)="saveAlbum(albumForm)">
+
+  <div class="form-group row">
+    <label for="campNameInput" class="col-sm-2 col-form-label">Název alba</label>
+    <div class="col-sm-10">
+      <input type="text" name="name" [ngModel]="album.name" class="form-control" id="campNameInput" placeholder="Neočekávaný dýchánek" required>    
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="dateInput" class="col-sm-2 col-form-label">Datum zveřejnění</label>
+    <div class="col-sm-10">
+      <input type="date" name="published" [ngModel]="album.published | date: 'y-MM-dd'" class="form-control" id="dateInput" required>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="descriptionInput" class="col-sm-2 col-form-label">Popis</label>
+    <div class="col-sm-10">
+      <textarea name="description" [ngModel]="album.description" class="form-control" id="descriptionInput"></textarea>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Uložit</button>
+</form>

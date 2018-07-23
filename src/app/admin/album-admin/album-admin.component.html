@@ -1,0 +1,30 @@
+<section *ngIf="album">
+  <div class="container">
+
+    <h2>{{album.name}}</h2>
+
+    <div class="row">
+
+      <div class="col-3">
+
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Informace</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../fotky" routerLinkActive="active">Fotografie ({{album.photos.length}})</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../upload" routerLinkActive="active">Nahrát fotografie</a></li>
+          <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat album</a></li>          
+        </ul>
+
+      </div>
+
+      <div class="col-9" [ngSwitch]="category">
+
+        <album-admin-metadata *ngSwitchCase="'info'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-metadata>
+        
+        <album-admin-photos  *ngSwitchCase="'fotky'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-photos>
+        
+        <album-admin-upload  *ngSwitchCase="'upload'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-upload>
+        
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+
+<div class="dropzone" #photoDropzone (drop)="addPhotosByDropzone($event,photoDropzone)" (dragover)="onDragOver($event)" (click)="photoInput.click()">
+  <p>Přetáhnout fotografie sem, nebo kliknout pro výběr</p>
+</div>
+
+<input class="photoInput" type="file" name="photo" #photoInput (change)="addPhotosByInput(photoInput)" multiple>
+
+<div class="status">
+  <h4>
+    Průběh nahrávání:
+    <ng-container [ngSwitch]="status">
+      <ng-container *ngSwitchCase="'notstarted'">nebylo zahájeno</ng-container>
+      <ng-container *ngSwitchCase="'started'">nahrávám&hellip;</ng-container>
+      <ng-container *ngSwitchCase="'finished'">hotovo</ng-container>
+    </ng-container>
+    
+  </h4>
+
+  <table class="table table-striped table-hover table-sm uploadQueue">
+    <thead>
+      <tr>
+        <th>Název souboru</th>
+        <th colspan="2">Stav</th>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let uploadItem of photoUploadQueue">
+        <td>{{uploadItem.file.name}}</td>
+        <td>{{uploadItem.progress}} %</td>
+        <td [ngSwitch]="uploadItem.status">
+          <ng-container *ngSwitchCase="'pending'">čekám</ng-container>
+          <ng-container *ngSwitchCase="'started'">nahrávám</ng-container>
+          <ng-container *ngSwitchCase="'processing'">zpracovávám</ng-container>
+          <ng-container *ngSwitchCase="'finished'">hotovo</ng-container>
+          <ng-container *ngSwitchCase="'error'">Chyba: {{uploadItem.error.message}}</ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

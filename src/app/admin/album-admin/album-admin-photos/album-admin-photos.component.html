@@ -1,0 +1,5 @@
+<form (ngSubmit)="savePhotos()">
+  
+  <photo-gallery *ngIf="album" [photos]="galleryPhotos" height="250" margin="5" [editable]="true"></photo-gallery>
+  
+</form>
