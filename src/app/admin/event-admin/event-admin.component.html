@@ -9,7 +9,7 @@
 
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Obecné informace</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../uctovani" routerLinkActive="active">Účastníci</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../ucastnici" routerLinkActive="active">Účastníci</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../ohlaska" routerLinkActive="active">Ohláška</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../uctovani" routerLinkActive="active">Účtování</a></li>
           <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat akci</a></li>          
@@ -25,6 +25,11 @@
             <label for="campNameInput">Název akce</label>
             <input type="text" name="name" [ngModel]="event.name" class="form-control" id="campNameInput" placeholder="Neočekávaný dýchánek" required>    
           </div>
+          
+          <div class="form-group">
+            <label for="campPlaceInput">Místo konání</label>
+            <input type="text" name="place" [ngModel]="event.place" class="form-control" id="campPlaceInput" placeholder="Dno pytle">    
+          </div>
 
           <div class="form-row">
             <div class="form-group col-6">
@@ -39,8 +44,8 @@
               <select name="type" [ngModel]="event.type" class="form-control" id="typeInput" required>    
                 <option value="walking">pěší</option>
                 <option value="city">po městě</option>
-                <option value="canoe">kanoe</option>
-                <option value="kayak">kajaky</option>
+                <option value="water-trip">vodní turistika</option>
+                <option value="whitewater">divoká voda</option>
               </select>
             </div>
           </div>
@@ -80,6 +85,34 @@
 
           <button type="submit" class="btn btn-primary">Uložit</button>
         </form>
+        
+        <div *ngSwitchCase="'ucastnici'">
+          <table class="table table-striped table-hover table-sm">
+            <thead class="thead-dark">
+              <tr>
+                <th>Přezdívka</th>
+                <th>Jméno</th>
+                <th>Oddíl</th>
+                <th>Věk</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let attendee of event.attendees">
+                <td>{{attendee.member.nickname}}</td>
+                <td>{{attendee.group}}</td>
+                <td>{{attendee.name?.first}} {{attendee.name?.last}}</td>
+                <td>{{getAttendeeAge(attendee)}}</td>
+                <td><a>upravit</a></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <a>+ přidat z databáze</a>
+          
+          <a>+ přidat ručně</a>
+          
+        </div>
       </div>
     </div>
   </div>

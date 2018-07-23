@@ -7,6 +7,7 @@
           <th>Od</th>
           <th>Do</th>
           <th>CTH</th>
+          <th>Hlavas</th>
           <th></th>
         </tr>
       </thead>
@@ -16,6 +17,7 @@
           <td>{{camp.dateFrom | date:"EEEEEE d. M. y"}}</td>
           <td>{{camp.dateTill | date:"EEEEEE d. M. y"}}</td>
           <td>{{camp.theme}}</td>
+          <td>{{camp.leader}}</td>
           <td class="text-right"><a [routerLink]="this.getCampLink(camp)">otevřít</a></td>
         </tr>
       </tbody>

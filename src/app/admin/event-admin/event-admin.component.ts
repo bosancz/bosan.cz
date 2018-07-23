@@ -41,7 +41,9 @@ export class EventAdminComponent implements OnInit {
   }
   
   async saveEvent(form){
-    this.event = await this.dataService.saveEvent(this.event._id,form.value)
+    await this.dataService.updateEvent(this.event._id,form.value);
+    
+    this.event = await this.dataService.getEvent(this.event._id);
 
     this.toastService.toast("Uloženo.");
     
@@ -50,6 +52,21 @@ export class EventAdminComponent implements OnInit {
   
   loadLeaders(){
     
+  }
+  
+  getAttendeeAge(attendee):number{
+    let date = this.event.dateFrom;
+    let bd = attendee.birthday;
+    
+    var age = date.getFullYear() - bd.getFullYear();
+    
+    if(date.getMonth() > bd.getMonth()) return age;
+    if(date.getMonth() === bd.getMonth() && date.getDate() >= bd.getDate()) return age;
+    return age - 1;
+  }
+  
+  isAttendeeBirthday(attendee):boolean{
+    return false; //TODO
   }
 
 }

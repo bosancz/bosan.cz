@@ -38,7 +38,7 @@ export class CampAdminComponent implements OnInit {
   }
   
   async saveCamp(campData:Camp){
-    await this.dataService.saveCamp(this.camp._id,campData);
+    await this.dataService.updateCamp(this.camp._id,campData);
     await this.loadCamp(this.camp._id);
     this.toastService.toast("Uloženo.");
   }

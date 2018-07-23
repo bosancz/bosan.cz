@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
+import { Album, AlbumPhoto } from "../schema/album";
 import { Camp } from "../schema/camp";
 import { Contact } from "../schema/contact";
 import { Event } from "../schema/event";
@@ -30,10 +31,6 @@ export class DataService {
   config:Promise<WebConfig>;
 	
 	constructor(private http: HttpClient) {  }
-	
-  getAlbum(albumId:string, options?):any{
-		return this.http.get<any>(this.root + "/albums/" + albumId + toParams(options)).toPromise();
-	}
   
   getAlbums(options?):any{
 		return this.http.get<any>(this.root + "/albums" + toParams(options)).toPromise();
@@ -41,6 +38,30 @@ export class DataService {
   
   getAlbumsYears(){
     return this.http.get<any>(this.root + "/albums/years").toPromise();
+  }
+  
+  getAlbum(albumId:string, options?):Promise<Album>{
+		return this.http.get<Album>(this.root + "/albums/" + albumId + toParams(options)).toPromise();
+	}
+  
+  updateAlbum(albumId:string, albumData:any):Promise<string>{
+    return this.http.patch(this.root + "/albums/" + albumId, albumData, {responseType: "text"}).toPromise();
+  }
+  
+  getAlbumPhotos(albumId:string,options?:any):Promise<AlbumPhoto[]>{
+    return this.http.get<AlbumPhoto[]>(this.root + "/albums/" + albumId + "/photos").toPromise();
+  }
+    
+  updateAlbumPhotos(albumId:string,photosData:any):Promise<string>{
+    return this.http.patch(this.root + "/albums/" + albumId + "/photos", photosData, {responseType:"text"}).toPromise();
+  }
+  
+  createAlbumPhoto(albumId:string,photoData):Observable<HttpEvent<string>>{
+    return this.http.post(this.root + "/albums/" + albumId + "/photos",photoData,{observe: 'events',reportProgress:true, responseType:"text"});
+  }
+  
+  deleteAlbumPhoto(albumId:string,photoId:string):Promise<string>{
+    return this.http.delete(this.root + "/albums/" + albumId + "/photos/" + photoId,{responseType:"text"}).toPromise();
   }
   
   getCamps(){
@@ -51,8 +72,8 @@ export class DataService {
     return this.http.get<Camp>(this.root + "/camps/" + id).toPromise();
   }
   
-  saveCamp(id:string,camp:Camp):Promise<Camp>{
-    return this.http.put<Camp>(this.root + "/camps/" + id, camp).toPromise();
+  updateCamp(id:string,campData:Camp):Promise<string>{
+    return this.http.patch(this.root + "/camps/" + id, campData, {responseType:"text"}).toPromise();
   }
   
   getConfig(update?:boolean){
@@ -84,8 +105,8 @@ export class DataService {
     return this.http.post<Event>(this.root + "/events",eventData).toPromise();
   }
   
-  saveEvent(eventId:string,eventData:any):Promise<Event>{
-    return this.http.put<Event>(this.root + "/events/" + eventId,eventData).toPromise();
+  updateEvent(eventId:string,eventData:any):Promise<string>{
+    return this.http.patch(this.root + "/events/" + eventId,eventData, {responseType:"text"}).toPromise();
   }
   
   deleteEvent(eventId:string):Promise<string>{

@@ -10,9 +10,10 @@ import { GalleryViewComponent } from './views/gallery-view/gallery-view.componen
 import { NewsViewComponent } from './views/news-view/news-view.component';
 
 /* CHILD VIEWS */
-import { GalleryViewYearsComponent } from './views/gallery-view/gallery-view-years/gallery-view-years.component';
-import { GalleryViewAlbumsComponent } from './views/gallery-view/gallery-view-albums/gallery-view-albums.component';
 import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
+import { GalleryViewHomeComponent } from './views/gallery-view/gallery-view-home/gallery-view-home.component';
+import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year/gallery-view-year.component';
+
 
 /* SERVICES */
 import { ACLService } from "./services/acl.service";
@@ -23,8 +24,8 @@ const routes: Routes = [
   {path: 'fotogalerie', component: GalleryViewComponent,
    children: [
      {path: ':year/:album', component: GalleryViewAlbumComponent},
-     {path: ':year', component: GalleryViewAlbumsComponent},
-     {path: '', component: GalleryViewYearsComponent}
+     {path: ':year', component: GalleryViewYearComponent},
+     {path: '', component: GalleryViewHomeComponent}
    ]
   },
 

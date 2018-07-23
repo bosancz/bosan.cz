@@ -25,6 +25,10 @@ import { CampAdminBasicComponent } from './camp-admin/camp-admin-basic/camp-admi
 import { CampsAdminComponent } from './camps-admin/camps-admin.component';
 import { EventAdminComponent } from './event-admin/event-admin.component';
 import { UsersAdminComponent } from './users-admin/users-admin.component';
+import { AlbumAdminComponent } from './album-admin/album-admin.component';
+import { AlbumAdminMetadataComponent } from './album-admin/album-admin-metadata/album-admin-metadata.component';
+import { AlbumAdminUploadComponent } from './album-admin/album-admin-upload/album-admin-upload.component';
+import { AlbumAdminPhotosComponent } from './album-admin/album-admin-photos/album-admin-photos.component';
 
 @NgModule({
   imports: [
@@ -49,6 +53,14 @@ import { UsersAdminComponent } from './users-admin/users-admin.component';
     EventAdminComponent,
     
     UsersAdminComponent,
+    
+    AlbumAdminComponent,
+    
+    AlbumAdminMetadataComponent,
+    
+    AlbumAdminUploadComponent,
+    
+    AlbumAdminPhotosComponent,
     
   ]
 })

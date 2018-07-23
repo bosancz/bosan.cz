@@ -15,6 +15,7 @@ import { DocumentsViewComponent } from './documents-view/documents-view.componen
 import { EventAdminComponent } from './event-admin/event-admin.component';
 import { EventsAdminComponent } from './events-admin/events-admin.component';
 
+import { AlbumAdminComponent } from './album-admin/album-admin.component';
 import { GalleryAdminComponent } from './gallery-admin/gallery-admin.component';
 
 import { MembersAdminComponent } from './members-admin/members-admin.component';
@@ -44,6 +45,8 @@ const routes: Routes = [
       {path: 'akce/:camp', redirectTo: "akce/:camp/info", pathMatch: "full"},
       {path: 'akce', component: EventsAdminComponent},
 
+      {path: 'fotogalerie/:album/:cat', component: AlbumAdminComponent},
+      {path: 'fotogalerie/:album', redirectTo: "fotogalerie/:album/info", pathMatch: "full"},
       {path: 'fotogalerie', component: GalleryAdminComponent},
 
       {path: 'nastaveni-webu/:cat', component: WebAdminComponent},
