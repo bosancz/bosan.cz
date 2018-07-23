@@ -16,7 +16,7 @@ export class AlbumsRecentComponent implements OnInit {
 
   ngOnInit() {
     
-    let query:any = {limit: 5, sort: "-published", events: 1};
+    let query:any = {limit: 5, sort: "-published", events: 1, titlePhoto: 1};
     
     this.dataService.getAlbums(query) 
       .then(albums => {

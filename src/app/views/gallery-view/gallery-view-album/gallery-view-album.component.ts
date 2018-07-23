@@ -6,6 +6,8 @@ import { DataService } from "../../../services/data.service";
 
 import { Album } from "../../../schema/album";
 
+import { GalleryPhoto } from "../../../components/photo-gallery/photo-gallery.component";
+
 @Component({
   selector: 'gallery-view-album',
   templateUrl: './gallery-view-album.component.html',
@@ -14,6 +16,8 @@ import { Album } from "../../../schema/album";
 export class GalleryViewAlbumComponent implements OnInit {
 
   album:Album;
+  
+  galleryPhotos:GalleryPhoto[] = [];
   
   paramsSubscription:Subscription;
   
@@ -28,10 +32,20 @@ export class GalleryViewAlbumComponent implements OnInit {
     });
   }
   
+  async loadAlbum(id:string){
+    this.album = await this.dataService.getAlbum(id,{photos:1});
     
-  loadAlbum(id:string){
-    this.dataService.getAlbum(id)
-      .then(album => this.album = album);
+    this.updateGalleryPhotos()
+  }
+  
+  updateGalleryPhotos(){
+    this.galleryPhotos = this.album.photos.map(photo => ({
+      url: photo.sizes.small.url,
+      width: photo.sizes.small.width,
+      height: photo.sizes.small.height,
+      caption: photo.caption,
+      bg: photo.bg
+    }));
   }
 
 

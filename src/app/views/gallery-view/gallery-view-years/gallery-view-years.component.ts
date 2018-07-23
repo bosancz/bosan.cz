@@ -10,8 +10,10 @@ import { DataService } from "../../../services/data.service";
 export class GalleryViewYearsComponent implements OnInit {
   
   years:number[];
+ 
 
-  constructor(private dataService:DataService) { }
+  constructor(private dataService:DataService) { 
+  }
 
   ngOnInit() {
      this.dataService.getAlbumsYears().then(years => this.years = years);

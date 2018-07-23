@@ -4,19 +4,17 @@
       <thead class="thead-dark">
         <tr>
           <th>Název alba</th>
-          <th>Akce</th>
           <th>Datum</th>
           <th>Počet fotek</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let album of albums">
+        <tr *ngFor="let album of albums" (click)="openAlbum(album)">
           <td>{{album.name}}</td>
-          <td>{{album.event?.name || "-"}}</td>
-          <td>{{album.published}}</td>
+          <td>{{album.published | date:"d. M. y"}}</td>
           <td>{{album.photos.length}}</td>
-          <td class="text-right"><a>upravit</a></td>
+          <td class="text-right"><a [routerLink]="getAlbumLink(album)">otevřít</a></td>
         </tr>
       </tbody>
     </table>

@@ -1,8 +1,13 @@
-<section>
-  <h1>{{album?.name}}</h1>
-
+<section *ngIf="album">
   <div *ngIf="album" class="container">
-    <a routerLink="../">zpět</a>
-    <photo-gallery *ngIf="album" [photos]="album.photos" height="250" margin="5"></photo-gallery>
+    <h2>{{album.name}}</h2>
+    <photo-gallery *ngIf="album" [photos]="galleryPhotos" height="250" margin="5"></photo-gallery>
+  </div>
+</section>
+
+<section class="bg-light" *ngIf="album">
+  <div class="container">
+    <h2>Další alba roku {{album.year}}</h2>
+    <gallery-view-albums [year]="album.year"></gallery-view-albums>
   </div>
 </section>

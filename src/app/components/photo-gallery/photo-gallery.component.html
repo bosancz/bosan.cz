@@ -1,7 +1,16 @@
-<div *ngFor="let row of rows; last as isLastRow" [style.margin-bottom]="isLastRow ? 0 : margin + 'px'" class="galleryRow">
-  <a *ngFor="let photo of row.photos;last as isLastPhoto" [style.width]="photo.width + 'px'" [style.height]="photo.height + 'px'" [style.margin-right]="isLastPhoto ? 0 : margin + 'px'" class="galleryPhoto">
-    <img [src]="photo.url" [alt]="photo.caption">
+<div class="photos">
+  <a *ngFor="let photo of _photos" (click)="photoOpen.emit(photo)" [style.width]="photo.adjWidth + 'px'" [style.height]="photo.adjHeight + 'px'" [style.margin-right]="photo.lastInRow ? 0 : margin + 'px'" [style.margin-top]="margin + 'px'" [style.background-color]="photo.bg" class="galleryPhoto">
+    <img *ngIf="photo.url" [src]="photo.url" [alt]="photo.caption">
     <span class="shader"></span>
-    <span class="caption">{{photo.caption}}</span>
+    <span *ngIf="editable" contenteditable [(ngModel)]="photo.caption" (blur)="captionEdit.emit(photo)" class="caption"></span>
+    <span *ngIf="!editable" class="caption">{{photo.caption}}</span>
+    <span *ngIf="dots" class="dots">
+      <i class="fas fa-circle"></i>
+      <i class="fas fa-circle"></i>
+      <i class="fas fa-circle"></i>
+    </span>
+    <span *ngIf="editable" class="edit">
+      <a (click)="photoEdit.emit(photo)"><i class="fas fa-cog"></i></a>
+    </span>
   </a>
 </div>

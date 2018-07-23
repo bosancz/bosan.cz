@@ -7,12 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GalleryViewComponent implements OnInit {
 
-  year:number;
-  
-  
-  
   constructor() {
-    
   }
 
   ngOnInit() {

@@ -35,12 +35,12 @@ import { AlbumsRecentComponent } from './components/albums-recent/albums-recent.
 import { ContactCardComponent } from './components/contact-card/contact-card.component';
 import { EventsTimelineComponent } from './components/events-timeline/events-timeline.component';
 import { GoogleMapComponent } from './components/google-map/google-map.component';
-import { GroupColorPipe } from './pipes/group-color.pipe';
 import { LoginFormComponent } from './components/login-form/login-form.component';
-import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
 
 // Directives
 import { AppearDirective } from './directives/appear.directive';
+
+// Pipes
 
 /* THIRD PARTY */
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -65,16 +65,18 @@ export const jwtOptions = {
 
 // App Config
 import { AppConfig, AppConfigData } from "./config/config";
+import { GalleryViewHomeComponent } from './views/gallery-view/gallery-view-home/gallery-view-home.component';
+import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year/gallery-view-year.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent,
-    /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent, PhotoGalleryComponent,
+    /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent,
     /* CHILD VIEWS */ GalleryViewYearsComponent, GalleryViewAlbumsComponent, GalleryViewAlbumComponent,
     
-    /* PIPES */ GroupColorPipe,
+    /* PIPES */
     
     /* DIRECTIVES */ AppearDirective,
     
@@ -82,6 +84,9 @@ import { AppConfig, AppConfigData } from "./config/config";
     
     LoginFormComponent,
     
+    GalleryViewHomeComponent,
+    
+    GalleryViewYearComponent,
     
     
   ],

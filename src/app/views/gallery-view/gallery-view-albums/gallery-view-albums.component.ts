@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from "rxjs";
+import { Component, OnChanges, SimpleChanges, Input } from '@angular/core';
+
 
 import { DataService } from "../../../services/data.service";
 
@@ -11,30 +10,21 @@ import { Album } from "../../../schema/album";
   templateUrl: './gallery-view-albums.component.html',
   styleUrls: ['./gallery-view-albums.component.css']
 })
-export class GalleryViewAlbumsComponent implements OnInit {
-  
+export class GalleryViewAlbumsComponent implements OnChanges {
+
+  @Input()
   year:number;
-  
+
   albums:Album[];
-  
-  paramsSubscription:Subscription;
 
-  constructor(private dataService:DataService, private route:ActivatedRoute) { }
+  constructor(private dataService:DataService) { }
 
-  ngOnInit() {
-    
-     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
-      
-       this.year = params.year;
-       
-       this.loadAlbums(params.year);
-
-    });
-    
+  ngOnChanges(changes:SimpleChanges) {
+    if(changes.year) this.loadAlbums(this.year);
   }
-  loadAlbums(year:number){
-   this.dataService.getAlbums({year:year})
-      .then(albums => this.albums = albums);
+
+  async loadAlbums(year:number){
+    this.albums = await this.dataService.getAlbums({year:year, titlePhoto:1})
   }
 
 }
