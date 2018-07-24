@@ -119,7 +119,19 @@ export class DataService {
 	}
   
   /* MEMBERS */
-  getMembers(options?:any):Promise<any>{
-    return this.http.get<any>(this.root + "/members" + toParams(options)).toPromise();
+  getMembers(options?:any):Promise<any[]>{
+    return this.http.get<any[]>(this.root + "/members" + toParams(options)).toPromise();
+  }
+  
+  getMember(memberId:string,options?:any):Promise<any>{
+    return this.http.get<any>(this.root + "/members/" + memberId + toParams(options)).toPromise();
+  }
+  
+  updateMember(memberId:string,memberData):Promise<string>{
+    return this.http.patch(this.root + "/members/" + memberId, memberData, {responseType:"text"}).toPromise();
+  }
+  
+  deleteMember(memberId:string):Promise<string>{
+    return this.http.delete(this.root + "/members/" + memberId, {responseType:"text"}).toPromise();
   }
 }

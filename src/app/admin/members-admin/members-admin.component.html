@@ -7,14 +7,16 @@
           <th>Příjmení</th>
           <th>Jméno</th>
           <th>Oddíl</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let member of members">
+        <tr *ngFor="let member of members" (click)="openMember(member)">
           <td>{{member.nickname}}</td>
           <td>{{member.name?.last}}</td>
           <td>{{member.name?.first}}</td>
           <td [style.color]="member.group?.color">{{member.group?.name}}</td>
+          <td class="text-right"><a [routerLink]="getMemberLink(member)">otevřít</a></td>
         </tr>
       </tbody>
     </table>
