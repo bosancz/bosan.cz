@@ -19,6 +19,7 @@ import { AlbumAdminComponent } from './album-admin/album-admin.component';
 import { GalleryAdminComponent } from './gallery-admin/gallery-admin.component';
 
 import { MembersAdminComponent } from './members-admin/members-admin.component';
+import { MemberAdminComponent } from './member-admin/member-admin.component';
 
 import { GroupsAdminComponent } from './groups-admin/groups-admin.component';
 
@@ -37,7 +38,9 @@ const routes: Routes = [
     children: [
       {path: 'data', component: DataAdminComponent},
 
-      {path: 'databaze', component: MembersAdminComponent},
+      {path: 'clenove/:member/:cat', component: MemberAdminComponent},
+      {path: 'clenove/:member', redirectTo: "clenove/:member/osobni", pathMatch: "full"},
+      {path: 'clenove', component: MembersAdminComponent},
 
       {path: 'dokumenty', component: DocumentsViewComponent},
 

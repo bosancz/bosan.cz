@@ -46,17 +46,5 @@ export class EventsAdminComponent implements OnInit {
         this.router.navigate(["./" + event._id], {relativeTo: this.route})
       })
   }
-  
-    
-  deleteEvent(event:Event){
-    
-    if(!window.confirm(`Opravdu chcete smazat akci ${event.name}?`)) return;
-    
-    this.dataService.deleteEvent(event._id)
-      .then(() => {
-        this.toastService.toast("Akce smazána.");
-        this.loadEvents();
-      })
-  }
 
 }

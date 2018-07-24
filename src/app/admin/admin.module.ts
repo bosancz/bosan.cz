@@ -29,6 +29,10 @@ import { AlbumAdminComponent } from './album-admin/album-admin.component';
 import { AlbumAdminMetadataComponent } from './album-admin/album-admin-metadata/album-admin-metadata.component';
 import { AlbumAdminUploadComponent } from './album-admin/album-admin-upload/album-admin-upload.component';
 import { AlbumAdminPhotosComponent } from './album-admin/album-admin-photos/album-admin-photos.component';
+import { EventAdminAttendeesComponent } from './event-admin/event-admin-attendees/event-admin-attendees.component';
+import { EventAdminInfoComponent } from './event-admin/event-admin-info/event-admin-info.component';
+import { MemberAdminComponent } from './member-admin/member-admin.component';
+import { MemberAdminInfoComponent } from './member-admin/member-admin-info/member-admin-info.component';
 
 @NgModule({
   imports: [
@@ -61,6 +65,14 @@ import { AlbumAdminPhotosComponent } from './album-admin/album-admin-photos/albu
     AlbumAdminUploadComponent,
     
     AlbumAdminPhotosComponent,
+    
+    EventAdminAttendeesComponent,
+    
+    EventAdminInfoComponent,
+    
+    MemberAdminComponent,
+    
+    MemberAdminInfoComponent,
     
   ]
 })
