@@ -19,101 +19,10 @@
 
       <div class="col-9" [ngSwitch]="category">
 
-        <form *ngSwitchCase="'info'" class="form" #eventForm="ngForm" (ngSubmit)="saveEvent(eventForm)">
-
-          <div class="form-group">
-            <label for="campNameInput">Název akce</label>
-            <input type="text" name="name" [ngModel]="event.name" class="form-control" id="campNameInput" placeholder="Neočekávaný dýchánek" required>    
-          </div>
-          
-          <div class="form-group">
-            <label for="campPlaceInput">Místo konání</label>
-            <input type="text" name="place" [ngModel]="event.place" class="form-control" id="campPlaceInput" placeholder="Dno pytle">    
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-6">
-              <label for="statusInput">Stav</label>
-              <select name="status" [ngModel]="event.status" class="form-control" id="statusInput" required>    
-                <option value="public">veřejná</option>
-                <option value="draft">v přípravě</option>
-              </select>
-            </div>
-            <div class="form-group col-6">
-              <label for="typeInput">Typ akce</label>
-              <select name="type" [ngModel]="event.type" class="form-control" id="typeInput" required>    
-                <option value="walking">pěší</option>
-                <option value="city">po městě</option>
-                <option value="water-trip">vodní turistika</option>
-                <option value="whitewater">divoká voda</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-6">
-              <label for="dateFromInput">Od</label>
-              <input type="date" name="dateFrom" [ngModel]="event.dateFrom | date: 'y-MM-dd'" class="form-control" id="dateFromInput" required>
-            </div>
-            <div class="form-group col-6">
-              <label for="dateTillInput">Do</label>
-              <input type="date" name="dateTill" [ngModel]="event.dateTill | date: 'y-MM-dd'" class="form-control" id="dateTillInput" required>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-6">
-              <label for="leaderInput">Vede</label>
-              <select name="leader" [ngModel]="event.leader" class="form-control" id="leaderInput">
-                <option value="">NIKDO</option>
-                <option *ngFor="let leader of leaders" [value]="leader._id">{{leader.name}}</option>
-              </select>
-            </div>
-            <div class="form-group col-6">
-              <label for="coleaderInput">Spoluvede</label>
-              <select name="coleader" [ngModel]="event.coleader" class="form-control" id="coleaderInput">
-                <option value="">NIKDO</option>
-                <option *ngFor="let leader of leaders" [value]="leader._id">{{leader.name}}</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="descriptionInput">Popis</label>
-            <textarea name="description" [ngModel]="event.descriptionInput" class="form-control" id="descriptionInput"></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Uložit</button>
-        </form>
+        <event-admin-info *ngSwitchCase="'info'" [event]="event" (save)="saveEvent($event)"></event-admin-info>
         
-        <div *ngSwitchCase="'ucastnici'">
-          <table class="table table-striped table-hover table-sm">
-            <thead class="thead-dark">
-              <tr>
-                <th>Přezdívka</th>
-                <th>Jméno</th>
-                <th>Oddíl</th>
-                <th>Věk</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let attendee of event.attendees">
-                <td>{{attendee.member.nickname}}</td>
-                <td>{{attendee.group}}</td>
-                <td>{{attendee.name?.first}} {{attendee.name?.last}}</td>
-                <td>{{getAttendeeAge(attendee)}}</td>
-                <td><a>upravit</a></td>
-              </tr>
-            </tbody>
-          </table>
-          
-          <button type="button" class="btn">+ přidat z databáze</button>
-          &nbsp;
-          <button type="button" class="btn">+ přidat ručně</button>
-          
-        </div>
-        
+        <event-admin-attendees *ngSwitchCase="'ucastnici'" [event]="event" (save)="saveEvent()"></event-admin-attendees>
+
         <div *ngSwitchCase="'smazat'">
           <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tuto akci</label>
           <br>

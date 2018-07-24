@@ -6,7 +6,6 @@ import { DataService } from "../../services/data.service";
 import { ToastService } from "../../services/toast.service";
 
 import { Event } from "../../schema/event";
-import { Member } from "../../schema/member";
 
 @Component({
   selector: 'event-admin',
@@ -19,8 +18,6 @@ export class EventAdminComponent implements OnInit {
   
   category:string;
   
-  leaders:Member[] = [];
-
   deleteConfirmation:boolean = false;
   
   paramsSubscription:Subscription;
@@ -38,18 +35,18 @@ export class EventAdminComponent implements OnInit {
     });
   }
   
-  loadEvent(eventId:string):void{
-    this.dataService.getEvent(eventId).then(event => this.event = event);
+  // DB interaction
+  async loadEvent(eventId:string){
+    this.event = await this.dataService.getEvent(eventId);
   }
   
-  async saveEvent(form){
-    await this.dataService.updateEvent(this.event._id,form.value);
+  async saveEvent(eventData:any){
     
-    this.event = await this.dataService.getEvent(this.event._id);
-
+    // if data provided update with data, otherwise send the current (possibly modified) state of event to the server
+    await this.dataService.updateEvent(this.event._id,eventData || this.event);
+    
+    // send a toast with OK message
     this.toastService.toast("Uloženo.");
-    
-    this.router.navigate(["../"],{relativeTo:this.route});
   }
   
   async deleteEvent(){
@@ -57,23 +54,6 @@ export class EventAdminComponent implements OnInit {
     await this.dataService.deleteEvent(this.event._id)
     this.toastService.toast("Akce " + name + " smazána.");
     this.router.navigate(["/interni/akce"]);
-  }
-  
-
-  
-  getAttendeeAge(attendee):number{
-    let date = this.event.dateFrom;
-    let bd = attendee.birthday;
-    
-    var age = date.getFullYear() - bd.getFullYear();
-    
-    if(date.getMonth() > bd.getMonth()) return age;
-    if(date.getMonth() === bd.getMonth() && date.getDate() >= bd.getDate()) return age;
-    return age - 1;
-  }
-  
-  isAttendeeBirthday(attendee):boolean{
-    return false; //TODO
   }
 
 }
