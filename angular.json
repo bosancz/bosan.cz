@@ -20,7 +20,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles/styles.scss"
             ],
             "scripts": []
           },
@@ -85,7 +85,7 @@
     "@schematics/angular:component": {
       "spec": false,
       "prefix": "",
-      "styleext": "css"
+      "styleext": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": ""

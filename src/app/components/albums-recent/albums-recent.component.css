@@ -2,4 +2,4 @@
 .event a{display:block;width:100%;background-position:center center;;background-size:cover;background-color:#eee;}
 .firstRow .event a{height:340px;}
 .secondRow .event a{height:230px;}
-h2{margin-bottom:0;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+h2{margin-bottom:10px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
