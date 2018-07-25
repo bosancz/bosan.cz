@@ -5,27 +5,27 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from "./admin.component";
 
 /* ADMIN MODULES */
-import { CampAdminComponent } from './camp-admin/camp-admin.component';
-import { CampsAdminComponent } from './camps-admin/camps-admin.component';
+import { CampsAdminComponent } from './views/camps-admin/camps-admin.component';
+import { CampAdminComponent } from './views/camps-admin/camp-admin/camp-admin.component';
 
-import { DataAdminComponent } from './data-admin/data-admin.component';
+import { DataAdminComponent } from './views/data-admin/data-admin.component';
 
-import { DocumentsViewComponent } from './documents-view/documents-view.component';
+import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
 
-import { EventAdminComponent } from './event-admin/event-admin.component';
-import { EventsAdminComponent } from './events-admin/events-admin.component';
+import { EventsAdminComponent } from './views/events-admin/events-admin.component';
+import { EventAdminComponent } from './views/events-admin/event-admin/event-admin.component';
 
-import { AlbumAdminComponent } from './album-admin/album-admin.component';
-import { GalleryAdminComponent } from './gallery-admin/gallery-admin.component';
+import { GalleryAdminComponent } from './views/gallery-admin/gallery-admin.component';
+import { AlbumAdminComponent } from './views/gallery-admin/album-admin/album-admin.component';
 
-import { MembersAdminComponent } from './members-admin/members-admin.component';
-import { MemberAdminComponent } from './member-admin/member-admin.component';
+import { MembersAdminComponent } from './views/members-admin/members-admin.component';
+import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
 
-import { GroupsAdminComponent } from './groups-admin/groups-admin.component';
+import { GroupsAdminComponent } from './views/groups-admin/groups-admin.component';
 
-import { UsersAdminComponent } from './users-admin/users-admin.component';
+import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 
-import { WebAdminComponent } from './web-admin/web-admin.component';
+import { WebAdminComponent } from './views/web-admin/web-admin.component';
 
 
 

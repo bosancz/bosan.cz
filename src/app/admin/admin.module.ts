@@ -7,32 +7,42 @@ import { AdminComponent } from './admin.component';
 
 import { AdminRoutingModule } from './admin-routing.module';
 
-import { CampAdminComponent } from './camp-admin/camp-admin.component';
-import { DataAdminComponent } from './data-admin/data-admin.component';
-import { EventsAdminComponent } from './events-admin/events-admin.component';
-import { GalleryAdminComponent } from './gallery-admin/gallery-admin.component';
-import { MembersAdminComponent } from './members-admin/members-admin.component';
-import { WebAdminComponent } from './web-admin/web-admin.component';
+/* VIEWS */
+import { CampsAdminComponent } from './views/camps-admin/camps-admin.component';
+import { CampAdminComponent } from './views/camps-admin/camp-admin/camp-admin.component';
+import { CampAdminBasicComponent } from './views/camps-admin/camp-admin/camp-admin-basic/camp-admin-basic.component';
 
-import { DocumentsViewComponent } from './documents-view/documents-view.component';
+import { EventsAdminComponent } from './views/events-admin/events-admin.component';
+import { EventAdminComponent } from './views/events-admin/event-admin/event-admin.component';
+import { EventAdminAttendeesComponent } from './views/events-admin/event-admin/event-admin-attendees/event-admin-attendees.component';
+import { EventAdminInfoComponent } from './views/events-admin/event-admin/event-admin-info/event-admin-info.component';
+import { EventAdminLeadersComponent } from './views/events-admin/event-admin/event-admin-leaders/event-admin-leaders.component';
 
-import { ConfigAboutComponent } from './web-admin/config-about/config-about.component';
-import { ConfigDocumentsComponent } from './web-admin/config-documents/config-documents.component';
+import { GalleryAdminComponent } from './views/gallery-admin/gallery-admin.component';
+import { AlbumAdminComponent } from './views/gallery-admin/album-admin/album-admin.component';
+import { AlbumAdminMetadataComponent } from './views/gallery-admin/album-admin/album-admin-metadata/album-admin-metadata.component';
+import { AlbumAdminUploadComponent } from './views/gallery-admin/album-admin/album-admin-upload/album-admin-upload.component';
+import { AlbumAdminPhotosComponent } from './views/gallery-admin/album-admin/album-admin-photos/album-admin-photos.component';
 
-import { ContactsEditorComponent } from './web-admin/contacts-editor/contacts-editor.component';
-import { GroupsAdminComponent } from './groups-admin/groups-admin.component';
-import { CampAdminBasicComponent } from './camp-admin/camp-admin-basic/camp-admin-basic.component';
-import { CampsAdminComponent } from './camps-admin/camps-admin.component';
-import { EventAdminComponent } from './event-admin/event-admin.component';
-import { UsersAdminComponent } from './users-admin/users-admin.component';
-import { AlbumAdminComponent } from './album-admin/album-admin.component';
-import { AlbumAdminMetadataComponent } from './album-admin/album-admin-metadata/album-admin-metadata.component';
-import { AlbumAdminUploadComponent } from './album-admin/album-admin-upload/album-admin-upload.component';
-import { AlbumAdminPhotosComponent } from './album-admin/album-admin-photos/album-admin-photos.component';
-import { EventAdminAttendeesComponent } from './event-admin/event-admin-attendees/event-admin-attendees.component';
-import { EventAdminInfoComponent } from './event-admin/event-admin-info/event-admin-info.component';
-import { MemberAdminComponent } from './member-admin/member-admin.component';
-import { MemberAdminInfoComponent } from './member-admin/member-admin-info/member-admin-info.component';
+import { MembersAdminComponent } from './views/members-admin/members-admin.component';
+import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
+import { MemberAdminInfoComponent } from './views/members-admin/member-admin/member-admin-info/member-admin-info.component';
+
+import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
+
+import { WebAdminComponent } from './views/web-admin/web-admin.component';
+
+import { DataAdminComponent } from './views/data-admin/data-admin.component';
+
+import { GroupsAdminComponent } from './views/groups-admin/groups-admin.component';
+
+import { UsersAdminComponent } from './views/users-admin/users-admin.component';
+
+
+/* COMMON COMPONENTS */
+
+import { ContactsEditorComponent } from './components/contacts-editor/contacts-editor.component';
+import { MembersSelectComponent } from './components/members-select/members-select.component';
 
 @NgModule({
   imports: [
@@ -44,35 +54,19 @@ import { MemberAdminInfoComponent } from './member-admin/member-admin-info/membe
   declarations: [
     AdminComponent,
     
-    /* VIEWS */ EventsAdminComponent, GalleryAdminComponent, MembersAdminComponent, WebAdminComponent, DataAdminComponent, DocumentsViewComponent, CampAdminComponent, GroupsAdminComponent,
-    
-    /* WEB CONFIG */ ConfigDocumentsComponent, ConfigAboutComponent,
-    
-    /* SHARED */ ContactsEditorComponent,
-    
-    CampAdminBasicComponent,
-    
-    CampsAdminComponent,
-    
-    EventAdminComponent,
-    
+    /* VIEWS */
+    EventsAdminComponent, EventAdminComponent, EventAdminAttendeesComponent, EventAdminInfoComponent, EventAdminLeadersComponent,
+    GalleryAdminComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
+    MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent,
+    WebAdminComponent,
+    DataAdminComponent,
+    DocumentsViewComponent,
+    CampsAdminComponent, CampAdminComponent, CampAdminBasicComponent,
+    GroupsAdminComponent,
     UsersAdminComponent,
     
-    AlbumAdminComponent,
-    
-    AlbumAdminMetadataComponent,
-    
-    AlbumAdminUploadComponent,
-    
-    AlbumAdminPhotosComponent,
-    
-    EventAdminAttendeesComponent,
-    
-    EventAdminInfoComponent,
-    
-    MemberAdminComponent,
-    
-    MemberAdminInfoComponent,
+    /* SHARED */
+    ContactsEditorComponent, MembersSelectComponent,
     
   ]
 })
