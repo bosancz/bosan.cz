@@ -13,8 +13,8 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 
 @Component({
   selector: 'app-root',
-  templateUrl: "app.template.html",
-  styleUrls: ["app.style.css"]
+  templateUrl: "app.component.html",
+  styleUrls: ["app.component.scss"]
 })
 export class AppComponent {
   

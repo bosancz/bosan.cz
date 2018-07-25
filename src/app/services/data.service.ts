@@ -112,6 +112,9 @@ export class DataService {
     return this.http.delete(this.root + "/events/" + eventId, {responseType:"text"}).toPromise();
   }
   
+  getEventLeaders(eventId:string):Promise<any[]>{
+    return this.http.get<any[]>(this.root + "/events/" + eventId + "/leaders").toPromise();
+  }
   
   /* GROUPS */
 	getGroups(options?:any):Promise<any>{

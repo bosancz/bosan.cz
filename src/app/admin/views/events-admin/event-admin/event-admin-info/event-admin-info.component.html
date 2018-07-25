@@ -1,0 +1,58 @@
+<form class="form" #eventForm="ngForm" (ngSubmit)="saveEvent(eventForm)">
+
+  <div class="form-group">
+    <label for="campNameInput">Název akce</label>
+    <input type="text" name="name" [ngModel]="event.name" class="form-control" id="campNameInput" placeholder="Neočekávaný dýchánek" required>    
+  </div>
+
+  <div class="form-group">
+    <label for="campPlaceInput">Místo konání</label>
+    <input type="text" name="place" [ngModel]="event.place" class="form-control" id="campPlaceInput" placeholder="Dno pytle">    
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-6">
+      <label for="statusInput">Stav</label>
+      <select name="status" [ngModel]="event.status" class="form-control" id="statusInput" required>    
+        <option value="public">veřejná</option>
+        <option value="draft">v přípravě</option>
+      </select>
+    </div>
+    <div class="form-group col-6">
+      <label for="typeInput">Typ akce</label>
+      <select name="type" [ngModel]="event.type" class="form-control" id="typeInput" required>
+        <option>voda</option>
+        <option>cyklo</option>
+        <option>lyze</option>
+        <option>brigada</option>
+        <option>tabor</option>
+        <option>putak</option>
+        <option>pesarna</option>
+        <option>bazen</option>
+        <option>po_praze</option>
+        <option>schuzka</option>
+        <option>exkurze</option>
+        <option>opravy</option>
+        <option>rukodelani</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-6">
+      <label for="dateFromInput">Od</label>
+      <input type="datetime-local" name="dateFrom" [ngModel]="event.dateFrom | date: 'yyyy-MM-ddTHH:mm'" class="form-control" id="dateFromInput" required>
+    </div>
+    <div class="form-group col-6">
+      <label for="dateTillInput">Do</label>
+      <input type="datetime-local" name="dateTill" [ngModel]="event.dateTill | date: 'yyyy-MM-ddTHH:mm'" class="form-control" id="dateTillInput" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="descriptionInput">Popis</label>
+    <textarea name="description" [ngModel]="event.description" class="form-control" id="descriptionInput"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Uložit</button>
+</form>

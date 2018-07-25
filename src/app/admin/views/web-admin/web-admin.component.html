@@ -1,0 +1,53 @@
+<section>
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-3">
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" routerLink="../o-nas" routerLinkActive="active">O nás</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../dokumenty" routerLinkActive="active">Dokumenty</a></li>
+        </ul>
+
+      </div>
+
+      <div class="col-9">
+        <div class="form" [ngSwitch]="cat">
+          
+          <div *ngSwitchCase="'about'">
+            <h2>Kontakty</h2>
+            <p class="subheading">Kontaktní osoby uvedené na úvodní straně v sekci Vedení skupiny</p>
+
+            <contacts-editor [contacts]="config.about?.contacts"></contacts-editor>
+          </div>
+          
+          <div *ngSwitchCase="'documents'">
+            <h2>Dokumenty</h2>
+
+            <div class="form-group">
+              <label for="docmentsUrlInput">Adresa Google Dokumentů</label>
+              <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.documents.url">
+              <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    
+    <div class="submit row">
+      <div class="col-8"></div>
+      <div class="col-4 text-right">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="resetConfig()">Zrušit</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="saveConfig()">Uložit</button>
+      </div>
+    </div>
+
+    <input type="checkbox" id="check_viewjson" [(ngModel)]="viewJson"> <label for="check_viewjson">Zobrazit JSON</label>
+
+    <div *ngIf="viewJson" class="json bg-light">
+      <textarea [ngModel]="config | json" (ngModelChange)="editJson($event)"></textarea>
+      <p>{{jsonError ? "chyba" : "kód OK"}}</p>
+    </div>
+  </div>
+</section>

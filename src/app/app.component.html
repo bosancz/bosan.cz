@@ -1,0 +1,116 @@
+<div id="toasts">
+  <ul class="text-center" (click)="toastService.clearToasts()">
+    <li *ngFor="let toast of toastService.toasts" [class]="toast.status">
+      <i *ngIf="toast.status=='check'" class="fa fa-2x fa-check"></i>
+      <i *ngIf="toast.status=='error'" class="fa fa-2x fa-exclamation-triangle"></i>
+      <i *ngIf="toast.status=='notice'" class="fa fa-2x fa-info-circle"></i>
+      <p>{{toast.text}}</p>
+    </li>
+  </ul>
+</div>
+
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="menuService.transparent">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">Bosan.cz</a>
+    <button class="navbar-toggler navbar-toggler-right" (click)="isMenuCollapsed = !isMenuCollapsed" type="button">
+      Menu
+      <i class="fa fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" [collapse]="isMenuCollapsed" id="navbarResponsive">
+      <ul class="navbar-nav text-uppercase ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/o-nas" routerLinkActive="active">O nás</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/program" routerLinkActive="active">Program</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/tabor" routerLinkActive="active">Tábor</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
+        </li>
+
+        <ng-container *ngIf="!authService.logged">
+          <li class="nav-item">
+            <a class="nav-link" (click)="openLogin()" title="Přihlásit se do interní sekce"><i class="fa fa-lock"></i></a>
+          </li>
+        </ng-container>
+        
+        <ng-container *ngIf="authService.logged">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/interni" routerLinkActive="active"><i class="fa fa-lock"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/interni/ucet" routerLinkActive="active" [title]="'Přihlášen: ' + authService.user._id"><i class="fas fa-user"></i></a>
+          </li>
+          <li class="nav-item">
+            <a *ngIf="authService.logged" class="nav-link" (click)="logout()" title="Odhlásit se"><i class="fas fa-sign-out-alt"></i></a>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div id="page">
+  <router-outlet></router-outlet>
+</div>
+<!-- Footer -->
+<footer>
+  <div class="container">
+    
+    <div class="row links">
+      
+      <div class="col-md-3 hidden-sm-down">
+        <img src="/assets/img/san_logo_barva.png" class="logo">
+      </div>
+      
+      <div class="col-md-3 col-6">
+        <h2 class="text-uppercase footer-title">Činnost</h2>
+        <p class="footer-bold">
+          <a routerLink="/program">Program</a>
+          <a routerLink="/fotogalerie">Fotogalerie</a>
+          <a routerLink="/tabor">Tábor</a>
+          <a>Bazén (Suchdol)</a>
+          <a>Kanál (Troja)</a>
+        </p>
+      </div>
+      
+      <div class="col-md-3 col-6">
+        <h2 class="text-uppercase footer-title">Kontakty</h2>
+        <p class="footer-bold">
+          <a routerLink="/kontakty" fragment="vedeni">Vedení skupiny</a>
+          <a routerLink="/kontakty" fragment="pondeli">Schůzky v pondělí</a>
+          <a routerLink="/kontakty" fragment="streda">Schůzky ve středu</a>
+        </p>
+      </div>
+      
+      <div class="col-md-3 col-6">
+        <h2 class="text-uppercase footer-title">Naši sponzoři</h2>
+        <p class="footer-bold">
+          <a href="https://www.eurosignal.cz/" target="_blank">Eurosignal</a>
+          <a href="https://www.boatpark.cz" target="_blank">Boatpark</a>
+          <a href="https://www.praha.eu" target="_blank">Hlavní město Praha</a>
+          <a href="http://www.praha4.cz/" target="_blank">MČ Praha 4</a>
+        </p>
+      </div>
+      
+    </div>
+    
+    <div class="text-center icons">
+      <a href="https://www.facebook.com/bosan.cz/" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.youtube.com/channel/UCXYrg3UCZtu4_wlYR2Cj_5A" target="_blank"><i class="fab fa-youtube"></i></a>
+    </div>
+    
+  </div>
+</footer>

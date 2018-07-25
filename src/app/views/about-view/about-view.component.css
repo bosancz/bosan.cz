@@ -1,11 +1,14 @@
 
-header{background-image: url("/assets/img/headers/kayak.jpg");}
+header{background-image: url("/assets/img/headers/kayaks.jpg");}
   
-a.btn{display:inline-block;max-width:100%;height:60px;line-height:46px;font-weight:bold;}
+a.btn{display:inline-block;max-width:100%;line-height:46px;font-weight:bold;}
+.contacts {
+  padding-bottom:20px;
+}
 
-#weOffer .card { padding-bottom: 30px;border:none;}
+#weOffer .card { padding-bottom: 0px;border:none;}
 #weOffer .card img{width:100%;}
-#weOffer .btn{width:230px;}
+/* #weOffer .btn{width:230px;} */
 
 /* == MAPA == */
 #map { padding-bottom: 0; }
