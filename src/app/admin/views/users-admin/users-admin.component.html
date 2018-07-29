@@ -1,3 +1,58 @@
-<div class="container">
-  <bread-crumbs [breadcrumbs]="breadcrumbs"></bread-crumbs>
-</div>
+<section>
+  <div class="container">
+    <table class="table table-striped table-hover table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th>Login</th>
+          <th>E-mail</th>
+          <th>Člen</th>
+          <th>Role</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users" (click)="openUser(user)">
+          <td>{{user._id}}</td>
+          <td>{{user.email || "-"}}</td>
+          <td>
+            <ng-container *ngIf="user.member">{{user.member.nickname}} ({{user.member.name?.first}} {{user.member.name?.last}})</ng-container>
+            <ng-container *ngIf="!user.member">-</ng-container>
+          </td>
+          <td>{{user.roles.join(", ")}}</td>
+          <td class="text-right"><a [routerLink]="getUserLink(user)">otevřít</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <button type="button" class="btn btn-primary" (click)="openCreateUserModal(createUserModal)">Nový uživatel</button>
+
+  </div>
+</section>
+
+<ng-template #createUserModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Vytvořit nového uživatele</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="createUserModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #createUserForm="ngForm" (ngSubmit)="createUser(createUserForm)">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="createUserInput-login">Login</label>
+        <input type="text" name="_id" ngModel class="form-control" id="createUserInput-login" required>
+      </div>
+      <div class="form-group">
+        <label for="createUserInput-password">Heslo</label>
+        <input type="password" name="password" ngModel class="form-control" id="createUserInput-password" required>
+      </div>
+      <div class="form-group">
+        <label for="createUserInput-email">E-mail</label>
+        <input type="email" name="email" ngModel class="form-control" id="createUserInput-email">
+      </div>
+    </div>
+    <div class="modal-footer text-right">
+      <button class="btn btn-primary" type="submit" [disabled]="!createUserForm.valid">Vytvořit</button>
+    </div>
+  </form>
+</ng-template>

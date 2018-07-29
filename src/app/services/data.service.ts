@@ -8,6 +8,7 @@ import { Album, AlbumPhoto } from "../schema/album";
 import { Camp } from "../schema/camp";
 import { Contact } from "../schema/contact";
 import { Event } from "../schema/event";
+import { User } from "../schema/user";
 import { WebConfig } from "../schema/webconfig";
 
 function toParams(options){
@@ -136,5 +137,14 @@ export class DataService {
   
   deleteMember(memberId:string):Promise<string>{
     return this.http.delete(this.root + "/members/" + memberId, {responseType:"text"}).toPromise();
+  }
+  
+  /* USERS */
+  getUsers(options?:any):Promise<User[]>{
+    return this.http.get<User[]>(this.root + "/users" + toParams(options)).toPromise();
+  }
+  
+  createUser(userId:string,userData:any):Promise<User>{
+    return this.http.put<User>(this.root + "/users/" + userId, userData).toPromise();
   }
 }
