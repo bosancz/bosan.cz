@@ -4,7 +4,9 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { DataService } from "../../../../../services/data.service";
+
 import { Event } from "../../../../../schema/event";
+import { Member } from "../../../../../schema/member";
 
 @Component({
   selector: 'event-admin-leaders',
@@ -23,6 +25,8 @@ export class EventAdminLeadersComponent implements OnChanges {
   
   leaders:any[];
   
+  membersSelectOptions:any = { role: "vedoucí"};
+  
   constructor(private dataService:DataService, private modalService: BsModalService) {
   }
   
@@ -37,17 +41,35 @@ export class EventAdminLeadersComponent implements OnChanges {
     this.leaders = await this.dataService.getEventLeaders(this.event._id);
   }
   
-  saveEvent(){
+  saveLeaders(){
     
     var eventData = {
-      leaders: this.leaders.map(item => ({ member: item.member._id, roles: item.roles}))
+      leaders: this.leaders
     };
     
     this.save.emit(eventData);
   }
   
+  addLeader(member:Member,roles?:string[]){
+    if(this.leaders.some(leader => leader._id === member._id)) return;
+    this.leaders.push(member);
+  }
+  
+  removeLeader(member:Member){
+    this.leaders = this.leaders.filter(leader => leader._id !== member._id);
+  }
+  
+  moveLeader(from,to):void{
+    if(to >= this.leaders.length || to < 0) return;
+    this.leaders.splice(to,0,this.leaders.splice(from,1)[0]);
+  }
+  
   openMembers(membersModalTemplate:TemplateRef<any>){
-    this.membersModalRef = this.modalService.show(membersModalTemplate);
+    this.membersModalRef = this.modalService.show(membersModalTemplate, { class: 'modal-lg' });
+  }
+  
+  getMemberIds(leaders:any[]){
+    return leaders.map(item => item._id);
   }
 
 }

@@ -10,10 +10,7 @@ export class Event {
   description:string;
   
   attendees:any[];
-  leader:[{
-    member:string,
-    roles:string[]
-  }];
+  leaders:any[];
   
   //optional
   groups?:string[];

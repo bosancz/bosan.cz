@@ -25,9 +25,8 @@ export class EventsAdminComponent implements OnInit {
     this.loadEvents();
   }
 
-  loadEvents(){
-    this.dataService.getEvents()
-      .then(events => this.events = events);    
+  async loadEvents(){
+    this.events = await this.dataService.getEvents({leaders:1});
   }
   
   getEventLink(event:Event):string{
@@ -45,6 +44,10 @@ export class EventsAdminComponent implements OnInit {
         this.toastService.toast("Akce vytvořena a uložena.");
         this.router.navigate(["./" + event._id], {relativeTo: this.route})
       })
+  }
+  
+  getLeadersString(event:Event){
+    return event.leaders.map(item => item.nickname).join(", ");
   }
 
 }
