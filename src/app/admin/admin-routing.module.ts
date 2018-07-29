@@ -63,7 +63,7 @@ const routes: Routes = [
 
       {path: 'uzivatele', component: UsersAdminComponent},      
 
-      {path: '', redirectTo: "program", pathMatch: "full"},
+      {path: '', redirectTo: "akce", pathMatch: "full"},
     ]
   }
 
