@@ -10,6 +10,9 @@ export class GroupPipe implements PipeTransform {
   groupIndex:any;
   
   constructor(dataService:DataService){
+    
+    console.log("constructor");
+    
     dataService.getGroups({fields:"_id,name,color"})
       .then(groups => {
         this.groupIndex = {};

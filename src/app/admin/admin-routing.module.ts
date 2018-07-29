@@ -45,7 +45,7 @@ const routes: Routes = [
       {path: 'dokumenty', component: DocumentsViewComponent},
 
       {path: 'akce/:event/:cat', component: EventAdminComponent},
-      {path: 'akce/:camp', redirectTo: "akce/:camp/info", pathMatch: "full"},
+      {path: 'akce/:event', redirectTo: "akce/:event/info", pathMatch: "full"},
       {path: 'akce', component: EventsAdminComponent},
 
       {path: 'fotogalerie/:album/:cat', component: AlbumAdminComponent},
@@ -63,7 +63,7 @@ const routes: Routes = [
 
       {path: 'uzivatele', component: UsersAdminComponent},      
 
-      {path: '', redirectTo: "akce", pathMatch: "full"},
+      {path: '', redirectTo: "program", pathMatch: "full"},
     ]
   }
 
