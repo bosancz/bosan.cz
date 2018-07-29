@@ -24,10 +24,19 @@ export class AppComponent {
   
   loginModal: BsModalRef;
   
+  toasts:Toast[] = [];
+  
   constructor(public authService:AuthService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute){
   }
   
   ngOnInit(){
+    this.toastService.toasts.subscribe((toast:Toast) => {
+      this.toasts.push(toast);
+    });
+  }
+  
+  clearToasts(){
+    this.toasts = [];
   }
   
   openLogin() {
