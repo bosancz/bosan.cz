@@ -44,6 +44,6 @@
     <p>Vybraní vedoucí: <ng-container *ngFor="let leader of leaders;let f = first"><ng-container *ngIf="!f">, </ng-container>{{leader.nickname}}</ng-container></p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="membersModalRef.hide()">Zavřít</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveLeaders();membersModalRef.hide()">Vyber</button>
   </div>
 </ng-template>

@@ -29,7 +29,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   view:string;
   
-  viewsOptions:any = {
+  views:any = {
     "future": {from: (new Date()).toISOString()},
     "past": {till: (new Date()).toISOString()},
     "my": { leader: null },
@@ -43,14 +43,14 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService: BsModalService) {
     
-    this.viewsOptions.my.leader = authService.user.member;
+    this.views.my.leader = authService.user.member;
   }
 
   ngOnInit() {
     
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       
-      if(!params.view || !this.viewsOptions[params.view]) return this.router.navigate(["./", {view: "future"}], {relativeTo: this.route, replaceUrl: true});
+      if(!params.view || !this.views[params.view]) return this.router.navigate(["./", {view: "future"}], {relativeTo: this.route, replaceUrl: true});
       
       this.view = params.view;
       
@@ -65,7 +65,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
 
   async loadEvents(view:string){
     
-    let options = Object.assign({},{drafts: 1, leaders:1, sort: "dateFrom"},this.viewsOptions[view]);
+    let options = Object.assign({drafts: 1, leaders:1, sort: "dateFrom"},this.views[view] || {});
     
     this.events = await this.dataService.getEvents(options);
   }
