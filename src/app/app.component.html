@@ -1,6 +1,6 @@
 <div id="toasts">
-  <ul class="text-center" (click)="toastService.clearToasts()">
-    <li *ngFor="let toast of toastService.toasts" [class]="toast.status">
+  <ul class="text-center" (click)="clearToasts()">
+    <li *ngFor="let toast of toasts" [class]="toast.status">
       <i *ngIf="toast.status=='check'" class="fa fa-2x fa-check"></i>
       <i *ngIf="toast.status=='error'" class="fa fa-2x fa-exclamation-triangle"></i>
       <i *ngIf="toast.status=='notice'" class="fa fa-2x fa-info-circle"></i>

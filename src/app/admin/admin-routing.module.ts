@@ -24,6 +24,7 @@ import { MemberAdminComponent } from './views/members-admin/member-admin/member-
 import { GroupsAdminComponent } from './views/groups-admin/groups-admin.component';
 
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
+import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
 
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
 
@@ -61,9 +62,11 @@ const routes: Routes = [
       {path: 'tabory/:camp', redirectTo: "tabory/:camp/info", pathMatch: "full"},
       {path: 'tabory', component: CampsAdminComponent},
 
+      {path: 'uzivatele/:user/:cat', component: UserAdminComponent},      
+      {path: 'uzivatele/:user', redirectTo: "uzivatele/:user/info", pathMatch: "full"}, 
       {path: 'uzivatele', component: UsersAdminComponent},      
 
-      {path: '', redirectTo: "program", pathMatch: "full"},
+      {path: '', redirectTo: "akce", pathMatch: "full"},
     ]
   }
 

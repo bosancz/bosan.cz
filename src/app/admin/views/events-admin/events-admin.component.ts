@@ -24,7 +24,10 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     "public": "veřejná",
     "draft": "v přípravě"
   }
+  
   events:Event[] = [];
+  
+  view:string;
   
   viewsOptions:any = {
     "future": {dateTill: {$gte: new Date()}},
@@ -47,6 +50,8 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       
       if(!params.view || !this.viewsOptions[params.view]) return this.router.navigate(["./", {view: "future"}], {relativeTo: this.route});
+      
+      this.view = params.view;
       
       this.loadEvents(params.view);
     });

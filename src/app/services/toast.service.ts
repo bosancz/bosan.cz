@@ -17,7 +17,7 @@ export class ToastService {
 	/**
 		* array of toasts
 		*/
-	toasts:Toast[] = [];
+	toasts:Subject<Toast> = new Subject();
 
   constructor(){
     
@@ -30,15 +30,8 @@ export class ToastService {
 		
 		if(!status) status = "notice";
 
-		this.toasts.push({text:text, status: status ? status : "notice"});
-		
-    setTimeout(() => this.toasts.shift(), 2000);
+		this.toasts.next({text:text, status: status ? status : "notice"});
+
 	}
-  
-  clearToasts(){
-    this.toasts = [];
-  }
-
-
 
 }

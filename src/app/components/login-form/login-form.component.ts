@@ -13,6 +13,8 @@ import { ToastService } from "../../services/toast.service";
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent implements OnInit {
+  
+  invalidCredentials:boolean = false;
 
   constructor(public loginModal: BsModalRef, private authService:AuthService, private router:Router, private toastService:ToastService) { }
 
@@ -21,6 +23,8 @@ export class LoginFormComponent implements OnInit {
   
   login(loginForm:NgForm){
     
+    this.invalidCredentials = false;
+    
     var loginData = loginForm.value;
     
     this.authService.login(loginData)
@@ -28,7 +32,10 @@ export class LoginFormComponent implements OnInit {
         this.loginModal.hide();
         this.router.navigate(["/interni"]);
       })
-      .catch(err => this.toastService.toast("Chybn0 přihlašovací jméno nebo heslo."));
+      .catch(err => {
+        if(err.status === 401) this.invalidCredentials = true;
+        else throw err;
+      });
   }
   
 
