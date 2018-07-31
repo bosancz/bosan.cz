@@ -3,6 +3,8 @@ var guest = module.exports = {
     "events:list": true,
     "events:read": true,
     
+    "camps:list": true,
+    
     "login": true
   }
 };

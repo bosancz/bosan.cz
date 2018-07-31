@@ -7,41 +7,64 @@ var Event = require("../models/event");
 
 router.get("/", acl("events:list"), async (req,res,next) => {
   
-  var query = {};
+  var events = Event.find();
   
-  if(!await acl.can("events:list-drafts",req)) query.status = "public";
+  if(req.query.leaders) events.populate("leaders","_id name nickname group");
+  if(req.query.leader) events.where({"leaders":req.query.leader});
+  if(req.query.noleader) events.where({ $or: [{"leaders":{$size:0}},{"leaders": {$exists:false}}]});
+  if(req.query.from) events.where({dateTill: {$gte: new Date(req.query.from)}});
+  if(req.query.till) events.where({dateFrom: {$lte: new Date(req.query.till)}});
+  if(req.query.sort) events.sort(req.query.sort);
   
-  Event.find(query).res(res,next);
+  if(!(req.query.drafts && await acl.can("events:list-drafts",req))) events.where({status: "public"});
+  
+  res.json(await events);
 });
 
-router.post("/", (req,res,next) => {
-  Event.create(req.body)
-    .then(event => res.json(event))
-    .catch(err => next(err));
+router.post("/", acl("events:create"), async (req,res,next) => {
+  var event = await Event.create(req.body);
+  res.status(201).json(event);
 });            
             
-router.get("/upcoming", (req,res,next) => {
+router.get("/upcoming", async (req,res,next) => {
   
-  Event
+  var events = Event
     .find({dateTill : {$gt: new Date()}})
     .select("_id name dateFrom dateTill description groups") 
     .where("status","public")
-    .limit(5)
-    .res(res,next)
+    .limit(5);
+  
+  res.json(await events);
 });
 
 /* SIGNLE EVENT */
-router.get("/:event", acl("events:read"), (req,res,next) => Event.findOne({_id:req.params.event}).req(req).res(res,next));
 
-router.put("/:event", (req,res,next) => {
-  Event.findOneAndUpdate({_id:req.params.event},req.body,{new:true})
-    .then(event => res.json(event))
-    .catch(err => next(err));
+// read the event document
+router.get("/:event", acl("events:read"), async (req,res,next) => res.json(await Event.findOne({_id:req.params.event})));
+
+// change part of the events
+router.patch("/:event",  acl("events:update"), async (req,res,next) => {
+  // update event in the database with new data
+  await Event.findOneAndUpdate({_id:req.params.event},req.body);
+  // return OK, no data
+  res.sendStatus(204);
 });
 
-router.delete("/:event", (req,res,next) => {
-  Event.remove({_id:req.params.event})
-    .then(() => res.sendStatus(200));
+
+router.delete("/:event", acl("events:delete"), async (req,res,next) => {
+  // remove the event from database
+  await Event.remove({_id:req.params.event})
+  // return OK, no data
+  res.sendStatus(204);
+});
+
+router.get("/:event/leaders", acl("events:readers:list"), async (req,res,next) => {
+  
+  // get event with populated leaders' members
+  var event = await Event.findOne({_id:req.params.event}).select("leaders").populate("leaders","_id nickname name group");
+
+  // return just the leaders
+  res.json(event.leaders || []);
 });
 
 

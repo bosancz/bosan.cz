@@ -1,36 +1,70 @@
 var express = require("express");
 var router = module.exports = express.Router();
 
+var fs = require("fs");
+var path = require("path");
+var rimraf = require("rimraf");
+
+var mongoose = require("mongoose");
+
+var acl = require("express-dynacl");
+
+var config = require("../../config");
+
 var Album = require("../models/album");
+var Photo = require("../models/photo");
 
 // LIST ALBUMS
-router.get("/", (req,res,next) => {
-  
+router.get("/", async (req,res,next) => {
+
   var query = Album.find({});
-  
+
   if(req.query.year) query.where("year",Number(req.query.year));
   if(req.query.events) query.populate("event","_id name dateFrom dateTill");
   if(req.query.sort) query.sort(req.query.sort);
   
+  if(req.query.titlePhoto) query.populate("titlePhoto");
+
   query.limit(req.query.limit ? Math.min(req.query.limit,100) : 100);
-  
-  query
-    .then(albums => res.json(albums))
-    .catch(err => next(err));
+
+  res.json(await query);
 });
 
 // CREATE NEW ALBUM */
-router.post("/", (req,res,next) => Album.create(req.body).res(res,next));
+router.post("/", async (req,res,next) => {
+  var album = await Album.create(req.body);
+
+  // create folders for photos (fs dont do promises)
+  await Promise.all([
+    new Promise((resolve,reject) => fs.mkdir(path.join(config.photos.storageDir,album._id),err => err ? reject(err) : resolve())),
+    new Promise((resolve,reject) => fs.mkdir(path.join(config.photos.thumbsDir,album._id),err => err ? reject(err) : resolve()))
+  ]);
+
+  res.status(201).json(album);
+});
 
 // GET THE DISTINCT YEARS OF ALBUMS
-router.get("/years", (req,res,next) => Album.distinct("year").res(res,next));
+router.get("/years", async (req,res,next) => res.json(await Album.distinct("year")));
 
 // GET ALBUM BY ID
-router.get("/:album", (req,res,next) => Album.findOne({_id: req.params.album}).resJSON(res,next));
+router.get("/:album", async (req,res,next) => {
+  
+  var query = Album.findOne({_id: req.params.album})
+  
+  if(req.query.photos) query.populate("photos");
+  if(req.query.titlePhoto) query.populate("titlePhoto");
+  
+  res.json(await query)
+});
 
 // UPDATE ALBUM AT ID
-router.put("/:album",(req,res,next) => Album.findOneAndUpdate({_id: req.params.album}).resStatus(res,next));
+router.patch("/:album",acl("albums:edit"), async (req,res,next) => {
+  await Album.findOneAndUpdate({_id: req.params.album},req.body);
+  res.sendStatus(204);
+});
 
-router.post("/:album/photos",(req,res,next) => {
-  
+/// DELETE ALBUM BY ID
+router.delete("/:album", async (req,res,next) => {
+  await Album.deleteOne({_id: req.params.album});
+  res.sendStatus(204);
 });

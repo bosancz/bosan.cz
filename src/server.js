@@ -7,15 +7,14 @@ require('express-async-errors');
 var config = require("../config/config");
 
 var bodyParser = require("body-parser");
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support urlencoded bodies
+app.use(bodyParser.json({ limit:'10mb' })); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true,  limit:'10mb' })); // support urlencoded bodies
 
 var jwt = require('express-jwt');
 app.use(jwt(config.jwt));
 
 var mongoose = require('mongoose');
 mongoose.plugin(require('mongoose-paginate'));
-mongoose.plugin(require('../lib/mongoose-req-plugin'));
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://' + config.database.host + '/' + config.database.db)
   .then(() => console.log("Connected to database " + config.database.db))
@@ -27,7 +26,8 @@ var dynaclOptions = {
   roles: require("./acl"),
   userRoles: req => req.user ? req.user.roles.concat(["user"]) : [],
   defaultRole: "guest",
-  logConsole: true
+  logConsole: true,
+  logString: (action,permission,role,req) => "DynACL " + (permission ? "OK" : "XX") + " ( action: " + action + (role ? ", role: " + role : "") + " ) Source: " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress),
 };
 
 var dynacl = require("express-dynacl");

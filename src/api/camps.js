@@ -1,17 +1,18 @@
 var express = require("express");
 var router = module.exports = express.Router();
 
+var acl = require("express-dynacl");
+
 var Camp = require("../models/camp");
 
-router.get("/", (req,res,next) => Camp.find().select("name dateFrom dateTill theme").res(res,next) );
+router.get("/", acl("camps:list"), async (req,res) => res.json(await Camp.find().select("name dateFrom dateTill theme")) );
 
-router.get("/:camp", (req,res,next) => Camp.findOne({_id:req.params.camp}).res(res,next) );
+router.get("/:camp", acl("camps:read"), async (req,res) => res.json(await Camp.findOne({_id:req.params.camp})) );
 
-router.put("/:camp", (req,res,next) => {
+router.patch("/:camp", acl("camps:update"), async (req,res) => {
   
-  console.log(req.body);
-  Camp
-    .findOneAndUpdate({_id:req.params.camp},req.body,{new:true})
-    .select("name dateFrom dateTill theme")
-    .res(res,next);
+  await Camp.findOneAndUpdate({_id:req.params.camp},req.body)
+  
+  res.sendStatus(204);
+  
 });

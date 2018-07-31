@@ -57,7 +57,7 @@ module.exports = {
     adminPassword: process.env.ME_CONFIG_MONGODB_ADMINPASSWORD || '',
 
     //whitelist: hide all databases except the ones in this list  (empty list for no whitelist)
-    whitelist: [],//config.mongoExpress.databases,
+    whitelist: config.mongoExpress.databases || [],
 
     //blacklist: hide databases listed in the blacklist (empty list for no blacklist)
     blacklist: [],

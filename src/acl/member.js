@@ -1,6 +1,13 @@
 var guest = module.exports = {
   can: {
-    "event:list-drafts": true
+    
+    /* EVENTS */
+    "events:list-drafts": true,
+    "events:update": true,
+    
+    /* CAMPS */
+    "camps:update": true
+    
   },
   inherits: ["guest"]
 };

@@ -1,17 +1,18 @@
 var mongoose = require("mongoose");
 
-require("./event");
+require("./photo");
 
 var albumSchema = mongoose.Schema({
-  "name": String,
+  "_id": String,
   "year": Number,
-  "event": {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
-  "photos": [{
-    "file": String,
-    "caption": String,
-    "width": Number,
-    "height": Number
-  }]
+  
+  "name": String,
+  "description": String,
+  
+  "published": Date,
+  
+  "titlePhoto": {type: mongoose.Schema.Types.ObjectId, ref: "Photo"},
+  "photos": [{type: mongoose.Schema.Types.ObjectId, ref: "Photo"}]
 });
 
 module.exports = mongoose.model("Album", albumSchema);

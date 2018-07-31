@@ -14,6 +14,7 @@ function createToken(user,validity){
   // set the token contents
   var tokenData = {
     _id: user._id	,
+    member: user.member,
     roles: user.roles || []
   };
 
