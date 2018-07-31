@@ -1,7 +1,11 @@
 <section *ngIf="member">
   <div class="container">
 
-    <h2>{{member.nickname}}</h2>
+    <h2>
+      <a routerLink="/interni/clenove" class="back"><i class="fas fa-arrow-left"></i></a>
+      <ng-container *ngIf="member.nickname">{{member.nickname}} ({{member.name?.first}} {{member.name?.last}})</ng-container>
+      <ng-container *ngIf="!member.nickname">{{member.name?.first}} {{member.name?.last}}</ng-container>
+    </h2>
 
     <div class="row">
 
@@ -16,7 +20,7 @@
 
       <div class="col-9" [ngSwitch]="category">
 
-        <member-admin-info *ngSwitchCase="'osobni'" [member]="member"></member-admin-info>
+        <member-admin-info *ngSwitchCase="'osobni'" [member]="member" (save)="saveMember($event)"></member-admin-info>
         
         <div *ngSwitchCase="'smazat'">
           <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tohoto člena</label>

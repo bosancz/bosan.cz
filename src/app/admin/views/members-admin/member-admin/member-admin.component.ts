@@ -40,9 +40,9 @@ export class MemberAdminComponent implements OnInit {
     this.member = await this.dataService.getMember(memberId);
   }
   
-  async saveMember(){
-    // send the current state of member to the server
-    await this.dataService.updateMember(this.member._id,this.member);
+  async saveMember(member:any){
+    // send the list of changes or current state of member to the server
+    await this.dataService.updateMember(this.member._id,member || this.member);
     
     // send a toast with OK message
     this.toastService.toast("Uloženo.");
@@ -52,9 +52,7 @@ export class MemberAdminComponent implements OnInit {
     var name = this.member.name;
     await this.dataService.deleteMember(this.member._id)
     this.toastService.toast("Člen " + name + " smazán.");
-    this.router.navigate(["/interni/akce"]);
+    this.router.navigate(["/interni/clenove"]);
   }
   
-  viewC(a:any){console.log({test:a});}
-
 }

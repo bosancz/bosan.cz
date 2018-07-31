@@ -1,3 +1,94 @@
-<p>
-  member-admin-info works!
-</p>
+<form #memberInfoForm="ngForm" (ngSubmit)="saveMember(memberInfoForm)">
+
+  <h3>Základní informace</h3>
+  
+  <div class="row">
+    <div class="form-group col-4">
+      <label>Přezdívka</label>
+      <input type="text" name="nickname" [ngModel]="member.nickname" class="form-control" placeholder="Nositel Prstenu">
+    </div>
+    <ng-container ngModelGroup="name">
+      <div class="form-group col-4">
+        <label>Jméno</label>
+        <input type="text" name="first" [ngModel]="member.name?.first" class="form-control" required placeholder="Bilbo">
+      </div>
+      <div class="form-group col-4">
+        <label>Příjmení</label>
+        <input type="text" name="last" [ngModel]="member.name?.last" class="form-control" required placeholder="Pytlík">
+      </div>
+    </ng-container>
+  </div>
+  
+  <div class="row">
+    <div class="form-group col-6">
+      <label>Oddíl</label>
+      <select name="group" [ngModel]="member.group" class="form-control" required>
+        <option *ngFor="let group of groups" [value]="group._id">{{group.name}}</option>
+      </select>
+    </div>
+    <div class="form-group col-6">
+      <label>Role</label>
+      <select name="role" [ngModel]="member.role" class="form-control" required>
+        <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+      </select>
+    </div>
+  </div>
+
+  <h3>Adresa</h3>
+  <div class="form-group" ngModelGroup="address">
+
+    <div class="row">
+      <div class="form-group col-8">
+        <label>Ulice</label>
+        <input type="text" name="street" [ngModel]="member.address?.street" class="form-control" placeholder="Pytlová ulice (Dno pytle)">
+      </div>
+      <div class="form-group col-4">
+        <label>Číslo</label>
+        <input type="text" name="streetNo" [ngModel]="member.address?.streetNo" class="form-control" placeholder="123/1a">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-2">
+        <label>PSČ</label>
+        <input type="text" name="postalCode" [ngModel]="member.address?.postalCode" class="form-control" pattern="\d{3} ?\d{2}" placeholder="123 45">
+      </div>
+      <div class="form-group col-6">
+        <label>Město</label>
+        <input type="text" name="city" [ngModel]="member.address?.city" class="form-control" placeholder="Hobitín, Kraj - Západní čtvrtka">
+      </div>
+      <div class="form-group col-4">
+        <label>Země</label>
+        <input type="text" name="country" [ngModel]="member.address?.country" class="form-control" placeholder="Středozemě">
+      </div>
+    </div>
+  </div>
+
+  <h3>Kontakt</h3>
+  <ng-container ngModelGroup="contacts">
+    <div class="row">
+      <div class="form-group col-6">
+        <label>Mobil</label>
+        <input type="text" name="mobile" [ngModel]="member.contacts?.mobile" class="form-control" placeholder="+420 777123456">
+      </div>
+      <div class="form-group col-6">
+        <label>E-mail</label>
+        <input type="text" name="email" [ngModel]="member.contacts?.email" class="form-control" placeholder="bilbo@valinor.ea">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-6">
+        <label>Matka</label>
+        <input type="text" name="mother" [ngModel]="member.contacts?.mother" class="form-control" placeholder="+420 728123456 (Bungo Pytlík)">
+      </div>
+      <div class="form-group col-6">
+        <label>Otec</label>
+        <input type="text" name="father" [ngModel]="member.contacts?.father" class="form-control" placeholder="+420 603123456 (Beladona Bralová)">
+      </div>
+    </div>
+
+  </ng-container>
+
+  <button type="submit" class="btn btn-primary">Uložit</button>
+</form>
