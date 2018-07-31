@@ -5,7 +5,7 @@ import { ToastService } from "../../../../../services/toast.service";
 
 import { GalleryPhoto } from "../../../../../components/photo-gallery/photo-gallery.component";
 
-import { Album, AlbumPhoto } from "../../../../../schema/album";
+import { Album, Photo } from "../../../../../schema/album";
 
 @Component({
   selector: 'album-admin-photos',
