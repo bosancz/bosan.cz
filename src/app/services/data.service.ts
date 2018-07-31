@@ -8,20 +8,19 @@ import { Album, AlbumPhoto } from "../schema/album";
 import { Camp } from "../schema/camp";
 import { Contact } from "../schema/contact";
 import { Event } from "../schema/event";
+import { Member } from "../schema/member";
 import { User } from "../schema/user";
 import { WebConfig } from "../schema/webconfig";
 
 function toParams(options){
 	if(!options) return "";
 	
-	var params = Object.keys(options)
-		.map(key => {
-			if(typeof options[key] === "object") return Object.keys(options[key]).map(key2 => key + "[" + key2 + "]=" + options[key][key2]).join("&");
-			else return key + "=" + options[key];
-		})
-		.join("&");
-	
-	return "?" + params;
+  var params = Object.keys(options).map(key => {
+    if(typeof options[key] === "object") return Object.keys(options[key]).map(key2 => key + "[" + key2 + "]=" + options[key][key2]).join("&");
+    else return key + "=" + options[key];
+  });
+  
+	return params.length ? ("?" + params.join("&")) : "";
 }
 
 @Injectable()
@@ -123,12 +122,16 @@ export class DataService {
 	}
   
   /* MEMBERS */
-  getMembers(options?:any):Promise<any[]>{
-    return this.http.get<any[]>(this.root + "/members" + toParams(options)).toPromise();
+  getMembers(options?:any):Promise<Member[]>{
+    return this.http.get<Member[]>(this.root + "/members" + toParams(options)).toPromise();
   }
   
   getMember(memberId:string,options?:any):Promise<any>{
     return this.http.get<any>(this.root + "/members/" + memberId + toParams(options)).toPromise();
+  }
+  
+  createMember(memberData:any):Promise<Member>{
+    return this.http.post<Member>(this.root + "/members", memberData).toPromise();
   }
   
   updateMember(memberId:string,memberData):Promise<string>{

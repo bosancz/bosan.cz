@@ -54,7 +54,7 @@ const routes: Routes = [
       {path: 'fotogalerie', component: GalleryAdminComponent},
 
       {path: 'nastaveni-webu/:cat', component: WebAdminComponent},
-      {path: 'nastaveni-webu', redirectTo: "nastaveni-webu/o-nas", pathMatch: "full"},
+      {path: 'nastaveni-webu', redirectTo: "nastaveni-webu/obecne", pathMatch: "full"},
 
       {path: 'oddily', component: GroupsAdminComponent},
 
