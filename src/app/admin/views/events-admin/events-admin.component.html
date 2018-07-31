@@ -10,8 +10,8 @@
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'future'}]" [class.active]="view === 'future'">Budoucí akce</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'past'}]" [class.active]="view === 'past'">Minulé akce</a></li>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'my'}]" [class.active]="view === 'my'">Moje akce</a></li>      
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'noleader'}]" [class.active]="view === 'noleader'">Bez vedoucího</a></li>      
+          <li *ngIf="viewsOptions.my.leader" class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'my'}]" [class.active]="view === 'my'">Moje akce</a></li>      
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'noleader'}]" [class.active]="view === 'noleader'">Volné akce</a></li>      
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Všechny akce</a></li>      
           <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateEventModal(createEventModal)">Vytvořit akci</button></li>      
         </ul>

@@ -57,26 +57,17 @@ export class EventsTimelineComponent implements OnInit {
   constructor(private dataService:DataService, private toastService:ToastService) { }
 
   ngOnInit() {
-    
-    this.dataService.getUpcomingEvents()
-      .then((events:TimelineEvent[]) => {
-      
-        //sort events by date asc, API does not guarantee sort order
-        events.sort((a,b) => (new Date(a.dateFrom)).getTime() - (new Date(b.dateFrom)).getTime());
-        
-        // set the apeared variable, wil be true when scrolled into view
-        events.forEach(event => event.appeared = false);
-        
-        //save events to component
-        this.events = events;
-      });
-    
-    this.dataService.getGroups({fields:"_id,color"})
-      .then(groups => {
-        this.groups = groups;
-        this.groupColors = {};
-        groups.forEach(group => this.groupColors[group._id] = group.color);
-      })
+    this.loadEvents();
+  }
+  
+  async loadEvents(){
+    var events:TimelineEvent[] = await this.dataService.getEvents({leaders: 1, from: new Date(), sort: "dateFrom", limit: 10 })
+
+    // set the apeared variable, wil be true when scrolled into view
+    events.forEach(event => event.appeared = false);
+
+    //save events to component
+    this.events = events;
   }
   
   filterEvents(events:TimelineEvent[], filteredGroup:string){
