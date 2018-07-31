@@ -71,7 +71,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   }
   
   getEventLink(event:Event):string{
-    return './' + event._id;
+    return '/interni/akce/' + event._id;
   }
   
   openEvent(event:Event):void{

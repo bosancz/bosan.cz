@@ -86,7 +86,7 @@ export class MembersAdminComponent implements OnInit {
   }
   
   getMemberLink(member:Member):string{
-    return './' + member._id;
+    return '/interni/clenove/' + member._id;
   }
   
   openMember(member:Member):void{

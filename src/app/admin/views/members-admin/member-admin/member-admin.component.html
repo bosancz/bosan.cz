@@ -13,6 +13,7 @@
 
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" routerLink="../osobni" routerLinkActive="active">Osobní údaje</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../expy" routerLinkActive="active">Expy</a></li>
           <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat člena</a></li>          
         </ul>
 
@@ -21,6 +22,7 @@
       <div class="col-9" [ngSwitch]="category">
 
         <member-admin-info *ngSwitchCase="'osobni'" [member]="member" (save)="saveMember($event)"></member-admin-info>
+        <member-admin-achievements *ngSwitchCase="'expy'" [member]="member" (save)="saveMember($event)"></member-admin-achievements>
         
         <div *ngSwitchCase="'smazat'">
           <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tohoto člena</label>

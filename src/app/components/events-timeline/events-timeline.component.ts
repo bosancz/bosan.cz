@@ -74,9 +74,4 @@ export class EventsTimelineComponent implements OnInit {
     if(!filteredGroup) return events;
     return events.filter(event => event.groups.indexOf(filteredGroup) !== -1);
   }
-  
-  joinLeaders(members:Member[]){
-    let memberStrings = members.map(member => member.name + " (" + member.mobile + ")");
-    return memberStrings.length > 1 ? (memberStrings.slice(0,memberStrings.length - 1).join(", ") + " a " + memberStrings[memberStrings.length - 1]) : memberStrings[0];
-  }
 }

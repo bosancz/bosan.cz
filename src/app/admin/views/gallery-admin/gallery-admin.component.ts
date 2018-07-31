@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { NgForm } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
 import { DataService } from "../../../services/data.service";
+import { ToastService } from "../../../services/toast.service";
 
 import { Album } from "../../../schema/album";
 
@@ -12,24 +17,46 @@ import { Album } from "../../../schema/album";
 })
 export class GalleryAdminComponent implements OnInit {
 
-  albums:Album[] = [];
+  years:number[] = [];
+  year:number;
   
-  constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute) { }
+  tags:string[] = [];
+  tag:string;
+  
+  currentYear:number = (new Date).getFullYear();
+  
+  createAlbumModalRef: BsModalRef;
+  
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService: BsModalService) {}
 
   ngOnInit() {
-    this.loadAlbums();
+    this.loadYears();
+    this.loadTags();
+  }
+
+  async loadYears(){
+    this.years = await this.dataService.getAlbumsYears();
   }
   
-  loadAlbums():void{
-    this.dataService.getAlbums({events:1}).then(albums => this.albums = albums);
+  async loadTags(){
+    this.tags = await this.dataService.getPhotosTags();
   }
   
-  getAlbumLink(album:Album):string{
-   return './' + album._id;
+  openCreateAlbumModal(template:TemplateRef<any>):void{
+    this.createAlbumModalRef = this.modalService.show(template);
   }
   
-  openAlbum(album:Album):void{
-    this.router.navigate([this.getAlbumLink(album)],{relativeTo:this.route});
+  async createAlbum(form:NgForm){
+    // get data from form
+    var albumData = form.value;
+    // create the event and wait for confirmation
+    var album = await this.dataService.createAlbum(albumData);
+    // close the modal
+    this.createAlbumModalRef.hide();
+    // show the confrmation
+    this.toastService.toast("Album vytvořeno a uloženo.");
+    // open the album
+    this.router.navigate(["/interni/galerie/alba/" + album._id], {relativeTo: this.route})
   }
 
 }

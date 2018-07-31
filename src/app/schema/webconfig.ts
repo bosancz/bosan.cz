@@ -7,6 +7,13 @@ export class WebConfigGroup{
   color:string;
 }
 
+export class WebConfigAchievement{
+  id:string;
+  name:string;
+  image:string;
+}
+    
+
 export class WebConfig {
   about:{contacts: Contact[]} = {contacts: []};
 
@@ -15,6 +22,16 @@ export class WebConfig {
   groups:WebConfigGroup[] = [];
 
   members:{
-    roles:string[]
-  } = {roles:[]}
+    roles:string[],
+    achievements:WebConfigAchievement[]
+  } = {
+    roles:[],
+    achievements:[]
+  };
+  
+  events:{
+    types:string[]
+  } = {
+    types:[]
+  };
 }

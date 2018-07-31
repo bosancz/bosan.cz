@@ -44,6 +44,10 @@ import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 import { ContactsEditorComponent } from './components/contacts-editor/contacts-editor.component';
 import { MembersSelectComponent } from './components/members-select/members-select.component';
 import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
+import { MemberAdminAchievementsComponent } from './views/members-admin/member-admin/member-admin-achievements/member-admin-achievements.component';
+import { CodelistEditorComponent } from './components/codelist-editor/codelist-editor.component';
+import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
+import { PhotosAdminComponent } from './views/gallery-admin/photos-admin/photos-admin.component';
 
 @NgModule({
   imports: [
@@ -67,7 +71,7 @@ import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.co
     UsersAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, UserAdminComponent,
+    ContactsEditorComponent, MembersSelectComponent, UserAdminComponent, MemberAdminAchievementsComponent, CodelistEditorComponent, AlbumsAdminComponent, PhotosAdminComponent,
     
   ]
 })

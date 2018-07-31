@@ -16,6 +16,16 @@ export class WebAdminComponent implements OnInit, OnDestroy {
 
   cat:string = "about";
   
+  eventTypeFields = [
+    {"name": "id", "title": "ID", "type": "text"},
+    {"name": "title", "title": "Název", "type": "text"},
+    {"name": "image", "title": "Obrázek", "type": "text"}
+  ];
+  
+  memberRoleFields = [
+    {"name": "id", "title": "ID", "type": "text"}
+  ];
+  
   modified:boolean = false;
   
   config:WebConfig = new WebConfig();
@@ -53,14 +63,14 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     this.loadConfig();
   }
   
-  rolesFromString(roles:string):string[]{
-    if(!roles) return [];
-    return roles.split(",").map(item => item.trim());
+  listFromString(string:string):string[]{
+    if(!string) return [];
+    return string.split(",").map(item => item.trim());
   }
   
-  rolesToString(roles:string[]):string{
-    if(!roles) return "";
-    return roles.join(",");
+  listToString(list:string[]):string{
+    if(!list) return "";
+    return list.join(",");
   }
     
   

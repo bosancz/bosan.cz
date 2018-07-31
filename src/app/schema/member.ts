@@ -26,5 +26,9 @@ export class Member {
     father:string
   };
   
-  mobile?:string;
+  achievements:[{
+    id:string,
+    dateFrom:Date,
+    dateTill:Date
+  }]
 }
