@@ -16,13 +16,13 @@
       <div class="col-9">
         <div class="form" [ngSwitch]="cat">
           <div *ngSwitchCase="'obecne'">
+            <h3>Akce</h3>
+            
+            <codelist-editor [fields]="eventTypeFields" [records]="config.events.types"></codelist-editor>
+            
             <h3>Členská databáze</h3>
 
-            <div class="form-group">
-              <label>Členské role</label>
-              <input type="text" class="form-control" [ngModel]="rolesToString(config.members?.roles)" (ngModelChange)="config.members.roles = rolesFromString($event)">
-              <small class="form-text text-muted">Odděleno čárkou, např.: dítě,instruktor,vedoucí</small>
-            </div>
+            <codelist-editor [fields]="memberRoleFields" [records]="config.members.roles"></codelist-editor>
 
             <h3>Dokumenty</h3>
 
