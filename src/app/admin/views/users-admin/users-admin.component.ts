@@ -28,7 +28,7 @@ export class UsersAdminComponent implements OnInit {
   }
   
   async loadUsers(){
-    this.users = await this.dataService.getUsers();
+    this.users = await this.dataService.getUsers({members:1});
   }
   
   getUserLink(user:User):string{

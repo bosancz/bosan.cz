@@ -62,7 +62,8 @@ const routes: Routes = [
       {path: 'tabory/:camp', redirectTo: "tabory/:camp/info", pathMatch: "full"},
       {path: 'tabory', component: CampsAdminComponent},
 
-      {path: 'uzivatele/:user', component: UserAdminComponent},      
+      {path: 'uzivatele/:user/:cat', component: UserAdminComponent},      
+      {path: 'uzivatele/:user', redirectTo: "uzivatele/:user/info", pathMatch: "full"}, 
       {path: 'uzivatele', component: UsersAdminComponent},      
 
       {path: '', redirectTo: "akce", pathMatch: "full"},

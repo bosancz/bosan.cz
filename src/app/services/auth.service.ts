@@ -21,7 +21,7 @@ export class AuthService {
 	logged: boolean = false;
 
  	// current token
-	token: String = null;
+	token: string = null;
 
 	// current user (use blank user as default)
 	user: User = new User;
@@ -31,8 +31,8 @@ export class AuthService {
 		// refresh user data to match token
 		this.refreshState()
 		
-		// periodically renew token and check token validity; once per minute
-		setInterval(() => this.renewToken(), 60 * 1000);
+		// periodically renew token and check token validity
+		setInterval(() => this.renewToken(), 5 * 60 * 1000);
     setInterval(() => this.refreshState(), 5 * 1000);
 	}
 
@@ -66,20 +66,20 @@ export class AuthService {
         if(this.logged) return this.user;
         else throw new Error("Invalid token");
 
-      })
+      });
 
 	}
 
 	/**
 		* Tokens have limited time validity to avoid misues, however, we do not want user to be "logged out" while working with the application. Therefore we have to renew this token from time to time.
 		*/
-	renewToken():Promise<string>{
+	renewToken():void{
 		
-		// if we dont have token, there is nothing to renew
-		if(!this.token) return Promise.resolve(null);
+		// if we dont have token or it is expired, there is nothing to renew
+		if(!this.token || this.jwtHelper.isTokenExpired(this.token)) return;
 		
 		// get the new token. as an authorization, we use current token
-		return this.http.get("/api/login/renew", { responseType: 'text' }).toPromise()
+		this.http.get("/api/login/renew", { responseType: 'text' }).toPromise()
 
 			.then(token => {
 
@@ -88,10 +88,16 @@ export class AuthService {
 
 				// update state to match token from storage
 				this.refreshState();
-      
-        return token;
 
-				});			
+      })
+
+      .catch(err => {
+        // on Unauthorized error delete token - access was lost
+        if(err.code === 401){
+          this.deleteToken();
+          this.refreshState();
+        }
+      });
 	}
 
 	/*

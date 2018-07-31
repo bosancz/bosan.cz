@@ -1,3 +1,63 @@
-<p>
-  user-admin works!
-</p>
+<section *ngIf="user">
+  <div class="container">
+
+    <h2>
+      <a routerLink="/interni/uzivatele" class="back"><i class="fas fa-arrow-left"></i></a> 
+      {{user._id}}
+      <ng-container *ngIf="user.member"> - {{user.member.nickname}} ({{user.member.name?.first}} {{user.member.name?.last}})</ng-container>
+    </h2>
+
+    <div class="row">
+
+      <div class="col-3">
+
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Informace</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../heslo" routerLinkActive="active">Změnit heslo</a></li>
+          <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat uživatele</a></li>          
+        </ul>
+
+      </div>
+
+      <div class="col-9" [ngSwitch]="category">
+
+        <div *ngSwitchCase="'info'">
+          <form #editUserForm="ngForm" (ngSubmit)="saveUser(editUserForm)">
+            <div class="modal-body">
+
+              <div class="form-group">
+                <label for="editUserInput-member">Člen</label>
+                <select name="member" [ngModel]="user.member?._id || ''" class="form-control" id="editUserInput-member">
+                  <option value="">--žádný--</option>
+                  <option *ngFor="let member of members" [value]="member._id">{{member.group | group:"name"}} - {{member.nickname}} ({{member.name?.first}} {{member.name?.last}})</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="editUserInput-email">E-mail</label>
+                <input type="email" name="email" ngModel class="form-control" id="editUserInput-email">
+              </div>
+            </div>
+            
+            <button class="btn btn-primary" type="submit" [disabled]="!editUserForm.valid">Uložit</button>
+          </form>
+        </div>
+        
+        <div *ngSwitchCase="'heslo'">
+          <form #passwordUserForm="ngForm" (ngSubmit)="saveUser(passwordUserForm)">
+            <div class="form-group">
+              <label for="editUserInput-password">Heslo</label>
+              <input type="password" name="password" ngModel class="form-control" id="editUserInput-password" required>
+            </div>
+            <button class="btn btn-primary" type="submit" [disabled]="!passwordUserForm.valid">Uložit</button>
+          </form>
+        </div>
+
+        <div *ngSwitchCase="'smazat'">
+          <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tohoto uživatele</label>
+          <br>
+          <button type="button" [disabled]="!deleteConfirmation" (click)="deleteUser()" class="btn btn-danger">Smazat uživatele</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

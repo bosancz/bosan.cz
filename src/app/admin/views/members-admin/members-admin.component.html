@@ -15,7 +15,7 @@
           <td>{{member.nickname}}</td>
           <td>{{member.name?.last}}</td>
           <td>{{member.name?.first}}</td>
-          <td [style.color]="member.group?.color">{{member.group?.name}}</td>
+          <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
           <td class="text-right"><a [routerLink]="getMemberLink(member)">otevřít</a></td>
         </tr>
       </tbody>

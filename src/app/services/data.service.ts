@@ -144,7 +144,19 @@ export class DataService {
     return this.http.get<User[]>(this.root + "/users" + toParams(options)).toPromise();
   }
   
+  getUser(userId:string,options?:any):Promise<User>{
+    return this.http.get<User>(this.root + "/users/" + userId + toParams(options)).toPromise();
+  }
+  
   createUser(userId:string,userData:any):Promise<User>{
     return this.http.put<User>(this.root + "/users/" + userId, userData).toPromise();
+  }
+  
+  updateUser(userId:string,userData:any):Promise<string>{
+    return this.http.patch(this.root + "/users/" + userId, userData, {responseType:"text"}).toPromise();
+  }
+  
+  deleteUser(userId:string):Promise<string>{
+    return this.http.delete(this.root + "/users/" + userId, {responseType:"text"}).toPromise();
   }
 }

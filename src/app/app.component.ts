@@ -32,6 +32,7 @@ export class AppComponent {
   ngOnInit(){
     this.toastService.toasts.subscribe((toast:Toast) => {
       this.toasts.push(toast);
+      setTimeout(() => this.toasts.shift(),2000);
     });
   }
   
