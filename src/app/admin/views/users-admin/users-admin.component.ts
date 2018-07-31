@@ -1,4 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
+import { NgForm } from "@angular/forms";
+
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service'
+
+import { DataService } from "../../../services/data.service";
+import { ToastService } from "../../../services/toast.service";
+
+import { User } from "../../../schema/user";
 
 @Component({
   selector: 'users-admin',
@@ -6,15 +16,44 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./users-admin.component.css']
 })
 export class UsersAdminComponent implements OnInit {
-
-  breadcrumbs = [
-    { "url": "/interni", "name": "Interní" },
-    { "url": "/interni/uzivatele", "name": "Uživatelé" }
-  ];
   
-  constructor() { }
+  users:User[] = [];
+  
+  createUserModalRef: BsModalRef;
+
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService: BsModalService) { }
 
   ngOnInit() {
+    this.loadUsers();
+  }
+  
+  async loadUsers(){
+    this.users = await this.dataService.getUsers({members:1});
+  }
+  
+  getUserLink(user:User):string{
+    return './' + user._id;
+  }
+  
+  openUser(user:User):void{
+    this.router.navigate([this.getUserLink(user)], {relativeTo: this.route});
   }
 
+  openCreateUserModal(template: TemplateRef<any>){
+    this.createUserModalRef = this.modalService.show(template);
+  }
+  
+  async createUser(form:NgForm){
+    // get data from form
+    var userData = form.value;
+    var userId = userData._id;
+    // create the user and wait for confirmation
+    await this.dataService.createUser(userId,userData);
+    // close the modal
+    this.createUserModalRef.hide();
+    // show the confrmation
+    this.toastService.toast("Uživatel vytvořen.");
+    // open the user
+    this.router.navigate(["./" + userId], {relativeTo: this.route})
+  }
 }

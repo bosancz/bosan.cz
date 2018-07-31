@@ -43,6 +43,7 @@ import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 
 import { ContactsEditorComponent } from './components/contacts-editor/contacts-editor.component';
 import { MembersSelectComponent } from './components/members-select/members-select.component';
+import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
 
 @NgModule({
   imports: [
@@ -66,7 +67,7 @@ import { MembersSelectComponent } from './components/members-select/members-sele
     UsersAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent,
+    ContactsEditorComponent, MembersSelectComponent, UserAdminComponent,
     
   ]
 })
