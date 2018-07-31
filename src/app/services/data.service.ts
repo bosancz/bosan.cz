@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
-import { Album, AlbumPhoto } from "../schema/album";
+import { Album, Photo } from "../schema/album";
 import { Camp } from "../schema/camp";
 import { Contact } from "../schema/contact";
 import { Event } from "../schema/event";
@@ -15,7 +15,7 @@ import { WebConfig } from "../schema/webconfig";
 function toParams(options){
 	if(!options) return "";
 	
-  var params = Object.keys(options).map(key => {
+  var params = Object.keys(options).filter(key => options[key] !== null).map(key => {
     if(typeof options[key] === "object") return Object.keys(options[key]).map(key2 => key + "[" + key2 + "]=" + options[key][key2]).join("&");
     else return key + "=" + options[key];
   });
@@ -32,8 +32,8 @@ export class DataService {
 	
 	constructor(private http: HttpClient) {  }
   
-  getAlbums(options?):any{
-		return this.http.get<any>(this.root + "/albums" + toParams(options)).toPromise();
+  getAlbums(options?:any):Promise<Album[]>{
+		return this.http.get<Album[]>(this.root + "/albums" + toParams(options)).toPromise();
 	}
   
   getAlbumsYears(){
@@ -44,12 +44,20 @@ export class DataService {
 		return this.http.get<Album>(this.root + "/albums/" + albumId + toParams(options)).toPromise();
 	}
   
+  createAlbum(albumData:any):Promise<Album>{
+    return this.http.post<Album>(this.root + "/albums", albumData).toPromise();
+  }
+  
   updateAlbum(albumId:string, albumData:any):Promise<string>{
     return this.http.patch(this.root + "/albums/" + albumId, albumData, {responseType: "text"}).toPromise();
   }
   
-  getAlbumPhotos(albumId:string,options?:any):Promise<AlbumPhoto[]>{
-    return this.http.get<AlbumPhoto[]>(this.root + "/albums/" + albumId + "/photos").toPromise();
+  deleteAlbum(albumId:string):Promise<string>{
+    return this.http.delete(this.root + "/albums/" + albumId, {responseType: "text"}).toPromise();
+  }
+  
+  getAlbumPhotos(albumId:string,options?:any):Promise<Photo[]>{
+    return this.http.get<Photo[]>(this.root + "/albums/" + albumId + "/photos" + toParams(options)).toPromise();
   }
     
   updateAlbumPhotos(albumId:string,photosData:any):Promise<string>{
@@ -62,6 +70,14 @@ export class DataService {
   
   deleteAlbumPhoto(albumId:string,photoId:string):Promise<string>{
     return this.http.delete(this.root + "/albums/" + albumId + "/photos/" + photoId,{responseType:"text"}).toPromise();
+  }
+  
+  getPhotos(options?:any):Promise<Photo[]>{
+    return this.http.get<Photo[]>(this.root + "/photos" + toParams(options)).toPromise();
+  }
+  
+  getPhotosTags():Promise<string[]>{
+    return this.http.get<string[]>(this.root + "/photos/tags").toPromise();
   }
   
   /* CAMPS */

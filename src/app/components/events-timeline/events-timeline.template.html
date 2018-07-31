@@ -38,7 +38,7 @@
           <ng-container *ngFor="let member of event.leaders; first as isFirst; last as isLast">
             <ng-container *ngIf="!isFirst && !isLast">, </ng-container>
             <ng-container *ngIf="!isFirst && isLast"> a </ng-container>
-            <a (click)="openContact(member)">{{member.nickname}}</a> <ng-container *ngIf="member.mobile">({{member.mobile}})</ng-container>
+            <a (click)="openContact(member)">{{member.nickname}}</a> <ng-container *ngIf="member.contacts?.mobile">({{member.contacts.mobile}})</ng-container>
           </ng-container>
         </p>
         <div class="row">

@@ -9,15 +9,13 @@ export class Album {
   
   event:any;
   
-  titlePhoto:AlbumPhoto;
-  photos:AlbumPhoto[]
+  titlePhoto:Photo;
+  photos:Photo[]
 }
 
-export class AlbumPhoto {
+export class Photo {
   
   _id:string;
-  url:string;
-  thumbnailUrl:string;
   
   width:number;
   height:number;
