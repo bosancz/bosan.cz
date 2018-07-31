@@ -95,10 +95,10 @@ a:not(.btn):hover {color: $hover-yellow !important;}
 
 /* VALIDATION */
 
-input:valid:not(.novalidate){
+input:valid:not(.novalidate), select:valid:not(.novalidate), textarea:valid:not(.novalidate){
   border-left: 5px solid #42A948 !important; /* green */
 }
-input:invalid:not(.novalidate){
+input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invalid:not(.novalidate){
   border-left: 5px solid #a94442 !important; /* red */
 }
 

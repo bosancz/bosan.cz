@@ -10,10 +10,11 @@
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'future'}]" [class.active]="view === 'future'">Budoucí akce</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'past'}]" [class.active]="view === 'past'">Minulé akce</a></li>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'my'}]" [class.active]="view === 'my'">Moje akce</a></li>      
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'noleader'}]" [class.active]="view === 'noleader'">Bez vedoucího</a></li>      
+          <li *ngIf="views.my.leader" class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'my'}]" [class.active]="view === 'my'">Moje akce</a></li>      
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'noleader'}]" [class.active]="view === 'noleader'">Volné akce</a></li>      
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Všechny akce</a></li>      
-          <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateEventModal(createEventModal)">Vytvořit akci</button></li>      
+          <br>
+          <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateEventModal(createEventModal)">Nová akce</button></li>      
         </ul>
 
       </div>
@@ -37,7 +38,12 @@
               <td>{{event.dateFrom | date:"EEEEEE d. M. y"}}</td>
               <td>{{event.dateTill | date:"EEEEEE d. M. y"}}</td>
               <td>{{statuses[event.status] || "N/A"}}</td>
-              <td>{{getLeadersString(event)}}</td>
+              <td>
+                <ng-container *ngFor="let leader of event.leaders;let isFirst = first">
+                  <ng-container *ngIf="!isFirst">, </ng-container>
+                  <span [style.color]="leader.group | group:'color'">{{leader.nickname || leader.name?.first}}</span>
+                  </ng-container>
+              </td>
               <td class="text-right"><a [routerLink]="getEventLink(event)">otevřít</a></td>
             </tr>
           </tbody>

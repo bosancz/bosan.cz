@@ -52,7 +52,7 @@ export class UserAdminComponent implements OnInit {
   
   async loadMembers(){
     let members = await this.dataService.getMembers();
-    members.sort((a,b) => a.group.localeCompare(b.group) || a.nickname.localCompare(b.nickname));
+    members.sort((a,b) => a.group.localeCompare(b.group) || a.nickname.localeCompare(b.nickname));
     this.members = members;
   }
   

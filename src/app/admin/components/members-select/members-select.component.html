@@ -1,11 +1,11 @@
 <form>
   <div class="form-row">
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-5">
       <label>Jméno a přezdívka</label>
       <input type="text" name="search" class="form-control" [(ngModel)]="options.search" placeholder="Vyhledat">
     </div>
     
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-3">
       <label>Oddíl</label>
       <select name="group" class="form-control" [(ngModel)]="options.group">
         <option>--všechny--</option>
@@ -13,12 +13,17 @@
       </select>
     </div>
     
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-3">
       <label>Role</label>
       <select name="group" class="form-control" [(ngModel)]="options.role">
         <option>--všichni--</option>
         <option>vedoucí</option>
       </select>
+    </div>
+    
+    <div class="form-group col-md-1">
+      <label>&nbsp;</label>
+      <button type="submit" class="btn btn-primary text-center" style="width:100%;"><i class="fas fa-search"></i></button>
     </div>
   </div>
 </form>
