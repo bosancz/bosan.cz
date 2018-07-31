@@ -4,6 +4,8 @@ var router = module.exports = express.Router();
 router.use("/albums/:album/photos", require("./albums-photos"));
 router.use("/albums", require("./albums"));
 
+router.use("/photos", require("./photos"));
+
 router.use("/camps", require("./camps"));
 
 router.use("/config", require("./config"));

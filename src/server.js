@@ -27,7 +27,7 @@ var dynaclOptions = {
   userRoles: req => req.user ? req.user.roles.concat(["user"]) : [],
   defaultRole: "guest",
   logConsole: true,
-  logString: (action,permission,role,req) => "DynACL " + (permission ? "OK" : "XX") + " ( action: " + action + (role ? ", role: " + role : "") + " ) Source: " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress),
+  logString: (action,permission,role,req) => "DynACL " + (permission ? "OK" : "XX") + " ( action: " + action + (req.user ? ", user: " + req.user._id : "") + (role ? ", role: " + role : "") + " ) Source: " + (req.headers['x-forwarded-for'] || req.connection.remoteAddress) + " Url: " + req.originalUrl,
 };
 
 var dynacl = require("express-dynacl");

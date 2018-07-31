@@ -15,7 +15,7 @@ var Album = require("../models/album");
 var Photo = require("../models/photo");
 
 // LIST ALBUMS
-router.get("/", async (req,res,next) => {
+router.get("/", acl("albums:list"), async (req,res,next) => {
 
   var query = Album.find({});
 
@@ -31,23 +31,25 @@ router.get("/", async (req,res,next) => {
 });
 
 // CREATE NEW ALBUM */
-router.post("/", async (req,res,next) => {
+router.post("/", acl("albums:create"), async (req,res,next) => {
   var album = await Album.create(req.body);
 
   // create folders for photos (fs dont do promises)
   await Promise.all([
-    new Promise((resolve,reject) => fs.mkdir(path.join(config.photos.storageDir,album._id),err => err ? reject(err) : resolve())),
-    new Promise((resolve,reject) => fs.mkdir(path.join(config.photos.thumbsDir,album._id),err => err ? reject(err) : resolve()))
+    new Promise((resolve,reject) => fs.mkdir(path.join(config.photos.storageDir,String(album._id)),err => err ? reject(err) : resolve())),
+    new Promise((resolve,reject) => fs.mkdir(path.join(config.photos.thumbsDir,String(album._id)),err => err ? reject(err) : resolve()))
   ]);
 
   res.status(201).json(album);
 });
 
 // GET THE DISTINCT YEARS OF ALBUMS
-router.get("/years", async (req,res,next) => res.json(await Album.distinct("year")));
+router.get("/years", acl("albums:years:list"), async (req,res,next) => {
+  res.json(await Album.distinct("year"))
+});
 
 // GET ALBUM BY ID
-router.get("/:album", async (req,res,next) => {
+router.get("/:album", acl("albums:read"), async (req,res,next) => {
   
   var query = Album.findOne({_id: req.params.album})
   
@@ -58,13 +60,13 @@ router.get("/:album", async (req,res,next) => {
 });
 
 // UPDATE ALBUM AT ID
-router.patch("/:album",acl("albums:edit"), async (req,res,next) => {
+router.patch("/:album", acl("albums:edit"), async (req,res,next) => {
   await Album.findOneAndUpdate({_id: req.params.album},req.body);
   res.sendStatus(204);
 });
 
 /// DELETE ALBUM BY ID
-router.delete("/:album", async (req,res,next) => {
+router.delete("/:album", acl("albums:delete"), async (req,res,next) => {
   await Album.deleteOne({_id: req.params.album});
   res.sendStatus(204);
 });

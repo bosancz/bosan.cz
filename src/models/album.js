@@ -3,7 +3,6 @@ var mongoose = require("mongoose");
 require("./photo");
 
 var albumSchema = mongoose.Schema({
-  "_id": String,
   "year": Number,
   
   "name": String,

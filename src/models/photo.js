@@ -16,6 +16,7 @@ var photoSchema = mongoose.Schema({
   height: Number,
 
   date:Date,
+  tags: [String],
 
   sizes: {
     original: { width:Number, height:Number, file:String },
@@ -23,7 +24,7 @@ var photoSchema = mongoose.Schema({
     small: { width:Number, height:Number, file:String },
   },
   
-  bg: String
+  bg: String  
 
 }, { toJSON: { virtuals: true } });
 
@@ -33,5 +34,7 @@ function getUrl(photo,size,dir){
 photoSchema.virtual("sizes.original.url").get(function(){return getUrl(this,"original",config.photos.storageUrl);});
 photoSchema.virtual("sizes.big.url").get(function(){return getUrl(this,"big",config.photos.thumbsUrl);});
 photoSchema.virtual("sizes.small.url").get(function(){return getUrl(this,"small",config.photos.thumbsUrl);});
+
+photoSchema.index({ tags: 1 }, { sparse: true });
 
 module.exports = mongoose.model("Photo", photoSchema);
