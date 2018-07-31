@@ -21,19 +21,7 @@
     <div class="form-group col-6">
       <label for="typeInput">Typ akce</label>
       <select name="type" [ngModel]="event.type" class="form-control" id="typeInput" required>
-        <option>voda</option>
-        <option>cyklo</option>
-        <option>lyze</option>
-        <option>brigada</option>
-        <option>tabor</option>
-        <option>putak</option>
-        <option>pesarna</option>
-        <option>bazen</option>
-        <option>po_praze</option>
-        <option>schuzka</option>
-        <option>exkurze</option>
-        <option>opravy</option>
-        <option>rukodelani</option>
+        <option *ngFor="let eventType of eventTypes" [value]="eventType">{{eventType}}</option>
       </select>
     </div>
   </div>
