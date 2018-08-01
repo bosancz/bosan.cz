@@ -21,7 +21,7 @@
     <div class="form-group col-6">
       <label for="typeInput">Typ akce</label>
       <select name="type" [ngModel]="event.type" class="form-control" id="typeInput" required>
-        <option *ngFor="let eventType of eventTypes" [value]="eventType">{{eventType}}</option>
+        <option *ngFor="let eventType of eventTypes" [value]="eventType.id">{{eventType.name}}</option>
       </select>
     </div>
   </div>

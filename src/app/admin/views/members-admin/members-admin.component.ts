@@ -59,7 +59,7 @@ export class MembersAdminComponent implements OnInit {
   
   async loadRoles(){
     var config = await this.dataService.getConfig();
-    this.roles = config.members.roles;
+    this.roles = config.members.roles.map(item => item.id);
   }
   
   async loadMembers(view:string){
