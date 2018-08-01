@@ -22,8 +22,20 @@ header{background-image:url("/assets/img/camp-info/san-header.jpg")}
 
 @media screen and (min-width: 768px) {
   .move-upper {
-    margin-top: -50px;
+    margin-top: -70px;
     margin-bottom: 20px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .margin-bottom {
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .margin-top {
+    margin-top: 20px;
   }
 }
 
