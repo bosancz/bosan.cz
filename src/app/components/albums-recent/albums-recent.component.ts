@@ -32,7 +32,7 @@ export class AlbumsRecentComponent implements OnInit {
   
   getAlbumLink(album:Album):string{
     if(!album._id) return "";
-    return "/galerie/" + album.year + "/" + album._id;
+    return "/fotogalerie/" + album._id;
   }
   
   getEventImageUrl(album:Album):string{

@@ -30,4 +30,6 @@ export class Photo {
   
   bg:string;
   
+  tags:string[];
+  
 }

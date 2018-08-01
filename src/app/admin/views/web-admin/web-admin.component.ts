@@ -26,6 +26,10 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     {"name": "id", "title": "ID", "type": "text"}
   ];
   
+  defaultTagsFields = [
+    {"name": "tag", "title": "Tag", "type": "text"}
+  ];
+  
   modified:boolean = false;
   
   config:WebConfig = new WebConfig();
