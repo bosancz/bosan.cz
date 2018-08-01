@@ -12,6 +12,7 @@ import { AuthService } from "../../../services/auth.service";
 import { ToastService } from "../../../services/toast.service";
 
 import { Event } from "../../../schema/event";
+import { Paginated } from "../../../schema/paginated";
 
 @Component({
   selector: 'events-admin',
@@ -26,6 +27,10 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   }
   
   events:Event[] = [];
+  
+  pages:number = 1;
+  page:number = 1;
+  limit:number = 25;
   
   view:string;
   
@@ -53,8 +58,9 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
       if(!params.view || !this.views[params.view]) return this.router.navigate(["./", {view: "future"}], {relativeTo: this.route, replaceUrl: true});
       
       this.view = params.view;
+      this.page = params.page || 1;
       
-      this.loadEvents(params.view);
+      this.loadEvents();
     });
     
   }
@@ -63,11 +69,19 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     this.paramsSubscription.unsubscribe();
   }
 
-  async loadEvents(view:string){
+  async loadEvents(){
+    let generalOptions = {
+      drafts: 1,
+      leaders:1,
+      sort: "dateFrom",
+      limit: this.limit,
+      page: Math.max(Math.min(this.page,this.pages),1)
+    }
+    let options = Object.assign(generalOptions,this.views[this.view] || {});
     
-    let options = Object.assign({drafts: 1, leaders:1, sort: "dateFrom"},this.views[view] || {});
-    
-    this.events = await this.dataService.getEvents(options);
+    let paginated:Paginated<Event> = await this.dataService.getEvents(options);
+    this.events = paginated.docs;
+    this.pages = paginated.pages;
   }
   
   getEventLink(event:Event):string{
@@ -97,6 +111,17 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   getLeadersString(event:Event){
     return event.leaders.map(item => item.nickname).join(", ");
+  }
+  
+  getPages(){
+    var pages = [];
+    for(var i = 1; i <= this.pages; i++) pages.push(i)
+    return pages;
+  }
+  
+  getPageLink(page:number){
+    var params:any = {view:this.view,page:page};
+    return ["./",params];
   }
 
 }
