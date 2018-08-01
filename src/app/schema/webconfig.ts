@@ -1,18 +1,37 @@
 
 import { Contact } from "./contact";
 
+export class WebConfigGroup{
+  id:string;
+  name:string;
+  color:string;
+}
+
+export class WebConfigAchievement{
+  id:string;
+  name:string;
+  image:string;
+}
+    
+
 export class WebConfig {
-  about?:{
-    contacts: Contact[]
+  about:{contacts: Contact[]} = {contacts: []};
+
+  documents:{url:string} = {url: ""};
+
+  groups:WebConfigGroup[] = [];
+
+  members:{
+    roles:string[],
+    achievements:WebConfigAchievement[]
+  } = {
+    roles:[],
+    achievements:[]
   };
   
-  documents?:{
-    url:string
+  events:{
+    types:string[]
+  } = {
+    types:[]
   };
-    
-  groups:[{
-    id:string,
-    name:string,
-    color:string
-  }]
 }

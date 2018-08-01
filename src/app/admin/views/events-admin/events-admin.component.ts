@@ -24,12 +24,16 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     "public": "veřejná",
     "draft": "v přípravě"
   }
+  
   events:Event[] = [];
   
-  viewsOptions:any = {
-    "future": {dateTill: {$gte: new Date()}},
-    "past": {dateTill: {$lt: new Date()}},
-    "my": { leaders: null },
+  view:string;
+  
+  views:any = {
+    "future": {from: (new Date()).toISOString()},
+    "past": {till: (new Date()).toISOString()},
+    "my": { leader: null },
+    "noleader": { noleader: 1 },
     "all": {}
   };
   
@@ -39,14 +43,16 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService: BsModalService) {
     
-    this.viewsOptions.my.leaders = authService.user._id;
+    this.views.my.leader = authService.user.member;
   }
 
   ngOnInit() {
     
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       
-      if(!params.view || !this.viewsOptions[params.view]) return this.router.navigate(["./", {view: "future"}], {relativeTo: this.route});
+      if(!params.view || !this.views[params.view]) return this.router.navigate(["./", {view: "future"}], {relativeTo: this.route, replaceUrl: true});
+      
+      this.view = params.view;
       
       this.loadEvents(params.view);
     });
@@ -59,13 +65,13 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
 
   async loadEvents(view:string){
     
-    let options = Object.assign({},{leaders:1},this.viewsOptions[view]);
+    let options = Object.assign({drafts: 1, leaders:1, sort: "dateFrom"},this.views[view] || {});
     
-    this.events = await this.dataService.getEvents({leaders:1});
+    this.events = await this.dataService.getEvents(options);
   }
   
   getEventLink(event:Event):string{
-    return './' + event._id;
+    return '/interni/akce/' + event._id;
   }
   
   openEvent(event:Event):void{

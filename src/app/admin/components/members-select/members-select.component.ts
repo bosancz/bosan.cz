@@ -12,8 +12,12 @@ import { Group } from "../../../schema/group";
 })
 export class MembersSelectComponent implements OnInit {
 
-  @Input() options:any = {};
   @Input() selected:string[] = [];
+  
+  @Input() group:string;
+  @Input() role:string;
+  
+  search:RegExp;
   
   @Output() select:EventEmitter<Member> = new EventEmitter();
   @Output() unselect:EventEmitter<Member> = new EventEmitter();
@@ -21,6 +25,9 @@ export class MembersSelectComponent implements OnInit {
   members:Member[] = [];
   
   groups:Group[] = [];
+  roles:string[] = [];
+  
+  searchIndex:string[];
   
   constructor(private dataService:DataService) {
   }
@@ -28,14 +35,38 @@ export class MembersSelectComponent implements OnInit {
   ngOnInit() {
     this.loadMembers();
     this.loadGroups();
+    this.loadRoles();
   }
   
   async loadMembers(){    
-    this.members = await this.dataService.getMembers(this.options);    
+    this.members = await this.dataService.getMembers();  
+    this.members.sort((a,b) => a.nickname.localeCompare(b.nickname))
+    // TODO: diacritics insensitive search
+    this.searchIndex = this.members.map((member,i) => {
+      let names = member.nickname + (member.name ? (" " + member.name.first + " " + member.name.last) : "");
+      return names.toLowerCase();
+    });      
   }
   
   async loadGroups(){
     this.groups = await this.dataService.getGroups();
+  }
+  
+  async loadRoles(){
+    var config = await this.dataService.getConfig();
+    this.roles = config.members.roles;
+  }
+  
+  setSearch(search:string){
+    if(search) this.search = new RegExp(search.toLowerCase());
+    else this.search = null;
+  }
+  
+  isHidden(member:Member,i:number):boolean{
+    if(this.group && member.group !== this.group) return true;
+    if(this.role && member.role !== this.role) return true;    
+    if(this.search && !this.search.test(this.searchIndex[i])) return true;
+    return false;
   }
   
   selectedMember(member:Member):boolean{

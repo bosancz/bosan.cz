@@ -16,6 +16,16 @@ export class WebAdminComponent implements OnInit, OnDestroy {
 
   cat:string = "about";
   
+  eventTypeFields = [
+    {"name": "id", "title": "ID", "type": "text"},
+    {"name": "title", "title": "Název", "type": "text"},
+    {"name": "image", "title": "Obrázek", "type": "text"}
+  ];
+  
+  memberRoleFields = [
+    {"name": "id", "title": "ID", "type": "text"}
+  ];
+  
   modified:boolean = false;
   
   config:WebConfig = new WebConfig();
@@ -23,19 +33,13 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   viewJson:boolean = false;
   jsonError:boolean = false;
   
-  //todo: move somewhere more apropriate
-  routing:any = {
-    "o-nas": "about",
-    "dokumenty": "documents"
-  }
-  
   paramsSubscription:Subscription;
   
   constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
-      this.cat = this.routing[params.cat];
+      this.cat = params.cat;
     });
     this.loadConfig();
   }
@@ -44,20 +48,31 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     this.paramsSubscription.unsubscribe();
   }
   
-  loadConfig(){
-    this.dataService.getConfig(true).then(config => {
-      this.config = JSON.parse(JSON.stringify(config))
-    });
+  async loadConfig(){
+    var config = await this.dataService.getConfig(true).then(config => JSON.parse(JSON.stringify(config)));
+    this.config = Object.assign({},new WebConfig(),config);
   }
   
-  saveConfig(){
-    this.dataService.saveConfig(this.config)
-      .then(() => this.toastService.toast("Uloženo."));
+  async saveConfig(){
+    await this.dataService.saveConfig(this.config);
+    await this.loadConfig();
+    this.toastService.toast("Uloženo.");
   }
   
   resetConfig(){
     this.loadConfig();
   }
+  
+  listFromString(string:string):string[]{
+    if(!string) return [];
+    return string.split(",").map(item => item.trim());
+  }
+  
+  listToString(list:string[]):string{
+    if(!list) return "";
+    return list.join(",");
+  }
+    
   
   editJson(json){
     try{

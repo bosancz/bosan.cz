@@ -20,6 +20,8 @@ export class AlbumAdminComponent implements OnInit {
   category:string;
   
   leaders:Member[] = [];
+  
+  deleteConfirmation:boolean = false;
 
   paramsSubscription:Subscription;
 
@@ -38,6 +40,13 @@ export class AlbumAdminComponent implements OnInit {
   
   async loadAlbum(albumId:string){
     this.album = await this.dataService.getAlbum(albumId,{photos:1,titlePhoto:1});
+  }
+  
+  async deleteAlbum(){
+    var name = this.album.name;
+    await this.dataService.deleteAlbum(this.album._id)
+    this.toastService.toast("Album " + name + " bylo smazáno.");
+    this.router.navigate(["/interni/galerie/alba"]);
   }
 
 }

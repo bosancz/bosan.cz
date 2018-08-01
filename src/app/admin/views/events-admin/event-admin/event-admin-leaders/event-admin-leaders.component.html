@@ -10,7 +10,7 @@
   <tbody>
     <tr *ngFor="let leader of leaders;let i = index" [class.font-weight-bold]="i===0">
       <td>{{leader.nickname}}</td>
-      <td>{{leader.name.first}} {{leader.name.last}}</td>
+      <td>{{leader.name?.first}} {{leader.name?.last}}</td>
       <td [style.color]="leader.group | group:'color'">{{leader.group | group:"name"}}</td>
       <td class="actions text-right">
         <a (click)="moveLeader(i,i-1)"><i class="fas fa-caret-up"></i></a>
@@ -23,27 +23,18 @@
 
 <div class="buttons row">
   <div class="col-8">
-    <button type="button" class="btn" (click)="openMembers(membersModal)">+ přidat z databáze</button>
+    <button type="button" class="btn" (click)="openMembers(membersModal)">Vybrat z databáze</button>
   </div>
   <div class="col-4 text-right">
     <button type="button" class="btn btn-primary" (click)="saveLeaders()">Uložit</button>
   </div>
 </div>
 
-
 <ng-template #membersModal>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Vyber vedoucí akce</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="membersModalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <members-select [options]="membersSelectOptions" [selected]="getMemberIds(leaders)" (select)="addLeader($event)" (unselect)="removeLeader($event)"></members-select>
-    
-    <p>Vybraní vedoucí: <ng-container *ngFor="let leader of leaders;let f = first"><ng-container *ngIf="!f">, </ng-container>{{leader.nickname}}</ng-container></p>
+  <div class="modal-body members-select">
+    <members-select [role]="'vedoucí'" [selected]="getMemberIds(leaders)" (select)="addLeader($event)" (unselect)="removeLeader($event)"></members-select>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="membersModalRef.hide()">Zavřít</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveLeaders();membersModalRef.hide()">Vyber</button>
   </div>
 </ng-template>

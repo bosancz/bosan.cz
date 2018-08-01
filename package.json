@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build --prod --i18n-locale cs",
+    "build-quiet": "ng build --prod --i18n-locale cs --no-progress",
     "dev": "ng build --watch --aot --i18n-locale cs"
   },
   "private": true,

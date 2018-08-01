@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
+import { DataService } from "../../../../../services/data.service";
+
 import { Event } from "../../../../../schema/event";
 import { Member } from "../../../../../schema/member";
 
@@ -17,9 +19,18 @@ export class EventAdminInfoComponent implements OnInit {
   
   leaders:Member[] = [];
   
-  constructor() { }
+  eventTypes:string[] = [];
+  
+  constructor(private dataService:DataService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loadEventTypes();
+  }
+  
+  async loadEventTypes(){
+    let config = await this.dataService.getConfig();
+    this.eventTypes = config.events.types;
+  }
   
   saveEvent(eventForm:NgForm){
     this.save.emit(eventForm.value);
