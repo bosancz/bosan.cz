@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -12,7 +12,7 @@ import { Event } from "../../../../schema/event";
   templateUrl: './event-admin.component.html',
   styleUrls: ['./event-admin.component.css']
 })
-export class EventAdminComponent implements OnInit {
+export class EventAdminComponent implements OnInit, OnDestroy {
   
   event:Event;
   
@@ -33,6 +33,10 @@ export class EventAdminComponent implements OnInit {
       this.category = params.cat;
 
     });
+  }
+  
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
   }
   
   // DB interaction

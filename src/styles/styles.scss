@@ -84,6 +84,9 @@ h2 {
   margin: 10px 0;
 }
 
+.admin h2{position:relative;}
+.admin h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
+
 p {line-height: 1.5;text-align:justify;}
 
 p.subheading{text-align:center;width:100%;}
@@ -92,10 +95,19 @@ a {color: #00BFFF;}
 
 a:not(.btn):hover {color: $hover-yellow !important;}
 
+/* VALIDATION */
+
+input:valid:not(.novalidate), select:valid:not(.novalidate), textarea:valid:not(.novalidate){
+  border-left: 5px solid #42A948 !important; /* green */
+}
+input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invalid:not(.novalidate){
+  border-left: 5px solid #a94442 !important; /* red */
+}
+
+/* SPECIALS */
 .btn{color:$white;font-size:$font-basic;}
 .admin .btn {color:$white;font-size:$font-basic;}
 .btn-primary{color:$white !important; text-transform: uppercase; background-color: $blue}
-
 
 /* @media (min-width: 1600px) {
   .container {
@@ -118,4 +130,3 @@ a:not(.btn):hover {color: $hover-yellow !important;}
 .card p {
   text-align:center;
 }
-

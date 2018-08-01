@@ -1,22 +1,50 @@
 <section>
   <div class="container">
-    <table class="table table-striped table-hover table-sm">
-      <thead class="thead-dark">
-        <tr>
-          <th>Název alba</th>
-          <th>Datum</th>
-          <th>Počet fotek</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let album of albums" (click)="openAlbum(album)">
-          <td>{{album.name}}</td>
-          <td>{{album.published | date:"d. M. y"}}</td>
-          <td>{{album.photos.length}}</td>
-          <td class="text-right"><a [routerLink]="getAlbumLink(album)">otevřít</a></td>
-        </tr>
-      </tbody>
-    </table>
+
+    <h2>Galerie</h2>
+
+    <div class="row">
+
+      <div class="col-3">
+
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link font-weight-bold" routerLink="/interni/galerie/alba" [class.active]="">Všechny alba</a></li>
+          <li *ngFor="let yearItem of years" class="nav-item"><a class="nav-link" [routerLink]="['/interni/galerie/alba',{year:yearItem}]" [class.active]="year === yearItem">{{yearItem}}</a></li>
+          <li class="nav-item"><a class="nav-link font-weight-bold" routerLink="/interni/galerie/fotky" [class.active]="">Všechny fotografie</a></li>
+          <li *ngFor="let tagItem of tags" class="nav-item"><a class="nav-link" [routerLink]="['/interni/galerie/fotky',{tag:tagItem}]" [class.active]="tag === tagItem">#{{tagItem}}</a></li>
+          <br>
+          <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateAlbumModal(createAlbumModal)">Nové album</button></li>      
+        </ul>
+
+      </div>
+
+      <div class="col-9">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
 </section>
+
+<ng-template #createAlbumModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Vytvořit nové album</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="createAlbumModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #createAlbumForm="ngForm" (ngSubmit)="createAlbum(createAlbumForm)">
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Název alba</label>
+        <input type="text" name="name" ngModel class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label>Rok</label>
+        <input type="number" name="year" [ngModel]="currentYear" class="form-control" required>
+      </div>
+    </div>
+    <div class="modal-footer text-right">
+      <button class="btn btn-primary" type="submit" [disabled]="!createAlbumForm.valid">Vytvořit</button>
+    </div>
+  </form>
+</ng-template>

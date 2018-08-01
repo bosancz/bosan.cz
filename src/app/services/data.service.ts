@@ -4,23 +4,24 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
-import { Album, AlbumPhoto } from "../schema/album";
+import { Paginated } from "../schema/paginated";
+import { Album, Photo } from "../schema/album";
 import { Camp } from "../schema/camp";
 import { Contact } from "../schema/contact";
 import { Event } from "../schema/event";
+import { Member } from "../schema/member";
+import { User } from "../schema/user";
 import { WebConfig } from "../schema/webconfig";
 
 function toParams(options){
 	if(!options) return "";
 	
-	var params = Object.keys(options)
-		.map(key => {
-			if(typeof options[key] === "object") return Object.keys(options[key]).map(key2 => key + "[" + key2 + "]=" + options[key][key2]).join("&");
-			else return key + "=" + options[key];
-		})
-		.join("&");
-	
-	return "?" + params;
+  var params = Object.keys(options).filter(key => options[key] !== null).map(key => {
+    if(typeof options[key] === "object") return Object.keys(options[key]).map(key2 => key + "[" + key2 + "]=" + options[key][key2]).join("&");
+    else return key + "=" + options[key];
+  });
+  
+	return params.length ? ("?" + params.join("&")) : "";
 }
 
 @Injectable()
@@ -32,8 +33,8 @@ export class DataService {
 	
 	constructor(private http: HttpClient) {  }
   
-  getAlbums(options?):any{
-		return this.http.get<any>(this.root + "/albums" + toParams(options)).toPromise();
+  getAlbums(options?:any):Promise<Paginated<Album>>{
+		return this.http.get<Paginated<Album>>(this.root + "/albums" + toParams(options)).toPromise();
 	}
   
   getAlbumsYears(){
@@ -44,12 +45,20 @@ export class DataService {
 		return this.http.get<Album>(this.root + "/albums/" + albumId + toParams(options)).toPromise();
 	}
   
+  createAlbum(albumData:any):Promise<Album>{
+    return this.http.post<Album>(this.root + "/albums", albumData).toPromise();
+  }
+  
   updateAlbum(albumId:string, albumData:any):Promise<string>{
     return this.http.patch(this.root + "/albums/" + albumId, albumData, {responseType: "text"}).toPromise();
   }
   
-  getAlbumPhotos(albumId:string,options?:any):Promise<AlbumPhoto[]>{
-    return this.http.get<AlbumPhoto[]>(this.root + "/albums/" + albumId + "/photos").toPromise();
+  deleteAlbum(albumId:string):Promise<string>{
+    return this.http.delete(this.root + "/albums/" + albumId, {responseType: "text"}).toPromise();
+  }
+  
+  getAlbumPhotos(albumId:string,options?:any):Promise<Photo[]>{
+    return this.http.get<Photo[]>(this.root + "/albums/" + albumId + "/photos" + toParams(options)).toPromise();
   }
     
   updateAlbumPhotos(albumId:string,photosData:any):Promise<string>{
@@ -62,6 +71,14 @@ export class DataService {
   
   deleteAlbumPhoto(albumId:string,photoId:string):Promise<string>{
     return this.http.delete(this.root + "/albums/" + albumId + "/photos/" + photoId,{responseType:"text"}).toPromise();
+  }
+  
+  getPhotos(options?:any):Promise<Photo[]>{
+    return this.http.get<Photo[]>(this.root + "/photos" + toParams(options)).toPromise();
+  }
+  
+  getPhotosTags():Promise<string[]>{
+    return this.http.get<string[]>(this.root + "/photos/tags").toPromise();
   }
   
   /* CAMPS */
@@ -88,8 +105,8 @@ export class DataService {
   }
   
   /* EVENTS */
-  getEvents(options?:any):Promise<Event[]>{
-    return this.http.get<Event[]>(this.root + "/events" + toParams(options)).toPromise();
+  getEvents(options?:any):Promise<Paginated<Event>>{
+    return this.http.get<Paginated<Event>>(this.root + "/events" + toParams(options)).toPromise();
   }
   
   getUpcomingEvents():Promise<Event[]>{
@@ -122,12 +139,16 @@ export class DataService {
 	}
   
   /* MEMBERS */
-  getMembers(options?:any):Promise<any[]>{
-    return this.http.get<any[]>(this.root + "/members" + toParams(options)).toPromise();
+  getMembers(options?:any):Promise<Member[]>{
+    return this.http.get<Member[]>(this.root + "/members" + toParams(options)).toPromise();
   }
   
   getMember(memberId:string,options?:any):Promise<any>{
     return this.http.get<any>(this.root + "/members/" + memberId + toParams(options)).toPromise();
+  }
+  
+  createMember(memberData:any):Promise<Member>{
+    return this.http.post<Member>(this.root + "/members", memberData).toPromise();
   }
   
   updateMember(memberId:string,memberData):Promise<string>{
@@ -136,5 +157,26 @@ export class DataService {
   
   deleteMember(memberId:string):Promise<string>{
     return this.http.delete(this.root + "/members/" + memberId, {responseType:"text"}).toPromise();
+  }
+  
+  /* USERS */
+  getUsers(options?:any):Promise<User[]>{
+    return this.http.get<User[]>(this.root + "/users" + toParams(options)).toPromise();
+  }
+  
+  getUser(userId:string,options?:any):Promise<User>{
+    return this.http.get<User>(this.root + "/users/" + userId + toParams(options)).toPromise();
+  }
+  
+  createUser(userId:string,userData:any):Promise<User>{
+    return this.http.put<User>(this.root + "/users/" + userId, userData).toPromise();
+  }
+  
+  updateUser(userId:string,userData:any):Promise<string>{
+    return this.http.patch(this.root + "/users/" + userId, userData, {responseType:"text"}).toPromise();
+  }
+  
+  deleteUser(userId:string):Promise<string>{
+    return this.http.delete(this.root + "/users/" + userId, {responseType:"text"}).toPromise();
   }
 }

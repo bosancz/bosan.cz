@@ -7,6 +7,9 @@
   </button>
 </div>
 <div class="modal-body">
+  
+  <p *ngIf="invalidCredentials" class="text-danger">Chybné uživatelské jméno nebo heslo.</p>
+  
   <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
 
     <div class="form-group">

@@ -1,7 +1,7 @@
 <section *ngIf="album">
   <div class="container">
 
-    <h2>{{album.name}}</h2>
+    <h2><a routerLink="/interni/galerie/alba" class="back"><i class="fas fa-arrow-left"></i></a>{{album.name}}</h2>
 
     <div class="row">
 
@@ -23,7 +23,12 @@
         <album-admin-photos  *ngSwitchCase="'fotky'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-photos>
         
         <album-admin-upload  *ngSwitchCase="'upload'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-upload>
-        
+
+        <div *ngSwitchCase="'smazat'">
+          <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chcete smazat toto album?</label>
+          <br>
+          <button type="button" [disabled]="!deleteConfirmation" (click)="deleteAlbum()" class="btn btn-danger">Smazat album</button>
+        </div>
       </div>
     </div>
   </div>

@@ -3,23 +3,19 @@
     <tr>
       <th>Přezdívka</th>
       <th>Jméno</th>
-      <th>Hlavas</th>
-      <th>Zdravotník</th>
-      <th>Hospodář</th>
+      <th>Oddíl</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let leader of leaders">
-      <td>{{leader.member.nickname}}</td>
-      <td>{{leader.member.name.first}} {{leader.member.name.last}}</td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
-      <td><input type="checkbox"></td>
+    <tr *ngFor="let leader of leaders;let i = index" [class.font-weight-bold]="i===0">
+      <td>{{leader.nickname}}</td>
+      <td>{{leader.name?.first}} {{leader.name?.last}}</td>
+      <td [style.color]="leader.group | group:'color'">{{leader.group | group:"name"}}</td>
       <td class="actions text-right">
-        <a (click)="move(i,i-1)"><i class="fas fa-caret-up"></i></a>
-        <a (click)="move(i,i+1)"><i class="fas fa-caret-down"></i></a>
-        <a (click)="delete(i)" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+        <a (click)="moveLeader(i,i-1)"><i class="fas fa-caret-up"></i></a>
+        <a (click)="moveLeader(i,i+1)"><i class="fas fa-caret-down"></i></a>
+        <a (click)="removeLeader(leader)" class="text-danger"><i class="fas fa-trash-alt"></i></a>
       </td>
     </tr>
   </tbody>
@@ -27,22 +23,18 @@
 
 <div class="buttons row">
   <div class="col-8">
-    <button type="button" class="btn" (click)="openMembers(membersModal)">+ přidat z databáze</button>
+    <button type="button" class="btn" (click)="openMembers(membersModal)">Vybrat z databáze</button>
   </div>
   <div class="col-4 text-right">
-    <button type="button" class="btn btn-primary" (click)="saveEvent()">Uložit</button>
+    <button type="button" class="btn btn-primary" (click)="saveLeaders()">Uložit</button>
   </div>
 </div>
 
-
 <ng-template #membersModal>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Vyber vedoucí akce</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="membersModalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+  <div class="modal-body members-select">
+    <members-select [role]="'vedoucí'" [selected]="getMemberIds(leaders)" (select)="addLeader($event)" (unselect)="removeLeader($event)"></members-select>
   </div>
-  <div class="modal-body">
-    <members-select [options]="membersSelectOptions" (select)="addMembers($event)"></members-select>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveLeaders();membersModalRef.hide()">Vyber</button>
   </div>
 </ng-template>

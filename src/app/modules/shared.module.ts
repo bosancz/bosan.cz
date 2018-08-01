@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
  
 import { SafeurlPipe } from "../pipes/safeurl.pipe";
-import { GroupColorPipe } from "../pipes/group-color.pipe";
+import { GroupPipe } from "../pipes/group.pipe";
 
 import { BreadCrumbsComponent } from '../components/bread-crumbs/bread-crumbs.component';
 import { PhotoGalleryComponent } from '../components/photo-gallery/photo-gallery.component';
@@ -22,7 +22,7 @@ import { ContenteditableDirective } from '../directives/contenteditable.directiv
   declarations: [
     BreadCrumbsComponent,
     PhotoGalleryComponent,
-    SafeurlPipe, GroupColorPipe,
+    SafeurlPipe, GroupPipe,
     ContenteditableDirective
   ],
   exports: [
@@ -32,7 +32,7 @@ import { ContenteditableDirective } from '../directives/contenteditable.directiv
     
     /* DIRECTIVES */ ContenteditableDirective,
     
-    /* PIPES */ SafeurlPipe, GroupColorPipe
+    /* PIPES */ SafeurlPipe, GroupPipe
   ]
   
 })
