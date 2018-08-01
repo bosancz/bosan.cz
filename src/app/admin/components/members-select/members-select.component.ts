@@ -54,7 +54,7 @@ export class MembersSelectComponent implements OnInit {
   
   async loadRoles(){
     var config = await this.dataService.getConfig();
-    this.roles = config.members.roles;
+    this.roles = config.members.roles.map(item => item.id);
   }
   
   setSearch(search:string){

@@ -60,17 +60,13 @@ export class DataService {
   getAlbumPhotos(albumId:string,options?:any):Promise<Photo[]>{
     return this.http.get<Photo[]>(this.root + "/albums/" + albumId + "/photos" + toParams(options)).toPromise();
   }
-    
-  updateAlbumPhotos(albumId:string,photosData:any):Promise<string>{
-    return this.http.patch(this.root + "/albums/" + albumId + "/photos", photosData, {responseType:"text"}).toPromise();
-  }
-  
-  createAlbumPhoto(albumId:string,photoData):Observable<HttpEvent<string>>{
-    return this.http.post(this.root + "/albums/" + albumId + "/photos",photoData,{observe: 'events',reportProgress:true, responseType:"text"});
-  }
   
   deleteAlbumPhoto(albumId:string,photoId:string):Promise<string>{
     return this.http.delete(this.root + "/albums/" + albumId + "/photos/" + photoId,{responseType:"text"}).toPromise();
+  }
+  
+  getAlbumTags(albumId:string):Promise<string[]>{
+    return this.http.get<string[]>(this.root + "/albums/" + albumId + "/tags").toPromise();
   }
   
   getPhotos(options?:any):Promise<Photo[]>{
@@ -79,6 +75,14 @@ export class DataService {
   
   getPhotosTags():Promise<string[]>{
     return this.http.get<string[]>(this.root + "/photos/tags").toPromise();
+  }
+  
+  createPhoto(photoData):Observable<HttpEvent<string>>{
+    return this.http.post(this.root + "/photos",photoData,{observe: 'events',reportProgress:true, responseType:"text"});
+  }
+  
+  updatePhoto(photoId:string,photoData:any):Promise<string>{
+    return this.http.patch(this.root + "/photos/" + photoId, photoData, {responseType:"text"}).toPromise();
   }
   
   /* CAMPS */

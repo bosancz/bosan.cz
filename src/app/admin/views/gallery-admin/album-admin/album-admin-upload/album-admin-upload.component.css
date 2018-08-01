@@ -2,6 +2,6 @@
 
 .dropzone{padding:50px 0;background-color:#eee;border-radius:5px;}
 .dropzone:hover{background-color:#ddd;}
-.dropzone p{color:#999;text-align:center;}
+.dropzone p{color:#999;text-align:center;margin:0;}
 
 .status{margin-top:40px;}

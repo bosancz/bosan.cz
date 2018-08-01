@@ -28,9 +28,9 @@
         <td>{{uploadItem.file.name}}</td>
         <td>{{uploadItem.progress}} %</td>
         <td [ngSwitch]="uploadItem.status">
-          <ng-container *ngSwitchCase="'pending'">čekám</ng-container>
-          <ng-container *ngSwitchCase="'started'">nahrávám</ng-container>
-          <ng-container *ngSwitchCase="'processing'">zpracovávám</ng-container>
+          <ng-container *ngSwitchCase="'pending'">čeká</ng-container>
+          <ng-container *ngSwitchCase="'uploading'">nahrává se</ng-container>
+          <ng-container *ngSwitchCase="'processing'">zpracovává se</ng-container>
           <ng-container *ngSwitchCase="'finished'">hotovo</ng-container>
           <ng-container *ngSwitchCase="'error'">Chyba: {{uploadItem.error.message}}</ng-container>
         </td>

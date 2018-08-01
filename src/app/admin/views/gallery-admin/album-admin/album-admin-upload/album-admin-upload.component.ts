@@ -72,14 +72,13 @@ export class AlbumAdminUploadComponent {
     
     this.status = "started";
     
-
     let uploadItem:PhotoUploadItem;
     for(uploadItem of this.photoUploadQueue){
       
       if(uploadItem.status === "finished") continue;
 
       try{
-        uploadItem.status = "started";
+        uploadItem.status = "uploading";
         await this.uploadPhoto(uploadItem);
         uploadItem.status = "finished";
       }
@@ -88,8 +87,6 @@ export class AlbumAdminUploadComponent {
         uploadItem.error = err;
       }
     }
-
-
 
     this.status = "finished";
     this.save.emit();
@@ -106,10 +103,11 @@ export class AlbumAdminUploadComponent {
 
       let formData: FormData = new FormData();
 
+      formData.set("album",this.album._id);
       formData.set("photo",uploadItem.file,uploadItem.file.name);
       formData.set("lastModified",uploadItem.file.lastModifiedDate.toISOString());
 
-      this.dataService.createAlbumPhoto(this.album._id,formData).subscribe(
+      this.dataService.createPhoto(formData).subscribe(
         (event:HttpEvent<any>) => {
           switch(event.type){
               
@@ -118,7 +116,7 @@ export class AlbumAdminUploadComponent {
             
             case HttpEventType.UploadProgress:
               uploadItem.progress = Math.round(event.loaded / event.total * 100);
-              if(uploadItem.progress === 1) uploadItem.status = "processing";
+              if(event.loaded === event.total) uploadItem.status = "processing";
               break;
             
             case HttpEventType.Response:
