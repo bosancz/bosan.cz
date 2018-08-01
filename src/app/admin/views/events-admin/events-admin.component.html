@@ -49,6 +49,14 @@
             </tr>
           </tbody>
         </table>
+        
+        <nav>
+          <ul *ngIf="pages > 1" class="pagination justify-content-center">
+            <li class="page-item" [class.disabled]="page <= 1"><a class="page-link" [routerLink]="getPageLink(i-1)">&laquo;</a></li>
+            <li *ngFor="let i of getPages()" class="page-item"><a class="page-link" [routerLink]="getPageLink(i)">{{i}}</a></li>
+            <li class="page-item" [class.disabled]="page >= pages"><a class="page-link" [routerLink]="getPageLink(i+1)">&raquo;</a></li>
+          </ul>
+        </nav>
 
       </div>
     </div>

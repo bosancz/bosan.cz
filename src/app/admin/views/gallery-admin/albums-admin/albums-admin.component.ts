@@ -6,6 +6,7 @@ import { Subscription } from "rxjs";
 import { DataService } from "../../../../services/data.service";
 
 import { Album } from "../../../../schema/album";
+import { Paginated } from "../../../../schema/paginated";
 
 @Component({
   selector: 'albums-admin',
@@ -17,16 +18,19 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   @Input() year:number = null;
   
   albums:Album[] = [];
+  
+  page:number = 1;
+  pages:number;
 
   paramsSubscription:Subscription;
   
   constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
-    
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       this.year = params.year;
-      this.loadAlbums(params.year);
+      this.page = params.page || 1;
+      this.loadAlbums();
     });
   }
   
@@ -34,8 +38,16 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
     this.paramsSubscription.unsubscribe();
   }
 
-  async loadAlbums(year:number){
-    this.albums = await this.dataService.getAlbums({events:1,year:year || null});
+  async loadAlbums(){
+    var options = {
+      events:1,
+      year:this.year || null,
+      page:this.page || 1
+    };
+    let paginated:Paginated<Album> = await this.dataService.getAlbums(options);
+    
+    this.albums = paginated.docs;
+    this.pages = paginated.pages;
   }
 
   getAlbumLink(album:Album):string{
@@ -44,6 +56,18 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
 
   openAlbum(album:Album):void{
     this.router.navigate([this.getAlbumLink(album)],{relativeTo:this.route});
+  }
+  
+  getPages(){
+    var pages = [];
+    for(var i = 1; i <= this.pages; i++) pages.push(i)
+    return pages;
+  }
+  
+  getPageLink(page:number){
+    var params:any = {page:page};
+    if(this.year) params.year = this.year || null;
+    return ["./",params];
   }
 
 }

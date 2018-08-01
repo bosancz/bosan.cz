@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
+import { Paginated } from "../schema/paginated";
 import { Album, Photo } from "../schema/album";
 import { Camp } from "../schema/camp";
 import { Contact } from "../schema/contact";
@@ -32,8 +33,8 @@ export class DataService {
 	
 	constructor(private http: HttpClient) {  }
   
-  getAlbums(options?:any):Promise<Album[]>{
-		return this.http.get<Album[]>(this.root + "/albums" + toParams(options)).toPromise();
+  getAlbums(options?:any):Promise<Paginated<Album>>{
+		return this.http.get<Paginated<Album>>(this.root + "/albums" + toParams(options)).toPromise();
 	}
   
   getAlbumsYears(){
@@ -104,8 +105,8 @@ export class DataService {
   }
   
   /* EVENTS */
-  getEvents(options?:any):Promise<Event[]>{
-    return this.http.get<Event[]>(this.root + "/events" + toParams(options)).toPromise();
+  getEvents(options?:any):Promise<Paginated<Event>>{
+    return this.http.get<Paginated<Event>>(this.root + "/events" + toParams(options)).toPromise();
   }
   
   getUpcomingEvents():Promise<Event[]>{
