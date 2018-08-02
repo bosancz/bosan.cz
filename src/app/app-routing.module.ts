@@ -23,8 +23,7 @@ const routes: Routes = [
 
   {path: 'fotogalerie', component: GalleryViewComponent,
    children: [
-     {path: ':year/:album', component: GalleryViewAlbumComponent},
-     {path: ':year', component: GalleryViewYearComponent},
+     {path: ':album', component: GalleryViewAlbumComponent},
      {path: '', component: GalleryViewHomeComponent}
    ]
   },

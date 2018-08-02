@@ -19,10 +19,12 @@ export class WebConfig {
 
   documents:{url:string} = {url: ""};
 
+  gallery:{defaultTags:{tag:string}[]} = {defaultTags:[]};
+  
   groups:WebConfigGroup[] = [];
 
   members:{
-    roles:string[],
+    roles:{id:string}[],
     achievements:WebConfigAchievement[]
   } = {
     roles:[],
@@ -30,7 +32,7 @@ export class WebConfig {
   };
   
   events:{
-    types:string[]
+    types:{id:string,name:string,image:string}[]
   } = {
     types:[]
   };

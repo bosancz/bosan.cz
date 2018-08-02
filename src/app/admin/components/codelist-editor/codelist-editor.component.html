@@ -1,21 +1,21 @@
-<table>
-  <thead>
-    <tr>
-      <th *ngFor="let field of fields">{{field.title}}</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let record of records;let i = index">
-      <td *ngFor="let field of fields"><input [type]="field.type" class="form-control" [(ngModel)]="record[field.name]"></td>
-      <td class="actions">
-        <a (click)="move(i,i-1)"><i class="fas fa-caret-up"></i></a>
-        <a (click)="move(i,i+1)"><i class="fas fa-caret-down"></i></a>
-        <a (click)="delete(i)" class="text-danger"><i class="fas fa-trash-alt"></i></a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<br>
-<a (click)="add()" class="add"><i class="fas fa-plus"></i> přidat záznam</a>
-      
+<div class="editor">
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let field of fields">{{field.title}}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of records;let i = index">
+        <td *ngFor="let field of fields"><input [type]="field.type" class="form-control" [(ngModel)]="record[field.name]"></td>
+        <td class="actions">
+          <a (click)="move(i,i-1)"><i class="fas fa-caret-up"></i></a>
+          <a (click)="move(i,i+1)"><i class="fas fa-caret-down"></i></a>
+          <a (click)="delete(i)" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>  
+  <a (click)="add()" class="add"><i class="fas fa-plus"></i> přidat záznam</a>
+</div>

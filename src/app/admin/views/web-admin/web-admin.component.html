@@ -17,20 +17,28 @@
         <div class="form" [ngSwitch]="cat">
           <div *ngSwitchCase="'obecne'">
             <h3>Akce</h3>
-            
+
             <codelist-editor [fields]="eventTypeFields" [records]="config.events.types"></codelist-editor>
-            
+
             <h3>Členská databáze</h3>
+
+            <h4>Role členů (dítě, instruktor, ...)</h4>
 
             <codelist-editor [fields]="memberRoleFields" [records]="config.members.roles"></codelist-editor>
 
             <h3>Dokumenty</h3>
 
-            <div class="form-group">
-              <label for="docmentsUrlInput">Adresa Google Dokumentů</label>
+            <h4>Adresa Google Dokumentů</h4>
+            <div class="form-group">              
               <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.documents.url">
               <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
             </div>
+
+            <h3>Galerie</h3>
+            
+            <h4>Předvolené tagy</h4>
+
+            <codelist-editor [fields]="defaultTagsFields" [records]="config.gallery.defaultTags"></codelist-editor>
 
 
             <button type="button" class="btn btn-secondary" (click)="resetConfig()">Zrušit</button>
@@ -38,7 +46,7 @@
             <button type="button" class="btn btn-primary" (click)="saveConfig()">Uložit</button>
 
             <hr>
-            
+
             <input type="checkbox" id="check_viewjson" [(ngModel)]="viewJson"> <label for="check_viewjson">Zobrazit JSON</label>
 
             <div *ngIf="viewJson" class="json bg-light">

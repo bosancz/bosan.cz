@@ -1,0 +1,26 @@
+@import '../../../../../../styles/variables';
+
+.caption{padding-top:10px;}
+
+.photo{position:relative;border-bottom:1px solid #eee;height:170px;}
+.photo .image{position:absolute;top:10px;left:10px;width:150px;height:150px;float:left;background-position:center center;background-repeat:no-repeat;background-size:cover;}
+.photo .details{position:absolute;top:10px;right:10px;bottom:10px;left:170px;}
+
+.photo .star{display:none;position:absolute;top:10px;left:10px;width:150px;padding:5px;cursor:pointer;}
+.photo .star i.fas{display:none;}
+.photo .star a{color:$hover-yellow;}
+.photo .star span{display:none;}
+.photo .star.active{display:block;}
+.photo .star.active i.fas{display:inline;}
+.photo .star.active i.far{display:none;}
+.photo:hover .star{display:block;background-color:rgba(0,0,0,.5);}
+.photo:hover .star span{display:inline;}
+.photo .star:hover i.fas{display:inline;}
+.photo .star:hover i.far{display:none;}
+
+.badge{cursor:pointer;margin:0 5px;}
+.badge:not(.active){opacity:.3;}
+.badge:not(.active):hover{opacity:.8;}
+
+.buttons button{opacity:.2;}
+.buttons button:hover{opacity:1;}

@@ -10,34 +10,46 @@ import { Album, Photo } from "../../../../../schema/album";
 @Component({
   selector: 'album-admin-photos',
   templateUrl: './album-admin-photos.component.html',
-  styleUrls: ['./album-admin-photos.component.css']
+  styleUrls: ['./album-admin-photos.component.scss']
 })
 export class AlbumAdminPhotosComponent implements OnInit {
 
   @Input() album:Album;
   
+  @Output() save:EventEmitter<void> = new EventEmitter();
     
   galleryPhotos:GalleryPhoto[] = [];
   
-  @Output() save:EventEmitter<void> = new EventEmitter();
+  defaultTags:string[] = [];
+  customTags:string[] = [];
   
   constructor(private dataService:DataService, private toastService:ToastService) { }
 
   ngOnInit() {
-  }
-  
-  ngOnChanges(changes:SimpleChanges){
-    if(changes.album) this.updateGalleryPhotos();
+    this.loadTags();
   }
 
-  updateGalleryPhotos(){
-    this.galleryPhotos = this.album.photos.map(photo => ({
-      url: photo.sizes.small.url,
-      width: photo.sizes.small.width,
-      height: photo.sizes.small.height,
-      caption: photo.caption,
-      bg: photo.bg
-    }));
+  ngOnChanges(changes:SimpleChanges){
+    if(changes.album){
+      this.updateCustomTags();
+    }
+  }
+  
+  async loadTags(){
+    var config = await this.dataService.getConfig();
+    this.defaultTags = config.gallery.defaultTags.map(item => item.tag);
+    this.updateCustomTags();
+  }
+
+  updateCustomTags(){
+    this.customTags = [];
+    this.album.photos.forEach(photo => {
+      photo.tags.forEach(tag => this.addCustomTag(tag));
+    });
+  }
+  
+  addCustomTag(tag){
+    if(this.defaultTags.indexOf(tag) === -1 && this.customTags.indexOf(tag) === -1) this.customTags.push(tag);
   }
   
   async setTitlePhoto(photo){
@@ -46,8 +58,8 @@ export class AlbumAdminPhotosComponent implements OnInit {
     this.toastService.toast("Uloženo.");
   }
   
-  async savePhotos(){
-    await this.dataService.updateAlbumPhotos(this.album._id,this.album.photos);
+  async savePhoto(photo){
+    await this.dataService.updatePhoto(photo._id,photo);
     this.toastService.toast("Uloženo.");
   }  
   
@@ -61,5 +73,31 @@ export class AlbumAdminPhotosComponent implements OnInit {
     
     this.save.emit();
   }
+  
+  hasTag(photo:Photo,tag:string):boolean{
+    return photo.tags.indexOf(tag) !== -1;
+  }
+  
+  async toggleTag(photo:Photo,tag:string){
+    
+    let i = photo.tags.indexOf(tag);
+    if(i === -1) photo.tags.push(tag);
+    else photo.tags.splice(i,1);
+    
+    console.log(photo,tag);
+    
+    await this.savePhoto(photo);
+  }
+  
+  async newTag(photo:Photo){
+    var tag:string = window.prompt("Zadejte název nového tagu:");
+    if(!tag) return;
+    
+    if(tag.charAt(0) === "#") tag = tag.substring(1);
+    
+    this.addCustomTag(tag);
+    
+    await this.toggleTag(photo,tag);
+  }  
 
 }
