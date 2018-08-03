@@ -1,0 +1,17 @@
+<div class="input-group mb-3">
+  <ng-container *ngIf="selected; else editTemplate">
+    <input type="text" readonly class="form-control" [value]="getItemString(selected)">
+    <div class="input-group-append">
+      <button class="btn btn-secondary" type="button" (click)="selectItem(null)">Odebrat</button>
+    </div>
+  </ng-container>
+
+  <ng-template #editTemplate>
+    <ng-template #typeaheadTemplate let-model="item" let-index="index">
+      <h5>{{getItemString(model)}}</h5>
+    </ng-template>
+
+    <input ngModel (ngModelChange)="loadItems($event)" [ngModelOptions]="{standalone: true}" [typeahead]="matched" typeaheadOptionField="name" [typeaheadWaitMs]="delay" [typeaheadItemTemplate]="typeaheadTemplate" (typeaheadOnSelect)="onTypeaheadSelected($event)" class="form-control" placeholder="Napište název akce pro vyhledání...">      
+  </ng-template>
+
+</div>
