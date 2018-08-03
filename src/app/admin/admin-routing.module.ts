@@ -18,7 +18,6 @@ import { EventAdminComponent } from './views/events-admin/event-admin/event-admi
 import { GalleryAdminComponent } from './views/gallery-admin/gallery-admin.component';
 import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
 import { AlbumAdminComponent } from './views/gallery-admin/album-admin/album-admin.component';
-import { PhotosAdminComponent } from './views/gallery-admin/photos-admin/photos-admin.component';
 
 import { MembersAdminComponent } from './views/members-admin/members-admin.component';
 import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
@@ -53,11 +52,8 @@ const routes: Routes = [
 
       {path: 'galerie/alba/:album/:cat', component: AlbumAdminComponent},
       {path: 'galerie/alba/:album', redirectTo: "galerie/alba/:album/info", pathMatch: "full"},
-      {path: 'galerie', component: GalleryAdminComponent, children: [
-        {path: 'alba', component: AlbumsAdminComponent},
-        {path: 'fotky', component: PhotosAdminComponent},
-        {path: '', redirectTo: "alba", pathMatch: "full"},
-      ]},
+      {path: 'galerie/alba', component: GalleryAdminComponent},
+      {path: 'galerie', redirectTo: "galerie/alba", pathMatch: "full"},
 
       {path: 'nastaveni-webu/:cat', component: WebAdminComponent},
       {path: 'nastaveni-webu', redirectTo: "nastaveni-webu/obecne", pathMatch: "full"},

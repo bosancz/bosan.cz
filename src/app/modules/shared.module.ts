@@ -12,12 +12,24 @@ import { PhotoGalleryComponent } from '../components/photo-gallery/photo-gallery
 
 import { ContenteditableDirective } from '../directives/contenteditable.directive';
 
+
+/* THIRD PARTY */
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    
+    CollapseModule.forRoot(),
+    ModalModule.forRoot(),
+    TypeaheadModule.forRoot()
   ],
   declarations: [
     BreadCrumbsComponent,
@@ -27,6 +39,7 @@ import { ContenteditableDirective } from '../directives/contenteditable.directiv
   ],
   exports: [
     /* MODULES */ CommonModule, FormsModule, HttpClientModule,
+    CollapseModule, ModalModule, TypeaheadModule,
     
     /* COMPONENTS */ BreadCrumbsComponent, PhotoGalleryComponent,
     

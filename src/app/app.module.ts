@@ -43,11 +43,15 @@ import { AppearDirective } from './directives/appear.directive';
 // Pipes
 
 /* THIRD PARTY */
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { ModalModule } from 'ngx-bootstrap/modal';
-
 import { JwtModule } from '@auth0/angular-jwt';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+
+// App Config
+import { AppConfig, AppConfigData } from "./config/config";
+import { GalleryViewHomeComponent } from './views/gallery-view/gallery-view-home/gallery-view-home.component';
+import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year/gallery-view-year.component';
+
+
 
 // settings for JWT
 export function JwtTokenGetter():string{
@@ -63,18 +67,12 @@ export const jwtOptions = {
 	}
 };
 
-// App Config
-import { AppConfig, AppConfigData } from "./config/config";
-import { GalleryViewHomeComponent } from './views/gallery-view/gallery-view-home/gallery-view-home.component';
-import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year/gallery-view-year.component';
-
-
 @NgModule({
   declarations: [
     AppComponent,
     /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent,
     /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent,
-    /* CHILD VIEWS */ GalleryViewYearsComponent, GalleryViewAlbumsComponent, GalleryViewAlbumComponent,
+    /* CHILD VIEWS */ GalleryViewHomeComponent, GalleryViewYearsComponent, GalleryViewAlbumsComponent, GalleryViewAlbumComponent, GalleryViewYearComponent,
     
     /* PIPES */
     
@@ -82,13 +80,7 @@ import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year
     
     ContactCardComponent,
     
-    LoginFormComponent,
-    
-    GalleryViewHomeComponent,
-    
-    GalleryViewYearComponent,
-    
-    
+    LoginFormComponent
   ],
   imports: [
     BrowserAnimationsModule,    
@@ -96,10 +88,8 @@ import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year
     
     SharedModule,
     
-    CollapseModule.forRoot(),
-    ModalModule.forRoot(),
-    
     ScrollToModule.forRoot(),
+    
     JwtModule.forRoot(jwtOptions)
   ],
   providers: [

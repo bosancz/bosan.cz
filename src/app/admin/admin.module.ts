@@ -47,7 +47,7 @@ import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.co
 import { MemberAdminAchievementsComponent } from './views/members-admin/member-admin/member-admin-achievements/member-admin-achievements.component';
 import { CodelistEditorComponent } from './components/codelist-editor/codelist-editor.component';
 import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
-import { PhotosAdminComponent } from './views/gallery-admin/photos-admin/photos-admin.component';
+import { TypeaheadFieldComponent } from './components/typeahead-field/typeahead-field.component';
 
 @NgModule({
   imports: [
@@ -61,17 +61,17 @@ import { PhotosAdminComponent } from './views/gallery-admin/photos-admin/photos-
     
     /* VIEWS */
     EventsAdminComponent, EventAdminComponent, EventAdminAttendeesComponent, EventAdminInfoComponent, EventAdminLeadersComponent,
-    GalleryAdminComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
-    MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent,
+    GalleryAdminComponent, AlbumsAdminComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
+    MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent, MemberAdminAchievementsComponent, 
     WebAdminComponent,
     DataAdminComponent,
     DocumentsViewComponent,
     CampsAdminComponent, CampAdminComponent, CampAdminBasicComponent,
     GroupsAdminComponent,
-    UsersAdminComponent,
+    UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, UserAdminComponent, MemberAdminAchievementsComponent, CodelistEditorComponent, AlbumsAdminComponent, PhotosAdminComponent,
+    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent,
     
   ]
 })

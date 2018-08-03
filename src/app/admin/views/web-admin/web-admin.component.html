@@ -17,9 +17,10 @@
         <div class="form" [ngSwitch]="cat">
           <div *ngSwitchCase="'obecne'">
             <h3>Akce</h3>
-
+            
+            <h4>Typy akcí</h4>
+            
             <codelist-editor [fields]="eventTypeFields" [records]="config.events.types"></codelist-editor>
-
             <h3>Členská databáze</h3>
 
             <h4>Role členů (dítě, instruktor, ...)</h4>
