@@ -1,7 +1,7 @@
 export class Album {
   _id:string;
   year:number;
-  
+  status:string;
   name:string;
   description:string;
   
@@ -10,6 +10,7 @@ export class Album {
   event:any;
   
   titlePhoto:Photo;
+  titlePhotos:Photo[];
   photos:Photo[]
 }
 

@@ -3,7 +3,9 @@
     <tr>
       <th>Název alba</th>
       <th>Datum</th>
-      <th>Počet fotek</th>
+      <th>Fotek</th>
+      <th>Stav</th>
+      <th>Akce</th>
       <th></th>
     </tr>
   </thead>
@@ -12,6 +14,8 @@
       <td>{{album.name}}</td>
       <td>{{album.published | date:"d. M. y"}}</td>
       <td>{{album.photos.length}}</td>
+      <td>{{statuses[album.status] || "N/A"}}</td>
+      <td>{{album.event?.name}}</td>
       <td class="text-right"><a [routerLink]="getAlbumLink(album)">otevřít</a></td>
     </tr>
   </tbody>

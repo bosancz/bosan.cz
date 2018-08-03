@@ -9,7 +9,7 @@
         <span class="badge badge-warning" (click)="newTag(photo)">+</span>
       </div>
     </div>
-    <div class="star" [class.active]="photo._id === album.titlePhoto._id">
+    <div class="star" [class.active]="album.titlePhoto && photo._id === album.titlePhoto._id">
       <a (click)="setTitlePhoto(photo)">
         <i class="fas fa-star"></i>
         <i class="far fa-star"></i>

@@ -39,7 +39,7 @@ export class AlbumAdminComponent implements OnInit {
   }
   
   async loadAlbum(albumId:string){
-    this.album = await this.dataService.getAlbum(albumId,{photos:1,titlePhoto:1});
+    this.album = await this.dataService.getAlbum(albumId,{photos:1,titlePhoto:1,event:1});
   }
   
   async deleteAlbum(){
