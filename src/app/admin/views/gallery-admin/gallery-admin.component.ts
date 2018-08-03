@@ -31,7 +31,7 @@ export class GalleryAdminComponent implements OnInit {
 
   ngOnInit() {
     this.loadYears();
-    this.loadTags();
+    //this.loadTags();
   }
 
   async loadYears(){

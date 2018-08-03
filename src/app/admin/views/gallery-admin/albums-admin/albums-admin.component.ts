@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { Subscription } from "rxjs";
@@ -15,12 +15,17 @@ import { Paginated } from "../../../../schema/paginated";
 })
 export class AlbumsAdminComponent implements OnInit, OnDestroy{
 
-  @Input() year:number = null;
+  year:number = null;
   
   albums:Album[] = [];
   
   page:number = 1;
   pages:number;
+  
+  statuses:any = {
+    "public": "zveřejněná",
+    "draft": "v přípravě"
+  }
 
   paramsSubscription:Subscription;
   
@@ -41,6 +46,7 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   async loadAlbums(){
     var options = {
       events:1,
+      drafts:1,
       year:this.year || null,
       page:this.page || 1
     };
