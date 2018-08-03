@@ -22,7 +22,7 @@ import { Paginated } from "../../../schema/paginated";
 export class EventsAdminComponent implements OnInit, OnDestroy {
 
   statuses:any = {
-    "public": "veřejná",
+    "public": "zveřejněná",
     "draft": "v přípravě"
   }
   
