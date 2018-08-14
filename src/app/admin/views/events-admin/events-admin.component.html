@@ -11,7 +11,7 @@
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'future'}]" [class.active]="view === 'future'">Budoucí akce</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'past'}]" [class.active]="view === 'past'">Minulé akce</a></li>
           <li *ngIf="views.my.leader" class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'my'}]" [class.active]="view === 'my'">Moje akce</a></li>      
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'noleader'}]" [class.active]="view === 'noleader'">Volné akce</a></li>      
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'noleader'}]" [class.active]="view === 'noleader'">Vede pan NIKDO</a></li>      
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Všechny akce</a></li>      
           <br>
           <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateEventModal(createEventModal)">Nová akce</button></li>      
@@ -43,7 +43,7 @@
                   <ng-container *ngIf="!isFirst">, </ng-container>
                   <span [style.color]="leader.group | group:'color'">{{leader.nickname || leader.name?.first}}</span>
                 </ng-container>
-                <strong *ngIf="!event.leaders?.length" class="text-danger">NIKDO</strong>
+                <strong *ngIf="!event.leaders?.length" class="text-danger">Pan NIKDO</strong>
               </td>
               <td class="text-right"><a [routerLink]="getEventLink(event)">otevřít</a></td>
             </tr>
@@ -85,10 +85,6 @@
           <label for="createEventInput-datetill">Konec</label>
           <input type="datetime-local" ngModel name="dateTill" class="form-control" id="createEventInput-datetill" required>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="createEventInput-description">Popis</label>
-        <textarea name="description" ngModel class="form-control" id="createEventInput-description"></textarea>
       </div>
     </div>
     <div class="modal-footer text-right">

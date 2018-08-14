@@ -40,6 +40,9 @@ export class DataService {
   getAlbumsYears(){
     return this.http.get<any>(this.root + "/albums/years").toPromise();
   }
+  getAlbumsList(options?:any){
+    return this.http.get<any>(this.root + "/albums/list" + toParams(options)).toPromise();
+  }
   
   getAlbum(albumId:string, options?):Promise<Album>{
 		return this.http.get<Album>(this.root + "/albums/" + albumId + toParams(options)).toPromise();
