@@ -1,0 +1,47 @@
+
+<section>
+  <div class="container">
+
+    <div class="albums" #albumsContainer>
+
+      <div class="album" *ngFor="let container of albums;let i = index">
+
+        <ng-container *ngIf="container.album; else dummyAlbum">
+          <h3>{{container.album.name}} <ng-container *ngIf="container.album.event">({{container.album.event.dateFrom | date:"d. M."}} - {{container.album.event.dateTill | date:"d. M. y"}})</ng-container></h3>
+          <div class="row photos">
+            <div class="col-md-4" *ngFor="let photo of container.album.titlePhotos | slice:0:3">
+              <div class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-10">
+          <p>{{container.album.description}}</p>
+              </div>
+            <div class="col-2 text-right">
+              <a [routerLink]="'./' + container.album._id">Otevřít album</a>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #dummyAlbum>
+          <h3>{{container.name}}</h3>
+          <div class="row photos">
+            <div class="col-md-4"><div class="image"></div></div>
+            <div class="col-md-4"><div class="image"></div></div>
+            <div class="col-md-4"><div class="image"></div></div>
+          </div>
+          <p></p>
+        </ng-template>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="timeline" [style.top]="timelineTop + 'px'" [style.bottom]="timelineBottom + 'px'" [style.left]="timelineLeft + 'px'" (click)="timelineClick($event)">
+  <div class="visible" [style.top]="visibleFrom * 100 + '%'" [style.bottom]="(1 - visibleTo) * 100 + '%'"></div>
+  <div class="point" *ngFor="let point of timelinePoints" [style.top]="point * 100 + '%'"></div>
+  <div class="year" *ngFor="let year of timelineYears" [style.top]="year.y * 100 + '%'">{{year.year}}</div>
+</div>

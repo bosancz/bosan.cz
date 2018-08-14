@@ -27,6 +27,8 @@ import { NewsViewComponent } from './views/news-view/news-view.component';
 import { GalleryViewYearsComponent } from './views/gallery-view/gallery-view-years/gallery-view-years.component';
 import { GalleryViewAlbumsComponent } from './views/gallery-view/gallery-view-albums/gallery-view-albums.component';
 import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
+import { GalleryViewTimelineComponent } from './views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
+import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year/gallery-view-year.component';
 
 /* SHARED */
 
@@ -48,8 +50,6 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 // App Config
 import { AppConfig, AppConfigData } from "./config/config";
-import { GalleryViewHomeComponent } from './views/gallery-view/gallery-view-home/gallery-view-home.component';
-import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year/gallery-view-year.component';
 
 
 
@@ -72,7 +72,7 @@ export const jwtOptions = {
     AppComponent,
     /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent,
     /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent,
-    /* CHILD VIEWS */ GalleryViewHomeComponent, GalleryViewYearsComponent, GalleryViewAlbumsComponent, GalleryViewAlbumComponent, GalleryViewYearComponent,
+    /* CHILD VIEWS */ GalleryViewTimelineComponent, GalleryViewYearsComponent, GalleryViewAlbumsComponent, GalleryViewAlbumComponent, GalleryViewYearComponent,
     
     /* PIPES */
     
@@ -80,7 +80,8 @@ export const jwtOptions = {
     
     ContactCardComponent,
     
-    LoginFormComponent
+    LoginFormComponent    
+    
   ],
   imports: [
     BrowserAnimationsModule,    
