@@ -36,11 +36,11 @@ export class GalleryViewTimelineComponent implements OnInit {
 
   async loadAlbumsList(){
     
-    let albums = await this.dataService.getAlbumsList({sort:"-dateTaken"})
+    let albums = await this.dataService.getAlbumsList({sort:"-dateFrom"})
     
     let year:number;
     
-    this.timeline = albums.map((album,i) => {
+    this.timeline = albums.filter(album => album.dateFrom).map((album,i) => {
       
       let point = {
         y: i / (albums.length - 1),
@@ -48,7 +48,7 @@ export class GalleryViewTimelineComponent implements OnInit {
         
         _id: album._id,
         name: album.name,
-        date: new Date(album.dateTaken),
+        date: new Date(album.dateFrom),
         album: null,
       };
 
@@ -59,8 +59,6 @@ export class GalleryViewTimelineComponent implements OnInit {
       
       return point;
     });
-    
-    console.log(this.timeline);
     
   }
 
