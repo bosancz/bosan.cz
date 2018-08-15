@@ -50,6 +50,7 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 // App Config
 import { AppConfig, AppConfigData } from "./config/config";
+import { TimelineScrollComponent } from './components/timeline-scroll/timeline-scroll.component';
 
 
 
@@ -80,7 +81,9 @@ export const jwtOptions = {
     
     ContactCardComponent,
     
-    LoginFormComponent    
+    LoginFormComponent,
+    
+    TimelineScrollComponent    
     
   ],
   imports: [

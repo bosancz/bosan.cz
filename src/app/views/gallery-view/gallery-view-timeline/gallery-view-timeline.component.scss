@@ -4,8 +4,3 @@
 
 .album .photos{height:200px;}
 .album .image{width:100%;height:200px;background-position:center center; background-repeat:no-repeat;background-size:cover;background-color:#eee;}
-
-.timeline{position:fixed;width:50px;margin:0 0 40px -50px;cursor:row-resize;}
-.timeline .year{position:absolute;left:0;right:10px;text-align:center;color:#999;height:24px;}
-.timeline .point{position:absolute;right:0;width:10px;height:2px;margin-top:11px;background-color:#ccc;}
-.timeline .visible{position:absolute;right:-4px;width:2px;background-color:#00BFFF;margin-bottom:-24px;}
