@@ -7,6 +7,11 @@ export interface TimelinePoint {
   visible?:boolean;
 }
 
+export interface TimelineLabel {
+  y:number;
+  label:string;
+}
+
 @Component({
   selector: 'timeline-scroll',
   templateUrl: './timeline-scroll.component.html',
@@ -15,6 +20,10 @@ export interface TimelinePoint {
 export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   @Input() points:TimelinePoint[] = [];
+  @Input() labels:TimelineLabel[] = [];
+  
+  @Input() showPoints:boolean = true;
+  @Input() showLabels:boolean = true;
 
   @Output() appeared:EventEmitter<TimelinePoint> = new EventEmitter<TimelinePoint>();
   @Output() appearedMany:EventEmitter<TimelinePoint[]> = new EventEmitter<TimelinePoint[]>();

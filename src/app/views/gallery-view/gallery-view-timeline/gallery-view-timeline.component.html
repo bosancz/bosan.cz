@@ -2,7 +2,7 @@
 <section>
   <div class="container">
 
-    <timeline-scroll [points]="timeline" (load)="loadAlbum($event)">
+    <timeline-scroll [points]="timeline" [labels]="timelineLabels" (load)="loadAlbum($event)" [showPoints]="false">
       <div class="albums">
         <div class="album" *ngFor="let point of timeline;let i = index">
 
