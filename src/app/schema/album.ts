@@ -6,7 +6,8 @@ export class Album {
   description:string;
   
   datePublished:Date;
-  dateTaken:Date;
+  dateFrom:Date;
+  dateTill:Date;
   
   event:any;
   
