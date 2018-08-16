@@ -5,7 +5,7 @@ import { DataService } from "../../../services/data.service";
 import { Paginated } from "../../../schema/paginated";
 import { Album } from "../../../schema/album";
 
-import { TimelinePoint } from "../../../components/timeline-scroll/timeline-scroll.component";
+import { TimelinePoint, TimelineLabel } from "../../../components/timeline-scroll/timeline-scroll.component";
 
 class TimelineAlbumContainer implements TimelinePoint{
   y:number;
@@ -27,6 +27,7 @@ class TimelineAlbumContainer implements TimelinePoint{
 export class GalleryViewTimelineComponent implements OnInit {
 
   timeline:TimelinePoint[] = [];
+  timelineLabels:TimelineLabel[] = [];
 
   constructor(private dataService:DataService) { }
 
@@ -42,8 +43,10 @@ export class GalleryViewTimelineComponent implements OnInit {
     
     this.timeline = albums.filter(album => album.dateFrom).map((album,i,filteredAlbums) => {
       
+      let y = i / (filteredAlbums.length - 1);
+      
       let point = {
-        y: i / (filteredAlbums.length - 1),
+        y: y,
         title: null,
         
         _id: album._id,
@@ -54,7 +57,7 @@ export class GalleryViewTimelineComponent implements OnInit {
 
       if(point.date.getFullYear() !== year) {
         year = point.date.getFullYear();
-        point.title = String(year);
+        this.timelineLabels.push({y:y,label:String(year)});
       }
       
       return point;
