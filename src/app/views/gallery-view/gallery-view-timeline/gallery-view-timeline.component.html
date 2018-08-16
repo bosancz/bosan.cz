@@ -7,7 +7,11 @@
         <div class="album" *ngFor="let point of timeline;let i = index">
 
           <ng-container *ngIf="point.album; else dummyAlbum">
-            <h3>{{point.album.name}} ({{point.album.dateFrom | date:"d. M."}}<ng-container *ngIf="point.album.dateFrom !== point.album.dateTill"> - {{point.album.dateTill | date:"d. M. y"}}</ng-container>)</h3>
+            <h3>
+              {{point.album.name}}
+              <ng-container *ngIf="(point.album.dateFrom | date:'d. M.') !== (point.album.dateTill | date:'d. M.'); else oneDate">({{point.album.dateFrom | date:"d. M."}} - {{point.album.dateTill | date:"d. M. y"}})</ng-container>
+              <ng-template #oneDate>({{point.album.dateFrom | date:"d. M. y"}})</ng-template>
+            </h3>
             <div class="row photos">
               <div class="col-md-4" *ngFor="let photo of point.album.titlePhotos | slice:0:3">
                 <div class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'">
@@ -25,7 +29,7 @@
           </ng-container>
 
           <ng-template #dummyAlbum>
-            <h3>{{point.name}} ({{point.date | date:"d. M."}})</h3>
+            <h3>{{point.name}} ({{point.date | date:"d. M. y"}})</h3>
             <div class="row photos">
               <div class="col-md-4"><div class="image"></div></div>
               <div class="col-md-4"><div class="image"></div></div>

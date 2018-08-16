@@ -4,6 +4,17 @@
     <label>Název alba</label>
     <input type="text" name="name" [ngModel]="album.name" class="form-control" placeholder="Neočekávaný dýchánek" required>    
   </div>
+  
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label>Datum od</label>
+      <input type="date" name="dateFrom" [ngModel]="album.dateFrom | date: 'y-MM-dd'" class="form-control" required>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Datum do</label>
+      <input type="date" name="dateTill" [ngModel]="album.dateTill | date: 'y-MM-dd'" class="form-control" required>
+    </div>
+  </div>
 
   <div class="row">
     <div class="form-group col-md-4">

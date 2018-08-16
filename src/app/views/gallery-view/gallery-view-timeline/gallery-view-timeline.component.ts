@@ -40,10 +40,10 @@ export class GalleryViewTimelineComponent implements OnInit {
     
     let year:number;
     
-    this.timeline = albums.filter(album => album.dateFrom).map((album,i) => {
+    this.timeline = albums.filter(album => album.dateFrom).map((album,i,filteredAlbums) => {
       
       let point = {
-        y: i / (albums.length - 1),
+        y: i / (filteredAlbums.length - 1),
         title: null,
         
         _id: album._id,

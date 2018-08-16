@@ -36,6 +36,7 @@ export class GalleryAdminComponent implements OnInit {
 
   async loadYears(){
     this.years = await this.dataService.getAlbumsYears();
+    this.years.sort((a,b) => b - a);
   }
   
   async loadTags(){

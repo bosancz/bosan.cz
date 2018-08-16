@@ -2,7 +2,8 @@
   <thead class="thead-dark">
     <tr>
       <th>Název alba</th>
-      <th>Datum</th>
+      <th>Publikováno</th>
+      <th>Datum fotek</th>
       <th>Fotek</th>
       <th>Stav</th>
       <th>Akce</th>
@@ -12,7 +13,8 @@
   <tbody>
     <tr *ngFor="let album of albums" (click)="openAlbum(album)">
       <td>{{album.name}}</td>
-      <td>{{album.published | date:"d. M. y"}}</td>
+      <td>{{album.datePublished | date:"d. M. y"}}</td>
+      <td>{{album.dateFrom | date:"d. M. y"}} - {{album.dateTill | date:"d. M. y"}}</td>
       <td>{{album.photos.length}}</td>
       <td>{{statuses[album.status] || "N/A"}}</td>
       <td>{{album.event?.name}}</td>
