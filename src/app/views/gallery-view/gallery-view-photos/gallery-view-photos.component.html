@@ -1,0 +1,27 @@
+
+
+<div *ngIf="currentPhoto" class="image" [style.background-image]="'url(' + currentPhoto.sizes.big.url + ')'"></div>
+<div *ngIf="transition && previousPhoto" class="image previous" [style.background-image]="'url(' + previousPhoto.sizes.big.url + ')'" @photoSwitch></div>
+
+<div class="menu" [@controlsHide]="controlsState">
+  <div class="row">
+    <div class="col-4">
+      <a routerLink="../" class="title"><i class="fas fa-arrow-left"></i> {{album?.name}}</a>
+    </div>
+    <div class="col-4 text-center text-light count">
+      <ng-container *ngIf="album?.photos">{{currentI + 1}}/{{album?.photos?.length}}</ng-container>
+    </div>
+    <div class="col-4 text-right">
+      <a *ngIf="currentPhoto" [href]="currentPhoto.sizes.original.url" class="download font-light" download title="Stáhnout fotku v originální kvalitě"><i class="fas fa-download"></i></a>
+    </div>
+  </div>
+</div>
+
+<a *ngIf="currentI > 0" class="arrow left" (click)="openPreviousPhoto()"><i class="fas fa-chevron-circle-left fa-3x"></i></a>
+<a *ngIf="currentI < album?.photos?.length - 1" class="arrow right" (click)="openNextPhoto()"><i class="fas fa-chevron-circle-right fa-3x"></i></a>
+
+<div class="footer" [@controlsHide]="controlsState">
+  <div *ngIf="currentPhoto?.caption" class="caption text-light text-center">
+    {{currentPhoto.caption}}
+  </div>
+</div>
