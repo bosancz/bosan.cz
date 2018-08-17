@@ -132,7 +132,7 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit {
   }
 
   openPhoto(photo:Photo):void{
-    this.router.navigate(["../" + photo._id],{relativeTo:this.route});
+    this.router.navigate(["../" + photo._id],{relativeTo:this.route,replaceUrl:true});
   }
   
   openNextPhoto():void{
