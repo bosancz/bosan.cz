@@ -2,21 +2,29 @@
 
 .caption{padding-top:10px;}
 
-.photo{position:relative;border-bottom:1px solid #eee;height:170px;}
-.photo .image{position:absolute;top:10px;left:10px;width:150px;height:150px;float:left;background-position:center center;background-repeat:no-repeat;background-size:cover;}
-.photo .details{position:absolute;top:10px;right:10px;bottom:10px;left:170px;}
+.titlePhotos{}
+.titlePhoto{position:relative;}
+.titlePhoto .image{height:150px;width:100%;background-position:center center;background-repeat:no-repeat;background-size:cover;}
+.titlePhoto .icons{display:none;position:absolute;top:0;left:15px;right:15px;padding:5px;cursor:pointer;}
 
-.photo .star{display:none;position:absolute;top:10px;left:10px;width:150px;padding:5px;cursor:pointer;}
-.photo .star i.fas{display:none;}
-.photo .star a{color:$hover-yellow;}
-.photo .star span{display:none;}
-.photo .star.active{display:block;}
-.photo .star.active i.fas{display:inline;}
-.photo .star.active i.far{display:none;}
-.photo:hover .star{display:block;background-color:rgba(0,0,0,.5);}
-.photo:hover .star span{display:inline;}
-.photo .star:hover i.fas{display:inline;}
-.photo .star:hover i.far{display:none;}
+.photo{position:relative;border-bottom:1px solid #eee;height:180px;}
+.photo .image{position:absolute;top:15px;left:15px;width:150px;height:150px;float:left;background-position:center center;background-repeat:no-repeat;background-size:cover;}
+.photo .details{position:absolute;top:15px;right:15px;bottom:15px;left:180px;}
+.photo .icons{display:none;position:absolute;top:15px;left:15px;width:150px;padding:5px;cursor:pointer;}
+
+.icons i.fas{display:none;}
+.icons a{color:$hover-yellow;}
+.icons span{display:none;}
+.icons.active{display:block !important;}
+.icons.active i.fas{display:inline !important;}
+.icons.active i.far{display:none !important;}
+.icons a:hover i.fas{display:inline;}
+.icons a:hover i.far{display:none;}
+
+.photo:hover .icons{display:block;background-color:rgba(0,0,0,.5);}
+.photo:hover .icons span{display:inline;}
+.titlePhoto:hover .icons{display:block;background-color:rgba(0,0,0,.5);}
+.titlePhoto:hover .icons span{display:inline;}
 
 .badge{cursor:pointer;margin:0 5px;}
 .badge:not(.active){opacity:.3;}

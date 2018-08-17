@@ -16,12 +16,11 @@ import { WebConfig } from "../schema/webconfig";
 function toParams(options){
 	if(!options) return "";
 	
-  var params = Object.keys(options).filter(key => options[key] !== null).map(key => {
-    if(typeof options[key] === "object") return Object.keys(options[key]).map(key2 => key + "[" + key2 + "]=" + options[key][key2]).join("&");
-    else return key + "=" + options[key];
-  });
-  
-	return params.length ? ("?" + params.join("&")) : "";
+  var params = Object.entries(options)
+    .filter(entry => entry[1] !== undefined)
+    .map(entry => entry[0] + "=" + entry[1]);
+
+  return params.length ? ("?" + params.join("&")) : "";
 }
 
 @Injectable()

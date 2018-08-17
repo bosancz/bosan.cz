@@ -11,6 +11,7 @@
       <tr>
         <th>Název souboru</th>
         <th colspan="2">Stav</th>
+        <th></th>
     </thead>
 
     <tbody>
@@ -18,24 +19,20 @@
         <td>{{uploadItem.file.name}}</td>
         <td>{{uploadItem.progress}} %</td>
         <td [ngSwitch]="uploadItem.status">
-          <ng-container *ngSwitchCase="'pending'">čeká</ng-container>
+          <ng-container *ngSwitchCase="'pending'">připraven</ng-container>
           <ng-container *ngSwitchCase="'uploading'">nahrává se</ng-container>
           <ng-container *ngSwitchCase="'processing'">zpracovává se</ng-container>
           <ng-container *ngSwitchCase="'finished'">hotovo</ng-container>
           <ng-container *ngSwitchCase="'error'">Chyba: {{uploadItem.error.message}}</ng-container>
+        </td>
+        <td class="remove text-right">
+          <a (click)="removeFromQueue(uploadItem)">odebrat</a>
         </td>
       </tr>
     </tbody>
   </table>
   <p *ngIf="!photoUploadQueue.length">K nahrání nejsou vybrány žádné fotky</p>
 </div>
-<!--
-<ng-container [ngSwitch]="status">
-<ng-container *ngSwitchCase="'notstarted'">nebylo zahájeno</ng-container>
-<ng-container *ngSwitchCase="'started'">nahrávám&hellip;</ng-container>
-<ng-container *ngSwitchCase="'finished'">hotovo</ng-container>
-</ng-container>
--->
 
 <div class="tags">
   <span *ngFor="let tag of defaultTags" class="badge badge-dark" [class.active]="hasTag(tag)" (click)="toggleTag(tag)">#{{tag}}</span>
@@ -45,5 +42,6 @@
 
 <div class="buttons text-right">
   <button type="button" class="btn btn-light text-dark" (click)="clearQueue()">Vyprázdnit frontu</button>
+  &nbsp;
   <button type="button" class="btn btn-primary" (click)="uploadPhotos()">Nahrát</button>
 </div>

@@ -39,19 +39,6 @@
     <typeahead-field [ngModel]="album.event" name="event" [matched]="eventsMatched" (search)="loadTypeaheadEvents($event)" [delay]="1000" [toStringFn]="getEventString"></typeahead-field>
   </div>
 
-  <div class="form-group titlePhotos">
-    <label>Titulní fotografie</label>
-    <div class="row">
-      <div *ngFor="let photo of album.titlePhotos" class="col-4 photo">
-      </div>
-
-      <div *ngIf="album.titlePhotos?.length < 3" class="col-4 photo add">
-        přidat foto
-      </div>
-
-    </div>
-  </div>
-
   <div class="form-group">
     <label>Popis</label>
     <textarea name="description" [ngModel]="album.description" class="form-control"></textarea>

@@ -28,11 +28,12 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   }
 
   options = {
-    drafts:1,
-    year:null,
+    year:undefined,
     page:1,
-    status:null,
-    sort:"-dateFrom"
+    sort:"-dateFrom",
+    status:"all",
+    dateFrom:undefined,
+    dateTill:undefined
   };
   
   openFilter:boolean = false;
@@ -43,13 +44,13 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
-      this.options.year = params.year || null;
+      this.options.year = params.year || undefined;
       this.options.page = params.page || 1;
       this.loadAlbums();
     });
   }
   
-  ngOnDestroy(){
+  ngOnDestroy(){ 
     this.paramsSubscription.unsubscribe();
   }
 

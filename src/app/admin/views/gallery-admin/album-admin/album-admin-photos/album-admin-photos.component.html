@@ -1,25 +1,57 @@
-<div class="photos row">
-  <div *ngFor="let photo of album.photos" class="photo col-md-6">    
-    <div class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'"></div>
-    <div class="details">
+<section class="titlePhotos">
 
-      <div class="tags">
-        <span *ngFor="let tag of defaultTags" class="badge badge-dark" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
-        <span *ngFor="let tag of customTags" class="badge badge-warning" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
-        <span class="badge badge-warning" (click)="newTag(photo)">+</span>
+  <h3>Titulní fotografie</h3>
+  
+  <div class="row">
+
+    <div *ngFor="let photo of album.titlePhotos;let i = index" class="col-4 titlePhoto">
+      <div class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'"></div>
+      
+      <div class="icons">
+        <a (click)="moveTitlePhoto(i,i-1)">
+          <i class="fas fa-arrow-alt-circle-left"></i>
+          <i class="far fa-arrow-alt-circle-left"></i>
+        </a>
+        <a (click)="removeTitlePhoto(photo)">
+          <i class="fas fa-times-circle"></i>
+          <i class="far fa-times-circle"></i>
+        </a>
+        <a (click)="moveTitlePhoto(i,i+1)">
+          <i class="fas fa-arrow-alt-circle-right"></i>
+          <i class="far fa-arrow-alt-circle-right"></i>          
+        </a>
       </div>
     </div>
+  </div>
 
-    <div class="star" [class.active]="album.titlePhoto && photo._id === album.titlePhoto._id">
-      <a (click)="setTitlePhoto(photo)">
-        <i class="fas fa-star"></i>
-        <i class="far fa-star"></i>
-        <span> jako úvodní</span>
-      </a>
-    </div>
+</section>
 
-    <div class="delete">
-      <a (click)="deletePhoto(photo)">smazat</a>
+<section class="photos">
+  <h3>Všechny fotografie</h3>
+  <div class="row">
+
+    <div *ngFor="let photo of album.photos" class="photo col-md-6">    
+      <div class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'"></div>
+      <div class="details">
+
+        <div class="tags">
+          <span *ngFor="let tag of defaultTags" class="badge badge-dark" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
+          <span *ngFor="let tag of customTags" class="badge badge-warning" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
+          <span class="badge badge-warning" (click)="newTag(photo)">+</span>
+        </div>
+      </div>
+
+      <div class="icons" [class.active]="isTitlePhoto(photo)">
+        <a (click)="isTitlePhoto(photo) ? removeTitlePhoto(photo) : setTitlePhoto(photo)">
+          <i class="fas fa-star"></i>
+          <i class="far fa-star"></i>
+          <span> jako úvodní</span>
+        </a>
+      </div>
+
+      <div class="delete">
+        <a (click)="deletePhoto(photo)" class="text-danger">smazat</a>
+      </div>
     </div>
   </div>
-</div>                            
+</section>                            

@@ -1,15 +1,31 @@
 <div *ngIf="openFilter" class="filter">
-  
-    <div class="form-group">
-      <label>Stav</label>
-      <select [(ngModel)]="options.drafts">
-        <option value="draft">v přípravě</option>
-        <option value="public">zveřejněná</option>
-        <option value="public">vše</option>
-      </select>
+  <form class="form" (ngSubmit)="loadAlbums()">
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label>Stav</label>
+        <select [(ngModel)]="options.status" name="status" class="form-control">
+          <option value="draft">v přípravě</option>
+          <option value="public">zveřejněná</option>
+          <option value="all">vše</option>
+        </select>
+      </div>
+
+      <div class="form-group col-md-3">
+        <label>Datum od</label>
+        <input type="date" name="dateFrom" [(ngModel)]="options.dateFrom" class="form-control">
+      </div>
+
+      <div class="form-group col-md-3">
+        <label>Datum do</label>
+        <input type="date" name="dateTill" [(ngModel)]="options.dateTill" class="form-control">
+      </div>
+      
+      <div class="col-md-2">
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <button class="btn btn-primary" type="submit">Filtrovat</button>
+      </div>
     </div>
-  
-    <button class="btn btn-primary" type="button" (click)="loadAlbums()">Zobrazit</button>
+  </form>
 </div>
 
 <table class="table table-striped table-hover table-sm">
@@ -19,7 +35,7 @@
       <th (click)="setSort('dateFrom')">Datum</th>
       <th (click)="setSort('status')">Stav</th>
       <th (click)="setSort('datePublished')">Publikováno</th>
-      <th class="text-right"><a (click)="openFilter=true"><i class="fas fa-filter"></i></a></th>
+      <th class="filter text-right"><a (click)="openFilter=!openFilter" [class.active]="openFilter"><i class="fas fa-filter"></i></a></th>
     </tr>
   </thead>
   <tbody>
