@@ -20,7 +20,7 @@ export class AlbumsRecentComponent implements OnInit {
   }
   
   async loadAlbums(){
-    let query:any = {limit: 5, sort: "-published", events: 1, titlePhoto: 1};
+    let query:any = {limit: 5, sort: "-datePublished", titlePhotos: 1};
     
     var paginated = await this.dataService.getAlbums(query);
     

@@ -12,7 +12,7 @@ import { NewsViewComponent } from './views/news-view/news-view.component';
 /* CHILD VIEWS */
 import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
 import { GalleryViewTimelineComponent } from './views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
-import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year/gallery-view-year.component';
+import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
 
 
 /* SERVICES */
@@ -23,6 +23,7 @@ const routes: Routes = [
 
   {path: 'fotogalerie', component: GalleryViewComponent,
    children: [
+     {path: ':album/:photo', component: GalleryViewPhotosComponent},
      {path: ':album', component: GalleryViewAlbumComponent},
      {path: '', component: GalleryViewTimelineComponent}
    ]

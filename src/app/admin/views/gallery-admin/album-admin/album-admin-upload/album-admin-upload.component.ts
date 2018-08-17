@@ -54,7 +54,10 @@ export class AlbumAdminUploadComponent implements OnInit {
   }
   
   addCustomTag(tag){
-    if(this.defaultTags.indexOf(tag) === -1 && this.customTags.indexOf(tag) === -1) this.customTags.push(tag);
+    if(this.defaultTags.indexOf(tag) === -1 && this.customTags.indexOf(tag) === -1){
+      this.customTags.push(tag);
+      this.selectedTags.push(tag);
+    }
   }
   
   hasTag(tag:string):boolean {

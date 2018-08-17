@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from "rxjs";
 
 import { DataService } from "../../../services/data.service";
@@ -9,6 +9,18 @@ import { Album, Photo } from "../../../schema/album";
 
 import { GalleryPhoto } from "../../../components/photo-gallery/photo-gallery.component";
 
+
+class GalleryPhotoContainer implements GalleryPhoto{
+  
+  photo: Photo;
+  
+  // GalleryPhoto
+  url: string;
+  width: number;
+  height: number;
+  caption: string;
+  bg: string;
+}
 @Component({
   selector: 'gallery-view-album',
   templateUrl: './gallery-view-album.component.html',
@@ -21,11 +33,11 @@ export class GalleryViewAlbumComponent implements OnInit {
   tags:string[] = [];
   tag:string;
   
-  galleryPhotos:GalleryPhoto[] = [];
+  galleryPhotos:GalleryPhoto[] = []; 
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute) { }
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
@@ -67,6 +79,7 @@ export class GalleryViewAlbumComponent implements OnInit {
     if(!this.album) return;
     
     let galleryPhotos = this.album.photos.filter(photo => this.hasTag(photo,this.tag)).map(photo => ({
+      photo: photo,
       url: photo.sizes.small.url,
       width: photo.sizes.small.width,
       height: photo.sizes.small.height,
@@ -81,6 +94,10 @@ export class GalleryViewAlbumComponent implements OnInit {
     if(!tag) return true;
     if(!photo.tags) return false;
     return photo.tags.indexOf(tag) !== -1;
+  }
+  
+  openPhoto(container:GalleryPhotoContainer){
+    this.router.navigate(['./' + container.photo._id],{relativeTo:this.route});
   }
 
 
