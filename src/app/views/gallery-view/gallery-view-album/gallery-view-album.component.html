@@ -7,6 +7,6 @@
       <a *ngFor="let tagItem of tags" [routerLink]="['./',{tag:tagItem}]" class="tag badge-pill" [class.badge-primary]="tag === tagItem" [class.badge-light]="tag !== tagItem">#{{tagItem}}</a>
     </div>
     
-    <photo-gallery *ngIf="album" [photos]="galleryPhotos" height="250" margin="5"></photo-gallery>
+    <photo-gallery *ngIf="album" [photos]="galleryPhotos" height="250" margin="5" (photoOpen)="openPhoto($event)"></photo-gallery>
   </div>
 </section>

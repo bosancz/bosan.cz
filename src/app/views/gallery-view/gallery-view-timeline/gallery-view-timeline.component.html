@@ -14,8 +14,7 @@
             </h3>
             <div class="row photos">
               <div class="col-md-4" *ngFor="let photo of point.album.titlePhotos | slice:0:3">
-                <div class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'">
-                </div>
+                <a [routerLink]="'./' + point.album._id + '/' + photo._id" class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'"></a>
               </div>
             </div>
             <div class="row">

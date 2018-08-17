@@ -1,22 +1,25 @@
-<ng-template #albumImage let-album="album">
+<ng-template #albumImage let-album="album" let-size="size">
   <ng-container *ngIf="album._id; else blankalbum">
-    <a [routerLink]="getAlbumLink(album)" [style.background-image]="album.titlePhoto ? ('url(' + album.titlePhoto.sizes.small.url  + ')') : ''" [style.background-color]="album.titlePhoto?.bg"></a>
+    
+    <a *ngIf="album.titlePhotos && album.titlePhotos[0]; else dummyPhoto" [routerLink]="getAlbumLink(album)" [style.background-image]="'url(' + album.titlePhotos[0].sizes[size].url + ')'" [style.background-color]="album.titlePhotos[0].bg"></a>
+    <ng-template #dummyPhoto><a [routerLink]="getAlbumLink(album)"></a></ng-template>
+    
     <h2>{{album.name}}</h2>
 
-    <p *ngIf="album.event" class="text-muted">{{album.event.dateFrom | date:"d. M."}} ~ {{album.event.dateTill | date:"d. M."}}</p>
+    <p class="text-muted">{{album.dateFrom | date:"d. M."}} ~ {{album.dateTill | date:"d. M. y"}}</p>
     <p *ngIf="album.description">{{album.description}}</p>
   </ng-container>
-  <ng-template #blankalbum><a class="rounded"></a></ng-template>
+  <ng-template #blankalbum><a></a></ng-template>
 </ng-template>
 
 <div class="row firstRow">
   <div *ngFor="let album of albums | slice:0:2" class="col-md-6 col-sm-12 no-gutters event">
-    <ng-container *ngTemplateOutlet="albumImage; context: {album:album}"></ng-container>
+    <ng-container *ngTemplateOutlet="albumImage; context: {album:album,size:'big'}"></ng-container>
   </div>
 </div>
 
 <div class="row secondRow">
   <div *ngFor="let album of albums | slice:2:5" class="col-md-4 col-sm-6 no-gutters event">
-    <ng-container *ngTemplateOutlet="albumImage; context: {album:album}"></ng-container>
+    <ng-container *ngTemplateOutlet="albumImage; context: {album:album,size:'small'}"></ng-container>
   </div>
 </div>
