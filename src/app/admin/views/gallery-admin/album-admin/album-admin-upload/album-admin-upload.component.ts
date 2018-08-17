@@ -18,11 +18,15 @@ class PhotoUploadItem {
   templateUrl: './album-admin-upload.component.html',
   styleUrls: ['./album-admin-upload.component.css']
 })
-export class AlbumAdminUploadComponent {
+export class AlbumAdminUploadComponent implements OnInit {
 
   @Input() album:Album;
   
   @Output() save:EventEmitter<void> = new EventEmitter();
+  
+  defaultTags:string[] = [];
+  customTags:string[] = [];
+  selectedTags:string[] = [];
   
   status:string = "notstarted";
 
@@ -32,6 +36,46 @@ export class AlbumAdminUploadComponent {
 
   constructor(private dataService:DataService, private toastService:ToastService) { }
 
+  ngOnInit(){
+    this.loadTags();
+  }
+  
+  async loadTags(){
+    var config = await this.dataService.getConfig();
+    this.defaultTags = config.gallery.defaultTags.map(item => item.tag);
+    this.updateCustomTags();
+  }
+
+  updateCustomTags(){
+    this.customTags = [];
+    this.album.photos.forEach(photo => {
+      photo.tags.forEach(tag => this.addCustomTag(tag));
+    });
+  }
+  
+  addCustomTag(tag){
+    if(this.defaultTags.indexOf(tag) === -1 && this.customTags.indexOf(tag) === -1) this.customTags.push(tag);
+  }
+  
+  hasTag(tag:string):boolean {
+    return this.selectedTags.indexOf(tag) !== -1;
+  }
+  
+  toggleTag(tag:string){
+    let i = this.selectedTags.indexOf(tag);
+    if(i === -1) this.selectedTags.push(tag);
+    else this.selectedTags.splice(i,1);
+  }
+  
+  newTag(){
+    var tag:string = window.prompt("Zadejte název nového tagu:");
+    if(!tag) return;
+
+    if(tag.charAt(0) === "#") tag = tag.substring(1);
+
+    this.addCustomTag(tag);
+  }  
+  
   async addPhotosByInput(photoInput:HTMLInputElement){
 
     if(!photoInput.files.length) return;
@@ -43,8 +87,6 @@ export class AlbumAdminUploadComponent {
         status: "pending"
       });
     }    
-
-    this.uploadPhotos();
 
   }
 
@@ -59,13 +101,15 @@ export class AlbumAdminUploadComponent {
       });
     }    
 
-    this.uploadPhotos();
-
   }
 
   onDragOver(event) {
     event.stopPropagation();
     event.preventDefault();
+  }
+  
+  clearQueue(){
+    this.photoUploadQueue = [];
   }
 
   async uploadPhotos(){
@@ -104,6 +148,7 @@ export class AlbumAdminUploadComponent {
       let formData: FormData = new FormData();
 
       formData.set("album",this.album._id);
+      formData.set("tags",this.selectedTags.join(","));
       formData.set("photo",uploadItem.file,uploadItem.file.name);
       formData.set("lastModified",uploadItem.file.lastModifiedDate.toISOString());
 
@@ -127,5 +172,6 @@ export class AlbumAdminUploadComponent {
     });
 
   }
+ 
 }
 

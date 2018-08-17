@@ -20,6 +20,8 @@ export class Photo {
   
   _id:string;
   
+  name:string;
+  
   width:number;
   height:number;
   

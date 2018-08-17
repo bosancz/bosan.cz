@@ -4,4 +4,9 @@
 .dropzone:hover{background-color:#ddd;}
 .dropzone p{color:#999;text-align:center;margin:0;}
 
-.status{margin-top:40px;}
+.badge{cursor:pointer;margin:0 5px 0 0;}
+.badge:not(.active){opacity:.3;}
+.badge:not(.active):hover{opacity:.8;}
+
+.queue{margin-top:20px;}
+.tags{margin-top:20px;}

@@ -64,10 +64,6 @@ export class DataService {
     return this.http.get<Photo[]>(this.root + "/albums/" + albumId + "/photos" + toParams(options)).toPromise();
   }
   
-  deleteAlbumPhoto(albumId:string,photoId:string):Promise<string>{
-    return this.http.delete(this.root + "/albums/" + albumId + "/photos/" + photoId,{responseType:"text"}).toPromise();
-  }
-  
   getAlbumTags(albumId:string):Promise<string[]>{
     return this.http.get<string[]>(this.root + "/albums/" + albumId + "/tags").toPromise();
   }
@@ -86,6 +82,10 @@ export class DataService {
   
   updatePhoto(photoId:string,photoData:any):Promise<string>{
     return this.http.patch(this.root + "/photos/" + photoId, photoData, {responseType:"text"}).toPromise();
+  }
+  
+  deletePhoto(photoId:string):Promise<string>{
+    return this.http.delete(this.root + "/photos/" + photoId,{responseType:"text"}).toPromise();
   }
   
   /* CAMPS */

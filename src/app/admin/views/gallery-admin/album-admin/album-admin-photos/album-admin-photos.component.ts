@@ -67,7 +67,7 @@ export class AlbumAdminPhotosComponent implements OnInit {
     
     if(!window.confirm("Opravdu chcete smazat toho foto")) return;
     
-    await this.dataService.deleteAlbumPhoto(this.album._id,photo._id)
+    await this.dataService.deletePhoto(photo._id)
     
     this.toastService.toast("Foto smazáno.");
     
@@ -83,8 +83,6 @@ export class AlbumAdminPhotosComponent implements OnInit {
     let i = photo.tags.indexOf(tag);
     if(i === -1) photo.tags.push(tag);
     else photo.tags.splice(i,1);
-    
-    console.log(photo,tag);
     
     await this.savePhoto(photo);
   }
