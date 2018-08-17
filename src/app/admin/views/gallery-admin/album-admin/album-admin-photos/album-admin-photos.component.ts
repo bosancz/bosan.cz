@@ -18,8 +18,6 @@ export class AlbumAdminPhotosComponent implements OnInit {
   
   @Output() save:EventEmitter<void> = new EventEmitter();
     
-  galleryPhotos:GalleryPhoto[] = [];
-  
   defaultTags:string[] = [];
   customTags:string[] = [];
   
@@ -52,10 +50,48 @@ export class AlbumAdminPhotosComponent implements OnInit {
     if(this.defaultTags.indexOf(tag) === -1 && this.customTags.indexOf(tag) === -1) this.customTags.push(tag);
   }
   
+  isTitlePhoto(photo){
+    return this.album.titlePhotos && this.album.titlePhotos.some(titlePhoto => titlePhoto._id === photo._id);
+  }
+  
   async setTitlePhoto(photo){
-    await this.dataService.updateAlbum(this.album._id,{titlePhoto:photo._id});
-    this.album.titlePhoto = photo;
+    
+    let titlePhotos = this.album.titlePhotos ? this.album.titlePhotos.map(photo => photo._id) : [];
+    titlePhotos.push(photo._id);
+    
+    await this.dataService.updateAlbum(this.album._id,{titlePhotos:titlePhotos});
+    
+    this.album.titlePhotos.push(photo);
+    
     this.toastService.toast("Uloženo.");
+  }
+  
+  async moveTitlePhoto(from:number,to:number){
+    
+    if(to < 0 || to >= this.album.titlePhotos.length) return;
+      
+    let titlePhotos = this.album.titlePhotos ? this.album.titlePhotos.map(photo => photo._id) : [];
+    titlePhotos.splice(to,0,titlePhotos.splice(from,1)[0]);    
+    
+    await this.dataService.updateAlbum(this.album._id,{titlePhotos:titlePhotos});
+    
+    this.album.titlePhotos.splice(to,0,this.album.titlePhotos.splice(from,1)[0]);    
+    
+    this.toastService.toast("Uloženo.");
+  }
+  
+  async removeTitlePhoto(photo){
+    
+    if(!this.album.titlePhotos) return;
+    
+    let titlePhotos = this.album.titlePhotos.filter(item => item._id !== photo._id).map(photo => photo._id);
+    
+    await this.dataService.updateAlbum(this.album._id,{titlePhotos:titlePhotos});
+    
+    this.album.titlePhotos = this.album.titlePhotos.filter(item => item._id !== photo._id);
+    
+    this.toastService.toast("Uloženo.");
+    
   }
   
   async savePhoto(photo){

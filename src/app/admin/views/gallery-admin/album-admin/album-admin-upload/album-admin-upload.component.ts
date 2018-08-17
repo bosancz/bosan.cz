@@ -108,6 +108,11 @@ export class AlbumAdminUploadComponent implements OnInit {
     event.preventDefault();
   }
   
+  removeFromQueue(uploadItem:PhotoUploadItem){
+    let i = this.photoUploadQueue.indexOf(uploadItem);
+    if(i !== -1) this.photoUploadQueue.splice(i,1);
+  }
+  
   clearQueue(){
     this.photoUploadQueue = [];
   }

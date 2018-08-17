@@ -1,7 +1,7 @@
 <div *ngIf="openFilter" class="filter">
   <form class="form" (ngSubmit)="loadAlbums()">
     <div class="row">
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-4">
         <label>Stav</label>
         <select [(ngModel)]="options.status" name="status" class="form-control">
           <option value="draft">v přípravě</option>
@@ -16,11 +16,11 @@
       </div>
 
       <div class="form-group col-md-3">
-        <label>Datum od</label>
+        <label>Datum do</label>
         <input type="date" name="dateTill" [(ngModel)]="options.dateTill" class="form-control">
       </div>
       
-      <div class="col-md-3">
+      <div class="col-md-2">
         <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
         <button class="btn btn-primary" type="submit">Filtrovat</button>
       </div>

@@ -9,4 +9,6 @@
 .badge:not(.active):hover{opacity:.8;}
 
 .queue{margin-top:20px;}
+.queue .remove{cursor: pointer;}
+
 .tags{margin-top:20px;}
