@@ -27,14 +27,24 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
     "draft": "v přípravě"
   }
 
+  options = {
+    drafts:1,
+    year:null,
+    page:1,
+    status:null,
+    sort:"-dateFrom"
+  };
+  
+  openFilter:boolean = false;
+
   paramsSubscription:Subscription;
   
   constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
-      this.year = params.year;
-      this.page = params.page || 1;
+      this.options.year = params.year || null;
+      this.options.page = params.page || 1;
       this.loadAlbums();
     });
   }
@@ -44,13 +54,8 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   }
 
   async loadAlbums(){
-    var options = {
-      events:1,
-      drafts:1,
-      year:this.year || null,
-      page:this.page || 1
-    };
-    let paginated:Paginated<Album> = await this.dataService.getAlbums(options);
+    
+    let paginated:Paginated<Album> = await this.dataService.getAlbums(this.options);
     
     this.albums = paginated.docs;
     this.pages = paginated.pages;
@@ -74,6 +79,16 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
     var params:any = {page:page};
     if(this.year) params.year = this.year || null;
     return ["./",params];
+  }
+  
+  setSort(field:string){
+    let asc = this.options.sort.charAt(0) !== "-";
+    let currentField = asc ? this.options.sort : this.options.sort.substring(1);
+    
+    if(field === currentField) this.options.sort = asc ? "-" + field : field;
+    else this.options.sort = field;
+    
+    this.loadAlbums();
   }
 
 }

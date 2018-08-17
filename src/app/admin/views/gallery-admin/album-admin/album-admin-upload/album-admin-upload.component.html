@@ -5,17 +5,7 @@
 
 <input class="photoInput" type="file" name="photo" #photoInput (change)="addPhotosByInput(photoInput)" multiple>
 
-<div class="status">
-  <h4>
-    Průběh nahrávání:
-    <ng-container [ngSwitch]="status">
-      <ng-container *ngSwitchCase="'notstarted'">nebylo zahájeno</ng-container>
-      <ng-container *ngSwitchCase="'started'">nahrávám&hellip;</ng-container>
-      <ng-container *ngSwitchCase="'finished'">hotovo</ng-container>
-    </ng-container>
-    
-  </h4>
-
+<div class="queue">
   <table class="table table-striped table-hover table-sm uploadQueue">
     <thead>
       <tr>
@@ -37,4 +27,23 @@
       </tr>
     </tbody>
   </table>
+  <p *ngIf="!photoUploadQueue.length">K nahrání nejsou vybrány žádné fotky</p>
+</div>
+<!--
+<ng-container [ngSwitch]="status">
+<ng-container *ngSwitchCase="'notstarted'">nebylo zahájeno</ng-container>
+<ng-container *ngSwitchCase="'started'">nahrávám&hellip;</ng-container>
+<ng-container *ngSwitchCase="'finished'">hotovo</ng-container>
+</ng-container>
+-->
+
+<div class="tags">
+  <span *ngFor="let tag of defaultTags" class="badge badge-dark" [class.active]="hasTag(tag)" (click)="toggleTag(tag)">#{{tag}}</span>
+  <span *ngFor="let tag of customTags" class="badge badge-warning" [class.active]="hasTag(tag)" (click)="toggleTag(tag)">#{{tag}}</span>
+  <span class="badge badge-warning" (click)="newTag()">+</span>
+</div>
+
+<div class="buttons text-right">
+  <button type="button" class="btn btn-light text-dark" (click)="clearQueue()">Vyprázdnit frontu</button>
+  <button type="button" class="btn btn-primary" (click)="uploadPhotos()">Nahrát</button>
 </div>

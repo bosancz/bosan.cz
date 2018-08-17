@@ -2,19 +2,24 @@
   <div *ngFor="let photo of album.photos" class="photo col-md-6">    
     <div class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'"></div>
     <div class="details">
-      
+
       <div class="tags">
         <span *ngFor="let tag of defaultTags" class="badge badge-dark" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
         <span *ngFor="let tag of customTags" class="badge badge-warning" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
         <span class="badge badge-warning" (click)="newTag(photo)">+</span>
       </div>
     </div>
+
     <div class="star" [class.active]="album.titlePhoto && photo._id === album.titlePhoto._id">
       <a (click)="setTitlePhoto(photo)">
         <i class="fas fa-star"></i>
         <i class="far fa-star"></i>
         <span> jako úvodní</span>
       </a>
+    </div>
+
+    <div class="delete">
+      <a (click)="deletePhoto(photo)">smazat</a>
     </div>
   </div>
 </div>                            
