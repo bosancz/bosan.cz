@@ -3,9 +3,8 @@
 var config = require("./config.js");
 
 var mongo = {
-  host: config.database.host,
   ssl: false,
-  connectionString: 'mongodb://' + config.database.host + '/' + config.database.db
+  connectionString: config.database.uri
 };
 
 var meConfigMongodbServer = process.env.ME_CONFIG_MONGODB_SERVER ? process.env.ME_CONFIG_MONGODB_SERVER.split(',') : false;

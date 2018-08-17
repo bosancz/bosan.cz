@@ -85,7 +85,6 @@ router.post("/", acl("albums:photos:create"), upload.single("photo"), async (req
     if(!album.titlePhoto) album.titlePhoto = photo._id;
     // save the album
     await album.save()
-    // save the photo, resize, save in DB
     
     res.status(201).json(photo);
   }
@@ -98,6 +97,10 @@ router.post("/", acl("albums:photos:create"), upload.single("photo"), async (req
 
 
 
+});
+
+router.patch("/:photo", acl("albums:photos:edit"), async (req,res) => {
+    
 });
 
 router.delete("/:photo", acl("albums:photos:delete"), async (req,res,next) => {

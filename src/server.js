@@ -13,14 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true,  limit:'10mb' })); // support ur
 var jwt = require('express-jwt');
 app.use(jwt(config.jwt));
 
-var mongoose = require('mongoose');
-mongoose.plugin(require('mongoose-paginate'));
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://' + config.database.host + '/' + config.database.db)
-  .then(() => console.log("Connected to database " + config.database.db))
-  .catch(err => {
-    throw new Error("Error when connectiong to DB " + config.database.db + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
-  });
+var mongooseConnection = require("./db");
 
 var dynaclOptions = {
   roles: require("./acl"),

@@ -6,19 +6,30 @@ var acl = require("express-dynacl");
 var Event = require("../models/event");
 
 router.get("/", acl("events:list"), async (req,res,next) => {
+
+  var options = {
+    select: ["_id","name","dateFrom","dateTill"],
+    page: req.query.page || 1,
+    limit: req.query.limit ? Math.min(100,req.query.limit) : 20,
+    populate: []
+  };
+
+  var where = {};
   
-  var events = Event.find();
+  if(req.query.search) where.name = new RegExp(req.query.search,"i");
+  if(req.query.description) options.select.push("description");
+  if(req.query.leader){ options.select.push("leaders"); where.leaders = req.query.leader;}
+  if(req.query.noleader) where.$or = [{"leaders":{$size:0}},{"leaders": {$exists:false}}];
+  if(req.query.from) where.dateTill = {$gte: new Date(req.query.from)};
+  if(req.query.till) where.dateFrom = {$lte: new Date(req.query.till)};
+  if(!(req.query.drafts && await acl.can("events:drafts:list",req))) where.status = "public";
+  else options.select.push("status");
+
+
+  if(req.query.leaders) options.populate.push({path: "leaders", select: "_id name nickname group"});
+  if(req.query.sort) options.sort = req.query.sort;
   
-  if(req.query.leaders) events.populate("leaders","_id name nickname group");
-  if(req.query.leader) events.where({"leaders":req.query.leader});
-  if(req.query.noleader) events.where({ $or: [{"leaders":{$size:0}},{"leaders": {$exists:false}}]});
-  if(req.query.from) events.where({dateTill: {$gte: new Date(req.query.from)}});
-  if(req.query.till) events.where({dateFrom: {$lte: new Date(req.query.till)}});
-  if(req.query.sort) events.sort(req.query.sort);
-  
-  if(!(req.query.drafts && await acl.can("events:list-drafts",req))) events.where({status: "public"});
-  
-  res.json(await events);
+  res.json(await Event.paginate(where,options));
 });
 
 router.post("/", acl("events:create"), async (req,res,next) => {

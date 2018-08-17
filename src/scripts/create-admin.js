@@ -2,15 +2,7 @@ var bcrypt = require("bcryptjs");
 
 var config = require("../../config");
 
-var mongoose = require('mongoose');
-mongoose.plugin(require('mongoose-paginate'));
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://' + config.database.host + '/' + config.database.db)
-  .then(() => console.log("Connected to database " + config.database.db))
-  .catch(err => {
-    console.error("Error when connectiong to DB " + config.database.db + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
-    process.exit();
-  });
+var mongoose = require('../db");
 
 var User = require("../models/user");
 

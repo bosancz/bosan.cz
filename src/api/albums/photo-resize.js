@@ -6,7 +6,9 @@ var rimraf = require("rimraf");
 var sharp = require("sharp");
 var exif = require('exif-reader');
 
-module.exports = async function(file,sizes,stats){
+module.exports = async function(file,sizes,options){
+  
+  var stats = options ? options.stats : false;
 
   var result = {};
 
@@ -16,8 +18,8 @@ module.exports = async function(file,sizes,stats){
       sharp(file).metadata(),
       sharp(file).stats()
     ]);
-
-    var origExif = metadata[1].exif ? exif(metadata[1].exif) : null;
+    
+    var origExif = metadata[0].exif ? exif(metadata[0].exif) : null;
 
     result.stats = {
       date: (origExif && origExif.exif && origExif.exif.DateTimeOriginal) || (origExif && origExif.image && origExif.image.ModifyDate),

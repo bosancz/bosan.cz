@@ -9,14 +9,17 @@ var photoSchema = mongoose.Schema({
   title: String,
   
   name: String,
+  caption:String,
   
-  album: { type: String, ref: 'Album', required: true },
+  album: {type: mongoose.Schema.Types.ObjectId, ref: "Album", required: true},
 
   width: Number,
   height: Number,
 
   date:Date,
   tags: [String],
+  
+  fromSized: Boolean,
 
   sizes: {
     original: { width:Number, height:Number, file:String },
@@ -36,5 +39,6 @@ photoSchema.virtual("sizes.big.url").get(function(){return getUrl(this,"big",con
 photoSchema.virtual("sizes.small.url").get(function(){return getUrl(this,"small",config.photos.thumbsUrl);});
 
 photoSchema.index({ tags: 1 }, { sparse: true });
+photoSchema.index({ album: 1, tags: 1 }, { sparse: true });
 
 module.exports = mongoose.model("Photo", photoSchema);
