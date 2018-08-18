@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { DataService } from "../../services/data.service";
 import { ToastService } from "../../services/toast.service";
 import { MenuService } from "../../services/menu.service";
+import { TitleService } from "../../services/title.service";
 
 import { Contact } from "../../schema/contact";
 
@@ -16,11 +17,13 @@ export class AboutViewComponent implements OnInit, OnDestroy {
   
   contacts:Contact[] = [];
 
-  constructor(private dataService:DataService, private toastService:ToastService, private menuService:MenuService, private router:Router) {
+  constructor(private dataService:DataService, private toastService:ToastService, private menuService:MenuService, private router:Router, private titleService:TitleService) {
     this.menuService.transparent = true;
   }
 
   ngOnInit() {
+    
+    this.titleService.setTitle("O nás");
     
     this.dataService.getConfig()
       .then(config => {

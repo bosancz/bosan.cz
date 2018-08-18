@@ -20,14 +20,11 @@
     
     <div class="timeline-panel"> 
       <div class="timeline-heading">
-        <h2 class="timeline-title">{{event.name}}</h2>
+        <h2 class="timeline-title" [adminLink]="'/interni/akce/' + event._id">{{event.name}}</h2>
         <p>
           <small class="text-muted">
             <i class="fa fa-calendar"></i>
-            {{event.dateFrom | date:"d. M. H:mm"}}
-            ~
-            <ng-container *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyTime">{{event.dateTill | date:"d. M. H:mm"}}</ng-container>
-            <ng-template #onlyTime>{{event.dateTill | date:"H:mm"}}</ng-template>
+            {{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M."}}
           </small>
         </p>
       </div>

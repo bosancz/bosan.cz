@@ -19,6 +19,8 @@ export class CampAdminComponent implements OnInit {
   
   category:string;
   
+  deleteConfirmation:boolean = false;
+  
   paramsSubscription:Subscription;
   
   constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
@@ -42,5 +44,13 @@ export class CampAdminComponent implements OnInit {
     await this.loadCamp(this.camp._id);
     this.toastService.toast("Uloženo.");
   }
+  
+  async deleteCamp(){
+    var name = this.camp.name;
+    await this.dataService.deleteCamp(this.camp._id)
+    this.toastService.toast("Tábor " + name + " smazán.");
+    this.router.navigate(["/interni/tabory"]);
+  }
+
 
 }

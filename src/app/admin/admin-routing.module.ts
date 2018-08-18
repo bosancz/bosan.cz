@@ -50,10 +50,9 @@ const routes: Routes = [
       {path: 'akce/:event', redirectTo: "akce/:event/info", pathMatch: "full"},
       {path: 'akce', component: EventsAdminComponent},
 
-      {path: 'galerie/alba/:album/:cat', component: AlbumAdminComponent},
-      {path: 'galerie/alba/:album', redirectTo: "galerie/alba/:album/info", pathMatch: "full"},
-      {path: 'galerie/alba', component: GalleryAdminComponent},
-      {path: 'galerie', redirectTo: "galerie/alba", pathMatch: "full"},
+      {path: 'galerie/:album/:cat', component: AlbumAdminComponent},
+      {path: 'galerie/:album', redirectTo: "galerie/:album/info", pathMatch: "full"},
+      {path: 'galerie', component: GalleryAdminComponent},
 
       {path: 'nastaveni-webu/:cat', component: WebAdminComponent},
       {path: 'nastaveni-webu', redirectTo: "nastaveni-webu/obecne", pathMatch: "full"},

@@ -30,17 +30,19 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   pages:number = 1;
   page:number = 1;
-  limit:number = 25;
+  limit:number = 50;
   
   view:string;
   
   views:any = {
-    "future": {from: (new Date()).toISOString()},
-    "past": {till: (new Date()).toISOString()},
+    "future": {dateFrom: (new Date()).toISOString()},
+    "past": {dateTill: (new Date()).toISOString()},
     "my": { leader: null },
     "noleader": { noleader: 1 },
     "all": {}
   };
+  
+  types:any = {};
   
   createEventModalRef: BsModalRef;
   
@@ -63,6 +65,8 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
       this.loadEvents();
     });
     
+    this.loadTypes();
+    
   }
   
   ngOnDestroy(){
@@ -73,7 +77,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     let generalOptions = {
       drafts: 1,
       leaders:1,
-      sort: "dateFrom",
+      sort: "-dateFrom",
       limit: this.limit,
       page: Math.max(Math.min(this.page,this.pages),1)
     }
@@ -82,6 +86,15 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     let paginated:Paginated<Event> = await this.dataService.getEvents(options);
     this.events = paginated.docs;
     this.pages = paginated.pages;
+  }
+  
+  async loadTypes(){
+    var config = await this.dataService.getConfig();
+    
+    var types = {}
+    config.events.types.forEach(type => types[type.id] = type.title);
+    
+    this.types = types;
   }
   
   getEventLink(event:Event):string{

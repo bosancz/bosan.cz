@@ -4,7 +4,7 @@
     <a *ngIf="album.titlePhotos && album.titlePhotos[0]; else dummyPhoto" [routerLink]="getAlbumLink(album)" [style.background-image]="'url(' + album.titlePhotos[0].sizes[size].url + ')'" [style.background-color]="album.titlePhotos[0].bg"></a>
     <ng-template #dummyPhoto><a [routerLink]="getAlbumLink(album)"></a></ng-template>
     
-    <h2>{{album.name}}</h2>
+    <h2 [adminLink]="'/interni/galerie/' + album._id">{{album.name}}</h2>
 
     <p class="text-muted">{{album.dateFrom | date:"d. M."}} ~ {{album.dateTill | date:"d. M. y"}}</p>
     <p *ngIf="album.description">{{album.description}}</p>
