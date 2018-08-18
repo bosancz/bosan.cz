@@ -1,7 +1,7 @@
 <form *ngIf="camp" #campForm="ngForm" (ngSubmit)="saveCamp(campForm)">
   <div class="form-group">
     <label for="campNameInput">Název tábora</label>
-    <input type="text" name="name" [ngModel]="camp.name" class="form-control" id="campNameInput" [placeholder]="defaultName" required>    
+    <input type="text" name="name" [ngModel]="camp.name" class="form-control" id="campNameInput" placeholder="Hobit" required>    
   </div>
 
   <div class="form-row">
@@ -17,7 +17,7 @@
 
   <div class="form-group">
     <label for="campThemeInput">Téma CTH</label>
-    <input type="text" name="theme" [ngModel]="camp.theme" class="form-control" id="campThemeInput" placeholder="Hobit - Cesta tam a zase zpátky" required>    
+    <input type="text" name="theme" [ngModel]="camp.theme" class="form-control" id="campThemeInput" placeholder="Hobit - Cesta tam a zase zpátky">    
   </div>
 
   <button type="submit" class="btn btn-primary">Submit</button>

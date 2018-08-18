@@ -88,16 +88,24 @@ export class DataService {
   }
   
   /* CAMPS */
-  getCamps(){
-    return this.http.get<Camp[]>(this.root + "/camps").toPromise();
+  getCamps(options?:any){
+    return this.http.get<Camp[]>(this.root + "/camps" + toParams(options)).toPromise();
   }
   
   getCamp(id:string){
     return this.http.get<Camp>(this.root + "/camps/" + id).toPromise();
   }
   
+  createCamp(campData:any):Promise<Camp>{
+    return this.http.post<Camp>(this.root + "/camps", campData).toPromise();
+  }
+  
   updateCamp(id:string,campData:Camp):Promise<string>{
     return this.http.patch(this.root + "/camps/" + id, campData, {responseType:"text"}).toPromise();
+  }
+  
+  deleteCamp(campId:string):Promise<string>{
+    return this.http.delete(this.root + "/camps/" + campId, {responseType: "text"}).toPromise();
   }
   
   /* CONFIG */

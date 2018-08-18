@@ -37,6 +37,8 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   };
   
   openFilter:boolean = false;
+  
+  loading:boolean = false;
 
   paramsSubscription:Subscription;
   
@@ -56,14 +58,18 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
 
   async loadAlbums(){
     
+    this.loading = true;
+    
     let paginated:Paginated<Album> = await this.dataService.getAlbums(this.options);
     
     this.albums = paginated.docs;
     this.pages = paginated.pages;
+    
+    this.loading = false;
   }
 
   getAlbumLink(album:Album):string{
-    return './' + album._id;
+    return '/interni/galerie/' + album._id;
   }
 
   openAlbum(album:Album):void{

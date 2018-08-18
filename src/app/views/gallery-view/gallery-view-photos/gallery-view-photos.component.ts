@@ -45,6 +45,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit {
   
   controlsTimeout:number;
   
+  preloading:HTMLImageElement[] = [];
+  
   paramsSubscription:Subscription;
   
   constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute) { }
@@ -114,11 +116,23 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit {
     
     setTimeout(() => this.transition = false,0);
     
-    
+    this.preloadPhotos();
   }
   
+  preloadPhotos(){
+    if(this.currentI + 1 < this.album.photos.length) this.preloadPhoto(this.currentI + 1);
+    if(this.currentI - 1 >= 0) this.preloadPhoto(this.currentI - 1);
+  }
+      
+  preloadPhoto(i:number){
+    let image = new Image();
+    image.src = this.album.photos[i].sizes.big.url;
+    this.preloading.shift();
+    this.preloading.push(image);
+  }
+
   openPhoto(photo:Photo):void{
-    this.router.navigate(["../" + photo._id],{relativeTo:this.route});
+    this.router.navigate(["../" + photo._id],{relativeTo:this.route,replaceUrl:true});
   }
   
   openNextPhoto():void{

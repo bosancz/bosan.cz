@@ -15,6 +15,9 @@ export class WebConfigAchievement{
     
 
 export class WebConfig {
+  
+  general:{title:string} = {title:""};
+  
   about:{contacts: Contact[]} = {contacts: []};
 
   documents:{url:string} = {url: ""};
@@ -32,7 +35,7 @@ export class WebConfig {
   };
   
   events:{
-    types:{id:string,name:string,image:string}[]
+    types:{id:string,title:string,image:string}[]
   } = {
     types:[]
   };

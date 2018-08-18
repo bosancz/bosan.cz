@@ -49,6 +49,7 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { AppConfig, AppConfigData } from "./config/config";
 import { TimelineScrollComponent } from './components/timeline-scroll/timeline-scroll.component';
 import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
+import { AdminLinkDirective } from './directives/admin-link.directive';
 
 
 
@@ -83,7 +84,9 @@ export const jwtOptions = {
     
     TimelineScrollComponent,
     
-    GalleryViewPhotosComponent    
+    GalleryViewPhotosComponent,
+    
+    AdminLinkDirective    
     
   ],
   imports: [

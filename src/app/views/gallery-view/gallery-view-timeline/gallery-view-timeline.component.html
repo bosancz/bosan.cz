@@ -7,7 +7,7 @@
         <div class="album" *ngFor="let point of timeline;let i = index">
 
           <ng-container *ngIf="point.album; else dummyAlbum">
-            <h3>
+            <h3 [adminLink]="'/interni/galerie/' + point._id">
               {{point.album.name}}
               <ng-container *ngIf="(point.album.dateFrom | date:'d. M.') !== (point.album.dateTill | date:'d. M.'); else oneDate">({{point.album.dateFrom | date:"d. M."}} - {{point.album.dateTill | date:"d. M. y"}})</ng-container>
               <ng-template #oneDate>({{point.album.dateFrom | date:"d. M. y"}})</ng-template>

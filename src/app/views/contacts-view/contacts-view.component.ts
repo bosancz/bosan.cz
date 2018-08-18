@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { TitleService } from "../../services/title.service";
+
 @Component({
   selector: 'contacts-view',
   templateUrl: './contacts-view.component.html',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactsViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(private titleService:TitleService) { }
 
   ngOnInit() {
+    this.titleService.setTitle("Kontakty");
   }
 
 }

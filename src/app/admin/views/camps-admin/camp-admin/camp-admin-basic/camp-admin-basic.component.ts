@@ -16,8 +16,6 @@ export class CampAdminBasicComponent implements OnInit {
   @Output()
   save:EventEmitter<Camp> = new EventEmitter();
   
-  defaultName:string = "ŠÁN " + (new Date()).getFullYear() + " - I. turnus";
-  
   constructor() {
     
   }

@@ -1,7 +1,7 @@
 <section *ngIf="camp">
   <div class="container">
     
-    <h2>{{camp.name}}</h2>
+    <h2><a routerLink="/interni/tabory" class="back"><i class="fas fa-arrow-left"></i></a> {{camp.name}}</h2>
 
     <div class="row">
 
@@ -10,13 +10,20 @@
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Základní info</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../ucastnici" routerLinkActive="active">Účastníci a přihlášky</a></li>          
-          <li class="nav-item"><a class="nav-link text-danger" routerLink="../ucastnici" routerLinkActive="active">Smazat tábor</a></li>          
+          <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat tábor</a></li>          
         </ul>
 
       </div>
 
       <div class="col-9" [ngSwitch]="category">
+        
         <camp-admin-basic *ngSwitchCase="'info'" [camp]="camp" (save)="saveCamp($event)"></camp-admin-basic>
+        
+        <div *ngSwitchCase="'smazat'">
+          <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tento tábor</label>
+          <br>
+          <button type="button" [disabled]="!deleteConfirmation" (click)="deleteCamp()" class="btn btn-danger">Smazat tábor</button>
+        </div>
       </div>
     </div>
   </div>

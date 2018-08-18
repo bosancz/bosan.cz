@@ -29,11 +29,11 @@
   <div class="form-row">
     <div class="form-group col-6">
       <label for="dateFromInput">Od</label>
-      <input type="datetime-local" name="dateFrom" [ngModel]="event.dateFrom | date: 'yyyy-MM-ddTHH:mm'" class="form-control" id="dateFromInput" required>
+      <input type="date" name="dateFrom" [ngModel]="event.dateFrom | date: 'yyyy-MM-dd'" class="form-control" id="dateFromInput" required>
     </div>
     <div class="form-group col-6">
       <label for="dateTillInput">Do</label>
-      <input type="datetime-local" name="dateTill" [ngModel]="event.dateTill | date: 'yyyy-MM-ddTHH:mm'" class="form-control" id="dateTillInput" required>
+      <input type="date" name="dateTill" [ngModel]="event.dateTill | date: 'yyyy-MM-dd'" class="form-control" id="dateTillInput" required>
     </div>
   </div>
 

@@ -19,7 +19,7 @@ export class EventAdminInfoComponent implements OnInit {
   
   leaders:Member[] = [];
   
-  eventTypes:{id:string,name:string,image:string}[] = [];
+  eventTypes:{id:string,title:string,image:string}[] = [];
   
   constructor(private dataService:DataService) { }
 

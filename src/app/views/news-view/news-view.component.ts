@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { TitleService } from "../../services/title.service";
+
 @Component({
   selector: 'news-view',
   templateUrl: './news-view.component.html',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewsViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(private titleService:TitleService) { }
 
   ngOnInit() {
+    this.titleService.setTitle("Aktuálně");
   }
 
 }
