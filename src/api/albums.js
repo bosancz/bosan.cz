@@ -17,19 +17,22 @@ var Photo = require("../models/photo");
 // LIST ALBUMS
 router.get("/", acl("albums:list"), async (req,res,next) => {
 
-  var where = {}
+  var where = {};
+  if(req.query.status && req.query.status !== "all") where.status = req.query.status;
+  if(!req.query.status || !await acl.can("albums:drafts:list",req)) where.status = "public";
+  if(req.query.year) where.year = Number(req.query.year);
+  if(req.query.dateFrom) where.dateTill = { $gte: new Date(req.query.dateFrom) };
+  if(req.query.dateTill) where.dateFrom = { $lte: new Date(req.query.dateTill) };
+  
   var options = {
-    select: "_id name status dateFrom dateTill datePublished",
+    select: ["_id","name","status","dateFrom","dateTill","datePublished"],
     populate:[],
     limit: req.query.limit ? Math.min(req.query.limit,100) : 100,
     page: req.query.page || 1
   };
-
-  if(!(req.query.drafts && await acl.can("album:drafts:list",req))) where.status = "public";
-  if(req.query.year) where.year = Number(req.query.year);
   if(req.query.sort) options.sort = req.query.sort;
   if(req.query.events) options.populate.push({path: "event", select:"_id name dateFrom dateTill"});
-  if(req.query.titlePhoto) options.populate.push({path: "titlePhoto"});
+  if(req.query.titlePhotos) options.select.push("titlePhotos"),options.populate.push({path: "titlePhotos"});
 
   res.json(await Album.paginate(where,options));
 });

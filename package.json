@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "NODE_ENV=production node src/server.js",
-    "dev": "NODE_ENV=development nodemon src/server.js"
+    "dev": "NODE_ENV=development nodemon src/server.js",
+    "list-acl": "grep -oR -E 'acl\\(\"[^\\\"]+\"\\)' src/"
   },
   "repository": {
     "type": "git",
@@ -38,7 +39,9 @@
   },
   "devDependencies": {
     "cp": "^0.2.0",
+    "moment-timezone": "^0.5.21",
     "mongo-express": "^0.49.0",
+    "mysql": "^2.16.0",
     "nodemon": "^1.18.3",
     "phpunserialize": "^1.0.1"
   }

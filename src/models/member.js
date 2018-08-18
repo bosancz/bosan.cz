@@ -5,8 +5,9 @@ require("./group");
 var memberSchema = mongoose.Schema({
   
   "nickname": String,
-  "group": {type: String, ref: "Group"},
+  "group": String,
   "role": String,
+  "srcId": Number,
   
   "name": {
     "first": String,

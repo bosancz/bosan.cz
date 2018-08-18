@@ -8,7 +8,7 @@ var Event = require("../models/event");
 router.get("/", acl("events:list"), async (req,res,next) => {
 
   var options = {
-    select: ["_id","name","dateFrom","dateTill"],
+    select: ["_id","name","dateFrom","dateTill","type"],
     page: req.query.page || 1,
     limit: req.query.limit ? Math.min(100,req.query.limit) : 20,
     populate: []
@@ -20,8 +20,8 @@ router.get("/", acl("events:list"), async (req,res,next) => {
   if(req.query.description) options.select.push("description");
   if(req.query.leader){ options.select.push("leaders"); where.leaders = req.query.leader;}
   if(req.query.noleader) where.$or = [{"leaders":{$size:0}},{"leaders": {$exists:false}}];
-  if(req.query.from) where.dateTill = {$gte: new Date(req.query.from)};
-  if(req.query.till) where.dateFrom = {$lte: new Date(req.query.till)};
+  if(req.query.dateFrom) where.dateTill = {$gte: new Date(req.query.dateFrom)};
+  if(req.query.dateTill) where.dateFrom = {$lte: new Date(req.query.dateTill)};
   if(!(req.query.drafts && await acl.can("events:drafts:list",req))) where.status = "public";
   else options.select.push("status");
 
@@ -69,7 +69,7 @@ router.delete("/:event", acl("events:delete"), async (req,res,next) => {
   res.sendStatus(204);
 });
 
-router.get("/:event/leaders", acl("events:readers:list"), async (req,res,next) => {
+router.get("/:event/leaders", acl("events:leaders:list"), async (req,res,next) => {
   
   // get event with populated leaders' members
   var event = await Event.findOne({_id:req.params.event}).select("leaders").populate("leaders","_id nickname name group");
