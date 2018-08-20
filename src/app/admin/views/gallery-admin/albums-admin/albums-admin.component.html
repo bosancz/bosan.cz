@@ -44,7 +44,11 @@
       <td class="date">{{album.dateFrom | date:"d. M. y"}} - {{album.dateTill | date:"d. M. y"}}</td>
       <td>{{statuses[album.status] || "N/A"}}</td>
       <td>{{album.datePublished | date:"d. M. y"}}</td>
-      <td class="text-right"><a [routerLink]="getAlbumLink(album)">otevřít</a></td>
+      <td class="actions text-right">
+        <a [routerLink]="getAlbumLink(album)"><i class="fas fa-pencil-alt"></i></a>
+        &nbsp;
+        <a [routerLink]="'/fotogalerie/' + album._id"><i class="fas fa-external-link-alt"></i></a>
+      </td>
     </tr>
   </tbody>
 </table>
