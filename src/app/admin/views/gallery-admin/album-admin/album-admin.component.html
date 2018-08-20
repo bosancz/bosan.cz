@@ -1,7 +1,7 @@
 <section *ngIf="album">
   <div class="container">
 
-    <h2><a routerLink="/interni/galerie" class="back"><i class="fas fa-arrow-left"></i></a>{{album.name}} ({{album.srcId}})</h2>
+    <h2><a routerLink="/interni/galerie" class="back"><i class="fas fa-arrow-left"></i></a>{{album.name}} <a [routerLink]="'/fotogalerie/' + album._id"><i class="fas fa-external-link-alt"></i></a></h2>
 
     <div class="row">
 
