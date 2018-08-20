@@ -22,14 +22,14 @@ import { AlbumAdminComponent } from './views/gallery-admin/album-admin/album-adm
 import { MembersAdminComponent } from './views/members-admin/members-admin.component';
 import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
 
+import { MyAdminComponent } from './views/my-admin/my-admin.component';
+
 import { GroupsAdminComponent } from './views/groups-admin/groups-admin.component';
 
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
 
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
-
-
 
 const routes: Routes = [
 
@@ -65,7 +65,10 @@ const routes: Routes = [
 
       {path: 'uzivatele/:user/:cat', component: UserAdminComponent},      
       {path: 'uzivatele/:user', redirectTo: "uzivatele/:user/info", pathMatch: "full"}, 
-      {path: 'uzivatele', component: UsersAdminComponent},      
+      {path: 'uzivatele', component: UsersAdminComponent},   
+      
+      {path: 'ucet/:cat', component: MyAdminComponent}, 
+      {path: 'ucet', redirectTo: "ucet/heslo", pathMatch: "full"}, 
 
       {path: '', redirectTo: "akce", pathMatch: "full"},
     ]
