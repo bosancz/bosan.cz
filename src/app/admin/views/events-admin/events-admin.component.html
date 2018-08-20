@@ -45,7 +45,9 @@
               </td>
               <td>{{types[event.type] || event.type}}</td>
               <td>{{statuses[event.status] || "N/A"}}</td>
-              <td class="text-right"><a [routerLink]="getEventLink(event)">otevřít</a></td>
+              <td class="text-right">
+                <a [routerLink]="getEventLink(event)"><i class="fas fa-pencil-alt"></i></a>
+              </td>
             </tr>
           </tbody>
         </table>
