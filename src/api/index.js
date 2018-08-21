@@ -16,6 +16,4 @@ router.use("/members", require("./members"));
 
 router.use("/events", require("./events"));
 
-router.use("/groups", require("./groups"));
-
 router.use("/users", require("./users"));

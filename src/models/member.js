@@ -1,7 +1,5 @@
 var mongoose = require("mongoose");
 
-require("./group");
-
 var memberSchema = mongoose.Schema({
   
   "nickname": String,

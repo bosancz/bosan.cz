@@ -39,6 +39,11 @@ module.exports = {
     }
   },
   
+  events: {
+    storageDir: path.join(__dirname, "../data/events"),
+    storageUrl: "/data/events"
+  },
+  
   mongoExpress: {
     enabled: false,
     url: "/db",

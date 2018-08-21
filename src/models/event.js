@@ -1,11 +1,13 @@
 var mongoose = require("mongoose");
 
+var path = require("path");
+var config= require("../../config");
+
 var Member = require("./member"); // load because of reference
-var Group = require("./group"); // load because of reference
 
 var eventSchema = mongoose.Schema({
   "name": {type: String, required: true},
-  "status": {type: String, enum: ['public', 'draft'], required: true, default: 'draft'},
+  "status": {type: String, enum: ['draft','public','cancelled'], required: true, default: 'draft'},
   
   "srcId": Number,
   
@@ -19,6 +21,8 @@ var eventSchema = mongoose.Schema({
   
   "place": String,
   "description": String,
+  
+  "registration":String,
   
   "groups": [String],
   "type": String,
@@ -37,5 +41,7 @@ var eventSchema = mongoose.Schema({
     "role": {type: String, enum: ['h','v','i','d'], required: true, default: 'd'}
   }]
 });
+
+eventSchema.virtual("registrationUrl").get(function(){return path.join(config.events.storageUrl,this._id,this.registration);});
 
 module.exports = mongoose.model("Event", eventSchema);
