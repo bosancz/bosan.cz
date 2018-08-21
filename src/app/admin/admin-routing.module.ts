@@ -68,7 +68,7 @@ const routes: Routes = [
       {path: 'uzivatele', component: UsersAdminComponent},   
       
       {path: 'ucet/:cat', component: MyAdminComponent}, 
-      {path: 'ucet', redirectTo: "ucet/heslo", pathMatch: "full"}, 
+      {path: 'ucet', redirectTo: "ucet/info", pathMatch: "full"}, 
 
       {path: '', redirectTo: "akce", pathMatch: "full"},
     ]

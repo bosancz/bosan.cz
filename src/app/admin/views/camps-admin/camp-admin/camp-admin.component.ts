@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -13,7 +13,7 @@ import { Camp } from "../../../../schema/camp";
   templateUrl: './camp-admin.component.html',
   styleUrls: ['./camp-admin.component.css']
 })
-export class CampAdminComponent implements OnInit {
+export class CampAdminComponent implements OnInit, OnDestroy {
 
   camp:Camp;
   
@@ -33,6 +33,10 @@ export class CampAdminComponent implements OnInit {
       
       this.category = params.cat;
     });
+  }
+  
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
   }
   
   async loadCamp(id:string){

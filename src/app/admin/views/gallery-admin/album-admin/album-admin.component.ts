@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -13,7 +13,7 @@ import { Member } from "../../../../schema/member";
   templateUrl: './album-admin.component.html',
   styleUrls: ['./album-admin.component.css']
 })
-export class AlbumAdminComponent implements OnInit {
+export class AlbumAdminComponent implements OnInit, OnDestroy {
   
   album:Album;
   
@@ -36,6 +36,10 @@ export class AlbumAdminComponent implements OnInit {
       this.category = params.cat;
 
     });
+  }
+  
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
   }
   
   async loadAlbum(albumId:string){
