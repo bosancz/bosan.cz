@@ -16,6 +16,12 @@ export class WebAdminComponent implements OnInit, OnDestroy {
 
   cat:string = "about";
   
+  groupFields = [
+    {"name": "id", "title": "ID", "type": "text"},
+    {"name": "name", "title": "Jméno", "type": "text"},
+    {"name": "color", "title": "Barva", "type": "text"}
+  ];
+  
   eventTypeFields = [
     {"name": "id", "title": "ID", "type": "text"},
     {"name": "title", "title": "Název", "type": "text"},

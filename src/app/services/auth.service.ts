@@ -8,6 +8,12 @@ import { User } from "../schema/user";
 
 import { DataService } 		from './data.service';
 
+export class AuthUser{
+  _id:string;
+  member?:any;
+  roles:string[] = [];
+}
+
 /**
 	* Service to save user information and commnicate user data with server
 	*/
@@ -24,7 +30,7 @@ export class AuthService {
 	token: string = null;
 
 	// current user (use blank user as default)
-	user: User = new User;
+	user: AuthUser = new AuthUser;
 
 	constructor(private http: HttpClient, private jwtHelper:JwtHelperService){
 		
@@ -150,7 +156,7 @@ export class AuthService {
 	
 	setUser(userData:any){
 		
-		this.user = userData || new User;
+		this.user = userData || new AuthUser();
 		
 		if(!this.user.roles) this.user.roles = [];
 		

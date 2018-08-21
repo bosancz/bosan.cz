@@ -8,7 +8,7 @@
       <div class="col-3">
 
         <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link font-weight-bold" routerLink="/interni/galerie/alba" [class.active]="">Všechny alba</a></li>
+          <li class="nav-item"><a class="nav-link font-weight-bold" routerLink="/interni/galerie" [class.active]="">Všechny alba</a></li>
           <li *ngFor="let yearItem of years" class="nav-item"><a class="nav-link" [routerLink]="['/interni/galerie',{year:yearItem}]" [class.active]="year === yearItem">{{yearItem}}</a></li>
           <!--<li class="nav-item"><a class="nav-link font-weight-bold" routerLink="/interni/galerie/fotky" [class.active]="">Všechny fotografie</a></li>
           <li *ngFor="let tagItem of tags" class="nav-item"><a class="nav-link" [routerLink]="['/interni/galerie/fotky',{tag:tagItem}]" [class.active]="tag === tagItem">#{{tagItem}}</a></li>-->

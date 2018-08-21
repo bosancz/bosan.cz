@@ -9,7 +9,6 @@ import { Album, Photo } from "../../../schema/album";
 
 import { GalleryPhoto } from "../../../components/photo-gallery/photo-gallery.component";
 
-
 class GalleryPhotoContainer implements GalleryPhoto{
   
   photo: Photo;
@@ -50,6 +49,10 @@ export class GalleryViewAlbumComponent implements OnInit {
       }
       
     });
+  }
+  
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
   }
   
   async loadAlbum(id:string){

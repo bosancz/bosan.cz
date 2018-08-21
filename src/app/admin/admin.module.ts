@@ -49,6 +49,7 @@ import { CodelistEditorComponent } from './components/codelist-editor/codelist-e
 import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
 import { TypeaheadFieldComponent } from './components/typeahead-field/typeahead-field.component';
 import { MyAdminComponent } from './views/my-admin/my-admin.component';
+import { EventAdminRegistrationComponent } from './views/events-admin/event-admin/event-admin-registration/event-admin-registration.component';
 
 @NgModule({
   imports: [
@@ -72,7 +73,7 @@ import { MyAdminComponent } from './views/my-admin/my-admin.component';
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, MyAdminComponent,
+    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, MyAdminComponent, EventAdminRegistrationComponent,
     
   ]
 })

@@ -5,19 +5,29 @@
       <input type="text" name="search" class="form-control" ngModel (ngModelChange)="setSearch($event)" placeholder="Vyhledat (s diakritikou)">
     </div>
 
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
       <label>Oddíl</label>
-      <select name="group" class="form-control" [(ngModel)]="group">
+      <select name="group" class="form-control" [(ngModel)]="options.group">
         <option value="">--všechny--</option>
         <option *ngFor="let group of groups" [value]="group._id">{{group.name}}</option>
       </select>
     </div>
 
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
       <label>Role</label>
-      <select name="group" class="form-control" [(ngModel)]="role">
+      <select name="group" class="form-control" [(ngModel)]="options.role">
         <option value="">--všichni--</option>
         <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+      </select>
+    </div>
+
+    <div class="form-group col-md-2">
+      <label>Stav</label>
+      <select name="status" class="form-control" [(ngModel)]="options.status">
+        <option value="">--všichni--</option>
+        <option>člen</option>
+        <option>bývalý člen</option>
+        <option>nečlen</option>
       </select>
     </div>
 

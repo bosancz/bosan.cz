@@ -87,7 +87,6 @@ export const jwtOptions = {
     GalleryViewPhotosComponent,
     
     AdminLinkDirective    
-    
   ],
   imports: [
     BrowserAnimationsModule,    

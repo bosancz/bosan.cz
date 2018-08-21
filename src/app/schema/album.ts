@@ -1,3 +1,6 @@
+export { Photo } from "./photo";
+import { Photo } from "./photo";
+
 export class Album {
   _id:string;
   year:number;
@@ -14,27 +17,4 @@ export class Album {
   titlePhoto:Photo;
   titlePhotos:Photo[];
   photos:Photo[]
-}
-
-export class Photo {
-  
-  _id:string;
-  
-  name:string;
-  
-  width:number;
-  height:number;
-  
-  caption?:string;
-  
-  sizes:{
-    original: {width:number,height:number,url:string},
-    big: {width:number,height:number,url:string},
-    small: {width:number,height:number,url:string}
-  };
-  
-  bg:string;
-  
-  tags:string[];
-  
 }
