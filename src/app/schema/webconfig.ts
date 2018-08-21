@@ -20,6 +20,8 @@ export class WebConfig {
   
   about:{contacts: Contact[]} = {contacts: []};
 
+  camp:{album:string} = {album:null};
+  
   documents:{url:string} = {url: ""};
 
   gallery:{defaultTags:{tag:string}[]} = {defaultTags:[]};

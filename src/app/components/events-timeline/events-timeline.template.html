@@ -15,13 +15,13 @@
     <ng-template #onlyDay>
       <div class="timeline-date">{{event.dateFrom | date:"EEEEEE d. M."}}</div>
     </ng-template>
-    
+
     <div class="timeline-badge success"><i class="timeicon flaticon-paintbrush"></i></div>
     
     <div class="timeline-panel"> 
       <div class="timeline-heading">
         <h2 class="timeline-title" [adminLink]="'/interni/akce/' + event._id">{{event.name}}</h2>
-        <p>
+        <p *ngIf="!full">
           <small class="text-muted">
             <i class="fa fa-calendar"></i>
             {{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M."}}

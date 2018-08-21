@@ -14,8 +14,15 @@ export class MembersSelectComponent implements OnInit {
 
   @Input() selected:string[] = [];
   
-  @Input() group:string;
-  @Input() role:string;
+  @Input() options:{
+    group:string,
+    role:string,
+    status:string
+  } = {
+    group:"",
+    role:"",
+    status:""
+  };
   
   search:RegExp;
   
@@ -63,10 +70,9 @@ export class MembersSelectComponent implements OnInit {
   }
   
   isHidden(member:Member,i:number):boolean{
-    if(this.group && member.group !== this.group) return true;
-    if(this.role && member.role !== this.role) return true;    
-    if(this.search && !this.search.test(this.searchIndex[i])) return true;
-    return false;
+    return Object.entries(this.options).some(entry => {
+      return (entry[1] && entry[1] != member[entry[0]]) || (this.search && !this.search.test(this.searchIndex[i]));
+    });
   }
   
   selectedMember(member:Member):boolean{

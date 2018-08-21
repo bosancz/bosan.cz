@@ -48,6 +48,8 @@ import { MemberAdminAchievementsComponent } from './views/members-admin/member-a
 import { CodelistEditorComponent } from './components/codelist-editor/codelist-editor.component';
 import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
 import { TypeaheadFieldComponent } from './components/typeahead-field/typeahead-field.component';
+import { MyAdminComponent } from './views/my-admin/my-admin.component';
+import { EventAdminRegistrationComponent } from './views/events-admin/event-admin/event-admin-registration/event-admin-registration.component';
 
 @NgModule({
   imports: [
@@ -71,7 +73,7 @@ import { TypeaheadFieldComponent } from './components/typeahead-field/typeahead-
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent,
+    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, MyAdminComponent, EventAdminRegistrationComponent,
     
   ]
 })

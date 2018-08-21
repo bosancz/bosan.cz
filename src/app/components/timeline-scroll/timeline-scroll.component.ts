@@ -46,6 +46,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   visibleFrom:number;
   visibleTo:number;
+  visibleTop:number;
   visiblePoints:TimelinePoint[] = [];
 
   resizeCheckInterval:number;
@@ -92,14 +93,15 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
     
-    this.timelineTop = Math.max(0,this.containerTop - top);
-    //this.timelineBottom = window.innerHeight - Math.min(window.innerHeight,this.containerHeight) - this.timelineTop;
-    this.timelineBottom = Math.max(0,(top + window.innerHeight) - (this.containerTop + this.containerHeight));
+    this.timelineTop = Math.max(10,this.containerTop - top);
+    this.timelineBottom = Math.max(10,(top + window.innerHeight) - (this.containerTop + this.containerHeight));
     
+    this.timelineHeight = window.innerHeight - this.timelineBottom - this.timelineTop;
     this.timelineLeft = this.containerLeft + this.containerWidth;
 
-    this.visibleFrom = Math.min(1,Math.max(0,(top - this.containerTop) / this.containerHeight));
-    this.visibleTo = Math.min(1,Math.max(0,(top - this.containerTop + window.innerHeight) / this.containerHeight));
+    this.visibleFrom = Math.min(1,Math.max(0,top - this.containerTop) / this.containerHeight);
+    this.visibleTo = Math.min(1,Math.max(0,top - this.containerTop + window.innerHeight) / this.containerHeight);
+    this.visibleTop = Math.round((this.visibleTo + this.visibleFrom) / 2 * this.timelineHeight);
   }
 
   updateVisiblePoints(){
@@ -137,12 +139,15 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   timelineMouseMove(event){    
     let top = event.clientY - this.timelineTop;
-    let percentage = top/(window.innerHeight - this.timelineBottom - this.timelineTop);
+    let height = this.timelineHeight;
+    let percentage = top/height;
     
     if(this.visibleFrom === 0 && percentage <= (this.visibleTo / 2)) return;
     if(this.visibleTo === 1 && percentage >= ((this.visibleFrom + 1) / 2)) return;
     
     let scroll = this.containerTop + this.containerHeight * percentage - window.innerHeight / 2;
+    
+    console.log(top,height,percentage,this.containerTop + this.containerHeight,scroll);
     window.scrollTo({left: 0, top: scroll});
   }
 

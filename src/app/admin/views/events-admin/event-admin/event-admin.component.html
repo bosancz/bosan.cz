@@ -11,6 +11,7 @@
           <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Obecné informace</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../vedouci" routerLinkActive="active">Vedoucí akce</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../ucastnici" routerLinkActive="active">Účastníci</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../prihlaska" routerLinkActive="active">Přihláška</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../ohlaska" routerLinkActive="active">Ohláška</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../uctovani" routerLinkActive="active">Účtování</a></li>
           <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat akci</a></li>          
@@ -23,6 +24,8 @@
         <event-admin-info *ngSwitchCase="'info'" [event]="event" (save)="saveEvent($event)"></event-admin-info>
         
         <event-admin-attendees *ngSwitchCase="'ucastnici'" [event]="event" (save)="saveEvent()"></event-admin-attendees>
+        
+        <event-admin-registration *ngSwitchCase="'prihlaska'" [event]="event"></event-admin-registration>
         
         <event-admin-leaders *ngSwitchCase="'vedouci'" [event]="event" (save)="saveEvent($event)"></event-admin-leaders>
 

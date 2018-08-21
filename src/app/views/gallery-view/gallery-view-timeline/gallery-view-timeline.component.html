@@ -14,7 +14,7 @@
             </h3>
             <div class="row photos">
               <div class="col-md-4" *ngFor="let photo of point.album.titlePhotos | slice:0:3">
-                <a [routerLink]="'./' + point.album._id + '/' + photo._id" class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'"></a>
+                <a [routerLink]="'/fotogalerie/' + point.album._id + '/' + photo._id" class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'"></a>
               </div>
             </div>
             <div class="row">
@@ -22,7 +22,7 @@
                 <p>{{point.album.description}}</p>
               </div>
               <div class="col-2 text-right">
-                <a [routerLink]="'./' + point.album._id">Otevřít album</a>
+                <a [routerLink]="'/fotogalerie/' + point.album._id">Otevřít album</a>
               </div>
             </div>
           </ng-container>

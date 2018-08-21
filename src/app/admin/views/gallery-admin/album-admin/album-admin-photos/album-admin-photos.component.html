@@ -35,6 +35,7 @@
       <div class="details">
 
         <div class="tags">
+          Tagy:
           <span *ngFor="let tag of defaultTags" class="badge badge-dark" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
           <span *ngFor="let tag of customTags" class="badge badge-warning" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
           <span class="badge badge-warning" (click)="newTag(photo)">+</span>

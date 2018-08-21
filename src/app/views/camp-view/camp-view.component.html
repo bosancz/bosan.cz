@@ -187,28 +187,12 @@ Tábor je každoročně zakončen slavnostním táborákem, na který jsou pozv�
   </div>
 </section>
 
-<!-- Camp Photogalleries -->
-<section class="bg-light">
-  <div class="container">
-    <div class="row text-center">
-      <div class="col-12">
-        <h1>Podívej se na fotky z posledních let!</h1>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <albums-recent></albums-recent>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Camp Location -->
-<section id="map" #map>
+<section id="map" class="bg-light" #map>
   <div class="container">
     <div class="row text-center">
       <div class="col-12">
-        <h1>Kde najdeš tábořiště?</h1>
+        <h1>Kde máme tábořiště?</h1>
         <p class="subheading">
           LVT ostrov Šán, Hrobce u Roudnice nad Labem, 411 83
         </p>
@@ -217,6 +201,22 @@ Tábor je každoročně zakončen slavnostním táborákem, na který jsou pozv�
   </div>
   <div class="map">
     <google-map></google-map>
+  </div>
+</section>
+
+<!-- Camp Photogalleries -->
+<section>
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-12">
+        <h1>Podívej se na fotky z loňska!</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <photo-gallery [photos]="photos" height="250" margin="5" (photoOpen)="openPhoto($event)"></photo-gallery>
+      </div>
+    </div>
   </div>
 </section>
 
