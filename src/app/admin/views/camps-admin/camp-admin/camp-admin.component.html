@@ -8,7 +8,8 @@
       <div class="col-3">
 
         <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Základní info</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../prehled" routerLinkActive="active">Přehled</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../upravit" routerLinkActive="active">Upravit info</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../ucastnici" routerLinkActive="active">Účastníci a přihlášky</a></li>          
           <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat tábor</a></li>          
         </ul>
@@ -17,7 +18,9 @@
 
       <div class="col-9" [ngSwitch]="category">
         
-        <camp-admin-basic *ngSwitchCase="'info'" [camp]="camp" (save)="saveCamp($event)"></camp-admin-basic>
+        <camp-admin-dashboard *ngSwitchCase="'prehled'"></camp-admin-dashboard>
+        
+        <camp-admin-basic *ngSwitchCase="'upravit'" [camp]="camp" (save)="saveCamp($event)"></camp-admin-basic>
         
         <div *ngSwitchCase="'smazat'">
           <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tento tábor</label>

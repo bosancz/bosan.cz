@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import {trigger,state,style,animate,transition} from '@angular/animations';
 
@@ -28,7 +28,7 @@ import { Album, Photo } from "../../../schema/album";
     ])
 ]
 })
-export class GalleryViewPhotosComponent implements OnInit, AfterViewInit {
+export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   album:Album;
   
@@ -65,6 +65,10 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit {
   
   ngAfterViewInit(){
     this.showControls();
+  }
+  
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
   }
   
   @HostListener('document:keyup', ['$event'])

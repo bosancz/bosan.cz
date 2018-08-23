@@ -5,21 +5,26 @@
     <input type="text" name="name" [ngModel]="album.name" class="form-control" placeholder="Neočekávaný dýchánek" required>    
   </div>
   
+  <div class="form-group">
+    <label>Akce v programu</label>
+    <typeahead-field [ngModel]="album.event" (ngModelChange)="eventSelected($event)" name="event" [matched]="eventsMatched" (search)="loadTypeaheadEvents($event)" [delay]="500" [toStringFn]="getEventString"></typeahead-field>
+  </div>
+  
   <div class="row">
     <div class="form-group col-md-6">
       <label>Datum od</label>
-      <input type="date" name="dateFrom" [ngModel]="album.dateFrom | date: 'y-MM-dd'" class="form-control" required>
+      <input type="date" name="dateFrom" [ngModel]="album.dateFrom | date: 'y-MM-dd'" class="form-control" required #dateFrom>
     </div>
     <div class="form-group col-md-6">
       <label>Datum do</label>
-      <input type="date" name="dateTill" [ngModel]="album.dateTill | date: 'y-MM-dd'" class="form-control" required>
+      <input type="date" name="dateTill" [ngModel]="album.dateTill | date: 'y-MM-dd'" class="form-control" required #dateTill>
     </div>
   </div>
 
   <div class="row">
     <div class="form-group col-md-4">
       <label>Rok</label>
-      <input type="number" name="year" [ngModel]="album.year || this.currentYear" class="form-control" required>
+      <input type="number" name="year" [ngModel]="album.year || this.currentYear" class="form-control" required #year>
     </div>
     <div class="form-group col-md-4">
       <label>Stav</label>
@@ -32,11 +37,6 @@
       <label>Datum zveřejnění</label>
       <input type="date" name="datePublished" [ngModel]="album.datePublished | date: 'y-MM-dd'" [disabled]="formInputStatus.value !== 'public'" class="form-control" required>
     </div>
-  </div>
-
-  <div class="form-group">
-    <label>Akce v programu</label>
-    <typeahead-field [ngModel]="album.event" name="event" [matched]="eventsMatched" (search)="loadTypeaheadEvents($event)" [delay]="1000" [toStringFn]="getEventString"></typeahead-field>
   </div>
 
   <div class="form-group">

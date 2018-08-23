@@ -35,7 +35,7 @@
               <td>{{member.name?.last}}</td>
               <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
               <td>{{member.role}}</td>
-              <td class="text-right"><a [routerLink]="getMemberLink(member)">otevřít</a></td>
+              <td class="text-right"><a [routerLink]="getMemberLink(member)"><i class="fas fa-pencil-alt"></i></a></td>
             </tr>
           </tbody>
         </table>

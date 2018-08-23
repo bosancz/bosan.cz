@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgForm } from "@angular/forms";
 
@@ -14,7 +14,7 @@ import { User } from "../../../schema/user";
   templateUrl: './my-admin.component.html',
   styleUrls: ['./my-admin.component.scss']
 })
-export class MyAdminComponent implements OnInit {
+export class MyAdminComponent implements OnInit, OnDestroy {
 
   cat:string;
   
@@ -34,6 +34,10 @@ export class MyAdminComponent implements OnInit {
     
     this.loadUser();
     
+  }
+  
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
   }
   
   async loadUser(){

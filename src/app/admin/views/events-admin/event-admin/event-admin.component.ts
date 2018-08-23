@@ -18,6 +18,13 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   
   category:string;
   
+  recurringNames:any = {
+    "daily": "denně",
+    "weekly": "týdně",
+    "monthly": "měsíčně",
+    "yearly": "ročně"
+  };
+  
   deleteConfirmation:boolean = false;
   
   paramsSubscription:Subscription;
@@ -25,7 +32,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
   
   ngOnInit() {
-
+    
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
 
       if(params.event && (!this.event || this.event._id !== params.event)) this.loadEvent(params.event);

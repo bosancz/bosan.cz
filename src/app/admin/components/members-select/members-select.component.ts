@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DataService } from "../../../services/data.service";
 
 import { Member } from "../../../schema/member";
-import { Group } from "../../../schema/group";
+import { WebConfigGroup } from "../../../schema/webconfig";
 
 @Component({
   selector: 'members-select',
@@ -31,7 +31,7 @@ export class MembersSelectComponent implements OnInit {
   
   members:Member[] = [];
   
-  groups:Group[] = [];
+  groups:WebConfigGroup[] = [];
   roles:string[] = [];
   
   searchIndex:string[];
@@ -56,7 +56,8 @@ export class MembersSelectComponent implements OnInit {
   }
   
   async loadGroups(){
-    this.groups = await this.dataService.getGroups();
+    let config = await this.dataService.getConfig();
+    this.groups = config.members.groups;
   }
   
   async loadRoles(){

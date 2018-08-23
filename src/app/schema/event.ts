@@ -1,3 +1,10 @@
+export class EventRecurring{
+  recurring:string;
+  startDate:Date;
+  endDate:Date;
+  instances:any[];
+}
+
 export class Event {
   
   //required
@@ -9,12 +16,15 @@ export class Event {
   place:string;
   description:string;
   
+  dateFrom:Date;
+  dateTill:Date;
+  recurring?:EventRecurring;
+  
   attendees:any[];
   leaders:any[];
   
   //optional
   groups?:string[];
-  dateFrom?:Date;
-  dateTill?:Date;
+
   image?:String;
 }

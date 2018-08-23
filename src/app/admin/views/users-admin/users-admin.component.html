@@ -9,7 +9,7 @@
 
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{active:1}]" [class.active]="active">Aktivní účty</a></li>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{active:0}]" [class.active]="!active">Vypnuté účty</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{active:0}]" [class.active]="!active">Deaktivované účty</a></li>
           <br>
           <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateUserModal(createUserModal)">Nový uživatel</button></li>      
         </ul>
@@ -36,8 +36,10 @@
                 <ng-container *ngIf="user.member">{{user.member.nickname}} ({{user.member.name?.first}} {{user.member.name?.last}})</ng-container>
                 <ng-container *ngIf="!user.member">-</ng-container>
               </td>
-              <td>{{user.roles.join(", ")}}</td>
-              <td class="text-right"><a [routerLink]="getUserLink(user)">otevřít</a></td>
+              <td>
+                <span *ngFor="let role of user.roles" class="role badge badge-dark">{{roleNames[role] || role}}</span>
+              </td>
+              <td class="text-right"><a [routerLink]="getUserLink(user)"><i class="fas fa-pencil-alt"></i></a></td>
             </tr>
           </tbody>
         </table>
@@ -66,7 +68,7 @@
       </div>
       <div class="form-group">
         <label for="createUserInput-email">E-mail</label>
-        <input type="email" name="email" ngModel class="form-control" id="createUserInput-email">
+        <input type="email" name="email" ngModel class="form-control" id="createUserInput-email" required>
       </div>
     </div>
     <div class="modal-footer text-right">

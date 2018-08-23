@@ -30,17 +30,31 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   pages:number = 1;
   page:number = 1;
-  limit:number = 50;
   
   view:string;
   
   views:any = {
-    "future": {dateFrom: (new Date()).toISOString()},
-    "past": {dateTill: (new Date()).toISOString()},
+    "future": {dateFrom: (new Date()).toISOString().split("T")[0]},
+    "past": {dateTill: (new Date()).toISOString().split("T")[0]},
     "my": { leader: null },
     "noleader": { noleader: 1 },
     "all": {}
   };
+  
+  defaultOptions = {
+    page:1,
+    sort:"-dateFrom",
+    leaders:1,
+    limit: 50,
+    search:undefined,
+    status:"all",
+    dateFrom:undefined,
+    dateTill:undefined
+  }
+  
+  options = this.defaultOptions;
+  
+  openFilter:boolean = false;
   
   types:any = {};
   
@@ -62,6 +76,11 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
       this.view = params.view;
       this.page = params.page || 1;
       
+      // set options
+      this.options = JSON.parse(JSON.stringify(this.defaultOptions));
+      Object.assign(this.options,this.views[this.view] || {});
+      this.options.page = this.page;
+      
       this.loadEvents();
     });
     
@@ -74,16 +93,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   }
 
   async loadEvents(){
-    let generalOptions = {
-      drafts: 1,
-      leaders:1,
-      sort: "-dateFrom",
-      limit: this.limit,
-      page: Math.max(Math.min(this.page,this.pages),1)
-    }
-    let options = Object.assign(generalOptions,this.views[this.view] || {});
-    
-    let paginated:Paginated<Event> = await this.dataService.getEvents(options);
+    let paginated:Paginated<Event> = await this.dataService.getEvents(this.options);
     this.events = paginated.docs;
     this.pages = paginated.pages;
   }
@@ -97,12 +107,8 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     this.types = types;
   }
   
-  getEventLink(event:Event):string{
-    return '/interni/akce/' + event._id;
-  }
-  
   openEvent(event:Event):void{
-    this.router.navigate([this.getEventLink(event)], {relativeTo: this.route});
+    this.router.navigate(['/interni/akce/' + event._id], {relativeTo: this.route});
   }
 
   openCreateEventModal(template: TemplateRef<any>){

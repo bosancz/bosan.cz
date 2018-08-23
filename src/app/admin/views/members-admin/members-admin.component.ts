@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgForm } from "@angular/forms";
 
@@ -18,7 +18,7 @@ import { WebConfigGroup } from "../../../schema/webconfig";
   templateUrl: './members-admin.component.html',
   styleUrls: ['./members-admin.component.css']
 })
-export class MembersAdminComponent implements OnInit {
+export class MembersAdminComponent implements OnInit, OnDestroy {
 
   members:Member[] = [];
   
@@ -53,9 +53,13 @@ export class MembersAdminComponent implements OnInit {
     });
   }
   
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
+  }
+  
   async loadGroups(){
     let config = await this.dataService.getConfig();
-    this.groups = config.groups;
+    this.groups = config.members.groups;
   }
   
   async loadRoles(){

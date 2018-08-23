@@ -28,6 +28,8 @@ export class GalleryViewTimelineComponent implements OnInit {
 
   timeline:TimelinePoint[] = [];
   timelineLabels:TimelineLabel[] = [];
+  
+  loading:boolean = false;
 
   constructor(private dataService:DataService) { }
 
@@ -36,6 +38,8 @@ export class GalleryViewTimelineComponent implements OnInit {
   }
 
   async loadAlbumsList(){
+    
+    this.loading = true;
     
     let albums = await this.dataService.getAlbumsList({sort:"-dateFrom"})
     
@@ -62,6 +66,8 @@ export class GalleryViewTimelineComponent implements OnInit {
       
       return point;
     });
+    
+    this.loading = false;
     
   }
 

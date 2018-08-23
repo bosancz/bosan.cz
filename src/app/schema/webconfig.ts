@@ -14,31 +14,39 @@ export class WebConfigAchievement{
 }
     
 
-export class WebConfig {
+export interface WebConfig {
   
-  general:{title:string} = {title:""};
+  general:{
+    title:string
+  };
   
-  about:{contacts: Contact[]} = {contacts: []};
+  users:{
+    roles:Array<{name:string,title:string,desription:string}>
+  };
+  
+  about:{
+    contacts: Contact[]
+  };
 
-  camp:{album:string} = {album:null};
+  camp:{
+    album:string
+  };
   
-  documents:{url:string} = {url: ""};
+  documents:{
+    url:string
+  };
 
-  gallery:{defaultTags:{tag:string}[]} = {defaultTags:[]};
-  
-  groups:WebConfigGroup[] = [];
+  gallery:{
+    defaultTags:Array<{tag:string}>
+  };
 
   members:{
-    roles:{id:string}[],
+    roles:Array<{id:string}>,
+    groups:WebConfigGroup[],
     achievements:WebConfigAchievement[]
-  } = {
-    roles:[],
-    achievements:[]
   };
   
   events:{
-    types:{id:string,title:string,image:string}[]
-  } = {
-    types:[]
+    types:Array<{id:string,title:string,image:string}>
   };
 }

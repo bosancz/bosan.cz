@@ -23,7 +23,7 @@
     <div class="form-group col-6">
       <label>Oddíl</label>
       <select name="group" [ngModel]="member.group" class="form-control" required>
-        <option *ngFor="let group of groups" [value]="group._id">{{group.name}}</option>
+        <option *ngFor="let group of groups" [value]="group.id">{{group.name}}</option>
       </select>
     </div>
     <div class="form-group col-6">

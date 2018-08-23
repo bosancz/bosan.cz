@@ -28,9 +28,15 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     {"name": "image", "title": "Obrázek", "type": "text"}
   ];
   
-  memberRoleFields = [
+  memberRolesFields = [
     {"name": "id", "title": "ID", "type": "text"}
   ];
+  
+  userRolesFields = [
+    {"name": "name", "title": "ID", "type": "text"},
+    {"name": "title", "title": "Název", "type": "text"},
+    {"name": "description", "title": "Popis", "type": "text"}
+  ]
   
   defaultTagsFields = [
     {"name": "tag", "title": "Tag", "type": "text"}
@@ -38,7 +44,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   
   modified:boolean = false;
   
-  config:WebConfig = new WebConfig();
+  config:WebConfig;
   
   viewJson:boolean = false;
   jsonError:boolean = false;
@@ -59,8 +65,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   }
   
   async loadConfig(){
-    var config = await this.dataService.getConfig(true).then(config => JSON.parse(JSON.stringify(config)));
-    this.config = Object.assign({},new WebConfig(),config);
+    this.config = await this.dataService.getConfig(true).then(config => JSON.parse(JSON.stringify(config)));
   }
   
   async saveConfig(){

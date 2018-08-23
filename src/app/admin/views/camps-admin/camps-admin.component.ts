@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgForm } from "@angular/forms";
 
@@ -17,7 +17,7 @@ import { Camp } from "../../../schema/camp";
   templateUrl: './camps-admin.component.html',
   styleUrls: ['./camps-admin.component.css']
 })
-export class CampsAdminComponent implements OnInit {
+export class CampsAdminComponent implements OnInit, OnDestroy {
 
   camps:Camp[];
   
@@ -45,6 +45,10 @@ export class CampsAdminComponent implements OnInit {
       this.loadCamps();
     });
   }
+  
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
+  }
 
   async loadCamps(){
     
@@ -67,12 +71,8 @@ export class CampsAdminComponent implements OnInit {
     this.router.navigate(["./" + camp._id], {relativeTo: this.route})
   }
   
-  getCampLink(camp:Camp):string{
-    return './' + camp._id;
-  }
-  
   openCamp(camp:Camp):void{
-    this.router.navigate([this.getCampLink(camp)], {relativeTo: this.route});
+    this.router.navigate(['./' + camp._id], {relativeTo: this.route});
   }
   
   openCreateCampModal(template: TemplateRef<any>){
