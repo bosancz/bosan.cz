@@ -71,12 +71,8 @@ export class CampsAdminComponent implements OnInit, OnDestroy {
     this.router.navigate(["./" + camp._id], {relativeTo: this.route})
   }
   
-  getCampLink(camp:Camp):string{
-    return './' + camp._id;
-  }
-  
   openCamp(camp:Camp):void{
-    this.router.navigate([this.getCampLink(camp)], {relativeTo: this.route});
+    this.router.navigate(['./' + camp._id], {relativeTo: this.route});
   }
   
   openCreateCampModal(template: TemplateRef<any>){

@@ -18,8 +18,7 @@ export class EventAdminLeadersComponent implements OnChanges {
   @Input()
   event:Event;
   
-  @Output()
-  save:EventEmitter<any> = new EventEmitter();
+  @Output() save:EventEmitter<any> = new EventEmitter();
   
   membersModalRef: BsModalRef;
   

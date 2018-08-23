@@ -32,10 +32,6 @@ import { DocumentsViewComponent } from './views/documents-view/documents-view.co
 
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
 
-import { DataAdminComponent } from './views/data-admin/data-admin.component';
-
-import { GroupsAdminComponent } from './views/groups-admin/groups-admin.component';
-
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 
 
@@ -50,6 +46,10 @@ import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-
 import { TypeaheadFieldComponent } from './components/typeahead-field/typeahead-field.component';
 import { MyAdminComponent } from './views/my-admin/my-admin.component';
 import { EventAdminRegistrationComponent } from './views/events-admin/event-admin/event-admin-registration/event-admin-registration.component';
+import { EventAdminRecurringComponent } from './views/events-admin/event-admin/event-admin-recurring/event-admin-recurring.component';
+import { AlbumAdminDashboardComponent } from './views/gallery-admin/album-admin/album-admin-dashboard/album-admin-dashboard.component';
+import { EventAdminDashboardComponent } from './views/events-admin/event-admin/event-admin-dashboard/event-admin-dashboard.component';
+import { CampAdminDashboardComponent } from './views/camps-admin/camp-admin/camp-admin-dashboard/camp-admin-dashboard.component';
 
 @NgModule({
   imports: [
@@ -66,14 +66,12 @@ import { EventAdminRegistrationComponent } from './views/events-admin/event-admi
     GalleryAdminComponent, AlbumsAdminComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
     MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent, MemberAdminAchievementsComponent, 
     WebAdminComponent,
-    DataAdminComponent,
     DocumentsViewComponent,
     CampsAdminComponent, CampAdminComponent, CampAdminBasicComponent,
-    GroupsAdminComponent,
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, MyAdminComponent, EventAdminRegistrationComponent,
+    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, MyAdminComponent, EventAdminRegistrationComponent, EventAdminRecurringComponent, AlbumAdminDashboardComponent, EventAdminDashboardComponent, CampAdminDashboardComponent,
     
   ]
 })

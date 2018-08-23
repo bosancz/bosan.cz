@@ -8,70 +8,83 @@
       <div class="col-3">
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" routerLink="../obecne" routerLinkActive="active">Obecné nastavení</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../texty" routerLinkActive="active">Texty</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../akce" routerLinkActive="active">Akce</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../galerie" routerLinkActive="active">Galerie</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../clenska-databaze" routerLinkActive="active">Členská databáze</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../dokumenty" routerLinkActive="active">Dokumenty</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../uzivatele" routerLinkActive="active">Uživatelé</a></li>
+          <br>
+          <li class="nav-item"><button type="button" class="btn btn-primary" (click)="saveConfig()">Uložit nastavení</button></li>
         </ul>
 
       </div>
 
       <div class="col-9">
-        <div class="form" [ngSwitch]="cat">
-          <div *ngSwitchCase="'obecne'">
-            <h3>Obecné</h3>
+        <div *ngIf="config" [ngSwitch]="cat">
+
+          <ng-container *ngSwitchCase="'obecne'">
             <div class="form-group"> 
               <label>Titulek webu</label>
               <input type="string" class="form-control" [(ngModel)]="config.general.title">
               <small class="form-text text-muted">Zobrazí se v záhlaví prohlížeče.</small>
             </div>
-            
-            <h3>Oddíly</h3>
-            
-            <codelist-editor [fields]="groupFields" [records]="config.groups"></codelist-editor>
-            
-            <h3>Akce</h3>
-            
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'akce'">
             <h4>Typy akcí</h4>
-            
+
             <codelist-editor [fields]="eventTypeFields" [records]="config.events.types"></codelist-editor>
-            <h3>Členská databáze</h3>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'clenska-databaze'">
+            <h4>Oddíly</h4>
+
+            <codelist-editor [fields]="groupFields" [records]="config.groups"></codelist-editor>
 
             <h4>Role členů (dítě, instruktor, ...)</h4>
 
-            <codelist-editor [fields]="memberRoleFields" [records]="config.members.roles"></codelist-editor>
+            <codelist-editor [fields]="memberRolesFields" [records]="config.members.roles"></codelist-editor>
+          </ng-container>
 
-            <h3>Dokumenty</h3>
-
-            <h4>Adresa Google Dokumentů</h4>
+          <ng-container *ngSwitchCase="'dokumenty'">
             <div class="form-group">              
+              <label>Adresa Google Dokumentů</label>
               <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.documents.url">
               <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
             </div>
+          </ng-container>
 
-            <h3>Galerie</h3>
-            
+          <ng-container *ngSwitchCase="'galerie'">
             <h4>Předvolené tagy</h4>
 
             <codelist-editor [fields]="defaultTagsFields" [records]="config.gallery.defaultTags"></codelist-editor>
+          </ng-container>
+
+          
+          <ng-container *ngSwitchCase="'uzivatele'">
+            <h4>Uživatelské role</h4>
+
+            <codelist-editor [fields]="userRolesFields" [records]="config.users.roles"></codelist-editor>
+          </ng-container>
+          
 
 
-            <button type="button" class="btn btn-secondary" (click)="resetConfig()">Zrušit</button>
-            &nbsp;
-            <button type="button" class="btn btn-primary" (click)="saveConfig()">Uložit</button>
 
-            <hr>
-
-            <input type="checkbox" id="check_viewjson" [(ngModel)]="viewJson"> <label for="check_viewjson">Zobrazit JSON</label>
-
-            <div *ngIf="viewJson" class="json bg-light">
-              <textarea [ngModel]="config | json" (ngModelChange)="editJson($event)"></textarea>
-              <p>{{jsonError ? "chyba" : "kód OK"}}</p>
-            </div>
-
-          </div>
 
         </div>
+
       </div>
     </div>
 
+    <hr>
+    
+    <div class="form-check">
+      <input type="checkbox" id="check_viewjson" class="form-check-input" [(ngModel)]="viewJson">&nbsp;<label for="check_viewjson" class="form-check-label">Zobrazit JSON</label>
+    </div>
 
+    <div *ngIf="viewJson" class="json bg-light">
+      <textarea [ngModel]="config | json" (ngModelChange)="editJson($event)"></textarea>
+      <p>{{jsonError ? "chyba" : "kód OK"}}</p>
+    </div>
   </div>
 </section>

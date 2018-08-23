@@ -1,7 +1,13 @@
 <div *ngIf="openFilter" class="filter">
   <form class="form" (ngSubmit)="loadAlbums()">
-    <div class="row">
-      <div class="form-group col-md-4">
+    <div class="form-row">
+      
+      <div class="form-group col-md-3">
+        <label>Vyhledat</label>
+        <input type="text" [(ngModel)]="options.search" name="search" class="form-control">
+      </div>
+      
+      <div class="form-group col-md-2">
         <label>Stav</label>
         <select [(ngModel)]="options.status" name="status" class="form-control">
           <option value="draft">v přípravě</option>
@@ -20,9 +26,9 @@
         <input type="date" name="dateTill" [(ngModel)]="options.dateTill" class="form-control">
       </div>
       
-      <div class="col-md-2">
-        <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
-        <button class="btn btn-primary" type="submit">Filtrovat</button>
+      <div class="form-group col-md-1">
+        <label>&nbsp;</label>
+        <button type="submit" class="btn btn-primary text-center" style="width:100%;"><i class="fas fa-search"></i></button>
       </div>
     </div>
   </form>
@@ -45,7 +51,11 @@
       <td>{{statuses[album.status] || "N/A"}}</td>
       <td>{{album.datePublished | date:"d. M. y"}}</td>
       <td class="actions text-right">
-        <a [routerLink]="getAlbumLink(album)"><i class="fas fa-pencil-alt"></i></a>
+        <ng-container *ngIf="album.event">
+          <a [routerLink]="'/interni/akce/' + album.event" title="Otevřít akci"><i class="far fa-calendar-alt"></i></a>
+          &nbsp;
+        </ng-container>
+        <a [routerLink]="'/interni/galerie/' + album._id + '/upravit'"><i class="fas fa-pencil-alt"></i></a>
         &nbsp;
         <a [routerLink]="'/fotogalerie/' + album._id"><i class="fas fa-external-link-alt"></i></a>
       </td>

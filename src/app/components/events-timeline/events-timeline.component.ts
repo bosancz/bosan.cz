@@ -61,7 +61,7 @@ export class EventsTimelineComponent implements OnInit {
   }
   
   async loadEvents(){
-    var paginated = await this.dataService.getEvents({leaders: 1, dateFrom: new Date(), description: 1, sort: "dateFrom", limit: 10 })
+    var paginated = await this.dataService.getEvents({leaders: 1, dateFrom: (new Date()).toISOString(), description: 1, sort: "dateFrom", limit: 10 })
     var events:TimelineEvent[] = paginated.docs;
 
     // set the apeared variable, wil be true when scrolled into view

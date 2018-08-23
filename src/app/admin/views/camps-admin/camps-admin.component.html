@@ -37,7 +37,7 @@
               <td>{{camp.dateTill | date:"EEEEEE d. M. y"}}</td>
               <td>{{camp.theme}}</td>
               <td>{{camp.leader}}</td>
-              <td class="text-right"><a [routerLink]="this.getCampLink(camp)">otevřít</a></td>
+              <td class="text-right"><a [routerLink]="'/interni/tabory/' + camp._id + '/upravit'"><i class="fas fa-pencil-alt"></i></a></td>
             </tr>
           </tbody>
         </table>

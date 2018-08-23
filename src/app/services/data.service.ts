@@ -147,11 +147,6 @@ export class DataService {
     return this.http.get<any[]>(this.root + "/events/" + eventId + "/leaders").toPromise();
   }
   
-  /* GROUPS */
-	getGroups(options?:any):Promise<any>{
-		return this.http.get<any>(this.root + "/groups" + toParams(options)).toPromise();
-	}
-  
   /* MEMBERS */
   getMembers(options?:any):Promise<Member[]>{
     return this.http.get<Member[]>(this.root + "/members" + toParams(options)).toPromise();

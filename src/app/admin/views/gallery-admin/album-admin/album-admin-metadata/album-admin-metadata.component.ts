@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Inject, LOCALE_ID, ViewChild, ElementRef } from '@angular/core';
 import { formatDate } from "@angular/common";
 import { NgForm } from "@angular/forms";
 
@@ -19,6 +19,10 @@ export class AlbumAdminMetadataComponent {
   @Input() album:Album;
   
   @Output() save:EventEmitter<void> = new EventEmitter();
+  
+  @ViewChild('dateFrom') dateFromInput: ElementRef;
+  @ViewChild('dateTill') dateTillInput: ElementRef;
+  @ViewChild('year') yearInput: ElementRef;
   
   eventsMatched:Event[] = [];
   
@@ -46,5 +50,12 @@ export class AlbumAdminMetadataComponent {
     this.toastService.toast("Uloženo.");
     
     this.save.emit();
+  }
+  
+  eventSelected(event:Event){
+    if(!event) return;
+    this.dateFromInput.nativeElement.value = formatDate(event.dateFrom, 'yyyy-MM-dd', "cs");
+    this.dateTillInput.nativeElement.value = formatDate(event.dateTill, 'yyyy-MM-dd', "cs");
+    this.yearInput.nativeElement.value = formatDate(event.dateTill, 'yyyy', "cs");
   }
 }

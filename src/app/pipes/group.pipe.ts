@@ -22,7 +22,7 @@ export class GroupPipe implements PipeTransform {
     
     // create group index with properties
     this.groupIndex = {};
-    config.groups.forEach(group => this.groupIndex[group.id] = group);
+    config.members.groups.forEach(group => this.groupIndex[group.id] = group);
 
     // inform Angular that refresh of the value is needed
     this.changeDetectorRef.markForCheck();

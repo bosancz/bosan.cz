@@ -21,6 +21,8 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
 
   users:User[] = [];
   
+  roleNames:any = {};
+  
   active:boolean;
 
   createUserModalRef: BsModalRef;
@@ -39,6 +41,8 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
 
       this.loadUsers();
     });
+    
+    this.loadRoleNames();
   }
   
   ngOnDestroy(){
@@ -46,7 +50,13 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
   }
 
   async loadUsers(){
-    this.users = await this.dataService.getUsers({active:!!this.active,members:1});
+    this.users = await this.dataService.getUsers({active:this.active ? 1 : 0,members:1});
+  }
+  
+  async loadRoleNames(){
+    let config = await this.dataService.getConfig();
+    this.roleNames = {};
+    config.users.roles.forEach(role => this.roleNames[role.name] = role.title);
   }
 
   getUserLink(user:User):string{

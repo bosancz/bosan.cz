@@ -28,6 +28,7 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   }
 
   options = {
+    search:"",
     year:undefined,
     page:1,
     sort:"-dateFrom",
@@ -68,12 +69,8 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
     this.loading = false;
   }
 
-  getAlbumLink(album:Album):string{
-    return '/interni/galerie/' + album._id;
-  }
-
   openAlbum(album:Album):void{
-    this.router.navigate([this.getAlbumLink(album)],{relativeTo:this.route});
+    this.router.navigate(['/interni/galerie/' + album._id]);
   }
   
   getPages(){

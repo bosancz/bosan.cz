@@ -59,7 +59,7 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
   
   async loadGroups(){
     let config = await this.dataService.getConfig();
-    this.groups = config.groups;
+    this.groups = config.members.groups;
   }
   
   async loadRoles(){

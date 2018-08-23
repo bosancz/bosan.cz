@@ -2,9 +2,10 @@
 
 .image{position:absolute;top:0;left:0;right:0;bottom:0;background-position:center center; background-repeat:no-repeat; background-size:contain;}
 
-.menu{position:absolute;top:0;left:0;right:0;padding:10px 15px;font-size:22px;background-color:rgba(0,0,0,.6);z-index:20;}
-.menu a{text-decoration:none;}
+.menu{position:absolute;top:0;left:0;right:0;padding:10px;font-size:22px;background-color:rgba(0,0,0,.6);z-index:20;}
+.menu a{text-decoration:none;margin:0 10px;cursor:pointer;}
 .menu .title i{margin-right:10px;}
+.menu .download{color:inherit;}
 
 .arrow{position:absolute;top:0;bottom:0;width:25%;cursor:pointer;z-index:15;}
 .arrow.left{left:0;}
