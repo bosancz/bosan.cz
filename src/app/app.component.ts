@@ -34,6 +34,17 @@ export class AppComponent {
       this.toasts.push(toast);
       setTimeout(() => this.toasts.shift(),2000);
     });
+    
+    this.authService.onLogout.subscribe(event => {
+      if(event.expired){
+        this.toastService.toast("Přihlášení vypršelo, přihlas se znovu.");
+        this.openLogin();
+      }
+      else{
+        this.toastService.toast("Odhlášeno.");
+        this.router.navigate(["/"]);
+      }
+    });
   }
   
   clearToasts(){
@@ -46,6 +57,5 @@ export class AppComponent {
   
   logout(){
     this.authService.logout();
-    this.router.navigate(["/"]);
   }
 }

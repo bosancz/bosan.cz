@@ -20,8 +20,8 @@ export class AuthUser{
 @Injectable()
 export class AuthService {
 
-	public onLogin = new Subject<any>();
-  public onLogout = new Subject<void>();
+	public onLogin = new Subject<{user:AuthUser}>();
+  public onLogout = new Subject<{user:AuthUser,expired:boolean}>();
 
 	// boolean if user is logged
 	logged: boolean = false;
@@ -124,14 +124,19 @@ export class AuthService {
 			this.setUser(this.jwtHelper.decodeToken(token));
 			
 			// announce login to subscribers if applicable
-			if(!this.logged) this.onLogin.next(this.user);
+			if(!this.logged) this.onLogin.next({
+        user: this.user
+      });
 			
 			this.logged = true;
 			
 		}	else {
 			
 			// announce logout to subscribers if applicable
-			if(this.logged) this.onLogout.next();
+			if(this.logged) this.onLogout.next({
+        user: this.user,
+        expired: this.jwtHelper.isTokenExpired(token)
+      });
 			
 			// token invalid or missing, so set empty token and user
 			this.token = null;
