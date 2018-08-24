@@ -12,7 +12,6 @@ export class WebConfigAchievement{
   name:string;
   image:string;
 }
-    
 
 export interface WebConfig {
   
@@ -36,10 +35,6 @@ export interface WebConfig {
     url:string
   };
 
-  gallery:{
-    defaultTags:Array<{tag:string}>
-  };
-
   members:{
     roles:Array<{id:string}>,
     groups:WebConfigGroup[],
@@ -47,6 +42,6 @@ export interface WebConfig {
   };
   
   events:{
-    types:Array<{id:string,title:string,image:string}>
+    types:Array<{name:string,image:string}>
   };
 }

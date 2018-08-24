@@ -9,7 +9,6 @@
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" routerLink="../obecne" routerLinkActive="active">Obecné nastavení</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../akce" routerLinkActive="active">Akce</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../galerie" routerLinkActive="active">Galerie</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../clenska-databaze" routerLinkActive="active">Členská databáze</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../dokumenty" routerLinkActive="active">Dokumenty</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../uzivatele" routerLinkActive="active">Uživatelé</a></li>
@@ -53,13 +52,6 @@
               <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
             </div>
           </ng-container>
-
-          <ng-container *ngSwitchCase="'galerie'">
-            <h4>Předvolené tagy</h4>
-
-            <codelist-editor [fields]="defaultTagsFields" [records]="config.gallery.defaultTags"></codelist-editor>
-          </ng-container>
-
           
           <ng-container *ngSwitchCase="'uzivatele'">
             <h4>Uživatelské role</h4>

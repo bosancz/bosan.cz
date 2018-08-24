@@ -88,7 +88,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   async loadAlbum(id:string){
     this.album = await this.dataService.getAlbum(id,{photos:1});
     
-    if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
+    //if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
+    //if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
     
     this.updatePhoto(this.currentId);
   }

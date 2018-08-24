@@ -19,13 +19,13 @@
 
       <div class="col-9" [ngSwitch]="category">
 
-        <album-admin-dashboard *ngSwitchCase="'prehled'"></album-admin-dashboard>
+        <album-admin-dashboard *ngSwitchCase="'prehled'" [album]="album"></album-admin-dashboard>
         
-        <album-admin-metadata *ngSwitchCase="'upravit'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-metadata>
+        <album-admin-metadata *ngSwitchCase="'upravit'" [album]="album" (saved)="loadAlbum(album._id)"></album-admin-metadata>
         
-        <album-admin-photos  *ngSwitchCase="'fotky'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-photos>
+        <album-admin-photos  *ngSwitchCase="'fotky'" [album]="album" (saved)="loadAlbum(album._id)"></album-admin-photos>
         
-        <album-admin-upload  *ngSwitchCase="'upload'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-upload>
+        <album-admin-upload  *ngSwitchCase="'upload'" [album]="album" (saved)="loadAlbum(album._id)"></album-admin-upload>
 
         <div *ngSwitchCase="'smazat'">
           <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chcete smazat toto album?</label>

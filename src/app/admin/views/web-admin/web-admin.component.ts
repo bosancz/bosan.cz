@@ -23,8 +23,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   ];
   
   eventTypeFields = [
-    {"name": "id", "title": "ID", "type": "text"},
-    {"name": "title", "title": "Název", "type": "text"},
+    {"name": "name", "title": "Název", "type": "text"},
     {"name": "image", "title": "Obrázek", "type": "text"}
   ];
   
@@ -37,10 +36,6 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     {"name": "title", "title": "Název", "type": "text"},
     {"name": "description", "title": "Popis", "type": "text"}
   ]
-  
-  defaultTagsFields = [
-    {"name": "tag", "title": "Tag", "type": "text"}
-  ];
   
   modified:boolean = false;
   

@@ -84,8 +84,6 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
       this.loadEvents();
     });
     
-    this.loadTypes();
-    
   }
   
   ngOnDestroy(){
@@ -96,15 +94,6 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     let paginated:Paginated<Event> = await this.dataService.getEvents(this.options);
     this.events = paginated.docs;
     this.pages = paginated.pages;
-  }
-  
-  async loadTypes(){
-    var config = await this.dataService.getConfig();
-    
-    var types = {}
-    config.events.types.forEach(type => types[type.id] = type.title);
-    
-    this.types = types;
   }
   
   openEvent(event:Event):void{

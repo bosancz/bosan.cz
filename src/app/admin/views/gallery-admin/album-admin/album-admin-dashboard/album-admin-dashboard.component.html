@@ -1,3 +1,11 @@
-<p>
-  album-admin-dashboard works!
-</p>
+<div class="row">
+  <div *ngFor="let photo of album.titlePhotos" class="col-4 titlePhoto">
+    <div class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'"></div>
+  </div>
+</div>
+
+<ng-container *ngIf="album">
+  <p>{{album.description}}</p>
+
+  <p><strong>Datum:</strong> {{album.dateFrom | date:"d. M. y"}} ~ {{album.dateTill | date:"d. M. y"}}</p>
+</ng-container>

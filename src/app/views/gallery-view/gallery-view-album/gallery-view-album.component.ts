@@ -61,7 +61,8 @@ export class GalleryViewAlbumComponent implements OnInit {
     
     if(!this.album) return this.toastService.toast("Album nenalezeno :(");
                                                    
-    if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
+    //if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
+    //if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
     
     this.updateTags()
     this.updateGalleryPhotos()

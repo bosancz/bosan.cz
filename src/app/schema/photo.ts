@@ -21,4 +21,6 @@ export class Photo {
   
   tags:string[];
   
+  date:Date;
+  
 }

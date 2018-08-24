@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let leader of leaders;let i = index" [class.font-weight-bold]="i===0">
+    <tr *ngFor="let leader of leaders;let i = index">
       <td>{{leader.nickname}}</td>
       <td>{{leader.name?.first}} {{leader.name?.last}}</td>
       <td [style.color]="leader.group | group:'color'">{{leader.group | group:"name"}}</td>

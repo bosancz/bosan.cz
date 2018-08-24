@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { Album } from "../../../../../schema/album";
 
 @Component({
   selector: 'album-admin-dashboard',
@@ -7,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumAdminDashboardComponent implements OnInit {
 
+  @Input() album:Album;
+  
   constructor() { }
 
   ngOnInit() {
