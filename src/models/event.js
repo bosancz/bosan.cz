@@ -4,6 +4,7 @@ var path = require("path");
 var config= require("../../config");
 
 var Member = require("./member"); // load because of reference
+var EventRecurring = require("./event-recurring"); // load because of reference
 
 var eventSchema = mongoose.Schema({
   "name": {type: String, required: true},
@@ -16,6 +17,8 @@ var eventSchema = mongoose.Schema({
   
   "timeFrom": String,
   "timeTill": String,
+  
+  "recurring": {type: mongoose.Schema.Types.ObjectId, ref: "EventRecurring"},
   
   "dateChanged": Date,
   

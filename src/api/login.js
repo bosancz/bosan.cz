@@ -26,7 +26,7 @@ function createToken(user,validity){
 
   // jsonwebtoken doesnt support promises yet
   return new Promise((resolve,reject) => {
-    jwt.sign(tokenData, config.jwt.secret, tokenOptions, (err,token) => err ? reject(err) : resolve(token))
+    jwt.sign(tokenData, config.auth.jwt.secret, tokenOptions, (err,token) => err ? reject(err) : resolve(token))
   });
 }
 
@@ -52,16 +52,16 @@ router.post("/", acl("login"), async (req,res,next) => {
   if(!same) return res.sendStatus(401);
 
   // create the token
-  var token = await createToken(user,config.jwt.expiration);
+  var token = await createToken(user,config.auth.jwt.expiration);
 
   // send it to the user
   res.send(token);
   
   // if hash using weak hashing strength, then update hash
-  if(bcrypt.getRounds(user.password) < config.bcrypt.rounds) {
+  if(bcrypt.getRounds(user.password) < config.auth.bcrypt.rounds) {
 
     // we dont need to wait for this, rather return token faster
-    bcrypt.hash(req.body.password, config.bcrypt.rounds)
+    bcrypt.hash(req.body.password, config.auth.bcrypt.rounds)
       .then(hash => {
         user.password = hash;
         user.save();
@@ -79,7 +79,7 @@ router.get("/renew",acl("login:renew"), async (req,res) => {
   if(!user) return res.status(404).send("User not found");
   
   // create the token
-  var token = await createToken(user,config.jwt.expiration);
+  var token = await createToken(user,config.auth.jwt.expiration);
   
   //send the new token to user
   res.send(token);

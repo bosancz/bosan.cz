@@ -8,22 +8,21 @@ var Event = require("../models/event");
 router.get("/", acl("events:list"), async (req,res,next) => {
 
   var options = {
-    select: ["_id","name","dateFrom","dateTill","type"],
+    select: ["_id","name","dateFrom","dateTill","type","status"],
     page: req.query.page || 1,
     limit: req.query.limit ? Math.min(100,req.query.limit) : 20,
     populate: []
   };
+  if(req.query.description) options.select.push("description");
 
   var where = {};
-  
+  if(req.query.status && req.query.status !== "all") where.status = req.query.status;
+  if(!req.query.status || !await acl.can("albums:drafts:list",req)) where.status = "public";
+  if(req.query.leader) where.leaders = req.query.leader;
   if(req.query.search) where.name = new RegExp(req.query.search,"i");
-  if(req.query.description) options.select.push("description");
-  if(req.query.leader){ options.select.push("leaders"); where.leaders = req.query.leader;}
   if(req.query.noleader) where.$or = [{"leaders":{$size:0}},{"leaders": {$exists:false}}];
   if(req.query.dateFrom) where.dateTill = {$gte: new Date(req.query.dateFrom)};
   if(req.query.dateTill) where.dateFrom = {$lte: new Date(req.query.dateTill)};
-  if(!(req.query.drafts && await acl.can("events:drafts:list",req))) where.status = "public";
-  else options.select.push("status");
 
 
   if(req.query.leaders) options.populate.push({path: "leaders", select: "_id name nickname group"});
@@ -36,17 +35,6 @@ router.post("/", acl("events:create"), async (req,res,next) => {
   var event = await Event.create(req.body);
   res.status(201).json(event);
 });            
-            
-router.get("/upcoming", async (req,res,next) => {
-  
-  var events = Event
-    .find({dateTill : {$gt: new Date()}})
-    .select("_id name dateFrom dateTill description groups") 
-    .where("status","public")
-    .limit(5);
-  
-  res.json(await events);
-});
 
 /* SIGNLE EVENT */
 
@@ -63,8 +51,18 @@ router.patch("/:event",  acl("events:update"), async (req,res,next) => {
 
 
 router.delete("/:event", acl("events:delete"), async (req,res,next) => {
+  var event = await Event.findOne({_id:req.params.event}).select("recurring");
+  
+  // remove from recurring if is an recurring event
+  if(event.recurring){
+    var recurring = await EventRecurring({_id:event.recurring});
+    recurring.instances = recurring.instances.filter(instance => instance._id !== req.params.event);
+    await recurring.save();
+  }
+  
   // remove the event from database
   await Event.remove({_id:req.params.event})
+  
   // return OK, no data
   res.sendStatus(204);
 });
@@ -77,6 +75,3 @@ router.get("/:event/leaders", acl("events:leaders:list"), async (req,res,next) =
   // return just the leaders
   res.json(event.leaders || []);
 });
-
-
-

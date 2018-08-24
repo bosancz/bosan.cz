@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=production node src/server.js",
     "dev": "NODE_ENV=development nodemon src/server.js",
-    "list-acl": "grep -oR -E 'acl\\(\"[^\\\"]+\"\\)' src/"
+    "inspect:acl": "grep -oR -E 'acl\\(\"[^\\\"]+\"\\)' src/",
+    "inspect:router": "grep -R -E 'router\\.' src/"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,7 @@
   },
   "homepage": "https://github.com/bosancz/bosan.cz-server#readme",
   "dependencies": {
-    "ajv": "^6.5.2",
+    "ajv": "^6.5.3",
     "async": "^2.6.1",
     "bcryptjs": "^2.4.3",
     "chokidar": "^2.0.4",
@@ -30,12 +31,12 @@
     "express-jsonschema": "^1.1.6",
     "express-jwt": "^5.3.1",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.2.6",
+    "mongoose": "^5.2.9",
     "mongoose-paginate": "^5.0.3",
     "multer": "^1.3.1",
     "mv": "^2.1.1",
     "rimraf": "^2.6.2",
-    "sharp": "^0.20.5"
+    "sharp": "^0.20.7"
   },
   "devDependencies": {
     "cp": "^0.2.0",

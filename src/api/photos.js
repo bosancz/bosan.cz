@@ -78,7 +78,7 @@ router.post("/", acl("photos:create"), acl("album:update"), upload.single("photo
 });
 
 router.patch("/:photo", acl("photos:edit"), async (req,res) => {
-  await Photo.findOneAndUpdate({_id:req.params.id},req.body);
+  await Photo.findOneAndUpdate({_id:req.params.photo},req.body);
   res.sendStatus(204);
 });
 

@@ -21,11 +21,12 @@ router.get("/", acl("albums:list"), async (req,res,next) => {
   if(req.query.status && req.query.status !== "all") where.status = req.query.status;
   if(!req.query.status || !await acl.can("albums:drafts:list",req)) where.status = "public";
   if(req.query.year) where.year = Number(req.query.year);
+  if(req.query.search) where.name = new RegExp(req.query.search,"i");
   if(req.query.dateFrom) where.dateTill = { $gte: new Date(req.query.dateFrom) };
   if(req.query.dateTill) where.dateFrom = { $lte: new Date(req.query.dateTill) };
   
   var options = {
-    select: ["_id","name","status","dateFrom","dateTill","datePublished"],
+    select: ["_id","name","status","dateFrom","dateTill","datePublished","event"],
     populate:[],
     limit: req.query.limit ? Math.min(req.query.limit,100) : 100,
     page: req.query.page || 1

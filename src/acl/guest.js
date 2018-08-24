@@ -12,6 +12,8 @@ var guest = module.exports = {
     
     "camps:list": true,
     
+    "config:read": true,
+    
     "login": true
   }
 };

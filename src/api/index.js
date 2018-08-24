@@ -14,6 +14,7 @@ router.use("/login", require("./login"));
 
 router.use("/members", require("./members"));
 
+router.use("/events/:event/recurring", require("./events-recurring"));
 router.use("/events", require("./events"));
 
 router.use("/users", require("./users"));

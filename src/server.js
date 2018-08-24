@@ -11,7 +11,7 @@ app.use(bodyParser.json({ limit:'10mb' })); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true,  limit:'10mb' })); // support urlencoded bodies
 
 var jwt = require('express-jwt');
-app.use(jwt(config.jwt));
+app.use(jwt(config.auth.jwt));
 
 var mongooseConnection = require("./db");
 
