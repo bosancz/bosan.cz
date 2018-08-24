@@ -48,7 +48,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   
   // DB interaction
   async loadEvent(eventId:string){
-    this.event = await this.dataService.getEvent(eventId);
+    this.event = await this.dataService.getEvent(eventId,{recurring:1});
   }
   
   async saveEvent(eventData:any){
