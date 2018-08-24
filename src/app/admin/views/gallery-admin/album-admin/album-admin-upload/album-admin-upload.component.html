@@ -36,9 +36,7 @@
 
 <div class="tags">
   <label><strong>Tagy:</strong></label>&nbsp;
-  <span *ngFor="let tag of defaultTags" class="badge badge-dark" [class.active]="hasTag(tag)" (click)="toggleTag(tag)">#{{tag}}</span>
-  <span *ngFor="let tag of customTags" class="badge badge-warning" [class.active]="hasTag(tag)" (click)="toggleTag(tag)">#{{tag}}</span>
-  <span class="badge badge-warning" (click)="newTag()">+</span>
+  <photo-tags-editor [(ngModel)]="selectedTags" [tags]="tags"></photo-tags-editor>
 </div>
 
 <div class="buttons text-right">

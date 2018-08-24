@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { HttpEvent, HttpEventType } from "@angular/common/http";
 
 import { DataService } from "../../../../../services/data.service";
@@ -18,14 +18,13 @@ class PhotoUploadItem {
   templateUrl: './album-admin-upload.component.html',
   styleUrls: ['./album-admin-upload.component.css']
 })
-export class AlbumAdminUploadComponent implements OnInit {
+export class AlbumAdminUploadComponent implements OnChanges {
 
   @Input() album:Album;
   
   @Output() save:EventEmitter<void> = new EventEmitter();
   
-  defaultTags:string[] = [];
-  customTags:string[] = [];
+  tags:string[] = [];
   selectedTags:string[] = [];
   
   status:string = "notstarted";
@@ -36,48 +35,16 @@ export class AlbumAdminUploadComponent implements OnInit {
 
   constructor(private dataService:DataService, private toastService:ToastService) { }
 
-  ngOnInit(){
-    this.loadTags();
-  }
-  
-  async loadTags(){
-    var config = await this.dataService.getConfig();
-    this.defaultTags = config.gallery.defaultTags.map(item => item.tag);
-    this.updateCustomTags();
+  ngOnChanges(changes:SimpleChanges){
+    if(changes.album) this.updateTags();
   }
 
-  updateCustomTags(){
-    this.customTags = [];
+  updateTags(){
+    this.tags = [];
     this.album.photos.forEach(photo => {
-      photo.tags.forEach(tag => this.addCustomTag(tag));
+      photo.tags.filter(tag => this.tags.indexOf(tag) === -1).forEach(tag => this.tags.push(tag));
     });
   }
-  
-  addCustomTag(tag){
-    if(this.defaultTags.indexOf(tag) === -1 && this.customTags.indexOf(tag) === -1){
-      this.customTags.push(tag);
-      this.selectedTags.push(tag);
-    }
-  }
-  
-  hasTag(tag:string):boolean {
-    return this.selectedTags.indexOf(tag) !== -1;
-  }
-  
-  toggleTag(tag:string){
-    let i = this.selectedTags.indexOf(tag);
-    if(i === -1) this.selectedTags.push(tag);
-    else this.selectedTags.splice(i,1);
-  }
-  
-  newTag(){
-    var tag:string = window.prompt("Zadejte název nového tagu:");
-    if(!tag) return;
-
-    if(tag.charAt(0) === "#") tag = tag.substring(1);
-
-    this.addCustomTag(tag);
-  }  
   
   async addPhotosByInput(photoInput:HTMLInputElement){
 

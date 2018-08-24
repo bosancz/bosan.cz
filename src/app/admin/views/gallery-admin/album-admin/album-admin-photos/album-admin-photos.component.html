@@ -33,12 +33,14 @@
     <div *ngFor="let photo of album.photos" class="photo col-md-6">    
       <div class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'"></div>
       <div class="details">
-
+        <div class="caption">
+          <label>Popisek:</label>
+          <ng-container *ngIf="photo.caption">{{photo.caption}}</ng-container>
+          <ng-container *ngIf="!photo.caption"><em>není</em></ng-container>
+        </div>
         <div class="tags">
-          Tagy:
-          <span *ngFor="let tag of defaultTags" class="badge badge-dark" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
-          <span *ngFor="let tag of customTags" class="badge badge-warning" [class.active]="hasTag(photo,tag)" (click)="toggleTag(photo,tag)">#{{tag}}</span>
-          <span class="badge badge-warning" (click)="newTag(photo)">+</span>
+          <label>Tagy:</label>
+          <photo-tags-editor [ngModel]="photo.tags" (ngModelChange)="saveTags(photo,$event)" [tags]="tags"></photo-tags-editor>
         </div>
       </div>
 
