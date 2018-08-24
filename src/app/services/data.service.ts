@@ -127,8 +127,8 @@ export class DataService {
     return this.http.get<Event[]>(this.root + "/events/upcoming").toPromise();
   }
   
-  getEvent(eventId:string):Promise<Event>{
-    return this.http.get<Event>(this.root + "/events/" + eventId).toPromise();
+  getEvent(eventId:string,options?:any):Promise<Event>{
+    return this.http.get<Event>(this.root + "/events/" + eventId + toParams(options)).toPromise();
   }
   
   createEvent(eventData:any):Promise<Event>{
