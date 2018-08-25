@@ -17,15 +17,24 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   cat:string = "about";
   
   groupFields = [
-    {"name": "id", "title": "ID", "type": "text"},
+    {"name": "id", "title": "ID", "type": "text", "required": true},
     {"name": "name", "title": "Jméno", "type": "text"},
-    {"name": "color", "title": "Barva", "type": "text"}
+    {"name": "color", "title": "Barva", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})"}
   ];
   
   eventTypeFields = [
+    {"name": "name", "title": "Název", "type": "text"}
+  ];
+  
+  eventSubTypeFields = [
     {"name": "name", "title": "Název", "type": "text"},
     {"name": "image", "title": "Obrázek", "type": "text"}
   ];
+  
+  eventRecurringTypeFields = [
+    {"name": "name", "title": "ID", "type": "text"},
+    {"name": "title", "title": "Název", "type": "text"}
+  ];      
   
   memberRolesFields = [
     {"name": "id", "title": "ID", "type": "text"}

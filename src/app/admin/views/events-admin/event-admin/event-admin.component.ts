@@ -18,12 +18,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   
   category:string;
   
-  recurringNames:any = {
-    "daily": "denně",
-    "weekly": "týdně",
-    "monthly": "měsíčně",
-    "yearly": "ročně"
-  };
+  recurringNames:{[name:string]:string} = {};
   
   deleteConfirmation:boolean = false;
   
@@ -40,6 +35,8 @@ export class EventAdminComponent implements OnInit, OnDestroy {
       this.category = params.cat;
 
     });
+    
+    this.loadRecurringNames();
   }
   
   ngOnDestroy(){
@@ -47,6 +44,11 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   }
   
   // DB interaction
+  async loadRecurringNames(){
+    let config = await this.dataService.getConfig();
+    this.recurringNames = config.events.recurringTypes.reduce((acc,cur) => ({...acc,[cur.name]: cur.title}),{});
+  }
+  
   async loadEvent(eventId:string){
     this.event = await this.dataService.getEvent(eventId,{recurring:1});
   }
@@ -57,7 +59,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
     await this.dataService.updateEvent(this.event._id,eventData || this.event);
     
     // load the updated version of event
-    this.event = await this.dataService.getEvent(this.event._id);
+    await this.loadEvent(this.event._id);
     
     // send a toast with OK message
     this.toastService.toast("Uloženo.");

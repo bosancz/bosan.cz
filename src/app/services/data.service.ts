@@ -8,7 +8,7 @@ import { Paginated } from "../schema/paginated";
 import { Album, Photo } from "../schema/album";
 import { Camp } from "../schema/camp";
 import { Contact } from "../schema/contact";
-import { Event } from "../schema/event";
+import { Event, EventRecurring } from "../schema/event";
 import { Member } from "../schema/member";
 import { User } from "../schema/user";
 import { WebConfig } from "../schema/webconfig";
@@ -145,6 +145,18 @@ export class DataService {
   
   getEventLeaders(eventId:string):Promise<any[]>{
     return this.http.get<any[]>(this.root + "/events/" + eventId + "/leaders").toPromise();
+  }
+  
+  getEventRecurring(eventId:string,options?:any):Promise<EventRecurring>{
+    return this.http.get<EventRecurring>(this.root + "/events/" + eventId + "/recurring" + toParams(options)).toPromise();
+  }
+  
+  createEventRecurring(eventId:string,recurringData:any):Promise<string>{
+    return this.http.put(this.root + "/events/" + eventId + "/recurring",recurringData,{responseType:"text"}).toPromise();
+  }
+  
+  deleteEventRecurring(eventId:string):Promise<string>{
+    return this.http.delete(this.root + "/events/" + eventId + "/recurring",{responseType:"text"}).toPromise();
   }
   
   /* MEMBERS */

@@ -19,7 +19,8 @@ export class EventAdminInfoComponent implements OnInit {
   
   leaders:Member[] = [];
   
-  eventTypes:{name:string,image:string}[] = [];
+  eventTypes:string[] = [];
+  eventSubTypes:string[] = [];
   
   constructor(private dataService:DataService) { }
 
@@ -29,7 +30,8 @@ export class EventAdminInfoComponent implements OnInit {
   
   async loadEventTypes(){
     let config = await this.dataService.getConfig();
-    this.eventTypes = config.events.types;
+    this.eventTypes = config.events.types.map(type => type.name);
+    this.eventSubTypes = config.events.subtypes.map(type => type.name);
   }
   
   saveEvent(eventForm:NgForm){
