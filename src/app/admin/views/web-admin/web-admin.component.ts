@@ -6,6 +6,7 @@ import { DataService } from "../../../services/data.service";
 import { ToastService } from "../../../services/toast.service";
 
 import { WebConfig } from "../../../schema/webconfig";
+import { CodelistField } from "../../components/codelist-editor/codelist-editor.component";
 
 @Component({
   selector: 'web-admin',
@@ -16,31 +17,33 @@ export class WebAdminComponent implements OnInit, OnDestroy {
 
   cat:string = "about";
   
-  groupFields = [
+  groupFields:CodelistField[] = [
     {"name": "id", "title": "ID", "type": "text", "required": true},
     {"name": "name", "title": "Jméno", "type": "text"},
-    {"name": "color", "title": "Barva", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})"}
+    {"name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})","placeholder":"#A1B2C3"}
   ];
   
-  eventTypeFields = [
-    {"name": "name", "title": "Název", "type": "text"}
-  ];
-  
-  eventSubTypeFields = [
+  eventTypeFields:CodelistField[] = [
     {"name": "name", "title": "Název", "type": "text"},
-    {"name": "image", "title": "Obrázek", "type": "text"}
+    {"name": "class", "title": "CSS třída", "type": "text"}
   ];
   
-  eventRecurringTypeFields = [
+  eventSubTypeFields:CodelistField[] = [
+    {"name": "name", "title": "Název", "type": "text"},
+    {"name": "class", "title": "CSS třída", "type": "text"},
+    {"name": "image", "title": "URL obrázku", "type": "text"}
+  ];
+  
+  eventRecurringTypeFields:CodelistField[] = [
     {"name": "name", "title": "ID", "type": "text"},
     {"name": "title", "title": "Název", "type": "text"}
   ];      
   
-  memberRolesFields = [
+  memberRolesFields:CodelistField[] = [
     {"name": "id", "title": "ID", "type": "text"}
   ];
   
-  userRolesFields = [
+  userRolesFields:CodelistField[] = [
     {"name": "name", "title": "ID", "type": "text"},
     {"name": "title", "title": "Název", "type": "text"},
     {"name": "description", "title": "Popis", "type": "text"}

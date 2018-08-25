@@ -1,6 +1,15 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
+export interface CodelistField {
+  name:string;
+  title:string;
+  type:string;
+  pattern?:string;
+  required?:boolean;
+  placeholder?:string;
+}
+
 @Component({
   selector: 'codelist-editor',
   templateUrl: './codelist-editor.component.html',
@@ -15,14 +24,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 })
 export class CodelistEditorComponent implements ControlValueAccessor {
 
-  @Input() fields:{name:string,title:string,type:string,pattern?:string,required?:boolean}[] = [];
-  
+  @Input() fields:CodelistField[] = [];
+
   records:any[] = [];
-  
+
   disabled:boolean = false;
   onChange:any = () => {};
   onTouched:any = () => {};
-  
+
   writeValue(records:any):void{
     if(Array.isArray(records)) this.records = records;
     else{
@@ -33,23 +42,23 @@ export class CodelistEditorComponent implements ControlValueAccessor {
   registerOnChange(fn: any): void{ this.onChange = fn; }
   registerOnTouched(fn: any): void{ this.onTouched = fn; }
   setDisabledState(isDisabled: boolean): void{ this.disabled = isDisabled; }
-  
+
   constructor() { }
-  
+
   add(){
-    
+
     if(this.disabled) return;
-    
+
     var record = this.fields.reduce((acc,cur) => ({...acc,[cur.name]: null}),{});
-    
+
     this.records.push(record);
   }
-  
+
   delete(i:number){
     if(this.disabled) return;
     this.records.splice(i,1);
   }
-  
+
   move(from:number,to:number){
     if(this.disabled) return;
     if(to < 0 || to >= this.records.length) return;

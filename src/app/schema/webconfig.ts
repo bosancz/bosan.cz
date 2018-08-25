@@ -47,8 +47,8 @@ export interface WebConfig {
   };
   
   events:{
-    types:Array<{name:string}>,
-    subtypes:Array<{name:string,image:string}>,
+    types:Array<{name:string,class:string}>,
+    subtypes:Array<{name:string,class:string,image:string}>,
     recurringTypes:WebConfigRecurringType[]
   };
 }
