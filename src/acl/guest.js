@@ -8,6 +8,7 @@ var guest = module.exports = {
     "albums:photos:read": true,
     
     "events:list": true,
+    "events:upcoming:list": true,
     "events:read": true,
     
     "camps:list": true,

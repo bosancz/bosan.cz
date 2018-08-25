@@ -7,23 +7,23 @@ var Member = require("./member"); // load because of reference
 var EventRecurring = require("./event-recurring"); // load because of reference
 
 var eventSchema = mongoose.Schema({
-  "name": {type: String, required: true},
-  "status": {type: String, enum: ['draft','public','cancelled'], required: true, default: 'draft'},
   
+  "status": {type: String, enum: ['draft','public','cancelled'], required: true, default: 'draft'},
   "srcId": Number,
+  
+  "name": {type: String, required: true},
+  "place": String,
+  "description": String,
   
   "dateFrom": Date,
   "dateTill": Date,
-  
-  "timeFrom": String,
-  "timeTill": String,
-  
+  "dateChanged": Date,
   "recurring": {type: mongoose.Schema.Types.ObjectId, ref: "EventRecurring"},
   
-  "dateChanged": Date,
-  
-  "place": String,
-  "description": String,
+  "meeting": {
+    "start": String,
+    "end": String
+  },
   
   "registration":String,
   

@@ -4,6 +4,7 @@ var router = module.exports = express.Router();
 var acl = require("express-dynacl");
 
 var Event = require("../models/event");
+var EventRecurring = require("../models/event-recurring");
 
 router.get("/", acl("events:list"), async (req,res,next) => {
 
@@ -24,7 +25,6 @@ router.get("/", acl("events:list"), async (req,res,next) => {
   if(req.query.dateFrom) where.dateTill = {$gte: new Date(req.query.dateFrom)};
   if(req.query.dateTill) where.dateFrom = {$lte: new Date(req.query.dateTill)};
 
-
   if(req.query.leaders) options.populate.push({path: "leaders", select: "_id name nickname group"});
   if(req.query.sort) options.sort = req.query.sort;
   
@@ -34,16 +34,18 @@ router.get("/", acl("events:list"), async (req,res,next) => {
 router.post("/", acl("events:create"), async (req,res,next) => {
   var event = await Event.create(req.body);
   res.status(201).json(event);
-});            
+});     
+
+router.get("/upcoming", acl("events:upcoming:list"), async (req,res,next) => {
+  var events = Event.find({status:"public",dateFrom: { $gte: new Date() }}).select("_id name dateFrom dateTill description type subtype").populate("leaders","_id name nickname group").sort("dateFrom");  
+  res.json(await events);
+});
 
 /* SIGNLE EVENT */
 
 // read the event document
 router.get("/:event", acl("events:read"), async (req,res,next) => {
   let event = Event.findOne({_id:req.params.event});
-  
-  if(req.query.recurring) event.populate("recurring","_id startDate endDate type");
-  
   res.json(await event);
 });
 
@@ -61,9 +63,14 @@ router.delete("/:event", acl("events:delete"), async (req,res,next) => {
   
   // remove from recurring if is an recurring event
   if(event.recurring){
-    var recurring = await EventRecurring({_id:event.recurring});
-    recurring.instances = recurring.instances.filter(instance => instance._id !== req.params.event);
-    await recurring.save();
+    var recurring = await EventRecurring.findOne({_id:event.recurring});
+    if(recurring.events.length === 1 && String(recurring.events[0]) === String(event._id)){
+      await EventRecurring.remove({_id:event.recurring});
+    }
+    else{
+      recurring.events = recurring.events.filter(instance => instance._id !== req.params.event);
+      await recurring.save();
+    }
   }
   
   // remove the event from database
