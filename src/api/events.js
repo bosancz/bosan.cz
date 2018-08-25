@@ -39,7 +39,13 @@ router.post("/", acl("events:create"), async (req,res,next) => {
 /* SIGNLE EVENT */
 
 // read the event document
-router.get("/:event", acl("events:read"), async (req,res,next) => res.json(await Event.findOne({_id:req.params.event})));
+router.get("/:event", acl("events:read"), async (req,res,next) => {
+  let event = Event.findOne({_id:req.params.event});
+  
+  if(req.query.recurring) event.populate("recurring","_id startDate endDate type");
+  
+  res.json(await event);
+});
 
 // change part of the events
 router.patch("/:event",  acl("events:update"), async (req,res,next) => {

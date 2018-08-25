@@ -133,15 +133,14 @@ router.delete("/", acl("events:edit"), async (req,res) => {
   if(!event) return res.status(404).send("Event not found");
   if(!event.recurring) return res.status(404).send("Event recurring not found.");
 
-  var recurring = await EventRecurring.findOne({"_id": event.recurring});
-
+  // delete instances except current
   await Event.remove({recurring:event.recurring, _id: {$ne : event._id}});
-  
+  // delete recurring container
+  await EventRecurring.remove({_id: event.recurring});
+  //updte current event
   event.recurring = null;
   await event.save();
 
-  await EventRecurring.remove({_id: recurring._id});
-  
   res.sendStatus(204);
 
 });

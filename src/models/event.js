@@ -28,7 +28,10 @@ var eventSchema = mongoose.Schema({
   "registration":String,
   
   "groups": [String],
+  
   "type": String,
+  "subtype": String,
+  "srcType": String,
   
   "leaders":[{type: mongoose.Schema.Types.ObjectId, ref: "Member"}],
   
