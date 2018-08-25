@@ -18,8 +18,6 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   
   category:string;
   
-  recurringNames:{[name:string]:string} = {};
-  
   deleteConfirmation:boolean = false;
   
   paramsSubscription:Subscription;
@@ -35,8 +33,6 @@ export class EventAdminComponent implements OnInit, OnDestroy {
       this.category = params.cat;
 
     });
-    
-    this.loadRecurringNames();
   }
   
   ngOnDestroy(){
@@ -44,13 +40,8 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   }
   
   // DB interaction
-  async loadRecurringNames(){
-    let config = await this.dataService.getConfig();
-    this.recurringNames = config.events.recurringTypes.reduce((acc,cur) => ({...acc,[cur.name]: cur.title}),{});
-  }
-  
   async loadEvent(eventId:string){
-    this.event = await this.dataService.getEvent(eventId,{recurring:1});
+    this.event = await this.dataService.getEvent(eventId);
   }
   
   async saveEvent(eventData:any){

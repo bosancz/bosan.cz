@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { DataService } from "../../../services/data.service";
 
@@ -8,11 +9,17 @@ import { WebConfigGroup } from "../../../schema/webconfig";
 @Component({
   selector: 'members-select',
   templateUrl: './members-select.component.html',
-  styleUrls: ['./members-select.component.scss']
+  styleUrls: ['./members-select.component.scss'],
+  providers: [
+    { 
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => MembersSelectComponent),
+    }
+  ]
 })
-export class MembersSelectComponent implements OnInit {
+export class MembersSelectComponent implements OnInit, ControlValueAccessor {
 
-  @Input() selected:string[] = [];
   
   @Input() options:{
     group:string,
@@ -24,17 +31,24 @@ export class MembersSelectComponent implements OnInit {
     status:""
   };
   
-  search:RegExp;
-  
-  @Output() select:EventEmitter<Member> = new EventEmitter();
-  @Output() unselect:EventEmitter<Member> = new EventEmitter();
-  
   members:Member[] = [];
+  selectedMembers:Member[] = [];
+  
+  search:RegExp;
+  searchIndex:string[];
   
   groups:WebConfigGroup[] = [];
   roles:string[] = [];
+
+  disabled:boolean = false;
   
-  searchIndex:string[];
+  onChange:any = () => {};
+  onTouched:any = () => {};
+  
+  writeValue(members:Member[]):void{ this.selectedMembers = members || []; }
+  registerOnChange(fn: any): void{ this.onChange = fn; }
+  registerOnTouched(fn: any): void{ this.onTouched = fn; }
+  setDisabledState(isDisabled: boolean): void{ this.disabled = isDisabled; }
   
   constructor(private dataService:DataService) {
   }
@@ -71,17 +85,17 @@ export class MembersSelectComponent implements OnInit {
   }
   
   isHidden(member:Member,i:number):boolean{
-    return Object.entries(this.options).some(entry => {
-      return (entry[1] && entry[1] != member[entry[0]]) || (this.search && !this.search.test(this.searchIndex[i]));
-    });
+    return Object.entries(this.options).some(entry => entry[1] && entry[1] != member[entry[0]]) || (this.search && !this.search.test(this.searchIndex[i]));
   }
   
   selectedMember(member:Member):boolean{
-    return this.selected.indexOf(member._id) !== -1;
+    return this.selectedMembers.some(item => item._id === member._id);
   }
   
-  selectMember(member:Member,select:boolean):void{
-    select ? this.select.emit(member) : this.unselect.emit(member);
+  toggleMember(member:Member,select:boolean):void{
+    if(select && !this.selectedMember(member)) this.selectedMembers.push(member);
+    if(!select) this.selectedMembers = this.selectedMembers.filter(item => item._id !== member._id);
+    this.onChange(this.selectedMembers);
   }
 
 }

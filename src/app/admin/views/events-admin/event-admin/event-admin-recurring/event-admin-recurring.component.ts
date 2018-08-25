@@ -74,5 +74,8 @@ export class EventAdminRecurringComponent implements OnChanges {
     this.event.recurring = null;
     this.toastService.toast("Opakování smazáno.");
   }
-
+  
+  getNthDay(dateString:string|Date){
+    return Math.ceil(new Date(dateString).getDate() / 7);
+  }
 }

@@ -51,8 +51,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let member of members;let i = index" [hidden]="isHidden(member,i)" (click)="selectMember(member,!selectedMember(member))">
-        <td><input type="checkbox" [ngModel]="selectedMember(member)" (ngModelChange)="selectMember(member,$event)"></td>
+      <tr *ngFor="let member of members;let i = index" [hidden]="isHidden(member,i)" (click)="toggleMember(member,!selectedMember(member))">
+        <td><input type="checkbox" [ngModel]="selectedMember(member)" (ngModelChange)="toggleMember(member,$event)"></td>
         <td>{{member.nickname}}</td>
         <td>{{member.name?.last}}</td>
         <td>{{member.name?.first}}</td>

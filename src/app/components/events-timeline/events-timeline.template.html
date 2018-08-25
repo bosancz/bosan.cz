@@ -31,7 +31,6 @@
       <div class="timeline-body">
         <p class="text-muted description">{{event.description}}</p>
         <p class="text-muted leaders" *ngIf="event.leaders?.length">
-          Vede
           <ng-container *ngFor="let member of event.leaders; first as isFirst; last as isLast">
             <ng-container *ngIf="!isFirst && !isLast">, </ng-container>
             <ng-container *ngIf="!isFirst && isLast"> a </ng-container>

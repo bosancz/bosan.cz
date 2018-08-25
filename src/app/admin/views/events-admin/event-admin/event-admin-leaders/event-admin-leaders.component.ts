@@ -22,7 +22,7 @@ export class EventAdminLeadersComponent implements OnChanges {
   
   membersModalRef: BsModalRef;
   
-  leaders:any[];
+  leaders:any[] = [];
   
   membersSelectOptions:any = { role: "vedoucí"};
   
@@ -43,15 +43,10 @@ export class EventAdminLeadersComponent implements OnChanges {
   saveLeaders(){
     
     var eventData = {
-      leaders: this.leaders
+      leaders: this.leaders.map(leader => leader._id)
     };
     
     this.save.emit(eventData);
-  }
-  
-  addLeader(member:Member,roles?:string[]){
-    if(this.leaders.some(leader => leader._id === member._id)) return;
-    this.leaders.push(member);
   }
   
   removeLeader(member:Member){
@@ -65,10 +60,6 @@ export class EventAdminLeadersComponent implements OnChanges {
   
   openMembers(membersModalTemplate:TemplateRef<any>){
     this.membersModalRef = this.modalService.show(membersModalTemplate, { class: 'modal-lg' });
-  }
-  
-  getMemberIds(leaders:any[]){
-    return leaders.map(item => item._id);
   }
 
 }

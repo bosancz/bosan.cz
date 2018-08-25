@@ -21,6 +21,11 @@ export class Event {
   dateTill:Date;
   recurring?:EventRecurring;
   
+  meeting: {
+    start:string,
+    end:string
+  };
+  
   attendees:any[];
   leaders:any[];
   
