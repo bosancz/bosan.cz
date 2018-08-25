@@ -6,7 +6,7 @@
 </div>
 
 <div class="timeline clearfix" [class.full]="full">
-  <div *ngFor="let event of events;let i = index" [class.timeline-inverted]="!full && (i % 2) === 1" (appear)="event.appeared = true" [@eventHide]="filteredGroup && event.groups.indexOf(filteredGroup) === -1 ? 'hidden' : 'visible'" [@eventWow]="event.appeared ? 'appeared' : 'notappeared'" class="event">
+  <div *ngFor="let event of events;let i = index" [class.light]="event.type === 'schůzka'" [class.timeline-inverted]="!full && (i % 2) === 1" (appear)="event.appeared = true" [@eventHide]="filteredGroup && event.groups.indexOf(filteredGroup) === -1 ? 'hidden' : 'visible'" [@eventWow]="event.appeared ? 'appeared' : 'notappeared'" class="event">
     
     <div *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay" class="timeline-date long">
       {{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}<br>

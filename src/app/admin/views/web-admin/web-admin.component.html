@@ -32,17 +32,25 @@
           <ng-container *ngSwitchCase="'akce'">
             <h4>Typy akcí</h4>
 
-            <codelist-editor [fields]="eventTypeFields" [records]="config.events.types"></codelist-editor>
+            <codelist-editor [fields]="eventTypeFields" [(ngModel)]="config.events.types"></codelist-editor>
+            
+            <h4>Charaktery akcí</h4>
+
+            <codelist-editor [fields]="eventSubTypeFields" [(ngModel)]="config.events.subtypes"></codelist-editor>
+            
+            <h4>Typů opakování</h4>
+
+            <codelist-editor [fields]="eventRecurringTypeFields" [(ngModel)]="config.events.recurringTypes"></codelist-editor>
           </ng-container>
 
           <ng-container *ngSwitchCase="'clenska-databaze'">
             <h4>Oddíly</h4>
 
-            <codelist-editor [fields]="groupFields" [records]="config.members.groups"></codelist-editor>
+            <codelist-editor [fields]="groupFields" [(ngModel)]="config.members.groups"></codelist-editor>
 
             <h4>Role členů (dítě, instruktor, ...)</h4>
 
-            <codelist-editor [fields]="memberRolesFields" [records]="config.members.roles"></codelist-editor>
+            <codelist-editor [fields]="memberRolesFields" [(ngModel)]="config.members.roles"></codelist-editor>
           </ng-container>
 
           <ng-container *ngSwitchCase="'dokumenty'">
@@ -56,7 +64,7 @@
           <ng-container *ngSwitchCase="'uzivatele'">
             <h4>Uživatelské role</h4>
 
-            <codelist-editor [fields]="userRolesFields" [records]="config.users.roles"></codelist-editor>
+            <codelist-editor [fields]="userRolesFields" [(ngModel)]="config.users.roles"></codelist-editor>
           </ng-container>
           
 

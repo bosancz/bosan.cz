@@ -1,32 +1,57 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
   selector: 'codelist-editor',
   templateUrl: './codelist-editor.component.html',
-  styleUrls: ['./codelist-editor.component.scss']
+  styleUrls: ['./codelist-editor.component.scss'],
+  providers: [
+    { 
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => CodelistEditorComponent)
+    }
+  ]
 })
-export class CodelistEditorComponent implements OnInit {
+export class CodelistEditorComponent implements ControlValueAccessor {
 
-  @Input() fields:{name:string,title:string,type:string}[] = [];
+  @Input() fields:{name:string,title:string,type:string,pattern?:string,required?:boolean}[] = [];
   
-  @Input() records:any[];
+  records:any[] = [];
+  
+  disabled:boolean = false;
+  onChange:any = () => {};
+  onTouched:any = () => {};
+  
+  writeValue(records:any):void{
+    if(Array.isArray(records)) this.records = records;
+    else{
+      this.records = [];
+      this.onChange(this.records);
+    }
+  }
+  registerOnChange(fn: any): void{ this.onChange = fn; }
+  registerOnTouched(fn: any): void{ this.onTouched = fn; }
+  setDisabledState(isDisabled: boolean): void{ this.disabled = isDisabled; }
   
   constructor() { }
-
-  ngOnInit() {
-  }
   
   add(){
-    var record = {};
-    this.fields.forEach(field => record[field.name] = null);
+    
+    if(this.disabled) return;
+    
+    var record = this.fields.reduce((acc,cur) => ({...acc,[cur.name]: null}),{});
+    
     this.records.push(record);
   }
   
   delete(i:number){
+    if(this.disabled) return;
     this.records.splice(i,1);
   }
   
   move(from:number,to:number){
+    if(this.disabled) return;
     if(to < 0 || to >= this.records.length) return;
     this.records.splice(to,0,this.records.splice(from,1)[0]);
   }

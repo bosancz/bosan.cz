@@ -34,11 +34,11 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   view:string;
   
   views:any = {
-    "future": {dateFrom: (new Date()).toISOString().split("T")[0]},
-    "past": {dateTill: (new Date()).toISOString().split("T")[0]},
-    "my": { leader: null },
-    "noleader": { noleader: 1 },
-    "all": {}
+    "future": {dateFrom: (new Date()).toISOString().split("T")[0], sort: "dateFrom"},
+    "past": {dateTill: (new Date()).toISOString().split("T")[0], sort: "-dateFrom"},
+    "my": { leader: null, sort: "-dateFrom" },
+    "noleader": { noleader: 1, sort: "dateFrom"},
+    "all": { sort: "-dateFrom"}
   };
   
   defaultOptions = {

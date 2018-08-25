@@ -13,6 +13,11 @@ export class WebConfigAchievement{
   image:string;
 }
 
+export class WebConfigRecurringType {
+  name:string;
+  title:string;
+}
+
 export interface WebConfig {
   
   general:{
@@ -42,6 +47,8 @@ export interface WebConfig {
   };
   
   events:{
-    types:Array<{name:string,image:string}>
+    types:Array<{name:string}>,
+    subtypes:Array<{name:string,image:string}>,
+    recurringTypes:WebConfigRecurringType[]
   };
 }

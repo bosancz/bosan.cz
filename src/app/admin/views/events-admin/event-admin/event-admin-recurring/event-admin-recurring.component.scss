@@ -1,0 +1,7 @@
+
+.instances{margin:0 20px;}
+.instances tr{cursor:pointer}
+
+.current i{opacity:0;}
+.current.active i{opacity:1;}
+.instances tr:hover .current i{opacity:.5;}
