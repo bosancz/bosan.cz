@@ -9,7 +9,7 @@ import { Member } from "../../schema/member";
 import { Group } from "../../schema/group";
 
 class TimelineEvent extends Event {
-  appeared?:boolean;
+  appeared?:boolean = false;
 }
 
 @Component({
@@ -61,14 +61,10 @@ export class EventsTimelineComponent implements OnInit {
   }
   
   async loadEvents(){
-    var paginated = await this.dataService.getEvents({leaders: 1, dateFrom: (new Date()).toISOString(), description: 1, sort: "dateFrom", limit: 10 })
-    var events:TimelineEvent[] = paginated.docs;
+    this.events = await this.dataService.getUpcomingEvents();
 
     // set the apeared variable, wil be true when scrolled into view
-    events.forEach(event => event.appeared = false);
-
-    //save events to component
-    this.events = events;
+    this.events.forEach(event => event.appeared = false);
   }
   
   filterEvents(events:TimelineEvent[], filteredGroup:string){

@@ -13,6 +13,7 @@ export class Event {
   
   name:string;
   type:string;
+  subtype:string;
   place:string;
   description:string;
   
