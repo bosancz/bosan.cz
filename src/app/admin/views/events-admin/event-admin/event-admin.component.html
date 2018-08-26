@@ -31,7 +31,7 @@
 
       <div class="col-9" [ngSwitch]="category">
 
-        <event-admin-dashboard *ngSwitchCase="'prehled'"></event-admin-dashboard>
+        <event-admin-dashboard *ngSwitchCase="'prehled'" [event]="event"></event-admin-dashboard>
         
         <event-admin-info *ngSwitchCase="'upravit'" [event]="event" (save)="saveEvent($event)"></event-admin-info>
         

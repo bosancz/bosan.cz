@@ -6,18 +6,18 @@ import { RouterModule } from '@angular/router';
  
 import { SafeurlPipe } from "../pipes/safeurl.pipe";
 import { GroupPipe } from "../pipes/group.pipe";
+import { Nl2brPipe } from '../pipes/nl2br.pipe';
+import { DateRangePipe } from '../pipes/date-range.pipe';
 
 import { BreadCrumbsComponent } from '../components/bread-crumbs/bread-crumbs.component';
 import { PhotoGalleryComponent } from '../components/photo-gallery/photo-gallery.component';
 
 import { ContenteditableDirective } from '../directives/contenteditable.directive';
 
-
 /* THIRD PARTY */
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-
 
 
 @NgModule({
@@ -34,7 +34,7 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
   declarations: [
     BreadCrumbsComponent,
     PhotoGalleryComponent,
-    SafeurlPipe, GroupPipe,
+    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, 
     ContenteditableDirective
   ],
   exports: [
@@ -45,7 +45,7 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     
     /* DIRECTIVES */ ContenteditableDirective,
     
-    /* PIPES */ SafeurlPipe, GroupPipe
+    /* PIPES */ SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe
   ]
   
 })

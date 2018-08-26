@@ -1,3 +1,8 @@
-<p>
-  event-admin-dashboard works!
-</p>
+<table *ngIf="event">
+  <tr><th>Název:</th><td><p>{{event.name}}</p></td></tr>
+  <tr><th>Datum:</th><td><p>{{[event.dateFrom,event.dateTill] | dateRange:"d. M. y":"d. M.":"d."}}</p></td></tr>
+  <tr><th>Popis:</th><td><p [innerHTML]="event.description | nl2br"></p></td></tr>
+  <tr><th>Sraz:</th><td><p>{{event.meetings?.start || "-"}}</p></td></tr>
+  <tr><th>Konec:</th><td><p>{{event.meetings?.end || "-"}}</p></td></tr>
+  <tr><th>Vede:</th><td><p>{{formatLeaders(event.leaders)}}</p></td></tr>
+</table>

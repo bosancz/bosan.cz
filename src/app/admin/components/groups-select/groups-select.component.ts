@@ -28,7 +28,10 @@ export class GroupsSelectComponent implements ControlValueAccessor {
   writeValue(groups:any):void{ this.selectedGroups = groups || []; }
   registerOnChange(fn: any): void{ this.onChange = fn; }
   registerOnTouched(fn: any): void{ this.onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void{ this.disabled = isDisabled; }
+  setDisabledState(isDisabled: boolean): void{
+    this.disabled = isDisabled;
+    this.selectedGroups = [];
+  }
   
   constructor(private dataService:DataService) { }
   
@@ -38,11 +41,22 @@ export class GroupsSelectComponent implements ControlValueAccessor {
   
   async loadGroups(){
     let config = await this.dataService.getConfig();
-    this.groups = config.members.groups.map(group => group.id);
+    this.groups = config.members.groups.filter(group => group.active).map(group => group.id);
   }
 
   isSelected(group:string){
     return this.selectedGroups.indexOf(group) !== -1;
+  }
+  
+  selectAll(checked:boolean):void{
+    if(this.disabled) return;
+    if(checked) this.selectedGroups = this.groups.slice();
+    else this.selectedGroups = [];
+    this.onChange(this.selectedGroups);
+  }
+  
+  isSelectedAll():boolean{
+    return this.selectedGroups.length === this.groups.length;
   }
   
   toggleGroup(group:string){
@@ -50,6 +64,7 @@ export class GroupsSelectComponent implements ControlValueAccessor {
     let i = this.selectedGroups.indexOf(group);
     if(i === -1) this.selectedGroups.push(group);
     else this.selectedGroups.splice(i,1);
+    this.onChange(this.selectedGroups);
   }
 
 }
