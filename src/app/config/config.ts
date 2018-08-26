@@ -10,11 +10,6 @@ export let AppConfig = new InjectionToken<IAppConfig>('app.config');
 // configuration data
 export const AppConfigData: IAppConfig = {
 
-  title: "Bosan.cz",
-  
-  // infomail used in texts
-  mail: "kopec@bosan.cz",
-
   acl: {
     
     routes: [

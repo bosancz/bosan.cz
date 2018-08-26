@@ -90,8 +90,6 @@ h2 {
   position:relative;
 }
 
-.admin h2{margin-bottom:20px;}
-
 h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
 
 p {line-height: 1.5;text-align:justify;}
@@ -111,9 +109,13 @@ input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invali
   border-left: 5px solid #a94442 !important; /* red */
 }
 
+/* ADMIN */
+.admin h2{margin-bottom:20px;}
+.admin .btn {color:$white;font-size:$font-basic;}
+.admin table .actions a{margin: 0 5px;cursor:pointer;};
+
 /* SPECIALS */
 .btn{color:$white;font-size:$font-basic;}
-.admin .btn {color:$white;font-size:$font-basic;}
 .btn-primary{color:$white !important; text-transform: uppercase; background-color: $blue}
 
 /* @media (min-width: 1600px) {

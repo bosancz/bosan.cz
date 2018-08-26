@@ -20,7 +20,8 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   groupFields:CodelistField[] = [
     {"name": "id", "title": "ID", "type": "text", "required": true},
     {"name": "name", "title": "Jméno", "type": "text"},
-    {"name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})","placeholder":"#A1B2C3"}
+    {"name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})","placeholder":"#A1B2C3"},
+    {"name": "active", "title": "Aktivní", "type": "checkbox"}
   ];
   
   eventTypeFields:CodelistField[] = [

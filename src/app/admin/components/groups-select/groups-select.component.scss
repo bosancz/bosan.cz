@@ -1,6 +1,13 @@
 :host{display:inline-block;}
 
-.group-badge{opacity:.3}
-.group-badge:not(.disabled){cursor:pointer;opacity:.3}
-.group-badge:not(.disabled):hover{opacity:.7;}
+.group-badge{opacity:.3;cursor:pointer;}
 .group-badge.active{opacity:1;}
+
+.group-badges.disabled{filter: grayscale(100%);}
+.group-badges.disabled .group-badge{opacity:1;}
+.group-badges.disabled .group-badge:hover{opacity:1;}
+.group-badges.disabled .group-badge{background-color:#ccc !important;}
+.group-badges.disabled .group-badge{cursor:default;}
+
+
+.selectAll{display:inline-block;margin-left:20px;cursor:pointer;}

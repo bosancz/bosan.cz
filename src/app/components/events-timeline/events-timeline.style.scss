@@ -3,7 +3,7 @@
 $timelineLeft: 185px;
 $timelineMargin: 70px;
 
-$eventsMargin: 30px;
+$eventsMargin: 20px;
 
 .event .registration{line-height:30px;}
 .event .registration a{font-weight:bold;}
@@ -21,8 +21,10 @@ $eventsMargin: 30px;
 .timeline .event .date{position:absolute;top:5px;left:0;height:50px;line-height:50px;vertical-align:middle;font-size:$font-medium;font-weight:bold;}
 .timeline .event .date.long{line-height:($font-medium * 1.5);height:($font-medium * 3);margin-top:(-($font-medium * 3 - 50) / 2)}
 .timeline .event .panel{margin-left:$timelineLeft + $timelineMargin;padding:5px 15px 10px 15px;}
-.timeline .event .panel h2{margin:0;height:50px;line-height:50px;vertical-align:middle;}
+.timeline .event .panel h2{display:inline-block;margin:0;height:50px;line-height:50px;vertical-align:middle;}
 .timeline .event .panel .group-badges{float:right;height:50px;line-height:50px;vertical-align:middle;}
+.timeline .event .panel .event .description{margin:20px 0;text-align:justify;}
+.timeline .event .panel .event .leaders{margin:20px 0;}
 
 .timeline .event.big{margin:($eventsMargin+10px) 0;}
 .timeline .event.big .panel{position:relative;box-shadow:0 0 5px rgba(0,0,0,.2);background-color:#fff;}
@@ -35,5 +37,3 @@ $eventsMargin: 30px;
 .timeline .event.small .date{font-weight:normal;}
 
 .timeline .group-badges .group-badge{opacity:.6;}
-
-.event .description, .event .leaders{margin-bottom:20px;text-align:justify;}
