@@ -7,7 +7,6 @@ export class EventRecurring{
 
 export class Event {
   
-  //required
   _id:string;
   status:string;
   
@@ -21,6 +20,8 @@ export class Event {
   dateTill:Date;
   recurring?:EventRecurring;
   
+  order?:number;
+  
   meeting: {
     start:string,
     end:string
@@ -29,7 +30,6 @@ export class Event {
   attendees:any[];
   leaders:any[];
   
-  //optional
   groups?:string[];
   leadersEvent?:boolean;
 }
