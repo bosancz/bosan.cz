@@ -1,0 +1,3 @@
+<div class="group-badges">
+  <span *ngFor="let group of groups" (click)="toggleGroup(group)" [class.active]="isSelected(group)" [class.disabled]="disabled" [style.background-color]="!disabled ? (group | group:'color') : '#ccc'" [title]="group | group:'name'" class="group-badge">{{group}}</span>
+</div>

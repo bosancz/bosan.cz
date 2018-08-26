@@ -59,5 +59,16 @@
     </div>
   </div>
 
-  <button type="submit" class="btn btn-primary">Uložit</button>
+  <div class="form-group">
+    <label>Oddíly</label>
+    <br>
+    <groups-select [(ngModel)]="event.groups" name="groups" [disabled]="leadersOnly.checked"></groups-select>
+    <div class="leadersOnly custom-control custom-checkbox">
+      <input type="checkbox" name="leadersEvent" [ngModel]="event.leadersEvent" class="custom-control-input" id="checkboxLeadersEvent" #leadersOnly>
+      <label class="custom-control-label" for="checkboxLeadersEvent">Akce pouze pro vedoucí</label>
+    </div>
+  </div>
+  <div class="buttons">
+    <button type="submit" class="btn btn-primary">Uložit</button>
+  </div>
 </form>

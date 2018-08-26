@@ -1,0 +1,39 @@
+@import "../../../styles/variables";
+
+$timelineLeft: 185px;
+$timelineMargin: 70px;
+
+$eventsMargin: 30px;
+
+.event .registration{line-height:30px;}
+.event .registration a{font-weight:bold;}
+
+.timeline{position:relative;padding:1px 0;} /* padding to enforce first event margin */
+.timeline::before{top: 0;bottom: 0;left:$timelineLeft;position: absolute;content: " ";width: 3px;margin-left:-1.5px;background-color: #eee;}
+
+.timeline .month{position:relative;}
+.timeline .month div{display:inline-block;width:100px;position:relative;left:$timelineLeft;margin-left:-50px;text-align:center;}
+.timeline .month div span{display:inline-block;min-width:50px;color:#fff;background-color:$blue;padding:2px 6px;border-radius:4px;}
+.timeline .month::before{content:" ";position:absolute;top:50%;left:0;right:0;height:2px;margin-top:-1px;background-color:$blue;}
+
+.timeline .event{position:relative;min-height:60px;margin:$eventsMargin 0;}
+.timeline .event .circle{position:absolute;top:5px;left:$timelineLeft;width:50px;height:50px;margin-left:-25px;border-radius:25px;background-color:#ccc;}
+.timeline .event .date{position:absolute;top:5px;left:0;height:50px;line-height:50px;vertical-align:middle;font-size:$font-medium;font-weight:bold;}
+.timeline .event .date.long{line-height:($font-medium * 1.5);height:($font-medium * 3);margin-top:(-($font-medium * 3 - 50) / 2)}
+.timeline .event .panel{margin-left:$timelineLeft + $timelineMargin;padding:5px 15px 10px 15px;}
+.timeline .event .panel h2{margin:0;height:50px;line-height:50px;vertical-align:middle;}
+.timeline .event .panel .group-badges{float:right;height:50px;line-height:50px;vertical-align:middle;}
+
+.timeline .event.big{margin:($eventsMargin+10px) 0;}
+.timeline .event.big .panel{position:relative;box-shadow:0 0 5px rgba(0,0,0,.2);background-color:#fff;}
+.timeline .event.big .panel::before{content:" ";position:absolute;top:8px;left:-22px;width:0;height:0;border-top: 22px solid transparent;border-bottom: 22px solid transparent;border-right: 22px solid rgba(0,0,0,.07);}
+.timeline .event.big .panel::after{content:" ";position:absolute;top:10px;left:-20px;width:0;height:0;border-top: 20px solid transparent;border-bottom: 20px solid transparent;border-right: 20px solid #fff;}
+
+.timeline .event.small h2{font-size:$font-medium;font-weight:normal;}
+.timeline .event.small .details{display:none;}
+.timeline .event.small .panel{padding-left:0;}
+.timeline .event.small .date{font-weight:normal;}
+
+.timeline .group-badges .group-badge{opacity:.6;}
+
+.event .description, .event .leaders{margin-bottom:20px;text-align:justify;}

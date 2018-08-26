@@ -55,6 +55,11 @@ header .btn {
 .buttons{text-align:right;}
 
 
+.group-badges .group-badge{display:inline-block;height:30px;width:30px;border-radius:15px;font-weight:bold;color:#fff;text-align:center;line-height:30px;vertical-align:middle;margin:0 5px;text-decoration:none;opacity:.8;}
+.group-badges .group-badge:hover{opacity:1;}
+.group-badges .group-badge:first-child{margin-left:0;}
+.group-badges .group-badge:last-child{margin-right:0;}
+
 section {
   padding: 10px 0;
 }
@@ -84,6 +89,8 @@ h2 {
   margin: 10px 0;
   position:relative;
 }
+
+.admin h2{margin-bottom:20px;}
 
 h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
 

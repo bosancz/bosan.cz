@@ -13,6 +13,17 @@ export class WebConfigAchievement{
   image:string;
 }
 
+export class WebConfigEventType {
+  name:string;
+  class:string;
+}
+
+export class WebConfigEventSubType{
+  name:string;
+  class:string;
+  image?:string;
+}
+
 export class WebConfigRecurringType {
   name:string;
   title:string;
@@ -47,8 +58,8 @@ export interface WebConfig {
   };
   
   events:{
-    types:Array<{name:string,class:string}>,
-    subtypes:Array<{name:string,class:string,image:string}>,
+    types:WebConfigEventType[],
+    subtypes:WebConfigEventSubType[],
     recurringTypes:WebConfigRecurringType[]
   };
 }
