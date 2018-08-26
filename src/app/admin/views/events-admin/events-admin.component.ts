@@ -35,11 +35,11 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   view:string;
   
   views:any = {
-    "future": {dateFrom: (new Date()).toISOString().split("T")[0], sort: "dateFrom order"},
-    "past": {dateTill: (new Date()).toISOString().split("T")[0], sort: "-dateFrom -order"},
-    "my": { leader: null, sort: "-dateFrom -order" },
-    "noleader": { noleader: 1, sort: "dateFrom order"},
-    "all": { sort: "-dateFrom -order"}
+    "future": {dateFrom: (new Date()).toISOString().split("T")[0], sort: "dateFrom"},
+    "past": {dateTill: (new Date()).toISOString().split("T")[0], sort: "-dateFrom"},
+    "my": { leader: null, sort: "-dateFrom" },
+    "noleader": { noleader: 1, sort: "dateFrom"},
+    "all": { sort: "-dateFrom"}
   };
   
   defaultOptions = {
@@ -140,6 +140,16 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   getPageLink(page:number){
     var params:any = {view:this.view,page:page};
     return ["./",params];
+  }
+  
+  setSort(field:string){
+    let asc = this.options.sort.charAt(0) !== "-";
+    let currentField = asc ? this.options.sort : this.options.sort.substring(1);
+    
+    if(field === currentField) this.options.sort = asc ? "-" + field : field;
+    else this.options.sort = field;
+    
+    this.loadEvents();
   }
 
 }

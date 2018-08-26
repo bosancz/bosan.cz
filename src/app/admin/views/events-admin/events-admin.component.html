@@ -60,10 +60,10 @@
         <table class="table table-striped table-hover table-sm">
           <thead class="thead-dark">
             <tr>
-              <th>Název akce</th>
-              <th>Datum</th>
+              <th (click)="setSort('name')">Název akce</th>
+              <th (click)="setSort('dateFrom')">Datum</th>
               <th>Vede</th>
-              <th>Status</th>
+              <th (click)="setSort('status')">Status</th>
               <th class="filter text-right"><a (click)="openFilter=!openFilter" [class.active]="openFilter"><i class="fas fa-filter"></i></a></th>
             </tr>
           </thead>

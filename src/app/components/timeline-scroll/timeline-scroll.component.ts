@@ -147,7 +147,6 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     
     let scroll = this.containerTop + this.containerHeight * percentage - window.innerHeight / 2;
     
-    console.log(top,height,percentage,this.containerTop + this.containerHeight,scroll);
     window.scrollTo({left: 0, top: scroll});
   }
 
