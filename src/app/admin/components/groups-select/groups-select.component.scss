@@ -1,0 +1,6 @@
+:host{display:inline-block;}
+
+.group-badge{opacity:.3}
+.group-badge:not(.disabled){cursor:pointer;opacity:.3}
+.group-badge:not(.disabled):hover{opacity:.7;}
+.group-badge.active{opacity:1;}

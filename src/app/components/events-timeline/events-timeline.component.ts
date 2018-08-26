@@ -6,7 +6,7 @@ import { ToastService } from "../../services/toast.service";
 
 import { Event } from "../../schema/event";
 import { Member } from "../../schema/member";
-import { Group } from "../../schema/group";
+import { WebConfigEventType, WebConfigEventSubType } from "../../schema/webconfig";
 
 class TimelineEvent extends Event {
   appeared?:boolean = false;
@@ -15,33 +15,17 @@ class TimelineEvent extends Event {
 @Component({
   selector: 'events-timeline',
   templateUrl: "events-timeline.template.html",
-  styleUrls: ["events-timeline.style.css"],
+  styleUrls: ["events-timeline.style.scss"],
   animations: [
     trigger("eventWow", [
       transition('notappeared => appeared', [style({opacity:0}),animate('500ms 100ms',style({opacity:1}))])
-    ]),
-    trigger("eventHide", [
-      state("visible", style({opacity:1, display: 'block'})),
-      state("hidden", style({opacity:0, display: 'none'})),
-      transition('hidden => visible', [
-        style({display:'block',height:'0'}),
-        animate('150ms ease-in', style({height:'250px'})),
-        style({transform:'translateX(25%)', opacity:0, height:'auto'}),
-        animate('250ms ease-out', style({transform:'translateX(0%)', opacity:1}))
-      ]),
-      transition('visible => hidden', [
-        animate('250ms ease-in', style({transform:'translateX(25%)', opacity:0})),
-        style({height:'250px'}),
-        animate('150ms ease-in', style({height:'0'})),
-        style({display:'none'})
-      ])
     ])
   ]
 })
 export class EventsTimelineComponent implements OnInit {
 
   @Input() limit:number;
-  @Input() limitDays:number;
+  @Input() days:number;
   
   @Input() groupsFilter:boolean;
   
@@ -49,26 +33,37 @@ export class EventsTimelineComponent implements OnInit {
   
   events:TimelineEvent[]= [];
   
-  groups:Group[] = [];
-  groupColors:any = {};
+  eventTypes:{[s:string]:WebConfigEventType};
+  eventSubTypes:{[s:string]:WebConfigEventSubType};
   
-  filteredGroup:string;
-
+  monthNames:string[] = ["Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec"];
+  
   constructor(private dataService:DataService, private toastService:ToastService) { }
 
   ngOnInit() {
     this.loadEvents();
+    this.loadEventTypes();
   }
   
   async loadEvents(){
-    this.events = await this.dataService.getUpcomingEvents();
+    let options = {
+      limit: this.limit || undefined,
+      days: this.days || undefined
+    };
+    
+    this.events = await this.dataService.getEventsUpcoming(options);
 
     // set the apeared variable, wil be true when scrolled into view
     this.events.forEach(event => event.appeared = false);
   }
   
-  filterEvents(events:TimelineEvent[], filteredGroup:string){
-    if(!filteredGroup) return events;
-    return events.filter(event => event.groups.indexOf(filteredGroup) !== -1);
+  async loadEventTypes(){
+    let config = await this.dataService.getConfig();
+    this.eventTypes = config.events.types.reduce((acc,cur) => ({...acc, [cur.name]: cur}),{});
+    this.eventSubTypes = config.events.subtypes.reduce((acc,cur) => ({...acc, [cur.name]: cur}),{});
+  }
+  
+  getMonthName(date:string|Date){
+    return this.monthNames[new Date(date).getMonth()];
   }
 }

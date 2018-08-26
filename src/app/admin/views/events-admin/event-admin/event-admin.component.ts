@@ -62,5 +62,11 @@ export class EventAdminComponent implements OnInit, OnDestroy {
     this.toastService.toast("Akce " + name + " smazána.");
     this.router.navigate(["/interni/akce"]);
   }
+  
+  async publishEvent(){
+    await this.saveEvent({status:"public"});
+    this.toastService.toast("Publikováno.");
+  }
+    
 
 }

@@ -1,52 +1,46 @@
-<div class="filter">
-  <div *ngIf="groupsFilter" class="text-center groups">
-    <a *ngFor="let group of groups" [style.background-color]="groupColors[group._id] || '#ccc'" (click)="filteredGroup = group._id" [class.inactive]="filteredGroup && filteredGroup !== group._id" class="group">{{group._id}}</a>
-    <a *ngIf="filteredGroup" (click)="filteredGroup = null" class="all">vše</a>
-  </div>
-</div>
-
-<div class="timeline clearfix" [class.full]="full">
-  <div *ngFor="let event of events;let i = index" [class.light]="event.type === 'schůzka'" [class.timeline-inverted]="!full && (i % 2) === 1" (appear)="event.appeared = true" [@eventHide]="filteredGroup && event.groups.indexOf(filteredGroup) === -1 ? 'hidden' : 'visible'" [@eventWow]="event.appeared ? 'appeared' : 'notappeared'" class="event">
+<div class="timeline">
+  <ng-container *ngFor="let event of events;let i = index">
     
-    <div *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay" class="timeline-date long">
-      {{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}<br>
-      {{event.dateFrom | date:"d. M."}} - {{event.dateTill | date:"d. M."}}
+    <div *ngIf="i >= 1 && (event.dateFrom | date:'M') !== (events[i-1].dateFrom | date:'M')" class="month">
+      <div><span>{{getMonthName(event.dateFrom)}}</span></div>
     </div>
-    <ng-template #onlyDay>
-      <div class="timeline-date">{{event.dateFrom | date:"EEEEEE d. M."}}</div>
-    </ng-template>
-
-    <div class="timeline-badge success"><i class="timeicon flaticon-paintbrush"></i></div>
     
-    <div class="timeline-panel"> 
-      <div class="timeline-heading">
-        <h2 class="timeline-title" [adminLink]="'/interni/akce/' + event._id">{{event.name}}</h2>
-        <p *ngIf="!full">
-          <small class="text-muted">
-            <i class="fa fa-calendar"></i>
-            {{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M."}}
-          </small>
-        </p>
+    <div [class]="'event ' + eventTypes[event.type].class">
+
+      <div *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay" class="date long">
+        {{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}<br>
+        {{event.dateFrom | date:"d. M."}} - {{event.dateTill | date:"d. M."}}
       </div>
-      <div class="timeline-body">
-        <p class="text-muted description">{{event.description}}</p>
-        <p class="text-muted leaders" *ngIf="event.leaders?.length">
-          <ng-container *ngFor="let member of event.leaders; first as isFirst; last as isLast">
-            <ng-container *ngIf="!isFirst && !isLast">, </ng-container>
-            <ng-container *ngIf="!isFirst && isLast"> a </ng-container>
-            <a (click)="openContact(member)">{{member.nickname}}</a> <ng-container *ngIf="member.contacts?.mobile">({{member.contacts.mobile}})</ng-container>
-          </ng-container>
-        </p>
-        <div class="row">
-          <div class="col-9 groups">
-            <span *ngFor="let group of event.groups" [style.background-color]="groupColors[group] || '#ccc'" class="group">{{group}}</span>
-          </div>
-          <div class="col-3 text-right registration">
-            <a *ngIf="event.registration" href="/api/event/registration">Přihláška</a>
-          </div>
+      <ng-template #onlyDay>
+        <div class="date">{{event.dateFrom | date:"EEEEEE d. M."}}</div>
+      </ng-template>
+
+      <div class="circle">
+        <img *ngIf="eventSubTypes[event.subtype]?.image" [src]="eventSubTypes[event.subtype].image">
+      </div>
+
+      <div class="panel"> 
+
+        <div *ngIf="event.registrationUrl" class="registration"><a class="btn btn-primary" [href]="event.registrationUrl">Přihláška</a></div>
+
+        <div class="group-badges">
+          <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" class="group-badge">{{group}}</span>
         </div>
-      </div>
 
+        <h2 class="timeline-title" [adminLink]="'/interni/akce/' + event._id">{{event.name}}</h2>
+
+        <div class="details">
+          <p class="text-muted description">{{event.description}}</p>
+          <p class="text-muted leaders" *ngIf="event.leaders?.length">
+            <ng-container *ngFor="let member of event.leaders; first as isFirst; last as isLast">
+              <ng-container *ngIf="!isFirst && !isLast">, </ng-container>
+              <ng-container *ngIf="!isFirst && isLast"> a </ng-container>
+              <a (click)="openContact(member)">{{member.nickname}}</a> <ng-container *ngIf="member.contacts?.mobile">({{member.contacts.mobile}})</ng-container>
+            </ng-container>
+          </p>
+        </div>
+
+      </div>
     </div>
-  </div>
+  </ng-container>
 </div>

@@ -123,8 +123,8 @@ export class DataService {
     return this.http.get<Paginated<Event>>(this.root + "/events" + toParams(options)).toPromise();
   }
   
-  getUpcomingEvents():Promise<Event[]>{
-    return this.http.get<Event[]>(this.root + "/events/upcoming").toPromise();
+  getEventsUpcoming(options?:any):Promise<Event[]>{
+    return this.http.get<Event[]>(this.root + "/events/upcoming" + toParams(options)).toPromise();
   }
   
   getEvent(eventId:string,options?:any):Promise<Event>{

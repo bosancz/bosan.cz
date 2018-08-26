@@ -2,6 +2,11 @@ import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
 
 import { DataService } from "../services/data.service";
 
+enum GroupProperty {
+  name = "name",
+  color = "color"
+}
+    
 @Pipe({
   name: 'group'
 })
@@ -28,7 +33,7 @@ export class GroupPipe implements PipeTransform {
     this.changeDetectorRef.markForCheck();
   }
 
-  transform(groupId:string,property:string):string{
+  transform(groupId:string,property:GroupProperty):string{
     
     // if group properties not loaded yet or not present for group, return default values
     switch(property){

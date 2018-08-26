@@ -114,7 +114,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     // show the confrmation
     this.toastService.toast("Akce vytvořena a uložena.");
     // open the event
-    this.router.navigate(["/interni/akce/" + event._id])
+    this.router.navigate(["/interni/akce/" + event._id + "/upravit"])
   }
   
   getLeadersString(event:Event){
