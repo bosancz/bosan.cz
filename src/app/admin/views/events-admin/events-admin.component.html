@@ -63,13 +63,12 @@
               <th>Název akce</th>
               <th>Datum</th>
               <th>Vede</th>
-              <th>Typ</th>
               <th>Status</th>
               <th class="filter text-right"><a (click)="openFilter=!openFilter" [class.active]="openFilter"><i class="fas fa-filter"></i></a></th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let event of events" (click)="openEvent(event)">
+            <tr *ngFor="let event of events" (click)="openEvent(event)" [class]="eventTypes[event.type]?.class">
               <td>{{event.name}}</td>
               <td class="date">{{event.dateFrom | date:"EEEEEE d. M."}} - {{event.dateTill | date:"EEEEEE d. M. y"}}</td>
               <td>
@@ -79,7 +78,6 @@
                 </ng-container>
                 <strong *ngIf="!event.leaders?.length" class="text-danger">Pan NIKDO</strong>
               </td>
-              <td>{{types[event.type] || event.type}}</td>
               <td>{{statuses[event.status] || "N/A"}}</td>
               <td class="text-right">
                 <a [routerLink]="'/interni/akce/' + event._id + '/upravit'"><i class="fas fa-pencil-alt"></i></a>

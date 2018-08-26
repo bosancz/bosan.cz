@@ -12,6 +12,7 @@ import { AuthService } from "../../../services/auth.service";
 import { ToastService } from "../../../services/toast.service";
 
 import { Event } from "../../../schema/event";
+import { WebConfigEventType } from "../../../schema/webconfig";
 import { Paginated } from "../../../schema/paginated";
 
 @Component({
@@ -34,11 +35,11 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   view:string;
   
   views:any = {
-    "future": {dateFrom: (new Date()).toISOString().split("T")[0], sort: "dateFrom"},
-    "past": {dateTill: (new Date()).toISOString().split("T")[0], sort: "-dateFrom"},
-    "my": { leader: null, sort: "-dateFrom" },
-    "noleader": { noleader: 1, sort: "dateFrom"},
-    "all": { sort: "-dateFrom"}
+    "future": {dateFrom: (new Date()).toISOString().split("T")[0], sort: "dateFrom order"},
+    "past": {dateTill: (new Date()).toISOString().split("T")[0], sort: "-dateFrom -order"},
+    "my": { leader: null, sort: "-dateFrom -order" },
+    "noleader": { noleader: 1, sort: "dateFrom order"},
+    "all": { sort: "-dateFrom -order"}
   };
   
   defaultOptions = {
@@ -56,7 +57,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   openFilter:boolean = false;
   
-  types:any = {};
+  eventTypes:{[s:string]:WebConfigEventType[]} = {};
   
   createEventModalRef: BsModalRef;
   
@@ -84,6 +85,9 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
       this.loadEvents();
     });
     
+    this.loadEventTypes();
+    
+    
   }
   
   ngOnDestroy(){
@@ -95,6 +99,12 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     this.events = paginated.docs;
     this.pages = paginated.pages;
   }
+  
+  async loadEventTypes(){
+    let config = await this.dataService.getConfig();
+    this.eventTypes = config.events.types.reduce((acc,cur) => ({...acc,[cur.name]:cur}),{});
+  }
+  
   
   openEvent(event:Event):void{
     this.router.navigate(['/interni/akce/' + event._id], {relativeTo: this.route});

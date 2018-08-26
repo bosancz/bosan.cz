@@ -1,3 +1,6 @@
 .table .filter{cursor:pointer;}
 
 .date{white-space:nowrap;}
+
+tr.event-big{font-weight:bold;}
+tr.event-small{opacity:.8;}
