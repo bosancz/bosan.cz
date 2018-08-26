@@ -30,7 +30,7 @@
         <h2 class="timeline-title" [adminLink]="'/interni/akce/' + event._id">{{event.name}}</h2>
 
         <div class="details">
-          <p class="text-muted description">{{event.description}}</p>
+          <p class="text-muted description" [innerHTML]="event.description | nl2br"></p>
           <p class="text-muted leaders" *ngIf="event.leaders?.length">
             <ng-container *ngFor="let member of event.leaders; first as isFirst; last as isLast">
               <ng-container *ngIf="!isFirst && !isLast">, </ng-container>

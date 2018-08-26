@@ -31,6 +31,5 @@ export class Event {
   
   //optional
   groups?:string[];
-
-  image?:String;
+  leadersEvent?:boolean;
 }

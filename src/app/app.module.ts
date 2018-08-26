@@ -50,6 +50,7 @@ import { AppConfig, AppConfigData } from "./config/config";
 import { TimelineScrollComponent } from './components/timeline-scroll/timeline-scroll.component';
 import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
 import { AdminLinkDirective } from './directives/admin-link.directive';
+import { Nl2brPipe } from './pipes/nl2br.pipe';
 
 
 
@@ -86,7 +87,9 @@ export const jwtOptions = {
     
     GalleryViewPhotosComponent,
     
-    AdminLinkDirective    
+    AdminLinkDirective,
+    
+    Nl2brPipe    
   ],
   imports: [
     BrowserAnimationsModule,    

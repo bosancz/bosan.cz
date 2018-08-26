@@ -44,7 +44,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
     this.event = await this.dataService.getEvent(eventId);
   }
   
-  async saveEvent(eventData:any){
+  async saveEvent(eventData:any,noToast?:boolean){
     
     // if data provided update with data, otherwise send the current (possibly modified) state of event to the server
     await this.dataService.updateEvent(this.event._id,eventData || this.event);
@@ -53,7 +53,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
     await this.loadEvent(this.event._id);
     
     // send a toast with OK message
-    this.toastService.toast("Uloženo.");
+    if(!noToast) this.toastService.toast("Uloženo.");
   }
   
   async deleteEvent(){
@@ -64,7 +64,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   }
   
   async publishEvent(){
-    await this.saveEvent({status:"public"});
+    await this.saveEvent({status:"public"},true);
     this.toastService.toast("Publikováno.");
   }
     
