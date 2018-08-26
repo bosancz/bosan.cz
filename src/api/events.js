@@ -37,7 +37,17 @@ router.post("/", acl("events:create"), async (req,res,next) => {
 });     
 
 router.get("/upcoming", acl("events:upcoming:list"), async (req,res,next) => {
-  var events = Event.find({status:"public",dateFrom: { $gte: new Date() }}).select("_id name dateFrom dateTill description type subtype").populate("leaders","_id name nickname group").sort("dateFrom");  
+  
+  let today = new Date(); today.setHours(0,0,0,0);
+  
+  var events = Event.find({status:"public",dateFrom: { $gte: today }}).select("_id name dateFrom dateTill groups description type subtype").populate("leaders","_id name nickname group").sort("dateFrom");  
+
+  if(req.query.limit) events.limit(Number(req.query.limit));
+  if(req.query.days){
+    let dateTill = new Date(); dateTill.setDate(dateTill.getDate() + Number(req.query.days));
+    events.where({dateFrom: { $lte: dateTill }});
+  }
+  
   res.json(await events);
 });
 
@@ -46,6 +56,7 @@ router.get("/upcoming", acl("events:upcoming:list"), async (req,res,next) => {
 // read the event document
 router.get("/:event", acl("events:read"), async (req,res,next) => {
   let event = Event.findOne({_id:req.params.event});
+  if(req.query.leaders) event.populate("leaders","_id name nickname");
   res.json(await event);
 });
 
