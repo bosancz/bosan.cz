@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from "@angular/router";
 
 import { MenuService } from "../../services/menu.service";
@@ -23,7 +23,8 @@ class GalleryPhotoContainer implements GalleryPhoto{
 @Component({
   selector: 'camp-view',
   templateUrl: './camp-view.component.html',
-  styleUrls: ['./camp-view.component.css']
+  styleUrls: ['./camp-view.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CampViewComponent implements OnInit, OnDestroy {
 

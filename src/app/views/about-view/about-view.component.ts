@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from "@angular/router";
 
 import { DataService } from "../../services/data.service";
@@ -11,7 +11,8 @@ import { Contact } from "../../schema/contact";
 @Component({
   selector: 'about-view',
   templateUrl: "about-view.component.html",
-  styleUrls: ["about-view.component.css"]
+  styleUrls: ["about-view.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutViewComponent implements OnInit, OnDestroy {
   

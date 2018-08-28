@@ -60,7 +60,7 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
   }
 
   getUserLink(user:User):string{
-    return './' + user._id;
+    return '/interni/uzivatele/' + user._id;
   }
 
   openUser(user:User):void{
