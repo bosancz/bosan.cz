@@ -29,12 +29,14 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
 
   options = {
     search:"",
-    year:undefined,
     page:1,
     sort:"-dateFrom",
-    status:"all",
-    dateFrom:undefined,
-    dateTill:undefined
+    filter:{
+      status:undefined,
+      year:undefined,
+      dateFrom:undefined,
+      dateTill:undefined,
+    }
   };
   
   openFilter:boolean = false;
@@ -47,7 +49,7 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
-      this.options.year = params.year || undefined;
+      this.options.filter.year = params.year || undefined;
       this.options.page = params.page || 1;
       this.loadAlbums();
     });

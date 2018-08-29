@@ -23,8 +23,7 @@ class GalleryPhotoContainer implements GalleryPhoto{
 @Component({
   selector: 'camp-view',
   templateUrl: './camp-view.component.html',
-  styleUrls: ['./camp-view.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./camp-view.component.scss']
 })
 export class CampViewComponent implements OnInit, OnDestroy {
 

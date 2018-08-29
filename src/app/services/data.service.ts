@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
@@ -13,14 +13,27 @@ import { Member } from "../schema/member";
 import { User } from "../schema/user";
 import { WebConfig } from "../schema/webconfig";
 
-function toParams(options){
-	if(!options) return "";
-	
-  var params = Object.entries(options)
-    .filter(entry => entry[1] !== undefined)
-    .map(entry => entry[0] + "=" + entry[1]);
 
-  return params.length ? ("?" + params.join("&")) : "";
+function setParam(params:HttpParams,name:string,value:any){
+  if(value === undefined) return params;
+  
+  if(typeof value !== "object") return params.set(name,value);
+  
+  if(Array.isArray(value)){
+    value.forEach(item => params = setParam(params,name + "[]",item));
+    return params;
+  }
+  
+  Object.entries(value).forEach(entry => params = setParam(params,name + "[" + entry[0] + "]",entry[1]));
+  return params;
+}
+
+function toParams(options:{[s:string]:any}):HttpParams{
+	var params = new HttpParams();
+	
+  Object.entries(options).forEach(entry => params = setParam(params,entry[0],entry[1]));
+
+  return params;
 }
 
 @Injectable()
@@ -33,18 +46,18 @@ export class DataService {
 	constructor(private http: HttpClient) {  }
   
   getAlbums(options?:any):Promise<Paginated<Album>>{
-		return this.http.get<Paginated<Album>>(this.root + "/albums" + toParams(options)).toPromise();
+		return this.http.get<Paginated<Album>>(this.root + "/albums", {params: toParams(options)}).toPromise();
 	}
   
   getAlbumsYears(){
     return this.http.get<any>(this.root + "/albums/years").toPromise();
   }
   getAlbumsList(options?:any){
-    return this.http.get<any>(this.root + "/albums/list" + toParams(options)).toPromise();
+    return this.http.get<any>(this.root + "/albums/list", {params: toParams(options)}).toPromise();
   }
   
   getAlbum(albumId:string, options?):Promise<Album>{
-		return this.http.get<Album>(this.root + "/albums/" + albumId + toParams(options)).toPromise();
+		return this.http.get<Album>(this.root + "/albums/" + albumId, {params: toParams(options)}).toPromise();
 	}
   
   createAlbum(albumData:any):Promise<Album>{
@@ -60,7 +73,7 @@ export class DataService {
   }
   
   getAlbumPhotos(albumId:string,options?:any):Promise<Photo[]>{
-    return this.http.get<Photo[]>(this.root + "/albums/" + albumId + "/photos" + toParams(options)).toPromise();
+    return this.http.get<Photo[]>(this.root + "/albums/" + albumId + "/photos", {params: toParams(options)}).toPromise();
   }
   
   getAlbumTags(albumId:string):Promise<string[]>{
@@ -68,7 +81,7 @@ export class DataService {
   }
   
   getPhotos(options?:any):Promise<Photo[]>{
-    return this.http.get<Photo[]>(this.root + "/photos" + toParams(options)).toPromise();
+    return this.http.get<Photo[]>(this.root + "/photos", {params: toParams(options)}).toPromise();
   }
   
   getPhotosTags():Promise<string[]>{
@@ -89,7 +102,7 @@ export class DataService {
   
   /* CAMPS */
   getCamps(options?:any){
-    return this.http.get<Camp[]>(this.root + "/camps" + toParams(options)).toPromise();
+    return this.http.get<Camp[]>(this.root + "/camps", {params: toParams(options)}).toPromise();
   }
   
   getCamp(id:string){
@@ -120,15 +133,15 @@ export class DataService {
   
   /* EVENTS */
   getEvents(options?:any):Promise<Paginated<Event>>{
-    return this.http.get<Paginated<Event>>(this.root + "/events" + toParams(options)).toPromise();
+    return this.http.get<Paginated<Event>>(this.root + "/events",{params:toParams(options)}).toPromise();
   }
   
   getEventsUpcoming(options?:any):Promise<Event[]>{
-    return this.http.get<Event[]>(this.root + "/events/upcoming" + toParams(options)).toPromise();
+    return this.http.get<Event[]>(this.root + "/events/upcoming", {params: toParams(options)}).toPromise();
   }
   
   getEvent(eventId:string,options?:any):Promise<Event>{
-    return this.http.get<Event>(this.root + "/events/" + eventId + toParams(options)).toPromise();
+    return this.http.get<Event>(this.root + "/events/" + eventId, {params: toParams(options)}).toPromise();
   }
   
   createEvent(eventData:any):Promise<Event>{
@@ -148,7 +161,7 @@ export class DataService {
   }
   
   getEventRecurring(eventId:string,options?:any):Promise<EventRecurring>{
-    return this.http.get<EventRecurring>(this.root + "/events/" + eventId + "/recurring" + toParams(options)).toPromise();
+    return this.http.get<EventRecurring>(this.root + "/events/" + eventId + "/recurring", {params: toParams(options)}).toPromise();
   }
   
   createEventRecurring(eventId:string,recurringData:any):Promise<string>{
@@ -161,11 +174,11 @@ export class DataService {
   
   /* MEMBERS */
   getMembers(options?:any):Promise<Member[]>{
-    return this.http.get<Member[]>(this.root + "/members" + toParams(options)).toPromise();
+    return this.http.get<Member[]>(this.root + "/members", {params: toParams(options)}).toPromise();
   }
   
   getMember(memberId:string,options?:any):Promise<any>{
-    return this.http.get<any>(this.root + "/members/" + memberId + toParams(options)).toPromise();
+    return this.http.get<any>(this.root + "/members/" + memberId, {params: toParams(options)}).toPromise();
   }
   
   createMember(memberData:any):Promise<Member>{
@@ -182,11 +195,11 @@ export class DataService {
   
   /* USERS */
   getUsers(options?:any):Promise<User[]>{
-    return this.http.get<User[]>(this.root + "/users" + toParams(options)).toPromise();
+    return this.http.get<User[]>(this.root + "/users", {params: toParams(options)}).toPromise();
   }
   
   getUser(userId:string,options?:any):Promise<User>{
-    return this.http.get<User>(this.root + "/users/" + userId + toParams(options)).toPromise();
+    return this.http.get<User>(this.root + "/users/" + userId, {params: toParams(options)}).toPromise();
   }
   
   createUser(userId:string,userData:any):Promise<User>{

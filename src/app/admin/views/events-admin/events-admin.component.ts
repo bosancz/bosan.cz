@@ -34,26 +34,25 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   view:string;
   
+  today:string = (new Date()).toISOString().split("T")[0];
+  
   views:any = {
-    "future": {dateFrom: (new Date()).toISOString().split("T")[0], sort: "dateFrom"},
-    "past": {dateTill: (new Date()).toISOString().split("T")[0], sort: "-dateFrom"},
-    "my": { leader: null, sort: "-dateFrom" },
-    "noleader": { noleader: 1, sort: "dateFrom"},
-    "all": { sort: "-dateFrom"}
+    "future": { dateFrom: {$gte: this.today}, type: { $ne: "schůzka"} },
+    "past": { dateFrom: {$lte: this.today}, type: { $ne: "schůzka"} },
+    "my": { dateFrom: {$gte: undefined}, leaders: null /* filled in in constructor */, type: { $ne: "schůzka"} },
+    "noleader": { dateFrom: {$gte: this.today}, leaders: {$size:0}, type: { $ne: "schůzka"} },
+    "all": { dateFrom: {$gte: undefined}, type: { $ne: "schůzka"} },
+    "small": { dateFrom: {$gte: undefined}, type: "schůzka" }
   };
   
-  defaultOptions = {
+  options = {
     page:1,
-    sort:"-dateFrom",
-    leaders:1,
+    sort:"dateFrom",
+    populate: ["leaders"],
     limit: 50,
     search:undefined,
-    status:"all",
-    dateFrom:undefined,
-    dateTill:undefined
+    filter:{}
   }
-  
-  options = this.defaultOptions;
   
   openFilter:boolean = false;
   
@@ -65,7 +64,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService: BsModalService) {
     
-    this.views.my.leader = authService.user.member;
+    this.views.my.leaders = authService.user.member;
   }
 
   ngOnInit() {
@@ -78,8 +77,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
       this.page = params.page || 1;
       
       // set options
-      this.options = JSON.parse(JSON.stringify(this.defaultOptions));
-      Object.assign(this.options,this.views[this.view] || {});
+      this.options.filter = this.views[this.view] || {};
       this.options.page = this.page;
       
       this.loadEvents();

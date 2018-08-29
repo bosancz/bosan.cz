@@ -42,7 +42,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   // DB interaction
   async loadEvent(eventId:string){
     let options = {
-      leaders:1
+      populate: ["leaders"]
     }
     this.event = await this.dataService.getEvent(eventId,options);
   }

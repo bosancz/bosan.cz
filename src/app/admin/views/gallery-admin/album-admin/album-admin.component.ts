@@ -50,7 +50,7 @@ export class AlbumAdminComponent implements OnInit, OnDestroy {
     var name = this.album.name;
     await this.dataService.deleteAlbum(this.album._id)
     this.toastService.toast("Album " + name + " bylo smazáno.");
-    this.router.navigate(["/interni/galerie/alba"]);
+    this.router.navigate(["/interni/galerie"]);
   }
 
 }
