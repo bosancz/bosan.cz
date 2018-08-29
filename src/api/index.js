@@ -1,7 +1,6 @@
 var express = require("express");
 var router = module.exports = express.Router();
 
-router.use("/albums/:album/photos", require("./albums-photos"));
 router.use("/albums", require("./albums"));
 
 router.use("/photos", require("./photos"));
@@ -17,4 +16,5 @@ router.use("/members", require("./members"));
 router.use("/events/:event/recurring", require("./events-recurring"));
 router.use("/events", require("./events"));
 
+router.use("/users/me", require("./users-me"));
 router.use("/users", require("./users"));

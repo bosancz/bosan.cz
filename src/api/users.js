@@ -45,7 +45,7 @@ router.patch("/:id", acl("users:edit"), async (req,res) => {
   // choose the proper type for null member
   if(!userData.member) userData.member = null;
   // if there is password in the payload, hash it with bcrypt
-	if(userData.password) userData.password = await bcrypt.hash(req.body.password, 10)
+	if(userData.password) userData.password = await bcrypt.hash(userData.password, 10)
   
   // update the user
   await User.findOneAndUpdate({ _id: req.params.id }, userData )

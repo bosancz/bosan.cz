@@ -31,13 +31,8 @@ router.get("/", acl("photos:list"), async (req,res,next) => {
   res.json(await query);
 });
 
-router.get("/tags", acl("photos:tags:list"), async (req,res,next) => {
-  var tags = await Photo.distinct("tags");
-  res.json(tags.filter(item => item != null));
-});
-
 // POST A PHOTO TO AN ALBUM
-router.post("/", acl("photos:create"), acl("album:update"), upload.single("photo"), async (req,res,next) => {
+router.post("/", acl("photos:create"), acl("albums:edit"), upload.single("photo"), async (req,res,next) => {
 
   // if file missing we send 400
   if(!req.file) return res.status(400).send("No photo");
@@ -76,6 +71,8 @@ router.post("/", acl("photos:create"), acl("album:update"), upload.single("photo
   res.status(201).json(photo);
 
 });
+
+router.get("/:photo", acl("photos:read"), async (req,res) => res.json(await Photo.findOne({_id:req.params.photo})));
 
 router.patch("/:photo", acl("photos:edit"), async (req,res) => {
   await Photo.findOneAndUpdate({_id:req.params.photo},req.body);

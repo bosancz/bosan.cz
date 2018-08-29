@@ -20,6 +20,8 @@ var eventSchema = mongoose.Schema({
   "dateChanged": Date,
   "recurring": {type: mongoose.Schema.Types.ObjectId, ref: "EventRecurring"},
   
+  "order": Number,
+  
   "meeting": {
     "start": String,
     "end": String
@@ -28,6 +30,7 @@ var eventSchema = mongoose.Schema({
   "registration":String,
   
   "groups": [String],
+  "leadersEvent": Boolean,
   
   "type": String,
   "subtype": String,

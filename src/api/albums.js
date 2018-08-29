@@ -8,32 +8,51 @@ var rimraf = require("rimraf");
 var mongoose = require("mongoose");
 
 var acl = require("express-dynacl");
+var validate = require("../validator");
 
 var config = require("../../config");
 
 var Album = require("../models/album");
 var Photo = require("../models/photo");
 
-// LIST ALBUMS
-router.get("/", acl("albums:list"), async (req,res,next) => {
+var getAlbumsSchema = {
+  type: "object",
+  properties: {
+    "filter": {
+      type: "object",
+      properties: {
+        "year": { type: "number" }
+      },
+      additionalProperties:false
+    },
+    "populate": { type: "array", items: { enum: ["events","titlePhotos"] } },
+    "limit": { type: "number" },
+    "page": { type: "number" },
+    "search": { type: "string" },
+    "sort": { type: "string" }
+  },
+  additionalProperties: false
+};
 
-  var where = {};
-  if(req.query.status && req.query.status !== "all") where.status = req.query.status;
-  if(!req.query.status || !await acl.can("albums:drafts:list",req)) where.status = "public";
-  if(req.query.year) where.year = Number(req.query.year);
+// LIST ALBUMS
+router.get("/", validate({query: getAlbumsSchema}), acl("albums:list"), async (req,res,next) => {
+
+  var where = req.query.filter || {};
   if(req.query.search) where.name = new RegExp(req.query.search,"i");
-  if(req.query.dateFrom) where.dateTill = { $gte: new Date(req.query.dateFrom) };
-  if(req.query.dateTill) where.dateFrom = { $lte: new Date(req.query.dateTill) };
+  
+  var populations = {
+    events: {path: "event", select:"_id name dateFrom dateTill"},
+    titlePhotos: {path: "titlePhotos"}
+  };
   
   var options = {
     select: ["_id","name","status","dateFrom","dateTill","datePublished","event"],
-    populate:[],
+    populate: req.query.populate ? req.query.populate.map(item => populations[item]).filter(item => item) : [],
     limit: req.query.limit ? Math.min(req.query.limit,100) : 100,
     page: req.query.page || 1
   };
   if(req.query.sort) options.sort = req.query.sort;
-  if(req.query.events) options.populate.push({path: "event", select:"_id name dateFrom dateTill"});
-  if(req.query.titlePhotos) options.select.push("titlePhotos"),options.populate.push({path: "titlePhotos"});
+  if(req.query.populate && req.query.populate.indexOf("titlePhotos") !== null) options.select.push("titlePhotos");
 
   res.json(await Album.paginate(where,options));
 });
@@ -52,16 +71,37 @@ router.post("/", acl("albums:create"), async (req,res,next) => {
 });
 
 // GET THE DISTINCT YEARS OF ALBUMS
-router.get("/years", acl("albums:years:list"), async (req,res) => {
+router.get("/years", acl("albums:list"), async (req,res) => {
   res.json(await Album.distinct("year"))
 });
 
+
+
 // GET ALL ALBUMS NAMES AND DATES
-router.get("/list", acl("albums:list"), async (req,res) => {
+
+var getAlbumsListSchema = {
+  type: "object",
+  properties: {
+    "filter": {
+      type: "object",
+      properties: {
+        "status": { type: "string" },
+      },
+      additionalProperties: false
+    },
+    "sort": { type: "string"}
+  },
+  additionalProperties: false
+};
+      
+router.get("/list", validate({query:getAlbumsListSchema}), acl("albums:list"), async (req,res) => {
   
   let albums = Album.find({}).select("_id name dateFrom dateTill")
   
-  if(!(req.query.drafts && await acl.can("album:drafts:list",req))) albums.where({"status": "public"});
+  let where = req.query.filter || {};
+  if(!await acl.can("albums:drafts:list",req)) where.status = "public";
+  albums.where(where);
+  
   if(req.query.sort) albums.sort(req.query.sort);
   
   res.json(await albums);
@@ -92,7 +132,7 @@ router.delete("/:album", acl("albums:delete"), async (req,res,next) => {
   res.sendStatus(204);
 });
 
-router.get("/:album/photos", acl("albums:photos:read"), async (req,res,next) => {
+router.get("/:album/photos", acl("albums:read"), async (req,res,next) => {
   
   let select = {
     "status": 1,
@@ -102,7 +142,7 @@ router.get("/:album/photos", acl("albums:photos:read"), async (req,res,next) => 
   let album = await Album.findOne({_id:req.params.album},select).populate("photos");
   
   if(!album) return res.sendStatus(404);
-  if(album.status === "draft" && await acl.can("album:drafts:read",req)) return res.sendStatus(401);
+  if(album.status === "draft" && !await acl.can("albums:drafts:read",req)) return res.sendStatus(401);
   
   res.json(album.photos);
 });
