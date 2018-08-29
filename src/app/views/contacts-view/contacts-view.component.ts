@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TitleService } from "../../services/title.service";
+import { DataService } from "../../services/data.service";
+
+import { Contact } from "../../schema/contact";
 
 @Component({
   selector: 'contacts-view',
@@ -9,10 +12,18 @@ import { TitleService } from "../../services/title.service";
 })
 export class ContactsViewComponent implements OnInit {
 
-  constructor(private titleService:TitleService) { }
+  contacts:Contact[] = [];
+  
+  constructor(private titleService:TitleService, private dataService:DataService) { }
 
   ngOnInit() {
     this.titleService.setTitle("Kontakty");
+    this.loadContacts();
+  }
+
+  async loadContacts(){
+    let config = await this.dataService.getConfig();
+    this.contacts = config.about.contacts;
   }
 
 }

@@ -19,12 +19,14 @@
                 <a [routerLink]="'/fotogalerie/' + point.album._id + '/' + photo._id" class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'"></a>
               </div>
             </div>
-            <div class="row">
-              <div class="col-10">
-                <p>{{point.album.description}}</p>
-              </div>
-              <div class="col-2 text-right">
-                <a [routerLink]="'/fotogalerie/' + point.album._id">Otevřít album</a>
+            <div class="description">
+              <div class="row">
+                <div class="col-10">
+                  <p>{{point.album.description}}</p>
+                </div>
+                <div class="col-2 text-right">
+                  <a [routerLink]="'/fotogalerie/' + point.album._id" class="open">Otevřít album</a>
+                </div>
               </div>
             </div>
           </ng-container>

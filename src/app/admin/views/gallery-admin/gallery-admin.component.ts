@@ -57,7 +57,7 @@ export class GalleryAdminComponent implements OnInit {
     // show the confrmation
     this.toastService.toast("Album vytvořeno a uloženo.");
     // open the album
-    this.router.navigate(["/interni/galerie/alba/" + album._id], {relativeTo: this.route})
+    this.router.navigate(["/interni/galerie/" + album._id], {relativeTo: this.route})
   }
 
 }

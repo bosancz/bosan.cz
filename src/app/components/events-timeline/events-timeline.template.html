@@ -15,7 +15,7 @@
         <div class="date">{{event.dateFrom | date:"EEEEEE d. M."}}</div>
       </ng-template>
 
-      <div class="circle">
+      <div class="circle" [style.background-color]="eventSubTypes[event.subtype]?.color || '#ccc'">
         <img *ngIf="eventSubTypes[event.subtype]?.image" [src]="eventSubTypes[event.subtype].image">
       </div>
 
@@ -25,7 +25,7 @@
 
         <div class="group-badges">
           <ng-container *ngIf="event.leadersEvent">
-            <span class="group-badge bg-dark" title="Kolektiv vedoucích">KV</span>
+            <span class="group-badge bg-dark" title="Kolektiv vedoucích">V</span>
           </ng-container>
           <ng-container *ngIf="!event.leadersEvent">
             <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [title]="group | group:'name'" class="group-badge">{{group}}</span>
@@ -33,17 +33,17 @@
         </div>
 
         <h2 class="timeline-title">{{event.name}}</h2>
-        <p class="text-muted description" [innerHTML]="event.description | nl2br"></p>
+        <p class="description" [innerHTML]="event.description | nl2br"></p>
 
         <div class="details">
-          <p class="text-muted leaders" *ngIf="event.leaders?.length">
+          <p class=" leaders" *ngIf="event.leaders?.length">
             <ng-container *ngFor="let member of event.leaders; first as isFirst; last as isLast">
               <ng-container *ngIf="!isFirst && !isLast">, </ng-container>
               <ng-container *ngIf="!isFirst && isLast"> a </ng-container>
-              <a (click)="openContact(member)">{{member.nickname}}</a> <ng-container *ngIf="member.contacts?.mobile">({{member.contacts.mobile}})</ng-container>
+              {{member.nickname}} ({{formatNumber(event.leaders[0]?.contacts?.mobile)}})
             </ng-container>
           </p>
-          <p *ngIf="event.meeting?.start || event.meeting?.end" class="text-muted description">
+          <p *ngIf="event.meeting?.start || event.meeting?.end" class="description">
             <ng-container *ngIf="event.meeting?.start"><strong>Sraz: </strong>{{event.meeting.start}}</ng-container>
             <ng-container *ngIf="event.meeting?.start && event.meeting?.end">, </ng-container>
             <ng-container *ngIf="event.meeting?.end"><strong>Konec: </strong>{{event.meeting.end}}</ng-container>

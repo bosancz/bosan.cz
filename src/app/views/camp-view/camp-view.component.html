@@ -1,13 +1,13 @@
 <header class="header-large">
   <div class="content">
     <h1>Tábor na ostrově ŠÁN</h1>
-    <a class="btn btn-primary" [ngx-scroll-to]="camp">Pojeď na tábor!</a>
+    <a class="btn btn-primary" [ngx-scroll-to]="campLife">Pojeď na tábor!</a>
   </div>
 </header>
 
 <!-- Summer Camp -->
-<section id="camp" #camp>
-  
+<section id="camp" *ngIf="false">
+
   <div class="container">
     <div class="row text-center">
       <div class="col-12">
@@ -19,71 +19,73 @@
       <div class="col-6 text-center">
         <div class="row">
           <div class="col-12">
-          <h2>I. turnus - 30. 6. - 21. 7. 2018</h2>
+            <h2>I. turnus - 30. 6. - 21. 7. 2018</h2>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-          <h2 class="d-inline"><span class="badge badge-pill badge-warning">3. oddíl</span></h2>&nbsp;
-          <h2 class="d-inline"><span class="badge badge-pill badge-warning">3. oddíl</span></h2>&nbsp;
-          <h2 class="d-inline"><span class="badge badge-pill badge-warning">3. oddíl</span></h2>&nbsp;
-          <h2 class="d-inline"><span class="badge badge-pill badge-warning">3. oddíl</span></h2> 
+            <h2 class="d-inline"><span class="badge badge-pill text-white" [style.background-color]="'3' | group:'color'">3. oddíl</span></h2>&nbsp;
+            <h2 class="d-inline"><span class="badge badge-pill text-white" [style.background-color]="'6' | group:'color'">6. oddíl</span></h2>
+            <br>
+            <h2 class="d-inline"><span class="badge badge-pill text-white" [style.background-color]="'7' | group:'color'">7. oddíl</span></h2>&nbsp;
+            <h2 class="d-inline"><span class="badge badge-pill text-white" [style.background-color]="'22' | group:'color'">22. oddíl</span></h2> 
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-          <h2>
-            Hlavní vedoucí
-          </h2>
+            <h2>
+              Hlavní vedoucí
+            </h2>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-          <img src="/assets/img/boy.png" class="img-fluid contact-img">
+            <img src="/assets/img/boy.png" class="img-fluid contact-img">
           </div>
         </div>
         <div class="row">
           <div class="col-12">
 
-          <h2>Slon<br>Michal Krkavec</h2>
+            <h2>Slon<br>Michal Krkavec</h2>
 
-          <a href="mailto:slon@bosan.cz">slon@bosan.cz</a><br>
-          <a href="tel:+420 724 519 459">+420 724 519 459</a><br>
+            <a href="mailto:slon@bosan.cz">slon@bosan.cz</a><br>
+            <a href="tel:+420 724 519 459">+420 724 519 459</a><br>
           </div>
         </div>
       </div>
       <div class="col-6 text-center">
         <div class="row">
           <div class="col-12">
-          <h2>II. turnus - 22. 7. - 11. 8. 2018</h2>
+            <h2>II. turnus - 22. 7. - 11. 8. 2018</h2>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-          <h2 class="d-inline"><span class="badge badge-pill badge-success">3. oddíl</span></h2>&nbsp;
-          <h2 class="d-inline"><span class="badge badge-pill badge-success">3. oddíl</span></h2>&nbsp;
-          <h2 class="d-inline"><span class="badge badge-pill badge-success">3. oddíl</span></h2>
+            <h2 class="d-inline"><span class="badge badge-pill text-white" [style.background-color]="'4' | group:'color'">4. oddíl</span></h2>&nbsp;
+            <h2 class="d-inline"><span class="badge badge-pill text-white" [style.background-color]="'5' | group:'color'">5. oddíl</span></h2>
+            <br>
+            <h2 class="d-inline"><span class="badge badge-pill text-white" [style.background-color]="'8' | group:'color'">8. oddíl</span></h2>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-          <h2>
-            Hlavní vedoucí
-          </h2>
+            <h2>
+              Hlavní vedoucí
+            </h2>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-          <img src="/assets/img/boy.png" class="img-fluid contact-img">
+            <img src="/assets/img/boy.png" class="img-fluid contact-img">
           </div>
         </div>
         <div class="row">
           <div class="col-12">
 
-          <h2>Pat<br>Vojtěch Hübner</h2>
+            <h2>Pat<br>Vojtěch Hübner</h2>
 
-          <a href="mailto:slon@bosan.cz">slon@bosan.cz</a><br>
-          <a href="tel:+420 724 519 459">+420 724 519 459</a><br>
+            <a href="mailto:slon@bosan.cz">slon@bosan.cz</a><br>
+            <a href="tel:+420 724 519 459">+420 724 519 459</a><br>
           </div>
         </div>
       </div>
@@ -92,8 +94,8 @@
 </section>
 
 <!-- About Camp -->
-<section class="bg-light">
-  <div class="container">
+<section #campLife>
+  <div class="container padding">
     <div class="row text-center">
       <div class="col-12">
         <h1>Táborový život</h1>
@@ -119,7 +121,7 @@
       <div class="col-12 col-md-7">
         <p> Děti si nejen hrají, ale učí se i různým novým dovednostem – vázat uzle, morseovku, základy topografie, zdravovědy... Dopoledne většinou probíhá oddílový program, který mají pod taktovkou jednotliví oddíloví vedoucí, a odpoledne vyrážíme společně na celotáborovou hru. Všichni sledujeme napínavý příběh, který nás provází celým táborem a posádky zde mají možnost získávat nejvíce bodů. Večer každý bedlivě hlídá nástěnku a na ní změny v celotáborovém bodování. Výjimkou jsou tradiční šánovské specialitky jako třeba legendární Poseidonské hry. Denní program je skutečně nabitý od ranní rozcvičky až po večerní nástup a drhnutí zubů. :-) Děti mají volný čas během poledního klidu po obědě a přes hodinu po večeři. Tu dobu je nejlepší využít na psaní dopisů domů, ale z pohledu dětí spíše na hraní s novými kamarády. Společně se svým vedoucím, kuchařem a dalšími dospělými děti pomáhají při přípravě jídel a dalším zabezpečení tábora – připravují dříví, člunaři vozí suroviny a vodu z druhého břehu, myjí nádobí. Jedním slovem služba, o kterou se všechny oddíly spravedlivě střídají.<br><br>
 
-Tábor je každoročně zakončen slavnostním táborákem, na který jsou pozváni i rodiče a přátelé.</p>
+          Tábor je každoročně zakončen slavnostním táborákem, na který jsou pozváni i rodiče a přátelé.</p>
       </div>
       <div class="col-12 col-md-5">
         <p><img src="../assets/img/camp-info/poseidon.jpg" class="img-fluid img-camp rot-c"></p>
@@ -129,8 +131,8 @@ Tábor je každoročně zakončen slavnostním táborákem, na který jsou pozv�
 </section>
 
 <!-- Camp Info -->
-<section>
-  <div class="container">
+<section class="bg-light">
+  <div class="container padding">
     <div class="row text-center">
       <div class="col-12">
         <h1>Na kolik mě ta legrace přijde?</h1>
@@ -188,8 +190,8 @@ Tábor je každoročně zakončen slavnostním táborákem, na který jsou pozv�
 </section>
 
 <!-- Camp Location -->
-<section id="map" class="bg-light" #map>
-  <div class="container">
+<section id="map" #map>
+  <div class="container padding">
     <div class="row text-center">
       <div class="col-12">
         <h1>Kde máme tábořiště?</h1>
@@ -205,7 +207,7 @@ Tábor je každoročně zakončen slavnostním táborákem, na který jsou pozv�
 </section>
 
 <!-- Camp Photogalleries -->
-<section>
+<section class="bg-light">
   <div class="container">
     <div class="row text-center">
       <div class="col-12">

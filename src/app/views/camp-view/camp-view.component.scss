@@ -1,7 +1,9 @@
+@import "../../../styles/variables";
+
 header{background-image:url("/assets/img/camp-info/san-header.jpg")}
 
 .img-camp {
-  box-shadow: 5px 5px 3px rgba(150, 150, 150, .5);
+  box-shadow: $shadow;
 }
 
 .rot-a {

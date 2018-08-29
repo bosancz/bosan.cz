@@ -31,7 +31,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   
   eventSubTypeFields:CodelistField[] = [
     {"name": "name", "title": "Název", "type": "text"},
-    {"name": "class", "title": "CSS třída", "type": "text"},
+    {"name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})","placeholder":"#A1B2C3"},
     {"name": "image", "title": "URL obrázku", "type": "text"}
   ];
   

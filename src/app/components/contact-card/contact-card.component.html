@@ -1,8 +1,12 @@
-<img *ngIf="contact.avatar" [src]="contact.avatar" class="rounded-circle">
-<img *ngIf="!contact.avatar" src="/assets/img/boy.png" class="img-fluid contact-img">
+<div class="row">
+  <div *ngFor="let contact of contacts" class="contact col-12 col-md-3 contact">
+    <img *ngIf="contact.avatar" [src]="contact.avatar" class="rounded-circle">
+    <img *ngIf="!contact.avatar" src="/assets/img/boy.png" class="img-fluid contact-img">
 
-<h2>{{contact.nickname}}<br>{{contact.name}}</h2>
-<div class="role">{{contact.role}}</div><br>
+    <h2>{{contact.nickname}}<br>{{contact.name}}</h2>
+    <div class="role">{{contact.role}}</div><br>
 
-<a [href]="'mailto:' + contact.email">{{contact.email}}</a><br>
-<a [href]="'tel:' + contact.mobile">{{contact.mobile}}</a><br>
+    <a [href]="'mailto:' + contact.email">{{contact.email}}</a><br>
+    <a [href]="'tel:' + contact.mobile">{{contact.mobile}}</a><br>
+  </div>
+</div>

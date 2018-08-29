@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
 
 import { DataService } from "../../services/data.service";
@@ -11,8 +11,7 @@ import { Contact } from "../../schema/contact";
 @Component({
   selector: 'about-view',
   templateUrl: "about-view.component.html",
-  styleUrls: ["about-view.component.css"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ["about-view.component.css"]
 })
 export class AboutViewComponent implements OnInit, OnDestroy {
   
@@ -26,12 +25,14 @@ export class AboutViewComponent implements OnInit, OnDestroy {
     
     this.titleService.setTitle("O nás");
     
-    this.dataService.getConfig()
-      .then(config => {
-        this.contacts = config.about.contacts;
-      });
+    this.loadContacts();
   }
   
+  async loadContacts(){
+    let config = await this.dataService.getConfig();
+    this.contacts = config.about.contacts;
+  }
+
   ngOnDestroy(){
     this.menuService.transparent = false;
   }

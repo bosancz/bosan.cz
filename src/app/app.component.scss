@@ -54,7 +54,7 @@ nav .navbar-nav .nav-item .nav-link {
 }
 
 nav .navbar-nav .nav-item .nav-link.active, nav .navbar-nav .nav-item .nav-link:hover {
-  color: #00BFFF;
+  color: $linkBlue;
 }
 
 @media (min-width: 992px) {
