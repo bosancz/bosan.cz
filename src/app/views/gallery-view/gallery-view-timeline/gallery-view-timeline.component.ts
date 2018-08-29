@@ -40,8 +40,12 @@ export class GalleryViewTimelineComponent implements OnInit {
   async loadAlbumsList(){
     
     this.loading = true;
+    let options = {
+      sort:"-dateFrom",
+      filter: { status: "public" }
+    };
     
-    let albums = await this.dataService.getAlbumsList({sort:"-dateFrom"})
+    let albums = await this.dataService.getAlbumsList(options)
     
     let year:number;
     
