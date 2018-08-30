@@ -50,6 +50,9 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 // App Config
 import { AppConfig, AppConfigData } from "./config/config";
+import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
+import { FormatPhonePipe } from './pipes/format-phone.pipe';
+import { GalleryAlbumComponent } from './components/gallery-album/gallery-album.component';
 
 // settings for JWT
 export function JwtTokenGetter():string{
@@ -76,7 +79,7 @@ export const jwtOptions = {
     
     /* DIRECTIVES */ AppearDirective, AdminLinkDirective,
     
-    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent
+    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, JoinLeadersPipe, FormatPhonePipe, GalleryAlbumComponent
   ],
   imports: [
     BrowserAnimationsModule,    

@@ -20,30 +20,29 @@
       </div>
 
       <div class="panel" [adminLink]="'/interni/akce/' + event._id + '/upravit'"> 
-
-        <div *ngIf="event.registrationUrl" class="registration"><a class="btn btn-primary" [href]="event.registrationUrl">Přihláška</a></div>
-
-        <div class="group-badges">
-          <ng-container *ngIf="event.leadersEvent">
-            <span class="group-badge bg-dark" title="Kolektiv vedoucích">V</span>
-          </ng-container>
-          <ng-container *ngIf="!event.leadersEvent">
-            <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [title]="group | group:'name'" class="group-badge">{{group}}</span>
-          </ng-container>
-        </div>
-
-        <h2 class="timeline-title">{{event.name}}</h2>
-        <p class="description" [innerHTML]="event.description | nl2br"></p>
-
-        <div class="details">
-          <p class=" leaders" *ngIf="event.leaders?.length">
-            <ng-container *ngFor="let member of event.leaders; first as isFirst; last as isLast">
-              <ng-container *ngIf="!isFirst && !isLast">, </ng-container>
-              <ng-container *ngIf="!isFirst && isLast"> a </ng-container>
-              {{member.nickname}} ({{formatNumber(event.leaders[0]?.contacts?.mobile)}})
+        
+        <div class="header">
+          <div class="group-badges">
+            <ng-container *ngIf="event.leadersEvent">
+              <span class="group-badge bg-dark" title="Kolektiv vedoucích">V</span>
             </ng-container>
+            <ng-container *ngIf="!event.leadersEvent">
+              <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [title]="group | group:'name'" class="group-badge">{{group}}</span>
+            </ng-container>
+          </div>
+
+          <h2 class="timeline-title">{{event.name}}</h2>
+        </div>
+        <div class="details">
+          <p *ngIf="event.description" class="description" [innerHTML]="event.description | nl2br"></p>
+
+          <a *ngIf="event.registrationUrl" [href]="event.registrationUrl | safeurl" class="registration">Přihláška</a>
+
+          <p *ngIf="event.leaders?.length" class="leaders">
+            {{event.leadersLine}} {{event.leaders | joinLeaders}}
           </p>
-          <p *ngIf="event.meeting?.start || event.meeting?.end" class="description">
+
+          <p *ngIf="event.meeting?.start || event.meeting?.end" class="meeting">
             <ng-container *ngIf="event.meeting?.start"><strong>Sraz: </strong>{{event.meeting.start}}</ng-container>
             <ng-container *ngIf="event.meeting?.start && event.meeting?.end">, </ng-container>
             <ng-container *ngIf="event.meeting?.end"><strong>Konec: </strong>{{event.meeting.end}}</ng-container>

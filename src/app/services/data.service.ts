@@ -49,6 +49,10 @@ export class DataService {
 		return this.http.get<Paginated<Album>>(this.root + "/albums", {params: toParams(options)}).toPromise();
 	}
   
+  getAlbumsRecent(options?:any):Promise<Album[]>{
+		return this.http.get<Album[]>(this.root + "/albums/recent", {params: toParams(options)}).toPromise();
+	}
+  
   getAlbumsYears(){
     return this.http.get<any>(this.root + "/albums/years").toPromise();
   }

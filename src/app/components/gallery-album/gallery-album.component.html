@@ -1,0 +1,22 @@
+<ng-container *ngIf="album">
+  <h3>
+    <a [routerLink]="'/fotogalerie/' + album._id" [adminLink]="'/interni/galerie/' + album._id">
+      {{album.name}} ({{[album.dateFrom,album.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}})
+    </a>
+  </h3>
+  <div class="row photos">
+    <div class="col-md-4" *ngFor="let photo of album.titlePhotos | slice:0:3">
+      <a [routerLink]="'/fotogalerie/' + album._id + '/' + photo._id" class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'"></a>
+    </div>
+  </div>
+  <div class="description">
+    <div class="row">
+      <div class="col-10">
+        <p>{{album.description}}</p>
+      </div>
+      <div class="col-2 text-right">
+        <a [routerLink]="'/fotogalerie/' + album._id" class="open">Otevřít album</a>
+      </div>
+    </div>
+  </div>
+</ng-container>

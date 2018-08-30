@@ -16,6 +16,8 @@ import { Contact } from "../../schema/contact";
 export class AboutViewComponent implements OnInit, OnDestroy {
   
   contacts:Contact[] = [];
+  
+  mapUrl:string;
 
   constructor(private dataService:DataService, private toastService:ToastService, private menuService:MenuService, private router:Router, private titleService:TitleService) {
     this.menuService.transparent = true;
@@ -25,12 +27,13 @@ export class AboutViewComponent implements OnInit, OnDestroy {
     
     this.titleService.setTitle("O nás");
     
-    this.loadContacts();
+    this.loadConfig();
   }
   
-  async loadContacts(){
+  async loadConfig(){
     let config = await this.dataService.getConfig();
-    this.contacts = config.about.contacts;
+    this.contacts = config.contacts.leaders;
+    this.mapUrl = config.general.homeMapUrl;
   }
 
   ngOnDestroy(){

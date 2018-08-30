@@ -5,8 +5,9 @@
 
 <div class="menu" [@controlsHide]="controlsState">
   <div class="row">
-    <div class="col-4">
-      <a routerLink="../" class="title"><i class="fas fa-arrow-left"></i> {{album?.name}}</a>
+    <div class="col-4 text-light">
+      <a (click)="close()" class="back"><i class="fas fa-arrow-left"></i></a>
+      <a routerLink="../">{{album?.name}}</a>
     </div>
     <div class="col-4 text-center text-light count">
       <ng-container *ngIf="album?.photos">

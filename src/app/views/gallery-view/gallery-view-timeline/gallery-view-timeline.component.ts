@@ -59,12 +59,13 @@ export class GalleryViewTimelineComponent implements OnInit {
         
         _id: album._id,
         name: album.name,
-        date: new Date(album.dateFrom),
+        dateFrom: new Date(album.dateFrom),
+        dateTill: new Date(album.dateTill),
         album: null,
       };
 
-      if(point.date.getFullYear() !== year) {
-        year = point.date.getFullYear();
+      if(point.dateFrom.getFullYear() !== year) {
+        year = point.dateFrom.getFullYear();
         this.timelineLabels.push({y:y,label:String(year)});
       }
       
@@ -81,7 +82,7 @@ export class GalleryViewTimelineComponent implements OnInit {
     
     point.loading = true;
     
-    let album = await this.dataService.getAlbum(point._id,{titlePhotos:1,event:1});
+    let album = await this.dataService.getAlbum(point._id,{titlePhotos:1});
     
     if(!album.titlePhotos) album.titlePhotos = [];
     

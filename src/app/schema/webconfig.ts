@@ -33,23 +33,20 @@ export class WebConfigRecurringType {
 export interface WebConfig {
   
   general:{
-    title:string
+    title:string,
+    homeMapUrl:string,
+    campMapUrl:string,
+    documentsUrl:string,
   };
   
   users:{
     roles:Array<{name:string,title:string,desription:string}>
   };
-  
-  about:{
-    contacts: Contact[]
-  };
 
-  camp:{
-    album:string
-  };
-  
-  documents:{
-    url:string
+  contacts: {
+    leaders: Contact[],
+    monday: Contact[],
+    wednesday: Contact[]
   };
 
   members:{

@@ -12,18 +12,21 @@ import { Contact } from "../../schema/contact";
 })
 export class ContactsViewComponent implements OnInit {
 
-  contacts:Contact[] = [];
+  contacts:any = {};
+  
+  mapUrl:string;
   
   constructor(private titleService:TitleService, private dataService:DataService) { }
 
   ngOnInit() {
     this.titleService.setTitle("Kontakty");
-    this.loadContacts();
+    this.loadConfig();
   }
 
-  async loadContacts(){
+  async loadConfig(){
     let config = await this.dataService.getConfig();
-    this.contacts = config.about.contacts;
+    this.contacts = config.contacts;
+    this.mapUrl = config.general.homeMapUrl;
   }
 
 }

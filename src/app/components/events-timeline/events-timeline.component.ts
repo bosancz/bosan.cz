@@ -66,9 +66,4 @@ export class EventsTimelineComponent implements OnInit {
   getMonthName(date:string|Date){
     return this.monthNames[new Date(date).getMonth()];
   }
-  
-  formatNumber(number:string):string{
-    if(!number) return "";
-    return number.replace(/(\+420 ?)?(\d{3}) ?(\d{3}) ?(\d{3})/,"$2 $3 $4");
-  }
 }

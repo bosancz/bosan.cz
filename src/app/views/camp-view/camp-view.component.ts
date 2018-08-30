@@ -29,6 +29,8 @@ export class CampViewComponent implements OnInit, OnDestroy {
 
   photos:GalleryPhoto[] = [];
   
+  mapUrl:string;
+  
   constructor(private menuService:MenuService, private titleService:TitleService, private dataService:DataService, private router:Router) {
     this.menuService.transparent = true;
   }
@@ -36,29 +38,16 @@ export class CampViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.titleService.setTitle("Tábor");
     
-    this.loadAlbum();
+    this.loadMapUrl();
   }
 
   ngOnDestroy(){
     this.menuService.transparent = false;
   }
-
-  async loadAlbum(){
-    
+  
+  async loadMapUrl(){
     let config = await this.dataService.getConfig();
-    
-    let album = await this.dataService.getAlbum(config.camp.album,{photos:1});
-
-    album.photos.sort((a,b) => a.name.localeCompare(b.name));
-
-    this.photos = album.photos.map(photo => ({
-      photo: photo,
-      url: photo.sizes.small.url,
-      width: photo.sizes.small.width,
-      height: photo.sizes.small.height,
-      //caption: photo.caption,
-      bg: photo.bg
-    }));
+    this.mapUrl = config.general.campMapUrl;
   }
   
   openPhoto(container:GalleryPhotoContainer){

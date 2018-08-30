@@ -10,6 +10,7 @@
           <li class="nav-item"><a class="nav-link" routerLink="../obecne" routerLinkActive="active">Obecné nastavení</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../akce" routerLinkActive="active">Akce</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../clenska-databaze" routerLinkActive="active">Členská databáze</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../kontakty" routerLinkActive="active">Kontakty</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../dokumenty" routerLinkActive="active">Dokumenty</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../uzivatele" routerLinkActive="active">Uživatelé</a></li>
           <br>
@@ -26,6 +27,21 @@
               <label>Titulek webu</label>
               <input type="string" class="form-control" [(ngModel)]="config.general.title">
               <small class="form-text text-muted">Zobrazí se v záhlaví prohlížeče.</small>
+            </div>
+            <div class="form-group">              
+              <label>Adresa embed mapy Bošán</label>
+              <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.general.homeMapUrl">
+              <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
+            </div>
+            <div class="form-group">              
+              <label>Adresa embed mapy Šán</label>
+              <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.general.campMapUrl">
+              <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
+            </div>
+            <div class="form-group">              
+              <label>Adresa složky ŠÁN Public Google dokumentů</label>
+              <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.general.documentsUrl">
+              <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
             </div>
           </ng-container>
 
@@ -51,6 +67,15 @@
             <h4>Role členů (dítě, instruktor, ...)</h4>
 
             <codelist-editor [fields]="memberRolesFields" [(ngModel)]="config.members.roles"></codelist-editor>
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'kontakty'">
+            <h4>Vedení</h4>
+            <codelist-editor [fields]="contactFields" [(ngModel)]="config.contacts.leaders"></codelist-editor>
+            <h4>Schůzky v pondělí</h4>
+            <codelist-editor [fields]="contactFields" [(ngModel)]="config.contacts.monday"></codelist-editor>
+            <h4>Schůzky ve středu</h4>
+            <codelist-editor [fields]="contactFields" [(ngModel)]="config.contacts.wednesday"></codelist-editor>
           </ng-container>
 
           <ng-container *ngSwitchCase="'dokumenty'">
