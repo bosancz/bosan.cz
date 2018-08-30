@@ -5,7 +5,7 @@ import { TitleService } from "../../services/title.service";
 @Component({
   selector: 'news-view',
   templateUrl: './news-view.component.html',
-  styleUrls: ['./news-view.component.css']
+  styleUrls: ['./news-view.component.scss']
 })
 export class NewsViewComponent implements OnInit {
 

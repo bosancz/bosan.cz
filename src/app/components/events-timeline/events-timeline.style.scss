@@ -6,9 +6,6 @@ $timelineMargin: 50px;
 $smallEventsMargin: 0;
 $bigEventsMargin: 30px;
 
-.event .registration{line-height:30px;}
-.event .registration a{font-weight:bold;}
-
 .timeline{position:relative;padding:1px 0;} /* padding to enforce first event margin */
 .timeline::before{top: 0;bottom: 0;left:$timelineLeft;position: absolute;content: " ";width: 3px;margin-left:-1.5px;background-color: #eee;}
 
@@ -19,13 +16,16 @@ $bigEventsMargin: 30px;
 
 .timeline .event{position:relative;min-height:60px;}
 .timeline .event .circle{position:absolute;top:5px;left:$timelineLeft;width:50px;height:50px;margin-left:-25px;border-radius:25px;background-color:#ccc;}
-.timeline .event .date{position:absolute;top:5px;left:0;height:50px;line-height:50px;vertical-align:middle;font-size:$font-medium;font-weight:bold;}
+.timeline .event .date{position:absolute;top:10px;left:0;height:40px;line-height:40px;vertical-align:middle;font-size:$font-medium;font-weight:bold;}
 .timeline .event .date.long{line-height:($font-medium * 1.5);height:($font-medium * 3);margin-top:(-($font-medium * 3 - 50) / 2)}
-.timeline .event .panel{margin-left:$timelineLeft + $timelineMargin;padding:5px 15px 10px 15px;}
-.timeline .event .panel h2{display:inline-block;margin:0;height:50px;line-height:50px;vertical-align:middle;}
-.timeline .event .panel .group-badges{float:right;height:50px;line-height:50px;vertical-align:middle;}
-.timeline .event .panel .event .description{margin:20px 0;text-align:justify;color:$black;}
-.timeline .event .panel .event .leaders{margin:20px 0;}
+.timeline .event .panel{margin-left:$timelineLeft + $timelineMargin;padding:10px 15px;}
+.timeline .event .panel h2{display:inline-block;margin:0;height:40px;line-height:40px;vertical-align:middle;}
+.timeline .event .panel .group-badges{float:right;height:40px;line-height:40px;vertical-align:middle;}
+
+.timeline .event .panel p{margin:20px 0;text-align:justify;color:$black;}
+.timeline .event .panel p:last-child{margin-bottom:0;}
+.timeline .event .panel .registration{float:right;color:$linkBlue;font-weight:bold;text-transform:uppercase;text-decoration:none;}
+.timeline .event .panel .details::after{display:block;content:" ";clear:both;}
 
 .timeline .event.event-big{margin:$bigEventsMargin 0;}
 .timeline .event.event-big .panel{position:relative;box-shadow:0 0 5px rgba(0,0,0,.2);background-color:#fff;}
@@ -34,7 +34,8 @@ $bigEventsMargin: 30px;
 
 .timeline .event.event-small{margin:$smallEventsMargin 0;}
 .timeline .event.event-small h2{font-size:$font-medium;font-weight:normal;}
-.timeline .event.event-small .details{display:none;}
+.timeline .event.event-small .leaders{display:none;}
+.timeline .event.event-small .meeting{display:none;}
 .timeline .event.event-small .panel{padding-left:0;}
 .timeline .event.event-small .date{font-weight:normal;}
 

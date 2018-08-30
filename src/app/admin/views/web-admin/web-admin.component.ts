@@ -24,6 +24,15 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     {"name": "active", "title": "Aktivní", "type": "checkbox"}
   ];
   
+  contactFields:CodelistField[] = [
+    {"name": "name", "title": "Jméno", "type": "text"},
+    {"name": "nickname", "title": "Přezdívka", "type": "text"},
+    {"name": "avatar", "title": "Avatar", "type": "text"},
+    {"name": "role", "title": "Role", "type": "text"},
+    {"name": "email", "title": "E-mail", "type": "text"},
+    {"name": "mobile", "title": "Mobil", "type": "text"}
+  ];
+  
   eventTypeFields:CodelistField[] = [
     {"name": "name", "title": "Název", "type": "text"},
     {"name": "class", "title": "CSS třída", "type": "text"}

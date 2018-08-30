@@ -19,7 +19,7 @@ export class DocumentsViewComponent implements OnInit {
 
   ngOnInit() {    
     this.dataService.getConfig().then(config => {
-      this.url = this.domSanitizer.bypassSecurityTrustResourceUrl(config.documents.url);
+      this.url = this.domSanitizer.bypassSecurityTrustResourceUrl(config.general.documentsUrl);
     });
   }
 

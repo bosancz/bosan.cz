@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import {trigger,state,style,animate,transition} from '@angular/animations';
+import { trigger,state,style,animate,transition } from '@angular/animations';
 
 import { Subscription } from "rxjs";
 
@@ -49,7 +50,7 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute, private location:Location) { }
 
   ngOnInit() {  
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
@@ -151,7 +152,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   }
   
   close(){
-    this.router.navigate(["../"],{relativeTo:this.route});
+    //this.router.navigate(["../"],{relativeTo:this.route});
+    this.location.back();
   }
   
   showControls(){

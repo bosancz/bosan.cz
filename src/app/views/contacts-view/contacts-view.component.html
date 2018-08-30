@@ -1,29 +1,31 @@
 
-<section>
+<section id="vedeni">
   <div class="container padding">
     <h1>Vedení skupiny</h1>
-    <contact-card [contacts]="contacts"></contact-card>
+    <contact-card [contacts]="contacts.leaders"></contact-card>
   </div>
 </section>
 
-<section class="bg-light">
+<section id="pondeli">
   <div class="container padding">
     <h1>Vedoucí oddílů - schůzky v pondělí</h1>
-    <contact-card [contacts]="contacts"></contact-card>
+    <contact-card [contacts]="contacts.monday"></contact-card>
   </div>
 </section>
 
-<section>
+<section id="streda">
   <div class="container padding">
     <h1>Vedoucí oddílů - schůzky ve středu</h1>
-    <contact-card [contacts]="contacts"></contact-card>
+    <contact-card [contacts]="contacts.wednesday"></contact-card>
   </div>
 </section>
 
-<section class="bg-light">
-  <div class="container padding">
+<section id="map">
+  <div class="padding">
     <h1>Přijď se podívat osobně</h1>
     <p class="subheading">Každé pondělí a středu máme schůzky od 16:00 do 18:00 v naší loděnici.</p>
   </div>
-  <google-map></google-map>
+  <div class="map">
+    <google-map [url]="mapUrl"></google-map>
+  </div>
 </section>
