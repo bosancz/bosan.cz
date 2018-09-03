@@ -13,18 +13,14 @@ export const AppConfigData: IAppConfig = {
   acl: {
     
     routes: [
-      
+      {
+        route: "/interni/ucet/info",
+        allowRoles: ["user","admin","spravce"]
+      },
       {
         route: "/interni/*",
-        allowRoles: ["admin","user"]
+        allowRoles: ["admin","spravce"]
       }
-      /*
-      {
-        route: "/:url/admin",
-        allowRoles: ["admin"],
-        //allowCheck: (user,params) => console.log(user,params)
-        allowCheck: (user,params) => user.managedProfiles.indexOf(params.profile) !== -1
-      }*/
     ],
     
     default: {

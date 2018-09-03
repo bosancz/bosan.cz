@@ -29,9 +29,9 @@ function setParam(params:HttpParams,name:string,value:any){
 }
 
 function toParams(options:{[s:string]:any}):HttpParams{
-	var params = new HttpParams();
-	
-  Object.entries(options).forEach(entry => params = setParam(params,entry[0],entry[1]));
+  var params = new HttpParams();
+
+  if(options) Object.entries(options).forEach(entry => params = setParam(params,entry[0],entry[1]));
 
   return params;
 }
@@ -224,5 +224,15 @@ export class DataService {
   
   deleteUser(userId:string):Promise<string>{
     return this.http.delete(this.root + "/users/" + userId, {responseType:"text"}).toPromise();
+  }
+  
+  getAccount(options?:any):Promise<User>{
+    return this.http.get<User>(this.root + "/me", {params: toParams(options)}).toPromise();
+  }
+  updateAccount(userData:any):Promise<string>{
+    return this.http.patch(this.root + "/me", userData, {responseType:"text"}).toPromise();
+  }
+  updateAccountPassword(userData:any):Promise<string>{
+    return this.http.post(this.root + "/me/password", userData, {responseType:"text"}).toPromise();
   }
 }

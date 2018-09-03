@@ -82,6 +82,6 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
     // show the confrmation
     this.toastService.toast("Uživatel vytvořen.");
     // open the user
-    this.router.navigate(["./" + userId], {relativeTo: this.route})
+    this.router.navigate(["/interni/uzivatele/" + userId], {relativeTo: this.route})
   }
 }

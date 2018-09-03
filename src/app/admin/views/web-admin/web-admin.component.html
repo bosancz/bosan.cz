@@ -11,7 +11,6 @@
           <li class="nav-item"><a class="nav-link" routerLink="../akce" routerLinkActive="active">Akce</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../clenska-databaze" routerLinkActive="active">Členská databáze</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../kontakty" routerLinkActive="active">Kontakty</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../dokumenty" routerLinkActive="active">Dokumenty</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../uzivatele" routerLinkActive="active">Uživatelé</a></li>
           <br>
           <li class="nav-item"><button type="button" class="btn btn-primary" (click)="saveConfig()">Uložit nastavení</button></li>
@@ -76,14 +75,6 @@
             <codelist-editor [fields]="contactFields" [(ngModel)]="config.contacts.monday"></codelist-editor>
             <h4>Schůzky ve středu</h4>
             <codelist-editor [fields]="contactFields" [(ngModel)]="config.contacts.wednesday"></codelist-editor>
-          </ng-container>
-
-          <ng-container *ngSwitchCase="'dokumenty'">
-            <div class="form-group">              
-              <label>Adresa Google Dokumentů</label>
-              <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.documents.url">
-              <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
-            </div>
           </ng-container>
           
           <ng-container *ngSwitchCase="'uzivatele'">
