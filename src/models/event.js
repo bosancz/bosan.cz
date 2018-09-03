@@ -38,6 +38,8 @@ var eventSchema = mongoose.Schema({
   
   "leaders":[{type: mongoose.Schema.Types.ObjectId, ref: "Member"}],
   
+  "leadersLine": String,
+  
   "attendees": [{
     "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
     "name": String,

@@ -107,6 +107,15 @@ router.get("/list", validate({query:getAlbumsListSchema}), acl("albums:list"), a
   res.json(await albums);
 });
 
+router.get("/recent", acl("albums:recent:list"), async (req,res) => {
+  
+  var albums = Album.find({status:"public"}).sort("-datePublished").populate("titlePhotos");
+  
+  albums.limit(req.query.limit ? Math.min(10,req.query.limit) : 5);
+  
+  res.json(await albums);
+});
+
 // GET ALBUM BY ID
 router.get("/:album", acl("albums:read"), async (req,res,next) => {
   

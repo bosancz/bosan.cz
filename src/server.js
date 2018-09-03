@@ -23,6 +23,8 @@ function numberify(value){
 }
 app.use((req,res,next) => { if(req.query) req.query = numberify(req.query); next(); });
     
+var moment = require("moment");
+moment.locale("cs");
 
 var jwt = require('express-jwt');
 app.use(jwt(config.auth.jwt));

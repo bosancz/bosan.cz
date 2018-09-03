@@ -3,6 +3,7 @@ var guest = module.exports = {
     
     "albums:list": true,
     "albums:read": true,
+    "albums:recent:list": true,
     
     "events:list": true,
     "events:upcoming:list": true,
