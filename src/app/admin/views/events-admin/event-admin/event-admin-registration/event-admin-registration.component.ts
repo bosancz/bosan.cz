@@ -1,5 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from "@angular/forms";
+
+import { ToastService } from "../../../../../services/toast.service";
+import { DataService } from "../../../../../services/data.service";
 
 import { Event } from "../../../../../schema/event";
 
@@ -8,17 +11,42 @@ import { Event } from "../../../../../schema/event";
   templateUrl: './event-admin-registration.component.html',
   styleUrls: ['./event-admin-registration.component.scss']
 })
-export class EventAdminRegistrationComponent implements OnInit {
+export class EventAdminRegistrationComponent {
 
   @Input() event:Event;
   
-  constructor() { }
+  @Output() saved:EventEmitter<void> = new EventEmitter();
+  
+  constructor(private dataService:DataService, private toastService:ToastService) { }
 
-  ngOnInit() {
+  async uploadRegistration(photoInput:HTMLInputElement){
+    
+    if(!photoInput.files.length) return;
+    
+    let file = photoInput.files[0];
+
+    if(file.name.split(".").pop().toLowerCase() !== "pdf"){
+      this.toastService.toast("Soubor musí být ve formátu PDF");
+      return;
+    }
+
+    let formData: FormData = new FormData();
+
+    formData.set("file",file,file.name);
+
+    await this.dataService.uploadEventRegistration(this.event._id,formData);
+    
+    this.saved.emit();
+    
+    this.toastService.toast("Přihláška nahrána.");
   }
   
-  uploadRegistration(form:NgForm){
+  async deleteRegistration(){
+    await this.dataService.deleteEventRegistration(this.event._id);
     
+    this.saved.emit();
+    
+    this.toastService.toast("Přihláška smazána.");
   }
 
 }

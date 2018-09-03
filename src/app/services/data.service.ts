@@ -160,6 +160,14 @@ export class DataService {
     return this.http.delete(this.root + "/events/" + eventId, {responseType:"text"}).toPromise();
   }
   
+  uploadEventRegistration(eventId:string,registrationData:any):Promise<string>{
+    return this.http.post(this.root + "/events/" + eventId + "/registration",registrationData,{responseType:"text"}).toPromise();
+  }
+  
+  deleteEventRegistration(eventId:string,):Promise<string>{
+    return this.http.delete(this.root + "/events/" + eventId + "/registration",{responseType:"text"}).toPromise();
+  }
+  
   getEventLeaders(eventId:string):Promise<any[]>{
     return this.http.get<any[]>(this.root + "/events/" + eventId + "/leaders").toPromise();
   }

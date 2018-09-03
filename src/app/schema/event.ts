@@ -30,6 +30,8 @@ export class Event {
   attendees:any[];
   leaders:any[];
   
+  registration?:string;
+  
   groups?:string[];
   leadersEvent?:boolean;
 }
