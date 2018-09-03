@@ -18,7 +18,7 @@
 
         <div *ngSwitchCase="'info'">
           <ng-container *ngIf="user">
-            <form #userForm="ngForm" (ngSubmit)="saveUser(userForm)">
+            <form #userForm="ngForm" (ngSubmit)="updateUser(userForm)">
 
               <div class="form-group">
                 <label>Email:</label>
@@ -43,11 +43,11 @@
           </ul>
           <p><strong>Jaké je tedy takové správné heslo?</strong> Záleží, kdo si co zvládne zapamatovat, ale pokud nejsi autista, aby sis pamatoval/a deset náhodných znaků, zkus třeba pár nesouvisejících slov za sebou, ideálně ještě s nějakou chybkou, aby to nešlo uhádnout ze slovníku.</p>
 
-          <form #passwordForm="ngForm" (ngSubmit)="savePassword(passwordForm)">
+          <form #passwordForm="ngForm" (ngSubmit)="updatePassword(passwordForm)">
 
             <div class="form-group">
               <label>Staré heslo:</label>
-              <input [type]="passwordsVisible ? 'text' : 'password'" name="password" ngModel class="form-control" required>
+              <input [type]="passwordsVisible ? 'text' : 'password'" name="password_old" ngModel class="form-control" required>
             </div>
             <div class="form-group">
               <label>Nové heslo:</label>
@@ -61,7 +61,7 @@
             </div>
 
             <div class="buttons text-right">
-              <button type="submit" class="btn btn-primary">Změnit heslo</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!passwordForm.valid">Změnit heslo</button>
             </div>
           </form>
         </div>

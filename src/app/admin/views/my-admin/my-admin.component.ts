@@ -5,6 +5,7 @@ import { NgForm } from "@angular/forms";
 import { Subscription } from "rxjs";
 
 import { DataService } from "../../../services/data.service";
+import { ToastService } from "../../../services/toast.service";
 import { AuthService } from "../../../services/auth.service";
 
 import { User } from "../../../schema/user";
@@ -24,7 +25,7 @@ export class MyAdminComponent implements OnInit, OnDestroy {
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private authService:AuthService, private route:ActivatedRoute) { }
+  constructor(private dataService:DataService, private toastService:ToastService, private authService:AuthService, private route:ActivatedRoute) { }
 
   ngOnInit() {
     
@@ -48,7 +49,23 @@ export class MyAdminComponent implements OnInit, OnDestroy {
     
   }
   
-  changePassword(form:NgForm){
+  async updateUser(form:NgForm){
+    
+    var userData = form.value;
+    
+    await this.dataService.updateAccount(userData);
+    
+    this.toastService.toast("Uloženo.");
+    
+  }
+  
+  async updatePassword(form:NgForm){
+    
+    var userData = form.value;
+    
+    await this.dataService.updateAccountPassword(userData);
+    
+    this.toastService.toast("Uloženo.");
     
   }
 
