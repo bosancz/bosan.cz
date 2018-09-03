@@ -6,11 +6,6 @@
       
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
 
-      "watch"       : ["src","lib","config"],
-      "ignore_watch": ["node_modules","data"],
-      "watch_options": {
-      },
-
       "min_uptime": "5s",
       "env": {
         "NODE_ENV": "development"

@@ -51,8 +51,8 @@ var eventSchema = mongoose.Schema({
     },
     "role": {type: String, enum: ['h','v','i','d'], required: true, default: 'd'}
   }]
-});
+}, { toJSON: { virtuals: true } });
 
-eventSchema.virtual("registrationUrl").get(function(){return path.join(config.events.storageUrl,this._id,this.registration);});
+eventSchema.virtual("registrationUrl").get(function(){return this.registration ? path.join(config.events.storageUrl,String(this._id),this.registration) : undefined;});
 
 module.exports = mongoose.model("Event", eventSchema);

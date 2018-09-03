@@ -9,7 +9,6 @@ var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
 
 var rimraf = require("rimraf");
-var mv = require("mv");
 var path = require("path");
 
 var Album = require("../models/album");

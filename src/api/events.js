@@ -1,7 +1,15 @@
 var express = require("express");
 var router = module.exports = express.Router();
 
+var config = require("../../config");
+
 var acl = require("express-dynacl");
+var mv = require("mv");
+var fs = require("fs");
+var path = require("path");
+
+var multer = require("multer");
+var upload = multer({ dest: config.uploads.dir })
 
 var validate = require("../validator");
 
@@ -79,7 +87,7 @@ router.get("/upcoming", validate({query:getEventsUpcomingSchema}), acl("events:u
   let today = new Date(); today.setHours(0,0,0,0);
 
   var events = Event.find({status:"public",dateFrom: { $gte: today }});
-  events.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting");
+  events.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
   events.populate("leaders","_id name nickname group contacts.mobile");
   events.sort("dateFrom order");  
 
@@ -147,4 +155,23 @@ router.get("/:event/leaders", acl("events:read"), async (req,res,next) => {
 
   // return just the leaders
   res.json(event.leaders || []);
+});
+
+router.post("/:event/registration", upload.single("file"), acl("events:edit"), async (req,res,next) => {
+  
+  var event = await Event.findOne({_id:req.params.event});
+  
+  var file = req.file;
+  var eventDir = path.join(config.events.storageDir,String(event._id));
+  var originalPath = req.file.path;
+  var storagePath = path.join(eventDir,"registration.pdf");
+  
+  await new Promise((resolve,reject) => fs.mkdir(eventDir,err => err && err.code !== "EEXIST" ? reject(err) : resolve()));
+    
+  await new Promise((resolve,reject) => mv(originalPath,storagePath,err => err ? reject(err) : resolve()));   
+  
+  event.registration = "registration.pdf";
+  await event.save()
+  
+  res.sendStatus(204);
 });

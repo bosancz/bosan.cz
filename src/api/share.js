@@ -8,6 +8,7 @@ var acl = require("express-dynacl");
 var config = require("../../config/config");
 
 var Album = require("../models/album");
+var Photo = require("../models/photo");
 
 function redirectUser(redirectUrlFn){
   return function(req,res,next){
@@ -29,11 +30,11 @@ function createPage(options){
 <html>
   <head>
     <meta property="fb:app_id" content="${config.facebook.app_id}" />
-    <meta property="og:url" content="${config.domain}${options.url}" />
+    <meta property="og:url" content="${options.url}" />
     <meta property="og:type" content="${options.type}" />
     <meta property="og:title" content="${options.title}" />
     <meta property="og:description" content="${options.description}" />
-    <meta property="og:image" content="${config.domain}${options.image.url}" />
+    <meta property="og:image" content="${options.image.url}" />
     <meta property="og:image:width" content="${options.image.width}" />
     <meta property="og:image:height" content="${options.image.height}" />
   </head>
@@ -47,7 +48,7 @@ router.get("/fotogalerie/:album", redirectUser(), acl("albums:read"), async (req
   var album = await Album.findOne({_id:req.params.album}).populate("titlePhotos");
   
   var options = {
-    url: "/api/share/fotogalerie/" + album._id,
+    url: album.shareUrl,
     title: album.name + " (" + moment(album.dateFrom).format('l') + " - " + moment(album.dateTill).format('l') + ")",
     description: album.description,
     type: "image.gallery",
@@ -55,6 +56,26 @@ router.get("/fotogalerie/:album", redirectUser(), acl("albums:read"), async (req
       url: album.titlePhotos && album.titlePhotos[0] ? album.titlePhotos[0].sizes.big.url : "",
       width: album.titlePhotos && album.titlePhotos[0] ? album.titlePhotos[0].sizes.big.width : "",
       height: album.titlePhotos && album.titlePhotos[0] ? album.titlePhotos[0].sizes.big.height : ""
+    }
+  }
+  
+  res.type("html").send(createPage(options));
+});
+
+router.get("/fotogalerie/:album/:photo", redirectUser(), acl("albums:read"), async (req,res) => {
+  
+  var album = await Album.findOne({_id:req.params.album});
+  var photo = await Photo.findOne({_id:req.params.photo});
+  
+  var options = {
+    url: photo.shareUrl,
+    title: album.name + " (" + moment(album.dateFrom).format('l') + " - " + moment(album.dateTill).format('l') + ")",
+    description: photo.caption || album.description,
+    type: "image.gallery",
+    image: {
+      url: photo.sizes.big.url,
+      width: photo.sizes.big.width,
+      height: photo.sizes.big.height
     }
   }
   

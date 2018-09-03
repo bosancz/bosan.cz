@@ -1,5 +1,9 @@
 var mongoose = require("mongoose");
 
+var path = require("path");
+
+var config= require("../../config");
+
 require("./photo");
 require("./event");
 
@@ -21,6 +25,8 @@ var albumSchema = mongoose.Schema({
   "titlePhoto": {type: mongoose.Schema.Types.ObjectId, ref: "Photo"},
   "titlePhotos": [{type: mongoose.Schema.Types.ObjectId, ref: "Photo"}],
   "photos": [{type: mongoose.Schema.Types.ObjectId, ref: "Photo"}]
-});
+}, { toJSON: { virtuals: true } });
+
+albumSchema.virtual("shareUrl").get(function(){return config.domain + path.join(config.api.root,"share/fotogalerie",String(this._id));});
 
 module.exports = mongoose.model("Album", albumSchema);

@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 var path = require("path");
-var config= require("../../config");
+var config = require("../../config");
 
 var Album = require("./album");
 
@@ -32,11 +32,13 @@ var photoSchema = mongoose.Schema({
 }, { toJSON: { virtuals: true } });
 
 function getUrl(photo,size,dir){
-  return path.join(dir,String(photo.album),photo.sizes[size].file);
+  return config.domain + path.join(dir,String(photo.album),photo.sizes[size].file);
 }
 photoSchema.virtual("sizes.original.url").get(function(){return getUrl(this,"original",config.photos.storageUrl);});
 photoSchema.virtual("sizes.big.url").get(function(){return getUrl(this,"big",config.photos.thumbsUrl);});
 photoSchema.virtual("sizes.small.url").get(function(){return getUrl(this,"small",config.photos.thumbsUrl);});
+
+photoSchema.virtual("shareUrl").get(function(){return config.domain + path.join(config.api.root,"share/fotogalerie",String(this.album),String(this._id));});
 
 photoSchema.index({ tags: 1 }, { sparse: true });
 photoSchema.index({ album: 1, tags: 1 }, { sparse: true });
