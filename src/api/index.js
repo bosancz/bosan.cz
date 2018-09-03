@@ -16,7 +16,7 @@ router.use("/members", require("./members"));
 router.use("/events/:event/recurring", require("./events-recurring"));
 router.use("/events", require("./events"));
 
-router.use("/users/me", require("./users-me"));
+router.use("/me", require("./me"));
 router.use("/users", require("./users"));
 
 router.get("/test", (req,res,next) => res.sendStatus(200));
