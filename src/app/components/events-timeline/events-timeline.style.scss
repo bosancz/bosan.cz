@@ -22,7 +22,7 @@ $bigEventsMargin: 30px;
 .timeline .event .panel h2{display:inline-block;margin:0;height:40px;line-height:40px;vertical-align:middle;}
 .timeline .event .panel .group-badges{float:right;height:40px;line-height:40px;vertical-align:middle;}
 
-.timeline .event .panel p{margin:20px 0;text-align:justify;color:$black;}
+.timeline .event .panel p{margin:10px 0;text-align:justify;color:$black;}
 .timeline .event .panel p:last-child{margin-bottom:0;}
 .timeline .event .panel .registration{float:right;color:$linkBlue;font-weight:bold;text-transform:uppercase;text-decoration:none;}
 .timeline .event .panel .details::after{display:block;content:" ";clear:both;}

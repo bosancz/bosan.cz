@@ -46,7 +46,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
     });
   }
   
-  async addPhotosByInput(photoInput:HTMLInputElement){
+  addPhotosByInput(photoInput:HTMLInputElement){
 
     if(!photoInput.files.length) return;
 

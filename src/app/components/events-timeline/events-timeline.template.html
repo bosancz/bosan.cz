@@ -36,7 +36,7 @@
         <div class="details">
           <p *ngIf="event.description" class="description" [innerHTML]="event.description | nl2br"></p>
 
-          <a *ngIf="event.registrationUrl" [href]="event.registrationUrl | safeurl" class="registration">Přihláška</a>
+          <a *ngIf="event.registrationUrl" [href]="event.registrationUrl | safeurl" class="registration" target="_blank">Přihláška</a>
 
           <p *ngIf="event.leaders?.length" class="leaders">
             {{event.leadersLine}} {{event.leaders | joinLeaders}}

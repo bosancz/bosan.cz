@@ -39,7 +39,7 @@
         
         <event-admin-attendees *ngSwitchCase="'ucastnici'" [event]="event" (save)="saveEvent()"></event-admin-attendees>
         
-        <event-admin-registration *ngSwitchCase="'prihlaska'" [event]="event"></event-admin-registration>
+        <event-admin-registration *ngSwitchCase="'prihlaska'" [event]="event" (saved)="loadEvent(event._id)"></event-admin-registration>
         
         <event-admin-leaders *ngSwitchCase="'vedouci'" [event]="event" (save)="saveEvent($event)"></event-admin-leaders>
 
