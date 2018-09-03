@@ -6,7 +6,7 @@ mongoose.plugin(require('mongoose-paginate'));
 
 mongoose.Promise = global.Promise;
 
-var connection = mongoose.connect("mongodb://127.0.0.1:27017/bosan-test",config.database.options)
+var connection = mongoose.connect(config.database.uri,config.database.options)
   .then(() => console.log("Connected to " + config.database.uri))
   .then(() => mongoose)
   .catch(err => {
