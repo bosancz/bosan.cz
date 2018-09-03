@@ -1,11 +1,15 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, HostListener, TemplateRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { trigger,state,style,animate,transition } from '@angular/animations';
 
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
 import { Subscription } from "rxjs";
 
 import { DataService } from "../../../services/data.service";
+import { ToastService } from "../../../services/toast.service";
 
 import { Album, Photo } from "../../../schema/album";
 
@@ -48,9 +52,11 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   
   preloading:HTMLImageElement[] = [];
   
+  modalRef: BsModalRef;
+
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute, private location:Location) { }
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location, private modalService: BsModalService) { }
 
   ngOnInit() {  
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
@@ -160,6 +166,16 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
     this.controlsState = "visible";
     clearTimeout(this.controlsTimeout);
     this.controlsTimeout = setTimeout(() => this.controlsState = "hidden",1500);
+  }
+  
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+  
+  copyUrl(input:HTMLInputElement):void{
+    input.select();
+    document.execCommand("copy");
+    this.toastService.toast("Text byl zkopírován do schránky.");
   }
 }
 
