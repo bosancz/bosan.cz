@@ -12,6 +12,10 @@ module.exports = function(err, req, res, next){
     console.error(err.validationErrors);
     return res.status(400).json(err.validationErrors);
   }
+
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).send("Invalid token.");
+  }
   
   console.error(err);
   res.sendStatus(500);

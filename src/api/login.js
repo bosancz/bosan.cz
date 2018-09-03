@@ -40,8 +40,8 @@ var loginSchema = {
 
 router.post("/", acl("login"), async (req,res,next) => {
   
-  if(!req.body.login) return res.status(500).send("Missing login");
-  if(!req.body.password) return res.status(500).send("Missing password");
+  if(!req.body.login) return res.status(400).send("Missing login");
+  if(!req.body.password) return res.status(400).send("Missing password");
 
   var user = await User.findOne({_id:req.body.login.toLowerCase()}).select("+password")
 

@@ -19,4 +19,4 @@ router.use("/events", require("./events"));
 router.use("/users/me", require("./users-me"));
 router.use("/users", require("./users"));
 
-router.use("/share", require("./share"));
+router.get("/test", (req,res,next) => res.sendStatus(200));
