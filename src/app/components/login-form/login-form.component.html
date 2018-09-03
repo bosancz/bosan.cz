@@ -23,7 +23,7 @@
       <input [type]="'password'" class="form-control" name="password" ngModel required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Přihlásit se</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button>
 
   </form>
 </div>
