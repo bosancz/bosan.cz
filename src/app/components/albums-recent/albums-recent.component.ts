@@ -15,28 +15,19 @@ export class AlbumsRecentComponent implements OnInit {
   constructor(private dataService:DataService) { }
 
   ngOnInit() {
-    
     this.loadAlbums();
   }
   
   async loadAlbums(){
-    let query:any = {limit: 5, sort: "-published", events: 1, titlePhoto: 1};
+    this.albums = await this.dataService.getAlbumsRecent({limit:3});
     
-    var paginated = await this.dataService.getAlbums(query);
-    
-    this.albums = paginated.docs;
-    
-    // fill the empty places with blank albums
-    while(this.albums.length < 5) this.albums.push(new Album());
-  }
-  
-  getAlbumLink(album:Album):string{
-    if(!album._id) return "";
-    return "/fotogalerie/" + album._id;
-  }
-  
-  getEventImageUrl(album:Album):string{
-    return "/data/albums/" + album._id + "/" + album.titlePhoto;
+    for(var album of this.albums){
+      if(!album.titlePhotos) album.titlePhotos = [];
+
+      if(album.titlePhotos.length < 3){
+        album.titlePhotos.push(...await this.dataService.getAlbumPhotos(album._id,{limit: 3 - album.titlePhotos.length}));
+      }
+    }
   }
 
 }

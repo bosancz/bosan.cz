@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Event } from "../../../../../schema/event";
 
@@ -10,6 +10,8 @@ import { Event } from "../../../../../schema/event";
 export class EventAdminAttendeesComponent implements OnInit {
 
   @Input() event:Event;
+  
+  @Output() save:EventEmitter<void> = new EventEmitter();
   
   constructor() { }
 

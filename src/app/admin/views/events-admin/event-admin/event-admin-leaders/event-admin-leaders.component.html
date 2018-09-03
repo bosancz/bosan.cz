@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let leader of leaders;let i = index" [class.font-weight-bold]="i===0">
+    <tr *ngFor="let leader of leaders;let i = index">
       <td>{{leader.nickname}}</td>
       <td>{{leader.name?.first}} {{leader.name?.last}}</td>
       <td [style.color]="leader.group | group:'color'">{{leader.group | group:"name"}}</td>
@@ -22,7 +22,7 @@
 </table>
 
 <div class="buttons row">
-  <div class="col-8">
+  <div class="col-8 text-left">
     <button type="button" class="btn" (click)="openMembers(membersModal)">Vybrat z databáze</button>
   </div>
   <div class="col-4 text-right">
@@ -32,9 +32,9 @@
 
 <ng-template #membersModal>
   <div class="modal-body members-select">
-    <members-select [role]="'vedoucí'" [selected]="getMemberIds(leaders)" (select)="addLeader($event)" (unselect)="removeLeader($event)"></members-select>
+    <members-select [options]="{role:'vedoucí',status:'člen'}" [(ngModel)]="leaders"></members-select>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveLeaders();membersModalRef.hide()">Vyber</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="membersModalRef.hide()">Vyber</button>
   </div>
 </ng-template>

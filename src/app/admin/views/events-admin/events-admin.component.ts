@@ -12,6 +12,7 @@ import { AuthService } from "../../../services/auth.service";
 import { ToastService } from "../../../services/toast.service";
 
 import { Event } from "../../../schema/event";
+import { WebConfigEventType } from "../../../schema/webconfig";
 import { Paginated } from "../../../schema/paginated";
 
 @Component({
@@ -22,7 +23,7 @@ import { Paginated } from "../../../schema/paginated";
 export class EventsAdminComponent implements OnInit, OnDestroy {
 
   statuses:any = {
-    "public": "veřejná",
+    "public": "zveřejněná",
     "draft": "v přípravě"
   }
   
@@ -30,17 +31,32 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   pages:number = 1;
   page:number = 1;
-  limit:number = 25;
   
   view:string;
   
+  today:string = (new Date()).toISOString().split("T")[0];
+  
   views:any = {
-    "future": {from: (new Date()).toISOString()},
-    "past": {till: (new Date()).toISOString()},
-    "my": { leader: null },
-    "noleader": { noleader: 1 },
-    "all": {}
+    "future": { dateFrom: {$gte: this.today}, type: { $ne: "schůzka"} },
+    "past": { dateFrom: {$lte: this.today}, type: { $ne: "schůzka"} },
+    "my": { dateFrom: {$gte: undefined}, leaders: null /* filled in in constructor */, type: { $ne: "schůzka"} },
+    "noleader": { dateFrom: {$gte: this.today}, leaders: {$size:0}, type: { $ne: "schůzka"} },
+    "all": { dateFrom: {$gte: undefined}, type: { $ne: "schůzka"} },
+    "small": { dateFrom: {$gte: undefined}, type: "schůzka" }
   };
+  
+  options = {
+    page:1,
+    sort:"dateFrom",
+    populate: ["leaders"],
+    limit: 50,
+    search:undefined,
+    filter:{}
+  }
+  
+  openFilter:boolean = false;
+  
+  eventTypes:{[s:string]:WebConfigEventType[]} = {};
   
   createEventModalRef: BsModalRef;
   
@@ -48,7 +64,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   
   constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService: BsModalService) {
     
-    this.views.my.leader = authService.user.member;
+    this.views.my.leaders = authService.user.member;
   }
 
   ngOnInit() {
@@ -60,8 +76,15 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
       this.view = params.view;
       this.page = params.page || 1;
       
+      // set options
+      this.options.filter = this.views[this.view] || {};
+      this.options.page = this.page;
+      
       this.loadEvents();
     });
+    
+    this.loadEventTypes();
+    
     
   }
   
@@ -70,26 +93,19 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   }
 
   async loadEvents(){
-    let generalOptions = {
-      drafts: 1,
-      leaders:1,
-      sort: "dateFrom",
-      limit: this.limit,
-      page: Math.max(Math.min(this.page,this.pages),1)
-    }
-    let options = Object.assign(generalOptions,this.views[this.view] || {});
-    
-    let paginated:Paginated<Event> = await this.dataService.getEvents(options);
+    let paginated:Paginated<Event> = await this.dataService.getEvents(this.options);
     this.events = paginated.docs;
     this.pages = paginated.pages;
   }
   
-  getEventLink(event:Event):string{
-    return '/interni/akce/' + event._id;
+  async loadEventTypes(){
+    let config = await this.dataService.getConfig();
+    this.eventTypes = config.events.types.reduce((acc,cur) => ({...acc,[cur.name]:cur}),{});
   }
   
+  
   openEvent(event:Event):void{
-    this.router.navigate([this.getEventLink(event)], {relativeTo: this.route});
+    this.router.navigate(['/interni/akce/' + event._id], {relativeTo: this.route});
   }
 
   openCreateEventModal(template: TemplateRef<any>){
@@ -106,7 +122,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     // show the confrmation
     this.toastService.toast("Akce vytvořena a uložena.");
     // open the event
-    this.router.navigate(["./" + event._id], {relativeTo: this.route})
+    this.router.navigate(["/interni/akce/" + event._id + "/upravit"])
   }
   
   getLeadersString(event:Event){
@@ -122,6 +138,16 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   getPageLink(page:number){
     var params:any = {view:this.view,page:page};
     return ["./",params];
+  }
+  
+  setSort(field:string){
+    let asc = this.options.sort.charAt(0) !== "-";
+    let currentField = asc ? this.options.sort : this.options.sort.substring(1);
+    
+    if(field === currentField) this.options.sort = asc ? "-" + field : field;
+    else this.options.sort = field;
+    
+    this.loadEvents();
   }
 
 }

@@ -1,0 +1,67 @@
+
+
+<div *ngIf="currentPhoto" class="image" [style.background-image]="'url(' + currentPhoto.sizes.big.url + ')'"></div>
+<div *ngIf="transition && previousPhoto" class="image previous" [style.background-image]="'url(' + previousPhoto.sizes.big.url + ')'" @photoSwitch></div>
+
+<div class="menu" [@controlsHide]="controlsState">
+  <div class="row">
+    <div class="col-4 text-light">
+      <a (click)="close()" class="back"><i class="fas fa-arrow-left"></i></a>
+      <a routerLink="../">{{album?.name}}</a>
+    </div>
+    <div class="col-4 text-center text-light count">
+      <ng-container *ngIf="album?.photos">
+        <a (click)="openPhoto(this.album.photos[0])"><i class="fas fa-home"></i></a>
+        &nbsp;
+        {{currentI + 1}}/{{album?.photos?.length}}
+      </ng-container>
+    </div>
+    <div class="col-4 text-right text-light">
+      <a *ngIf="currentPhoto" (click)="openModal(sharingModal)" class="share"><i class="fas fa-share-alt"></i></a>
+      <a *ngIf="currentPhoto" [href]="currentPhoto.sizes.original.url" class="download font-light" download title="Stáhnout fotku v originální kvalitě"><i class="fas fa-download"></i></a>
+    </div>
+  </div>
+</div>
+
+<a *ngIf="currentI > 0" class="arrow left" (click)="openPreviousPhoto()"><i class="fas fa-chevron-circle-left fa-3x"></i></a>
+<a *ngIf="currentI < album?.photos?.length - 1" class="arrow right" (click)="openNextPhoto()"><i class="fas fa-chevron-circle-right fa-3x"></i></a>
+
+<div class="footer" [@controlsHide]="controlsState">
+  <div *ngIf="currentPhoto?.caption" class="caption text-light text-center">
+    {{currentPhoto.caption}}
+  </div>
+</div>
+
+<ng-template #sharingModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Odkaz pro sdílení</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="form-group">
+      <label>Galerie</label>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control novalidate" readonly [value]="album.shareUrl" #inputAlbumShare>
+        <div class="input-group-append">
+          <span class="input-group-text" (click)="copyUrl(inputAlbumShare)"><i class="far fa-copy"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Aktuální foto</label>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control novalidate" readonly [value]="currentPhoto.shareUrl" #inputPhotoShare>
+        <div class="input-group-append">
+          <span class="input-group-text" (click)="copyUrl(inputPhotoShare)"><i class="far fa-copy"></i></span>
+        </div>
+      </div>
+      
+    </div>
+
+
+  </div>
+</ng-template>

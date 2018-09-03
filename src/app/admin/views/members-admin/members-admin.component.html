@@ -9,7 +9,7 @@
 
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link font-weight-bold" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Celá databáze</a></li>
-          <li *ngFor="let group of groups" class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'group',group:group._id}]" [class.active]="view === 'group' && group === group._id">{{group._id | group:'name'}}</a></li>
+          <li *ngFor="let group of groups" class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'group',group:group.id}]" [class.active]="view === 'group' && group === group.id">{{group.id | group:'name'}}</a></li>
           <br>
           <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateMemberModal(createMemberModal)">Nový člen</button></li>      
         </ul>
@@ -21,8 +21,8 @@
           <thead class="thead-dark">
             <tr>
               <th>Přezdívka</th>
-              <th>Příjmení</th>
               <th>Jméno</th>
+              <th>Příjmení</th>
               <th>Oddíl</th>
               <th>Role</th>
               <th></th>
@@ -31,11 +31,11 @@
           <tbody>
             <tr *ngFor="let member of members" (click)="openMember(member)">
               <td>{{member.nickname}}</td>
-              <td>{{member.name?.last}}</td>
               <td>{{member.name?.first}}</td>
+              <td>{{member.name?.last}}</td>
               <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
               <td>{{member.role}}</td>
-              <td class="text-right"><a [routerLink]="getMemberLink(member)">otevřít</a></td>
+              <td class="text-right"><a [routerLink]="getMemberLink(member)"><i class="fas fa-pencil-alt"></i></a></td>
             </tr>
           </tbody>
         </table>

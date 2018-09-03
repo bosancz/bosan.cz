@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -13,7 +13,7 @@ import { Member } from "../../../../schema/member";
   templateUrl: './album-admin.component.html',
   styleUrls: ['./album-admin.component.css']
 })
-export class AlbumAdminComponent implements OnInit {
+export class AlbumAdminComponent implements OnInit, OnDestroy {
   
   album:Album;
   
@@ -38,15 +38,19 @@ export class AlbumAdminComponent implements OnInit {
     });
   }
   
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
+  }
+  
   async loadAlbum(albumId:string){
-    this.album = await this.dataService.getAlbum(albumId,{photos:1,titlePhoto:1});
+    this.album = await this.dataService.getAlbum(albumId,{photos:1,titlePhotos:1,event:1});
   }
   
   async deleteAlbum(){
     var name = this.album.name;
     await this.dataService.deleteAlbum(this.album._id)
     this.toastService.toast("Album " + name + " bylo smazáno.");
-    this.router.navigate(["/interni/galerie/alba"]);
+    this.router.navigate(["/interni/galerie"]);
   }
 
 }

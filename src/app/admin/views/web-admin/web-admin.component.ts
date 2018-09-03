@@ -6,6 +6,7 @@ import { DataService } from "../../../services/data.service";
 import { ToastService } from "../../../services/toast.service";
 
 import { WebConfig } from "../../../schema/webconfig";
+import { CodelistField } from "../../components/codelist-editor/codelist-editor.component";
 
 @Component({
   selector: 'web-admin',
@@ -16,23 +17,51 @@ export class WebAdminComponent implements OnInit, OnDestroy {
 
   cat:string = "about";
   
-  eventTypeFields = [
-    {"name": "id", "title": "ID", "type": "text"},
-    {"name": "title", "title": "Název", "type": "text"},
-    {"name": "image", "title": "Obrázek", "type": "text"}
+  groupFields:CodelistField[] = [
+    {"name": "id", "title": "ID", "type": "text", "required": true},
+    {"name": "name", "title": "Jméno", "type": "text"},
+    {"name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})","placeholder":"#A1B2C3"},
+    {"name": "active", "title": "Aktivní", "type": "checkbox"}
   ];
   
-  memberRoleFields = [
+  contactFields:CodelistField[] = [
+    {"name": "name", "title": "Jméno", "type": "text"},
+    {"name": "nickname", "title": "Přezdívka", "type": "text"},
+    {"name": "avatar", "title": "Avatar", "type": "text"},
+    {"name": "role", "title": "Role", "type": "text"},
+    {"name": "email", "title": "E-mail", "type": "text"},
+    {"name": "mobile", "title": "Mobil", "type": "text"}
+  ];
+  
+  eventTypeFields:CodelistField[] = [
+    {"name": "name", "title": "Název", "type": "text"},
+    {"name": "class", "title": "CSS třída", "type": "text"}
+  ];
+  
+  eventSubTypeFields:CodelistField[] = [
+    {"name": "name", "title": "Název", "type": "text"},
+    {"name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})","placeholder":"#A1B2C3"},
+    {"name": "image", "title": "URL obrázku", "type": "text"}
+  ];
+  
+  eventRecurringTypeFields:CodelistField[] = [
+    {"name": "name", "title": "ID", "type": "text"},
+    {"name": "title", "title": "Název", "type": "text"}
+  ];      
+  
+  memberRolesFields:CodelistField[] = [
     {"name": "id", "title": "ID", "type": "text"}
   ];
   
-  defaultTagsFields = [
-    {"name": "tag", "title": "Tag", "type": "text"}
-  ];
+  userRolesFields:CodelistField[] = [
+    {"name": "name", "title": "ID", "type": "text"},
+    {"name": "title", "title": "Název", "type": "text"},
+    {"name": "description", "title": "Popis", "type": "text"}
+  ]
   
   modified:boolean = false;
   
-  config:WebConfig = new WebConfig();
+  config:WebConfig;
   
   viewJson:boolean = false;
   jsonError:boolean = false;
@@ -53,8 +82,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   }
   
   async loadConfig(){
-    var config = await this.dataService.getConfig(true).then(config => JSON.parse(JSON.stringify(config)));
-    this.config = Object.assign({},new WebConfig(),config);
+    this.config = await this.dataService.getConfig(true).then(config => JSON.parse(JSON.stringify(config)));
   }
   
   async saveConfig(){

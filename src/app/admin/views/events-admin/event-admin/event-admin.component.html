@@ -1,18 +1,29 @@
 <section *ngIf="event">
   <div class="container">
 
-    <h2><a routerLink="/interni/akce" class="back"><i class="fas fa-arrow-left"></i></a> {{event.name}}</h2>
+    <h2>
+      <a routerLink="/interni/akce" class="back"><i class="fas fa-arrow-left"></i></a>
+      {{event.name}} ({{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M. y"}})
+      <button type="button" class="btn btn-primary btn-sm" *ngIf="event.status === 'draft'" (click)="publishEvent(event)">Publikovat</button>
+    </h2>
 
     <div class="row">
 
       <div class="col-3">
 
         <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Obecné informace</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../vedouci" routerLinkActive="active">Vedoucí akce</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../ucastnici" routerLinkActive="active">Účastníci</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../prehled" routerLinkActive="active">Přehled</a></li>
+          <br>
+          <li class="nav-item"><a class="nav-link" routerLink="../upravit" routerLinkActive="active">Upravit info</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../opakovani" routerLinkActive="active">Opakování ({{event.recurring ? "zapnuto" : "vypnuto"}})</a></li>
+          <br>
+          <li class="nav-item"><a class="nav-link" routerLink="../vedouci" routerLinkActive="active">Vedoucí akce ({{event.leaders.length}})</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../ucastnici" routerLinkActive="active">Účastníci ({{event.attendees.length}})</a></li>
+          <br>
+          <li class="nav-item"><a class="nav-link" routerLink="../prihlaska" routerLinkActive="active">Přihláška</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../ohlaska" routerLinkActive="active">Ohláška</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../uctovani" routerLinkActive="active">Účtování</a></li>
+          <br>
           <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat akci</a></li>          
         </ul>
 
@@ -20,9 +31,15 @@
 
       <div class="col-9" [ngSwitch]="category">
 
-        <event-admin-info *ngSwitchCase="'info'" [event]="event" (save)="saveEvent($event)"></event-admin-info>
+        <event-admin-dashboard *ngSwitchCase="'prehled'" [event]="event"></event-admin-dashboard>
+        
+        <event-admin-info *ngSwitchCase="'upravit'" [event]="event" (save)="saveEvent($event)"></event-admin-info>
+        
+        <event-admin-recurring *ngSwitchCase="'opakovani'" [event]="event" (saved)="loadEvent(event._id)"></event-admin-recurring>
         
         <event-admin-attendees *ngSwitchCase="'ucastnici'" [event]="event" (save)="saveEvent()"></event-admin-attendees>
+        
+        <event-admin-registration *ngSwitchCase="'prihlaska'" [event]="event"></event-admin-registration>
         
         <event-admin-leaders *ngSwitchCase="'vedouci'" [event]="event" (save)="saveEvent($event)"></event-admin-leaders>
 

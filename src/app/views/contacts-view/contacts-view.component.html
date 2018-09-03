@@ -1,8 +1,31 @@
-<div class="container">
-  <h1>Loděnice Bošán a ostrov ŠÁN</h1>
-  mapky
-  <h1>Vedení skupiny</h1>
-  kontakty vedení
-  <h1>Oddíloví vedoucí</h1>
-  kontakty oddíláci
-</div>
+
+<section id="vedeni">
+  <div class="container padding">
+    <h1>Vedení skupiny</h1>
+    <contact-card [contacts]="contacts.leaders"></contact-card>
+  </div>
+</section>
+
+<section id="pondeli">
+  <div class="container padding">
+    <h1>Vedoucí oddílů - schůzky v pondělí</h1>
+    <contact-card [contacts]="contacts.monday"></contact-card>
+  </div>
+</section>
+
+<section id="streda">
+  <div class="container padding">
+    <h1>Vedoucí oddílů - schůzky ve středu</h1>
+    <contact-card [contacts]="contacts.wednesday"></contact-card>
+  </div>
+</section>
+
+<section id="map">
+  <div class="padding">
+    <h1>Přijď se podívat osobně</h1>
+    <p class="subheading">Každé pondělí a středu máme schůzky od 16:00 do 18:00 v naší loděnici.</p>
+  </div>
+  <div class="map">
+    <google-map [url]="mapUrl"></google-map>
+  </div>
+</section>

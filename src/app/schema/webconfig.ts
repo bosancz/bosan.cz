@@ -5,6 +5,7 @@ export class WebConfigGroup{
   id:string;
   name:string;
   color:string;
+  active:boolean;
 }
 
 export class WebConfigAchievement{
@@ -12,28 +13,51 @@ export class WebConfigAchievement{
   name:string;
   image:string;
 }
-    
 
-export class WebConfig {
-  about:{contacts: Contact[]} = {contacts: []};
+export class WebConfigEventType {
+  name:string;
+  class:string;
+}
 
-  documents:{url:string} = {url: ""};
+export class WebConfigEventSubType{
+  name:string;
+  class:string;
+  image?:string;
+}
 
-  gallery:{defaultTags:{tag:string}[]} = {defaultTags:[]};
+export class WebConfigRecurringType {
+  name:string;
+  title:string;
+}
+
+export interface WebConfig {
   
-  groups:WebConfigGroup[] = [];
+  general:{
+    title:string,
+    homeMapUrl:string,
+    campMapUrl:string,
+    documentsUrl:string,
+  };
+  
+  users:{
+    roles:Array<{name:string,title:string,desription:string}>
+  };
+
+  contacts: {
+    leaders: Contact[],
+    monday: Contact[],
+    wednesday: Contact[]
+  };
 
   members:{
-    roles:{id:string}[],
+    roles:Array<{id:string}>,
+    groups:WebConfigGroup[],
     achievements:WebConfigAchievement[]
-  } = {
-    roles:[],
-    achievements:[]
   };
   
   events:{
-    types:{id:string,name:string,image:string}[]
-  } = {
-    types:[]
+    types:WebConfigEventType[],
+    subtypes:WebConfigEventSubType[],
+    recurringTypes:WebConfigRecurringType[]
   };
 }

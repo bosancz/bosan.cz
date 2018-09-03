@@ -1,15 +1,16 @@
 <section *ngIf="album">
   <div class="container">
 
-    <h2><a routerLink="/interni/galerie/alba" class="back"><i class="fas fa-arrow-left"></i></a>{{album.name}}</h2>
+    <h2><a routerLink="/interni/galerie" class="back"><i class="fas fa-arrow-left"></i></a>{{album.name}} <a [routerLink]="'/fotogalerie/' + album._id"><i class="fas fa-external-link-alt"></i></a></h2>
 
     <div class="row">
 
       <div class="col-3">
 
         <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Informace</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../fotky" routerLinkActive="active">Fotografie ({{album.photos.length}})</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../prehled" routerLinkActive="active">Přehled</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../upravit" routerLinkActive="active">Upravit info</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../fotky" routerLinkActive="active">Upravit fotografie ({{album.photos.length}})</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../upload" routerLinkActive="active">Nahrát fotografie</a></li>
           <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat album</a></li>          
         </ul>
@@ -18,11 +19,13 @@
 
       <div class="col-9" [ngSwitch]="category">
 
-        <album-admin-metadata *ngSwitchCase="'info'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-metadata>
+        <album-admin-dashboard *ngSwitchCase="'prehled'" [album]="album"></album-admin-dashboard>
         
-        <album-admin-photos  *ngSwitchCase="'fotky'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-photos>
+        <album-admin-metadata *ngSwitchCase="'upravit'" [album]="album" (saved)="loadAlbum(album._id)"></album-admin-metadata>
         
-        <album-admin-upload  *ngSwitchCase="'upload'" [album]="album" (save)="loadAlbum(album._id)"></album-admin-upload>
+        <album-admin-photos  *ngSwitchCase="'fotky'" [album]="album" (saved)="loadAlbum(album._id)"></album-admin-photos>
+        
+        <album-admin-upload  *ngSwitchCase="'upload'" [album]="album" (saved)="loadAlbum(album._id)"></album-admin-upload>
 
         <div *ngSwitchCase="'smazat'">
           <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chcete smazat toto album?</label>

@@ -4,4 +4,9 @@
 .dropzone:hover{background-color:#ddd;}
 .dropzone p{color:#999;text-align:center;margin:0;}
 
-.status{margin-top:40px;}
+.tags label{font-weight:bold;text-transform:uppercase;margin:0 5px 0 0;}
+
+.queue{margin-top:20px;}
+.queue .remove{cursor: pointer;}
+
+.tags{margin-top:20px;}

@@ -4,7 +4,7 @@ import { NgForm } from "@angular/forms";
 import { DataService } from "../../../../../services/data.service";
 
 import { Member } from "../../../../../schema/member";
-import { Group } from "../../../../../schema/group";
+import { WebConfigGroup } from "../../../../../schema/webconfig";
 
 @Component({
   selector: 'member-admin-info',
@@ -17,7 +17,7 @@ export class MemberAdminInfoComponent implements OnInit {
   
   @Output() save:EventEmitter<any> = new EventEmitter();
   
-  groups:Group[] = [];
+  groups:WebConfigGroup[] = [];
   roles:string[] = [];
   
   constructor(private dataService:DataService) { }
@@ -28,7 +28,8 @@ export class MemberAdminInfoComponent implements OnInit {
   }
   
   async loadGroups(){
-    this.groups = await this.dataService.getGroups()
+    let config = await this.dataService.getConfig();
+    this.groups = config.members.groups;
   }
   
   async loadRoles(){

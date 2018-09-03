@@ -1,7 +1,0 @@
-<div class="albums row">
-  <div class="album col-md-4 col-sm-6 col-12" *ngFor="let album of albums">
-    <a [routerLink]="album._id" class="image rounded" [style.background-image]="'url(' + album.titlePhoto.sizes.small.url + ')'" [style.background-color]="album.titlePhoto.bg"></a>
-    <h3>{{album.name}}</h3>
-    <p>{{album.description}}</p>
-  </div>
-</div>

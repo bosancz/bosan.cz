@@ -1,23 +1,57 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from "@angular/router";
 
 import { MenuService } from "../../services/menu.service";
+import { TitleService } from "../../services/title.service";
+import { DataService } from "../../services/data.service";
+
+import { Photo } from "../../schema/photo";
+import { GalleryPhoto } from "../../components/photo-gallery/photo-gallery.component";
+
+class GalleryPhotoContainer implements GalleryPhoto{
+  
+  photo: Photo;
+  
+  // GalleryPhoto
+  url: string;
+  width: number;
+  height: number;
+  caption: string;
+  bg: string;
+}
 
 @Component({
   selector: 'camp-view',
   templateUrl: './camp-view.component.html',
-  styleUrls: ['./camp-view.component.css']
+  styleUrls: ['./camp-view.component.scss']
 })
 export class CampViewComponent implements OnInit, OnDestroy {
 
-  constructor(private menuService:MenuService) {
+  photos:GalleryPhoto[] = [];
+  
+  mapUrl:string;
+  
+  constructor(private menuService:MenuService, private titleService:TitleService, private dataService:DataService, private router:Router) {
     this.menuService.transparent = true;
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Tábor");
+    
+    this.loadMapUrl();
   }
-  
+
   ngOnDestroy(){
     this.menuService.transparent = false;
+  }
+  
+  async loadMapUrl(){
+    let config = await this.dataService.getConfig();
+    this.mapUrl = config.general.campMapUrl;
+  }
+  
+  openPhoto(container:GalleryPhotoContainer){
+    this.router.navigate(['/fotogalerie/' + container.photo.album + "/" + container.photo._id]);
   }
 
 }

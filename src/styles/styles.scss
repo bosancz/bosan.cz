@@ -33,10 +33,6 @@ header h1{
   margin-bottom: 20px;
 }
 
-.btn { 
-  padding-left: 20px;
-  padding-right: 20px;
-}
 
 a.btn{display:inline-block;max-width:100%;line-height:46px;font-weight:bold;}
 
@@ -54,18 +50,18 @@ header .btn {
   z-index:5;
 }
 
+.buttons{text-align:right;}
 
-section {
-  padding: 10px 0;
-}
 
-section .content{margin:50px 0;}
+.group-badges .group-badge{display:inline-block;height:30px;width:30px;border-radius:15px;font-weight:bold;color:#fff;text-align:center;line-height:30px;vertical-align:middle;margin:0 5px;text-decoration:none;opacity:.8;}
+.group-badges .group-badge:hover{opacity:1;}
+.group-badges .group-badge:first-child{margin-left:0;}
+.group-badges .group-badge:last-child{margin-right:0;}
 
-@media (min-width: 768px) {
-  section {
-    padding: 20px 0;
-  }
-}
+
+section:nth-child(even) {background-color: #f1f1f1;}
+
+section.padding, section > .padding{padding:20px 0;}
 
 
 /* TEXT FORMATS */
@@ -82,16 +78,16 @@ h2 {
   font-size: $font-large;
   font-weight: bold;
   margin: 10px 0;
+  position:relative;
 }
 
-.admin h2{position:relative;}
-.admin h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
+h2 .back{margin-right:10px;}
 
 p {line-height: 1.5;text-align:justify;}
 
 p.subheading{text-align:center;width:100%;}
 
-a {color: #00BFFF;}
+a {color: $linkBlue;}
 
 a:not(.btn):hover {color: $hover-yellow !important;}
 
@@ -104,9 +100,27 @@ input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invali
   border-left: 5px solid #a94442 !important; /* red */
 }
 
-/* SPECIALS */
-.btn{color:$white;font-size:$font-basic;}
+/* ADMIN */
+.admin h2{margin-bottom:20px;}
+.admin h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
 .admin .btn {color:$white;font-size:$font-basic;}
+.admin table .actions a{margin: 0 5px;cursor:pointer;}
+.admin ul.nav a.active{color:$hover-yellow;}
+.admin .btn{line-height: 24px;}
+.admin section{padding:20px 0;}
+
+.modal .btn{line-height: 24px;}
+
+/* SPECIALS */
+
+.btn { 
+  color:$white;font-size:$font-basic;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 46px;
+  font-weight: bold;
+}
+
 .btn-primary{color:$white !important; text-transform: uppercase; background-color: $blue}
 
 /* @media (min-width: 1600px) {

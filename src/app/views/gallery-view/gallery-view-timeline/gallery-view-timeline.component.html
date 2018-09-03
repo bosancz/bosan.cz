@@ -1,0 +1,31 @@
+
+<section>
+  <div class="container">
+
+    <timeline-scroll [points]="timeline" [labels]="timelineLabels" (load)="loadAlbum($event)" [showPoints]="false">
+      <div class="albums">
+
+        <ng-container *ngFor="let point of timeline;let i = index">
+          <div class="album">
+            
+            <gallery-album *ngIf="point.album; else dummyAlbum" [album]="point.album"></gallery-album>
+
+            <ng-template #dummyAlbum>
+              <h3>{{point.name}} ({{[point.dateFrom,point.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}})</h3>
+              <div class="row photos">
+                <div class="col-md-4"><div class="image"></div></div>
+                <div class="col-md-4"><div class="image"></div></div>
+                <div class="col-md-4"><div class="image"></div></div>
+              </div>
+              <p></p>
+            </ng-template>
+
+          </div>
+        </ng-container>
+
+      </div>
+    </timeline-scroll>
+
+    <p *ngIf="loading">Načítám&hellip;</p>
+  </div>
+</section>

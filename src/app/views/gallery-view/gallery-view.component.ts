@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { TitleService } from "../../services/title.service";
+
 @Component({
   selector: 'gallery-view',
   templateUrl: './gallery-view.component.html',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GalleryViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(private titleService:TitleService) { }
 
-  ngOnInit() { }
- 
+  ngOnInit() {
+    this.titleService.setTitle("Fotogalerie");
+  }
 
 }

@@ -24,9 +24,9 @@ import { GalleryViewComponent } from './views/gallery-view/gallery-view.componen
 import { NewsViewComponent } from './views/news-view/news-view.component';
 
 /* CHILD VIEWS */
-import { GalleryViewYearsComponent } from './views/gallery-view/gallery-view-years/gallery-view-years.component';
-import { GalleryViewAlbumsComponent } from './views/gallery-view/gallery-view-albums/gallery-view-albums.component';
 import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
+import { GalleryViewTimelineComponent } from './views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
+import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
 
 /* SHARED */
 
@@ -36,18 +36,23 @@ import { ContactCardComponent } from './components/contact-card/contact-card.com
 import { EventsTimelineComponent } from './components/events-timeline/events-timeline.component';
 import { GoogleMapComponent } from './components/google-map/google-map.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
+import { TimelineScrollComponent } from './components/timeline-scroll/timeline-scroll.component';
 
 // Directives
 import { AppearDirective } from './directives/appear.directive';
+import { AdminLinkDirective } from './directives/admin-link.directive';
 
 // Pipes
 
 /* THIRD PARTY */
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { ModalModule } from 'ngx-bootstrap/modal';
-
 import { JwtModule } from '@auth0/angular-jwt';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+
+// App Config
+import { AppConfig, AppConfigData } from "./config/config";
+import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
+import { FormatPhonePipe } from './pipes/format-phone.pipe';
+import { GalleryAlbumComponent } from './components/gallery-album/gallery-album.component';
 
 // settings for JWT
 export function JwtTokenGetter():string{
@@ -63,32 +68,18 @@ export const jwtOptions = {
 	}
 };
 
-// App Config
-import { AppConfig, AppConfigData } from "./config/config";
-import { GalleryViewHomeComponent } from './views/gallery-view/gallery-view-home/gallery-view-home.component';
-import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year/gallery-view-year.component';
-
-
 @NgModule({
   declarations: [
     AppComponent,
     /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent,
     /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent,
-    /* CHILD VIEWS */ GalleryViewYearsComponent, GalleryViewAlbumsComponent, GalleryViewAlbumComponent,
+    /* CHILD VIEWS */ GalleryViewTimelineComponent, GalleryViewAlbumComponent, GalleryViewPhotosComponent,
     
     /* PIPES */
     
-    /* DIRECTIVES */ AppearDirective,
+    /* DIRECTIVES */ AppearDirective, AdminLinkDirective,
     
-    ContactCardComponent,
-    
-    LoginFormComponent,
-    
-    GalleryViewHomeComponent,
-    
-    GalleryViewYearComponent,
-    
-    
+    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, JoinLeadersPipe, FormatPhonePipe, GalleryAlbumComponent
   ],
   imports: [
     BrowserAnimationsModule,    
@@ -96,10 +87,8 @@ import { GalleryViewYearComponent } from './views/gallery-view/gallery-view-year
     
     SharedModule,
     
-    CollapseModule.forRoot(),
-    ModalModule.forRoot(),
-    
     ScrollToModule.forRoot(),
+    
     JwtModule.forRoot(jwtOptions)
   ],
   providers: [

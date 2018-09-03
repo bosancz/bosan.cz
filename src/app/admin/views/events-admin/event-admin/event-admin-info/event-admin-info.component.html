@@ -1,46 +1,78 @@
 <form class="form" #eventForm="ngForm" (ngSubmit)="saveEvent(eventForm)">
 
   <div class="form-group">
-    <label for="campNameInput">Název akce</label>
-    <input type="text" name="name" [ngModel]="event.name" class="form-control" id="campNameInput" placeholder="Neočekávaný dýchánek" required>    
-  </div>
-
-  <div class="form-group">
-    <label for="campPlaceInput">Místo konání</label>
-    <input type="text" name="place" [ngModel]="event.place" class="form-control" id="campPlaceInput" placeholder="Dno pytle">    
+    <label>Název akce</label>
+    <input type="text" name="name" [ngModel]="event.name" class="form-control" placeholder="Neočekávaný dýchánek" required>    
   </div>
 
   <div class="form-row">
+    <div class="form-group col-3">
+      <label>Od</label>
+      <input type="date" name="dateFrom" [ngModel]="event.dateFrom | date: 'yyyy-MM-dd'" class="form-control" required>
+    </div>
+    <div class="form-group col-3">
+      <label>Do</label>
+      <input type="date" name="dateTill" [ngModel]="event.dateTill | date: 'yyyy-MM-dd'" class="form-control" required>
+    </div>
+    <div class="form-group col-5">
+      <label>Místo konání</label>
+      <input type="text" name="place" [ngModel]="event.place" class="form-control" placeholder="Dno pytle">    
+    </div>
+    <div class="form-group col-1">
+      <label title="V případě, že budou dvě akce ve stejný den, bude se řadit podle tohoto čísla">Pořadí*</label>
+      <input type="number" name="order" [ngModel]="event.order" class="form-control">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Popis</label>
+    <textarea name="description" [ngModel]="event.description" class="form-control"></textarea>
+  </div>
+
+
+  <div class="form-row" ngModelGroup="meeting">
     <div class="form-group col-6">
-      <label for="statusInput">Stav</label>
-      <select name="status" [ngModel]="event.status" class="form-control" id="statusInput" required>    
+      <label>Sraz</label>
+      <input type="text" name="start" [ngModel]="event.meeting?.start" class="form-control" placeholder="17:00, u Bilba doma">
+    </div>
+    <div class="form-group col-6">
+      <label>Konec</label>
+      <input type="text" name="end" [ngModel]="event.meeting?.end" class="form-control" placeholder="3:00, tamtéž">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-4">
+      <label>Stav</label>
+      <select name="status" [ngModel]="event.status" class="form-control" required>    
         <option value="public">veřejná</option>
         <option value="draft">v přípravě</option>
       </select>
     </div>
-    <div class="form-group col-6">
-      <label for="typeInput">Typ akce</label>
-      <select name="type" [ngModel]="event.type" class="form-control" id="typeInput" required>
-        <option *ngFor="let eventType of eventTypes" [value]="eventType.id">{{eventType.name}}</option>
+    <div class="form-group col-4">
+      <label>Typ akce</label>
+      <select name="type" [ngModel]="event.type" class="form-control" required>
+        <option *ngFor="let type of eventTypes" [value]="type">{{type}}</option>
+      </select>
+    </div>
+    <div class="form-group col-4">
+      <label>Charakter akce</label>
+      <select name="subtype" [ngModel]="event.subtype" class="form-control" required>
+        <option *ngFor="let type of eventSubTypes" [value]="type">{{type}}</option>
       </select>
     </div>
   </div>
 
-  <div class="form-row">
-    <div class="form-group col-6">
-      <label for="dateFromInput">Od</label>
-      <input type="datetime-local" name="dateFrom" [ngModel]="event.dateFrom | date: 'yyyy-MM-ddTHH:mm'" class="form-control" id="dateFromInput" required>
-    </div>
-    <div class="form-group col-6">
-      <label for="dateTillInput">Do</label>
-      <input type="datetime-local" name="dateTill" [ngModel]="event.dateTill | date: 'yyyy-MM-ddTHH:mm'" class="form-control" id="dateTillInput" required>
-    </div>
-  </div>
-
   <div class="form-group">
-    <label for="descriptionInput">Popis</label>
-    <textarea name="description" [ngModel]="event.description" class="form-control" id="descriptionInput"></textarea>
+    <label>Oddíly</label>
+    <br>
+    <groups-select [(ngModel)]="event.groups" name="groups" [disabled]="leadersOnly.checked"></groups-select>
+    <div class="leadersOnly custom-control custom-checkbox">
+      <input type="checkbox" name="leadersEvent" [ngModel]="event.leadersEvent" class="custom-control-input" id="checkboxLeadersEvent" #leadersOnly>
+      <label class="custom-control-label" for="checkboxLeadersEvent">Akce pouze pro vedoucí</label>
+    </div>
   </div>
-
-  <button type="submit" class="btn btn-primary">Uložit</button>
+  <div class="buttons">
+    <button type="submit" class="btn btn-primary" [disabled]="!eventForm.valid">Uložit</button>
+  </div>
 </form>

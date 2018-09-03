@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
@@ -12,7 +12,7 @@ import { Member } from "../../../../schema/member";
   templateUrl: './member-admin.component.html',
   styleUrls: ['./member-admin.component.css']
 })
-export class MemberAdminComponent implements OnInit {
+export class MemberAdminComponent implements OnInit, OnDestroy {
   
   member:Member;
   
@@ -33,6 +33,10 @@ export class MemberAdminComponent implements OnInit {
       this.category = params.cat;
 
     });
+  }
+  
+  ngOnDestroy(){
+    this.paramsSubscription.unsubscribe();
   }
   
   // DB interaction

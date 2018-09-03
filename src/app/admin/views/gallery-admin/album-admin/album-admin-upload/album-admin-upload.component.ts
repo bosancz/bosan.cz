@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { HttpEvent, HttpEventType } from "@angular/common/http";
 
 import { DataService } from "../../../../../services/data.service";
@@ -18,11 +18,14 @@ class PhotoUploadItem {
   templateUrl: './album-admin-upload.component.html',
   styleUrls: ['./album-admin-upload.component.css']
 })
-export class AlbumAdminUploadComponent {
+export class AlbumAdminUploadComponent implements OnChanges {
 
   @Input() album:Album;
   
   @Output() save:EventEmitter<void> = new EventEmitter();
+  
+  tags:string[] = [];
+  selectedTags:string[] = [];
   
   status:string = "notstarted";
 
@@ -32,6 +35,17 @@ export class AlbumAdminUploadComponent {
 
   constructor(private dataService:DataService, private toastService:ToastService) { }
 
+  ngOnChanges(changes:SimpleChanges){
+    if(changes.album) this.updateTags();
+  }
+
+  updateTags(){
+    this.tags = [];
+    this.album.photos.forEach(photo => {
+      photo.tags.filter(tag => this.tags.indexOf(tag) === -1).forEach(tag => this.tags.push(tag));
+    });
+  }
+  
   async addPhotosByInput(photoInput:HTMLInputElement){
 
     if(!photoInput.files.length) return;
@@ -43,8 +57,6 @@ export class AlbumAdminUploadComponent {
         status: "pending"
       });
     }    
-
-    this.uploadPhotos();
 
   }
 
@@ -59,13 +71,20 @@ export class AlbumAdminUploadComponent {
       });
     }    
 
-    this.uploadPhotos();
-
   }
 
   onDragOver(event) {
     event.stopPropagation();
     event.preventDefault();
+  }
+  
+  removeFromQueue(uploadItem:PhotoUploadItem){
+    let i = this.photoUploadQueue.indexOf(uploadItem);
+    if(i !== -1) this.photoUploadQueue.splice(i,1);
+  }
+  
+  clearQueue(){
+    this.photoUploadQueue = [];
   }
 
   async uploadPhotos(){
@@ -104,6 +123,7 @@ export class AlbumAdminUploadComponent {
       let formData: FormData = new FormData();
 
       formData.set("album",this.album._id);
+      formData.set("tags",this.selectedTags.join(","));
       formData.set("photo",uploadItem.file,uploadItem.file.name);
       formData.set("lastModified",uploadItem.file.lastModifiedDate.toISOString());
 
@@ -127,5 +147,6 @@ export class AlbumAdminUploadComponent {
     });
 
   }
+ 
 }
 

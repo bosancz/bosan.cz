@@ -8,14 +8,20 @@ import { User } from "../schema/user";
 
 import { DataService } 		from './data.service';
 
+export class AuthUser{
+  _id:string;
+  member?:any;
+  roles:string[] = [];
+}
+
 /**
 	* Service to save user information and commnicate user data with server
 	*/
 @Injectable()
 export class AuthService {
 
-	public onLogin = new Subject<any>();
-  public onLogout = new Subject<void>();
+	public onLogin = new Subject<{user:AuthUser}>();
+  public onLogout = new Subject<{user:AuthUser,expired:boolean}>();
 
 	// boolean if user is logged
 	logged: boolean = false;
@@ -24,7 +30,7 @@ export class AuthService {
 	token: string = null;
 
 	// current user (use blank user as default)
-	user: User = new User;
+	user: AuthUser = new AuthUser;
 
 	constructor(private http: HttpClient, private jwtHelper:JwtHelperService){
 		
@@ -118,14 +124,19 @@ export class AuthService {
 			this.setUser(this.jwtHelper.decodeToken(token));
 			
 			// announce login to subscribers if applicable
-			if(!this.logged) this.onLogin.next(this.user);
+			if(!this.logged) this.onLogin.next({
+        user: this.user
+      });
 			
 			this.logged = true;
 			
 		}	else {
 			
 			// announce logout to subscribers if applicable
-			if(this.logged) this.onLogout.next();
+			if(this.logged) this.onLogout.next({
+        user: this.user,
+        expired: this.jwtHelper.isTokenExpired(token)
+      });
 			
 			// token invalid or missing, so set empty token and user
 			this.token = null;
@@ -150,7 +161,7 @@ export class AuthService {
 	
 	setUser(userData:any){
 		
-		this.user = userData || new User;
+		this.user = userData || new AuthUser();
 		
 		if(!this.user.roles) this.user.roles = [];
 		

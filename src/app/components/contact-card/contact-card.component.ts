@@ -10,7 +10,7 @@ import { Contact } from "../../schema/contact";
 export class ContactCardComponent {
 
   @Input()
-  contact:Contact;
+  contacts:Contact[];
   
   constructor() { }
 

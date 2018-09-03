@@ -1,7 +1,7 @@
 <!-- Sekce nedavno probehlo -->
 
 <section>
-  <div class="container">
+  <div class="container padding">
 
     <h1>Nedávno proběhlo</h1>
 
@@ -11,7 +11,7 @@
         <p class="subheading text-muted">Koukni na fotky z posledních pár akcí a zavzpomínej na zážitky s kamarády Šánovci.</p>
       </div>
       <div class="col-md-2 col-12 text-md-right text-center">
-        <a [ngx-scroll-to]="timeline">Program <i class="fas fa-arrow-down"></i></a>
+        <a class="scrollDown" [ngx-scroll-to]="timeline">Program <i class="fas fa-arrow-down"></i></a>
       </div>
     </div>
     
@@ -24,12 +24,12 @@
 
 <!-- About -->
 <section class="bg-light" #timeline>
-  <div class="container">
+  <div class="container padding">
 
     <h1>Nejbližší akce</h1>
     <p class="subheading text-muted">Kam se s námi vypravíš v příštích týdnech.</p>
 
-    <events-timeline limitDays="30"></events-timeline>
+    <events-timeline days="30"></events-timeline>
 
     <div class="text-center"><a routerLink="/program" class="btn btn-primary btn-xl text-uppercase">kompletní program</a></div>
   </div>

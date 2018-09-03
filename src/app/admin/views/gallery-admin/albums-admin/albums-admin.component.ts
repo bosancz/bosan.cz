@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { Subscription } from "rxjs";
@@ -15,12 +15,33 @@ import { Paginated } from "../../../../schema/paginated";
 })
 export class AlbumsAdminComponent implements OnInit, OnDestroy{
 
-  @Input() year:number = null;
+  year:number = null;
   
   albums:Album[] = [];
   
   page:number = 1;
   pages:number;
+  
+  statuses:any = {
+    "public": "zveřejněná",
+    "draft": "v přípravě"
+  }
+
+  options = {
+    search:"",
+    page:1,
+    sort:"-dateFrom",
+    filter:{
+      status:undefined,
+      year:undefined,
+      dateFrom:undefined,
+      dateTill:undefined,
+    }
+  };
+  
+  openFilter:boolean = false;
+  
+  loading:boolean = false;
 
   paramsSubscription:Subscription;
   
@@ -28,34 +49,30 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
-      this.year = params.year;
-      this.page = params.page || 1;
+      this.options.filter.year = params.year || undefined;
+      this.options.page = params.page || 1;
       this.loadAlbums();
     });
   }
   
-  ngOnDestroy(){
+  ngOnDestroy(){ 
     this.paramsSubscription.unsubscribe();
   }
 
   async loadAlbums(){
-    var options = {
-      events:1,
-      year:this.year || null,
-      page:this.page || 1
-    };
-    let paginated:Paginated<Album> = await this.dataService.getAlbums(options);
+    
+    this.loading = true;
+    
+    let paginated:Paginated<Album> = await this.dataService.getAlbums(this.options);
     
     this.albums = paginated.docs;
     this.pages = paginated.pages;
-  }
-
-  getAlbumLink(album:Album):string{
-    return './' + album._id;
+    
+    this.loading = false;
   }
 
   openAlbum(album:Album):void{
-    this.router.navigate([this.getAlbumLink(album)],{relativeTo:this.route});
+    this.router.navigate(['/interni/galerie/' + album._id]);
   }
   
   getPages(){
@@ -68,6 +85,16 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
     var params:any = {page:page};
     if(this.year) params.year = this.year || null;
     return ["./",params];
+  }
+  
+  setSort(field:string){
+    let asc = this.options.sort.charAt(0) !== "-";
+    let currentField = asc ? this.options.sort : this.options.sort.substring(1);
+    
+    if(field === currentField) this.options.sort = asc ? "-" + field : field;
+    else this.options.sort = field;
+    
+    this.loadAlbums();
   }
 
 }

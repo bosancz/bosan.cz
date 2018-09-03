@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -17,35 +17,49 @@ import { LoginFormComponent } from './components/login-form/login-form.component
   styleUrls: ["app.component.scss"]
 })
 export class AppComponent {
-  
+
   isMenuTransparent:boolean;
-  
+
   isMenuCollapsed:boolean = true;
-  
+
   loginModal: BsModalRef;
-  
+
   toasts:Toast[] = [];
   
+  navigationTrigger:string; // used to save why navigation happened until navigation end to decide if scroll to top
+  navigationScroll:number[] = [];
+
   constructor(public authService:AuthService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute){
   }
-  
+
   ngOnInit(){
     this.toastService.toasts.subscribe((toast:Toast) => {
       this.toasts.push(toast);
       setTimeout(() => this.toasts.shift(),2000);
     });
+
+    this.authService.onLogout.subscribe(event => {
+      if(event.expired){
+        this.toastService.toast("Přihlášení vypršelo, přihlas se znovu.");
+        this.openLogin();
+      }
+      else{
+        this.toastService.toast("Odhlášeno.");
+        this.router.navigate(["/"]);
+      }
+    });
+    
   }
-  
+
   clearToasts(){
     this.toasts = [];
   }
-  
+
   openLogin() {
     this.loginModal = this.modalService.show(LoginFormComponent, {});
   }
-  
+
   logout(){
     this.authService.logout();
-    this.router.navigate(["/"]);
   }
 }

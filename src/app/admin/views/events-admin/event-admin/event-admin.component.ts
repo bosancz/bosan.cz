@@ -25,7 +25,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
   
   ngOnInit() {
-
+    
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
 
       if(params.event && (!this.event || this.event._id !== params.event)) this.loadEvent(params.event);
@@ -41,19 +41,22 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   
   // DB interaction
   async loadEvent(eventId:string){
-    this.event = await this.dataService.getEvent(eventId);
+    let options = {
+      populate: ["leaders"]
+    }
+    this.event = await this.dataService.getEvent(eventId,options);
   }
   
-  async saveEvent(eventData:any){
+  async saveEvent(eventData:any,noToast?:boolean){
     
     // if data provided update with data, otherwise send the current (possibly modified) state of event to the server
     await this.dataService.updateEvent(this.event._id,eventData || this.event);
     
     // load the updated version of event
-    this.event = await this.dataService.getEvent(this.event._id);
+    await this.loadEvent(this.event._id);
     
     // send a toast with OK message
-    this.toastService.toast("Uloženo.");
+    if(!noToast) this.toastService.toast("Uloženo.");
   }
   
   async deleteEvent(){
@@ -62,5 +65,11 @@ export class EventAdminComponent implements OnInit, OnDestroy {
     this.toastService.toast("Akce " + name + " smazána.");
     this.router.navigate(["/interni/akce"]);
   }
+  
+  async publishEvent(){
+    await this.saveEvent({status:"public"},true);
+    this.toastService.toast("Publikováno.");
+  }
+    
 
 }
