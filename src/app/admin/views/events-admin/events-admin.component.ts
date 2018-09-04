@@ -37,12 +37,12 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   today:string = (new Date()).toISOString().split("T")[0];
   
   views:any = {
-    "future": { dateFrom: {$gte: this.today}, type: { $ne: "schůzka"} },
-    "past": { dateFrom: {$lte: this.today}, type: { $ne: "schůzka"} },
-    "my": { dateFrom: {$gte: undefined}, leaders: null /* filled in in constructor */, type: { $ne: "schůzka"} },
-    "noleader": { dateFrom: {$gte: this.today}, leaders: {$size:0}, type: { $ne: "schůzka"} },
-    "all": { dateFrom: {$gte: undefined}, type: { $ne: "schůzka"} },
-    "small": { dateFrom: {$gte: undefined}, type: "schůzka" }
+    "future": { dateFrom: {$gte: this.today}, recurring: null },
+    "past": { dateFrom: {$lte: this.today}, recurring:null },
+    "my": { dateFrom: {$gte: undefined}, leaders: null /* filled in in constructor */, recurring: null },
+    "noleader": { dateFrom: {$gte: this.today}, leaders: {$size:0}, recurring: null },
+    "all": { dateFrom: {$gte: undefined}, recurring: null },
+    "recurring": { dateFrom: {$gte: undefined}, recurring: { $ne: null } }
   };
   
   options = {
@@ -71,7 +71,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       
-      if(!params.view || !this.views[params.view]) return this.router.navigate(["./", {view: "future"}], {relativeTo: this.route, replaceUrl: true});
+      if(!params.view || this.views[params.view] === undefined) return this.router.navigate(["./", {view: "future"}], {relativeTo: this.route, replaceUrl: true});
       
       this.view = params.view;
       this.page = params.page || 1;

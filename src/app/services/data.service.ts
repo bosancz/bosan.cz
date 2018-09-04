@@ -13,10 +13,11 @@ import { Member } from "../schema/member";
 import { User } from "../schema/user";
 import { WebConfig } from "../schema/webconfig";
 
-
 function setParam(params:HttpParams,name:string,value:any){
   if(value === undefined) return params;
   
+  if(value === null) return params.set(name,null);
+    
   if(typeof value !== "object") return params.set(name,value);
   
   if(Array.isArray(value)){
