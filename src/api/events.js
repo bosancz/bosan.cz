@@ -35,6 +35,11 @@ var getEventsSchema = {
           { type: "string" },
           { type: "object", properties: {"$ne": {type: "string"}}, additionalProperties: false}
         ]},
+        "recurring": { anyOf: [
+          { type: "null" },
+          { type: "string" },
+          { type: "object", properties: {"$ne": { anyOf: [{type:"string"},{type:"null"}]}}, additionalProperties: false}
+        ]}
       },
       additionalProperties: false
     },

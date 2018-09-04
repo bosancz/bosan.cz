@@ -10,18 +10,7 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.json({ limit:'10mb' })); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true,  limit:'10mb' })); // support urlencoded bodies
 
-function numberify(value){  
-  
-  if(typeof value !== "object"){
-    if(value === "") return value;
-    return isNaN(Number(value)) ? value : Number(value);
-  }
-  
-  if(Array.isArray(value)) return value.map(item => numberify(item));
-  Object.keys(value).forEach(key => value[key] = numberify(value[key]));
-  return value;
-}
-app.use((req,res,next) => { if(req.query) req.query = numberify(req.query); next(); });
+app.use(require("./middleware/query-guess-types.js"));
     
 var moment = require("moment");
 moment.locale("cs");
