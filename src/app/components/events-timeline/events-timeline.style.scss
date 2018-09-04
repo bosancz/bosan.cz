@@ -6,6 +6,9 @@ $timelineMargin: 50px;
 $smallEventsMargin: 0;
 $bigEventsMargin: 30px;
 
+$timelineSmallLeft: 10px;
+$timelineSmallMargin: 30px;
+
 .timeline{position:relative;padding:1px 0;} /* padding to enforce first event margin */
 .timeline::before{top: 0;bottom: 0;left:$timelineLeft;position: absolute;content: " ";width: 3px;margin-left:-1.5px;background-color: #eee;}
 
@@ -40,3 +43,19 @@ $bigEventsMargin: 30px;
 .timeline .event.event-small .date{font-weight:normal;}
 
 .timeline .group-badges .group-badge{opacity:1;}
+
+@media (max-width: 576px) {
+  .timeline::before{top: 0;bottom: 0;left:$timelineSmallLeft;position: absolute;content: " ";width: 3px;margin-left:-1.5px;background-color: #eee;}
+  
+  .timeline .event .circle{position:absolute;top:0px;left:$timelineSmallLeft;width:40px;height:40px;margin-left:-20px;border-radius:40px;background-color:#ccc;} 
+  .timeline .event .panel{margin-left:$timelineSmallLeft + $timelineSmallMargin;padding:10px 15px;}
+  .timeline .event .date.long{line-height:($font-medium);height:($font-medium);margin-top:(-($font-medium * 3 - 20) / 2);}
+  .timeline .event .date{position:absolute;top:-20px;height:inherit;left:-10px;line-height:inherit;vertical-align:middle;font-weight:bold;color:$black;z-index:5;font-size:$font-basic;}
+  .timeline .event .panel h2{display:inline-block;margin:0;height:inherit;line-height:inherit;vertical-align:middle;}
+  .timeline .event .panel p{margin:10px 0;text-align:justify;color:$black;}
+  .timeline .event.event-big .panel::before{content:" ";position:absolute;top:8px;left:-12px;width:0;height:0;border-top: 12px solid transparent;border-bottom: 12px solid transparent;border-right: 12px solid rgba(0,0,0,.07);}
+  .timeline .event.event-big .panel::after{content:" ";position:absolute;top:10px;left:-10px;width:0;height:0;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-right: 10px solid #fff;}
+  .timeline .event .panel .group-badges{float:right;height:auto;line-height:40px;vertical-align:middle;}
+
+}
+
