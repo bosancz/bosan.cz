@@ -10,11 +10,11 @@
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'future'}]" [class.active]="view === 'future'">Budoucí akce</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'past'}]" [class.active]="view === 'past'">Minulé akce</a></li>
-          <li *ngIf="views.my.leader" class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'my'}]" [class.active]="view === 'my'">Moje akce</a></li>      
+          <li *ngIf="views.my.leaders" class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'my'}]" [class.active]="view === 'my'">Moje akce</a></li>      
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'noleader'}]" [class.active]="view === 'noleader'">Vede pan NIKDO</a></li>      
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Všechny akce</a></li>      
           <br>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'small'}]" [class.active]="view === 'small'">Schůzky</a></li>      
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'recurring'}]" [class.active]="view === 'small'">Opakované akce</a></li>      
           <br>
           <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateEventModal(createEventModal)">Nová akce</button></li>      
         </ul>
