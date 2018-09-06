@@ -4,7 +4,9 @@
 
 .role{padding:0 20px 0px 20px;margin-bottom:10px;color:#fff;background-color:#000;text-align:center;height:24px;border-radius:12px;font-weight:bold;display:inline-block;}
 
-.contact-img{padding-left:20px; padding-right:20px; max-width:256px}
+.contact-img{padding-left:20px; padding-right:20px; max-width:256px;}
+
+.contact img {max-height:256px;}
 
 .contact h2 {font-size: $font-medium;}
 
