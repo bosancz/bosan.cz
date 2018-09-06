@@ -17,7 +17,7 @@
       </ng-container>
     </div>
     <div class="col-4 text-right text-light">
-      <a *ngIf="currentPhoto" (click)="openModal(sharingModal)" class="share"><i class="fas fa-share-alt"></i></a>
+      <a *ngIf="currentPhoto" (click)="share()" class="share"><i class="fas fa-share-alt"></i></a>
       <a *ngIf="currentPhoto" [href]="currentPhoto.sizes.original.url" class="download font-light" download title="Stáhnout fotku v originální kvalitě"><i class="fas fa-download"></i></a>
     </div>
   </div>
@@ -35,7 +35,7 @@
 <ng-template #sharingModal>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Odkaz pro sdílení</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="sharingModalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -61,7 +61,6 @@
       </div>
       
     </div>
-
-
+    
   </div>
 </ng-template>

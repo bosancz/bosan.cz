@@ -23,4 +23,6 @@ export class Photo {
   
   date:Date;
   
+  shareUrl?:string;
+  
 }
