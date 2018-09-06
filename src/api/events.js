@@ -7,6 +7,7 @@ var acl = require("express-dynacl");
 var mv = require("mv");
 var fs = require("fs");
 var path = require("path");
+var rimraf = require("rimraf");
 
 var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
@@ -74,6 +75,10 @@ router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (re
 
 router.post("/", acl("events:create"), async (req,res,next) => {
   var event = await Event.create(req.body);
+  
+  var eventDir = path.join(config.events.storageDir,String(event._id));
+  await new Promise((resolve,reject) => fs.mkdir(eventDir,err => err && err.code !== "EEXIST" ? reject(err) : resolve()));
+  
   res.status(201).json(event);
 });     
 
@@ -145,6 +150,10 @@ router.delete("/:event", acl("events:delete"), async (req,res,next) => {
       await recurring.save();
     }
   }
+  
+  // delete the event's file data
+  var eventDir = path.join(config.events.storageDir,String(event._id));
+  await new Promise((resolve,reject) => rimraf(eventDir,err => resolve()));
 
   // remove the event from database
   await Event.remove({_id:req.params.event})

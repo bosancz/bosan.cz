@@ -4,6 +4,15 @@ module.exports = {
   
   port: 3000,
   host: "127.0.0.1",
+
+  api: {
+    root: "/api",
+    shareRoot: "https://example.com"
+  },
+
+  versions: {
+    "name": "/path/to/dir"
+  },
   
   uploads: {
     dir: "/tmp/uploads"
@@ -12,6 +21,7 @@ module.exports = {
   bcrypt: {
     rounds: 12
   },
+  
   
   jwt: {
     secret: "top secret",

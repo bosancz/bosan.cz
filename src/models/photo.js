@@ -38,7 +38,7 @@ photoSchema.virtual("sizes.original.url").get(function(){return getUrl(this,"ori
 photoSchema.virtual("sizes.big.url").get(function(){return getUrl(this,"big",config.photos.thumbsUrl);});
 photoSchema.virtual("sizes.small.url").get(function(){return getUrl(this,"small",config.photos.thumbsUrl);});
 
-photoSchema.virtual("shareUrl").get(function(){return config.domain + path.join(config.api.root,"share/fotogalerie",String(this.album),String(this._id));});
+photoSchema.virtual("shareUrl").get(function(){return config.api.shareRoot + "/" + path.join("fotogalerie",String(this.album),String(this._id));});
 
 photoSchema.index({ tags: 1 }, { sparse: true });
 photoSchema.index({ album: 1, tags: 1 }, { sparse: true });
