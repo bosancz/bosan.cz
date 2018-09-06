@@ -137,7 +137,8 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     this.timelineMouseMove(event);
   }
 
-  timelineMouseMove(event){    
+  timelineMouseMove(event){  
+    
     let top = event.clientY - this.timelineTop;
     let height = this.timelineHeight;
     let percentage = top/height;
@@ -147,7 +148,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     
     let scroll = this.containerTop + this.containerHeight * percentage - window.innerHeight / 2;
     
-    window.scrollTo({left: 0, top: scroll});
+    window.scrollTo(0,scroll);
   }
 
   @HostListener('window:mouseup', [])
