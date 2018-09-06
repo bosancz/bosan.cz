@@ -13,6 +13,8 @@ var guest = module.exports = {
     
     "login": true,
     
-    "users:login:send": true // send login information to the email of the account
+    "users:login:send": true, // send login information to the email of the account
+    
+    "versions:read": true
   }
 };

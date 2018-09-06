@@ -19,4 +19,6 @@ router.use("/events", require("./events"));
 router.use("/me", require("./me"));
 router.use("/users", require("./users"));
 
+router.use("/versions", require("./versions"));
+
 router.get("/test", (req,res,next) => res.sendStatus(200));
