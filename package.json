@@ -1,6 +1,6 @@
 {
   "name": "bosan.cz-server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Server side part of bosan.cz website",
   "main": "src/server.js",
   "scripts": {
