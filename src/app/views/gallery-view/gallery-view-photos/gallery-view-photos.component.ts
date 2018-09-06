@@ -101,6 +101,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
     //if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
     
     this.updatePhoto(this.currentId);
+    
+
   }
   
   findPhotoById(photoId:string){

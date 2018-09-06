@@ -46,6 +46,23 @@ export class DataService {
 	
 	constructor(private http: HttpClient) {  }
   
+  /* LOGIN */
+  login(credentials):Promise<string>{
+    return this.http.post("/api/login", credentials, { responseType: 'text' }).toPromise();
+  }
+  
+  /* CONFIG */
+  getConfig(update?:boolean){
+    if(update || !this.config) this.config = this.http.get<WebConfig>(this.root + "/config").toPromise();
+    return this.config;
+  }
+  
+  saveConfig(config:WebConfig):Promise<string>{
+    return this.http.put(this.root + "/config", config, { responseType: "text" }).toPromise();
+  }
+  
+  /* INDIVIDUAL API REQUESTS */
+  
   getAlbums(options?:any):Promise<Paginated<Album>>{
 		return this.http.get<Paginated<Album>>(this.root + "/albums", {params: toParams(options)}).toPromise();
 	}
@@ -124,16 +141,6 @@ export class DataService {
   
   deleteCamp(campId:string):Promise<string>{
     return this.http.delete(this.root + "/camps/" + campId, {responseType: "text"}).toPromise();
-  }
-  
-  /* CONFIG */
-  getConfig(update?:boolean){
-    if(update || !this.config) this.config = this.http.get<WebConfig>(this.root + "/config").toPromise();
-    return this.config;
-  }
-  
-  saveConfig(config:WebConfig):Promise<string>{
-    return this.http.put(this.root + "/config", config, { responseType: "text" }).toPromise();
   }
   
   /* EVENTS */
