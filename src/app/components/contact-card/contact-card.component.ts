@@ -5,7 +5,7 @@ import { Contact } from "../../schema/contact";
 @Component({
   selector: 'contact-card',
   templateUrl: './contact-card.component.html',
-  styleUrls: ['./contact-card.component.css']
+  styleUrls: ['./contact-card.component.scss']
 })
 export class ContactCardComponent {
 
