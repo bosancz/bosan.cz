@@ -28,6 +28,8 @@ export class AppComponent {
   
   navigationTrigger:string; // used to save why navigation happened until navigation end to decide if scroll to top
   navigationScroll:number[] = [];
+  
+  expiredLogin:boolean;
 
   constructor(public authService:AuthService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute){
   }
@@ -39,13 +41,21 @@ export class AppComponent {
     });
 
     this.authService.onLogout.subscribe(event => {
-      if(event.expired){
+      if(event.reason === "expired"){
         this.toastService.toast("Přihlášení vypršelo, přihlas se znovu.");
+        this.expiredLogin = true;
         this.openLogin();
       }
       else{
         this.toastService.toast("Odhlášeno.");
         this.router.navigate(["/"]);
+      }
+    });
+    
+    this.modalService.onHide.subscribe(e => {
+      if(this.expiredLogin && !this.authService.logged){
+        this.router.navigate(["/"]);
+        this.expiredLogin = false;
       }
     });
     
