@@ -56,7 +56,9 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
 
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location, private modalService: BsModalService) { }
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location, private modalService: BsModalService) {
+    
+  }
 
   ngOnInit() {  
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
@@ -99,6 +101,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
     //if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
     
     this.updatePhoto(this.currentId);
+    
+
   }
   
   findPhotoById(photoId:string){
