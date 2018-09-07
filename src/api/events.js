@@ -5,14 +5,16 @@ var config = require("../../config");
 
 var acl = require("express-dynacl");
 var mv = require("mv");
-var fs = require("fs");
+var fs = require("fs-extra");
 var path = require("path");
-var rimraf = require("rimraf");
 
 var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
 
 var validate = require("../validator");
+
+var createEvent = require("./events/create-event");
+var deleteEvent = require("./events/delete-event");
 
 var Event = require("../models/event");
 var EventRecurring = require("../models/event-recurring");
@@ -74,10 +76,8 @@ router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (re
 });
 
 router.post("/", acl("events:create"), async (req,res,next) => {
-  var event = await Event.create(req.body);
   
-  var eventDir = path.join(config.events.storageDir,String(event._id));
-  await new Promise((resolve,reject) => fs.mkdir(eventDir,err => err && err.code !== "EEXIST" ? reject(err) : resolve()));
+  var event = await createEvent(req.body);
   
   res.status(201).json(event);
 });     
@@ -137,26 +137,7 @@ router.patch("/:event",  acl("events:edit"), async (req,res,next) => {
 
 
 router.delete("/:event", acl("events:delete"), async (req,res,next) => {
-  var event = await Event.findOne({_id:req.params.event}).select("recurring");
-
-  // remove from recurring if is an recurring event
-  if(event.recurring){
-    var recurring = await EventRecurring.findOne({_id:event.recurring});
-    if(recurring.events.length === 1 && String(recurring.events[0]) === String(event._id)){
-      await EventRecurring.remove({_id:event.recurring});
-    }
-    else{
-      recurring.events = recurring.events.filter(instance => instance._id !== req.params.event);
-      await recurring.save();
-    }
-  }
-  
-  // delete the event's file data
-  var eventDir = path.join(config.events.storageDir,String(event._id));
-  await new Promise((resolve,reject) => rimraf(eventDir,err => resolve()));
-
-  // remove the event from database
-  await Event.remove({_id:req.params.event})
+  await deleteEvent(req.params.event);
 
   // return OK, no data
   res.sendStatus(204);

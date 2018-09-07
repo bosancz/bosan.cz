@@ -45,7 +45,7 @@ router.post("/", acl("login"), async (req,res,next) => {
 
   var user = await User.findOne({_id:req.body.login.toLowerCase()}).select("+password")
 
-  if(!user) return res.sendStatus(401);
+  if(!user) return res.sendStatus(401); // dont send user dont exists
 
   var same = await bcrypt.compare(req.body.password, user.password)
 
