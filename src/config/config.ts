@@ -14,13 +14,27 @@ export const AppConfigData: IAppConfig = {
     
     routes: [
       { route: "/interni/ucet/*", allowRoles: ["user"] },
+      
       { route: "/interni/akce", allowRoles: ["vedouci","spravce"] },
+      { route: "/interni/akce/*", allowRoles: ["vedouci","spravce"] },
+      
       { route: "/interni/tabory", allowRoles: ["vedouci","spravce"] },
+      { route: "/interni/tabory/*", allowRoles: ["vedouci","spravce"] },
+      
       { route: "/interni/galerie", allowRoles: ["vedouci","spravce"] },
-      { route: "/interni/clenove", allowRoles: ["vedouci","spravce"] },
+      { route: "/interni/galerie/*", allowRoles: ["vedouci","spravce"] },
+      
+      { route: "/interni/galerie", allowRoles: ["vedouci","spravce"] },
+      { route: "/interni/galerie/*", allowRoles: ["vedouci","spravce"] },
+      
       { route: "/interni/dokumenty", allowRoles: ["vedouci","spravce"] },
-      { route: "/interni/nastaveni-webu", allowRoles: ["spravce"] },
+      { route: "/interni/dokumenty/*", allowRoles: ["vedouci","spravce"] },
+      
+      { route: "/interni/nastaveni-webu/*", allowRoles: ["spravce"] },
+      { route: "/interni/nastaveni-webu/*", allowRoles: ["spravce"] },
+      
       { route: "/interni/uzivatele", allowRoles: ["spravce"] },
+      { route: "/interni/uzivatele/*", allowRoles: ["spravce"] },
     ],
     
     actions: {
