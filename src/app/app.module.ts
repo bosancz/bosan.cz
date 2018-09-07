@@ -49,7 +49,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 // App Config
-import { AppConfig, AppConfigData } from "./config/config";
+import { AppConfig, AppConfigData } from "../config/config";
 import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { GalleryAlbumComponent } from './components/gallery-album/gallery-album.component';

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -6,10 +6,13 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { AuthService } from "./services/auth.service";
+import { ACLService } from "./services/acl.service";
 import { ToastService, Toast } from "./services/toast.service";
 import { MenuService } from "./services/menu.service";
 
 import { LoginFormComponent } from './components/login-form/login-form.component';
+
+import { AppConfig, IAppConfig } from "../config/config";
 
 @Component({
   selector: 'app-root',
@@ -31,7 +34,9 @@ export class AppComponent {
   
   expiredLogin:boolean;
 
-  constructor(public authService:AuthService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute){
+  constructor(public authService:AuthService, private aclService:ACLService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute,  @Inject(AppConfig) private config:IAppConfig){
+    aclService.routes = config.acl.routes;
+    aclService.default = config.acl.default;
   }
 
   ngOnInit(){
@@ -39,8 +44,26 @@ export class AppComponent {
       this.toasts.push(toast);
       setTimeout(() => this.toasts.shift(),2000);
     });
+    
+    this.aclService.unauthorized.subscribe(() => {
+      if(this.authService.logged) this.toastService.toast("K této stránce nemáte právo přistupovat. Požádejte administrátora o udělení práv.","error");
+      else this.toastService.toast("Pro přístup k této stránce musíte být přilášeni. Přihlaste se, prosím.","error");    
 
+    });
+
+    this.authService.onLogin.subscribe(event => {
+      if(!event) return;
+      this.aclService.roles = ["guest","user",...event.user.roles];
+      this.aclService.admin = event.user.roles.indexOf("admin") !== -1;
+    });
+    
     this.authService.onLogout.subscribe(event => {
+      
+      if(!event) return;
+      
+      this.aclService.roles = ["guest"];
+      this.aclService.admin = false;
+      
       if(event.reason === "expired"){
         this.toastService.toast("Přihlášení vypršelo, přihlas se znovu.");
         this.expiredLogin = true;

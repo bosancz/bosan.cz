@@ -43,9 +43,7 @@ export class MyAdminComponent implements OnInit, OnDestroy {
   
   async loadUser(){
     
-    var userId = this.authService.user._id;
-    
-    this.user = await this.dataService.getUser(userId);
+    this.user = await this.dataService.getMe();
     
   }
   
@@ -53,7 +51,7 @@ export class MyAdminComponent implements OnInit, OnDestroy {
     
     var userData = form.value;
     
-    await this.dataService.updateAccount(userData);
+    await this.dataService.updateMe(userData);
     
     this.toastService.toast("Uloženo.");
     
@@ -63,7 +61,7 @@ export class MyAdminComponent implements OnInit, OnDestroy {
     
     var userData = form.value;
     
-    await this.dataService.updateAccountPassword(userData);
+    await this.dataService.updateMyPassword(userData);
     
     this.toastService.toast("Uloženo.");
     
