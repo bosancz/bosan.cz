@@ -22,7 +22,7 @@ module.exports = async function(eventId){
       await recurring.save();
     }
   }
-  
+   
   // delete the event's file data
   var eventDir = config.events.eventDir(eventId);
   await rmfr(eventDir);
