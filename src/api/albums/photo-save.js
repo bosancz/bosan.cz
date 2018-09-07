@@ -1,4 +1,4 @@
-var rimraf = require("rimraf");
+var rmfr = require("rmfr");
 var mv = require("mv");
 var cp = require("cp");
 var path = require("path");
@@ -91,9 +91,9 @@ module.exports = async function(options){
     
     return photo;
   }
-  catch(err) {
-    rimraf(storagePath,() => {});
-    Object.entries(sizes).forEach(size => rimraf(size[1].path,() => {}));
+  catch(err) {    
+    await rmfr(storagePath).catch(err => {});
+    for(var size of Object.entries(sizes)) await rmfr(size[1].path).catch(err => {});
     throw err;
   }
 }
