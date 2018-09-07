@@ -13,6 +13,23 @@
       "env_production" : {
         "NODE_ENV": "production"
       }
+    },
+    {
+      "name"        : "test.bosan.cz",
+      "script"      : "./src/server.js",
+      
+      "watch": true,
+      "ignore_watch" : ["node_modules", "data"],
+      
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+
+      "min_uptime": "5s",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production" : {
+        "NODE_ENV": "production"
+      }
     }
   ]
 }
