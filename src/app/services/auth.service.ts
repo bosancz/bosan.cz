@@ -1,8 +1,10 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject }    from 'rxjs';
+import { BehaviorSubject }    from 'rxjs';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
+
+import { environment } from '../../environments/environment';
 
 import { User } from "../schema/user";
 
@@ -19,9 +21,11 @@ export class AuthUser{
 	*/
 @Injectable()
 export class AuthService {
+  
+  apiRoot:string = environment.api.root;
 
-	public onLogin = new Subject<{user:AuthUser}>();
-  public onLogout = new Subject<{user:AuthUser,reason:string}>();
+	public onLogin:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);
+  public onLogout:BehaviorSubject<{user:AuthUser,reason:string}> = new BehaviorSubject(null);
 
 	// boolean if user is logged
 	logged: boolean = false;
@@ -58,7 +62,9 @@ export class AuthService {
 	async login(credentials){
 
     // query the web api to get the token
-    let token = await this.dataService.login(credentials)
+      
+  /* LOGIN */
+    var token = await this.http.post(this.apiRoot + "/login", credentials, { responseType: 'text' }).toPromise();
 
     //save the token to storage
     this.saveToken(token);

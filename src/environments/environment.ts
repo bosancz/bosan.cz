@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   
-  api_root: "/api",
-  
-  google_maps_key: "AIzaSyBQvjrdlWsSO0KtNAdznGAEunj2ODgLkVA"
+  api: {
+    root: "/api"
+  }
 };

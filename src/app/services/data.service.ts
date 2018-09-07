@@ -40,16 +40,11 @@ function toParams(options:{[s:string]:any}):HttpParams{
 @Injectable()
 export class DataService {
   
-  root:string = environment.api_root;
+  root:string = environment.api.root;
   
   config:Promise<WebConfig>;
 	
 	constructor(private http: HttpClient) {  }
-  
-  /* LOGIN */
-  login(credentials):Promise<string>{
-    return this.http.post("/api/login", credentials, { responseType: 'text' }).toPromise();
-  }
   
   /* CONFIG */
   getConfig(update?:boolean){
@@ -234,13 +229,13 @@ export class DataService {
     return this.http.delete(this.root + "/users/" + userId, {responseType:"text"}).toPromise();
   }
   
-  getAccount(options?:any):Promise<User>{
+  getMe(options?:any):Promise<User>{
     return this.http.get<User>(this.root + "/me", {params: toParams(options)}).toPromise();
   }
-  updateAccount(userData:any):Promise<string>{
+  updateMe(userData:any):Promise<string>{
     return this.http.patch(this.root + "/me", userData, {responseType:"text"}).toPromise();
   }
-  updateAccountPassword(userData:any):Promise<string>{
+  updateMyPassword(userData:any):Promise<string>{
     return this.http.post(this.root + "/me/password", userData, {responseType:"text"}).toPromise();
   }
 }
