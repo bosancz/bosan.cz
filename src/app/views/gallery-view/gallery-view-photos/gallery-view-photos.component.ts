@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, HostListener, TemplateRef } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, OnInit, AfterViewInit, OnDestroy, HostListener, ViewChild, TemplateRef } from '@angular/core';
+import { Location, formatDate } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { trigger,state,style,animate,transition } from '@angular/animations';
 
@@ -52,11 +52,13 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   
   preloading:HTMLImageElement[] = [];
   
-  modalRef: BsModalRef;
+  @ViewChild("sharingModal") sharingModal:TemplateRef<any>;
+  sharingModalRef: BsModalRef;
 
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location, private modalService: BsModalService) { }
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location, private modalService: BsModalService) {
+  }
 
   ngOnInit() {  
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
@@ -168,8 +170,21 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
     this.controlsTimeout = setTimeout(() => this.controlsState = "hidden",1500);
   }
   
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  share() {
+    
+    var myNavigator:any = navigator;
+    if (myNavigator.share) {
+      myNavigator.share({
+        title: this.album.name,
+        text: this.album.description,
+        url: location.protocol + "//" + location.hostname + this.currentPhoto.shareUrl,
+      })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+    }
+    else{
+      this.sharingModalRef = this.modalService.show(this.sharingModal);
+    }
   }
   
   copyUrl(input:HTMLInputElement):void{

@@ -16,5 +16,7 @@ export class Album {
   
   titlePhoto:Photo;
   titlePhotos:Photo[];
-  photos:Photo[]
+  photos:Photo[];
+    
+  shareUrl?:string;
 }
