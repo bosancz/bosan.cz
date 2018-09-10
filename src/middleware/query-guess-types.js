@@ -17,6 +17,8 @@ function convertTypes(value){
 
   if(replacements[value] !== undefined) return replacements[value];
   
+  if(value === "") return undefined;
+  
   if(!isNaN(Number(value))) return Number(value);
 
   return value;
