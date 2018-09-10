@@ -24,6 +24,9 @@ export const AppConfigData: IAppConfig = {
       { route: "/interni/galerie", allowRoles: ["vedouci","spravce"] },
       { route: "/interni/galerie/*", allowRoles: ["vedouci","spravce"] },
       
+      { route: "/interni/clenove", allowRoles: ["vedouci","spravce"] },
+      { route: "/interni/clenove/*", allowRoles: ["vedouci","spravce"] },
+      
       { route: "/interni/galerie", allowRoles: ["vedouci","spravce"] },
       { route: "/interni/galerie/*", allowRoles: ["vedouci","spravce"] },
       
