@@ -40,11 +40,23 @@ function toParams(options:{[s:string]:any}):HttpParams{
 @Injectable()
 export class DataService {
   
-  root:string = environment.api_root;
+  root:string = environment.api.root;
   
   config:Promise<WebConfig>;
 	
 	constructor(private http: HttpClient) {  }
+  
+  /* CONFIG */
+  getConfig(update?:boolean){
+    if(update || !this.config) this.config = this.http.get<WebConfig>(this.root + "/config").toPromise();
+    return this.config;
+  }
+  
+  saveConfig(config:WebConfig):Promise<string>{
+    return this.http.put(this.root + "/config", config, { responseType: "text" }).toPromise();
+  }
+  
+  /* INDIVIDUAL API REQUESTS */
   
   getAlbums(options?:any):Promise<Paginated<Album>>{
 		return this.http.get<Paginated<Album>>(this.root + "/albums", {params: toParams(options)}).toPromise();
@@ -124,16 +136,6 @@ export class DataService {
   
   deleteCamp(campId:string):Promise<string>{
     return this.http.delete(this.root + "/camps/" + campId, {responseType: "text"}).toPromise();
-  }
-  
-  /* CONFIG */
-  getConfig(update?:boolean){
-    if(update || !this.config) this.config = this.http.get<WebConfig>(this.root + "/config").toPromise();
-    return this.config;
-  }
-  
-  saveConfig(config:WebConfig):Promise<string>{
-    return this.http.put(this.root + "/config", config, { responseType: "text" }).toPromise();
   }
   
   /* EVENTS */
@@ -227,13 +229,13 @@ export class DataService {
     return this.http.delete(this.root + "/users/" + userId, {responseType:"text"}).toPromise();
   }
   
-  getAccount(options?:any):Promise<User>{
+  getMe(options?:any):Promise<User>{
     return this.http.get<User>(this.root + "/me", {params: toParams(options)}).toPromise();
   }
-  updateAccount(userData:any):Promise<string>{
+  updateMe(userData:any):Promise<string>{
     return this.http.patch(this.root + "/me", userData, {responseType:"text"}).toPromise();
   }
-  updateAccountPassword(userData:any):Promise<string>{
+  updateMyPassword(userData:any):Promise<string>{
     return this.http.post(this.root + "/me/password", userData, {responseType:"text"}).toPromise();
   }
 }

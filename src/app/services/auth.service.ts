@@ -1,8 +1,10 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject }    from 'rxjs';
+import { BehaviorSubject }    from 'rxjs';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
+
+import { environment } from '../../environments/environment';
 
 import { User } from "../schema/user";
 
@@ -19,9 +21,11 @@ export class AuthUser{
 	*/
 @Injectable()
 export class AuthService {
+  
+  apiRoot:string = environment.api.root;
 
-	public onLogin = new Subject<{user:AuthUser}>();
-  public onLogout = new Subject<{user:AuthUser,expired:boolean}>();
+	public onLogin:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);
+  public onLogout:BehaviorSubject<{user:AuthUser,reason:string}> = new BehaviorSubject(null);
 
 	// boolean if user is logged
 	logged: boolean = false;
@@ -55,24 +59,22 @@ export class AuthService {
 	}
 
 	// get the token by credentials
-	login(credentials):Promise<any>{
+	async login(credentials){
 
     // query the web api to get the token
-    return this.http.post("/api/login", credentials, { responseType: 'text' }).toPromise()
+      
+  /* LOGIN */
+    var token = await this.http.post(this.apiRoot + "/login", credentials, { responseType: 'text' }).toPromise();
 
-      .then(token => {
+    //save the token to storage
+    this.saveToken(token);
 
-        //save the token to storage
-        this.saveToken(token);
+    // update state to match token from storage
+    this.refreshState();
 
-        // update state to match token from storage
-        this.refreshState();
-
-        // if user is not logged at this step, token was invalid
-        if(this.logged) return this.user;
-        else throw new Error("Invalid token");
-
-      });
+    // if user is not logged at this step, token was invalid
+    if(this.logged) return this.user;
+    else throw new Error("Invalid token");
 
 	}
 
@@ -113,15 +115,23 @@ export class AuthService {
 		
 		// get token from storage
 		var token = this.getToken();
-		
+    
+    try{
+      var userData = this.jwtHelper.decodeToken(token);
+    }
+    catch(err) {
+      console.error("Invalid JWT token, deleting.");
+      this.deleteToken();
+    }
+    
 		// check if token valid
-		if(token && !this.jwtHelper.isTokenExpired(token)){
+		if(token && userData && !this.jwtHelper.isTokenExpired(token)){
 			
 			// save the token
 			this.token = token;
 			
 			// set user
-			this.setUser(this.jwtHelper.decodeToken(token));
+			this.setUser(userData);
 			
 			// announce login to subscribers if applicable
 			if(!this.logged) this.onLogin.next({
@@ -131,17 +141,14 @@ export class AuthService {
 			this.logged = true;
 			
 		}	else {
+      
+      if(this.logged){
+        if(this.jwtHelper.isTokenExpired(token)) this.onLogout.next({ user: this.user, reason: "expired" });
+        if(!userData) this.onLogout.next({ user: this.user, reason: "invalid" });
+      }
 			
-			// announce logout to subscribers if applicable
-			if(this.logged) this.onLogout.next({
-        user: this.user,
-        expired: this.jwtHelper.isTokenExpired(token)
-      });
-			
-			// token invalid or missing, so set empty token and user
-			this.token = null;
-			this.logged = false;	
-			this.setUser(null);
+      this.deleteUser();
+
 		}
 	}
 
@@ -152,7 +159,14 @@ export class AuthService {
 		
 		// delete token from storage
 		this.deleteToken();
-		
+
+    this.onLogout.next({
+      user: this.user,
+      reason: "logout"
+    });
+
+    this.deleteUser();
+
 		// update user data
 		this.refreshState();
 		
@@ -167,5 +181,12 @@ export class AuthService {
 		
 		this.user.roles.push("guest");
 	}
+  
+  deleteUser(){
+    // token invalid or missing, so set empty token and user
+    this.token = null;
+    this.logged = false;	
+    this.setUser(null);
+  }
 
 }
