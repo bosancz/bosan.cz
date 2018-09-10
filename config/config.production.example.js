@@ -50,6 +50,7 @@ module.exports = {
   
   events: {
     storageDir: path.join(__dirname, "../data/events"),
+    eventDir: (eventId) => path.join(__dirname, "../data/events",eventId),
     storageUrl: "/data/events"
   },
   
