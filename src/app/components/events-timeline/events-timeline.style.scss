@@ -56,6 +56,7 @@ $timelineSmallMargin: 30px;
   .timeline .event.event-big .panel::before{content:" ";position:absolute;top:8px;left:-12px;width:0;height:0;border-top: 12px solid transparent;border-bottom: 12px solid transparent;border-right: 12px solid rgba(0,0,0,.07);}
   .timeline .event.event-big .panel::after{content:" ";position:absolute;top:10px;left:-10px;width:0;height:0;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-right: 10px solid #fff;}
   .timeline .event .panel .group-badges{float:right;height:auto;line-height:40px;vertical-align:middle;}
+  .timeline .month div{left:45%;}
 
 }
 
