@@ -18,7 +18,7 @@ import { ContenteditableDirective } from '../directives/contenteditable.directiv
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   imports: [
@@ -29,7 +29,8 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
     
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   declarations: [
     BreadCrumbsComponent,
@@ -39,7 +40,7 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
   ],
   exports: [
     /* MODULES */ CommonModule, FormsModule, HttpClientModule,
-    CollapseModule, ModalModule, TypeaheadModule,
+    CollapseModule, ModalModule, TypeaheadModule, TooltipModule,
     
     /* COMPONENTS */ BreadCrumbsComponent, PhotoGalleryComponent,
     

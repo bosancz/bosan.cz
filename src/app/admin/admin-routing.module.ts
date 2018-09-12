@@ -8,8 +8,6 @@ import { AdminComponent } from "./admin.component";
 import { CampsAdminComponent } from './views/camps-admin/camps-admin.component';
 import { CampAdminComponent } from './views/camps-admin/camp-admin/camp-admin.component';
 
-import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
-
 import { EventsAdminComponent } from './views/events-admin/events-admin.component';
 import { EventAdminComponent } from './views/events-admin/event-admin/event-admin.component';
 
@@ -19,8 +17,6 @@ import { AlbumAdminComponent } from './views/gallery-admin/album-admin/album-adm
 
 import { MembersAdminComponent } from './views/members-admin/members-admin.component';
 import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
-
-import { MyAdminComponent } from './views/my-admin/my-admin.component';
 
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
@@ -43,8 +39,6 @@ const routes: Routes = [
       {path: 'clenove/:member', redirectTo: "clenove/:member/osobni", pathMatch: "full"},
       {path: 'clenove', component: MembersAdminComponent, canActivate: [ACLService]},
 
-      {path: 'dokumenty', component: DocumentsViewComponent, canActivate: [ACLService]},
-
       {path: 'akce/:event/:cat', component: EventAdminComponent, canActivate: [ACLService]},
       {path: 'akce/:event', redirectTo: "akce/:event/prehled", pathMatch: "full"},
       {path: 'akce', component: EventsAdminComponent, canActivate: [ACLService]},
@@ -64,9 +58,6 @@ const routes: Routes = [
       {path: 'uzivatele/:user', redirectTo: "uzivatele/:user/ucet", pathMatch: "full"}, 
       {path: 'uzivatele', component: UsersAdminComponent, canActivate: [ACLService]},   
       
-      {path: 'ucet/:cat', component: MyAdminComponent, canActivate: [ACLService]}, 
-      {path: 'ucet', redirectTo: "ucet/info", pathMatch: "full"}, 
-
       {path: '', redirectTo: "akce", pathMatch: "full", canActivate: [ACLService]},
     ]
   }
