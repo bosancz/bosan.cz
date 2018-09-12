@@ -41,19 +41,19 @@
 
         <ng-container *ngIf="!authService.logged">
           <li class="nav-item">
-            <a class="nav-link" (click)="openLogin()" title="Přihlásit se do interní sekce"><i class="fa fa-lock"></i></a>
+            <a class="nav-link" (click)="openLogin()" tooltip="Přihlásit se do interní sekce" placement="bottom"><i class="fa fa-lock"></i></a>
           </li>
         </ng-container>
         
         <ng-container *ngIf="authService.logged">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/interni" routerLinkActive="active"><i class="fa fa-lock"></i></a>
+            <a class="nav-link" routerLink="/moje" routerLinkActive="active" tooltip="Můj Bošán" placement="bottom"><i class="fas fa-user"></i></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/interni/ucet" routerLinkActive="active" [title]="'Přihlášen: ' + authService.user._id"><i class="fas fa-user"></i></a>
+            <a class="nav-link" routerLink="/interni" routerLinkActive="active" tooltip="Správa obsahu" placement="bottom"><i class="fas fa-th"></i></a>
           </li>
           <li class="nav-item">
-            <a *ngIf="authService.logged" class="nav-link" (click)="logout()" title="Odhlásit se"><i class="fas fa-sign-out-alt"></i></a>
+            <a *ngIf="authService.logged" class="nav-link" (click)="logout()" tooltip="Odhlásit se" placement="bottom"><i class="fas fa-sign-out-alt"></i></a>
           </li>
         </ng-container>
       </ul>

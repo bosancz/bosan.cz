@@ -11,17 +11,17 @@ import { AuthService } from "../../../services/auth.service";
 import { User } from "../../../schema/user";
 
 @Component({
-  selector: 'my-admin',
-  templateUrl: './my-admin.component.html',
-  styleUrls: ['./my-admin.component.scss']
+  selector: 'account-admin',
+  templateUrl: './account-admin.component.html',
+  styleUrls: ['./account-admin.component.scss']
 })
-export class MyAdminComponent implements OnInit, OnDestroy {
+export class AccountAdminComponent implements OnInit, OnDestroy {
 
   cat:string;
   
   user:User;
   
-  passwordsVisible:boolean = false;
+  passwordsVisible:boolean = true;
   
   paramsSubscription:Subscription;
   
@@ -66,5 +66,4 @@ export class MyAdminComponent implements OnInit, OnDestroy {
     this.toastService.toast("Uloženo.");
     
   }
-
 }
