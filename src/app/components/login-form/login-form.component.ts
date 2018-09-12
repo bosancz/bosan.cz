@@ -21,21 +21,21 @@ export class LoginFormComponent implements OnInit {
   ngOnInit() {
   }
   
-  login(loginForm:NgForm){
+  async login(loginForm:NgForm){
     
     this.invalidCredentials = false;
     
     var loginData = loginForm.value;
-    
-    this.authService.login(loginData)
-      .then(user => {
-        this.loginModal.hide();
-        this.router.navigate(["/interni"]);
-      })
-      .catch(err => {
-        if(err.status === 401) this.invalidCredentials = true;
-        else throw err;
-      });
+
+    try{
+      var user = await this.authService.login(loginData)
+      this.loginModal.hide();
+      this.router.navigate(["/interni"]);
+    }
+    catch(err){
+      if(err.status === 401) this.invalidCredentials = true;
+      else throw err;
+    }
   }
   
 

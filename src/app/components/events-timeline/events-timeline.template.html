@@ -27,7 +27,7 @@
               <span class="group-badge bg-dark" title="Kolektiv vedoucích">V</span>
             </ng-container>
             <ng-container *ngIf="!event.leadersEvent">
-              <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [title]="group | group:'name'" class="group-badge">{{group}}</span>
+              <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [tooltip]="group | group:'name'" placement="top" class="group-badge">{{group}}</span>
             </ng-container>
           </div>
 

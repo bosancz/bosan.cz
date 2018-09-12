@@ -39,7 +39,7 @@ const routes: Routes = [
 
   {path: 'interni', loadChildren: './admin/admin.module#AdminModule', canActivate: [ACLService]},
   
-  {path: 'ucet', loadChildren: './account/account.module#AccountModule', canActivate: [ACLService]},
+  {path: 'moje', loadChildren: './account/account.module#AccountModule', canActivate: [ACLService]},
   
   {path: '', redirectTo: "o-nas", pathMatch: "full"}
 
