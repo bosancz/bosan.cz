@@ -6,5 +6,5 @@ var apiRouter = require("./api");
 router.use("/api", apiRouter);
 
 router.get("/.well-known/security.txt",(req,res) => {
-  res.sendFile(path.join(__dirname,"security.txt"));
+  res.sendFile(path.join(__dirname,"../assets/security.txt"));
 });

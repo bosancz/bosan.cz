@@ -2,7 +2,7 @@ var fs = require("fs-extra");
 var path = require("path");
 var rmfr = require("rmfr");
 
-var config = require("../../../config/config");
+var config = require("../../../config");
 
 var Event = require("../../models/event");
 var EventRecurring = require("../../models/event-recurring");

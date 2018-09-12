@@ -12,9 +12,8 @@ var guest = module.exports = {
     "config:read": true,
     
     "login": true,
-    
-    "users:login:send": true, // send login information to the email of the account
-    
+    "login:sendlink":true,
+
     "versions:read": true
   }
 };

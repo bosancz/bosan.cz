@@ -8,7 +8,7 @@ var acl = require("express-dynacl");
 var createEvent = require("./events/create-event");
 var deleteEvent = require("./events/delete-event");
 
-var config = require("../../config/config");
+var config = require("../../config");
 
 var Event = require("../models/event");
 var EventRecurring = require("../models/event-recurring");

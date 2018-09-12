@@ -1,7 +1,7 @@
 var fs = require("fs-extra");
 var path = require("path");
 
-var config = require("../../../config/config");
+var config = require("../../../config");
 var Event = require("../../models/event");
 
 module.exports = async function(eventData,eventFiles = [],options = {}){

@@ -2,33 +2,15 @@ var express = require("express");
 var router = module.exports = express.Router();
 
 var bcrypt = require("bcryptjs");
-var jwt = require('jsonwebtoken');
 var acl = require("express-dynacl");
 
 var config = require("../../config");
 
 var User = require("../models/user");
 
-function createToken(user,validity){
+var mailings = require("../mailings");
 
-  // set the token contents
-  var tokenData = {
-    _id: user._id	,
-    member: user.member,
-    roles: user.roles || []
-  };
-
-  // set validity
-  var tokenOptions = {
-    expiresIn: validity
-  };
-
-
-  // jsonwebtoken doesnt support promises yet
-  return new Promise((resolve,reject) => {
-    jwt.sign(tokenData, config.auth.jwt.secret, tokenOptions, (err,token) => err ? reject(err) : resolve(token))
-  });
-}
+var createToken = require("./login/create-token");
 
 var loginSchema = {
   type: "object",
@@ -83,5 +65,18 @@ router.get("/renew",acl("login:renew"), async (req,res) => {
   
   //send the new token to user
   res.send(token);
+	
+});
+
+router.post("/sendlink",acl("login:sendlink"), async (req,res) => {
+	
+	// we get the data from DB so we can update token data if something changed (e.g. roles)
+	var user = await User.findOne({_id:req.body._id});
+  
+  if(!user || !user.email) return res.status(404).send("User not found");
+  
+  await mailings("send-login-link",{user: user, token: createToken(user,"1 hour")});
+  
+  res.sendStatus(200);
 	
 });
