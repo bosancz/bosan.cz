@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, NavigationEnd, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -40,23 +40,36 @@ export class AppComponent {
   }
 
   ngOnInit(){
+    
+    // if token provided (e.g. login link) save it and remove it from URL
+    this.route.queryParams.subscribe((params:any) => {
+      if(params.token){
+        this.authService.loginToken(params.token);
+        this.router.navigate(["/moje/admin/heslo"], { relativeTo: this.route });
+      }
+    });
+    
+    // show toasts emitted by toastservice
     this.toastService.toasts.subscribe((toast:Toast) => {
       this.toasts.push(toast);
       setTimeout(() => this.toasts.shift(),2000);
     });
     
+    // show unauthorized messages from ACL
     this.aclService.unauthorized.subscribe(() => {
       if(this.authService.logged) this.toastService.toast("K této stránce nemáte právo přistupovat. Požádejte administrátora o udělení práv.","error");
       else this.toastService.toast("Pro přístup k této stránce musíte být přilášeni. Přihlaste se, prosím.","error");    
 
     });
 
+    // handle login
     this.authService.onLogin.subscribe(event => {
       if(!event) return;
       this.aclService.roles = ["guest","user",...event.user.roles];
       this.aclService.admin = event.user.roles.indexOf("admin") !== -1;
     });
     
+    // handle logout
     this.authService.onLogout.subscribe(event => {
       
       if(!event) return;
@@ -72,13 +85,6 @@ export class AppComponent {
       else{
         this.toastService.toast("Odhlášeno.");
         this.router.navigate(["/"]);
-      }
-    });
-    
-    this.modalService.onHide.subscribe(e => {
-      if(this.expiredLogin && !this.authService.logged){
-        this.router.navigate(["/"]);
-        this.expiredLogin = false;
       }
     });
     

@@ -24,7 +24,7 @@ const routes: Routes = [
       {path: 'admin/:cat', component: AccountAdminComponent,  canActivate: [ACLService]},
       {path: 'admin', redirectTo: "admin/info", pathMatch: "full"},
       
-      {path: '', redirectTo: "prehled", pathMatch: "full"},
+      {path: '', redirectTo: "admin", pathMatch: "full"},
       
     ]
   }

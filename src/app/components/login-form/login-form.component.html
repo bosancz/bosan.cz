@@ -8,22 +8,40 @@
 </div>
 <div class="modal-body">
   
-  <p *ngIf="invalidCredentials" class="text-danger">Chybné uživatelské jméno nebo heslo.</p>
+  <div class="status" [ngSwitch]="status">
+    <p *ngSwitchCase="'invalidCredentials'" class="text-danger">Chybné uživatelské jméno nebo heslo.</p>
+    <p *ngSwitchCase="'linkSent'" class="text-success">Odkaz odeslán na email.</p>
+    <p *ngSwitchCase="'userNotFound'" class="text-danger">Uživatel nenalezen.</p>
+    <p *ngSwitchCase="'error'" class="text-danger">Nastala chyba: {{err.message}}</p>
+  </div>
   
-  <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+  <form *ngIf="!forgotPassword" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
 
     <div class="form-group">
       <label for="inputLogin">Uživatelské jméno</label>
-      <input type="text" class="form-control" name="login" ngModel required>
+      <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required>
     </div>
-
 
     <div class="form-group">
       <label for="inputLogin">Heslo</label>
       <input [type]="'password'" class="form-control" name="password" ngModel required>
     </div>
+    <div class="buttons row">
+      <div class="col-8 text-left"><a (click)="forgotPassword = true" class="forgotPassword">Heslo nemám, nebo jsem ho zapomněl</a></div>
+      <div class="col-4 text-right"><button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button></div>
+    </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button>
-
+    
+  </form>
+  
+  <form *ngIf="forgotPassword" #loginLinkForm="ngForm" (ngSubmit)="loginLink(loginLinkForm)">
+    
+    <div class="form-group">
+      <label for="inputLogin">Uživatelské jméno</label>
+      <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required>
+    </div>
+    <div class="buttons text-right">
+      <button type="submit" class="btn btn-secondary" [disabled]="!loginLinkForm.valid">Zaslat odkaz na přihlášení</button>
+    </div>
   </form>
 </div>
