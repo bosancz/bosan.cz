@@ -77,6 +77,22 @@ export class AuthService {
     else throw new Error("Invalid token");
 
 	}
+  
+  sendToken(userId:string):Promise<string>{
+    return this.http.post(this.apiRoot + "/login/sendlink",{_id:userId},{ responseType: "text" }).toPromise();
+  }
+  
+  // login by directly providing valid token
+  loginToken(token:string){
+    if(this.jwtHelper.isTokenExpired(token)) throw new Error("Expired token.");
+    //save the token to storage
+    this.saveToken(token);
+    // update state to match token from storage
+    this.refreshState();
+    // if user is not logged at this step, token was invalid
+    if(this.logged) return this.user;
+    else throw new Error("Invalid token");
+  }
 
 	/**
 		* Tokens have limited time validity to avoid misues, however, we do not want user to be "logged out" while working with the application. Therefore we have to renew this token from time to time.
