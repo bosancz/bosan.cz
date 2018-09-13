@@ -1,0 +1,30 @@
+.rot-a {
+    -ms-transform: rotate(2deg); /* IE 9 */
+    -webkit-transform: rotate(2deg); /* Safari 3-8 */
+    transform: rotate(2deg);
+}
+.rot-b {
+    -ms-transform: rotate(-2deg); /* IE 9 */
+    -webkit-transform: rotate(-2deg); /* Safari 3-8 */
+    transform: rotate(-2deg);
+}
+.rot-c {
+    -ms-transform: rotate(3deg); /* IE 9 */
+    -webkit-transform: rotate(3deg); /* Safari 3-8 */
+    transform: rotate(3deg);
+}
+.rot-d {
+    -ms-transform: rotate(1deg); /* IE 9 */
+    -webkit-transform: rotate(1deg); /* Safari 3-8 */
+    transform: rotate(1deg);
+}
+
+.cust-margin {
+  margin: 0 5px;
+}
+
+section {
+  padding: 20px 0;
+}
+
+a.scrollDown{color:$linkBlue;cursor:pointer;font-weight:bold;text-transform:uppercase;text-decoration:none;}
