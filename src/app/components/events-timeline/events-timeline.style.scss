@@ -13,8 +13,8 @@ $timelineSmallMargin: 30px;
 .timeline::before{top: 0;bottom: 0;left:$timelineLeft;position: absolute;content: " ";width: 3px;margin-left:-1.5px;background-color: #eee;}
 
 .timeline .month{position:relative;margin:20px 0;}
-.timeline .month div{display:inline-block;width:100px;position:relative;left:$timelineLeft;margin-left:-50px;text-align:center;}
-.timeline .month div span{display:inline-block;min-width:50px;color:#fff;background-color:$blue;padding:2px 6px;border-radius:4px;}
+.timeline .month div{display:inline-block;position:relative;left:$timelineLeft;margin-left:-50px;text-align:center;border:2px solid $blue;background-color:$white;}
+.timeline .month div span{display:inline-block;min-width:50px;color:$blue;padding:5px 15px;border-radius:4px;text-transform:uppercase;font-size:$font-medium;}
 .timeline .month::before{content:" ";position:absolute;top:50%;left:0;right:0;height:2px;margin-top:-1px;background-color:$blue;}
 
 .timeline .event{position:relative;min-height:60px;}
@@ -56,6 +56,7 @@ $timelineSmallMargin: 30px;
   .timeline .event.event-big .panel::before{content:" ";position:absolute;top:8px;left:-12px;width:0;height:0;border-top: 12px solid transparent;border-bottom: 12px solid transparent;border-right: 12px solid rgba(0,0,0,.07);}
   .timeline .event.event-big .panel::after{content:" ";position:absolute;top:10px;left:-10px;width:0;height:0;border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-right: 10px solid #fff;}
   .timeline .event .panel .group-badges{float:right;height:auto;line-height:40px;vertical-align:middle;}
+  .timeline .month div{left:45%;}
 
 }
 
