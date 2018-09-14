@@ -32,7 +32,7 @@
 
 <ng-template #membersModal>
   <div class="modal-body members-select">
-    <members-select [options]="{role:'vedoucí',status:'člen'}" [(ngModel)]="leaders"></members-select>
+    <members-select [options]="{}" [(ngModel)]="leaders"></members-select>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="membersModalRef.hide()">Vyber</button>
