@@ -13,6 +13,7 @@ export const AppConfigData: IAppConfig = {
   acl: {
     
     routes: [
+      { route: "/moje", allowRoles: ["user"] },
       { route: "/moje/*", allowRoles: ["user"] },
       
       { route: "/interni/akce", allowRoles: ["vedouci","spravce"] },
