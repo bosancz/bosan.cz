@@ -21,8 +21,8 @@ export class AccountAdminComponent implements OnInit, OnDestroy {
   
   user:User;
   
-  passwordsVisible:boolean = true;
-  
+  passwordsVisible:boolean = false;
+
   paramsSubscription:Subscription;
   
   constructor(private dataService:DataService, private toastService:ToastService, private authService:AuthService, private route:ActivatedRoute) { }

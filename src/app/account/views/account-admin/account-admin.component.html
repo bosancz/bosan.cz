@@ -66,9 +66,8 @@
               <small class="form-text text-muted">Heslo musí mít alespoň osm znaků.</small>
             </div>
 
-            <div class="form-check">
-              <input type="checkbox" [value]="true" [(ngModel)]="passwordsVisible" [ngModelOptions]="{standalone: true}" id="passwordVisibilityCheckbox" class="form-check-input">
-              <label class="form-check-label" for="passwordVisibilityCheckbox">Zobrazit heslo</label>
+            <div class="form-group">
+              <a (mousedown)="passwordsVisible = true" (mouseup)="passwordsVisible = false" class="link showPasswords">Zobrazit heslo</a>
             </div>
 
             <div class="buttons text-right">

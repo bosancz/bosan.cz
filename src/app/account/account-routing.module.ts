@@ -22,9 +22,9 @@ const routes: Routes = [
       {path: 'dokumenty', component: DocumentsViewComponent, canActivate: [ACLService]},
       
       {path: 'admin/:cat', component: AccountAdminComponent,  canActivate: [ACLService]},
-      {path: 'admin', redirectTo: "admin/heslo", pathMatch: "full"},
+      {path: 'admin', redirectTo: "admin/info", pathMatch: "full"},
       
-      {path: '', redirectTo: "admin", pathMatch: "full"},
+      {path: '', redirectTo: "admin/info", pathMatch: "full"},
       
     ]
   }
