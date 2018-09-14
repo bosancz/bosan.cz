@@ -71,7 +71,7 @@ router.get("/renew",acl("login:renew"), async (req,res) => {
 router.post("/sendlink",acl("login:sendlink"), async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
-	var user = await User.findOne({_id:req.body._id});
+	var user = await User.findOne({$or: [{_id:req.body._id},{email: req.body._id}]});
   
   if(!user || !user.email) return res.status(404).send("User not found");
   
