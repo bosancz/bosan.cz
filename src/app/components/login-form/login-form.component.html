@@ -16,7 +16,6 @@
   </div>
   
   <form *ngIf="!forgotPassword" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-
     <div class="form-group">
       <label for="inputLogin">Uživatelské jméno</label>
       <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required>
@@ -30,8 +29,6 @@
       <div class="col-8 text-left"><a (click)="forgotPassword = true" class="forgotPassword">Heslo nemám, nebo jsem ho zapomněl</a></div>
       <div class="col-4 text-right"><button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button></div>
     </div>
-
-    
   </form>
   
   <form *ngIf="forgotPassword" #loginLinkForm="ngForm" (ngSubmit)="loginLink(loginLinkForm)">
@@ -40,8 +37,10 @@
       <label for="inputLogin">Uživatelské jméno nebo email</label>
       <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required>
     </div>
-    <div class="buttons text-right">
-      <button type="submit" class="btn btn-secondary" [disabled]="!loginLinkForm.valid">Zaslat odkaz na přihlášení</button>
+    
+    <div class="buttons row">
+      <div class="col-4 text-left"><a (click)="forgotPassword = false" class="forgotPassword">Vzpomněl jsem si!</a></div>
+      <div class="col-8 text-right"><button type="submit" class="btn btn-secondary" [disabled]="!loginLinkForm.valid">Zaslat odkaz na přihlášení</button></div>
     </div>
   </form>
 </div>
