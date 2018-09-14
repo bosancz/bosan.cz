@@ -37,7 +37,7 @@
   <form *ngIf="forgotPassword" #loginLinkForm="ngForm" (ngSubmit)="loginLink(loginLinkForm)">
     
     <div class="form-group">
-      <label for="inputLogin">Uživatelské jméno</label>
+      <label for="inputLogin">Uživatelské jméno nebo email</label>
       <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required>
     </div>
     <div class="buttons text-right">
