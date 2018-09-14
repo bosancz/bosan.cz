@@ -46,6 +46,7 @@ export class AppComponent {
       if(params.token){
         this.authService.loginToken(params.token);
         this.router.navigate(["/moje/admin/heslo"], { relativeTo: this.route });
+        this.toastService.toast("Byl/a jsi přihlášen/a přes odkaz. Teď si nastav heslo.");
       }
     });
     
