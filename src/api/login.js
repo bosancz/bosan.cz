@@ -25,7 +25,9 @@ router.post("/", acl("login"), async (req,res,next) => {
   if(!req.body.login) return res.status(400).send("Missing login");
   if(!req.body.password) return res.status(400).send("Missing password");
 
-  var user = await User.findOne({_id:req.body.login.toLowerCase()}).select("+password")
+  let login = req.body.login.toLowerCase();
+  
+  var user = await User.findOne({$or: [{_id:login},{email:login}]}).select("+password")
 
   if(!user) return res.sendStatus(401); // dont send user dont exists
 

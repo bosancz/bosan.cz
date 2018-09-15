@@ -5,7 +5,7 @@ var userSchema = mongoose.Schema({
   "password": {type: String, select:false},
   "roles": [String],
   
-  "email": String,
+  "email": {type:String,unique:true},
   
   "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"}
 });
