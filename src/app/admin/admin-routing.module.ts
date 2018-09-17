@@ -18,6 +18,8 @@ import { AlbumAdminComponent } from './views/gallery-admin/album-admin/album-adm
 import { MembersAdminComponent } from './views/members-admin/members-admin.component';
 import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
 
+import { ServerAdminComponent } from './views/server-admin/server-admin.component';
+
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
 
@@ -40,19 +42,22 @@ const routes: Routes = [
       {path: 'clenove', component: MembersAdminComponent, canActivate: [ACLService]},
 
       {path: 'akce/:event/:cat', component: EventAdminComponent, canActivate: [ACLService]},
-      {path: 'akce/:event', redirectTo: "akce/:event/prehled", pathMatch: "full"},
+      {path: 'akce/:event', redirectTo: "akce/:event/upravit", pathMatch: "full"},
       {path: 'akce', component: EventsAdminComponent, canActivate: [ACLService]},
 
       {path: 'galerie/:album/:cat', component: AlbumAdminComponent, canActivate: [ACLService]},
       {path: 'galerie/:album', redirectTo: "galerie/:album/prehled", pathMatch: "full"},
       {path: 'galerie', component: GalleryAdminComponent, canActivate: [ACLService]},
 
+      {path: 'tabory/:camp/:cat', component: CampAdminComponent, canActivate: [ACLService]},
+      {path: 'tabory/:camp', redirectTo: "tabory/:camp/upravit", pathMatch: "full"},
+      {path: 'tabory', component: CampsAdminComponent, canActivate: [ACLService]},
+
       {path: 'nastaveni-webu/:cat', component: WebAdminComponent, canActivate: [ACLService]},
       {path: 'nastaveni-webu', redirectTo: "nastaveni-webu/obecne", pathMatch: "full"},
 
-      {path: 'tabory/:camp/:cat', component: CampAdminComponent, canActivate: [ACLService]},
-      {path: 'tabory/:camp', redirectTo: "tabory/:camp/prehled", pathMatch: "full"},
-      {path: 'tabory', component: CampsAdminComponent, canActivate: [ACLService]},
+      {path: 'nastaveni-serveru/:cat', component: ServerAdminComponent, canActivate: [ACLService]},
+      {path: 'nastaveni-serveru', redirectTo: "nastaveni-serveru/obecne", pathMatch: "full"},
 
       {path: 'uzivatele/:user/:cat', component: UserAdminComponent, canActivate: [ACLService]},      
       {path: 'uzivatele/:user', redirectTo: "uzivatele/:user/ucet", pathMatch: "full"}, 
