@@ -38,7 +38,7 @@ export class AuthService {
 	constructor(private http: HttpClient, private jwtHelper:JwtHelperService){
 		
 		// refresh user data to match token
-		this.refreshState(true)
+		this.refreshState()
 		
 		// periodically renew token and check token validity
 		setInterval(() => this.renewToken(), 5 * 60 * 1000);
@@ -141,7 +141,7 @@ export class AuthService {
 	/*
 	 * lookup token in storage and check if it is valid. if yes, update state
 	 */
-	refreshState(quiet:boolean = false):void{
+	refreshState():void{
 		
 		// get token from storage
 		var token = this.getToken();
@@ -166,13 +166,13 @@ export class AuthService {
 			this.setUser(userData);
 			
 			// announce login to subscribers if applicable
-			if(!quiet && !this.logged) this.onLogin.next({ user: this.user });
+			if(!this.logged) this.onLogin.next({ user: this.user });
 			
 			this.logged = true;
 			
 		}	else if(token) {
       
-      if(!quiet && this.logged){
+      if(this.logged){
         if(isExpired) this.onExpired.next({ user: this.user });
         else this.onLogout.next({ user: this.user });
       }

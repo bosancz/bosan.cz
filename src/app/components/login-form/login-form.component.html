@@ -41,8 +41,8 @@
     </div>
     
     <div class="buttons row">
-      <div class="col-4 text-left"><a (click)="forgotPassword = false" class="forgotPassword">Vzpomněl jsem si!</a></div>
-      <div class="col-8 text-right"><button type="submit" class="btn btn-secondary" [disabled]="!loginLinkForm.valid">Zaslat odkaz na přihlášení</button></div>
+      <div class="col-4 text-right"><button type="submit" class="btn btn-secondary" (click)="forgotPassword = false">Zpět</button></div>
+      <div class="col-8 text-right"><button type="submit" class="btn btn-primary" [disabled]="!loginLinkForm.valid">Zaslat odkaz na přihlášení</button></div>
     </div>
     
   </form>
