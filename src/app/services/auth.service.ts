@@ -8,8 +8,6 @@ import { environment } from '../../environments/environment';
 
 import { User } from "../schema/user";
 
-import { DataService } 		from './data.service';
-
 export class AuthUser{
   _id:string;
   member?:any;
@@ -25,7 +23,8 @@ export class AuthService {
   apiRoot:string = environment.api.root;
 
 	public onLogin:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);
-  public onLogout:BehaviorSubject<{user:AuthUser,reason:string}> = new BehaviorSubject(null);
+  public onLogout:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);
+  public onExpired:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);
 
 	// boolean if user is logged
 	logged: boolean = false;
@@ -39,13 +38,13 @@ export class AuthService {
 	constructor(private http: HttpClient, private jwtHelper:JwtHelperService){
 		
 		// refresh user data to match token
-		this.refreshState()
+		this.refreshState(true)
 		
 		// periodically renew token and check token validity
 		setInterval(() => this.renewToken(), 5 * 60 * 1000);
     setInterval(() => this.refreshState(), 5 * 1000);
 	}
-
+  
 	saveToken(token){
 		return window.localStorage.setItem("id_token", token);
 	}
@@ -93,7 +92,22 @@ export class AuthService {
     if(this.logged) return this.user;
     else throw new Error("Invalid token");
   }
+  
+  async googleLogin(googleToken:string){
+    
+    var token = await this.http.post(this.apiRoot + "/login/google",{token:googleToken},{ responseType: "text" }).toPromise();
 
+    //save the token to storage
+    this.saveToken(token);
+
+    // update state to match token from storage
+    this.refreshState();
+
+    // if user is not logged at this step, token was invalid
+    if(this.logged) return this.user;
+    else throw new Error("Invalid token");
+  }
+  
 	/**
 		* Tokens have limited time validity to avoid misues, however, we do not want user to be "logged out" while working with the application. Therefore we have to renew this token from time to time.
 		*/
@@ -127,10 +141,12 @@ export class AuthService {
 	/*
 	 * lookup token in storage and check if it is valid. if yes, update state
 	 */
-	refreshState():void{
+	refreshState(quiet:boolean = false):void{
 		
 		// get token from storage
 		var token = this.getToken();
+    
+    let isExpired = this.jwtHelper.isTokenExpired(token);
     
     try{
       var userData = this.jwtHelper.decodeToken(token);
@@ -141,7 +157,7 @@ export class AuthService {
     }
     
 		// check if token valid
-		if(token && userData && !this.jwtHelper.isTokenExpired(token)){
+		if(token && userData && !isExpired){
 			
 			// save the token
 			this.token = token;
@@ -150,21 +166,22 @@ export class AuthService {
 			this.setUser(userData);
 			
 			// announce login to subscribers if applicable
-			if(!this.logged) this.onLogin.next({
-        user: this.user
-      });
+			if(!quiet && !this.logged) this.onLogin.next({ user: this.user });
 			
 			this.logged = true;
 			
-		}	else {
+		}	else if(token) {
       
-      if(this.logged){
-        if(this.jwtHelper.isTokenExpired(token)) this.onLogout.next({ user: this.user, reason: "expired" });
-        if(!userData) this.onLogout.next({ user: this.user, reason: "invalid" });
+      if(!quiet && this.logged){
+        if(isExpired) this.onExpired.next({ user: this.user });
+        else this.onLogout.next({ user: this.user });
       }
 			
+      this.deleteToken();
       this.deleteUser();
-
+    }
+    else{
+      this.deleteUser();
 		}
 	}
 
@@ -176,16 +193,13 @@ export class AuthService {
 		// delete token from storage
 		this.deleteToken();
 
-    this.onLogout.next({
-      user: this.user,
-      reason: "logout"
-    });
+    this.onLogout.next({ user: this.user });
 
     this.deleteUser();
 
 		// update user data
 		this.refreshState();
-		
+    
 		return !this.logged;
 	}
 	

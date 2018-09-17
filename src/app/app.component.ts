@@ -42,6 +42,23 @@ export class AppComponent {
 
   ngOnInit(){
     
+    // show toasts emitted by toastservice
+    this.toastService.toasts.subscribe((toast:Toast) => {
+      this.toasts.push(toast);
+      setTimeout(() => this.toasts.shift(),2000);
+    });
+    
+    this.initACLService();
+
+    this.initAuthService();
+    
+    this.checkTokenLogin();
+    
+    this.checkGoogleLogin();
+    
+  }
+  
+  checkTokenLogin(){
     // if token provided (e.g. login link) save it and remove it from URL
     this.route.queryParams.subscribe((params:any) => {
       if(params.token){
@@ -50,58 +67,78 @@ export class AppComponent {
         this.toastService.toast("Byl/a jsi přihlášen/a přes odkaz. Teď si nastav heslo.");
       }
     });
-    
-    // show toasts emitted by toastservice
-    this.toastService.toasts.subscribe((toast:Toast) => {
-      this.toasts.push(toast);
-      setTimeout(() => this.toasts.shift(),2000);
-    });
-    
+  }
+  
+  initACLService(){
     // show unauthorized messages from ACL
     this.aclService.unauthorized.subscribe(() => {
       if(this.authService.logged) this.toastService.toast("K této stránce nemáte právo přistupovat. Požádejte administrátora o udělení práv.","error");
       else this.toastService.toast("Pro přístup k této stránce musíte být přilášeni. Přihlaste se, prosím.","error");    
-
     });
-
+  }
+  
+  initAuthService(){
     // handle login
     this.authService.onLogin.subscribe(event => {
-      if(!event) return;
+      
+      if(event === null) return;
+      
       this.aclService.roles = ["guest","user",...event.user.roles];
       this.aclService.admin = event.user.roles.indexOf("admin") !== -1;
+      
+      console.log("Logged in as " + event.user._id + ", roles: " + this.aclService.roles.join(", "));
+      
+      this.toastService.toast("Přihlášeno.");
     });
-    
+
     // handle logout
     this.authService.onLogout.subscribe(event => {
       
-      if(!event) return;
+      if(event === null) return;
+
+      this.aclService.roles = ["guest"];
+      this.aclService.admin = false;
+
+      this.expiredLogin = false;
+      this.toastService.toast("Odhlášeno.");
+      this.router.navigate(["/"]);
+      
+      this.googleService.signOut();
+    });
+    
+    this.authService.onExpired.subscribe(event => {
+      
+      if(event === null) return;
       
       this.aclService.roles = ["guest"];
       this.aclService.admin = false;
       
-      if(event.reason === "expired"){
-        this.toastService.toast("Přihlášení vypršelo, přihlas se znovu.");
-        this.expiredLogin = true;
-        this.openLogin();
-      }
-      else{
-        this.toastService.toast("Odhlášeno.");
-        this.router.navigate(["/"]);
-      }
+      this.toastService.toast("Přihlášení vypršelo, přihlas se znovu.");
+      this.expiredLogin = true;
+      this.openLogin();
+      
+      this.googleService.signOut();
     });
-    
-    this.googleLogin();
-    
   }
   
-  async googleLogin(){
+  async checkGoogleLogin(){
     var auth2 = await this.googleService.auth2;
+
+    var signedIn:boolean = auth2.isSignedIn.get();
     
-    auth2.isSignedIn.listen(val => console.log("isSignedIn Changed",val));
-
-    console.log("isSignedIn",auth2.isSignedIn.get());
+    console.log("Checking google login... " + (signedIn ? "signed in." : "not signed in."));
+    if(signedIn){
+      try{
+        let profile = auth2.currentUser.get().getBasicProfile();
+        console.log("Google user:",profile.getEmail());
+        let token:string = auth2.currentUser.get().getAuthResponse(true).id_token;
+        await this.authService.googleLogin(token); 
+      } catch(err){
+        console.log(err);
+      }
+    }
   }
-
+  
   clearToasts(){
     this.toasts = [];
   }

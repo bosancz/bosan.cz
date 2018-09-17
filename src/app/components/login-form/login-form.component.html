@@ -24,10 +24,12 @@
     <div class="form-group">
       <label for="inputLogin">Heslo</label>
       <input [type]="'password'" class="form-control" name="password" ngModel required>
+      <small><a (click)="forgotPassword = true" class="forgotPassword">Heslo nemám, nebo jsem ho zapomněl</a></small>
     </div>
-    <div class="buttons row">
-      <div class="col-8 text-left"><a (click)="forgotPassword = true" class="forgotPassword">Heslo nemám, nebo jsem ho zapomněl</a></div>
-      <div class="col-4 text-right"><button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button></div>
+    <div class="buttons text-right">
+      <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button>
+      <br><br>
+      <button type="button" class="btn btn-secondary" (click)="googleLogin()"><i class="fab fa-google"></i>&nbsp;&nbsp;Přihlásit se přes Bošánovský mail</button>
     </div>
   </form>
   
@@ -42,5 +44,8 @@
       <div class="col-4 text-left"><a (click)="forgotPassword = false" class="forgotPassword">Vzpomněl jsem si!</a></div>
       <div class="col-8 text-right"><button type="submit" class="btn btn-secondary" [disabled]="!loginLinkForm.valid">Zaslat odkaz na přihlášení</button></div>
     </div>
+    
   </form>
+  
+  
 </div>

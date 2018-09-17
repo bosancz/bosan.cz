@@ -7,6 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { AuthService } from "../../services/auth.service";
 import { DataService } from "../../services/data.service";
 import { ToastService } from "../../services/toast.service";
+import { GoogleService } from "../../services/google.service";
 
 @Component({
   selector: 'login-form',
@@ -15,6 +16,8 @@ import { ToastService } from "../../services/toast.service";
 })
 export class LoginFormComponent implements OnInit {
   
+  expired:boolean = false;
+  
   loginValue:string = "";
   
   status:string = null
@@ -22,7 +25,8 @@ export class LoginFormComponent implements OnInit {
   
   forgotPassword:boolean = false;
 
-  constructor(public loginModal: BsModalRef, private authService:AuthService, private dataService:DataService, private router:Router, private toastService:ToastService) { }
+  constructor(public loginModal: BsModalRef, private authService:AuthService, private dataService:DataService, private router:Router, private toastService:ToastService, private googleService:GoogleService) {
+  }
 
   ngOnInit() {
   }
@@ -42,6 +46,24 @@ export class LoginFormComponent implements OnInit {
       if(err.status === 401) this.status = "invalidCredentials";
       else throw err;
     }
+  }
+  
+  async googleLogin(){
+    
+    try{
+      var token = await this.googleService.signIn()
+      await this.authService.googleLogin(token);
+    }
+    catch(err){
+      this.toastService.toast("Přihlášení přes Google se nezdařilo.");
+    }
+    
+    this.loginModal.hide();
+    
+  }
+  
+  async googleLogout(){
+    await this.googleService.signOut();
   }
   
   async loginLink(form:NgForm){
