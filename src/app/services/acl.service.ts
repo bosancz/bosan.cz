@@ -50,8 +50,6 @@ export class ACLService implements CanActivate {
     var route = this.findRoute(routeString);
     if(!route) return false;
     
-    console.log(route,this.roles);
-    
 		if(params) Object.assign(route.params,params);
     
 		if(route.routeDef.allowAll === true) return true;
