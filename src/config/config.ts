@@ -34,8 +34,11 @@ export const AppConfigData: IAppConfig = {
       { route: "/interni/dokumenty", allowRoles: ["vedouci","spravce"] },
       { route: "/interni/dokumenty/*", allowRoles: ["vedouci","spravce"] },
       
+      { route: "/interni/nastaveni-webu", allowRoles: ["spravce"] },
       { route: "/interni/nastaveni-webu/*", allowRoles: ["spravce"] },
-      { route: "/interni/nastaveni-webu/*", allowRoles: ["spravce"] },
+      
+      { route: "/interni/nastaveni-serveru", allowRoles: ["spravce"] },
+      { route: "/interni/nastaveni-serveru/*", allowRoles: ["spravce"] },
       
       { route: "/interni/uzivatele", allowRoles: ["spravce"] },
       { route: "/interni/uzivatele/*", allowRoles: ["spravce"] },

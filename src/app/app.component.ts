@@ -9,6 +9,7 @@ import { AuthService } from "./services/auth.service";
 import { ACLService } from "./services/acl.service";
 import { ToastService, Toast } from "./services/toast.service";
 import { MenuService } from "./services/menu.service";
+import { GoogleService } from "./services/google.service";
 
 import { LoginFormComponent } from './components/login-form/login-form.component';
 
@@ -34,7 +35,7 @@ export class AppComponent {
   
   expiredLogin:boolean;
 
-  constructor(public authService:AuthService, private aclService:ACLService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute,  @Inject(AppConfig) private config:IAppConfig){
+  constructor(public authService:AuthService, private aclService:ACLService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute,  @Inject(AppConfig) private config:IAppConfig, private googleService:GoogleService){
     aclService.routes = config.acl.routes;
     aclService.default = config.acl.default;
   }
@@ -89,6 +90,16 @@ export class AppComponent {
       }
     });
     
+    this.googleLogin();
+    
+  }
+  
+  async googleLogin(){
+    var auth2 = await this.googleService.auth2;
+    
+    auth2.isSignedIn.listen(val => console.log("isSignedIn Changed",val));
+
+    console.log("isSignedIn",auth2.isSignedIn.get());
   }
 
   clearToasts(){

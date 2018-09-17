@@ -7,6 +7,7 @@ import { AccountComponent } from "./account.component";
 import { AccountDashboardComponent } from "./views/account-dashboard/account-dashboard.component";
 import { AccountAdminComponent } from "./views/account-admin/account-admin.component";
 import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
+import { MyEventsComponent } from './views/my-events/my-events.component';
 
 /* SERVICES */
 import { ACLService } from "../services/acl.service";
@@ -18,6 +19,8 @@ const routes: Routes = [
     children: [
       
       {path: 'prehled', component: AccountDashboardComponent, canActivate: [ACLService]},
+      
+      {path: 'akce', component: MyEventsComponent, canActivate: [ACLService]},
       
       {path: 'dokumenty', component: DocumentsViewComponent, canActivate: [ACLService]},
       
