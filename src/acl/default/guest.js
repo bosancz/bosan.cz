@@ -11,8 +11,9 @@ var guest = module.exports = {
     
     "config:read": true,
     
-    "login": true,
+    "login:credentials": true,
     "login:sendlink":true,
+    "login:google":true,    
 
     "versions:read": true
   }

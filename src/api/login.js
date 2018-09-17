@@ -10,6 +10,8 @@ var User = require("../models/user");
 
 var mailings = require("../mailings");
 
+var google = require("../google");
+
 var createToken = require("./login/create-token");
 
 var loginSchema = {
@@ -20,7 +22,7 @@ var loginSchema = {
   }	
 };
 
-router.post("/", acl("login"), async (req,res,next) => {
+router.post("/", acl("login:credentials"), async (req,res,next) => {
   
   if(!req.body.login) return res.status(400).send("Missing login");
   if(!req.body.password) return res.status(400).send("Missing password");
@@ -81,4 +83,31 @@ router.post("/sendlink",acl("login:sendlink"), async (req,res) => {
   
   res.sendStatus(200);
 	
+});
+
+router.post("/google",acl("login:google"), async (req,res) => {
+  
+  var ticket;
+  
+  try{
+    ticket = await google.jwtClient.verifyIdToken({
+      idToken: req.body.token,
+      audience: config.google.clientId
+    });
+  }
+  catch(err){
+    console.error("Invalid Google JWT token!",req.body.token);
+    return res.status(401).send(err.message);
+  }
+
+  const payload = ticket.getPayload();
+
+  const user = await User.findOne({email: payload.email});
+
+  if(!user) return res.status(404).send("User with email " + payload.email + " not found");
+
+  var token = await createToken(user,config.auth.jwt.expiration);
+
+  res.send(token);
+  
 });
