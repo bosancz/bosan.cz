@@ -5,7 +5,7 @@ import { TitleService } from "../../services/title.service";
 @Component({
   selector: 'events-view',
   templateUrl: './events-view.component.html',
-  styleUrls: ['./events-view.component.css']
+  styleUrls: ['./events-view.component.scss']
 })
 export class EventsViewComponent implements OnInit {
 
