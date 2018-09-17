@@ -26,4 +26,20 @@ export class GoogleService {
     });
 
   }
+
+  async signIn():Promise<string>{
+
+    var auth2 = await this.auth2;
+
+    await auth2.signIn();
+
+    var token = auth2.currentUser.get().getAuthResponse(true).id_token;
+
+    return token;
+  }
+
+  async signOut():Promise<void>{
+    var auth2 = await this.auth2;
+    await auth2.signOut();
+  }
 }
