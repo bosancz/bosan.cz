@@ -1,12 +1,11 @@
-<section class="titlePhotos">
-
+<div class="titlePhotos">
   <h3>Titulní fotografie</h3>
-  
+
   <div class="row">
 
     <div *ngFor="let photo of album.titlePhotos;let i = index" class="col-4 titlePhoto">
       <div class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'"></div>
-      
+
       <div class="icons">
         <a (click)="moveTitlePhoto(i,i-1)">
           <i class="fas fa-arrow-alt-circle-left"></i>
@@ -23,38 +22,37 @@
       </div>
     </div>
   </div>
+</div>
 
-</section>
+<h3>Všechny fotografie</h3>
+<div class="row">
 
-<section class="photos">
-  <h3>Všechny fotografie</h3>
-  <div class="row">
-
-    <div *ngFor="let photo of album.photos" class="photo col-md-6">    
-      <div class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'"></div>
-      <div class="details">
-        <div class="caption">
-          <label>Popisek:</label>
-          <ng-container *ngIf="photo.caption">{{photo.caption}}</ng-container>
-          <ng-container *ngIf="!photo.caption"><em>není</em></ng-container>
-        </div>
-        <div class="tags">
-          <label>Tagy:</label>
-          <photo-tags-editor [ngModel]="photo.tags" (ngModelChange)="saveTags(photo,$event)" [tags]="tags"></photo-tags-editor>
-        </div>
+  <div *ngFor="let photo of album.photos" class="photo col-md-6">    
+    <div class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'"></div>
+    <div class="details">
+      <div class="caption">
+        <label>Popisek:</label>
+        <ng-container *ngIf="photo.caption">{{photo.caption}}</ng-container>
+        <ng-container *ngIf="!photo.caption"><em>není</em></ng-container>
+        &nbsp;
+        <a (click)="editCaption(photo)" class="link">upravit</a>
       </div>
-
-      <div class="icons" [class.active]="isTitlePhoto(photo)">
-        <a (click)="isTitlePhoto(photo) ? removeTitlePhoto(photo) : setTitlePhoto(photo)">
-          <i class="fas fa-star"></i>
-          <i class="far fa-star"></i>
-          <span> jako úvodní</span>
-        </a>
-      </div>
-
-      <div class="delete">
-        <a (click)="deletePhoto(photo)" class="text-danger">smazat</a>
+      <div class="tags">
+        <label>Tagy:</label>
+        <photo-tags-editor [ngModel]="photo.tags" (ngModelChange)="saveTags(photo,$event)" [tags]="tags"></photo-tags-editor>
       </div>
     </div>
+
+    <div class="icons" [class.active]="isTitlePhoto(photo)">
+      <a (click)="isTitlePhoto(photo) ? removeTitlePhoto(photo) : setTitlePhoto(photo)">
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <span> jako úvodní</span>
+      </a>
+    </div>
+
+    <div class="delete">
+      <a (click)="deletePhoto(photo)" class="text-danger">smazat</a>
+    </div>
   </div>
-</section>                            
+</div>

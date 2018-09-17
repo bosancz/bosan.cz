@@ -88,6 +88,19 @@ export class AlbumAdminPhotosComponent {
     this.toastService.toast("Uloženo.");
   } 
   
+  async editCaption(photo:Photo){
+    
+    var caption = window.prompt("Zadejte popisek fotky:", photo.caption || "");
+    
+    if(caption === null) return; // null means cancel
+    
+    await this.dataService.updatePhoto(photo._id,{caption:caption});
+    
+    photo.caption = caption;
+    
+    this.toastService.toast("Uloženo.");
+  }
+  
   async deletePhoto(photo){
     
     if(!window.confirm("Opravdu chcete smazat toho foto")) return;

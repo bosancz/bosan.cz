@@ -12,17 +12,15 @@
       <div class="col-3">
 
         <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" routerLink="../prehled" routerLinkActive="active">Přehled</a></li>
-          <br>
           <li class="nav-item"><a class="nav-link" routerLink="../upravit" routerLinkActive="active">Upravit info</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../opakovani" routerLinkActive="active">Opakování ({{event.recurring ? "zapnuto" : "vypnuto"}})</a></li>
           <br>
           <li class="nav-item"><a class="nav-link" routerLink="../vedouci" routerLinkActive="active">Vedoucí akce ({{event.leaders.length}})</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../ucastnici" routerLinkActive="active">Účastníci ({{event.attendees.length}})</a></li>
+          <li class="nav-item"><a class="nav-link disabled" routerLink="../ucastnici" routerLinkActive="active" tooltip="Připravujeme" placement="left">Účastníci ({{event.attendees.length}})</a></li>
           <br>
           <li class="nav-item"><a class="nav-link" routerLink="../prihlaska" routerLinkActive="active">Přihláška</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../ohlaska" routerLinkActive="active">Ohláška</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../uctovani" routerLinkActive="active">Účtování</a></li>
+          <li class="nav-item"><a class="nav-link disabled" routerLink="../ohlaska" routerLinkActive="active" tooltip="Připravujeme" placement="left">Ohláška</a></li>
+          <li class="nav-item"><a class="nav-link disabled" routerLink="../uctovani" routerLinkActive="active" tooltip="Připravujeme" placement="left">Účtování</a></li>
           <br>
           <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat akci</a></li>          
         </ul>

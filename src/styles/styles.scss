@@ -88,7 +88,7 @@ p {line-height: 1.5;text-align:justify;}
 p.subheading{text-align:center;width:100%;}
 
 a {color: $linkBlue;}
-a.link{color:$linkBlue;cursor:pointer;}
+a.link{color:$linkBlue !important;cursor:pointer;}
 
 a:not(.btn):hover {color: $hover-yellow !important;}
 
