@@ -15,6 +15,14 @@ function getRoot(req){
 }
 
 function createPage(options){
+  var image = "";
+  if(options.image){
+    image = `
+    <meta property="og:image" content="${options.image.url}" />
+    <meta property="og:image:width" content="${options.image.width}" />
+    <meta property="og:image:height" content="${options.image.height}" />`;
+  }
+  
   return `
 <!DOCTYPE html>
 <html>
@@ -24,9 +32,7 @@ function createPage(options){
     <meta property="og:type" content="${options.type}" />
     <meta property="og:title" content="${options.title}" />
     <meta property="og:description" content="${options.description}" />
-    <meta property="og:image" content="${options.image.url}" />
-    <meta property="og:image:width" content="${options.image.width}" />
-    <meta property="og:image:height" content="${options.image.height}" />
+    ${image}
   </head>
   <body></body>
 </html>
@@ -68,6 +74,18 @@ router.get("/fotogalerie/:album/:photo", acl("albums:read"), async (req,res) => 
       height: photo.sizes.big.height
     }
   }
+  
+  res.type("html").send(createPage(options));
+});
+
+router.get("**", (req,res) => {
+  
+  var options = {
+    url: config.url,
+    title: config.title,
+    description: config.description,
+    type: "website"
+  };
   
   res.type("html").send(createPage(options));
 });
