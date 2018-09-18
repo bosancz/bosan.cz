@@ -161,25 +161,25 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
     this.openPhoto(this.album.photos[this.currentI - 1]);
   }
   
-  close(){
+  close():void{
     //this.router.navigate(["../"],{relativeTo:this.route});
     this.location.back();
   }
   
-  showControls(){
+  showControls():void{
     this.controlsState = "visible";
     clearTimeout(this.controlsTimeout);
     this.controlsTimeout = setTimeout(() => this.controlsState = "hidden",1500);
   }
   
-  share() {
+  share():void{
     
     var myNavigator:any = navigator;
     if (myNavigator.share) {
       myNavigator.share({
         title: this.album.name,
         text: this.album.description,
-        url: location.protocol + "//" + location.hostname + this.currentPhoto.shareUrl,
+        url: window.location.href,
       })
         .then(() => console.log('Successful share'))
         .catch((error) => console.log('Error sharing', error));
@@ -187,6 +187,14 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
     else{
       this.sharingModalRef = this.modalService.show(this.sharingModal);
     }
+  }
+  
+  getAlbumUrl():string{
+    return window.location.href.replace(/^(.+)\/[^\/]+$/,"$1");
+  }
+  
+  getPhotoUrl():string{
+    return window.location.href;
   }
   
   copyUrl(input:HTMLInputElement):void{

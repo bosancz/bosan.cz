@@ -44,7 +44,7 @@
     <div class="form-group">
       <label>Galerie</label>
       <div class="input-group mb-3">
-        <input type="text" class="form-control novalidate" readonly [value]="album.shareUrl" #inputAlbumShare>
+        <input type="text" class="form-control novalidate" readonly [value]="getAlbumUrl()" #inputAlbumShare>
         <div class="input-group-append">
           <span class="input-group-text" (click)="copyUrl(inputAlbumShare)"><i class="far fa-copy"></i></span>
         </div>
@@ -54,7 +54,7 @@
     <div class="form-group">
       <label>Aktuální foto</label>
       <div class="input-group mb-3">
-        <input type="text" class="form-control novalidate" readonly [value]="currentPhoto.shareUrl" #inputPhotoShare>
+        <input type="text" class="form-control novalidate" readonly [value]="getPhotoUrl()" #inputPhotoShare>
         <div class="input-group-append">
           <span class="input-group-text" (click)="copyUrl(inputPhotoShare)"><i class="far fa-copy"></i></span>
         </div>
