@@ -7,6 +7,7 @@ var acl = require("express-dynacl");
 var mv = require("mv");
 var fs = require("fs-extra");
 var path = require("path");
+var rmfr = require("rmfr");
 
 var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
