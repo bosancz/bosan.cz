@@ -43,7 +43,7 @@ router.get("/fotogalerie/:album", acl("albums:read"), async (req,res) => {
     description: album.description,
     type: "image.gallery",
     image: {
-      url: album.titlePhotos && album.titlePhotos[0] ? req.protocol + '://' + req.hostname + album.titlePhotos[0].sizes.big.url : "",
+      url: album.titlePhotos && album.titlePhotos[0] ? `${config.url}${album.titlePhotos[0].sizes.big.url}` : "",
       width: album.titlePhotos && album.titlePhotos[0] ? album.titlePhotos[0].sizes.big.width : "",
       height: album.titlePhotos && album.titlePhotos[0] ? album.titlePhotos[0].sizes.big.height : ""
     }
@@ -63,7 +63,7 @@ router.get("/fotogalerie/:album/:photo", acl("albums:read"), async (req,res) => 
     description: photo.caption || album.description,
     type: "image.gallery",
     image: {
-      url: req.protocol + '://' + req.hostname + photo.sizes.big.url,
+      url: `${config.url}${photo.sizes.big.url}`,
       width: photo.sizes.big.width,
       height: photo.sizes.big.height
     }
