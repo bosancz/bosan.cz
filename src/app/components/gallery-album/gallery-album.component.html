@@ -1,24 +1,24 @@
 <ng-container *ngIf="album">
-    <h3>
-      <a [routerLink]="'/fotogalerie/' + album._id" [adminLink]="'/interni/galerie/' + album._id">
+  <h4>
+    <a [routerLink]="'/fotogalerie/' + album._id" [adminLink]="'/interni/galerie/' + album._id">
       {{album.name}} ({{[album.dateFrom,album.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}})
     </a>
-    </h3>
-    <div class="row photos">
-      <ng-container *ngFor="let photo of album.titlePhotos | slice:0:3; let i = index">
-        <div class="col-sm-12 col-md-6 col-lg-4" [class.d-none]="i>0" [class.d-lg-block]="i>0" [class.d-md-block]="i>1">
-          <a [routerLink]="'/fotogalerie/' + album._id + '/' + photo._id" class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'"></a>
-        </div>
-      </ng-container>
-    </div>
-    <div class="description">
-      <div class="row">
-        <div class="col-sm-12 col-md-8 col-lg-10">
-          <p>{{album.description}}</p>
-        </div>
-        <div class="col-sm-12 col-md-4 col-lg-2 text-right">
-          <a [routerLink]="'/fotogalerie/' + album._id" class="open">Otevřít album</a>
-        </div>
+  </h4>
+  <div class="row photos">
+    <ng-container *ngFor="let photo of album.titlePhotos | slice:0:3; let i = index">
+      <div class="col-sm-12 col-md-6 col-lg-4" [class.d-none]="i>0" [class.d-lg-block]="i>0" [class.d-md-block]="i>1">
+        <a [routerLink]="'/fotogalerie/' + album._id + '/' + photo._id" class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'"></a>
       </div>
+    </ng-container>
+  </div>
+  <div class="row my-2">
+    <ng-container *ngIf="album.description">
+      <div class="col-md-auto">
+        <p>{{album.description}}</p>
+      </div>
+    </ng-container>
+    <div class="col d-flex justify-content-end">
+      <a [routerLink]="'/fotogalerie/' + album._id" class="flat">Otevřít album</a>
     </div>
+  </div>
 </ng-container>

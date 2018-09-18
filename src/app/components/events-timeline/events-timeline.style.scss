@@ -9,28 +9,25 @@ $circleTop: ($arrowTop + ($arrowSize/2.0)) - ($circleSize /2.0);
 $timelineWidth: 0.25vh;
 $timelineRight: ($circleSize/2.0) - ($timelineWidth/2.0) + $arrowPadding;
 
+h4{z-index: 10}
+.group-badges{z-index: 10;}
+
 .timeline .month{position:relative;margin:20px 0;}
 .timeline .month div{display:inline-block;width:100px;position:relative;;margin-left:-50px;text-align:center;}
 .timeline .month div span{display:inline-block;min-width:50px;color:#fff;background-color:$blue;padding:2px 6px;border-radius:4px;}
 .timeline .month::before{content:" ";position:absolute;top:50%;left:0;right:0;height:2px;margin-top:-1px;background-color:$blue;}
 
-.timeline .event .circleContainer{padding:0px;padding-right:$arrowPadding}
+.timeline .event {box-sizing:border-box;}
+.timeline .event .circleContainer{padding:0px;padding-right:$arrowPadding;}
 .timeline .event .circle{z-index:10;margin-top: $circleTop;width:$circleSize;height:$circleSize;border-radius:50%;background-color:#ccc; }
-.timeline .event .line{position: absolute;top: 0;bottom: 0;width: $timelineWidth;background-color: #eee;right:$timelineRight}
-.timeline .event .date{vertical-align:middle;font-size:$font-medium;font-weight:bold;}
-.timeline .event .panel h2{z-index: 10; margin:10px}
-.timeline .event .panel .group-badges{z-index: 10;}
+.timeline .event .line{position: absolute;top: 0;height:100%;width: $timelineWidth;background-color: #eee;right:$timelineRight}
 
-.timeline .event .panel p{margin:10px 0;text-align:justify;color:$black;}
-.timeline .event .panel p:last-child{margin-bottom:0;}
-.timeline .event .panel .registration{float:right;color:$linkBlue;font-weight:bold;text-transform:uppercase;text-decoration:none;}
-.timeline .event .panel .details::after{display:block;content:" ";clear:both;}
-
-.timeline .event.event-big{}
+.timeline .event.event-big{ margin-top:1rem;margin-bottom:1rem;}
+.timeline .event.event-big .event-header{padding-top: 1rem;}
 .timeline .event.event-big .panel{box-shadow:0px 0px 5px rgba(0,0,0,.2);background-color:#fff;}
 .timeline .event.event-big .panel::before {
     box-sizing: border-box;
-    box-shadow:0px 0px 5px rgba(0,0,0,.2);
+    box-shadow:$shadow;
     background-color: #fff;
     content: "\00a0";
     display: block;
@@ -63,11 +60,9 @@ $timelineRight: ($circleSize/2.0) - ($timelineWidth/2.0) + $arrowPadding;
 }
 
 .timeline .event.event-small{}
-.timeline .event.event-small h2{font-size:$font-medium;font-weight:normal;}
-.timeline .event.event-small .leaders{display:none;}
+.timeline .event.event-small .event-header{ padding-top: 0rem;}
+.timeline .event.event-small .footer{display:none;}
 .timeline .event.event-small .meeting{display:none;}
 .timeline .event.event-small .panel{padding-left:0;}
-.timeline .event.event-small .date{font-weight:normal;}
-
-.timeline .group-badges .group-badge{opacity:1;}
+.timeline .event.event-small h4,h5{font-weight:normal;}
 

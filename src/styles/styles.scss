@@ -7,88 +7,51 @@ html {
     overflow-y:scroll;
 }
 
-body{font-family:"Roboto Condensed", Verdana, sans-serif;font-size:$font-basic;color:$black;}
+body{
+  font-family:$font-family;
+  color:$black;
+}
 
-header {
+h1, h2, h3, h4, h5, h6{
+  font-weight:bold;
+}
+
+h1{
+  text-align:center;
+  margin-top: .5rem;
+}
+
+.header {
   background-position:center center;
   background-repeat:no-repeat;
   background-color:#ccc;
   background-size:cover;
-  height:400px;
-  padding-top:150px;
+  height:85vh;
   text-align:center;
   position:relative;
 }
-header::after{content:" ";position: absolute;top: 0;left: 0;right: 0;bottom: 0;background: linear-gradient(to bottom, rgba(0,0,0,.7), rgba(0,0,0,0) 50%);z-index:1;}
-header .content{position:absolute;top:150px;left:0;right:0;z-index:2;}
+.header::after{content:" ";position: absolute;top: 0;left: 0;right: 0;bottom: 0;background: linear-gradient(to bottom, rgba(0,0,0,.7), rgba(0,0,0,0) 100%);z-index:1;}
+.header .content{position:relative;top:30%;left:0;right:0;z-index:2;}
 
-header.header-large{height:800px;padding-top:300px;}
-header.header-large .content{top:300px;}
-header.header-small{height:400px;padding-top:150px;}
-header.header-small .content{top:150px;}
-
-header h1{
+.header h1{
   color:$white;
+  font-size: $font-super-large;
   text-shadow: 2px 2px 2px rgba(0,0,0,.6);
-  margin-bottom: 20px;
 }
 
+section:nth-child(odd) {background-color:$grey;}
 
-a.btn{display:inline-block;max-width:100%;line-height:46px;font-weight:bold;}
+a.btn{display:inline-block;}
+a.flat{font-weight:bold;text-transform:uppercase;text-decoration:none;}
 
-header .btn { 
-  padding: 15px 30px 15px 30px;
-  
-  font-weight: bold;
-  
-  font-size:32px;
-  line-height:46px;
-  vertical-align:middle;
-
-  box-shadow: 0 2px 6px rgba(0,0,0,.7);
-
-  z-index:5;
-}
-
-.buttons{text-align:right;}
-
-
-.group-badges .group-badge{display:inline-block;height:30px;width:30px;border-radius:15px;font-weight:bold;color:#fff;text-align:center;line-height:30px;vertical-align:middle;margin:0 5px;text-decoration:none;opacity:.8;}
+.group-badges .group-badge{display:inline-block;height:30px;width:30px;border-radius:50%;font-weight:bold;color:#fff;text-align:center;line-height:30px;vertical-align:middle;margin:0 5px;text-decoration:none;opacity:.8;}
 .group-badges .group-badge:hover{opacity:1;}
 .group-badges .group-badge:first-child{margin-left:0;}
 .group-badges .group-badge:last-child{margin-right:0;}
 
-
-section:nth-child(even) {background-color: #f1f1f1;}
-
-section.padding, section > .padding{padding:20px 0;}
-
-
-/* TEXT FORMATS */
-h1{
-  font-size: $font-super-large;
-  font-weight:bold;
-  margin-top: 0;
-  margin-bottom: 10px;
-  text-align:center;
-}
-
-
-h2 {
-  font-size: $font-large;
-  font-weight: bold;
-  margin: 10px 0;
-  position:relative;
-}
-
 h2 .back{margin-right:10px;}
 
-p {line-height: 1.5;text-align:justify;}
-
-p.subheading{text-align:center;width:100%;}
-
 a {color: $linkBlue;}
-
 a:not(.btn):hover {color: $hover-yellow !important;}
 
 /* VALIDATION */
@@ -113,24 +76,6 @@ input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invali
 
 /* SPECIALS */
 
-.btn { 
-  color:$white;font-size:$font-basic;
-  padding-left: 20px;
-  padding-right: 20px;
-  line-height: 46px;
-  font-weight: bold;
-}
-
-.btn-primary{color:$white !important; text-transform: uppercase; background-color: $blue}
-
-/* @media (min-width: 1600px) {
-  .container {
-    max-width: 1900px;
-    padding:0 120px;
-  }
-} */
-
-
 ::-moz-selection {
   background: #00BFFF;
   text-shadow: none;
@@ -139,8 +84,4 @@ input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invali
 ::selection {
   background: #00BFFF;
   text-shadow: none;
-}
-
-.card p {
-  text-align:center;
 }

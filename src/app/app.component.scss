@@ -6,14 +6,11 @@
 #toasts li{display:inline-block;margin:0;padding:0;padding:10px 20px;margin:0 5px;background-color:rgba(0,0,0,.7);border-radius:10px;color:$white;}
 #toasts li span p{margin-top: 5px;margin-bottom:0px;}
 
+
 /* === NAVBAR === */
 
-
 nav {
-  background-color:#3e3e3e;
-  letter-spacing: 0.1em;
-  font-weight: bold;
-  text-transform: uppercase;
+  background-color:$black70;
 }
 
 nav.transparent {
@@ -21,100 +18,62 @@ nav.transparent {
   top:0;
   left:0;
   right:0;
-  background-color:transparent;
+  background:none;
   z-index: 1000;
 }
 
-
 nav .navbar-toggler {
-  font-size: $font-basic;
-  right: 0;
-  padding: 13px;
-  text-transform: uppercase;
+  border: none;
   color: $white;
-  border: 0;
-  letter-spacing: 0.2em;
 }
 
 nav .navbar-brand {
   color: $white;
+  font-weight: bold;
 }
 
-nav .navbar-brand.active, nav .navbar-brand:active, nav .navbar-brand:focus, nav .navbar-brand:hover {
-  color: #fec503;
+nav .navbar-brand:hover {
+  color: $hover-yellow;
 }
 
-nav .navbar-nav .nav-item .nav-link {
-  font-size: $font-basic;
-  font-weight: 700;
-  padding: 0.75em 0;
-  letter-spacing: 1px;
+nav .nav-link {
+  font-weight: bold;
   color: $white;
-  font-family: "Roboto Condensed", Helvetica, Arial, sans-serif;
 }
 
-nav .navbar-nav .nav-item .nav-link.active, nav .navbar-nav .nav-item .nav-link:hover {
+nav .nav-link.active, nav .nav-link:hover {
   color: $linkBlue;
 }
 
-@media (min-width: 992px) {
-  nav {
-    border: none;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-    z-index: 10;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-  nav .navbar-brand {
-    font-size: $font-medium;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-    font-weight: bold;
-    letter-spacing: 0.2em;
-    color: $white;
-  }
-  nav .navbar-nav .nav-item .nav-link {
-    padding: 1.1em 1em !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-    color: $white;
-    cursor:pointer;
-  }
-  nav.navbar-shrink {
-    padding-top: 0;
-    padding-bottom: 0;
-    background-color: #212529;
-  }
-  nav.navbar-shrink .navbar-brand {
-    font-size: $font-medium;
-    padding: 12px 0;
-  }
-}
-@media (min-width: 992px) {
-  #page{min-height:600px;}
+footer {
+  background-color: $black70;
 }
 
-footer {
-  padding: 25px 0;
-  background-color: #333333;
+footer img.logo{
+  height: 20vh;
+}
+
+footer h4{
   color: $white;
 }
 
-footer img.logo{width:120px;}
+footer li{
+  display: block;
+}
 
-footer a{color:$white;}
-footer .links a{display:block;}
-footer .icons a{font-size:$font-super-large;margin:0 20px;}
-
-.footer-bold a {
+footer a{
+  color: $white;
+  text-decoration: none;
   font-weight:bold;
-  text-decoration:none;
-  padding-bottom:10px;
-  padding-left:10px;
 }
 
-.footer-title {
-  font-size:$font-medium;
-  text-align: left
+footer a:hover{
+  color: $hover-yellow;
 }
+
+footer i{
+  font-size: 5vh;
+}
+
+
 
