@@ -5,23 +5,13 @@ var moment = require("moment");
 
 var acl = require("express-dynacl");
 
-var config = require("../../config/config");
+var config = require("../../config");
 
 var Album = require("../models/album");
 var Photo = require("../models/photo");
 
-function redirectUser(redirectUrlFn){
-  return function(req,res,next){
-    var ua = req.headers["user-agent"];
-    if(/^(facebookexternalhit)|(Twitterbot)|(Pinterest)/gi.test(ua)){
-      console.log("Bot found, serving static page");
-      next();
-    }
-    else{
-      let url = redirectUrlFn ? redirectUrlFn(req,res,next) : req.originalUrl.replace("api/share/","");
-      res.redirect(301, url);
-    }
-  }
+function getRoot(req){
+  return req.protocol + "://" + req.hostname;
 }
 
 function createPage(options){
@@ -43,17 +33,17 @@ function createPage(options){
 `;
 }
 
-router.get("/fotogalerie/:album", redirectUser(), acl("albums:read"), async (req,res) => {
+router.get("/fotogalerie/:album", acl("albums:read"), async (req,res) => {
   
   var album = await Album.findOne({_id:req.params.album}).populate("titlePhotos");
   
   var options = {
-    url: album.shareUrl,
+    url: `${getRoot(req)}/fotogalerie/${req.params.album}`,
     title: album.name + " (" + moment(album.dateFrom).format('l') + " - " + moment(album.dateTill).format('l') + ")",
     description: album.description,
     type: "image.gallery",
     image: {
-      url: album.titlePhotos && album.titlePhotos[0] ? album.titlePhotos[0].sizes.big.url : "",
+      url: album.titlePhotos && album.titlePhotos[0] ? req.protocol + '://' + req.hostname + album.titlePhotos[0].sizes.big.url : "",
       width: album.titlePhotos && album.titlePhotos[0] ? album.titlePhotos[0].sizes.big.width : "",
       height: album.titlePhotos && album.titlePhotos[0] ? album.titlePhotos[0].sizes.big.height : ""
     }
@@ -62,18 +52,18 @@ router.get("/fotogalerie/:album", redirectUser(), acl("albums:read"), async (req
   res.type("html").send(createPage(options));
 });
 
-router.get("/fotogalerie/:album/:photo", redirectUser(), acl("albums:read"), async (req,res) => {
+router.get("/fotogalerie/:album/:photo", acl("albums:read"), async (req,res) => {
   
   var album = await Album.findOne({_id:req.params.album});
   var photo = await Photo.findOne({_id:req.params.photo});
   
   var options = {
-    url: photo.shareUrl,
+    url: `${getRoot(req)}/fotogalerie/${req.params.album}/${req.params.photo}`,
     title: album.name + " (" + moment(album.dateFrom).format('l') + " - " + moment(album.dateTill).format('l') + ")",
     description: photo.caption || album.description,
     type: "image.gallery",
     image: {
-      url: photo.sizes.big.url,
+      url: req.protocol + '://' + req.hostname + photo.sizes.big.url,
       width: photo.sizes.big.width,
       height: photo.sizes.big.height
     }

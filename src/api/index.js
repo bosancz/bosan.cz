@@ -21,4 +21,6 @@ router.use("/users", require("./users"));
 
 router.use("/versions", require("./versions"));
 
+router.use("/share", require("./share"));
+
 router.get("/test", (req,res,next) => res.sendStatus(200));

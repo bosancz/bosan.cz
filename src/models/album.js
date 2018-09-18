@@ -27,6 +27,4 @@ var albumSchema = mongoose.Schema({
   "photos": [{type: mongoose.Schema.Types.ObjectId, ref: "Photo"}]
 }, { toJSON: { virtuals: true } });
 
-albumSchema.virtual("shareUrl").get(function(){return config.api.shareRoot + "/" + path.join("fotogalerie",String(this._id));});
-
 module.exports = mongoose.model("Album", albumSchema);
