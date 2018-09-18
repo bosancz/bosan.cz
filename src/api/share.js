@@ -38,7 +38,7 @@ router.get("/fotogalerie/:album", acl("albums:read"), async (req,res) => {
   var album = await Album.findOne({_id:req.params.album}).populate("titlePhotos");
   
   var options = {
-    url: `${getRoot(req)}/fotogalerie/${req.params.album}`,
+    url: `${config.url}/fotogalerie/${req.params.album}`,
     title: album.name + " (" + moment(album.dateFrom).format('l') + " - " + moment(album.dateTill).format('l') + ")",
     description: album.description,
     type: "image.gallery",
@@ -58,7 +58,7 @@ router.get("/fotogalerie/:album/:photo", acl("albums:read"), async (req,res) => 
   var photo = await Photo.findOne({_id:req.params.photo});
   
   var options = {
-    url: `${getRoot(req)}/fotogalerie/${req.params.album}/${req.params.photo}`,
+    url: `${config.url}/fotogalerie/${req.params.album}/${req.params.photo}`,
     title: album.name + " (" + moment(album.dateFrom).format('l') + " - " + moment(album.dateTill).format('l') + ")",
     description: photo.caption || album.description,
     type: "image.gallery",
