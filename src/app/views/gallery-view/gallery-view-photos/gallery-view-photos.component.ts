@@ -86,6 +86,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
       case "ArrowLeft": return this.openPreviousPhoto();
       case "ArrowRight": return this.openNextPhoto();
       case "Escape": return this.close();
+      case "Home": return this.openPhoto(this.album.photos[0]);
+      case "End": return this.openPhoto(this.album.photos[this.album.photos.length - 1]);
     }
   }
   
