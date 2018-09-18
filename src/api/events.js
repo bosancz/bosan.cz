@@ -171,7 +171,7 @@ router.post("/:event/registration", upload.single("file"), acl("events:edit"), a
   res.sendStatus(204);
 });
 
-router.delete("/:event/registration", upload.single("file"), acl("events:edit"), async (req,res,next) => {
+router.delete("/:event/registration", acl("events:edit"), async (req,res,next) => {
   var event = await Event.findOne({_id:req.params.event});
   
   if(!event.registration) return res.sendStatus(404);
