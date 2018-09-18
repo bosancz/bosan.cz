@@ -47,7 +47,13 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   eventRecurringTypeFields:CodelistField[] = [
     {"name": "name", "title": "ID", "type": "text"},
     {"name": "title", "title": "Název", "type": "text"}
-  ];      
+  ];     
+  
+  eventDescriptionWarningsFields:CodelistField[] = [
+    {"name": "regexp", "title": "RegExp", "type": "text"},
+    {"name": "regexpModifiers", "title": "RegExp modifikátory", "type": "text"},
+    {"name": "text", "title": "Varování", "type": "text"}
+  ];
   
   memberRolesFields:CodelistField[] = [
     {"name": "id", "title": "ID", "type": "text"}

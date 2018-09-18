@@ -30,6 +30,12 @@ export class WebConfigRecurringType {
   title:string;
 }
 
+export class WebConfigDescriptionWarning {
+  regexp:string;
+  regexpModifiers:string;
+  text:string;
+}
+
 export interface WebConfig {
   
   general:{
@@ -58,6 +64,7 @@ export interface WebConfig {
   events:{
     types:WebConfigEventType[],
     subtypes:WebConfigEventSubType[],
-    recurringTypes:WebConfigRecurringType[]
+    recurringTypes:WebConfigRecurringType[],
+    descriptionWarnings:WebConfigDescriptionWarning[]
   };
 }
