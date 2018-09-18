@@ -56,6 +56,10 @@
             <h4>Typů opakování</h4>
 
             <codelist-editor [fields]="eventRecurringTypeFields" [(ngModel)]="config.events.recurringTypes"></codelist-editor>
+            
+            <h4>Kontrola popisků</h4>
+
+            <codelist-editor [fields]="eventDescriptionWarningsFields" [(ngModel)]="config.events.descriptionWarnings"></codelist-editor>
           </ng-container>
 
           <ng-container *ngSwitchCase="'clenska-databaze'">

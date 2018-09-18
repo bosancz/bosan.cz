@@ -26,7 +26,8 @@
 
   <div class="form-group">
     <label>Popis</label>
-    <textarea name="description" [ngModel]="event.description" class="form-control"></textarea>
+    <textarea name="description" [ngModel]="event.description" (ngModelChange)="checkDescription($event)" class="form-control"></textarea>
+    <small *ngFor="let warning of descriptionWarnings" class="text-danger">{{warning}} </small>
   </div>
 
 
