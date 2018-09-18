@@ -170,3 +170,17 @@ router.post("/:event/registration", upload.single("file"), acl("events:edit"), a
   
   res.sendStatus(204);
 });
+
+router.delete("/:event/registration", upload.single("file"), acl("events:edit"), async (req,res,next) => {
+  var event = await Event.findOne({_id:req.params.event});
+  
+  if(!event.registration) return res.sendStatus(404);
+  
+  var registrationFile = path.join(config.events.storageDir,String(event._id),event.registration);
+  await rmfr(registrationFile);
+  
+  event.registration = null;
+  await event.save();
+  
+  res.sendStatus(204);
+});
