@@ -45,7 +45,14 @@ export class EventAdminInfoComponent implements OnInit {
   
   async loadDescriptionWarnings():Promise<void>{
     let config = await this.dataService.getConfig();
-    this.descriptionWarningDefs = config.events.descriptionWarnings.map(warning => ({regexp:new RegExp(warning.regexp,warning.regexpModifiers),text:warning.text}));
+    this.descriptionWarningDefs = config.events.descriptionWarnings.map(warning => {
+      try{
+        return {regexp:new RegExp(warning.regexp,warning.regexpModifiers),text:warning.text};
+      }
+      catch(err){
+       return undefined; 
+      }
+    }).filter(item => item !== undefined);
     this.checkDescription(this.event.description);
   }
   
