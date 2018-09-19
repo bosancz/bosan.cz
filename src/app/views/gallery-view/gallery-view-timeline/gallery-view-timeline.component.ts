@@ -4,12 +4,12 @@ import { Router, Scroll, RouterEvent } from "@angular/router";
 
 import { filter } from "rxjs/operators";
 
-import { DataService } from "../../../services/data.service";
+import { DataService } from "app/services/data.service";
 
-import { Paginated } from "../../../schema/paginated";
-import { Album } from "../../../schema/album";
+import { Paginated } from "app/schema/paginated";
+import { Album } from "app/schema/album";
 
-import { TimelinePoint, TimelineLabel } from "../../../components/timeline-scroll/timeline-scroll.component";
+import { TimelinePoint, TimelineLabel } from "app/components/timeline-scroll/timeline-scroll.component";
 
 class TimelineAlbumContainer implements TimelinePoint{
   y:number;

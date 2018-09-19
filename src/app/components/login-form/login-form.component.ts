@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { AuthService } from "../../services/auth.service";
-import { DataService } from "../../services/data.service";
-import { ToastService } from "../../services/toast.service";
-import { GoogleService } from "../../services/google.service";
+import { AuthService } from "app/services/auth.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
+import { GoogleService } from "app/services/google.service";
 
 @Component({
   selector: 'login-form',

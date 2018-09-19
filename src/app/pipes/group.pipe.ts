@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
 
-import { DataService } from "../services/data.service";
+import { DataService } from "app/services/data.service";
 
 enum GroupProperty {
   name = "name",

@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
-import { ToastService } from "../../../../../services/toast.service";
-import { DataService } from "../../../../../services/data.service";
+import { ToastService } from "app/services/toast.service";
+import { DataService } from "app/services/data.service";
 
-import { Event } from "../../../../../schema/event";
+import { Event } from "app/schema/event";
 
 @Component({
   selector: 'event-admin-registration',

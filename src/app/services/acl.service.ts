@@ -1,12 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { User } from "../schema/user";
+import { User } from "app/schema/user";
 
-import { AuthService } 		from './auth.service';
-import { ToastService } 		from './toast.service';
+import { AuthService } 		from 'app/services/auth.service';
+import { ToastService } 		from 'app/services/toast.service';
 
-import { AppConfig, IAppConfig } from "../../config/config";
+import { AppConfig, IAppConfig } from "config/config";
 
 export interface ACLRoute{
   route:string;

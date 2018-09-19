@@ -4,9 +4,9 @@ import { BehaviorSubject }    from 'rxjs';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { environment } from '../../environments/environment';
+import { environment } from "environments/environment";
 
-import { User } from "../schema/user";
+import { User } from "app/schema/user";
 
 export class AuthUser{
   _id:string;

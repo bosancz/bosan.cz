@@ -2,12 +2,12 @@ import { Component, Input, Output, EventEmitter, Inject, LOCALE_ID, ViewChild, E
 import { formatDate } from "@angular/common";
 import { NgForm } from "@angular/forms";
 
-import { DataService } from "../../../../../services/data.service";
-import { ToastService } from "../../../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Album } from "../../../../../schema/album";
-import { Event } from "../../../../../schema/event";
-import { Paginated } from "../../../../../schema/paginated";
+import { Album } from "app/schema/album";
+import { Event } from "app/schema/event";
+import { Paginated } from "app/schema/paginated";
 
 @Component({
   selector: 'album-admin-metadata',

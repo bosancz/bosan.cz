@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 
-import { DataService } from "./data.service";
+import { DataService } from "app/services/data.service";
 
 @Injectable({
   providedIn: 'root'

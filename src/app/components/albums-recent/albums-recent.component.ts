@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from "../../services/data.service";
-import { Album } from "../../schema/album";
+import { DataService } from "app/services/data.service";
+import { Album } from "app/schema/album";
 
 @Component({
   selector: 'albums-recent',

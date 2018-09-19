@@ -2,11 +2,11 @@ import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter } from
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 
-import { DataService } from "../../../../../services/data.service";
-import { ToastService } from "../../../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Event, EventRecurring } from "../../../../../schema/event";
-import { WebConfigRecurringType } from "../../../../../schema/webconfig";
+import { Event, EventRecurring } from "app/schema/event";
+import { WebConfigRecurringType } from "app/schema/webconfig";
 
 @Component({
   selector: 'event-admin-recurring',

@@ -4,9 +4,9 @@ import { NgForm } from "@angular/forms";
 
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../../services/data.service";
-import { ToastService } from "../../../services/toast.service";
-import { AuthService } from "../../../services/auth.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
+import { AuthService } from "app/services/auth.service";
 
 import { User } from "../../../schema/user";
 

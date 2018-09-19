@@ -1,7 +1,7 @@
 import { Directive, Input, HostListener, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 
-import { ACLService } from "../services/acl.service";
+import { ACLService } from "app/services/acl.service";
 
 @Directive({
   selector: '[adminLink]'

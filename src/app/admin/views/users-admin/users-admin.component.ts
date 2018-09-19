@@ -7,10 +7,10 @@ import { Subscription } from "rxjs";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service'
 
-import { DataService } from "../../../services/data.service";
-import { ToastService } from "../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { User } from "../../../schema/user";
+import { User } from "app/schema/user";
 
 @Component({
   selector: 'users-admin',

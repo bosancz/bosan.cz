@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
-import { DataService } from "../../../../../services/data.service";
-import { ToastService } from "../../../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { GalleryPhoto } from "../../../../../components/photo-gallery/photo-gallery.component";
+import { GalleryPhoto } from "app/components/photo-gallery/photo-gallery.component";
 
-import { Album, Photo } from "../../../../../schema/album";
+import { Album, Photo } from "app/schema/album";
 
 @Component({
   selector: 'album-admin-photos',

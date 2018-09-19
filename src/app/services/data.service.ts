@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../environments/environment';
+import { environment } from "environments/environment";
 
-import { Paginated } from "../schema/paginated";
-import { Album, Photo } from "../schema/album";
-import { Camp } from "../schema/camp";
-import { Contact } from "../schema/contact";
-import { Event, EventRecurring } from "../schema/event";
-import { Member } from "../schema/member";
-import { User } from "../schema/user";
-import { WebConfig } from "../schema/webconfig";
+import { Paginated } from "app/schema/paginated";
+import { Album, Photo } from "app/schema/album";
+import { Camp } from "app/schema/camp";
+import { Contact } from "app/schema/contact";
+import { Event, EventRecurring } from "app/schema/event";
+import { Member } from "app/schema/member";
+import { User } from "app/schema/user";
+import { WebConfig } from "app/schema/webconfig";
 
 function setParam(params:HttpParams,name:string,value:any){
   if(value === undefined) return params;

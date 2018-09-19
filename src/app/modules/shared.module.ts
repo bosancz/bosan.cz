@@ -1,24 +1,24 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { RouterModule } from "@angular/router";
  
-import { SafeurlPipe } from "../pipes/safeurl.pipe";
-import { GroupPipe } from "../pipes/group.pipe";
-import { Nl2brPipe } from '../pipes/nl2br.pipe';
-import { DateRangePipe } from '../pipes/date-range.pipe';
+import { SafeurlPipe } from "app/pipes/safeurl.pipe";
+import { GroupPipe } from "app/pipes/group.pipe";
+import { Nl2brPipe } from "app/pipes/nl2br.pipe";
+import { DateRangePipe } from "app/pipes/date-range.pipe";
 
-import { BreadCrumbsComponent } from '../components/bread-crumbs/bread-crumbs.component';
-import { PhotoGalleryComponent } from '../components/photo-gallery/photo-gallery.component';
+import { BreadCrumbsComponent } from "app/components/bread-crumbs/bread-crumbs.component";
+import { PhotoGalleryComponent } from "app/components/photo-gallery/photo-gallery.component";
 
-import { ContenteditableDirective } from '../directives/contenteditable.directive';
+import { ContenteditableDirective } from "app/directives/contenteditable.directive";
 
 /* THIRD PARTY */
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { CollapseModule } from "ngx-bootstrap/collapse";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { TypeaheadModule } from "ngx-bootstrap/typeahead";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
 
 @NgModule({
   imports: [

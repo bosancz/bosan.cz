@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Event } from "../../../../../schema/event";
+import { Event } from "app/schema/event";
 
 @Component({
   selector: 'event-admin-attendees',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ToastService } from "./toast.service";
+import { ToastService } from "app/services/toast.service";
 
 @Injectable()
 export class ErrorService {

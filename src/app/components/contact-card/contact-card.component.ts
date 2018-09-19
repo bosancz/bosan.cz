@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Contact } from "../../schema/contact";
+import { Contact } from "app/schema/contact";
 
 @Component({
   selector: 'contact-card',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TitleService } from "../../services/title.service";
+import { TitleService } from "app/services/title.service";
 
 @Component({
   selector: 'events-view',

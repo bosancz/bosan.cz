@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from "@angular/router";
 
-import { MenuService } from "../../services/menu.service";
-import { TitleService } from "../../services/title.service";
-import { DataService } from "../../services/data.service";
+import { MenuService } from "app/services/menu.service";
+import { TitleService } from "app/services/title.service";
+import { DataService } from "app/services/data.service";
 
-import { Photo } from "../../schema/photo";
-import { GalleryPhoto } from "../../components/photo-gallery/photo-gallery.component";
+import { Photo } from "app/schema/photo";
+import { GalleryPhoto } from "app/components/photo-gallery/photo-gallery.component";
 
 class GalleryPhotoContainer implements GalleryPhoto{
   

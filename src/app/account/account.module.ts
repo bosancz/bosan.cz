@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SharedModule } from "../modules/shared.module";
+import { SharedModule } from "app/modules/shared.module";
 
 /* MAIN */
-import { AccountComponent } from './account.component';
-import { AccountRoutingModule } from './account-routing.module';
+import { AccountComponent } from 'app/account/account.component';
+import { AccountRoutingModule } from 'app/account/account-routing.module';
 
 /* VIEWS */
-import { AccountAdminComponent } from './views/account-admin/account-admin.component';
-import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
-import { AccountDashboardComponent } from './views/account-dashboard/account-dashboard.component';
-import { MyEventsComponent } from './views/my-events/my-events.component';
+import { AccountAdminComponent } from 'app/account/views/account-admin/account-admin.component';
+import { DocumentsViewComponent } from 'app/account/views/documents-view/documents-view.component';
+import { AccountDashboardComponent } from 'app/account/views/account-dashboard/account-dashboard.component';
+import { MyEventsComponent } from 'app/account/views/my-events/my-events.component';
 
 @NgModule({
   imports: [

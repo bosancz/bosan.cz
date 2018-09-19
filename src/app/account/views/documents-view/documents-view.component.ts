@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
-import { DataService } from "../../../services/data.service";
+import { DataService } from "app/services/data.service";
 
 @Component({
   selector: 'documents-view',

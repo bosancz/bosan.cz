@@ -7,13 +7,13 @@ import { Subscription } from "rxjs";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { DataService } from "../../../services/data.service";
-import { AuthService } from "../../../services/auth.service";
-import { ToastService } from "../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { AuthService } from "app/services/auth.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Event } from "../../../schema/event";
-import { WebConfigEventType } from "../../../schema/webconfig";
-import { Paginated } from "../../../schema/paginated";
+import { Event } from "app/schema/event";
+import { WebConfigEventType } from "app/schema/webconfig";
+import { Paginated } from "app/schema/paginated";
 
 @Component({
   selector: 'events-admin',

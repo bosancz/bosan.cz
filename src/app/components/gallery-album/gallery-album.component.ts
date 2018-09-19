@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Album } from "../../schema/album";
+import { Album } from "app/schema/album";
 
 @Component({
   selector: 'gallery-album',

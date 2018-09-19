@@ -1,7 +1,7 @@
 import { Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import { DataService } from "../../../services/data.service";
+import { DataService } from "app/services/data.service";
 
 @Component({
   selector: 'groups-select',

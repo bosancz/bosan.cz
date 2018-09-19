@@ -3,10 +3,10 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../../../services/data.service";
+import { DataService } from "app/services/data.service";
 
-import { Album } from "../../../../schema/album";
-import { Paginated } from "../../../../schema/paginated";
+import { Album } from "app/schema/album";
+import { Paginated } from "app/schema/paginated";
 
 @Component({
   selector: 'albums-admin',

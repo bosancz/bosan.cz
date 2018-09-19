@@ -7,11 +7,11 @@ import { Subscription } from "rxjs";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { DataService } from "../../../services/data.service";
-import { ToastService } from "../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Member } from "../../../schema/member";
-import { WebConfigGroup } from "../../../schema/webconfig";
+import { Member } from "app/schema/member";
+import { WebConfigGroup } from "app/schema/webconfig";
 
 @Component({
   selector: 'members-admin',
