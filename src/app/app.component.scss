@@ -13,17 +13,18 @@ nav {
   background-color:$black70;
 }
 
-nav.transparent {
+nav.transparent.nav-collapsed {
   position:absolute;
   top:0;
   left:0;
   right:0;
   background:none;
-  z-index: 1000;
+  z-index: 10;
 }
 
 nav .navbar-toggler {
   border: none;
+  outline: none;
   color: $white;
 }
 
