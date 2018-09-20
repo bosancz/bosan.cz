@@ -1,71 +1,70 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { AppErrorHandler } from "./app.errorhandler";
+import { AppComponent } from 'app/app.component';
+import { AppRoutingModule } from 'app/app-routing.module';
+import { AppErrorHandler } from "app/app.errorhandler";
 
 /* SHARED */
-import { SharedModule } from "./modules/shared.module";
+import { SharedModule } from "app/modules/shared.module";
 
 /* SERVICES */
-import { ACLService } from "./services/acl.service";
-import { AuthService } from "./services/auth.service";
-import { DataService } from "./services/data.service";
-import { ToastService } from "./services/toast.service";
-import { MenuService } from "./services/menu.service";
+import { ACLService } from "app/services/acl.service";
+import { AuthService } from "app/services/auth.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
+import { MenuService } from "app/services/menu.service";
 
 /* VIEWS */
-import { AboutViewComponent } from './views/about-view/about-view.component';
-import { CampViewComponent } from './views/camp-view/camp-view.component';
-import { ContactsViewComponent } from './views/contacts-view/contacts-view.component';
-import { EventsViewComponent } from './views/events-view/events-view.component';
-import { GalleryViewComponent } from './views/gallery-view/gallery-view.component';
-import { NewsViewComponent } from './views/news-view/news-view.component';
+import { AboutViewComponent } from 'app/views/about-view/about-view.component';
+import { CampViewComponent } from 'app/views/camp-view/camp-view.component';
+import { ContactsViewComponent } from 'app/views/contacts-view/contacts-view.component';
+import { EventsViewComponent } from 'app/views/events-view/events-view.component';
+import { GalleryViewComponent } from 'app/views/gallery-view/gallery-view.component';
+import { NewsViewComponent } from 'app/views/news-view/news-view.component';
 
 /* CHILD VIEWS */
-import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
-import { GalleryViewTimelineComponent } from './views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
-import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
+import { GalleryViewAlbumComponent } from 'app/views/gallery-view/gallery-view-album/gallery-view-album.component';
+import { GalleryViewTimelineComponent } from 'app/views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
+import { GalleryViewPhotosComponent } from 'app/views/gallery-view/gallery-view-photos/gallery-view-photos.component';
 
 /* SHARED */
 
 // Components
-import { AlbumsRecentComponent } from './components/albums-recent/albums-recent.component';
-import { ContactCardComponent } from './components/contact-card/contact-card.component';
-import { EventsTimelineComponent } from './components/events-timeline/events-timeline.component';
-import { GoogleMapComponent } from './components/google-map/google-map.component';
-import { LoginFormComponent } from './components/login-form/login-form.component';
-import { TimelineScrollComponent } from './components/timeline-scroll/timeline-scroll.component';
+import { AlbumsRecentComponent } from 'app/components/albums-recent/albums-recent.component';
+import { ContactCardComponent } from 'app/components/contact-card/contact-card.component';
+import { EventsTimelineComponent } from 'app/components/events-timeline/events-timeline.component';
+import { GoogleMapComponent } from 'app/components/google-map/google-map.component';
+import { LoginFormComponent } from 'app/components/login-form/login-form.component';
+import { TimelineScrollComponent } from 'app/components/timeline-scroll/timeline-scroll.component';
 
 // Directives
-import { AppearDirective } from './directives/appear.directive';
-import { AdminLinkDirective } from './directives/admin-link.directive';
+import { AdminLinkDirective } from 'app/directives/admin-link.directive';
 
 // Pipes
+import { JoinLeadersPipe } from 'app/pipes/join-leaders.pipe';
+import { FormatPhonePipe } from 'app/pipes/format-phone.pipe';
+import { GalleryAlbumComponent } from 'app/components/gallery-album/gallery-album.component';
 
 /* THIRD PARTY */
 import { JwtModule } from '@auth0/angular-jwt';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 // App Config
-import { AppConfig, AppConfigData } from "../config/config";
-import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
-import { FormatPhonePipe } from './pipes/format-phone.pipe';
-import { GalleryAlbumComponent } from './components/gallery-album/gallery-album.component';
+import { AppConfig, AppConfigData } from "config/config";
 
 // settings for JWT
 export function JwtTokenGetter():string{
-  return localStorage.getItem('id_token') || ""
+  return localStorage.getItem('id_token') || "";
 }
 
 export const jwtOptions = {
-	config: {
-		tokenGetter: JwtTokenGetter,
-		whitelistedDomains: ['bosancz.smallhill.cz'],
-		throwNoTokenError: false,
-		skipWhenExpired: true
-	}
+  config: {
+    tokenGetter: JwtTokenGetter,
+    whitelistedDomains: ['bosan.cz'],
+    throwNoTokenError: false,
+    skipWhenExpired: true
+  }
 };
 
 @NgModule({
@@ -74,21 +73,21 @@ export const jwtOptions = {
     /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent,
     /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent,
     /* CHILD VIEWS */ GalleryViewTimelineComponent, GalleryViewAlbumComponent, GalleryViewPhotosComponent,
-    
+
     /* PIPES */
-    
-    /* DIRECTIVES */ AppearDirective, AdminLinkDirective,
-    
+
+    /* DIRECTIVES */ AdminLinkDirective,
+
     /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, JoinLeadersPipe, FormatPhonePipe, GalleryAlbumComponent
   ],
   imports: [
     BrowserAnimationsModule,    
     AppRoutingModule,
-    
+
     SharedModule,
-    
+
     ScrollToModule.forRoot(),
-    
+
     JwtModule.forRoot(jwtOptions)
   ],
   providers: [

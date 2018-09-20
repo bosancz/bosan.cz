@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
-import { Camp } from "../../../../../schema/camp";
+import { Camp } from "app/schema/camp";
 
 @Component({
   selector: 'camp-admin-basic',

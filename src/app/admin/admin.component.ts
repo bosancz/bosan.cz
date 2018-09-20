@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TitleService } from "../services/title.service";
 
 @Component({
-  selector: 'admin',
+  selector: 'bosan-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from "../../services/data.service";
-import { Album } from "../../schema/album";
+import { DataService } from "app/services/data.service";
+import { Album } from "app/schema/album";
 
 @Component({
   selector: 'albums-recent',
@@ -21,7 +21,7 @@ export class AlbumsRecentComponent implements OnInit {
   async loadAlbums(){
     this.albums = await this.dataService.getAlbumsRecent({limit:3});
     
-    for(var album of this.albums){
+    for(let album of this.albums){
       if(!album.titlePhotos) album.titlePhotos = [];
 
       if(album.titlePhotos.length < 3){

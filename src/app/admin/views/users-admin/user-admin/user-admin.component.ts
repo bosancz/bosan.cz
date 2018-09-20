@@ -4,18 +4,18 @@ import { NgForm } from "@angular/forms";
 
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../../../services/data.service";
-import { ToastService } from "../../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { User } from "../../../../schema/user";
-import { Member } from "../../../../schema/member";
+import { User } from "app/schema/user";
+import { Member } from "app/schema/member";
 
 @Component({
   selector: 'user-admin',
   templateUrl: './user-admin.component.html',
   styleUrls: ['./user-admin.component.scss']
 })
-export class UserAdminComponent implements OnInit {
+export class UserAdminComponent implements OnInit, OnDestroy {
 
   user:User;
   
@@ -73,7 +73,7 @@ export class UserAdminComponent implements OnInit {
   
   async saveUser(userForm:NgForm){
     
-    var userData = userForm.value;
+    const userData = userForm.value;
     
     userData.roles = this.roles.filter(role => role.active).map(role => role.name);
     
@@ -83,7 +83,7 @@ export class UserAdminComponent implements OnInit {
   }
   
   async deleteUser(){
-    var name = this.user._id;
+    const name = this.user._id;
     await this.dataService.deleteUser(this.user._id);
     this.toastService.toast("Uživatel " + name + " byl smazán.");
     this.router.navigate(["/interni/uzivatele"]);

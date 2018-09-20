@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../../../services/data.service";
-import { ToastService } from "../../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Album } from "../../../../schema/album";
-import { Member } from "../../../../schema/member";
+import { Album } from "app/schema/album";
+import { Member } from "app/schema/member";
 
 @Component({
   selector: 'album-admin',
@@ -47,8 +47,8 @@ export class AlbumAdminComponent implements OnInit, OnDestroy {
   }
   
   async deleteAlbum(){
-    var name = this.album.name;
-    await this.dataService.deleteAlbum(this.album._id)
+    let name = this.album.name;
+    await this.dataService.deleteAlbum(this.album._id);
     this.toastService.toast("Album " + name + " bylo smazáno.");
     this.router.navigate(["/interni/galerie"]);
   }

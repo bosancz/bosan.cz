@@ -15,20 +15,20 @@ export class ContenteditableDirective  implements ControlValueAccessor{
   onTouched = () => {};
   
   @HostListener('keyup', ['$event'])
-  keyPressed(event: Event) {
+  keyPressed(event:Event) {
     this.onChange(this.el.nativeElement.textContent);    
   }
   
-  constructor(private el: ElementRef) {
+  constructor(private el:ElementRef) {
     console.log(el);
     el.nativeElement.focus();
   }
   
-  writeValue(value: any): void {
+  writeValue(value:any):void {
     this.el.nativeElement.textContent = value;
   }
 
-  registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
-  registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+  registerOnChange(fn:(_:any) => void):void { this.onChange = fn; }
+  registerOnTouched(fn:() => void):void { this.onTouched = fn; }
 
 }

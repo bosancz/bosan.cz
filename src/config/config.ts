@@ -8,7 +8,7 @@ export let AppConfig = new InjectionToken<IAppConfig>('app.config');
 
 /* CONFIGURATION */
 // configuration data
-export const AppConfigData: IAppConfig = {
+export const AppConfigData:IAppConfig = {
 
   acl: {
     
@@ -54,4 +54,4 @@ export const AppConfigData: IAppConfig = {
     
   }
 
-}
+};

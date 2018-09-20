@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Event } from "../../../../../schema/event";
+import { Event } from "app/schema/event";
 
 @Component({
   selector: 'event-admin-attendees',
@@ -24,7 +24,7 @@ export class EventAdminAttendeesComponent implements OnInit {
     
     if(!bd) return;
 
-    var age = date.getFullYear() - bd.getFullYear();
+    let age = date.getFullYear() - bd.getFullYear();
 
     if(date.getMonth() > bd.getMonth()) return age;
     if(date.getMonth() === bd.getMonth() && date.getDate() >= bd.getDate()) return age;
@@ -32,7 +32,7 @@ export class EventAdminAttendeesComponent implements OnInit {
   }
   
   isAttendeeBirthday(attendee):boolean{
-    return false; //TODO
+    return false; // TODO
   }
   
   addAttendee(attendee:any):void{

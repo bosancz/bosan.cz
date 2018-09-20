@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AccountComponent } from "./account.component";
+import { AccountComponent } from "app/account/account.component";
 
 /* VIEWS */
-import { AccountDashboardComponent } from "./views/account-dashboard/account-dashboard.component";
-import { AccountAdminComponent } from "./views/account-admin/account-admin.component";
-import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
-import { MyEventsComponent } from './views/my-events/my-events.component';
+import { AccountDashboardComponent } from "app/account/views/account-dashboard/account-dashboard.component";
+import { AccountAdminComponent } from "app/account/views/account-admin/account-admin.component";
+import { DocumentsViewComponent } from "app/account/views/documents-view/documents-view.component";
+import { MyEventsComponent } from "app/account/views/my-events/my-events.component";
 
 /* SERVICES */
-import { ACLService } from "../services/acl.service";
+import { ACLService } from "app/services/acl.service";
 
-const routes: Routes = [
+const routes:Routes = [
   {
     path: '',
     component: AccountComponent,

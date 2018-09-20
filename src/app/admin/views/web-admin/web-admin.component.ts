@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../../services/data.service";
-import { ToastService } from "../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { WebConfig } from "../../../schema/webconfig";
-import { CodelistField } from "../../components/codelist-editor/codelist-editor.component";
+import { WebConfig } from "app/schema/webconfig";
+import { CodelistField } from "app/admin/components/codelist-editor/codelist-editor.component";
 
 @Component({
   selector: 'web-admin',
@@ -63,7 +63,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     {"name": "name", "title": "ID", "type": "text"},
     {"name": "title", "title": "Název", "type": "text"},
     {"name": "description", "title": "Popis", "type": "text"}
-  ]
+  ];
   
   modified:boolean = false;
   
@@ -114,7 +114,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   
   editJson(json){
     try{
-      var config = JSON.parse(json);
+      const config = JSON.parse(json);
       this.jsonError = false;
       this.config = config;
     }

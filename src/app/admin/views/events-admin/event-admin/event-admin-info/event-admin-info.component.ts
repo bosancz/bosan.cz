@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
-import { DataService } from "../../../../../services/data.service";
+import { DataService } from "app/services/data.service";
 
-import { Event } from "../../../../../schema/event";
-import { Member } from "../../../../../schema/member";
+import { Event } from "app/schema/event";
+import { Member } from "app/schema/member";
 
 @Component({
   selector: 'event-admin-info',

@@ -62,15 +62,16 @@ import { ServerAdminComponent } from './views/server-admin/server-admin.componen
     AdminComponent,
     
     /* VIEWS */
-    EventsAdminComponent, EventAdminComponent, EventAdminAttendeesComponent, EventAdminInfoComponent, EventAdminLeadersComponent,
-    GalleryAdminComponent, AlbumsAdminComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
+    EventsAdminComponent, EventAdminComponent, EventAdminDashboardComponent, EventAdminAttendeesComponent, EventAdminInfoComponent, EventAdminLeadersComponent, EventAdminRegistrationComponent, EventAdminRecurringComponent, 
+    GalleryAdminComponent, AlbumsAdminComponent, AlbumAdminDashboardComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
     MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent, MemberAdminAchievementsComponent, 
     WebAdminComponent,
-    CampsAdminComponent, CampAdminComponent, CampAdminBasicComponent,
+    ServerAdminComponent,
+    CampsAdminComponent, CampAdminComponent, CampAdminDashboardComponent, CampAdminBasicComponent,
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, EventAdminRegistrationComponent, EventAdminRecurringComponent, AlbumAdminDashboardComponent, EventAdminDashboardComponent, CampAdminDashboardComponent, PhotoTagsEditorComponent, GroupsSelectComponent, ServerAdminComponent,
+    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, GroupsSelectComponent
     
   ]
 })

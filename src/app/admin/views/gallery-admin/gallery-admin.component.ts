@@ -5,10 +5,10 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { DataService } from "../../../services/data.service";
-import { ToastService } from "../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Album } from "../../../schema/album";
+import { Album } from "app/schema/album";
 
 @Component({
   selector: 'gallery-admin',
@@ -25,13 +25,12 @@ export class GalleryAdminComponent implements OnInit {
   
   currentYear:number = (new Date).getFullYear();
   
-  createAlbumModalRef: BsModalRef;
+  createAlbumModalRef:BsModalRef;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService: BsModalService) {}
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) {}
 
   ngOnInit() {
     this.loadYears();
-    //this.loadTags();
   }
 
   async loadYears(){
@@ -49,15 +48,15 @@ export class GalleryAdminComponent implements OnInit {
   
   async createAlbum(form:NgForm){
     // get data from form
-    var albumData = form.value;
+    const albumData = form.value;
     // create the event and wait for confirmation
-    var album = await this.dataService.createAlbum(albumData);
+    const album = await this.dataService.createAlbum(albumData);
     // close the modal
     this.createAlbumModalRef.hide();
     // show the confrmation
     this.toastService.toast("Album vytvořeno a uloženo.");
     // open the album
-    this.router.navigate(["/interni/galerie/" + album._id], {relativeTo: this.route})
+    this.router.navigate(["/interni/galerie/" + album._id], {relativeTo: this.route});
   }
 
 }

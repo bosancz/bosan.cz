@@ -1,32 +1,32 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { AuthService } from "./services/auth.service";
-import { ACLService } from "./services/acl.service";
-import { ToastService, Toast } from "./services/toast.service";
-import { MenuService } from "./services/menu.service";
-import { GoogleService } from "./services/google.service";
+import { AuthService } from "app/services/auth.service";
+import { ACLService } from "app/services/acl.service";
+import { ToastService, Toast } from "app/services/toast.service";
+import { MenuService } from "app/services/menu.service";
+import { GoogleService } from "app/services/google.service";
 
-import { LoginFormComponent } from './components/login-form/login-form.component';
+import { LoginFormComponent } from "app/components/login-form/login-form.component";
 
-import { AppConfig, IAppConfig } from "../config/config";
+import { AppConfig, IAppConfig } from "config/config";
 
 @Component({
-  selector: 'app-root',
+  selector: 'bosan-app',
   templateUrl: "app.component.html",
   styleUrls: ["app.component.scss"]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   isMenuTransparent:boolean;
 
   isMenuCollapsed:boolean = true;
 
-  loginModal: BsModalRef;
+  loginModal:BsModalRef;
 
   toasts:Toast[] = [];
   
@@ -122,9 +122,9 @@ export class AppComponent {
   }
   
   async checkGoogleLogin(){
-    var auth2 = await this.googleService.auth2;
+    const auth2 = await this.googleService.auth2;
 
-    var signedIn:boolean = auth2.isSignedIn.get();
+    const signedIn:boolean = auth2.isSignedIn.get();
     
     console.log("Checking google login... " + (signedIn ? "signed in." : "not signed in."));
     if(signedIn){

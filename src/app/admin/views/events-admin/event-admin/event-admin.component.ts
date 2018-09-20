@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../../../services/data.service";
-import { ToastService } from "../../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Event } from "../../../../schema/event";
+import { Event } from "app/schema/event";
 
 @Component({
   selector: 'event-admin',
@@ -43,7 +43,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   async loadEvent(eventId:string){
     let options = {
       populate: ["leaders"]
-    }
+    };
     this.event = await this.dataService.getEvent(eventId,options);
   }
   
@@ -60,8 +60,8 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   }
   
   async deleteEvent(){
-    var name = this.event.name;
-    await this.dataService.deleteEvent(this.event._id)
+    let name = this.event.name;
+    await this.dataService.deleteEvent(this.event._id);
     this.toastService.toast("Akce " + name + " smazána.");
     this.router.navigate(["/interni/akce"]);
   }

@@ -6,7 +6,7 @@ import { ToastService } from "./services/toast.service";
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
 
-  constructor(private injector: Injector){
+  constructor(private injector:Injector){
   }
 
   handleError(err:any) {

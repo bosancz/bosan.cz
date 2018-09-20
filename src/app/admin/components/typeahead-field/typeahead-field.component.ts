@@ -33,9 +33,9 @@ export class TypeaheadFieldComponent implements ControlValueAccessor {
   constructor() { }
   
   writeValue(item:any):void{ this.selected = item; }
-  registerOnChange(fn: any): void{ this.onChange = fn; }
-  registerOnTouched(fn: any): void{ this.onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void{ this.disabled = isDisabled; }
+  registerOnChange(fn:any):void{ this.onChange = fn; }
+  registerOnTouched(fn:any):void{ this.onTouched = fn; }
+  setDisabledState(isDisabled:boolean):void{ this.disabled = isDisabled; }
   
   loadItems(search:string):void{
     this.search.emit(search);
