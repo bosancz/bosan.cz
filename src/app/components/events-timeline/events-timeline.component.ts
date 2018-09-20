@@ -14,8 +14,8 @@ class TimelineEvent extends Event {
 
 @Component({
   selector: 'events-timeline',
-  templateUrl: "events-timeline.template.html",
-  styleUrls: ["events-timeline.style.scss"],
+  templateUrl: "events-timeline.component.html",
+  styleUrls: ["events-timeline.component.scss"],
   animations: [
     trigger("eventWow", [
       transition('notappeared => appeared', [style({opacity:0}),animate('500ms 100ms',style({opacity:1}))])
