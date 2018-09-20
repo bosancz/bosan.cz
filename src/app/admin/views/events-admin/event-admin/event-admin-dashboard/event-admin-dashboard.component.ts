@@ -17,7 +17,7 @@ export class EventAdminDashboardComponent implements OnInit {
   }
   
   formatLeaders(leaders:any){
-    if(!leaders.length) return ""
+    if(!leaders.length) return "";
     if(leaders.length === 1) return leaders[0].nickname;
     return leaders.slice(0,leaders.length - 1).map(leader => leader.nickname).join(", ") + " a " + leaders[leaders.length - 1].nickname;
   }

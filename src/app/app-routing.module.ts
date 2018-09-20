@@ -18,7 +18,7 @@ import { GalleryViewPhotosComponent } from 'app/views/gallery-view/gallery-view-
 /* SERVICES */
 import { ACLService } from "app/services/acl.service";
 
-const routes: Routes = [
+const routes:Routes = [
   {path: 'aktualne', component: NewsViewComponent},
 
   {path: 'fotogalerie', component: GalleryViewComponent,
@@ -45,7 +45,7 @@ const routes: Routes = [
 
 ];
 
-var extraOptions:ExtraOptions = {
+const extraOptions:ExtraOptions = {
   scrollPositionRestoration: "enabled",
   anchorScrolling: "enabled"
 };

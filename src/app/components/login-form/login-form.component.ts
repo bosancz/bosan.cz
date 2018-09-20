@@ -20,12 +20,12 @@ export class LoginFormComponent implements OnInit {
   
   loginValue:string = "";
   
-  status:string = null
+  status:string = null;
   error:Error;
   
   forgotPassword:boolean = false;
 
-  constructor(public loginModal: BsModalRef, private authService:AuthService, private dataService:DataService, private router:Router, private toastService:ToastService, private googleService:GoogleService) {
+  constructor(public loginModal:BsModalRef, private authService:AuthService, private dataService:DataService, private router:Router, private toastService:ToastService, private googleService:GoogleService) {
   }
 
   ngOnInit() {
@@ -35,10 +35,10 @@ export class LoginFormComponent implements OnInit {
     
     this.status = null;
     
-    var loginData = loginForm.value;
+    const loginData = loginForm.value;
 
     try{
-      var user = await this.authService.login(loginData)
+      await this.authService.login(loginData);
       this.loginModal.hide();
       this.router.navigate(["/interni"]);
     }
@@ -51,7 +51,7 @@ export class LoginFormComponent implements OnInit {
   async googleLogin(){
     
     try{
-      var token = await this.googleService.signIn()
+      const token = await this.googleService.signIn();
       await this.authService.googleLogin(token);
     }
     catch(err){
@@ -68,7 +68,7 @@ export class LoginFormComponent implements OnInit {
   
   async loginLink(form:NgForm){
     
-    var formData = form.value;
+    const formData = form.value;
     
     try{
       

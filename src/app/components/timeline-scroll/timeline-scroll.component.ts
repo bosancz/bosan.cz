@@ -54,7 +54,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   timelineMouseMoveHandler:any;
 
   constructor(private changeDetectorRef:ChangeDetectorRef) {
-    this.timelineMouseMoveHandler = function(event){this.timelineMouseMove(event)}.bind(this);
+    this.timelineMouseMoveHandler = function(event){this.timelineMouseMove(event);}.bind(this);
   }
 
   ngAfterViewInit(){
@@ -89,8 +89,8 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   }
 
   updateTimeline(){
-    var doc = document.documentElement;
-    var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+    const doc = document.documentElement;
+    const top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
     
     this.timelineTop = Math.max(10,this.containerTop - top);
@@ -105,14 +105,14 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   }
 
   updateVisiblePoints(){
-    var count = this.points.length;
+    const count = this.points.length;
 
     // get the changes
-    let visible = this.points.slice(Math.floor(this.visibleFrom * count),Math.ceil(this.visibleTo * count));
+    const visible = this.points.slice(Math.floor(this.visibleFrom * count),Math.ceil(this.visibleTo * count));
 
-    let disappeared = this.visiblePoints.filter(point => visible.indexOf(point) === -1);
+    const disappeared = this.visiblePoints.filter(point => visible.indexOf(point) === -1);
 
-    let appeared = visible.filter(point => !point.visible);
+    const appeared = visible.filter(point => !point.visible);
 
     // assign and call the events
     this.visiblePoints = visible;
@@ -124,7 +124,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     this.disappearedMany.emit(disappeared);
 
     appeared.forEach(point => {
-      point.visible = true
+      point.visible = true;
       this.appeared.emit(point);
       setTimeout(() => point.visible ? this.load.emit(point) : null,500);
     });

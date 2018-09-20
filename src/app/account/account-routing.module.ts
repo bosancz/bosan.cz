@@ -12,7 +12,7 @@ import { MyEventsComponent } from "app/account/views/my-events/my-events.compone
 /* SERVICES */
 import { ACLService } from "app/services/acl.service";
 
-const routes: Routes = [
+const routes:Routes = [
   {
     path: '',
     component: AccountComponent,

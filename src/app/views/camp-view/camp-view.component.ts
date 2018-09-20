@@ -10,14 +10,14 @@ import { GalleryPhoto } from "app/components/photo-gallery/photo-gallery.compone
 
 class GalleryPhotoContainer implements GalleryPhoto{
   
-  photo: Photo;
+  photo:Photo;
   
   // GalleryPhoto
-  url: string;
-  width: number;
-  height: number;
-  caption: string;
-  bg: string;
+  url:string;
+  width:number;
+  height:number;
+  caption:string;
+  bg:string;
 }
 
 @Component({

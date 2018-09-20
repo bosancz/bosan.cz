@@ -50,8 +50,8 @@ export class CampAdminComponent implements OnInit, OnDestroy {
   }
   
   async deleteCamp(){
-    var name = this.camp.name;
-    await this.dataService.deleteCamp(this.camp._id)
+    let name = this.camp.name;
+    await this.dataService.deleteCamp(this.camp._id);
     this.toastService.toast("Tábor " + name + " smazán.");
     this.router.navigate(["/interni/tabory"]);
   }

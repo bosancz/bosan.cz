@@ -43,7 +43,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   async loadEvent(eventId:string){
     let options = {
       populate: ["leaders"]
-    }
+    };
     this.event = await this.dataService.getEvent(eventId,options);
   }
   
@@ -60,8 +60,8 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   }
   
   async deleteEvent(){
-    var name = this.event.name;
-    await this.dataService.deleteEvent(this.event._id)
+    let name = this.event.name;
+    await this.dataService.deleteEvent(this.event._id);
     this.toastService.toast("Akce " + name + " smazána.");
     this.router.navigate(["/interni/akce"]);
   }

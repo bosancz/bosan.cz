@@ -14,11 +14,11 @@ export class GroupPipe implements PipeTransform {
   
   groupIndex:any = {};
   
-  defaultValues:{ [key: string]: any } = {
+  defaultValues:{ [key:string]:any } = {
     "color": "#000"    
   };
   
-  constructor(private dataService:DataService, private changeDetectorRef: ChangeDetectorRef){    
+  constructor(private dataService:DataService, private changeDetectorRef:ChangeDetectorRef){    
     this.loadGroups();
   }
   

@@ -20,13 +20,13 @@ export class EventAdminLeadersComponent implements OnChanges {
   
   @Output() save:EventEmitter<any> = new EventEmitter();
   
-  membersModalRef: BsModalRef;
+  membersModalRef:BsModalRef;
   
   leaders:any[] = [];
   
   membersSelectOptions:any = { role: "vedoucí"};
   
-  constructor(private dataService:DataService, private modalService: BsModalService) {
+  constructor(private dataService:DataService, private modalService:BsModalService) {
   }
   
   ngOnChanges(changes:SimpleChanges){
@@ -42,7 +42,7 @@ export class EventAdminLeadersComponent implements OnChanges {
   
   saveLeaders(){
     
-    var eventData = {
+    let eventData = {
       leaders: this.leaders.map(leader => leader._id)
     };
     

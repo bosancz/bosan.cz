@@ -13,7 +13,4 @@ export class GalleryAlbumComponent {
   
   constructor() { }
 
-  ngOnInit() {
-  }
-
 }

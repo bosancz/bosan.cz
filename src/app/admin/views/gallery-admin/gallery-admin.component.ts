@@ -25,13 +25,12 @@ export class GalleryAdminComponent implements OnInit {
   
   currentYear:number = (new Date).getFullYear();
   
-  createAlbumModalRef: BsModalRef;
+  createAlbumModalRef:BsModalRef;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService: BsModalService) {}
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) {}
 
   ngOnInit() {
     this.loadYears();
-    //this.loadTags();
   }
 
   async loadYears(){
@@ -49,15 +48,15 @@ export class GalleryAdminComponent implements OnInit {
   
   async createAlbum(form:NgForm){
     // get data from form
-    var albumData = form.value;
+    const albumData = form.value;
     // create the event and wait for confirmation
-    var album = await this.dataService.createAlbum(albumData);
+    const album = await this.dataService.createAlbum(albumData);
     // close the modal
     this.createAlbumModalRef.hide();
     // show the confrmation
     this.toastService.toast("Album vytvořeno a uloženo.");
     // open the album
-    this.router.navigate(["/interni/galerie/" + album._id], {relativeTo: this.route})
+    this.router.navigate(["/interni/galerie/" + album._id], {relativeTo: this.route});
   }
 
 }

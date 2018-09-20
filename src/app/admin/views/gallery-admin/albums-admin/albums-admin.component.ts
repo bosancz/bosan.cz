@@ -25,7 +25,7 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   statuses:any = {
     "public": "zveřejněná",
     "draft": "v přípravě"
-  }
+  };
 
   options = {
     search:"",
@@ -76,13 +76,13 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   }
   
   getPages(){
-    var pages = [];
-    for(var i = 1; i <= this.pages; i++) pages.push(i)
+    let pages = [];
+    for(let i = 1; i <= this.pages; i++) pages.push(i);
     return pages;
   }
   
   getPageLink(page:number){
-    var params:any = {page:page};
+    let params:any = {page:page};
     if(this.year) params.year = this.year || null;
     return ["./",params];
   }

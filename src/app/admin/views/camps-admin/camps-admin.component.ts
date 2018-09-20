@@ -29,11 +29,11 @@ export class CampsAdminComponent implements OnInit, OnDestroy {
     "all": {}
   };
   
-  createCampModalRef: BsModalRef;
+  createCampModalRef:BsModalRef;
   
   paramsSubscription:Subscription;
 
-  constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute, private modalService: BsModalService, private toastService:ToastService) { }
+  constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService, private toastService:ToastService) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
@@ -52,7 +52,7 @@ export class CampsAdminComponent implements OnInit, OnDestroy {
 
   async loadCamps(){
     
-    let generalOptions = {}
+    let generalOptions = {};
     let options = Object.assign(generalOptions,this.views[this.view] || {});
     
     this.camps = await this.dataService.getCamps(options);
@@ -60,22 +60,22 @@ export class CampsAdminComponent implements OnInit, OnDestroy {
   
   async createCamp(form:NgForm){
     // get data from form
-    var campData = form.value;
+    let campData = form.value;
     // create the camp and wait for confirmation
-    var camp = await this.dataService.createCamp(campData);
+    let camp = await this.dataService.createCamp(campData);
     // close the modal
     this.createCampModalRef.hide();
     // show the confrmation
     this.toastService.toast("Tábor vytvořen a uložen.");
     // open the camp
-    this.router.navigate(["./" + camp._id], {relativeTo: this.route})
+    this.router.navigate(["./" + camp._id], {relativeTo: this.route});
   }
   
   openCamp(camp:Camp):void{
     this.router.navigate(['./' + camp._id], {relativeTo: this.route});
   }
   
-  openCreateCampModal(template: TemplateRef<any>){
+  openCreateCampModal(template:TemplateRef<any>){
     this.createCampModalRef = this.modalService.show(template);
   }
 

@@ -25,7 +25,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   statuses:any = {
     "public": "zveřejněná",
     "draft": "v přípravě"
-  }
+  };
   
   events:Event[] = [];
   
@@ -52,17 +52,17 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     limit: 50,
     search:undefined,
     filter:{}
-  }
+  };
   
   openFilter:boolean = false;
   
   eventTypes:{[s:string]:WebConfigEventType[]} = {};
   
-  createEventModalRef: BsModalRef;
+  createEventModalRef:BsModalRef;
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService: BsModalService) {
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService:BsModalService) {
     
     this.views.my.leaders = authService.user.member;
   }
@@ -108,21 +108,21 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     this.router.navigate(['/interni/akce/' + event._id], {relativeTo: this.route});
   }
 
-  openCreateEventModal(template: TemplateRef<any>){
+  openCreateEventModal(template:TemplateRef<any>){
     this.createEventModalRef = this.modalService.show(template);
   }
   
   async createEvent(form:NgForm){
     // get data from form
-    var eventData = form.value;
+    let eventData = form.value;
     // create the event and wait for confirmation
-    var event = await this.dataService.createEvent(eventData);
+    let event = await this.dataService.createEvent(eventData);
     // close the modal
     this.createEventModalRef.hide();
     // show the confrmation
     this.toastService.toast("Akce vytvořena a uložena.");
     // open the event
-    this.router.navigate(["/interni/akce/" + event._id + "/upravit"])
+    this.router.navigate(["/interni/akce/" + event._id + "/upravit"]);
   }
   
   getLeadersString(event:Event){
@@ -130,13 +130,13 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   }
   
   getPages(){
-    var pages = [];
-    for(var i = 1; i <= this.pages; i++) pages.push(i)
+    let pages = [];
+    for(let i = 1; i <= this.pages; i++) pages.push(i);
     return pages;
   }
   
   getPageLink(page:number){
-    var params:any = {view:this.view,page:page};
+    let params:any = {view:this.view,page:page};
     return ["./",params];
   }
   

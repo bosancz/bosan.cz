@@ -49,10 +49,10 @@ export interface WebConfig {
     roles:Array<{name:string,title:string,desription:string}>
   };
 
-  contacts: {
-    leaders: Contact[],
-    monday: Contact[],
-    wednesday: Contact[]
+  contacts:{
+    leaders:Contact[],
+    monday:Contact[],
+    wednesday:Contact[]
   };
 
   members:{

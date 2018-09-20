@@ -21,7 +21,7 @@ export class AlbumsRecentComponent implements OnInit {
   async loadAlbums(){
     this.albums = await this.dataService.getAlbumsRecent({limit:3});
     
-    for(var album of this.albums){
+    for(let album of this.albums){
       if(!album.titlePhotos) album.titlePhotos = [];
 
       if(album.titlePhotos.length < 3){

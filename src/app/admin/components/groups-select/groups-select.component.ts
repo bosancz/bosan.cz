@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { DataService } from "app/services/data.service";
@@ -15,7 +15,7 @@ import { DataService } from "app/services/data.service";
     }
   ]
 })
-export class GroupsSelectComponent implements ControlValueAccessor {
+export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
 
   groups:string[] = [];
   selectedGroups:string[] = [];
@@ -26,9 +26,9 @@ export class GroupsSelectComponent implements ControlValueAccessor {
   onTouched:any = () => {};
   
   writeValue(groups:any):void{ this.selectedGroups = groups || []; }
-  registerOnChange(fn: any): void{ this.onChange = fn; }
-  registerOnTouched(fn: any): void{ this.onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void{
+  registerOnChange(fn:any):void{ this.onChange = fn; }
+  registerOnTouched(fn:any):void{ this.onTouched = fn; }
+  setDisabledState(isDisabled:boolean):void{
     this.disabled = isDisabled;
     this.selectedGroups = [];
   }

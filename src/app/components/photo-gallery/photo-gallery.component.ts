@@ -25,7 +25,7 @@ export class PhotoGalleryComponent implements AfterViewChecked {
     this._photos = JSON.parse(JSON.stringify(photos));
     
     this.updateRows();
-  };
+  }
   
   _photos:GalleryPhoto[] = [];
   
@@ -78,7 +78,7 @@ export class PhotoGalleryComponent implements AfterViewChecked {
       photo.adjWidth = (height / photo.height) * photo.width;
     });
     
-    for (var i = 0; i < photos.length; i++){
+    for (let i = 0; i < photos.length; i++){
       
       let photo = photos[i];
       
@@ -88,11 +88,11 @@ export class PhotoGalleryComponent implements AfterViewChecked {
       if(rowWidth > this.width || (photos[i+1] && rowWidth + photos[i+1].adjWidth > this.width)){
         this.adjustRow(rowPhotos);     
         
-        rowPhotos = []
+        rowPhotos = [];
         rowWidth = 0;
       }
 
-    };    
+    }
     
   }
   

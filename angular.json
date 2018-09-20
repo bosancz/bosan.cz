@@ -73,22 +73,24 @@
           }
         }
       }
-    },
-    "bosan.cz-e2e": {
-      "root": "",
-      "sourceRoot": "",
-      "projectType": "application"
     }
   },
   "defaultProject": "bosan.cz",
   "schematics": {
     "@schematics/angular:component": {
-      "spec": false,
       "prefix": "",
-      "styleext": "scss"
+      "styleext": "scss",
+      "spec": false
     },
     "@schematics/angular:directive": {
-      "prefix": ""
+      "prefix": "",
+      "spec":false
+    },
+    "@schematics/angular:component": {
+      "spec": false
+    },
+    "@schematics/angular:service": {
+      "spec": false
     }
   }
 }

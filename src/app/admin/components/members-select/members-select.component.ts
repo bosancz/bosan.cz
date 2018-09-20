@@ -46,9 +46,9 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
   onTouched:any = () => {};
   
   writeValue(members:Member[]):void{ this.selectedMembers = members || []; }
-  registerOnChange(fn: any): void{ this.onChange = fn; }
-  registerOnTouched(fn: any): void{ this.onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void{ this.disabled = isDisabled; }
+  registerOnChange(fn:any):void{ this.onChange = fn; }
+  registerOnTouched(fn:any):void{ this.onTouched = fn; }
+  setDisabledState(isDisabled:boolean):void{ this.disabled = isDisabled; }
   
   constructor(private dataService:DataService) {
   }
@@ -61,7 +61,7 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
   
   async loadMembers(){    
     this.members = await this.dataService.getMembers();  
-    this.members.sort((a,b) => a.nickname.localeCompare(b.nickname))
+    this.members.sort((a,b) => a.nickname.localeCompare(b.nickname));
     // TODO: diacritics insensitive search
     this.searchIndex = this.members.map((member,i) => {
       let names = member.nickname + (member.name ? (" " + member.name.first + " " + member.name.last) : "");
@@ -75,7 +75,7 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
   }
   
   async loadRoles(){
-    var config = await this.dataService.getConfig();
+    let config = await this.dataService.getConfig();
     this.roles = config.members.roles.map(item => item.id);
   }
   
@@ -85,7 +85,7 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
   }
   
   isHidden(member:Member,i:number):boolean{
-    return Object.entries(this.options).some(entry => entry[1] && entry[1] != member[entry[0]]) || (this.search && !this.search.test(this.searchIndex[i]));
+    return Object.entries(this.options).some(entry => entry[1] && entry[1] !== member[entry[0]]) || (this.search && !this.search.test(this.searchIndex[i]));
   }
   
   selectedMember(member:Member):boolean{

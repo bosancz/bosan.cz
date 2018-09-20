@@ -50,7 +50,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
 
     if(!photoInput.files.length) return;
 
-    for( var i = 0; i < photoInput.files.length; i++ ){
+    for( let i = 0; i < photoInput.files.length; i++ ){
       this.photoUploadQueue.push({
         file: photoInput.files[i],
         progress: 0,
@@ -63,7 +63,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
   addPhotosByDropzone(e, dropzone:HTMLDivElement){
     e.preventDefault();
 
-    for( var i = 0; i < e.dataTransfer.files.length; i++ ){
+    for( let i = 0; i < e.dataTransfer.files.length; i++ ){
       this.photoUploadQueue.push({
         file: e.dataTransfer.files[i],
         progress: 0,
@@ -120,12 +120,16 @@ export class AlbumAdminUploadComponent implements OnChanges {
         return reject(new Error("Unsupported file type."));
       }
 
-      let formData: FormData = new FormData();
+      let formData:FormData = new FormData();
 
+      let lastModified;
+      if(uploadItem.file.lastModified) lastModified = new Date(uploadItem.file.lastModified).toISOString();
+      else if(uploadItem.file.lastModifiedDate) lastModified = uploadItem.file.lastModifiedDate.toISOString();
+      
       formData.set("album",this.album._id);
       formData.set("tags",this.selectedTags.join(","));
       formData.set("photo",uploadItem.file,uploadItem.file.name);
-      formData.set("lastModified",uploadItem.file.lastModifiedDate.toISOString());
+      formData.set("lastModified",lastModified);
 
       this.dataService.createPhoto(formData).subscribe(
         (event:HttpEvent<any>) => {

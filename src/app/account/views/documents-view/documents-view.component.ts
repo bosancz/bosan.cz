@@ -14,7 +14,7 @@ export class DocumentsViewComponent implements OnInit {
   
   url:SafeResourceUrl;
   
-  constructor(private domSanitizer:DomSanitizer, private cd: ChangeDetectorRef, private dataService:DataService) {
+  constructor(private domSanitizer:DomSanitizer, private cd:ChangeDetectorRef, private dataService:DataService) {
   }
 
   ngOnInit() {    

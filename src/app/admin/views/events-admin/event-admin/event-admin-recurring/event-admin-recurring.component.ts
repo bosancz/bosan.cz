@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 
@@ -13,7 +13,7 @@ import { WebConfigRecurringType } from "app/schema/webconfig";
   templateUrl: './event-admin-recurring.component.html',
   styleUrls: ['./event-admin-recurring.component.scss']
 })
-export class EventAdminRecurringComponent implements OnChanges {
+export class EventAdminRecurringComponent implements OnInit, OnChanges {
 
   @Input() event:Event;
   

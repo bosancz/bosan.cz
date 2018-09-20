@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd, Params } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -16,17 +16,17 @@ import { LoginFormComponent } from "app/components/login-form/login-form.compone
 import { AppConfig, IAppConfig } from "config/config";
 
 @Component({
-  selector: 'app-root',
+  selector: 'bosan-app',
   templateUrl: "app.component.html",
   styleUrls: ["app.component.scss"]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   isMenuTransparent:boolean;
 
   isMenuCollapsed:boolean = true;
 
-  loginModal: BsModalRef;
+  loginModal:BsModalRef;
 
   toasts:Toast[] = [];
   
@@ -122,9 +122,9 @@ export class AppComponent {
   }
   
   async checkGoogleLogin(){
-    var auth2 = await this.googleService.auth2;
+    const auth2 = await this.googleService.auth2;
 
-    var signedIn:boolean = auth2.isSignedIn.get();
+    const signedIn:boolean = auth2.isSignedIn.get();
     
     console.log("Checking google login... " + (signedIn ? "signed in." : "not signed in."));
     if(signedIn){

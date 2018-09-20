@@ -5,7 +5,7 @@ import { NgForm } from "@angular/forms";
 import { Subscription } from "rxjs";
 
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service'
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
@@ -25,11 +25,11 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
   
   active:boolean;
 
-  createUserModalRef: BsModalRef;
+  createUserModalRef:BsModalRef;
   
   paramsSubscription:Subscription;
 
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService: BsModalService) { }
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
 
   ngOnInit() {
 
@@ -67,14 +67,14 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
     this.router.navigate([this.getUserLink(user)], {relativeTo: this.route});
   }
 
-  openCreateUserModal(template: TemplateRef<any>){
+  openCreateUserModal(template:TemplateRef<any>){
     this.createUserModalRef = this.modalService.show(template);
   }
 
   async createUser(form:NgForm){
     // get data from form
-    var userData = form.value;
-    var userId = userData._id;
+    const userData = form.value;
+    const userId = userData._id;
     // create the user and wait for confirmation
     await this.dataService.createUser(userId,userData);
     // close the modal
@@ -82,6 +82,6 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
     // show the confrmation
     this.toastService.toast("Uživatel vytvořen.");
     // open the user
-    this.router.navigate(["/interni/uzivatele/" + userId], {relativeTo: this.route})
+    this.router.navigate(["/interni/uzivatele/" + userId], {relativeTo: this.route});
   }
 }

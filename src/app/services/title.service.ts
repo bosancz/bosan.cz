@@ -13,7 +13,7 @@ export class TitleService {
   }
   
   async getMainTitle(){
-    var config = await this.dataService.getConfig();
+    let config = await this.dataService.getConfig();
     return config.general.title;
   }
   

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
@@ -12,7 +12,7 @@ import { Album, Photo } from "app/schema/album";
   templateUrl: './album-admin-photos.component.html',
   styleUrls: ['./album-admin-photos.component.scss']
 })
-export class AlbumAdminPhotosComponent {
+export class AlbumAdminPhotosComponent implements OnChanges{
 
   @Input() album:Album;
   
@@ -39,7 +39,7 @@ export class AlbumAdminPhotosComponent {
   
   async setTitlePhoto(photo){
     
-    let titlePhotos = this.album.titlePhotos ? this.album.titlePhotos.map(photo => photo._id) : [];
+    let titlePhotos = this.album.titlePhotos ? this.album.titlePhotos.map(item => item._id) : [];
     titlePhotos.push(photo._id);
     
     await this.dataService.updateAlbum(this.album._id,{titlePhotos:titlePhotos});
@@ -69,7 +69,7 @@ export class AlbumAdminPhotosComponent {
     
     if(!this.album.titlePhotos) return;
     
-    let titlePhotos = this.album.titlePhotos.filter(item => item._id !== photo._id).map(photo => photo._id);
+    let titlePhotos = this.album.titlePhotos.filter(item => item._id !== photo._id).map(item => item._id);
     
     await this.dataService.updateAlbum(this.album._id,{titlePhotos:titlePhotos});
     
@@ -90,7 +90,7 @@ export class AlbumAdminPhotosComponent {
   
   async editCaption(photo:Photo){
     
-    var caption = window.prompt("Zadejte popisek fotky:", photo.caption || "");
+    let caption = window.prompt("Zadejte popisek fotky:", photo.caption || "");
     
     if(caption === null) return; // null means cancel
     
@@ -105,7 +105,7 @@ export class AlbumAdminPhotosComponent {
     
     if(!window.confirm("Opravdu chcete smazat toho foto")) return;
     
-    await this.dataService.deletePhoto(photo._id)
+    await this.dataService.deletePhoto(photo._id);
     
     this.toastService.toast("Foto smazáno.");
     

@@ -49,7 +49,7 @@ export class AccountAdminComponent implements OnInit, OnDestroy {
   
   async updateUser(form:NgForm){
     
-    var userData = form.value;
+    let userData = form.value;
     
     await this.dataService.updateMe(userData);
     
@@ -59,7 +59,7 @@ export class AccountAdminComponent implements OnInit, OnDestroy {
   
   async updatePassword(form:NgForm){
     
-    var userData = form.value;
+    let userData = form.value;
     
     await this.dataService.updateMyPassword(userData);
     

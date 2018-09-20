@@ -53,8 +53,8 @@ export class MemberAdminComponent implements OnInit, OnDestroy {
   }
   
   async deleteMember(){
-    var name = this.member.name;
-    await this.dataService.deleteMember(this.member._id)
+    const name = this.member.name;
+    await this.dataService.deleteMember(this.member._id);
     this.toastService.toast("Člen " + name + " smazán.");
     this.router.navigate(["/interni/clenove"]);
   }

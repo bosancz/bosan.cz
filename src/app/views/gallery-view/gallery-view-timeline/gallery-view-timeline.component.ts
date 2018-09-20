@@ -13,12 +13,12 @@ import { TimelinePoint, TimelineLabel } from "app/components/timeline-scroll/tim
 
 class TimelineAlbumContainer implements TimelinePoint{
   y:number;
-  title: string;    
+  title:string;    
 
-  _id: string;
-  name: string;
-  date: Date;
-  album: Album;
+  _id:string;
+  name:string;
+  date:Date;
+  album:Album;
 
   loading:boolean = false;
 }
@@ -37,7 +37,7 @@ export class GalleryViewTimelineComponent implements OnInit {
 
   lastRouterScrollEvent:Scroll;
 
-  constructor(private dataService:DataService, router:Router, private viewportScroller: ViewportScroller) {
+  constructor(private dataService:DataService, router:Router, private viewportScroller:ViewportScroller) {
     router.events.pipe(filter<Scroll>(e => e instanceof Scroll)).subscribe(e => this.lastRouterScrollEvent = e);
   }
 
@@ -53,7 +53,7 @@ export class GalleryViewTimelineComponent implements OnInit {
       filter: { status: "public" }
     };
 
-    let albums = await this.dataService.getAlbumsList(options)
+    let albums = await this.dataService.getAlbumsList(options);
 
     let year:number;
 
@@ -84,12 +84,12 @@ export class GalleryViewTimelineComponent implements OnInit {
 
   }
 
-  updateScroll(){    
+  updateScroll() {    
     if (this.lastRouterScrollEvent.position) this.viewportScroller.scrollToPosition(this.lastRouterScrollEvent.position);
     else this.viewportScroller.scrollToPosition([0, 0]);
   }
 
-  async loadAlbum(point:TimelineAlbumContainer){
+  async loadAlbum(point:TimelineAlbumContainer) {
 
     if(point.album || point.loading) return;
 

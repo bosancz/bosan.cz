@@ -15,7 +15,7 @@ import { Member } from "app/schema/member";
   templateUrl: './user-admin.component.html',
   styleUrls: ['./user-admin.component.scss']
 })
-export class UserAdminComponent implements OnInit {
+export class UserAdminComponent implements OnInit, OnDestroy {
 
   user:User;
   
@@ -73,7 +73,7 @@ export class UserAdminComponent implements OnInit {
   
   async saveUser(userForm:NgForm){
     
-    var userData = userForm.value;
+    const userData = userForm.value;
     
     userData.roles = this.roles.filter(role => role.active).map(role => role.name);
     
@@ -83,7 +83,7 @@ export class UserAdminComponent implements OnInit {
   }
   
   async deleteUser(){
-    var name = this.user._id;
+    const name = this.user._id;
     await this.dataService.deleteUser(this.user._id);
     this.toastService.toast("Uživatel " + name + " byl smazán.");
     this.router.navigate(["/interni/uzivatele"]);

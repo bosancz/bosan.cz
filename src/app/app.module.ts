@@ -39,7 +39,6 @@ import { LoginFormComponent } from 'app/components/login-form/login-form.compone
 import { TimelineScrollComponent } from 'app/components/timeline-scroll/timeline-scroll.component';
 
 // Directives
-import { AppearDirective } from 'app/directives/appear.directive';
 import { AdminLinkDirective } from 'app/directives/admin-link.directive';
 
 // Pipes
@@ -56,16 +55,16 @@ import { AppConfig, AppConfigData } from "config/config";
 
 // settings for JWT
 export function JwtTokenGetter():string{
-  return localStorage.getItem('id_token') || ""
+  return localStorage.getItem('id_token') || "";
 }
 
 export const jwtOptions = {
-	config: {
-		tokenGetter: JwtTokenGetter,
-		whitelistedDomains: ['bosan.cz'],
-		throwNoTokenError: false,
-		skipWhenExpired: true
-	}
+  config: {
+    tokenGetter: JwtTokenGetter,
+    whitelistedDomains: ['bosan.cz'],
+    throwNoTokenError: false,
+    skipWhenExpired: true
+  }
 };
 
 @NgModule({
@@ -74,21 +73,21 @@ export const jwtOptions = {
     /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent,
     /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent,
     /* CHILD VIEWS */ GalleryViewTimelineComponent, GalleryViewAlbumComponent, GalleryViewPhotosComponent,
-    
+
     /* PIPES */
-    
-    /* DIRECTIVES */ AppearDirective, AdminLinkDirective,
-    
+
+    /* DIRECTIVES */ AdminLinkDirective,
+
     /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, JoinLeadersPipe, FormatPhonePipe, GalleryAlbumComponent
   ],
   imports: [
     BrowserAnimationsModule,    
     AppRoutingModule,
-    
+
     SharedModule,
-    
+
     ScrollToModule.forRoot(),
-    
+
     JwtModule.forRoot(jwtOptions)
   ],
   providers: [

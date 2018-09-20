@@ -63,7 +63,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     {"name": "name", "title": "ID", "type": "text"},
     {"name": "title", "title": "Název", "type": "text"},
     {"name": "description", "title": "Popis", "type": "text"}
-  ]
+  ];
   
   modified:boolean = false;
   
@@ -114,7 +114,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   
   editJson(json){
     try{
-      var config = JSON.parse(json);
+      const config = JSON.parse(json);
       this.jsonError = false;
       this.config = config;
     }

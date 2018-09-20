@@ -30,7 +30,7 @@ export class EventAdminRegistrationComponent {
       return;
     }
 
-    let formData: FormData = new FormData();
+    let formData:FormData = new FormData();
 
     formData.set("file",file,file.name);
 

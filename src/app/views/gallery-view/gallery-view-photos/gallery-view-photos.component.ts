@@ -13,6 +13,8 @@ import { ToastService } from "app/services/toast.service";
 
 import { Album, Photo } from "app/schema/album";
 
+declare const navigator:any;
+
 @Component({
   selector: 'gallery-view-photos',
   templateUrl: './gallery-view-photos.component.html',
@@ -53,11 +55,11 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   preloading:HTMLImageElement[] = [];
   
   @ViewChild("sharingModal") sharingModal:TemplateRef<any>;
-  sharingModalRef: BsModalRef;
+  sharingModalRef:BsModalRef;
 
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location, private modalService: BsModalService) {
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location, private modalService:BsModalService) {
   }
 
   ngOnInit() {  
@@ -99,8 +101,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   async loadAlbum(id:string){
     this.album = await this.dataService.getAlbum(id,{photos:1});
     
-    //if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
-    //if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
+    // if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
+    // if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
     
     this.updatePhoto(this.currentId);
     
@@ -164,7 +166,6 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   }
   
   close():void{
-    //this.router.navigate(["../"],{relativeTo:this.route});
     this.location.back();
   }
   
@@ -176,9 +177,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   
   share():void{
     
-    var myNavigator:any = navigator;
-    if (myNavigator.share) {
-      myNavigator.share({
+    if (navigator.share) {
+      navigator.share({
         title: this.album.name,
         text: this.album.description,
         url: window.location.href,
@@ -186,16 +186,16 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
         .then(() => console.log('Successful share'))
         .catch((error) => console.log('Error sharing', error));
     }
-    else{
+    else {
       this.sharingModalRef = this.modalService.show(this.sharingModal);
     }
   }
   
-  getAlbumUrl():string{
+  getAlbumUrl():string {
     return window.location.href.replace(/^(.+)\/[^\/]+$/,"$1");
   }
   
-  getPhotoUrl():string{
+  getPhotoUrl():string {
     return window.location.href;
   }
   

@@ -20,9 +20,9 @@ export class AlbumAdminMetadataComponent {
   
   @Output() save:EventEmitter<void> = new EventEmitter();
   
-  @ViewChild('dateFrom') dateFromInput: ElementRef;
-  @ViewChild('dateTill') dateTillInput: ElementRef;
-  @ViewChild('year') yearInput: ElementRef;
+  @ViewChild('dateFrom') dateFromInput:ElementRef;
+  @ViewChild('dateTill') dateTillInput:ElementRef;
+  @ViewChild('year') yearInput:ElementRef;
   
   eventsMatched:Event[] = [];
   
@@ -42,7 +42,7 @@ export class AlbumAdminMetadataComponent {
   
   async saveAlbum(albumForm:NgForm){
     
-    var albumData = albumForm.value;
+    let albumData = albumForm.value;
     albumData.event = albumData.event ? albumData.event._id : null;
     
     await this.dataService.updateAlbum(this.album._id,albumData);

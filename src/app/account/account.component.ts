@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'account',
+  selector: 'bosan-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })

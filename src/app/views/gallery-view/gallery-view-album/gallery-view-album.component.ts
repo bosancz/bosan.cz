@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Subscription } from "rxjs";
@@ -12,21 +12,21 @@ import { GalleryPhoto } from "app/components/photo-gallery/photo-gallery.compone
 
 class GalleryPhotoContainer implements GalleryPhoto{
   
-  photo: Photo;
+  photo:Photo;
   
   // GalleryPhoto
-  url: string;
-  width: number;
-  height: number;
-  caption: string;
-  bg: string;
+  url:string;
+  width:number;
+  height:number;
+  caption:string;
+  bg:string;
 }
 @Component({
   selector: 'gallery-view-album',
   templateUrl: './gallery-view-album.component.html',
   styleUrls: ['./gallery-view-album.component.css']
 })
-export class GalleryViewAlbumComponent implements OnInit {
+export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
 
   album:Album;
   
@@ -61,11 +61,8 @@ export class GalleryViewAlbumComponent implements OnInit {
     
     if(!this.album) return this.toastService.toast("Album nenalezeno :(");
                                                    
-    //if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
-    //if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
-    
-    this.updateTags()
-    this.updateGalleryPhotos()
+    this.updateTags();
+    this.updateGalleryPhotos();
   }
   
   updateTags(){
@@ -92,7 +89,7 @@ export class GalleryViewAlbumComponent implements OnInit {
       bg: photo.bg
     }));
     
-    this.galleryPhotos = galleryPhotos
+    this.galleryPhotos = galleryPhotos;
   }
   
   hasTag(photo:Photo,tag:string){

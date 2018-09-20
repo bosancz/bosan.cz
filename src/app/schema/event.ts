@@ -22,7 +22,7 @@ export class Event {
   
   order?:number;
   
-  meeting: {
+  meeting:{
     start:string,
     end:string
   };
