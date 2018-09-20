@@ -11,29 +11,29 @@
 
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="menuService.transparent" [class.nav-collapsed] = "!collapsed">
+<nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="menuService.transparent && menuCollapsed">
   <div class="container">
     <a class="navbar-brand text-uppercase" routerLink="/">Bosan.cz</a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar" (click)="collapsed = !collapsed" type="button">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar" (click)="menuCollapsed = !menuCollapsed" type="button">
       <i class="fa fa-bars"></i>
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <div class="navbar-nav text-uppercase ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
-        <a class="nav-item nav-link px-lg-3" (click)="collapsed=false" routerLink="/o-nas" routerLinkActive="active">O nás</a>
-        <a class="nav-item nav-link px-lg-3" (click)="collapsed=false" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
-        <a class="nav-item nav-link px-lg-3" (click)="collapsed=false" routerLink="/program" routerLinkActive="active">Program</a>
-        <a class="nav-item nav-link px-lg-3" (click)="collapsed=false" routerLink="/tabor" routerLinkActive="active">Tábor</a>
-        <a class="nav-item nav-link px-lg-3" (click)="collapsed=false" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
-        <a class="nav-item nav-link px-lg-3" (click)="collapsed=false" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/o-nas" routerLinkActive="active">O nás</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/program" routerLinkActive="active">Program</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/tabor" routerLinkActive="active">Tábor</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
 
         <ng-container *ngIf="!authService.logged">
-          <a class="nav-item nav-link px-lg-3" (click)="openLogin(); collapsed=false" title="Přihlásit se do interní sekce"><i class="fa fa-lock"></i></a>
+          <a class="nav-item nav-link px-lg-3" (click)="openLogin(); menuCollapsed=true" title="Přihlásit se do interní sekce"><i class="fa fa-lock"></i></a>
         </ng-container>
 
         <ng-container *ngIf="authService.logged">
-          <a class="nav-item nav-link px-lg-3" (click)="collapsed=false" routerLink="/interni" routerLinkActive="active"><i class="fa fa-lock"></i></a>
-          <a class="nav-item nav-link px-lg-3" (click)="collapsed=false" routerLink="/interni/ucet" routerLinkActive="active" [title]="'Přihlášen: ' + authService.user._id"><i class="fas fa-user"></i></a>
-          <a *ngIf="authService.logged" class="nav-link" (click)="logout(); collapsed=false" title="Odhlásit se"><i class="fas fa-sign-out-alt"></i></a>
+          <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/interni" routerLinkActive="active"><i class="fa fa-lock"></i></a>
+          <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/interni/ucet" routerLinkActive="active" [title]="'Přihlášen: ' + authService.user._id"><i class="fas fa-user"></i></a>
+          <a *ngIf="authService.logged" class="nav-link" (click)="logout(); menuCollapsed=true" title="Odhlásit se"><i class="fas fa-sign-out-alt"></i></a>
         </ng-container>
       </div>
     </div>

@@ -18,10 +18,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 })
 export class AppComponent {
 
-  isMenuTransparent:boolean;
-
-  isMenuCollapsed:boolean = true;
-
+  menuCollapsed:boolean = true;
   loginModal: BsModalRef;
 
   toasts:Toast[] = [];
