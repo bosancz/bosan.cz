@@ -1,9 +1,16 @@
-<header class="header">
-  <div class="content">
-    <h1>Tábor na ostrově ŠÁN</h1>
-    <a class="btn btn-primary" [ngx-scroll-to]="campLife">Pojeď na tábor!</a>
+<!-- Header -->
+<section id="header">
+  <div class="container-fluid header">
+    <div class="row content">
+      <div class="col-12 text-center">
+        <h1>Tábor na ostrově ŠÁN</h1>
+      </div>
+      <div class="col-12 text-center">
+        <a class="btn btn-primary btn-lg" [ngx-scroll-to]="campLife">Pojeď na tábor!</a>
+      </div>
+    </div>
   </div>
-</header>
+</section>
 
 <div class="content">
   <!-- Summer Camp -->
@@ -96,36 +103,37 @@ Hlavní vedoucí
 
   <!-- About Camp -->
   <section #campLife>
-    <div class="container padding">
-      <div class="row text-center">
-        <div class="col-12">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
           <h1>Táborový život</h1>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 col-md-7">
-          <p>Obou turnusů se zúčastní padesát šest dětí, které jsou rozděleny do čtyř oddílů po dvou posádkách. Posádky mezi sebou soutěží v celotáborové hře. Každá z posádek se stará o svou devítikánoi, na které se plavíme po okolí Šánu a hrajeme většinu celotáborových her. Program je laděn sportovně, s ohledem na možnost využití dostupného vodáckého vybavení. K výcviku dále slouží (laminátové i plastové) deblovky, kajaky, singlkanoe a pár dalších pokladů, na které v loděnici narazíme. Mezi další možnosti patří i názorná výuka eskymování a zdokonalování se v plavání. Nováčkům zdarma zapůjčíme kompletní vodácké vybavení.</p>
+      <div class="row justify-content-center">
+        <div class="col-12 order-1 order-md-1 order-lg-1">
+          <p>Obou turnusů se zúčastní padesát šest dětí, které jsou rozděleny do čtyř oddílů po dvou posádkách. Posádky mezi sebou soutěží v celotáborové hře. Každá z posádek se stará o svou devítikánoi, na které se plavíme po okolí Šánu a hrajeme většinu
+            celotáborových her. Program je laděn sportovně, s ohledem na možnost využití dostupného vodáckého vybavení. K výcviku dále slouží (laminátové i plastové) deblovky, kajaky, singlkanoe a pár dalších pokladů, na které v loděnici narazíme. Mezi
+            další možnosti patří i názorná výuka eskymování a zdokonalování se v plavání. Nováčkům zdarma zapůjčíme kompletní vodácké vybavení.</p>
         </div>
-        <div class="col-12 col-md-5">
-          <p><img src="../assets/img/camp-info/ships.jpg" class="img-fluid img-camp rot-a margin-bottom"></p>
+        <div class="col-12 order-3 order-md-2 order-lg-2">
+          <p>Ostrov se nachází na 805. říčním kilometru řeky Labe u vesnice Hrobce (pro pedanty jako já: nástupiště leží na 804,6 ř.km a převoz na 804,7 ř.km). Do roku 2008 to byl 32. říční kilometr, budiž mu voda lehká. Šán je asi 1km dlouhý a v nejširším
+            místě asi 60m široký. Spíme ve stanech, pět jídel denně děti dostávají v prosvětlené laminátové jídelně, která je spojena s naší novou zděnou kuchyní.</p>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-5">
-          <p><img src="../assets/img/camp-info/tent.jpg" class="img-fluid img-camp rot-b move-upper"></p>
+        <div class="col-12 col-md-6 col-lg-4 order-2 order-md-3 order-lg-3">
+          <p><img src="../assets/img/camp-info/ships.jpg" class="img-fluid img-shadow rot-2deg"></p>
         </div>
-        <div class="col-12 col-md-7">
-          <p>Ostrov se nachází na 805. říčním kilometru řeky Labe u vesnice Hrobce (pro pedanty jako já: nástupiště leží na 804,6 ř.km a převoz na 804,7 ř.km). Do roku 2008 to byl 32. říční kilometr, budiž mu voda lehká. Šán je asi 1km dlouhý a v nejširším místě asi 60m široký. Spíme ve stanech, pět jídel denně děti dostávají v prosvětlené laminátové jídelně, která je spojena s naší novou zděnou kuchyní.</p>
+        <div class="col-12 col-md-6 col-lg-4 order-4 order-md-4 order-lg-4">
+          <p><img src="../assets/img/camp-info/tent.jpg" class="img-fluid img-shadow rot-minus3deg"></p>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-12 col-md-7">
-          <p> Děti si nejen hrají, ale učí se i různým novým dovednostem – vázat uzle, morseovku, základy topografie, zdravovědy... Dopoledne většinou probíhá oddílový program, který mají pod taktovkou jednotliví oddíloví vedoucí, a odpoledne vyrážíme společně na celotáborovou hru. Všichni sledujeme napínavý příběh, který nás provází celým táborem a posádky zde mají možnost získávat nejvíce bodů. Večer každý bedlivě hlídá nástěnku a na ní změny v celotáborovém bodování. Výjimkou jsou tradiční šánovské specialitky jako třeba legendární Poseidonské hry. Denní program je skutečně nabitý od ranní rozcvičky až po večerní nástup a drhnutí zubů. :-) Děti mají volný čas během poledního klidu po obědě a přes hodinu po večeři. Tu dobu je nejlepší využít na psaní dopisů domů, ale z pohledu dětí spíše na hraní s novými kamarády. Společně se svým vedoucím, kuchařem a dalšími dospělými děti pomáhají při přípravě jídel a dalším zabezpečení tábora – připravují dříví, člunaři vozí suroviny a vodu z druhého břehu, myjí nádobí. Jedním slovem služba, o kterou se všechny oddíly spravedlivě střídají.<br><br>
-
-            Tábor je každoročně zakončen slavnostním táborákem, na který jsou pozváni i rodiče a přátelé.</p>
+        <div class="col-12 col-md-6 col-lg-4 order-6 order-md-6 order-lg-5">
+          <p><img src="../assets/img/camp-info/poseidon.jpg" class="img-fluid img-shadow rot-3deg"></p>
         </div>
-        <div class="col-12 col-md-5">
-          <p><img src="../assets/img/camp-info/poseidon.jpg" class="img-fluid img-camp rot-c"></p>
+        <div class="col-12 order-5 order-md-5 order-lg-6">
+          <p> Děti si nejen hrají, ale učí se i různým novým dovednostem – vázat uzle, morseovku, základy topografie, zdravovědy... Dopoledne většinou probíhá oddílový program, který mají pod taktovkou jednotliví oddíloví vedoucí, a odpoledne vyrážíme společně
+            na celotáborovou hru. Všichni sledujeme napínavý příběh, který nás provází celým táborem a posádky zde mají možnost získávat nejvíce bodů. Večer každý bedlivě hlídá nástěnku a na ní změny v celotáborovém bodování. Výjimkou jsou tradiční šánovské
+            specialitky jako třeba legendární Poseidonské hry. Denní program je skutečně nabitý od ranní rozcvičky až po večerní nástup a drhnutí zubů. :-) Děti mají volný čas během poledního klidu po obědě a přes hodinu po večeři. Tu dobu je nejlepší
+            využít na psaní dopisů domů, ale z pohledu dětí spíše na hraní s novými kamarády. Společně se svým vedoucím, kuchařem a dalšími dospělými děti pomáhají při přípravě jídel a dalším zabezpečení tábora – připravují dříví, člunaři vozí suroviny
+            a vodu z druhého břehu, myjí nádobí. Jedním slovem služba, o kterou se všechny oddíly spravedlivě střídají.<br>Tábor je každoročně zakončen slavnostním táborákem, na který jsou pozváni i rodiče a přátelé.</p>
         </div>
       </div>
     </div>
@@ -133,28 +141,28 @@ Hlavní vedoucí
 
   <!-- Camp Info -->
   <section>
-    <div class="container padding">
-      <div class="row text-center">
-        <div class="col-12">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
           <h1>Na kolik mě ta legrace přijde?</h1>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <h2>3.900,- Kč pro členy skupiny ŠÁN</h2>
-          <p>
-            - 500,- Kč záloha splatná do 14 dní od vydání přihlášky (pro vážné zájemce) plus 3400,- Kč doplatek do konce května
-          </p>
+          <h4>3.900,- Kč pro členy skupiny ŠÁN</h4>
+          <ul class="list-unstyled">
+            <li>- 500,- Kč záloha splatná do 14 dní od vydání přihlášky (pro vážné zájemce) plus 3400,- Kč doplatek do konce května</li>
+          </ul>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <h2>4.400,- Kč pro nečleny</h2>
-          <p>
-            - 500,- Kč záloha splatná do 14 dní od vydání přihlášky (pro vážné zájemce) plus 3900,- Kč doplatek do konce května<br>
-            - účastníci tábora získají členské příspěvky od září do prosince 2018 <b>zdarma</b>!
-          </p>
-          <h2>sleva 500,- Kč pro sourozence</h2>
+          <h4>4.400,- Kč pro nečleny</h4>
+          <ul class="list-unstyled">
+            <li>- 500,- Kč záloha splatná do 14 dní od vydání přihlášky (pro vážné zájemce) plus 3900,- Kč doplatek do konce května</li>
+            <li>- účastníci tábora získají členské příspěvky od září do prosince 2018 <strong>zdarma</strong>!</li>
+          </ul>
+          <h4>sleva 500,- Kč pro sourozence</h4>
         </div>
       </div>
       <div class="row text-center">
@@ -163,35 +171,35 @@ Hlavní vedoucí
         </div>
       </div>
       <div class="row">
-        <div class="col-6">
-          <p>
-            - doprava autobusem z naší loděnice v Praze Podolí<br>
-            - pro nováčky a nečleny vodácké vybavení (pádlo a vesta)<br>
-            - úrazové pojištění<br>
-            - možnost čerpání finančního příspěvku od zaměstnavatele<br>
-            - hlavní vedoucí certifikovaný MŠMT ČR<br>
-            - odborní zdravotníci<br>
-            - oddíloví vedoucí a instruktoři s celoroční praxí<br>
-            - samozřejmě stravování pětkrát denně<br>
-            - ubytování ve stanech s podsadou<br>
-            - zázemí v laminátové jídelně a zděné kuchyni
-          </p>
+        <div class="col-12 col-md-6">
+          <ul class="list-unstyled">
+            <li>- doprava autobusem z naší loděnice v Praze Podolí</li>
+            <li>- úrazové pojištění</li>
+            <li>- možnost čerpání finančního příspěvku od zaměstnavatele</li>
+            <li>- hlavní vedoucí certifikovaný MŠMT ČR</li>
+            <li>- odborní zdravotníci</li>
+            <li>- samozřejmě stravování pětkrát denně</li>
+            <li>- ubytování ve stanech s podsadou</li>
+            <li>- zázemí v laminátové jídelně a zděné kuchyni</li>
+          </ul>
         </div>
-        <div class="col-6">
-          <p><img src="../assets/img/camp-info/food.jpg" class="img-fluid img-camp rot-b"></p>
+        <div class="col-12 col-md-6">
+          <img src="../assets/img/camp-info/food.jpg" class="img-fluid img-camp rot-2deg">
         </div>
       </div>
-      <div class="row text-center margin-top">
-        <div class="col-12">
-          <h2>Chceš vědět víc?</h2>
-          <a class="btn btn-primary" routerLink="/kontakty">Kontaktuj nás</a>
+      <div class="row">
+        <div class="col-12 text-center pt-3">
+          <h4>Chceš vědět víc?</h4>
+        </div>
+        <div class="col-12 text-center pb-3">
+          <a routerLink="/kontakty" class="btn btn-primary">Kontaktuj nás</a>
         </div>
       </div>
     </div>
-  </section>
+</section>
 
-  <!-- Camp Photogalleries -->
-  <!--<section>
+<!-- Camp Photogalleries -->
+<!--<section>
 <div class="container">
 <div class="row text-center">
 <div class="col-12">
@@ -208,20 +216,20 @@ Hlavní vedoucí
 -->
 
 
-  <!-- Camp Location -->
-  <section id="map" #map>
-    <div class="container padding">
-      <div class="row text-center">
-        <div class="col-12">
-          <h1>Kde máme tábořiště?</h1>
-          <p class="subheading">
-            LVT ostrov Šán, Hrobce u Roudnice nad Labem, 411 83
-          </p>
-        </div>
+<!-- Camp Location -->
+<section id="map" #map>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>Kde máme tábořiště?</h1>
+      </div>
+      <div class="col-12 text-center">
+        <p>LVT ostrov Šán, Hrobce u Roudnice nad Labem, 411 83</p>
       </div>
     </div>
-    <div class="map">
+    <div class="row map">
       <google-map [url]="mapUrl"></google-map>
     </div>
-  </section>
+  </div>
+</section>
 </div>

@@ -1,46 +1,27 @@
 @import "../../../styles/variables";
 
-header{background-image:url("/assets/img/camp-info/san-header.jpg")}
+.header{background-image: url("/assets/img/camp-info/san-header.jpg");}
 
-.img-camp {
+.img-shadow {
   box-shadow: $shadow;
 }
 
-.rot-a {
+.rot-2deg {
     -ms-transform: rotate(2deg); /* IE 9 */
     -webkit-transform: rotate(2deg); /* Safari 3-8 */
     transform: rotate(2deg);
 }
-.rot-b {
+.rot-minus3deg {
     -ms-transform: rotate(-3deg); /* IE 9 */
     -webkit-transform: rotate(-3deg); /* Safari 3-8 */
     transform: rotate(-3deg);
 }
-.rot-c {
+.rot-3deg {
     -ms-transform: rotate(3deg); /* IE 9 */
     -webkit-transform: rotate(3deg); /* Safari 3-8 */
     transform: rotate(3deg);
 }
 
-@media screen and (min-width: 768px) {
-  .move-upper {
-    margin-top: -70px;
-    margin-bottom: 20px;
-  }
+.map{
+  height: 50vh;
 }
-
-@media screen and (min-width: 768px) {
-  .margin-bottom {
-    margin-bottom: 20px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .margin-top {
-    margin-top: 20px;
-  }
-}
-
-/* == MAPA == */
-#map { padding-bottom: 0; }
-#map .map{height:500px;}
