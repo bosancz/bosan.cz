@@ -13,7 +13,7 @@ var mailings = require("../mailings");
 var createToken = require("./login/create-token");
 
 router.get("/", acl("users:list"), async (req,res,next) => {
-  var users = User.find({}).select("_id member roles email");
+  var users = User.find({}).select("_id login member roles email");
   
   if(req.query.members) users.populate("member","_id nickname name group");
   
