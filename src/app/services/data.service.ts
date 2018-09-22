@@ -218,7 +218,7 @@ export class DataService {
   }
 
   createUser(userId:string,userData:any):Promise<User>{
-    return this.http.put<User>(this.root + "/users/" + userId, userData).toPromise();
+    return this.http.post<User>(this.root + "/users", userData).toPromise();
   }
 
   updateUser(userId:string,userData:any):Promise<string>{

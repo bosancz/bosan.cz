@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   sendToken(userId:string):Promise<string>{
-    return this.http.post(this.apiRoot + "/login/sendlink",{_id:userId},{ responseType: "text" }).toPromise();
+    return this.http.post(this.apiRoot + "/login/sendlink",{login:userId},{ responseType: "text" }).toPromise();
   }
 
   // login by directly providing valid token

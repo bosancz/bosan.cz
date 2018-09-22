@@ -30,7 +30,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let user of users" (click)="openUser(user)">
-              <td>{{user._id}}</td>
+              <td>{{user.login}}</td>
               <td>{{user.email || "-"}}</td>
               <td>
                 <ng-container *ngIf="user.member">{{user.member.nickname}} ({{user.member.name?.first}} {{user.member.name?.last}})</ng-container>
@@ -60,7 +60,7 @@
     <div class="modal-body">
       <div class="form-group">
         <label for="createUserInput-login">Login</label>
-        <input type="text" name="_id" ngModel class="form-control" id="createUserInput-login" required>
+        <input type="text" name="login" ngModel class="form-control" id="createUserInput-login" required>
       </div>
       <div class="form-group">
         <label for="createUserInput-email">E-mail</label>
