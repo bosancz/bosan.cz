@@ -13,4 +13,6 @@ var connection = mongoose.connect(config.database.uri,config.database.options)
     throw new Error("Error when connectiong to " + config.database.uri + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
   });
 
+var models = require("./models"); // just load, so that we dont have to worry about missing schemas for references
+
 module.exports = connection;

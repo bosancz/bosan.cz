@@ -4,6 +4,7 @@ module.exports = {
   "EventRecurring": require("./event-recurring"),
   "Event": require("./event"),
   "Member": require("./member"),
+  "Payment": require("./payment"),
   "Photo": require("./photo"),
   "User": require("./user")
 };
