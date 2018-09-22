@@ -29,7 +29,7 @@ router.post("/", acl("login:credentials"), async (req,res,next) => {
 
   let login = req.body.login.toLowerCase();
   
-  var user = await User.findOne({$or: [{_id:login},{email:login}]}).select("+password")
+  var user = await User.findOne({$or: [{login:login},{email:login}]}).select("+password")
 
   if(!user) return res.sendStatus(401); // dont send user dont exists
 
@@ -60,8 +60,7 @@ router.post("/", acl("login:credentials"), async (req,res,next) => {
 router.get("/renew",acl("login:renew"), async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
-	const userId = req.user._id.toLowerCase();
-  const user = await User.findOne({_id:userId});
+  const user = await User.findOne({_id:req.user._id});
   
   if(!user) return res.status(404).send("User not found");
   
@@ -76,8 +75,8 @@ router.get("/renew",acl("login:renew"), async (req,res) => {
 router.post("/sendlink",acl("login:sendlink"), async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
-  const userId = req.user._id.toLowerCase();
-	var user = await User.findOne({$or: [{_id:userId},{email: userId}]});
+  const userId = req.user.login.toLowerCase();
+	var user = await User.findOne({$or: [{login:userId},{email: userId}]});
   
   if(!user || !user.email) return res.status(404).send("User not found");
   

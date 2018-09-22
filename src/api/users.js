@@ -20,17 +20,12 @@ router.get("/", acl("users:list"), async (req,res,next) => {
   res.json(await users);
 });
 
-router.get("/:id", acl("users:read"), async (req,res,next) => {
-  const userId = req.params.id.toLowerCase();
-  var user = User.findOne({_id:userId}).populate("member","_id nickname name group")
-  res.json(await user);
-});
-
-router.put("/:id", acl("users:create"), async (req,res) => {
+router.post("/", acl("users:create"), async (req,res) => {
   
   // get the user data
-  const userId = req.params.id.toLowerCase();
-  const userData = {_id: userId, ...req.body};
+  const userData = req.body;
+  userData.login = userData.login.toLowerCase();
+  userData.email = userData.email.toLowerCase();
   
   // choose the proper type for null member
   if(!userData.member) userData.member = null;
@@ -49,10 +44,16 @@ router.put("/:id", acl("users:create"), async (req,res) => {
   res.sendStatus(204);
 });
 
+router.get("/:id", acl("users:read"), async (req,res,next) => {
+  var user = User.findOne({_id:req.params.id}).populate("member","_id nickname name group")
+  res.json(await user);
+});
+
 router.patch("/:id", acl("users:edit"), async (req,res) => {
   
   var userData = req.body;
-  const userId = req.params.id.toLowerCase();
+  userData.login = userData.login.toLowerCase();
+  userData.email = userData.email.toLowerCase();
 
   // choose the proper type for null member
   if(!userData.member) userData.member = null;
