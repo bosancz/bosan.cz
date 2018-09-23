@@ -4,33 +4,35 @@
     <div *ngIf="i >= 1 && (event.dateFrom | date:'M') !== (events[i-1].dateFrom | date:'M')" class="month">
       <div><span>{{getMonthName(event.dateFrom)}}</span></div>
     </div>
-    <div [class]="'row event ' + eventTypes[event.type].class">
+    <div [class]="'row h-100 event ' + eventTypes[event.type].class">
 
-      <div *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay" class="col-12 col-lg-2">
+      <div *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay" class="col-10 col-lg-2 order-2 order-lg-1 px-0 px-lg-3 d-flex align-items-center align-items-lg-start">
         <h5>{{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}
           <div class="d-none d-lg-block"></div>
           {{event.dateFrom | date:"d. M."}} - {{event.dateTill | date:"d. M."}}</h5>
       </div>
       <ng-template #onlyDay>
-        <div class="col-12 col-lg-2 date">
+        <div class="col-10 col-lg-2 order-2 order-lg-1 px-0 px-lg-3 d-flex align-items-center align-items-lg-start">
           <h5>{{event.dateFrom | date:"EEEEEE d. M."}}</h5>
         </div>
       </ng-template>
 
-      <div class="col-2 col-lg-1 d-flex justify-content-end circleContainer">
-        <div class="line"></div>
-        <div class="circle" [style.background-color]="eventSubTypes[event.subtype]?.color || '#ccc'">
-          <img *ngIf="eventSubTypes[event.subtype]?.image" [src]="eventSubTypes[event.subtype].image">
+      <div class="col-2 col-lg-1 order-1 px-0 py-2 px-lg-2  py-lg-0 order-lg-2 justify-content-start justify-content-lg-end d-flex">
+        <div class="circle-container">
+          <div class="line"></div>
+          <div class="circle" [style.background-color]="eventSubTypes[event.subtype]?.color || '#ccc'">
+            <img *ngIf="eventSubTypes[event.subtype]?.image" [src]="eventSubTypes[event.subtype].image">
+          </div>
         </div>
       </div>
 
-      <div class="col-10 col-lg-9 panel" [adminLink]="'/interni/akce/' + event._id + '/upravit'">
+      <div class="col-12 col-lg-9 order-3 panel" [adminLink]="'/interni/akce/' + event._id + '/upravit'">
         <div class="content">
           <div class="row event-header">
-            <div class="col">
+            <div class="col d-flex">
               <h4>{{event.name}}</h4>
             </div>
-            <div class="col-md-auto d-flex justify-content-end group-badges">
+            <div class="col-auto justify-content-end group-badges">
               <ng-container *ngIf="event.leadersEvent">
                 <span class="group-badge bg-dark" title="Kolektiv vedoucích">V</span>
               </ng-container>
@@ -54,12 +56,12 @@
             </div>
           </div>
           <div class="row footer">
-            <div class="col-md-auto">
+            <div class="col d-flex">
               <p *ngIf="event.leaders?.length">
                 {{event.leadersLine}} {{event.leaders | joinLeaders}}
               </p>
             </div>
-            <div class="col d-flex justify-content-end mb-3">
+            <div class="col-auto justify-content-end mb-3">
               <a *ngIf="event.registrationUrl" [href]="event.registrationUrl | safeurl" class="flat" target="_blank">Přihláška</a>
             </div>
           </div>
