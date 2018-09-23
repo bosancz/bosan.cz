@@ -46,7 +46,7 @@ const routes:Routes = [
       {path: 'akce', component: EventsAdminComponent, canActivate: [ACLService]},
 
       {path: 'galerie/:album/:cat', component: AlbumAdminComponent, canActivate: [ACLService]},
-      {path: 'galerie/:album', redirectTo: "galerie/:album/prehled", pathMatch: "full"},
+      {path: 'galerie/:album', redirectTo: "galerie/:album/upravit", pathMatch: "full"},
       {path: 'galerie', component: GalleryAdminComponent, canActivate: [ACLService]},
 
       {path: 'tabory/:camp/:cat', component: CampAdminComponent, canActivate: [ACLService]},

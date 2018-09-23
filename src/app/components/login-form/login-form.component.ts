@@ -23,7 +23,7 @@ export class LoginFormComponent implements OnInit {
   status:string = null;
   error:Error;
   
-  forgotPassword:boolean = false;
+  sendLink:boolean = false;
 
   constructor(public loginModal:BsModalRef, private authService:AuthService, private dataService:DataService, private router:Router, private toastService:ToastService, private googleService:GoogleService) {
   }
@@ -44,6 +44,7 @@ export class LoginFormComponent implements OnInit {
     }
     catch(err){
       if(err.status === 401) this.status = "invalidCredentials";
+      else if(err.status === 503) this.status = "credentialsLoginNotAvalible";
       else throw err;
     }
   }
