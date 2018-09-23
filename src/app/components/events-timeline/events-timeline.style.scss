@@ -11,12 +11,10 @@ h4{z-index: 10}
 h5{margin-bottom: 0px !important;}
 .group-badges{z-index: 10;}
 
-.timeline .month{position:relative;margin:20px 0;}
-.timeline .month div{display:inline-block;width:100px;position:relative;;margin-left:-50px;text-align:center;}
-.timeline .month div span{display:inline-block;min-width:50px;color:#fff;background-color:$blue;padding:2px 6px;border-radius:4px;}
-.timeline .month::before{content:" ";position:absolute;top:50%;left:0;right:0;height:2px;margin-top:-1px;background-color:$blue;}
-
-.timeline .event {}
+.timeline .line-container{
+  position: relative;
+  width: $circle-size;
+}
 
 .timeline .event .circle-container{
   position: relative;
@@ -46,7 +44,7 @@ h5{margin-bottom: 0px !important;}
   height:$arrow-size;
   background-color:$white;
   box-shadow: $shadow;
-  z-index: 0;
+  z-index: 4;
   top: 0;
   right:0;
   -ms-transform: translatex(1.75rem) translatey(.75rem) rotate(45deg) ;
@@ -77,7 +75,7 @@ h5{margin-bottom: 0px !important;}
   -ms-transform: translatex(-50%) translatey(0.25rem) rotate(45deg) ;
   -webkit-transform: translatex(-50%) translatey(0.25rem) rotate(45deg);
   transform: translatex(-50%) translatey(0.25rem) rotate(45deg);
-  z-index: 0;
+  z-index: 4;
 }
 
 .timeline .event.event-big .arrow-vertical::after{
@@ -92,7 +90,7 @@ h5{margin-bottom: 0px !important;}
   transform:  translatex($arrow-offset) translatey($arrow-offset);
 }
 
-.timeline .event .line{
+.timeline .line{
   position: absolute;
   left:50%;
   top: 0;
