@@ -9,7 +9,7 @@ var config = require("../../config");
 var User = require("../models/user");
 
 var mailings = require("../mailings");
-
+var validate = require("../validator");
 var google = require("../google");
 
 var createToken = require("./login/create-token");
@@ -17,12 +17,13 @@ var createToken = require("./login/create-token");
 var loginSchema = {
   type: "object",
   properties: {
-    "login": {type: "string", required: true},
-    "password": {type: "string", required: true}
-  }	
+    "login": {type: "string"},
+    "password": {type: "string"}
+  },
+  required: ["login","password"]
 };
 
-router.post("/", acl("login:credentials"), async (req,res,next) => {
+router.post("/", validate({body:loginSchema}), acl("login:credentials"), async (req,res,next) => {
   
   if(!req.body.login) return res.status(400).send("Missing login");
   if(!req.body.password) return res.status(400).send("Missing password");
@@ -72,10 +73,18 @@ router.get("/renew",acl("login:renew"), async (req,res) => {
 	
 });
 
-router.post("/sendlink",acl("login:sendlink"), async (req,res) => {
+var sendLinkSchema = {
+  type: "object",
+  properties: {
+    "login": {type: "string"}
+  },
+  required: ["login"]
+};
+
+router.post("/sendlink", validate({body:sendLinkSchema}), acl("login:sendlink"), async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
-  const userId = req.user.login.toLowerCase();
+  const userId = req.body.login.toLowerCase();
 	var user = await User.findOne({$or: [{login:userId},{email: userId}]});
   
   if(!user || !user.email) return res.status(404).send("User not found");

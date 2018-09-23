@@ -43,6 +43,8 @@ router.post("/password", validate({body: passwordChangeSchema}), acl("users:me:e
   if(!req.body.password) return res.status(400).send("Missing password.");
   if(!req.body.password.match(/.{8,}/)) return res.status(400).send("Password shorter that 8 characters.");
   
+  console.log(req.user);
+  
   var user = await User.findOne({ _id: req.user._id }).select("+password");
   
   // if there is password in the payload, hash it with bcrypt

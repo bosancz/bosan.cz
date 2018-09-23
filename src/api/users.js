@@ -24,6 +24,8 @@ router.post("/", acl("users:create"), async (req,res) => {
   
   // get the user data
   const userData = req.body;
+  
+  // normalize
   userData.login = userData.login.toLowerCase();
   userData.email = userData.email.toLowerCase();
   
@@ -31,8 +33,6 @@ router.post("/", acl("users:create"), async (req,res) => {
   if(!userData.member) userData.member = null;
   // if there is password in the payload, hash it with bcrypt
 	if(userData.password) userData.password = await bcrypt.hash(req.body.password, config.auth.bcrypt.rounds)
-  // normalize email
-  userData.password = userData.password.toLowerCase();
 		
   // update or create the user
   var user = await User.create(userData);
@@ -52,18 +52,18 @@ router.get("/:id", acl("users:read"), async (req,res,next) => {
 router.patch("/:id", acl("users:edit"), async (req,res) => {
   
   var userData = req.body;
-  userData.login = userData.login.toLowerCase();
-  userData.email = userData.email.toLowerCase();
+  
+  // normalize
+  if(userData.login) userData.login = userData.login.toLowerCase();
+  if(userData.email) userData.email = userData.email.toLowerCase();
 
   // choose the proper type for null member
   if(!userData.member) userData.member = null;
   // if there is password in the payload, hash it with bcrypt
-	if(userData.password) userData.password = await bcrypt.hash(userData.password, config.auth.bcrypt.rounds)
-  // normalize email
-  userData.password = userData.password.toLowerCase();
+	if(userData.password) userData.password = await bcrypt.hash(userData.password, config.auth.bcrypt.rounds)  
   
   // update the user
-  await User.findOneAndUpdate({ _id: userId }, userData )
+  await User.findOneAndUpdate({ _id: req.params.id }, userData )
   
   // respond success
   res.sendStatus(204);
