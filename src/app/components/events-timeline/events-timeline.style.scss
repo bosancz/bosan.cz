@@ -1,12 +1,9 @@
 @import "../../../styles/variables";
 
-$circleSize: 5vh;
-$arrowSize: 2vh;
-$arrowTop: 2vh;
-/*(SQRT root of 2*2 + 2*2)/2*/
-$arrowPadding: 1.41vh;
-$circleTop: ($arrowTop + ($arrowSize/2.0)) - ($circleSize /2.0);
-$timelineWidth: 0.2vh;
+$circle-size: 5vh;
+$arrow-size: 1.5rem;
+$arrow-offset: 3px;
+$timeline-width: 0.2vh;
 
 $margin-event-big: 1rem;
 
@@ -32,15 +29,67 @@ h5{margin-bottom: 0px !important;}
 
 .timeline .event .circle{
   position: relative;
-  width:$circleSize;
-  height:$circleSize;
+  width:$circle-size;
+  height:$circle-size;
   border-radius:50%;
   background-color:#ccc;
-  z-index: 1;
+  z-index: 5;
 }
 
 .timeline .event.event-big .circle{
   margin-top:$margin-event-big;
+}
+
+.timeline .event.event-big .arrow-horizontal{
+  position: absolute;
+  width:$arrow-size;
+  height:$arrow-size;
+  background-color:$white;
+  box-shadow: $shadow;
+  z-index: 0;
+  top: 0;
+  right:0;
+  -ms-transform: translatex(1.75rem) translatey(.75rem) rotate(45deg) ;
+  -webkit-transform: translatex(1.75rem) translatey(.75rem) rotate(45deg);
+  transform:  translatex(1.75rem) translatey(.75rem) rotate(45deg);
+  margin-top:1rem;
+}
+
+.timeline .event.event-big .arrow-horizontal::after{
+  content:" ";
+  position: absolute;
+  width:$arrow-size;
+  height:$arrow-size;
+  background-color:$white;
+  display: inline-block;
+  -ms-transform: translatex($arrow-offset)  translatey(-$arrow-offset);
+  -webkit-transform: translatex($arrow-offset) translatey(-$arrow-offset);
+  transform:  translatex($arrow-offset) translatey(-$arrow-offset);
+}
+
+.timeline .event.event-big .arrow-vertical{
+  position: absolute;
+  width:$arrow-size;
+  height:$arrow-size;
+  background-color:$white;
+  box-shadow: $shadow;
+  left:50%;
+  -ms-transform: translatex(-50%) translatey(0.25rem) rotate(45deg) ;
+  -webkit-transform: translatex(-50%) translatey(0.25rem) rotate(45deg);
+  transform: translatex(-50%) translatey(0.25rem) rotate(45deg);
+  z-index: 0;
+}
+
+.timeline .event.event-big .arrow-vertical::after{
+  content:" ";
+  position: absolute;
+  width:$arrow-size;
+  height:$arrow-size;
+  background-color:$white;
+  display: inline-block;
+  -ms-transform: translatex($arrow-offset)  translatey($arrow-offset);
+  -webkit-transform: translatex($arrow-offset) translatey($arrow-offset);
+  transform:  translatex($arrow-offset) translatey($arrow-offset);
 }
 
 .timeline .event .line{
@@ -48,7 +97,7 @@ h5{margin-bottom: 0px !important;}
   left:50%;
   top: 0;
   height: 100%;
-  width: $timelineWidth;
+  width: $timeline-width;
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
   background-color: #A9A9A9;
@@ -102,6 +151,9 @@ h5{margin-bottom: 0px !important;}
 .timeline .event.event-small .meeting{display:none;}
 .timeline .event.event-small .panel{padding-left:0;}
 .timeline .event.event-small h4,h5{font-weight:normal;}
+
+.timeline .event.event-small .arrow-vertical{display:none;}
+.timeline .event.event-small .arrow-horizontal{display:none;}
 
 /* Large devices (large desktops, 1200px and up) */
 @media (max-width:992px) {
