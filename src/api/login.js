@@ -32,8 +32,9 @@ router.post("/", validate({body:loginSchema}), acl("login:credentials"), async (
   
   var user = await User.findOne({$or: [{login:login},{email:login}]}).select("+password")
 
-  if(!user) return res.sendStatus(401); // dont send user dont exists
-
+  if(!user) return res.sendStatus(401); // dont send that user dont exists
+  if(!user.password) return res.status(503).send("Password not set."); // dont send user dont exists
+  
   var same = await bcrypt.compare(req.body.password, user.password)
 
   if(!same) return res.sendStatus(401);

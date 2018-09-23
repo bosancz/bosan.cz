@@ -9,7 +9,11 @@ async function fixUserId(){
   const users = await User.find({}).select("+password");
   
   for(let user of users){
+    
+    user.login = user._id;
+    await user.save()
 
+    /*
     let userData = user.toObject();
     userData._id = mongoose.Types.ObjectId();
     userData.login = user._id;  
@@ -17,7 +21,7 @@ async function fixUserId(){
     console.log(`Converting ${user._id} to ${userData._id}.`);
     
     await User.deleteOne({_id:user._id});
-    await User.create(userData);
+    await User.create(userData);*/
   }
 }
 
