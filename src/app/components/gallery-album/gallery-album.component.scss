@@ -19,3 +19,10 @@ h4 a{
   background-size:cover;
   background-color:#eee;
 }
+
+.desc{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  line-height: 1.5rem;
+  max-height: 1.5rem;
+}

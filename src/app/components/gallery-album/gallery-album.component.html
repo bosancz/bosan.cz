@@ -12,12 +12,13 @@
     </ng-container>
   </div>
   <div class="row my-2">
-    <ng-container *ngIf="album.description">
-      <div class="col-md-auto">
-        <p>{{album.description}}</p>
-      </div>
-    </ng-container>
-    <div class="col d-flex justify-content-end">
+
+    <div class="col d-flex justify-content-start">
+      <ng-container *ngIf="album.description">
+        <p class="desc">{{album.description}}</p>
+      </ng-container>
+    </div>
+    <div class="col col-auto">
       <a [routerLink]="'/fotogalerie/' + album._id" class="flat">Otevřít album</a>
     </div>
   </div>
