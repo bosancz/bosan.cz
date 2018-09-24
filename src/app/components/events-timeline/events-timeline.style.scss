@@ -42,7 +42,7 @@ h5{margin-bottom: 0px !important;}
   position: absolute;
   width:$arrow-size;
   height:$arrow-size;
-  background-color:$white;
+  background-color:#fff;
   box-shadow: $shadow;
   z-index: 4;
   top: 0;
@@ -58,7 +58,7 @@ h5{margin-bottom: 0px !important;}
   position: absolute;
   width:$arrow-size;
   height:$arrow-size;
-  background-color:$white;
+  background-color:#fff;
   display: inline-block;
   -ms-transform: translatex($arrow-offset)  translatey(-$arrow-offset);
   -webkit-transform: translatex($arrow-offset) translatey(-$arrow-offset);
@@ -69,7 +69,7 @@ h5{margin-bottom: 0px !important;}
   position: absolute;
   width:$arrow-size;
   height:$arrow-size;
-  background-color:$white;
+  background-color:#fff;
   box-shadow: $shadow;
   left:50%;
   -ms-transform: translatex(-50%) translatey(0.25rem) rotate(45deg) ;
@@ -83,7 +83,7 @@ h5{margin-bottom: 0px !important;}
   position: absolute;
   width:$arrow-size;
   height:$arrow-size;
-  background-color:$white;
+  background-color:#fff;
   display: inline-block;
   -ms-transform: translatex($arrow-offset)  translatey($arrow-offset);
   -webkit-transform: translatex($arrow-offset) translatey($arrow-offset);
