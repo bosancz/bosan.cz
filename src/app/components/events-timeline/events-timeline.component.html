@@ -16,7 +16,7 @@
       </ng-template>
 
       <div class="circle" [style.background-color]="eventSubTypes[event.subtype]?.color || '#ccc'">
-        <img *ngIf="eventSubTypes[event.subtype]?.image" [src]="eventSubTypes[event.subtype].image">
+        <img *ngIf="eventSubTypes[event.subtype]?.image" [src]="eventSubTypes[event.subtype].image | safeurl">
       </div>
 
       <div class="panel" [adminLink]="'/interni/akce/' + event._id + '/upravit'"> 

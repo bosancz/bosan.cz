@@ -19,6 +19,14 @@ import { CollapseModule } from "ngx-bootstrap/collapse";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { TooltipConfig } from 'ngx-bootstrap/tooltip';
+
+export function getTooltipConfig(): TooltipConfig {
+  return Object.assign(new TooltipConfig(), {    
+    container: 'body'
+  });
+}
+ 
 
 @NgModule({
   imports: [
@@ -47,6 +55,9 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
     /* DIRECTIVES */ ContenteditableDirective,
     
     /* PIPES */ SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe
+  ],
+  providers: [
+    { provide: TooltipConfig, useFactory: getTooltipConfig }
   ]
   
 })

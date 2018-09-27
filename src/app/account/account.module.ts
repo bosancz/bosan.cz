@@ -12,6 +12,7 @@ import { AccountAdminComponent } from 'app/account/views/account-admin/account-a
 import { DocumentsViewComponent } from 'app/account/views/documents-view/documents-view.component';
 import { AccountDashboardComponent } from 'app/account/views/account-dashboard/account-dashboard.component';
 import { MyEventsComponent } from 'app/account/views/my-events/my-events.component';
+import { CanalRegistrationComponent } from './views/canal-registration/canal-registration.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import { MyEventsComponent } from 'app/account/views/my-events/my-events.compone
   declarations: [
     AccountComponent,
     
-    /* VIEWS */ AccountAdminComponent, DocumentsViewComponent, AccountDashboardComponent, MyEventsComponent
+    /* VIEWS */ AccountAdminComponent, DocumentsViewComponent, AccountDashboardComponent, MyEventsComponent, CanalRegistrationComponent
   ]
 })
 export class AccountModule { }
