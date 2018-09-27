@@ -14,6 +14,8 @@ export class SafeurlPipe implements PipeTransform {
         return this.domSanitizer.bypassSecurityTrustUrl(value);
       case "SafeResourceUrl":
         return this.domSanitizer.bypassSecurityTrustResourceUrl(value);
+      default:
+        console.error("Unknown safe url type: " + type);
     }
       
   }

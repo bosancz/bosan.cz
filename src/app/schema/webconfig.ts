@@ -61,6 +61,11 @@ export interface WebConfig {
     achievements:WebConfigAchievement[]
   };
   
+  canal:{
+    formUrl:string,
+    attendeesUrl:string
+  },
+  
   events:{
     types:WebConfigEventType[],
     subtypes:WebConfigEventSubType[],
