@@ -37,7 +37,6 @@ export class CanalRegistrationComponent implements OnInit, OnDestroy {
   
   async loadUrls():Promise<void>{
     const config = await this.dataService.getConfig();
-    console.log(config.canal);
     this.formUrl = config.canal.formUrl;
     this.attendeesUrl = config.canal.attendeesUrl;
   }
