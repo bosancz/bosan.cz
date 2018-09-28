@@ -1,3 +1,21 @@
-<p>
-  account-dashboard works!
-</p>
+<section class="padding">
+
+  <div class="container">
+    <h2>Přehled</h2>
+    <div class="cards">
+
+      <div *ngIf="noLeaderEvents?.length > 0" class="card">
+        <div class="card-body">
+          <h5 class="card-title">Veď akci!</h5>
+          <p class="card-text">Mezi akcemi jsou stále nějaké nerozebrané. Vyber si nějakou a přihlaš se jako vedoucí:</p>
+          <ul>
+            <li *ngFor="let event of noLeaderEvents">
+              <a [routerLink]="'/interni/akce/' + event._id">{{[event.dateFrom,event.dateTill] | dateRange:"d.":"d. M.":"d. M.":" - "}} {{event.name}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
