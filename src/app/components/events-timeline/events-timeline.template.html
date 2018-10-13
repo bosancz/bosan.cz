@@ -2,7 +2,7 @@
   <ng-container *ngFor="let event of events;let i = index">
 
     <div *ngIf="i >= 1 && (event.dateFrom | date:'M') !== (events[i-1].dateFrom | date:'M')" class="row">
-      <div class="col-4 col-lg-2 py-lg-3 pt-1">
+      <div class="col-4 col-lg-2 py-lg-3 px-0 px-lg-3 pt-1">
         <h4>{{getMonthName(event.dateFrom)}}</h4>
       </div>
       <div class="col-lg-1 px-lg-3 d-none d-lg-flex justify-content-lg-end">
@@ -29,10 +29,9 @@
         <div class="circle-container">
           <div class="line"></div>
           <div class="circle" [style.background-color]="eventSubTypes[event.subtype]?.color || '#ccc'">
-            <img *ngIf="eventSubTypes[event.subtype]?.image" [src]="eventSubTypes[event.subtype].image">
+            <img *ngIf="eventSubTypes[event.subtype]?.image" class="img-fluid" [src]="eventSubTypes[event.subtype].image">
           </div>
           <div class="arrow-horizontal d-none d-lg-block"></div>
-          <div class="arrow-vertical d-lg-none d-xl-none"></div>
         </div>
       </div>
 
