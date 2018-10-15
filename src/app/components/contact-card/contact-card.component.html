@@ -3,7 +3,7 @@
     <img *ngIf="contact.avatar" [src]="contact.avatar" class="img-fluid">
     <img *ngIf="!contact.avatar" src="/assets/img/boy.png" class="img-fluid">
 
-    <h4><u>{{contact.nickname}}</u><br/>{{contact.name}}</h4>
+    <h4>{{contact.nickname}}<br/>{{contact.name}}</h4>
     <p class="badge badge-pill mb-1">{{contact.role}}</p><br/>
     <a [href]="'mailto:' + contact.email">{{contact.email}}</a><br/>
     <a [href]="'tel:' + contact.mobile">{{contact.mobile}}</a><br/>
