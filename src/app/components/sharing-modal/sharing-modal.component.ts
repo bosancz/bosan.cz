@@ -14,6 +14,8 @@ export class SharingModalComponent implements OnInit {
     facebook: 0
   };
   
+  copied:boolean = false;
+  
   constructor() { }
 
   ngOnInit() {
