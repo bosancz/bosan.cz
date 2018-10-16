@@ -3,17 +3,12 @@ import { Location, formatDate } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { trigger,state,style,animate,transition } from '@angular/animations';
 
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-
 import { Subscription } from "rxjs";
 
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
 
 import { Album, Photo } from "app/schema/album";
-
-declare const navigator:any;
 
 @Component({
   selector: 'gallery-view-photos',
@@ -54,12 +49,9 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   
   preloading:HTMLImageElement[] = [];
   
-  @ViewChild("sharingModal") sharingModal:TemplateRef<any>;
-  sharingModalRef:BsModalRef;
-
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location, private modalService:BsModalService) {
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location) {
   }
 
   ngOnInit() {  
@@ -174,36 +166,7 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
     clearTimeout(this.controlsTimeout);
     this.controlsTimeout = setTimeout(() => this.controlsState = "hidden",1500);
   }
-  
-  share():void{
-    
-    if (navigator.share) {
-      navigator.share({
-        title: this.album.name,
-        text: this.album.description,
-        url: window.location.href,
-      })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing', error));
-    }
-    else {
-      this.sharingModalRef = this.modalService.show(this.sharingModal);
-    }
-  }
-  
-  getAlbumUrl():string {
-    return window.location.href.replace(/^(.+)\/[^\/]+$/,"$1");
-  }
-  
-  getPhotoUrl():string {
-    return window.location.href;
-  }
-  
-  copyUrl(input:HTMLInputElement):void{
-    input.select();
-    document.execCommand("copy");
-    this.toastService.toast("Text byl zkopírován do schránky.");
-  }
+
 }
 
   

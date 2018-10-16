@@ -1,7 +1,11 @@
-/* LAYOUT */
+/* IMPORTS */
+@import '~@ngx-share/button/styles/share-buttons';
+@import '~@ngx-share/button/styles/themes/default/default-theme';
 
 @import './variables';
 @import './bootstrap-overrides';
+
+/* LAYOUT */
 
 html {
     overflow-y:scroll;
