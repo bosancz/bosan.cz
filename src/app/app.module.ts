@@ -52,6 +52,8 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 // App Config
 import { AppConfig, AppConfigData } from "config/config";
+import { SharingModalComponent } from './components/sharing-modal/sharing-modal.component';
+import { ShareUrlDirective } from './directives/share-url.directive';
 
 // settings for JWT
 export function JwtTokenGetter():string{
@@ -78,7 +80,7 @@ export const jwtOptions = {
 
     /* DIRECTIVES */ AdminLinkDirective,
 
-    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, JoinLeadersPipe, FormatPhonePipe, GalleryAlbumComponent
+    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, JoinLeadersPipe, FormatPhonePipe, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective
   ],
   imports: [
     BrowserAnimationsModule,    
@@ -96,6 +98,6 @@ export const jwtOptions = {
     /* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
   ],
   bootstrap: [ AppComponent ],
-  entryComponents: [ LoginFormComponent ]
+  entryComponents: [ LoginFormComponent, SharingModalComponent ]
 })
 export class AppModule { }

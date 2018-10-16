@@ -20,6 +20,8 @@ import { ModalModule } from "ngx-bootstrap/modal";
 import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { TooltipConfig } from 'ngx-bootstrap/tooltip';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { ShareButtonsModule } from '@ngx-share/buttons';
 
 export function getTooltipConfig(): TooltipConfig {
   return Object.assign(new TooltipConfig(), {    
@@ -38,7 +40,9 @@ export function getTooltipConfig(): TooltipConfig {
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     TypeaheadModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    NgxPermissionsModule.forRoot(),
+    ShareButtonsModule.forRoot()
   ],
   declarations: [
     BreadCrumbsComponent,
@@ -49,6 +53,7 @@ export function getTooltipConfig(): TooltipConfig {
   exports: [
     /* MODULES */ CommonModule, FormsModule, HttpClientModule,
     CollapseModule, ModalModule, TypeaheadModule, TooltipModule,
+    ShareButtonsModule,
     
     /* COMPONENTS */ BreadCrumbsComponent, PhotoGalleryComponent,
     
