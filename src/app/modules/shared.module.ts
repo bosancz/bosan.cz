@@ -53,7 +53,7 @@ export function getTooltipConfig(): TooltipConfig {
   exports: [
     /* MODULES */ CommonModule, FormsModule, HttpClientModule,
     CollapseModule, ModalModule, TypeaheadModule, TooltipModule,
-    ShareButtonsModule,
+    ShareModule,
     
     /* COMPONENTS */ BreadCrumbsComponent, PhotoGalleryComponent,
     
