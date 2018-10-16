@@ -7,7 +7,7 @@ import { formatDate } from "@angular/common";
 })
 export class DateRangePipe implements PipeTransform {
 
-  transform(value:Array<string|Date>, format1:string, format2:string, format3:string, separator:string = " ~ "):string {
+  transform(value:Array<string|Date>, format1:string = "d. M. y", format2:string = "d. M.", format3:string = "d.", separator:string = " ~ "):string {
     let dateFrom = new Date(value[0]);
     let dateTill = new Date(value[1]);
     

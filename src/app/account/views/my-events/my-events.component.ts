@@ -25,7 +25,7 @@ export class MyEventsComponent implements OnInit {
     
     let userId:string = this.authService.user._id;
     
-    let paginated = await this.dataService.getEvents({leader: userId});
+    let paginated = await this.dataService.getEvents({filter:{leaders: userId}});
     this.events = paginated.docs;
   }
 
