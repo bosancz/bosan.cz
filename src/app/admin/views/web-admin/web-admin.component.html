@@ -11,6 +11,8 @@
           <li class="nav-item"><a class="nav-link" routerLink="../akce" routerLinkActive="active">Akce</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../clenska-databaze" routerLinkActive="active">Členská databáze</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../kontakty" routerLinkActive="active">Kontakty</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../dokumenty" routerLinkActive="active">Dokumenty</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../kanal" routerLinkActive="active">Kanál</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../uzivatele" routerLinkActive="active">Uživatelé</a></li>
           <br>
           <li class="nav-item"><button type="button" class="btn btn-primary" (click)="saveConfig()">Uložit nastavení</button></li>
@@ -37,9 +39,25 @@
               <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.general.campMapUrl">
               <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
             </div>
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'dokumenty'">
             <div class="form-group">              
               <label>Adresa složky ŠÁN Public Google dokumentů</label>
               <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.general.documentsUrl">
+              <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
+            </div>
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'kanal'">
+            <div class="form-group">              
+              <label>Formulář "Přihlásit se na ježdění v Troji"</label>
+              <input type="url" class="form-control" [(ngModel)]="config.canal.formUrl">
+              <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
+            </div>
+            <div class="form-group">              
+              <label>Obsazenost kanálu</label>
+              <input type="url" class="form-control" [(ngModel)]="config.canal.attendeesUrl">
               <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
             </div>
           </ng-container>
@@ -56,6 +74,10 @@
             <h4>Typů opakování</h4>
 
             <codelist-editor [fields]="eventRecurringTypeFields" [(ngModel)]="config.events.recurringTypes"></codelist-editor>
+            
+            <h4>Kontrola popisků</h4>
+
+            <codelist-editor [fields]="eventDescriptionWarningsFields" [(ngModel)]="config.events.descriptionWarnings"></codelist-editor>
           </ng-container>
 
           <ng-container *ngSwitchCase="'clenska-databaze'">

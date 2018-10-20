@@ -3,10 +3,10 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
 
-import { DataService } from "../../../../services/data.service";
-import { ToastService } from "../../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Camp } from "../../../../schema/camp";
+import { Camp } from "app/schema/camp";
 
 @Component({
   selector: 'camp-admin',
@@ -50,8 +50,8 @@ export class CampAdminComponent implements OnInit, OnDestroy {
   }
   
   async deleteCamp(){
-    var name = this.camp.name;
-    await this.dataService.deleteCamp(this.camp._id)
+    let name = this.camp.name;
+    await this.dataService.deleteCamp(this.camp._id);
     this.toastService.toast("Tábor " + name + " smazán.");
     this.router.navigate(["/interni/tabory"]);
   }

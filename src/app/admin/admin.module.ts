@@ -28,8 +28,6 @@ import { MembersAdminComponent } from './views/members-admin/members-admin.compo
 import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
 import { MemberAdminInfoComponent } from './views/members-admin/member-admin/member-admin-info/member-admin-info.component';
 
-import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
-
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
 
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
@@ -44,7 +42,6 @@ import { MemberAdminAchievementsComponent } from './views/members-admin/member-a
 import { CodelistEditorComponent } from './components/codelist-editor/codelist-editor.component';
 import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
 import { TypeaheadFieldComponent } from './components/typeahead-field/typeahead-field.component';
-import { MyAdminComponent } from './views/my-admin/my-admin.component';
 import { EventAdminRegistrationComponent } from './views/events-admin/event-admin/event-admin-registration/event-admin-registration.component';
 import { EventAdminRecurringComponent } from './views/events-admin/event-admin/event-admin-recurring/event-admin-recurring.component';
 import { AlbumAdminDashboardComponent } from './views/gallery-admin/album-admin/album-admin-dashboard/album-admin-dashboard.component';
@@ -52,6 +49,7 @@ import { EventAdminDashboardComponent } from './views/events-admin/event-admin/e
 import { CampAdminDashboardComponent } from './views/camps-admin/camp-admin/camp-admin-dashboard/camp-admin-dashboard.component';
 import { PhotoTagsEditorComponent } from './components/photo-tags-editor/photo-tags-editor.component';
 import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
+import { ServerAdminComponent } from './views/server-admin/server-admin.component';
 
 @NgModule({
   imports: [
@@ -64,16 +62,16 @@ import { GroupsSelectComponent } from './components/groups-select/groups-select.
     AdminComponent,
     
     /* VIEWS */
-    EventsAdminComponent, EventAdminComponent, EventAdminAttendeesComponent, EventAdminInfoComponent, EventAdminLeadersComponent,
-    GalleryAdminComponent, AlbumsAdminComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
+    EventsAdminComponent, EventAdminComponent, EventAdminDashboardComponent, EventAdminAttendeesComponent, EventAdminInfoComponent, EventAdminLeadersComponent, EventAdminRegistrationComponent, EventAdminRecurringComponent, 
+    GalleryAdminComponent, AlbumsAdminComponent, AlbumAdminDashboardComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
     MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent, MemberAdminAchievementsComponent, 
     WebAdminComponent,
-    DocumentsViewComponent,
-    CampsAdminComponent, CampAdminComponent, CampAdminBasicComponent,
+    ServerAdminComponent,
+    CampsAdminComponent, CampAdminComponent, CampAdminDashboardComponent, CampAdminBasicComponent,
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, MyAdminComponent, EventAdminRegistrationComponent, EventAdminRecurringComponent, AlbumAdminDashboardComponent, EventAdminDashboardComponent, CampAdminDashboardComponent, PhotoTagsEditorComponent, GroupsSelectComponent,
+    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, GroupsSelectComponent
     
   ]
 })

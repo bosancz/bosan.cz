@@ -1,29 +1,54 @@
 
 
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Přihlásit se do interní sekce</h4>
+  <h4 class="modal-title pull-left">Přihlásit se</h4>
   <button type="button" class="close pull-right" aria-label="Close" (click)="loginModal.hide()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
   
-  <p *ngIf="invalidCredentials" class="text-danger">Chybné uživatelské jméno nebo heslo.</p>
+  <div class="status" [ngSwitch]="status">
+    <p *ngSwitchCase="'invalidCredentials'" class="text-danger">Chybné uživatelské jméno nebo heslo.</p>
+    <p *ngSwitchCase="'credentialsLoginNotAvalible'" class="text-danger">Přihlášení přes login a heslo není možné. Použijte možnost zaslání odkazu.</p>
+    <p *ngSwitchCase="'linkSent'" class="text-success">Odkaz odeslán na email.</p>
+    <p *ngSwitchCase="'userNotFound'" class="text-danger">Uživatel nenalezen.</p>
+    <p *ngSwitchCase="'error'" class="text-danger">Nastala chyba: {{err.message}}</p>
+  </div>
   
-  <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-
+  <form *ngIf="!sendLink" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
     <div class="form-group">
       <label for="inputLogin">Uživatelské jméno</label>
-      <input type="text" class="form-control" name="login" ngModel required>
+      <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required>
     </div>
-
 
     <div class="form-group">
       <label for="inputLogin">Heslo</label>
       <input [type]="'password'" class="form-control" name="password" ngModel required>
+      <small><a (click)="sendLink = true" class="forgotPassword">Heslo nemám, nebo jsem ho zapomněl</a></small>
     </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button>
-
+    <div class="buttons text-right">
+      <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button>
+      <br><br>
+      <button type="button" class="btn btn-secondary" (click)="googleLogin()"><i class="fab fa-google"></i>&nbsp;&nbsp;Přihlásit přes Bošánovský mail</button>
+      <br><br>
+      <button type="button" class="btn btn-secondary" (click)="sendLink = true">Poslat přihlašovací odkaz</button>
+    </div>
   </form>
+  
+  <form *ngIf="sendLink" #loginLinkForm="ngForm" (ngSubmit)="loginLink(loginLinkForm)">
+    
+    <div class="form-group">
+      <label for="inputLogin">Uživatelské jméno nebo email</label>
+      <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required>
+    </div>
+    
+    <div class="buttons row">
+      <div class="col-4 text-left"><button type="submit" class="btn btn-secondary" (click)="sendLink = false">Zpět</button></div>
+      <div class="col-8 text-right"><button type="submit" class="btn btn-primary" [disabled]="!loginLinkForm.valid">Zaslat odkaz na přihlášení</button></div>
+    </div>
+    
+  </form>
+  
+  
 </div>

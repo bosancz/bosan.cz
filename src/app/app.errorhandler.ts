@@ -6,7 +6,7 @@ import { ToastService } from "./services/toast.service";
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
 
-  constructor(private injector: Injector){
+  constructor(private injector:Injector){
   }
 
   handleError(err:any) {
@@ -24,9 +24,12 @@ export class AppErrorHandler implements ErrorHandler {
       } else {
         toastService.toast("Chyba serveru: " + err.message, "error");
       }
+    } else if(err.message && err.message.match("Cannot match any routes")) {
+      toastService.toast("Tato stránka neexistuje.", "error");
+      console.error({err});
     } else {
       toastService.toast("Nastala neočekávaná chyba :(", "error");
-      console.error(err);
+      console.error({err});
     }
   }
 

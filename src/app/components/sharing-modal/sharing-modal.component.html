@@ -1,0 +1,13 @@
+<div class="modal-body">
+
+  <div class="row buttons">
+
+    <div class="col"><button shareButton="facebook" [url]="url" [getCount]="true" (count)="count.facebook = $event" tooltip="Sdílet na Facebooku" placement="bottom"><i class="fab fa-facebook-f"></i><span class="dot count">{{count.facebook}}</span></button></div>
+    <div class="col"><button shareButton="twitter" [url]="url" tooltip="Sdílet na Twitteru" placement="bottom"><i class="fab fa-twitter"></i></button></div>
+    <div class="col"><button shareButton="whatsapp" [url]="url" tooltip="Poslat přes WhatsApp" placement="bottom"><i class="fab fa-whatsapp"></i></button></div>
+    <div class="col"><button shareButton="email" [url]="url" tooltip="Poslat e-mailem" placement="bottom"><i class="fas fa-envelope"></i></button></div>
+    <div class="col"><button shareButton="copy" [url]="url" (click)="copied = true" tooltip="Zkopírovat odkaz" placement="bottom"><i class="fas fa-copy"></i><span *ngIf="copied" class="dot check"><i class="fas fa-check"></i></span></button></div>
+
+  </div>
+
+</div>

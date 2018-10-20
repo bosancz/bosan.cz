@@ -2,15 +2,6 @@
   <a *ngFor="let photo of _photos" (click)="photoOpen.emit(photo)" [style.width]="photo.adjWidth + 'px'" [style.height]="photo.adjHeight + 'px'" [style.margin-right]="photo.lastInRow ? 0 : margin + 'px'" [style.margin-top]="margin + 'px'" [style.background-color]="photo.bg" class="galleryPhoto">
     <img *ngIf="photo.url" [src]="photo.url" [alt]="photo.caption">
     <span class="shader"></span>
-    <span *ngIf="editable" contenteditable [(ngModel)]="photo.caption" (blur)="captionEdit.emit(photo)" class="caption"></span>
-    <span *ngIf="!editable && photo.caption" class="caption">{{photo.caption}}</span>
-    <span *ngIf="dots" class="dots">
-      <i class="fas fa-circle"></i>
-      <i class="fas fa-circle"></i>
-      <i class="fas fa-circle"></i>
-    </span>
-    <span *ngIf="editable" class="edit">
-      <a (click)="photoEdit.emit(photo)"><i class="fas fa-cog"></i></a>
-    </span>
+    <p *ngIf="photo.caption" class="caption">{{photo.caption}}</p>
   </a>
 </div>

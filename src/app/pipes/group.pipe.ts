@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
 
-import { DataService } from "../services/data.service";
+import { DataService } from "app/services/data.service";
 
 enum GroupProperty {
   name = "name",
@@ -14,11 +14,11 @@ export class GroupPipe implements PipeTransform {
   
   groupIndex:any = {};
   
-  defaultValues:{ [key: string]: any } = {
+  defaultValues:{ [key:string]:any } = {
     "color": "#000"    
   };
   
-  constructor(private dataService:DataService, private changeDetectorRef: ChangeDetectorRef){    
+  constructor(private dataService:DataService, private changeDetectorRef:ChangeDetectorRef){    
     this.loadGroups();
   }
   

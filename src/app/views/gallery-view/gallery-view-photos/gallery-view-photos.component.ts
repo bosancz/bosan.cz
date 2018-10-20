@@ -3,15 +3,12 @@ import { Location, formatDate } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { trigger,state,style,animate,transition } from '@angular/animations';
 
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../../services/data.service";
-import { ToastService } from "../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Album, Photo } from "../../../schema/album";
+import { Album, Photo } from "app/schema/album";
 
 @Component({
   selector: 'gallery-view-photos',
@@ -52,12 +49,9 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   
   preloading:HTMLImageElement[] = [];
   
-  @ViewChild("sharingModal") sharingModal:TemplateRef<any>;
-  sharingModalRef: BsModalRef;
-
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location, private modalService: BsModalService) {
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location) {
   }
 
   ngOnInit() {  
@@ -86,6 +80,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
       case "ArrowLeft": return this.openPreviousPhoto();
       case "ArrowRight": return this.openNextPhoto();
       case "Escape": return this.close();
+      case "Home": return this.openPhoto(this.album.photos[0]);
+      case "End": return this.openPhoto(this.album.photos[this.album.photos.length - 1]);
     }
   }
   
@@ -97,10 +93,12 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   async loadAlbum(id:string){
     this.album = await this.dataService.getAlbum(id,{photos:1});
     
-    //if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
-    //if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
+    // if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
+    // if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
     
     this.updatePhoto(this.currentId);
+    
+
   }
   
   findPhotoById(photoId:string){
@@ -159,39 +157,16 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
     this.openPhoto(this.album.photos[this.currentI - 1]);
   }
   
-  close(){
-    //this.router.navigate(["../"],{relativeTo:this.route});
+  close():void{
     this.location.back();
   }
   
-  showControls(){
+  showControls():void{
     this.controlsState = "visible";
     clearTimeout(this.controlsTimeout);
     this.controlsTimeout = setTimeout(() => this.controlsState = "hidden",1500);
   }
-  
-  share() {
-    
-    var myNavigator:any = navigator;
-    if (myNavigator.share) {
-      myNavigator.share({
-        title: this.album.name,
-        text: this.album.description,
-        url: location.protocol + "//" + location.hostname + this.currentPhoto.shareUrl,
-      })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing', error));
-    }
-    else{
-      this.sharingModalRef = this.modalService.show(this.sharingModal);
-    }
-  }
-  
-  copyUrl(input:HTMLInputElement):void{
-    input.select();
-    document.execCommand("copy");
-    this.toastService.toast("Text byl zkopírován do schránky.");
-  }
+
 }
 
   

@@ -5,6 +5,7 @@
       {{album.name}}
       <ng-container *ngIf="(album.dateFrom | date:'d. M.') !== (album.dateTill | date:'d. M.'); else oneDate">({{album.dateFrom | date:"d. M."}} - {{album.dateTill | date:"d. M. y"}})</ng-container>
       <ng-template #oneDate>({{album.dateFrom | date:"d. M. y"}})</ng-template>
+      <a shareUrl [shareData]="{title:album.name,text:album.description}" class="share" tooltip="Sdílet" placement="right"><i class="fas fa-share-alt"></i></a>
     </h2>
     
     <p>{{album.description}}</p>

@@ -2,23 +2,23 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 
 /* MAIN VIEWS */
-import { AboutViewComponent } from './views/about-view/about-view.component';
-import { CampViewComponent } from './views/camp-view/camp-view.component';
-import { ContactsViewComponent } from './views/contacts-view/contacts-view.component';
-import { EventsViewComponent } from './views/events-view/events-view.component';
-import { GalleryViewComponent } from './views/gallery-view/gallery-view.component';
-import { NewsViewComponent } from './views/news-view/news-view.component';
+import { AboutViewComponent } from 'app/views/about-view/about-view.component';
+import { CampViewComponent } from 'app/views/camp-view/camp-view.component';
+import { ContactsViewComponent } from 'app/views/contacts-view/contacts-view.component';
+import { EventsViewComponent } from 'app/views/events-view/events-view.component';
+import { GalleryViewComponent } from 'app/views/gallery-view/gallery-view.component';
+import { NewsViewComponent } from 'app/views/news-view/news-view.component';
 
 /* CHILD VIEWS */
-import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
-import { GalleryViewTimelineComponent } from './views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
-import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
+import { GalleryViewAlbumComponent } from 'app/views/gallery-view/gallery-view-album/gallery-view-album.component';
+import { GalleryViewTimelineComponent } from 'app/views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
+import { GalleryViewPhotosComponent } from 'app/views/gallery-view/gallery-view-photos/gallery-view-photos.component';
 
 
 /* SERVICES */
-import { ACLService } from "./services/acl.service";
+import { ACLService } from "app/services/acl.service";
 
-const routes: Routes = [
+const routes:Routes = [
   {path: 'aktualne', component: NewsViewComponent},
 
   {path: 'fotogalerie', component: GalleryViewComponent,
@@ -39,11 +39,13 @@ const routes: Routes = [
 
   {path: 'interni', loadChildren: './admin/admin.module#AdminModule', canActivate: [ACLService]},
   
+  {path: 'moje', loadChildren: './account/account.module#AccountModule', canActivate: [ACLService]},
+  
   {path: '', redirectTo: "o-nas", pathMatch: "full"}
 
 ];
 
-var extraOptions:ExtraOptions = {
+const extraOptions:ExtraOptions = {
   scrollPositionRestoration: "enabled",
   anchorScrolling: "enabled"
 };

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TitleService } from "../../services/title.service";
-import { DataService } from "../../services/data.service";
+import { TitleService } from "app/services/title.service";
+import { DataService } from "app/services/data.service";
 
-import { Contact } from "../../schema/contact";
+import { Contact } from "app/schema/contact";
 
 @Component({
   selector: 'contacts-view',

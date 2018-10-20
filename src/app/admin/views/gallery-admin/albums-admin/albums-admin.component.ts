@@ -3,10 +3,10 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../../../services/data.service";
+import { DataService } from "app/services/data.service";
 
-import { Album } from "../../../../schema/album";
-import { Paginated } from "../../../../schema/paginated";
+import { Album } from "app/schema/album";
+import { Paginated } from "app/schema/paginated";
 
 @Component({
   selector: 'albums-admin',
@@ -25,7 +25,7 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   statuses:any = {
     "public": "zveřejněná",
     "draft": "v přípravě"
-  }
+  };
 
   options = {
     search:"",
@@ -76,13 +76,13 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   }
   
   getPages(){
-    var pages = [];
-    for(var i = 1; i <= this.pages; i++) pages.push(i)
+    let pages = [];
+    for(let i = 1; i <= this.pages; i++) pages.push(i);
     return pages;
   }
   
   getPageLink(page:number){
-    var params:any = {page:page};
+    let params:any = {page:page};
     if(this.year) params.year = this.year || null;
     return ["./",params];
   }

@@ -39,9 +39,9 @@ export class CodelistEditorComponent implements ControlValueAccessor {
       this.onChange(this.records);
     }
   }
-  registerOnChange(fn: any): void{ this.onChange = fn; }
-  registerOnTouched(fn: any): void{ this.onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void{ this.disabled = isDisabled; }
+  registerOnChange(fn:any):void{ this.onChange = fn; }
+  registerOnTouched(fn:any):void{ this.onTouched = fn; }
+  setDisabledState(isDisabled:boolean):void{ this.disabled = isDisabled; }
 
   constructor() { }
 
@@ -49,7 +49,7 @@ export class CodelistEditorComponent implements ControlValueAccessor {
 
     if(this.disabled) return;
 
-    var record = this.fields.reduce((acc,cur) => ({...acc,[cur.name]: null}),{});
+    let record = this.fields.reduce((acc,cur) => ({...acc,[cur.name]: null}),{});
 
     this.records.push(record);
   }

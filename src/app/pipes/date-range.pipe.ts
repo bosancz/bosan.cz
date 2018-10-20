@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { formatDate } from "@angular/common";
-//(value: string | number | Date, format: string, locale: string, timezone?: string): string
+// (value: string | number | Date, format: string, locale: string, timezone?: string): string
 
 @Pipe({
   name: 'dateRange'
 })
 export class DateRangePipe implements PipeTransform {
 
-  transform(value:Array<string|Date>, format1:string, format2:string, format3:string, separator:string = " ~ "): string {
+  transform(value:Array<string|Date>, format1:string = "d. M. y", format2:string = "d. M.", format3:string = "d.", separator:string = " ~ "):string {
     let dateFrom = new Date(value[0]);
     let dateTill = new Date(value[1]);
     

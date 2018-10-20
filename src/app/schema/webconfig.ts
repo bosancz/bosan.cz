@@ -30,6 +30,12 @@ export class WebConfigRecurringType {
   title:string;
 }
 
+export class WebConfigDescriptionWarning {
+  regexp:string;
+  regexpModifiers:string;
+  text:string;
+}
+
 export interface WebConfig {
   
   general:{
@@ -43,10 +49,10 @@ export interface WebConfig {
     roles:Array<{name:string,title:string,desription:string}>
   };
 
-  contacts: {
-    leaders: Contact[],
-    monday: Contact[],
-    wednesday: Contact[]
+  contacts:{
+    leaders:Contact[],
+    monday:Contact[],
+    wednesday:Contact[]
   };
 
   members:{
@@ -55,9 +61,15 @@ export interface WebConfig {
     achievements:WebConfigAchievement[]
   };
   
+  canal:{
+    formUrl:string,
+    attendeesUrl:string
+  },
+  
   events:{
     types:WebConfigEventType[],
     subtypes:WebConfigEventSubType[],
-    recurringTypes:WebConfigRecurringType[]
+    recurringTypes:WebConfigRecurringType[],
+    descriptionWarnings:WebConfigDescriptionWarning[]
   };
 }

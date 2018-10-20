@@ -30,5 +30,5 @@ export class Member {
     id:string,
     dateFrom:Date,
     dateTill:Date
-  }]
+  }];
 }

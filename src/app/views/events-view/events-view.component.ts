@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TitleService } from "../../services/title.service";
+import { TitleService } from "app/services/title.service";
 
 @Component({
   selector: 'events-view',
   templateUrl: './events-view.component.html',
-  styleUrls: ['./events-view.component.css']
+  styleUrls: ['./events-view.component.scss']
 })
 export class EventsViewComponent implements OnInit {
 

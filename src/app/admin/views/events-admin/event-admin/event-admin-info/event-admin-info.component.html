@@ -19,14 +19,15 @@
       <input type="text" name="place" [ngModel]="event.place" class="form-control" placeholder="Dno pytle">    
     </div>
     <div class="form-group col-1">
-      <label title="V případě, že budou dvě akce ve stejný den, bude se řadit podle tohoto čísla">Pořadí*</label>
+      <label tooltip="V případě, že budou dvě akce ve stejný den, bude se řadit podle tohoto čísla" placement="top">Pořadí<sup>?</sup></label>
       <input type="number" name="order" [ngModel]="event.order" class="form-control">
     </div>
   </div>
 
   <div class="form-group">
     <label>Popis</label>
-    <textarea name="description" [ngModel]="event.description" class="form-control"></textarea>
+    <textarea name="description" [ngModel]="event.description" (ngModelChange)="checkDescription($event)" class="form-control"></textarea>
+    <small *ngFor="let warning of descriptionWarnings" class="text-danger">{{warning}} </small>
   </div>
 
 

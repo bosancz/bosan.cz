@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 
-import { DataService } from "./data.service";
+import { DataService } from "app/services/data.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class TitleService {
   }
   
   async getMainTitle(){
-    var config = await this.dataService.getConfig();
+    let config = await this.dataService.getConfig();
     return config.general.title;
   }
   

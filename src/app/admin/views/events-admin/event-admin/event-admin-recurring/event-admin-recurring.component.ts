@@ -1,19 +1,19 @@
-import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 
-import { DataService } from "../../../../../services/data.service";
-import { ToastService } from "../../../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Event, EventRecurring } from "../../../../../schema/event";
-import { WebConfigRecurringType } from "../../../../../schema/webconfig";
+import { Event, EventRecurring } from "app/schema/event";
+import { WebConfigRecurringType } from "app/schema/webconfig";
 
 @Component({
   selector: 'event-admin-recurring',
   templateUrl: './event-admin-recurring.component.html',
   styleUrls: ['./event-admin-recurring.component.scss']
 })
-export class EventAdminRecurringComponent implements OnChanges {
+export class EventAdminRecurringComponent implements OnInit, OnChanges {
 
   @Input() event:Event;
   

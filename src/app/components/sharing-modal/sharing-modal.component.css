@@ -1,0 +1,5 @@
+.buttons > div{text-align:center;}
+button{position:relative;width:60px;height:60px;line-height:60px;border-radius:30px;border:none;cursor:pointer;color:#fff;background-color: var(--button-color);font-size:30px;}
+button .dot{position:absolute;top:0px;right:0px;font-size:12px;width:20px;height:20px;line-height:20px;vertical-align:middle;text-align:center;border-radius:10px;}
+button .dot.count{background-color:#f00;}
+button .dot.check{background-color:#0f0;}

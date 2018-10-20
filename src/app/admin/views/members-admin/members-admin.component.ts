@@ -7,11 +7,11 @@ import { Subscription } from "rxjs";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { DataService } from "../../../services/data.service";
-import { ToastService } from "../../../services/toast.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
 
-import { Member } from "../../../schema/member";
-import { WebConfigGroup } from "../../../schema/webconfig";
+import { Member } from "app/schema/member";
+import { WebConfigGroup } from "app/schema/webconfig";
 
 @Component({
   selector: 'members-admin',
@@ -32,11 +32,11 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
     "group": {group:null}
   };
   
-  createMemberModalRef: BsModalRef;
+  createMemberModalRef:BsModalRef;
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService: BsModalService) { }
+  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
 
   ngOnInit() {
     this.loadGroups();
@@ -63,31 +63,30 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
   }
   
   async loadRoles(){
-    var config = await this.dataService.getConfig();
+    const config = await this.dataService.getConfig();
     this.roles = config.members.roles.map(item => item.id);
   }
   
   async loadMembers(view:string){
-    
-    var options = Object.assign({},this.views[view] || {})
+    const options = Object.assign({},this.views[view] || {});
     this.members = await this.dataService.getMembers(options);
   }
   
-  openCreateMemberModal(template: TemplateRef<any>){
+  openCreateMemberModal(template:TemplateRef<any>){
     this.createMemberModalRef = this.modalService.show(template);
   }
   
   async createMember(form:NgForm){
     // get data from form
-    var eventData = form.value;
+    const eventData = form.value;
     // create the event and wait for confirmation
-    var member = await this.dataService.createMember(eventData);
+    const member = await this.dataService.createMember(eventData);
     // close the modal
     this.createMemberModalRef.hide();
     // show the confrmation
     this.toastService.toast("Člen uložen.");
     // open the event
-    this.router.navigate(["./" + member._id], {relativeTo: this.route})
+    this.router.navigate(["./" + member._id], {relativeTo: this.route});
   }
   
   getMemberLink(member:Member):string{

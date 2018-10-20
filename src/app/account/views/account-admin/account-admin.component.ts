@@ -4,25 +4,25 @@ import { NgForm } from "@angular/forms";
 
 import { Subscription } from "rxjs";
 
-import { DataService } from "../../../services/data.service";
-import { ToastService } from "../../../services/toast.service";
-import { AuthService } from "../../../services/auth.service";
+import { DataService } from "app/services/data.service";
+import { ToastService } from "app/services/toast.service";
+import { AuthService } from "app/services/auth.service";
 
 import { User } from "../../../schema/user";
 
 @Component({
-  selector: 'my-admin',
-  templateUrl: './my-admin.component.html',
-  styleUrls: ['./my-admin.component.scss']
+  selector: 'account-admin',
+  templateUrl: './account-admin.component.html',
+  styleUrls: ['./account-admin.component.scss']
 })
-export class MyAdminComponent implements OnInit, OnDestroy {
+export class AccountAdminComponent implements OnInit, OnDestroy {
 
   cat:string;
   
   user:User;
   
   passwordsVisible:boolean = false;
-  
+
   paramsSubscription:Subscription;
   
   constructor(private dataService:DataService, private toastService:ToastService, private authService:AuthService, private route:ActivatedRoute) { }
@@ -43,17 +43,15 @@ export class MyAdminComponent implements OnInit, OnDestroy {
   
   async loadUser(){
     
-    var userId = this.authService.user._id;
-    
-    this.user = await this.dataService.getUser(userId);
+    this.user = await this.dataService.getMe();
     
   }
   
   async updateUser(form:NgForm){
     
-    var userData = form.value;
+    let userData = form.value;
     
-    await this.dataService.updateAccount(userData);
+    await this.dataService.updateMe(userData);
     
     this.toastService.toast("Uloženo.");
     
@@ -61,12 +59,11 @@ export class MyAdminComponent implements OnInit, OnDestroy {
   
   async updatePassword(form:NgForm){
     
-    var userData = form.value;
+    let userData = form.value;
     
-    await this.dataService.updateAccountPassword(userData);
+    await this.dataService.updateMyPassword(userData);
     
     this.toastService.toast("Uloženo.");
     
   }
-
 }

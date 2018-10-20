@@ -24,9 +24,9 @@ export class PhotoTagsEditorComponent implements ControlValueAccessor {
   onTouched:any = () => {};
   
   writeValue(tags:any):void{ this.selectedTags = tags || []; }
-  registerOnChange(fn: any): void{ this.onChange = fn; }
-  registerOnTouched(fn: any): void{ this.onTouched = fn; }
-  setDisabledState(isDisabled: boolean): void{ this.disabled = isDisabled; }
+  registerOnChange(fn:any):void{ this.onChange = fn; }
+  registerOnTouched(fn:any):void{ this.onTouched = fn; }
+  setDisabledState(isDisabled:boolean):void{ this.disabled = isDisabled; }
   
   constructor() { }
 
@@ -49,7 +49,7 @@ export class PhotoTagsEditorComponent implements ControlValueAccessor {
     
     if(this.disabled) return;
     
-    var tag:string = window.prompt("Zadejte název nového tagu:");
+    let tag:string = window.prompt("Zadejte název nového tagu:");
     if(!tag) return;
 
     if(tag.charAt(0) === "#") tag = tag.substring(1);

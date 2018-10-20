@@ -27,16 +27,23 @@
             <div class="modal-body">
 
               <div class="form-group">
+                <label for="editUserInput-login">Login</label>
+                <input type="text" name="login" [ngModel]="user.login" class="form-control" id="editUserInput-login">
+              </div>
+              
+              <div class="form-group">
+                <label for="editUserInput-email">E-mail</label>
+                <input type="email" name="email" [ngModel]="user.email" class="form-control" id="editUserInput-email">
+              </div>
+              
+              <div class="form-group">
                 <label for="editUserInput-member">Člen</label>
                 <select name="member" [ngModel]="user.member?._id || ''" class="form-control" id="editUserInput-member">
                   <option value="">--žádný--</option>
                   <option *ngFor="let member of members" [value]="member._id">{{member.group | group:"name"}} - {{member.nickname}} ({{member.name?.first}} {{member.name?.last}})</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label for="editUserInput-email">E-mail</label>
-                <input type="email" name="email" [ngModel]="user.email" class="form-control" id="editUserInput-email">
-              </div>
+              
               <div class="form-group">
                 <label>Role</label>
                 <div class="form-check" *ngFor="let role of roles">

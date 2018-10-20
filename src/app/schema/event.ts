@@ -22,13 +22,13 @@ export class Event {
   
   order?:number;
   
-  meeting: {
-    start:string,
-    end:string
-  };
+  meeting?:{
+    start?:string,
+    end?:string
+  } = {};
   
-  attendees:any[];
-  leaders:any[];
+  attendees?:any[] = [];
+  leaders?:any[] = [];
   
   registration?:string;
   
