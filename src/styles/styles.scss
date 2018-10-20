@@ -76,18 +76,6 @@ input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invali
 
 .modal .btn{line-height: 24px;}
 
-/* SPECIALS */
-.btn { 
-  color:$white;font-size:$font-basic;
-  padding-left: 20px;
-  padding-right: 20px;
-  line-height: 46px;
-  font-weight: bold;
-  text-transform: uppercase; 
-}
-
-.btn-primary{color:$white !important; background-color: $blue}
-
 ::-moz-selection {
   background: #00BFFF;
   text-shadow: none;
