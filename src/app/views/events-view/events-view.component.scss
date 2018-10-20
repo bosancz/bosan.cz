@@ -21,12 +21,27 @@
     transform: rotate(1deg);
 }
 
-.cust-margin {
-  margin: 0 5px;
+.badge-pill{
+  color:$white;
+  font-size: 1rem;
+  background-color:$black;
+  padding: .5rem 1rem;
 }
 
-section {
-  padding: 20px 0;
+.red{
+  background-color:#BB0000;
+}
+
+.green{
+  background-color:#36802D;
+}
+
+.blue{
+  background-color:#012475;
+}
+
+.yellow{
+  background-color:#FEC503;
 }
 
 a.scrollDown{color:$linkBlue;cursor:pointer;font-weight:bold;text-transform:uppercase;text-decoration:none;}
