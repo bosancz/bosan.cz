@@ -2,7 +2,7 @@ import { Directive, forwardRef, ElementRef, HostListener } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Directive({
-  selector: '[contenteditable]',
+  selector: '[bosan-contenteditable]',
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: ContenteditableDirective,

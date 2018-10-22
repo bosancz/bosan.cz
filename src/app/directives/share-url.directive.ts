@@ -17,7 +17,7 @@ export class ShareUrlDirective {
   
   sharingModalRef:BsModalRef;
   
-  constructor(private modalService:BsModalService, el: ElementRef) {
+  constructor(private modalService:BsModalService, el:ElementRef) {
     el.nativeElement.style.cursor = 'pointer';
   }
   
