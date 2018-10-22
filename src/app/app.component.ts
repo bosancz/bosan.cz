@@ -22,10 +22,7 @@ import { AppConfig, IAppConfig } from "config/config";
 })
 export class AppComponent implements OnInit {
 
-  isMenuTransparent:boolean;
-
-  isMenuCollapsed:boolean = true;
-
+  menuCollapsed:boolean = true;
   loginModal:BsModalRef;
 
   toasts:Toast[] = [];

@@ -1,31 +1,48 @@
-
 <section id="vedeni">
-  <div class="container padding">
-    <h1>Vedení skupiny</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>Vedení skupiny</h1>
+      </div>
+    </div>
     <contact-card [contacts]="contacts.leaders"></contact-card>
   </div>
 </section>
 
 <section id="pondeli">
-  <div class="container padding">
-    <h1>Vedoucí oddílů - schůzky v pondělí</h1>
+     <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>Vedoucí oddílů - schůzky v pondělí</h1>
+      </div>
+    </div>
     <contact-card [contacts]="contacts.monday"></contact-card>
   </div>
 </section>
 
 <section id="streda">
-  <div class="container padding">
-    <h1>Vedoucí oddílů - schůzky ve středu</h1>
+   <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>Vedoucí oddílů - schůzky ve středu</h1>
+      </div>
+    </div>
     <contact-card [contacts]="contacts.wednesday"></contact-card>
   </div>
 </section>
 
 <section id="map">
-  <div class="padding">
-    <h1>Přijď se podívat osobně</h1>
-    <p class="subheading">Každé pondělí a středu máme schůzky od 16:00 do 18:00 v naší loděnici.</p>
-  </div>
-  <div class="map">
-    <google-map [url]="mapUrl"></google-map>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>Přijď se podívat osobně</h1>
+      </div>
+      <div class="col-12 text-center">
+        <p>Každé pondělí a středu máme schůzky od 16:00 do 18:00 v naší loděnici.</p>
+      </div>
+    </div>
+    <div class="row map">
+      <google-map [url]="mapUrl"></google-map>
+    </div>
   </div>
 </section>

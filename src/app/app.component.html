@@ -11,52 +11,31 @@
 
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="menuService.transparent">
+<nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="menuService.transparent && menuCollapsed">
   <div class="container">
-    <a class="navbar-brand" routerLink="/">Bosan.cz</a>
-    <button class="navbar-toggler navbar-toggler-right" (click)="isMenuCollapsed = !isMenuCollapsed" type="button">
-      Menu
+      <a class="navbar-brand text-uppercase" routerLink="/o-nas" routerLinkActive="active"><img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small mr-3" />Bosan.cz</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar" (click)="menuCollapsed = !menuCollapsed" type="button">
       <i class="fa fa-bars"></i>
     </button>
-    <div class="collapse navbar-collapse" [collapse]="isMenuCollapsed" id="navbarResponsive">
-      <ul class="navbar-nav text-uppercase ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/o-nas" routerLinkActive="active">O nás</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/program" routerLinkActive="active">Program</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/tabor" routerLinkActive="active">Tábor</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
-        </li>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <div class="navbar-nav text-uppercase ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/o-nas" routerLinkActive="active">O nás</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/program" routerLinkActive="active">Program</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/tabor" routerLinkActive="active">Tábor</a>
+        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
 
         <ng-container *ngIf="!authService.logged">
-          <li class="nav-item">
-            <a class="nav-link" (click)="openLogin()" tooltip="Přihlásit se" placement="bottom"><i class="fa fa-lock"></i></a>
-          </li>
+          <a class="nav-item nav-link px-lg-3" (click)="openLogin(); menuCollapsed=true" title="Přihlásit se do interní sekce"><i class="fa fa-lock"></i></a>
         </ng-container>
-        
+
         <ng-container *ngIf="authService.logged">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/moje" routerLinkActive="active" tooltip="Můj Bošán" placement="bottom"><i class="fas fa-user"></i></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/interni" routerLinkActive="active" tooltip="Správa obsahu" placement="bottom"><i class="fas fa-th"></i></a>
-          </li>
-          <li class="nav-item">
-            <a *ngIf="authService.logged" class="nav-link" (click)="logout()" tooltip="Odhlásit se" placement="bottom"><i class="fas fa-sign-out-alt"></i></a>
-          </li>
+          <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/moje" routerLinkActive="active" tooltip="Můj Bošán" placement="bottom"><i class="fas fa-user"></i></a>
+          <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/interni" routerLinkActive="active" tooltip="Správa obsahu" placement="bottom"><i class="fas fa-th"></i></a>
+          <a *ngIf="authService.logged" class="nav-link" (click)="logout(); menuCollapsed=true" title="Odhlásit se"><i class="fas fa-sign-out-alt"></i></a>
         </ng-container>
-      </ul>
+      </div>
     </div>
   </div>
 </nav>
@@ -68,49 +47,51 @@
 <!-- Footer -->
 <footer>
   <div class="container">
-    
-    <div class="row links">
-      
-      <div class="col-md-3 hidden-sm-down">
+
+    <div class="row">
+
+      <div class="col-6 col-md-3 p-3">
         <img src="/assets/img/san_logo_barva.png" class="logo">
       </div>
-      
-      <div class="col-md-3 col-6">
-        <h2 class="text-uppercase footer-title">Činnost</h2>
-        <p class="footer-bold">
-          <a routerLink="/program">Program</a>
-          <a routerLink="/fotogalerie">Fotogalerie</a>
-          <a routerLink="/tabor">Tábor</a>
+
+      <div class="col-6 col-md-3 p-3">
+        <h4 class="text-uppercase">Činnost</h4>
+        <ul class="list-unstyled">
+          <li class="pl-3 pb-1"><a routerLink="/program">Program</a></li>
+          <li class="pl-3 pb-1"><a routerLink="/fotogalerie">Fotogalerie</a></li>
+          <li class="pl-3 pb-1"><a routerLink="/tabor">Tábor</a></li>
           <!--<a>Bazén (Suchdol)</a>
           <a>Kanál (Troja)</a>-->
-        </p>
+        </ul>
       </div>
-      
-      <div class="col-md-3 col-6">
-        <h2 class="text-uppercase footer-title">Kontakty</h2>
-        <p class="footer-bold">
-          <a routerLink="/kontakty" fragment="vedeni">Vedení skupiny</a>
-          <a routerLink="/kontakty" fragment="pondeli">Schůzky v pondělí</a>
-          <a routerLink="/kontakty" fragment="streda">Schůzky ve středu</a>
-        </p>
+
+      <div class="col-6 col-md-3 p-3">
+        <h4 class="text-uppercase">Kontakty</h4>
+        <ul class="list-unstyled">
+          <li class="pl-3 pb-1"><a routerLink="/kontakty" fragment="vedeni">Vedení skupiny</a></li>
+          <li class="pl-3 pb-1"><a routerLink="/kontakty" fragment="pondeli">Schůzky v pondělí</a></li>
+          <li class="pl-3 pb-1"><a routerLink="/kontakty" fragment="streda">Schůzky ve středu</a></li>
+        </ul>
       </div>
-      
-      <div class="col-md-3 col-6">
-        <h2 class="text-uppercase footer-title">Naši sponzoři</h2>
-        <p class="footer-bold">
-          <a href="https://www.eurosignal.cz/" target="_blank">Eurosignal</a>
-          <a href="https://www.boatpark.cz" target="_blank">Boatpark</a>
-          <a href="https://www.praha.eu" target="_blank">Hlavní město Praha</a>
-          <a href="http://www.praha4.cz/" target="_blank">MČ Praha 4</a>
-        </p>
+
+      <div class="col-6 col-md-3 p-3">
+        <h4 class="text-uppercase">Naši sponzoři</h4>
+        <ul class="list-unstyled">
+          <li class="pl-3 pb-1"><a href="https://www.eurosignal.cz/" target="_blank">Eurosignal</a></li>
+          <li class="pl-3 pb-1"><a href="https://www.boatpark.cz" target="_blank">Boatpark</a></li>
+          <li class="pl-3 pb-1"><a href="https://www.praha.eu" target="_blank">Hlavní město Praha</a></li>
+          <li class="pl-3 pb-1"><a href="http://www.praha4.cz/" target="_blank">MČ Praha 4</a></li>
+        </ul>
       </div>
-      
+
     </div>
-    
-    <div class="text-center icons">
-      <a href="https://www.facebook.com/bosan.cz/" target="_blank"><i class="fab fa-facebook"></i></a>
-      <a href="https://www.youtube.com/channel/UCXYrg3UCZtu4_wlYR2Cj_5A" target="_blank"><i class="fab fa-youtube"></i></a>
+
+    <div class="row">
+      <div class="col-12 text-center">
+        <a href="https://www.facebook.com/bosan.cz/" target="_blank"><i class="p-3 fab fa-facebook"></i></a>
+        <a href="https://www.youtube.com/channel/UCXYrg3UCZtu4_wlYR2Cj_5A" target="_blank"><i class="p-3 fab fa-youtube"></i></a>
+      </div>
     </div>
-    
+
   </div>
 </footer>

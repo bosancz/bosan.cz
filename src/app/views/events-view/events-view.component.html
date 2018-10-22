@@ -19,9 +19,17 @@
       </div>
     </div>
   </div>
-  <h1>Program činnosti</h1>
 
   <div class="container" #timeline>
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>Program činnosti</h1>
+      </div>
+      <div class="col-12 text-center">
+        <p>Kam se s námi vypravíš v příštích týdnech.</p>
+      </div>
+    </div>
+
     <events-timeline [groupsFilter]="true" [full]="true"></events-timeline>
   </div>
 </section>
@@ -29,161 +37,127 @@
 <section #bosan>
   <div class="container">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 text-center">
         <h1>Schůzky</h1>
-        <p class="subheading">Každé pondělí a středu máme schůzky od 16:00 do 18:00 v naší loděnici.</p>
+      </div>
+      <div class="col-12 text-center">
+        <p>Každé pondělí a středu máme schůzky od 16:00 do 18:00 v naší loděnici.</p>
       </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-md-6">
-          <h2>
-            Adresa loděnice
-          </h2>
-          <p>
-            Podolské nábřeží 5, Praha 4, 147 00
-          </p>
-          <h2>
-            Co s sebou
-          </h2>
-          <h5>
-            Na vodu (duben až říjen)
-          </h5>
-          <p>
-            - pádlo a vestu (zapůjčíme zdarma), převlečení včetně bot
-          </p>
-          <h5>
-            Do klubovny (listopad až březen)
-          </h5>
-          <p>
-            - přezůvky
-          </p>
-          <h5>
-            Na hry (celý rok)
-          </h5>
-          <p>
-            - kroužkový zápisník, šátek a lano
-          </p>
-          <h2>
-            Pondělí
-          </h2>
-          <h2>
-            <span class="badge badge-pill badge-danger cust-margin">5. oddíl</span>
-            <span class="badge badge-pill badge-primary cust-margin">7. oddíl</span>
-            <span class="badge badge-pill badge-warning cust-margin">8. oddíl</span>
-            <span class="badge badge-pill badge-warning cust-margin">22. oddíl</span>
-          </h2>
-          <h2>
-            Středa
-          </h2>
-          <h2>
-            <span class="badge badge-pill badge-success cust-margin">3. oddíl</span>
-            <span class="badge badge-pill badge-primary cust-margin">4. oddíl</span>
-            <span class="badge badge-pill badge-success cust-margin">6. oddíl</span>
-          </h2>
-        </div>
-        <div class="col-12 col-md-6">
-          <p><img src="../assets/img/bosan.jpg" class="img-fluid img-shadow rot-b"></p>
-        </div>
+    <div class="row align-items-center">
+      <div class="col-12 col-md-6">
+        <h4>Adresa loděnice </h4>
+        <p>Podolské nábřeží 5, Praha 4, 147 00</p>
+        <h4>Co s sebou</h4>
+        <h5>Na vodu (duben až říjen)</h5>
+        <ul class="list-unstyled">
+          <li>- pádlo a vestu (zapůjčíme zdarma), převlečení včetně bot</li>
+        </ul>
+        <h5>Do klubovny (listopad až březen)</h5>
+        <ul class="list-unstyled">
+          <li>- přezůvky</li>
+        </ul>
+        <h5> Na hry (celý rok)</h5>
+        <ul class="list-unstyled">
+          <li>- kroužkový zápisník, šátek a lano</li>
+        </ul>
+        <h4> Pondělí</h4>
+        <p class="badge badge-pill mr-2 red">5. oddíl</p>
+        <p class="badge badge-pill mr-2 blue">7. oddíl</p>
+        <p class="badge badge-pill mr-2 yellow">8. oddíl</p>
+        <p class="badge badge-pill mr-2 yellow">22. oddíl</p>
+        <h4>Středa</h4>
+        <p class="badge badge-pill mr-2 green">3. oddíl</p>
+        <p class="badge badge-pill mr-2 blue">4. oddíl</p>
+        <p class="badge badge-pill mr-2 green">6. oddíl</p>
       </div>
+      <div class="col-12 col-md-6">
+        <img src="../assets/img/bosan.jpg" class="img-fluid img-shadow rot-b">
+      </div>
+    </div>
   </div>
 </section>
-  
+
 <section #bazen>
   <div class="container">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 text-center">
         <h1>Bazén v Suchdole</h1>
-        <p class="subheading">V zimní sezóně od listopadu do dubna, vždy jednou měsíčně v neděli, sleduj program tam uvidíš konkrétní termíny.</p>
+      </div>
+      <div class="col-12 text-center">
+        <p>V zimní sezóně od listopadu do dubna, vždy jednou měsíčně v neděli, sleduj program tam uvidíš konkrétní termíny.</p>
       </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-md-6">
-          <p><img src="../assets/img/bazen.jpg" class="img-fluid img-shadow rot-b"></p>
-        </div>
-        <div class="col-12 col-md-6">
-          <h2>
-            Adresa bazénu
-          </h2>
-          <p>
-            TJ ČZU Praha 6 – Kamýcká 1275, Praha, Suchdol, 165 00
-          </p>
-          <h2>
-            Sraz
-          </h2>
-          <p>
-            - v 16:30, na konečné metra trasy A – Dejvická dole ve stanici metra
-          </p>
-          <h2>
-            Konec
-          </h2>
-          <p>
-            - tamtéž, maximálně hodinu po konci bazénu, většinou jsme zpět kolem 19:30
-          </p>
-          <h2>
-            Cena
-          </h2>
-          <p>
-            - 60 Kč pro členy skupiny, 100 Kč ostatní
-          </p>
-          <h2>
-            Co s sebou
-          </h2>
-          <p>
-            - plavky, ručník, mýdlo, zálohu na skříňku (100 Kč)<br>
-            - pokud budeš eskymovat můžeš si vzít i vlastní šprycdeku, helmu a vestu (můžeme zapůjčit erární)
-          </p>
-        </div>
+    <div class="row align-items-center">
+      <div class="col-12 col-md-6 order-2 order-md-1">
+        <img src="../assets/img/bazen.jpg" class="img-fluid img-shadow rot-b">
       </div>
+      <div class="col-12 col-md-6 order-1 order-md-2">
+        <h4>Adresa bazénu</h4>
+        <p> TJ ČZU Praha 6 – Kamýcká 1275, Praha, Suchdol, 165 00</p>
+        <h4>Sraz</h4>
+        <ul class="list-unstyled">
+          <li>- v 16:30, na konečné metra trasy A – Dejvická dole ve stanici metra</li>
+        </ul>
+        <h4>Konec</h4>
+        <ul class="list-unstyled">
+          <li>- tamtéž, maximálně hodinu po konci bazénu, většinou jsme zpět kolem 19:30</li>
+        </ul>
+        <h4>Cena</h4>
+        <ul class="list-unstyled">
+          <li>- 60 Kč pro členy skupiny, 100 Kč ostatní</li>
+        </ul>
+        <h4>Co s sebou</h4>
+        <ul class="list-unstyled">
+          <li>- plavky, ručník, mýdlo, zálohu na skříňku (100 Kč)</li>
+          <li>- pokud budeš eskymovat můžeš si vzít i vlastní šprycdeku, helmu a vestu (můžeme zapůjčit erární)</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
 <section #troja>
   <div class="container">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 text-center">
         <h1>Tréninky na kanále v Tróje</h1>
-        <p class="subheading">V letní sezóně od dubna do října, ve čtrtek od 17:00 do 19:00, vypisovány nepravidelně.</p>
+      </div>
+      <div class="col-12 text-center">
+        <p>V letní sezóně od dubna do října, ve čtrtek od 17:00 do 19:00, vypisovány nepravidelně.</p>
       </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-md-7">
-          <h2>
-            Adresa kanálu
-          </h2>
-          <p>
-            Vodácká 8, Praha 7, 171 00, za dřevěným koněm
-          </p>
-          <h2>
-            Info
-          </h2>
-          <p>
-            - maximální kapacita tréninku je 6 lidí<br> 
-            - pokud nebudeš moct přijít, dej vědět vedoucímu tréninku a náhradníkovi (sedmému přihlášenému v pořadí), že může jít místo tebe<br> 
-            - k půjčení je loď, pádlo, vesta, šprajda a helma (ale klidně si můžeš přinést své), hydro si musíš přinést své
-          </p>
-          <h2>
-            Přihlašování
-          </h2>
-          <p>
-            - přihlásit se můžeš v <a href="http://goo.gl/forms/qFmaE67qNOuaatbq1">tomto formuláři</a>, obsazenost můžeš sledovat <a href="https://docs.google.com/spreadsheets/d/1Y738W3aMp0hFVSn371KEWT779GU-6p3JgqVpyoDdBmI/pubhtml?gid=894439878&single=true&widget=true&headers=false">zde</a>
-          </p>
-          <h2>
-            Cena
-          </h2>
-          <p>
-            - 50 Kč splavenka do kanálu, pod případně nad kanálem zadarmo
-          </p>
-          <h2>
-            Souhlas rodičů
-          </h2>
-          <p>
-            - pokud ti nebylo 18 na svůj první trénink přines <a href="/assets/pdf/troja-souhlas.pdf">tento souhlas rodičů</a>
-          </p>
-        </div>
-        <div class="col-12 col-md-5">
-          <p><img src="../assets/img/kanal1.jpg" class="img-fluid img-shadow rot-d"><br><br></p>
-          <p><img src="../assets/img/kanal2.jpg" class="img-fluid img-shadow rot-b"></p>
-        </div>
+    <div class="row justify-content-center">
+      <div class="col-12 order-1">
+        <h4>Adresa kanálu</h4>
+        <p>Vodácká 8, Praha 7, 171 00, za dřevěným koněm</p>
+        <h4> Info</h4>
+        <ul class="list-unstyled">
+          <li>- maximální kapacita tréninku je 6 lidí</li>
+          <li>- pokud nebudeš moct přijít, dej vědět vedoucímu tréninku a náhradníkovi (sedmému přihlášenému v pořadí), že může jít místo tebe</li>
+          <li>- k půjčení je loď, pádlo, vesta, šprajda a helma (ale klidně si můžeš přinést své), hydro si musíš přinést své</li>
+        </ul>
       </div>
+      <div class="col-12 order-3 order-md-2">
+        <h4> Přihlašování</h4>
+        <ul class="list-unstyled">
+          <li>- přihlásit se můžeš v <a href="http://goo.gl/forms/qFmaE67qNOuaatbq1">tomto formuláři</a>, obsazenost můžeš sledovat <a href="https://docs.google.com/spreadsheets/d/1Y738W3aMp0hFVSn371KEWT779GU-6p3JgqVpyoDdBmI/pubhtml?gid=894439878&single=true&widget=true&headers=false">zde</a></li>
+        </ul>
+        <h4>Cena</h4>
+        <ul class="list-unstyled">
+          <li>- 50 Kč splavenka do kanálu, pod případně nad kanálem zadarmo</li>
+        </ul>
+        <h4>Souhlas rodičů</h4>
+        <ul class="list-unstyled">
+          <li>- pokud ti nebylo 18 na svůj první trénink přines <a href="/assets/pdf/troja-souhlas.pdf">tento souhlas rodičů</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-md-5 order-2 order-md-3 text-center mb-3">
+        <img src="../assets/img/kanal1.jpg" class="img-fluid img-shadow rot-b">
+      </div>
+      <div class="col-12 col-md-5 order-4 text-center mb-3">
+        <img src="../assets/img/kanal2.jpg" class="img-fluid img-shadow rot-d">
+      </div>
+    </div>
   </div>
 </section>
