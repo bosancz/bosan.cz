@@ -124,7 +124,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
 
       let lastModified;
       if(uploadItem.file.lastModified) lastModified = new Date(uploadItem.file.lastModified).toISOString();
-      else if(uploadItem.file.lastModifiedDate) lastModified = uploadItem.file.lastModifiedDate.toISOString();
+      //DEPRECATED else if(uploadItem.file.lastModifiedDate) lastModified = uploadItem.file.lastModifiedDate.toISOString();
       
       formData.set("album",this.album._id);
       formData.set("tags",this.selectedTags.join(","));
