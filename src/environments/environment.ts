@@ -6,7 +6,6 @@
 export const environment = {
   production: false,
   
-  api: {
-    root: "/api"
-  }
+  api_root: "http://test.bosan.cz/api"
+
 };

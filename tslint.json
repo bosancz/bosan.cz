@@ -116,7 +116,7 @@
     "directive-selector": [
       true,
       "attribute",
-      "bosan",
+      "",//"bosan",
       "camelCase"
     ],
     "component-selector": [
