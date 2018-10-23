@@ -7,6 +7,7 @@ var paymentSchema = mongoose.Schema({
   
   "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
   "event": {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
+  "camp": {type: mongoose.Schema.Types.ObjectId, ref: "Camp"},
   
   "amountDue": Number,
   "amountPaid": Number
