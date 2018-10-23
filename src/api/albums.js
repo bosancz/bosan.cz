@@ -170,5 +170,7 @@ router.get("/:album/download", acl("albums:download"), (req,res,next) => {
   });
 
   albumDownload(req.params.album,res)
-    .catch(err => res.status(500).send(err.message));
+    .catch(err => {
+    console.log(err.message);
+  });
 });
