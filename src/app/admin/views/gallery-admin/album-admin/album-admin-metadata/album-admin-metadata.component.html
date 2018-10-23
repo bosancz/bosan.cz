@@ -44,5 +44,7 @@
     <textarea name="description" [ngModel]="album.description" class="form-control"></textarea>
   </div>
 
-  <button type="submit" class="btn btn-primary">Uložit</button>
+  <div class="buttons text-right">
+    <button type="submit" class="btn btn-primary" [disabled]="!albumForm.valid">Uložit</button>
+  </div>
 </form>
