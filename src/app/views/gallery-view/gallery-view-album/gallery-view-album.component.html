@@ -5,7 +5,12 @@
       {{album.name}}
       <ng-container *ngIf="(album.dateFrom | date:'d. M.') !== (album.dateTill | date:'d. M.'); else oneDate">({{album.dateFrom | date:"d. M."}} - {{album.dateTill | date:"d. M. y"}})</ng-container>
       <ng-template #oneDate>({{album.dateFrom | date:"d. M. y"}})</ng-template>
-      <a shareUrl [shareData]="{title:album.name,text:album.description}" class="share" tooltip="Sdílet" placement="right"><i class="fas fa-share-alt"></i></a>
+      
+      <div class="share">
+        <a shareUrl [shareData]="{title:album.name,text:album.description}" tooltip="Sdílet" placement="bottom"><i class="fas fa-share-alt"></i></a>
+        &nbsp;
+        <a [href]="album.downloadUrl" class="download font-light" download tooltip="Stáhnout celé album v ZIP" placement="bottom"><i class="fas fa-download"></i></a>
+      </div>
     </h2>
     
     <p>{{album.description}}</p>
