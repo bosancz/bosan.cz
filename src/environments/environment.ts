@@ -6,7 +6,8 @@
 export const environment = {
   production: false,
   
-  api: {
-    root: "/api"
-  }
+  apiRoot: "http://test.bosan.cz/api",
+  
+  jwtDomains: ["test.bosan.cz"]
+
 };

@@ -24,7 +24,7 @@ class GalleryPhotoContainer implements GalleryPhoto{
 @Component({
   selector: 'gallery-view-album',
   templateUrl: './gallery-view-album.component.html',
-  styleUrls: ['./gallery-view-album.component.css']
+  styleUrls: ['./gallery-view-album.component.scss']
 })
 export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
 

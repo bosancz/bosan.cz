@@ -22,7 +22,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
 
   @Input() album:Album;
   
-  @Output() save:EventEmitter<void> = new EventEmitter();
+  @Output() saved:EventEmitter<void> = new EventEmitter();
   
   tags:string[] = [];
   selectedTags:string[] = [];
@@ -108,7 +108,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
     }
 
     this.status = "finished";
-    this.save.emit();
+    this.saved.emit();
 
   }
 
@@ -124,7 +124,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
 
       let lastModified;
       if(uploadItem.file.lastModified) lastModified = new Date(uploadItem.file.lastModified).toISOString();
-      //DEPRECATED else if(uploadItem.file.lastModifiedDate) lastModified = uploadItem.file.lastModifiedDate.toISOString();
+      // DEPRECATED else if(uploadItem.file.lastModifiedDate) lastModified = uploadItem.file.lastModifiedDate.toISOString();
       
       formData.set("album",this.album._id);
       formData.set("tags",this.selectedTags.join(","));

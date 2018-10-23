@@ -64,7 +64,7 @@ export interface WebConfig {
   canal:{
     formUrl:string,
     attendeesUrl:string
-  },
+  };
   
   events:{
     types:WebConfigEventType[],

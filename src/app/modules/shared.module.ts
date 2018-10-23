@@ -23,7 +23,7 @@ import { TooltipConfig } from 'ngx-bootstrap/tooltip';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { ShareModule } from '@ngx-share/core';
 
-export function getTooltipConfig(): TooltipConfig {
+export function getTooltipConfig():TooltipConfig {
   return Object.assign(new TooltipConfig(), {    
     container: 'body'
   });
