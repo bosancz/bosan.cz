@@ -66,13 +66,13 @@ input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invali
 }
 
 /* ADMIN */
-.admin h2{margin-bottom:20px;}
-.admin h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
-.admin .btn {color:$white;font-size:$font-basic;}
-.admin table .actions a{margin: 0 5px;cursor:pointer;}
-.admin ul.nav a.active{color:$hover-yellow;}
-.admin .btn{line-height: 24px;}
-.admin section{padding:20px 0;}
+#admin h2{margin-bottom:20px;}
+#admin h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
+#admin .btn {color:$white;font-size:$font-basic;}
+#admin table .actions a{margin: 0 5px;cursor:pointer;}
+#admin ul.nav a.active{color:$hover-yellow;}
+#admin .btn{line-height: 24px;}
+#admin section{padding:20px 0;background-color:transparent;}
 
 .modal .btn{line-height: 24px;}
 
