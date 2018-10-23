@@ -22,7 +22,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
 
   @Input() album:Album;
   
-  @Output() save:EventEmitter<void> = new EventEmitter();
+  @Output() saved:EventEmitter<void> = new EventEmitter();
   
   tags:string[] = [];
   selectedTags:string[] = [];
@@ -108,7 +108,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
     }
 
     this.status = "finished";
-    this.save.emit();
+    this.saved.emit();
 
   }
 
