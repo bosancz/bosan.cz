@@ -19,7 +19,7 @@ nav.transparent{
   left:0;
   right:0;
   background:none;
-  z-index: 10;
+  z-index: 8;
 }
 
 nav .navbar-toggler {
@@ -31,7 +31,7 @@ nav .navbar-toggler {
 nav .navbar-brand {
   color: $white;
   font-weight: bold;
-  z-index:11
+  z-index:9
 }
 
 nav .navbar-brand:hover {
