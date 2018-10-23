@@ -1,19 +1,21 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const express = require("express");
+const router = module.exports = express.Router();
 
-var fs = require("fs");
-var path = require("path");
-var rimraf = require("rimraf");
+const fs = require("fs");
+const path = require("path");
+const rimraf = require("rimraf");
 
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var acl = require("express-dynacl");
-var validate = require("../validator");
+const acl = require("express-dynacl");
+const validate = require("../validator");
 
-var config = require("../../config");
+const config = require("../../config");
 
-var Album = require("../models/album");
-var Photo = require("../models/photo");
+const Album = require("../models/album");
+const Photo = require("../models/photo");
+
+const albumDownload = require("./albums/album-download");
 
 var getAlbumsSchema = {
   type: "object",
@@ -154,4 +156,9 @@ router.get("/:album/photos", acl("albums:read"), async (req,res,next) => {
   if(album.status === "draft" && !await acl.can("albums:drafts:read",req)) return res.sendStatus(401);
   
   res.json(album.photos);
+});
+
+router.get("/:album/download", acl("albums:read"), (req,res,next) => {
+  albumDownload(req.params.album,res)
+    .catch(err => res.status(500).send(err.message));
 });
