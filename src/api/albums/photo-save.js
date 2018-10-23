@@ -29,9 +29,9 @@ module.exports = async function(options){
   var name = String(photoId);
   var ext = path.extname(originalName);
   
-  var storageDir = path.join(config.photos.storageDir,albumId);
+  var storageDir = config.photos.storageDir(albumId);
   var storagePath = path.join(storageDir,name + ext);
-  var thumbsDir = path.join(config.photos.thumbsDir,albumId);
+  var thumbsDir = config.photos.thumbsDir(albumId);
 
   try{
 

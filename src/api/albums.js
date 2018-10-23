@@ -1,9 +1,9 @@
 const express = require("express");
 const router = module.exports = express.Router();
 
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
-const rimraf = require("rimraf");
+const rmfr = require("rmfr");
 
 const mongoose = require("mongoose");
 
@@ -61,13 +61,10 @@ router.get("/", validate({query: getAlbumsSchema}), acl("albums:list"), async (r
 
 // CREATE NEW ALBUM */
 router.post("/", acl("albums:create"), async (req,res,next) => {
-  var album = await Album.create(req.body);
+  const album = await Album.create(req.body);
 
-  // create folders for photos (fs dont do promises)
-  await Promise.all([
-    new Promise((resolve,reject) => fs.mkdir(path.join(config.photos.storageDir,String(album._id)),err => err ? reject(err) : resolve())),
-    new Promise((resolve,reject) => fs.mkdir(path.join(config.photos.thumbsDir,String(album._id)),err => err ? reject(err) : resolve()))
-  ]);
+  await fs.mkdir(config.photos.storageDir(album._id));
+  await fs.mkdir(config.photos.thumbsDir(album._id));
 
   res.status(201).json(album);
 });
@@ -139,7 +136,14 @@ router.patch("/:album", acl("albums:edit"), async (req,res,next) => {
 
 /// DELETE ALBUM BY ID
 router.delete("/:album", acl("albums:delete"), async (req,res,next) => {
+
+  const album = await Album.findOne({_id:req.params.album});
+
+  await rmfr(config.photos.storageDir(album._id));
+  await rmfr(config.photos.thumbsDir(album._id));
+  
   await Album.deleteOne({_id: req.params.album});
+  
   res.sendStatus(204);
 });
 
@@ -158,7 +162,13 @@ router.get("/:album/photos", acl("albums:read"), async (req,res,next) => {
   res.json(album.photos);
 });
 
-router.get("/:album/download", acl("albums:read"), (req,res,next) => {
+router.get("/:album/download", acl("albums:download"), (req,res,next) => {
+
+  res.writeHead(200, {
+    'Content-Type': 'application/zip',
+    'Content-disposition': 'attachment; filename=album.zip'
+  });
+
   albumDownload(req.params.album,res)
     .catch(err => res.status(500).send(err.message));
 });

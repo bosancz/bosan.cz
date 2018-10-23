@@ -2,12 +2,12 @@ var mongoose = require("mongoose");
 
 var path = require("path");
 
-var config= require("../../config");
+const config = require("../../config");
 
 require("./photo");
 require("./event");
 
-var albumSchema = mongoose.Schema({
+const albumSchema = mongoose.Schema({
   
   "status": {type: String, enum: ['public', 'draft'], required: true, default: 'draft'},
   "name": String,
@@ -26,5 +26,7 @@ var albumSchema = mongoose.Schema({
   "titlePhotos": [{type: mongoose.Schema.Types.ObjectId, ref: "Photo"}],
   "photos": [{type: mongoose.Schema.Types.ObjectId, ref: "Photo"}]
 }, { toJSON: { virtuals: true } });
+
+albumSchema.virtual("downloadUrl").get(function(){return `${config.url}/api/albums/${this._id}/download`;});
 
 module.exports = mongoose.model("Album", albumSchema);

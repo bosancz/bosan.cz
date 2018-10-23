@@ -1,15 +1,24 @@
 const archiver = require("archiver");
 
+const config = require("../../../config");
+
 module.exports = function(albumId,res){
-  
-  const zip = archiver("zip");  
-  
-  const albumDir = "";
-  
-  zip.pipe(res);
-  
-  zip.directory(albumDir, false);
-  
-  zip.finalize();
-  
+
+  return new Promise((resolve,reject) => {
+
+    const zip = archiver("zip");  
+
+    res.on('close', () => resolve());
+    res.on('error', err => reject(err));
+
+    const albumDir = config.photos.storageDir(albumId);
+
+    zip.pipe(res);
+
+    zip.directory(albumDir, false);
+
+    zip.finalize();
+
+  });
+
 };

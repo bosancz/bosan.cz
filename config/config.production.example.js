@@ -37,9 +37,9 @@ module.exports = {
   },
   
   photos: {
-    storageDir: path.join(__dirname, "../data/photos_original"),
+    storageDir: albumId => path.join(__dirname, "../data/photos_original", String(albumId)),
     storageUrl: "/data/photos_original",
-    thumbsDir: path.join(__dirname, "../data/photos"),
+    thumbsDir: albumId => path.join(__dirname, "../data/photos", String(albumId)),
     thumbsUrl: "/data/photos",
     allowedTypes: ["jpg","jpeg","png","gif"],
     sizes: {

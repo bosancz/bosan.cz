@@ -8,7 +8,7 @@ var acl = require("express-dynacl");
 var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
 
-var rimraf = require("rimraf");
+var rmfr = require("rmfr");
 var path = require("path");
 
 var Album = require("../models/album");
@@ -39,6 +39,8 @@ router.post("/", acl("photos:create"), acl("albums:edit"), upload.single("photo"
 
   var tags = typeof req.body.tags === "string" ? req.body.tags.split(",") : req.body.tags;
   
+  tags = tags.filter(tag => !!tag);
+  
   // check if allowed type of file
   if(config.photos.allowedTypes.indexOf(req.file.originalname.split(".").pop().toLowerCase()) === -1) return res.status(400).send("Wrong file format. Allowed: " + config.photos.allowedTypes.join(", "));
 
@@ -62,7 +64,9 @@ router.post("/", acl("photos:create"), acl("albums:edit"), upload.single("photo"
   album.photos.push(photo._id);
 
   // if album has no titlephoto, then set it to this picture
-  if(!album.titlePhoto) album.titlePhoto = photo._id;
+  if(album.titlePhotos && !album.titlePhotos.length < 3) album.titlePhotos.push(photo._id);
+  if(!album.titlePhotos) album.titlePhotos = [photo._id];
+  
   // save the album
   await album.save()
 
@@ -91,9 +95,12 @@ router.delete("/:photo", acl("photos:delete"), async (req,res,next) => {
     await album.save();
   }
   
-  rimraf(path.join(config.photos.storageDir,String(photo.album),photo.sizes.original.file),() => {})
-  rimraf(path.join(config.photos.thumbsDir,String(photo.album),photo.sizes.big.file),() => {})
-  rimraf(path.join(config.photos.thumbsDir,String(photo.album),photo.sizes.small.file),() => {})
+  const storageDir = config.photos.storageDir(photo.album);
+  const thumbsDir = config.photos.thumbsDir(photo.album);
+  
+  await rmfr(path.join(storageDir,photo.sizes.original.file))
+  await rmfr(path.join(thumbsDir,photo.sizes.big.file))
+  await rmfr(path.join(thumbsDir,photo.sizes.small.file))
   
   await Photo.deleteOne({_id:req.params.photo});
   
