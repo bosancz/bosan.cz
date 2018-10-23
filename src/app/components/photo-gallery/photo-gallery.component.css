@@ -1,10 +1,10 @@
 :host{display: block;}
 
-.photos{line-height:0}
+.photos{line-height:0;}
 
 .galleryPhoto{display:inline-block;background-color:#ccc;position:relative;cursor:pointer;}
 .galleryPhoto img{width:100%;height:100%;vertical-align:baseline;}
 .galleryPhoto .shader{display:block;position:absolute;top:0;right:0;bottom:0;left:0;background-color:rgba(0,0,0,.3);opacity:0;}
-.galleryPhoto .caption{display:block;position:absolute;bottom:0;left:0;right:0;margin:0;padding:5px 10px;vertical-align:middle;background-color:rgba(0,0,0,.5);color:#fff;opacity:0;text-align:center;}
+.galleryPhoto .caption{display:block;position:absolute;bottom:0;left:0;right:0;margin:0;padding:5px 10px;vertical-align:middle;background-color:rgba(0,0,0,.5);color:#fff;opacity:0;text-align:center;line-height:24px;}
 .galleryPhoto .shader, .galleryPhoto .caption{transition:opacity 250ms;}
 .galleryPhoto:hover .shader,.galleryPhoto:hover .caption{opacity:1;}
