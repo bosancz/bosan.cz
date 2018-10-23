@@ -55,6 +55,8 @@ import { AppConfig, AppConfigData } from "config/config";
 import { SharingModalComponent } from './components/sharing-modal/sharing-modal.component';
 import { ShareUrlDirective } from './directives/share-url.directive';
 
+import { environment } from "environments/environment";
+
 // settings for JWT
 export function JwtTokenGetter():string{
   return localStorage.getItem('id_token') || "";
@@ -63,7 +65,7 @@ export function JwtTokenGetter():string{
 export const jwtOptions = {
   config: {
     tokenGetter: JwtTokenGetter,
-    whitelistedDomains: ['bosan.cz'],
+    whitelistedDomains: environment.jwtDomains,
     throwNoTokenError: false,
     skipWhenExpired: true
   }

@@ -20,7 +20,7 @@ export class AuthUser{
 @Injectable()
 export class AuthService {
 
-  apiRoot:string = environment.api_root;
+  apiRoot:string = environment.apiRoot;
 
   public onLogin:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);
   public onLogout:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);

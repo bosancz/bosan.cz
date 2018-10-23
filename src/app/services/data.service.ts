@@ -40,7 +40,7 @@ function toParams(options:{[s:string]:any}):HttpParams{
 @Injectable()
 export class DataService {
 
-  root:string = environment.api_root;
+  root:string = environment.apiRoot;
 
   config:Promise<WebConfig>;
 

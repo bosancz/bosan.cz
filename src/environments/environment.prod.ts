@@ -1,5 +1,7 @@
 export const environment = {
   production: true,
 
-  api_root: "/api"
+  apiRoot: "/api",
+  
+  jwtDomains: ["bosan.cz"]
 };
