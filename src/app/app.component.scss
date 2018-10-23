@@ -41,6 +41,7 @@ nav .navbar-brand:hover {
 nav .nav-link {
   font-weight: bold;
   color: $white;
+  cursor: pointer;
 }
 
 nav .nav-link.active, nav .nav-link:hover {
