@@ -118,7 +118,7 @@ export class AuthService {
     if(!this.token || this.jwtHelper.isTokenExpired(this.token)) return;
 
     // get the new token. as an authorization, we use current token
-    this.http.get("/api/login/renew", { responseType: 'text' }).toPromise()
+    this.http.get(this.apiRoot + "/api/login/renew", { responseType: 'text' }).toPromise()
 
       .then(token => {
 
