@@ -22,6 +22,8 @@
           <li class="nav-item"><a class="nav-link disabled" routerLink="../ohlaska" routerLinkActive="active" tooltip="Připravujeme" placement="left">Ohláška</a></li>
           <li class="nav-item"><a class="nav-link disabled" routerLink="../uctovani" routerLinkActive="active" tooltip="Připravujeme" placement="left">Účtování</a></li>
           <br>
+          <li class="nav-item"><a class="nav-link disabled" routerLink="../platby" routerLinkActive="active" tooltip="Připravujeme" placement="left">Platby</a></li>
+          <br>
           <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat akci</a></li>          
         </ul>
 
@@ -40,6 +42,8 @@
         <event-admin-registration *ngSwitchCase="'prihlaska'" [event]="event" (saved)="loadEvent(event._id)"></event-admin-registration>
         
         <event-admin-leaders *ngSwitchCase="'vedouci'" [event]="event" (save)="saveEvent($event)"></event-admin-leaders>
+        
+        <event-admin-payments *ngSwitchCase="'platby'" [event]="event"></event-admin-payments>
 
         <div *ngSwitchCase="'smazat'">
           <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tuto akci</label>
