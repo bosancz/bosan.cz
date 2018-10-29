@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 
 import { DataService } from "app/services/data.service";
+import { ConfigService } from "app/services/config.service";
 import { ToastService } from "app/services/toast.service";
 
 import { Event, EventRecurring } from "app/schema/event";
@@ -25,15 +26,14 @@ export class EventAdminRecurringComponent implements OnInit, OnChanges {
   
   @Output() saved:EventEmitter<void> = new EventEmitter<void>();
   
-  constructor(private dataService:DataService, private router:Router, private toastService:ToastService) { }
+  constructor(private dataService:DataService, private configService:ConfigService, private router:Router, private toastService:ToastService) { }
 
   ngOnInit(){
     this.loadRecurringTypes();
   }
   
-  async loadRecurringTypes(){
-    let config = await this.dataService.getConfig();
-    this.recurringTypes = config.events.recurringTypes;
+  loadRecurringTypes(){
+    this.configService.getConfig().then(config => this.recurringTypes = config.events.recurringTypes);
   }
   
   ngOnChanges(changes:SimpleChanges) {

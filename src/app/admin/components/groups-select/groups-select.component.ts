@@ -1,7 +1,7 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import { DataService } from "app/services/data.service";
+import { ConfigService } from "app/services/config.service";
 
 @Component({
   selector: 'groups-select',
@@ -33,15 +33,14 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
     this.selectedGroups = [];
   }
   
-  constructor(private dataService:DataService) { }
+  constructor(private configService:ConfigService) { }
   
   ngOnInit(){
     this.loadGroups();
   }
   
-  async loadGroups(){
-    let config = await this.dataService.getConfig();
-    this.groups = config.members.groups.filter(group => group.active).map(group => group.id);
+  loadGroups(){
+    this.configService.getConfig().then(config => this.groups = config.members.groups.filter(group => group.active).map(group => group.id));
   }
 
   isSelected(group:string){

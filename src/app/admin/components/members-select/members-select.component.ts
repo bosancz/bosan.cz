@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
+import { ConfigService } from "app/services/config.service";
 import { DataService } from "app/services/data.service";
 
 import { Member } from "app/schema/member";
@@ -50,13 +51,12 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
   registerOnTouched(fn:any):void{ this.onTouched = fn; }
   setDisabledState(isDisabled:boolean):void{ this.disabled = isDisabled; }
   
-  constructor(private dataService:DataService) {
+  constructor(private dataService:DataService, private configService:ConfigService) {
   }
 
   ngOnInit() {
     this.loadMembers();
-    this.loadGroups();
-    this.loadRoles();
+    this.loadConfig();
   }
   
   async loadMembers(){    
@@ -69,14 +69,11 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
     });      
   }
   
-  async loadGroups(){
-    let config = await this.dataService.getConfig();
-    this.groups = config.members.groups;
-  }
-  
-  async loadRoles(){
-    let config = await this.dataService.getConfig();
-    this.roles = config.members.roles.map(item => item.id);
+  loadConfig(){
+    this.configService.getConfig().then(config => {
+      this.groups = config.members.groups;
+      this.roles = config.members.roles.map(item => item.id);
+    });
   }
   
   setSearch(search:string){

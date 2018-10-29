@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from "@angular/router";
 
+import { ConfigService } from "app/services/config.service";
 import { MenuService } from "app/services/menu.service";
 import { TitleService } from "app/services/title.service";
-import { DataService } from "app/services/data.service";
 
 import { Photo } from "app/schema/photo";
 import { GalleryPhoto } from "app/components/photo-gallery/photo-gallery.component";
@@ -31,7 +31,7 @@ export class CampViewComponent implements OnInit, OnDestroy {
   
   mapUrl:string;
   
-  constructor(private menuService:MenuService, private titleService:TitleService, private dataService:DataService, private router:Router) {
+  constructor(private menuService:MenuService, private titleService:TitleService, private configService:ConfigService, private router:Router) {
     this.menuService.transparent = true;
   }
 
@@ -45,9 +45,10 @@ export class CampViewComponent implements OnInit, OnDestroy {
     this.menuService.transparent = false;
   }
   
-  async loadMapUrl(){
-    let config = await this.dataService.getConfig();
-    this.mapUrl = config.general.campMapUrl;
+  loadMapUrl(){
+    this.configService.getConfig().then(config => {
+      this.mapUrl = config.general.campMapUrl;
+    });
   }
   
   openPhoto(container:GalleryPhotoContainer){

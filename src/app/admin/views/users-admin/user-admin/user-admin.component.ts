@@ -4,6 +4,7 @@ import { NgForm } from "@angular/forms";
 
 import { Subscription } from "rxjs";
 
+import { ConfigService } from "app/services/config.service";
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
 
@@ -29,7 +30,7 @@ export class UserAdminComponent implements OnInit, OnDestroy {
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
+  constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
 
   ngOnInit() {
     
@@ -60,9 +61,10 @@ export class UserAdminComponent implements OnInit, OnDestroy {
     this.roles.forEach(role => role.active = (this.user.roles.indexOf(role.name) !== -1));
   }
   
-  async loadRoles(){
-    let config = await this.dataService.getConfig();
-    this.roles = config.users.roles.map(role => ({name: role.name, title: role.title, active:false}));
+  loadRoles(){
+    this.configService.getConfig().then(config => {
+      this.roles = config.users.roles.map(role => ({name: role.name, title: role.title, active:false}))
+    });
   }
   
   async loadMembers(){

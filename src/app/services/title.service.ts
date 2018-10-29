@@ -1,25 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 
-import { DataService } from "app/services/data.service";
+import { ConfigService } from "app/services/config.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TitleService {
-  
-  constructor(private title:Title,private dataService:DataService) {
-    this.getMainTitle();
+
+  subTitle:string;
+  mainTitle:string;
+
+  constructor(private title:Title,private configService:ConfigService) {
+    
+    this.configService.config.subscribe(config => {
+      this.mainTitle = config.general.title;
+      this.updateTitle();
+    });
+    
   }
-  
-  async getMainTitle(){
-    let config = await this.dataService.getConfig();
-    return config.general.title;
+
+  setTitle(title:string){
+    this.subTitle = title;
+    this.updateTitle();
   }
-  
-  async setTitle(title:string){
-    let mainTitle = await this.getMainTitle();
-    let entireTitle = (title ? title + " :: " : "") + mainTitle;
-    this.title.setTitle(entireTitle);
+
+  updateTitle(){
+    let entireTitle = (this.subTitle ? this.subTitle + " :: " : "") + this.mainTitle;
+    return this.title.setTitle(entireTitle);
   }
 }

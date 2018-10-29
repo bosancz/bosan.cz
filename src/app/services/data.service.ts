@@ -12,7 +12,6 @@ import { Event, EventRecurring } from "app/schema/event";
 import { Member } from "app/schema/member";
 import { Payment } from "app/schema/payment";
 import { User } from "app/schema/user";
-import { WebConfig } from "app/schema/webconfig";
 
 function setParam(params:HttpParams,name:string,value:any){
   if(value === undefined) return params;
@@ -43,19 +42,7 @@ export class DataService {
 
   root:string = environment.apiRoot;
 
-  config:Promise<WebConfig>;
-
   constructor(private http:HttpClient) {  }
-
-  /* CONFIG */
-  getConfig(update?:boolean){
-    if(update || !this.config) this.config = this.http.get<WebConfig>(this.root + "/config").toPromise();
-    return this.config;
-  }
-
-  saveConfig(config:WebConfig):Promise<string>{
-    return this.http.put(this.root + "/config", config, { responseType: "text" }).toPromise();
-  }
 
   /* INDIVIDUAL API REQUESTS */
 

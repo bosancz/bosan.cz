@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TitleService } from "app/services/title.service";
-import { DataService } from "app/services/data.service";
+import { ConfigService } from "app/services/config.service";
 
 import { Contact } from "app/schema/contact";
 
@@ -16,17 +16,18 @@ export class ContactsViewComponent implements OnInit {
   
   mapUrl:string;
   
-  constructor(private titleService:TitleService, private dataService:DataService) { }
+  constructor(private titleService:TitleService, private configService:ConfigService) { }
 
   ngOnInit() {
     this.titleService.setTitle("Kontakty");
     this.loadConfig();
   }
 
-  async loadConfig(){
-    let config = await this.dataService.getConfig();
-    this.contacts = config.contacts;
-    this.mapUrl = config.general.homeMapUrl;
+  loadConfig(){
+    this.configService.getConfig().then(config => {
+      this.contacts = config.contacts;
+      this.mapUrl = config.general.homeMapUrl;
+    });
   }
 
 }
