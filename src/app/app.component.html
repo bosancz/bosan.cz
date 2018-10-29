@@ -13,7 +13,12 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="menuService.transparent && menuCollapsed">
   <div class="container">
-      <a class="navbar-brand text-uppercase" routerLink="/o-nas" routerLinkActive="active"><img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small mr-3" />Bosan.cz</a>
+
+    <a class="navbar-brand text-uppercase" routerLink="/o-nas" routerLinkActive="active">
+      <img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small mr-3" />Bosan.cz
+      <span *ngIf="environment" class="environment">{{environment}}</span>
+    </a>
+    
     <button class="navbar-toggler" (click)="menuCollapsed = !menuCollapsed" type="button">
       <i class="fa fa-bars"></i>
     </button>
@@ -61,7 +66,7 @@
           <li class="pl-3 pb-1"><a routerLink="/fotogalerie">Fotogalerie</a></li>
           <li class="pl-3 pb-1"><a routerLink="/tabor">Tábor</a></li>
           <!--<a>Bazén (Suchdol)</a>
-          <a>Kanál (Troja)</a>-->
+<a>Kanál (Troja)</a>-->
         </ul>
       </div>
 

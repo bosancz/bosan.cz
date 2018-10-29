@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
 
-import { DataService } from "app/services/data.service";
+import { ConfigService } from "app/services/config.service";
 import { ToastService } from "app/services/toast.service";
 import { MenuService } from "app/services/menu.service";
 import { TitleService } from "app/services/title.service";
@@ -19,7 +19,7 @@ export class AboutViewComponent implements OnInit, OnDestroy {
   
   mapUrl:string;
 
-  constructor(private dataService:DataService, private toastService:ToastService, private menuService:MenuService, private router:Router, private titleService:TitleService) {
+  constructor(private configService:ConfigService, private toastService:ToastService, private menuService:MenuService, private router:Router, private titleService:TitleService) {
     this.menuService.transparent = true;
   }
 
@@ -30,10 +30,11 @@ export class AboutViewComponent implements OnInit, OnDestroy {
     this.loadConfig();
   }
   
-  async loadConfig(){
-    let config = await this.dataService.getConfig();
-    this.contacts = config.contacts.leaders;
-    this.mapUrl = config.general.homeMapUrl;
+  loadConfig(){
+    this.configService.getConfig().then(config => {
+      this.contacts = config.contacts.leaders;
+      this.mapUrl = config.general.homeMapUrl;
+    });
   }
 
   ngOnDestroy(){

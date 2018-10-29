@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { DataService } from "app/services/data.service";
+import { ConfigService } from "app/services/config.service";
 import { ToastService } from "app/services/toast.service";
 
 import { WebConfig } from "app/schema/webconfig";
@@ -73,32 +73,30 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   jsonError:boolean = false;
   
   paramsSubscription:Subscription;
+  configSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
+  constructor(private configService:ConfigService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       this.cat = params.cat;
     });
-    this.loadConfig();
+    
+    this.configSubscription = this.configService.config.subscribe(config => this.config = JSON.parse(JSON.stringify(config)));
   }
   
   ngOnDestroy(){
     this.paramsSubscription.unsubscribe();
-  }
-  
-  async loadConfig(){
-    this.config = await this.dataService.getConfig(true).then(config => JSON.parse(JSON.stringify(config)));
+    this.configSubscription.unsubscribe();
   }
   
   async saveConfig(){
-    await this.dataService.saveConfig(this.config);
-    await this.loadConfig();
+    await this.configService.saveConfig(this.config);
     this.toastService.toast("Uloženo.");
   }
   
   resetConfig(){
-    this.loadConfig();
+    this.configService.updateConfig();
   }
   
   listFromString(string:string):string[]{

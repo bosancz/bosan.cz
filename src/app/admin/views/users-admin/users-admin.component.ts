@@ -7,6 +7,7 @@ import { Subscription } from "rxjs";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
+import { ConfigService } from "app/services/config.service";
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
 
@@ -29,7 +30,7 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
   
   paramsSubscription:Subscription;
 
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
+  constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
 
   ngOnInit() {
 
@@ -53,10 +54,11 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
     this.users = await this.dataService.getUsers({active:this.active ? 1 : 0,members:1});
   }
   
-  async loadRoleNames(){
-    let config = await this.dataService.getConfig();
-    this.roleNames = {};
-    config.users.roles.forEach(role => this.roleNames[role.name] = role.title);
+  loadRoleNames(){
+    this.configService.getConfig().then(config => {      
+      this.roleNames = {};
+      config.users.roles.forEach(role => this.roleNames[role.name] = role.title);
+    });
   }
 
   getUserLink(user:User):string{

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
-import { DataService } from "app/services/data.service";
+import { ConfigService } from "app/services/config.service";
 
 import { Member } from "app/schema/member";
 import { WebConfigGroup } from "app/schema/webconfig";
@@ -14,29 +14,25 @@ import { WebConfigGroup } from "app/schema/webconfig";
 export class MemberAdminInfoComponent implements OnInit {
 
   @Input()  member:Member;
-  
+
   @Output() save:EventEmitter<any> = new EventEmitter();
-  
+
   groups:WebConfigGroup[] = [];
   roles:string[] = [];
-  
-  constructor(private dataService:DataService) { }
+
+  constructor(private configService:ConfigService) { }
 
   ngOnInit() {
-    this.loadGroups();
-    this.loadRoles();
+    this.loadConfig();
   }
-  
-  async loadGroups(){
-    let config = await this.dataService.getConfig();
-    this.groups = config.members.groups;
+
+  loadConfig(){
+    this.configService.getConfig().then(config => {
+      this.groups = config.members.groups;
+      this.roles = config.members.roles.map(item => item.id);
+    });
   }
-  
-  async loadRoles(){
-    const config = await this.dataService.getConfig();
-    this.roles = config.members.roles.map(item => item.id);
-  }
-  
+
   saveMember(form:NgForm){
     this.save.emit(form.value);
   }

@@ -40,6 +40,7 @@ export interface WebConfig {
   
   general:{
     title:string,
+    environment:string,
     homeMapUrl:string,
     campMapUrl:string,
     documentsUrl:string,

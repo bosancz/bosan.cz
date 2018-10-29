@@ -7,6 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { AuthService } from "app/services/auth.service";
 import { ACLService } from "app/services/acl.service";
+import { ConfigService } from "app/services/config.service";
 import { ToastService, Toast } from "app/services/toast.service";
 import { MenuService } from "app/services/menu.service";
 import { GoogleService } from "app/services/google.service";
@@ -31,8 +32,10 @@ export class AppComponent implements OnInit {
   navigationScroll:number[] = [];
   
   expiredLogin:boolean;
+  
+  environment:string;
 
-  constructor(public authService:AuthService, private aclService:ACLService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute,  @Inject(AppConfig) private config:IAppConfig, private googleService:GoogleService){
+  constructor(private configService:ConfigService, public authService:AuthService, private aclService:ACLService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute,  @Inject(AppConfig) private config:IAppConfig, private googleService:GoogleService){
     aclService.routes = config.acl.routes;
     aclService.default = config.acl.default;
   }
@@ -43,6 +46,10 @@ export class AppComponent implements OnInit {
     this.toastService.toasts.subscribe((toast:Toast) => {
       this.toasts.push(toast);
       setTimeout(() => this.toasts.shift(),2000);
+    });
+    
+    this.configService.config.subscribe(config => {
+      this.environment = config.general.environment;
     });
     
     this.initACLService();

@@ -7,6 +7,7 @@ import { Subscription } from "rxjs";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
+import { ConfigService } from "app/services/config.service";
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
 
@@ -36,11 +37,10 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
+  constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
 
   ngOnInit() {
-    this.loadGroups();
-    this.loadRoles();
+    this.loadConfig();
     
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       
@@ -57,14 +57,11 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
     this.paramsSubscription.unsubscribe();
   }
   
-  async loadGroups(){
-    let config = await this.dataService.getConfig();
-    this.groups = config.members.groups;
-  }
-  
-  async loadRoles(){
-    const config = await this.dataService.getConfig();
-    this.roles = config.members.roles.map(item => item.id);
+  loadConfig(){
+    this.configService.getConfig().then(config => {
+      this.groups = config.members.groups;
+      this.roles = config.members.roles.map(item => item.id);
+    })
   }
   
   async loadMembers(view:string){
