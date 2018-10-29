@@ -8,6 +8,8 @@ import { ToastService } from "app/services/toast.service";
 import { WebConfig } from "app/schema/webconfig";
 import { CodelistField } from "app/admin/components/codelist-editor/codelist-editor.component";
 
+const colorPattern = "^([rR][gG][bB][aA]\\([\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\d\\)|[rR][gG][bB]\\([\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\d\\)|#[0-9a-fA-F]{8}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})$";
+
 @Component({
   selector: 'web-admin',
   templateUrl: './web-admin.component.html',
@@ -20,7 +22,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   groupFields:CodelistField[] = [
     {"name": "id", "title": "ID", "type": "text", "required": true},
     {"name": "name", "title": "Jméno", "type": "text"},
-    {"name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})","placeholder":"#A1B2C3"},
+    {"name": "color", "title": "Barva (#HEX)", "pattern": colorPattern, "type": "text","placeholder":"#A1B2C3"},
     {"name": "active", "title": "Aktivní", "type": "checkbox"}
   ];
   
@@ -40,7 +42,7 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   
   eventSubTypeFields:CodelistField[] = [
     {"name": "name", "title": "Název", "type": "text"},
-    {"name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": "\#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})","placeholder":"#A1B2C3"},
+    {"name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": colorPattern, "placeholder":"#A1B2C3"},
     {"name": "image", "title": "URL obrázku", "type": "text"}
   ];
   
