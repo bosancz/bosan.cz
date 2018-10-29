@@ -8,6 +8,7 @@ import { ContactsViewComponent } from 'app/views/contacts-view/contacts-view.com
 import { EventsViewComponent } from 'app/views/events-view/events-view.component';
 import { GalleryViewComponent } from 'app/views/gallery-view/gallery-view.component';
 import { NewsViewComponent } from 'app/views/news-view/news-view.component';
+import { NotFoundComponent } from 'app/views/not-found/not-found.component';
 
 /* CHILD VIEWS */
 import { GalleryViewAlbumComponent } from 'app/views/gallery-view/gallery-view-album/gallery-view-album.component';
@@ -41,7 +42,9 @@ const routes:Routes = [
   
   {path: 'moje', loadChildren: './account/account.module#AccountModule', canActivate: [ACLService]},
   
-  {path: '', redirectTo: "o-nas", pathMatch: "full"}
+  {path: '', redirectTo: "o-nas", pathMatch: "full"},
+  
+  {path: '**', component: NotFoundComponent}
 
 ];
 
