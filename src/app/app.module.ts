@@ -56,6 +56,7 @@ import { SharingModalComponent } from './components/sharing-modal/sharing-modal.
 import { ShareUrlDirective } from './directives/share-url.directive';
 
 import { environment } from "environments/environment";
+import { NotFoundComponent } from './views/not-found/not-found.component';
 
 // settings for JWT
 export function JwtTokenGetter():string{
@@ -82,7 +83,7 @@ export const jwtOptions = {
 
     /* DIRECTIVES */ AdminLinkDirective,
 
-    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, JoinLeadersPipe, FormatPhonePipe, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective
+    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, JoinLeadersPipe, FormatPhonePipe, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective, NotFoundComponent
   ],
   imports: [
     BrowserAnimationsModule,    
