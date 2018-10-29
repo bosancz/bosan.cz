@@ -50,6 +50,7 @@ import { CampAdminDashboardComponent } from './views/camps-admin/camp-admin/camp
 import { PhotoTagsEditorComponent } from './components/photo-tags-editor/photo-tags-editor.component';
 import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
 import { ServerAdminComponent } from './views/server-admin/server-admin.component';
+import { EventAdminPaymentsComponent } from './views/events-admin/event-admin/event-admin-payments/event-admin-payments.component';
 
 @NgModule({
   imports: [
@@ -71,7 +72,7 @@ import { ServerAdminComponent } from './views/server-admin/server-admin.componen
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, GroupsSelectComponent
+    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, GroupsSelectComponent, EventAdminPaymentsComponent
     
   ]
 })

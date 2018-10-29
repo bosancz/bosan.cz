@@ -10,6 +10,7 @@ import { Camp } from "app/schema/camp";
 import { Contact } from "app/schema/contact";
 import { Event, EventRecurring } from "app/schema/event";
 import { Member } from "app/schema/member";
+import { Payment } from "app/schema/payment";
 import { User } from "app/schema/user";
 import { WebConfig } from "app/schema/webconfig";
 
@@ -186,6 +187,10 @@ export class DataService {
   deleteEventRecurring(eventId:string):Promise<string>{
     return this.http.delete(this.root + "/events/" + eventId + "/recurring",{responseType:"text"}).toPromise();
   }
+    
+  getEventPayments(eventId:string,options?:any):Promise<Payment[]>{
+    return this.http.get<Payment[]>(this.root + "/events/" + eventId + "/payments", {params: toParams(options)}).toPromise();
+  }
 
   /* MEMBERS */
   getMembers(options?:any):Promise<Member[]>{
@@ -207,7 +212,7 @@ export class DataService {
   deleteMember(memberId:string):Promise<string>{
     return this.http.delete(this.root + "/members/" + memberId, {responseType:"text"}).toPromise();
   }
-
+  
   /* USERS */
   getUsers(options?:any):Promise<User[]>{
     return this.http.get<User[]>(this.root + "/users", {params: toParams(options)}).toPromise();
@@ -238,4 +243,6 @@ export class DataService {
   updateMyPassword(userData:any):Promise<string>{
     return this.http.post(this.root + "/me/password", userData, {responseType:"text"}).toPromise();
   }
+  
+  
 }

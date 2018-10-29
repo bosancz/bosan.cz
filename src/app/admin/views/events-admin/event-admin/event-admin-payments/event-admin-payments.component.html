@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <tr>
+      <th>Typ platby</th>
+      <th>Člen</th>
+      <th>Variabilní symbol</th>
+      <th>Má zaplatit</th>
+      <th>Zaplatil</th>
+    </tr>
+  <tbody>
+    <tr *ngFor="let payment of payments">
+      <th>{{payment.type}}</th>
+      <th>{{payment.member?.nickname}}</th>
+      <th>{{payment.bankId}}</th>
+      <th>{{payment.amountDue}}</th>
+      <th>{{payment.amountPaid}}</th>
+    </tr>
+  </tbody>
+</table>

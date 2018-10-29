@@ -39,6 +39,10 @@ if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)") {
 
 # Vývoj
 
+## Jak na to?
+
+Popis toho, jak web interně funguje, jak co nastavit a jak co naprogramovat najdete ve [wiki](https://github.com/bosancz/bosan.cz/wiki). Obecné věci najdete samozřejmě v dokumentaci k příslušným technologiím.
+
 ## Spuštění pro testovací provoz
 
 ```npm run dev``` - spustí [angular-cli](https://github.com/angular/angular-cli) v režimu automatické rekompilace v případě změn v adresáři ```src```
