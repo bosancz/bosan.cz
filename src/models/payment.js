@@ -4,6 +4,7 @@ var paymentSchema = mongoose.Schema({
   "_id": Number,
   
   "type": String,
+  "bankId": Number,
   
   "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
   "event": {type: mongoose.Schema.Types.ObjectId, ref: "Event"},
