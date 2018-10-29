@@ -7,6 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { AuthService } from "app/services/auth.service";
 import { ACLService } from "app/services/acl.service";
+import { DataService } from "app/services/data.service";
 import { ToastService, Toast } from "app/services/toast.service";
 import { MenuService } from "app/services/menu.service";
 import { GoogleService } from "app/services/google.service";
@@ -31,8 +32,10 @@ export class AppComponent implements OnInit {
   navigationScroll:number[] = [];
   
   expiredLogin:boolean;
+  
+  environment:string;
 
-  constructor(public authService:AuthService, private aclService:ACLService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute,  @Inject(AppConfig) private config:IAppConfig, private googleService:GoogleService){
+  constructor(private dataService:DataService, public authService:AuthService, private aclService:ACLService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute,  @Inject(AppConfig) private config:IAppConfig, private googleService:GoogleService){
     aclService.routes = config.acl.routes;
     aclService.default = config.acl.default;
   }
@@ -45,6 +48,8 @@ export class AppComponent implements OnInit {
       setTimeout(() => this.toasts.shift(),2000);
     });
     
+    this.loadConfig();
+    
     this.initACLService();
 
     this.initAuthService();
@@ -53,6 +58,11 @@ export class AppComponent implements OnInit {
     
     this.checkGoogleLogin();
     
+  }
+  
+  async loadConfig():Promise<void>{
+    let config = await this.dataService.getConfig();
+    this.environment = config.general.environment;
   }
   
   checkTokenLogin(){

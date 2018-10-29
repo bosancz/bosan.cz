@@ -29,6 +29,11 @@
               <input type="string" class="form-control" [(ngModel)]="config.general.title">
               <small class="form-text text-muted">Zobrazí se v záhlaví prohlížeče.</small>
             </div>
+            <div class="form-group"> 
+              <label>Poznámka k prostředí</label>
+              <input type="string" class="form-control" [(ngModel)]="config.general.environment">
+              <small class="form-text text-muted">Zobrazí se červeně u titulku Bosan.cz</small>
+            </div>
             <div class="form-group">              
               <label>Adresa embed mapy Bošán</label>
               <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.general.homeMapUrl">
