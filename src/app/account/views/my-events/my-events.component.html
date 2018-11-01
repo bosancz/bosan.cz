@@ -14,10 +14,20 @@
         <div class="card-body row">
           <div class="col-md-9">
             <p>{{event.description | nl2br}}</p>
-            <p>
-              <strong>Vedoucí:</strong> {{event.leaders | joinLeaders:false}},
-              <strong>Počet účastníků:</strong> {{event.attendees.length}}
-            </p>
+            <table>
+              <tr>
+                <th>Vedoucí:</th>
+                <td>{{event.leaders | joinLeaders:false}}</td>
+              </tr>
+              <tr>
+                <th>Účastníci:</th>
+                <td>{{(event.attendees | joinAttendees) || "-"}}</td>
+              </tr>
+              <tr>
+                <th>Ujetých km po vodě:</th>
+                <td>{{event.waterDistance || 0}} km</td>
+              </tr>
+            </table>
           </div>
           <div class="col-md-3 buttons">            
             <button *ngIf="event.status !== 'public'" class="btn btn-light btn-sm" type="button">Upravit akci</button>

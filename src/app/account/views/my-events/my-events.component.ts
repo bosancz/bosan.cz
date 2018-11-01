@@ -37,7 +37,7 @@ export class MyEventsComponent implements OnInit {
         leaders: userId
       },
       select: "_id name dateFrom dateTill description leaders attendees status",
-      populate: ["leaders"]
+      populate: ["leaders","attendees"]
     };
     
     this.events = await this.dataService.getEvents(requestOptions).then(paginated => paginated.docs)
