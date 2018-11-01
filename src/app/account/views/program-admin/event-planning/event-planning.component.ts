@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventPlanningComponent implements OnInit {
 
-  constructor() { }
+  year:number;
+  
+  constructor() {
+    this.year = (new Date()).getFullYear();
+  }
 
   ngOnInit() {
   }
