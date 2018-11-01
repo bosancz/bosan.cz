@@ -9,6 +9,7 @@ import { AccountAdminComponent } from "app/account/views/account-admin/account-a
 import { CanalRegistrationComponent } from "app/account/views/canal-registration/canal-registration.component";
 import { DocumentsViewComponent } from "app/account/views/documents-view/documents-view.component";
 import { MyEventsComponent } from "app/account/views/my-events/my-events.component";
+import { ProgramAdminComponent } from "app/account/views/program-admin/program-admin.component";
 
 /* SERVICES */
 import { ACLService } from "app/services/acl.service";
@@ -18,20 +19,22 @@ const routes:Routes = [
     path: '',
     component: AccountComponent,
     children: [
-      
-      {path: 'prehled', component: AccountDashboardComponent, canActivate: [ACLService]},
-      
-      {path: 'akce', component: MyEventsComponent, canActivate: [ACLService]},
-      
-      {path: 'kanal', component: CanalRegistrationComponent, canActivate: [ACLService]},
-      
-      {path: 'dokumenty', component: DocumentsViewComponent, canActivate: [ACLService]},
-      
-      {path: 'admin/:cat', component: AccountAdminComponent,  canActivate: [ACLService]},
-      {path: 'admin', redirectTo: "admin/info", pathMatch: "full"},
-      
-      {path: '', redirectTo: "admin/info", pathMatch: "full"},
-      
+
+      { path: 'prehled', component: AccountDashboardComponent, canActivate: [ACLService] },
+
+      { path: 'vedeni-akci', component: MyEventsComponent, canActivate: [ACLService] },
+
+      { path: 'sprava-programu', loadChildren: 'app/account/views/program-admin/program-admin.module#ProgramAdminModule', canActivate: [ACLService] },
+
+      { path: 'kanal', component: CanalRegistrationComponent, canActivate: [ACLService] },
+
+      { path: 'dokumenty', component: DocumentsViewComponent, canActivate: [ACLService] },
+
+      { path: 'admin/:cat', component: AccountAdminComponent,  canActivate: [ACLService] },
+      { path: 'admin', redirectTo: "admin/info", pathMatch: "full"},
+
+      { path: '', redirectTo: "admin/info", pathMatch: "full"},
+
     ]
   }
 ];
