@@ -14,6 +14,9 @@ import { PhotoGalleryComponent } from "app/components/photo-gallery/photo-galler
 
 import { ContenteditableDirective } from "app/directives/contenteditable.directive";
 
+/* PIPES */
+import { JoinLeadersPipe } from 'app/pipes/join-leaders.pipe';
+
 /* THIRD PARTY */
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { ModalModule } from "ngx-bootstrap/modal";
@@ -47,7 +50,7 @@ export function getTooltipConfig():TooltipConfig {
   declarations: [
     BreadCrumbsComponent,
     PhotoGalleryComponent,
-    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, 
+    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe,
     ContenteditableDirective
   ],
   exports: [
@@ -59,7 +62,7 @@ export function getTooltipConfig():TooltipConfig {
     
     /* DIRECTIVES */ ContenteditableDirective,
     
-    /* PIPES */ SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe
+    /* PIPES */ SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe
   ],
   providers: [
     { provide: TooltipConfig, useFactory: getTooltipConfig }

@@ -38,12 +38,12 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   today:string = (new Date()).toISOString().split("T")[0];
 
   views:any = {
-    "future": { dateFrom: {$gte: this.today}, recurring: null },
-    "past": { dateFrom: {$lte: this.today}, recurring:null },
-    "my": { dateFrom: {$gte: undefined}, leaders: null /* filled in in constructor */, recurring: null },
-    "noleader": { dateFrom: {$gte: this.today}, leaders: {$size:0}, recurring: null },
-    "all": { dateFrom: {$gte: undefined}, recurring: null },
-    "recurring": { dateFrom: {$gte: undefined}, recurring: { $ne: null } }
+    "future": { dateFrom: {$lte: undefined}, dateTill: {$gte: this.today}, recurring: null },
+    "past": { dateFrom: {$lte: this.today}, dateTill: {$gte: undefined}, recurring:null },
+    "my": { dateFrom: {$lte: undefined}, dateTill: {$gte: this.today}, leaders: null /* filled in in constructor */, recurring: null },
+    "noleader": { dateFrom: {$lte: undefined}, dateTill: {$gte: undefined}, leaders: {$size:0}, recurring: null },
+    "all": { dateFrom: {$gte: undefined}, dateTill: {$gte: undefined}, recurring: null },
+    "recurring": { dateFrom: {$gte: undefined}, dateTill: {$gte: undefined}, recurring: { $ne: null } }
   };
 
   options = {
@@ -65,7 +65,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
 
   constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService:BsModalService) {
 
-    this.views.my.leaders = authService.user.member;
+    this.views.my.leaders = authService.user.memberId;
   }
 
   ngOnInit() {

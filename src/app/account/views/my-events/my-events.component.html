@@ -1,3 +1,34 @@
-<p>
-  my-events works!
-</p>
+<section>
+  <div class="container">
+
+    <h2>Vedení akcí</h2>
+
+    <div class="events">
+
+      <div *ngFor="let event of events" class="event card">
+        <div class="card-header">
+          <div class="card-title">
+            <h5>{{[event.dateFrom,event.dateTill] | dateRange}} | {{event.name}}</h5>
+          </div>
+        </div>
+        <div class="card-body row">
+          <div class="col-md-9">
+            <p>{{event.description | nl2br}}</p>
+            <p>
+              <strong>Vedoucí:</strong> {{event.leaders | joinLeaders:false}},
+              <strong>Počet účastníků:</strong> {{event.attendees.length}}
+            </p>
+          </div>
+          <div class="col-md-3 buttons">            
+            <button *ngIf="event.status !== 'public'" class="btn btn-light btn-sm" type="button">Upravit akci</button>
+            <button *ngIf="event.status === 'public' && event.dateTill >= today" class="btn btn-light btn-sm" type="button">Poslat ohlášku</button>
+            <button *ngIf="event.dateFrom <= today" class="btn btn-light btn-sm" type="button">Odevzdat účetnictví</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p *ngIf="!events.length">Žádné akce jsi zatím nevedl/a.</p>
+
+  </div>
+</section>

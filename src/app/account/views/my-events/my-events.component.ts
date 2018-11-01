@@ -15,7 +15,12 @@ export class MyEventsComponent implements OnInit {
 
   events:Event[] = [];
   
-  constructor(private authService:AuthService, private dataService:DataService) { }
+  today:Date;
+  
+  constructor(private authService:AuthService, private dataService:DataService) { 
+    this.today = new Date();
+    this.today.setHours(0,0,0,0);
+  }
 
   ngOnInit() {
     this.loadEvents();
@@ -23,10 +28,27 @@ export class MyEventsComponent implements OnInit {
   
   async loadEvents(){
     
-    let userId:string = this.authService.user._id;
+    const userId:string = this.authService.user.memberId;
     
-    let paginated = await this.dataService.getEvents({filter:{leaders: userId}});
-    this.events = paginated.docs;
+    const today = new Date(); today.setHours(0,0,0,0);
+    
+    const requestOptions = {
+      filter: {
+        leaders: userId
+      },
+      select: "_id name dateFrom dateTill description leaders attendees status",
+      populate: ["leaders"]
+    };
+    
+    this.events = await this.dataService.getEvents(requestOptions).then(paginated => paginated.docs)
+    
+    this.events.forEach(event => {
+      event.dateFrom = new Date(event.dateFrom);
+      event.dateTill = new Date(event.dateTill);
+    });
+    
+    this.events.sort((a,b) => b.dateFrom.getTime() - a.dateFrom.getTime());
+    
   }
 
 }

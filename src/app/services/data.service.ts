@@ -21,7 +21,7 @@ function setParam(params:HttpParams,name:string,value:any){
   if(typeof value !== "object") return params.set(name,value);
 
   if(Array.isArray(value)){
-    value.forEach(item => params = setParam(params,name + "[]",item));
+    value.forEach((item,i) => params = setParam(params,name + "[" + i + "]",item));
     return params;
   }
 

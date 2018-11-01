@@ -34,6 +34,7 @@ import { GalleryViewPhotosComponent } from 'app/views/gallery-view/gallery-view-
 import { AlbumsRecentComponent } from 'app/components/albums-recent/albums-recent.component';
 import { ContactCardComponent } from 'app/components/contact-card/contact-card.component';
 import { EventsTimelineComponent } from 'app/components/events-timeline/events-timeline.component';
+import { GalleryAlbumComponent } from 'app/components/gallery-album/gallery-album.component';
 import { GoogleMapComponent } from 'app/components/google-map/google-map.component';
 import { LoginFormComponent } from 'app/components/login-form/login-form.component';
 import { TimelineScrollComponent } from 'app/components/timeline-scroll/timeline-scroll.component';
@@ -42,9 +43,7 @@ import { TimelineScrollComponent } from 'app/components/timeline-scroll/timeline
 import { AdminLinkDirective } from 'app/directives/admin-link.directive';
 
 // Pipes
-import { JoinLeadersPipe } from 'app/pipes/join-leaders.pipe';
 import { FormatPhonePipe } from 'app/pipes/format-phone.pipe';
-import { GalleryAlbumComponent } from 'app/components/gallery-album/gallery-album.component';
 
 /* THIRD PARTY */
 import { JwtModule } from '@auth0/angular-jwt';
@@ -79,11 +78,11 @@ export const jwtOptions = {
     /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent,
     /* CHILD VIEWS */ GalleryViewTimelineComponent, GalleryViewAlbumComponent, GalleryViewPhotosComponent,
 
-    /* PIPES */
+    /* PIPES */ FormatPhonePipe, 
 
     /* DIRECTIVES */ AdminLinkDirective,
 
-    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, JoinLeadersPipe, FormatPhonePipe, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective, NotFoundComponent
+    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective, NotFoundComponent
   ],
   imports: [
     BrowserAnimationsModule,    
