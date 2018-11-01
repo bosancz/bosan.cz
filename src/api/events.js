@@ -97,7 +97,7 @@ router.get("/upcoming", validate({query:getEventsUpcomingSchema}), acl("events:u
 
   let today = new Date(); today.setHours(0,0,0,0);
 
-  var events = Event.find({status:"public",dateFrom: { $gte: today }});
+  var events = Event.find({status:"public",dateTill: { $gte: today }});
   events.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
   events.populate("leaders","_id name nickname group contacts.mobile");
   events.sort("dateFrom order");  
