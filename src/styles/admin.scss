@@ -1,0 +1,21 @@
+
+@import '~styles/variables';
+
+#admin {
+  /* ADMIN */
+  h2{margin-bottom:20px;}
+  h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
+  
+  .btn {font-size:$font-basic;}
+  
+  table .actions a{margin: 0 5px;cursor:pointer;}
+  ul.nav a.active{color:$hover-yellow;}
+  .btn{line-height: 24px;}
+  section{padding:20px 0;background-color:transparent;}
+
+  .modal .btn{line-height: 24px;}
+  
+  .card-title,.card-title h5{margin:0;}
+  
+  .card-title button{float:right;}
+}
