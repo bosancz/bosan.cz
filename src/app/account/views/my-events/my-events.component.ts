@@ -17,6 +17,8 @@ export class MyEventsComponent implements OnInit {
   
   today:Date;
   
+  loading:boolean = false;
+  
   constructor(private authService:AuthService, private dataService:DataService) { 
     this.today = new Date();
     this.today.setHours(0,0,0,0);
@@ -27,6 +29,8 @@ export class MyEventsComponent implements OnInit {
   }
   
   async loadEvents(){
+    
+    this.loading = true;
     
     const userId:string = this.authService.user.memberId;
     
@@ -48,6 +52,8 @@ export class MyEventsComponent implements OnInit {
     });
     
     this.events.sort((a,b) => b.dateFrom.getTime() - a.dateFrom.getTime());
+    
+    this.loading = false;
     
   }
 
