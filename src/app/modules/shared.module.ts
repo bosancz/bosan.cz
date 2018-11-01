@@ -16,6 +16,7 @@ import { ContenteditableDirective } from "app/directives/contenteditable.directi
 
 /* PIPES */
 import { JoinLeadersPipe } from 'app/pipes/join-leaders.pipe';
+import { JoinAttendeesPipe } from 'app/pipes/join-attendees.pipe';
 
 /* THIRD PARTY */
 import { CollapseModule } from "ngx-bootstrap/collapse";
@@ -50,7 +51,7 @@ export function getTooltipConfig():TooltipConfig {
   declarations: [
     BreadCrumbsComponent,
     PhotoGalleryComponent,
-    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe,
+    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe,
     ContenteditableDirective
   ],
   exports: [
@@ -62,7 +63,7 @@ export function getTooltipConfig():TooltipConfig {
     
     /* DIRECTIVES */ ContenteditableDirective,
     
-    /* PIPES */ SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe
+    /* PIPES */ SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe
   ],
   providers: [
     { provide: TooltipConfig, useFactory: getTooltipConfig }
