@@ -30,6 +30,10 @@ var getEventsSchema = {
           { type: "string" }, 
           { type: "object", properties: {"$gte": {type: "string", format: "date"},"$lte": {type: "string", format: "date"}}, additionalProperties: false}
         ]},
+        "dateTill": { anyOf: [
+          { type: "string" }, 
+          { type: "object", properties: {"$gte": {type: "string", format: "date"},"$lte": {type: "string", format: "date"}}, additionalProperties: false}
+        ]},
         "leaders": { anyOf: [
           { type: "string" }, 
           { type: "array", items: { type: "string"}},
@@ -47,8 +51,11 @@ var getEventsSchema = {
       },
       additionalProperties: false
     },
-    "select": { type: "array", items: { type: "string" } },
-    "populate": { type: "array", items: { enum: ["leaders"] } },
+    "select": { anyOf: [
+      { type: "string" },
+      { type: "array", items: { type: "string" } }
+    ]},
+    "populate": { type: "array", items: { enum: ["leaders","attendees"] } },
     "search": { type: "string" },
     "sort": { type: "string", enum: ["dateFrom","-dateFrom","name","-name"] },
     "page": { type: "number" },
@@ -59,12 +66,13 @@ var getEventsSchema = {
 
 router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (req,res,next) => {
 
-  var options = {
-    select: req.query.select || ["_id","name","dateFrom","dateTill","type","status"],
+  const options = {
+    select: ["_id","name","dateFrom","dateTill","type","status"],
     page: req.query.page || 1,
     limit: req.query.limit ? Math.min(100,req.query.limit) : 20,
     populate: req.query.populate || []
   };
+  if(req.query.select) options.select = (typeof req.query.select === "string" ? req.query.select.split(" ") : req.query.select);
 
   var where = req.query.filter || {};
   if(req.query.search) where.name = new RegExp(req.query.search,"i");

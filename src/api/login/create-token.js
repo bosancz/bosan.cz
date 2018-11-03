@@ -7,6 +7,7 @@ module.exports = function createToken(user,validity){
   // set the token contents
   var tokenData = {
     _id: user._id,
+    memberId: user.member,
     roles: user.roles || []
   };
 
