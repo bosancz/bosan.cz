@@ -61,12 +61,11 @@ var getEventsSchema = {
 
 router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (req,res,next) => {
 
-  if(req.query.search) req.query.filter.name = new RegExp(req.query.search,"i");
-  
   // construct the query
   const query = Event.find();
   
   if(req.query.filter) query.where(req.query.filter);
+  if(req.query.search) query.where({ name: new RegExp(req.query.search,"i") });
   if(req.query.has_actions) query.hasActions(req.query.has_actions.split(" "));
   
   query.select(req.query.select || "_id name dateFrom dateTill type status");
