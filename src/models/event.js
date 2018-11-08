@@ -55,11 +55,11 @@ var eventSchema = mongoose.Schema({
   }]
 }, { toJSON: { virtuals: true } });
 
-eventSchema.virtual("registrationUrl").get(function(){return this.registration ? path.join(config.events.storageUrl,String(this._id),this.registration) : undefined;});
+eventSchema.virtual("registrationUrl").get(function(){return this.registration ? (config.events.storageUrl + "/" + path.join(String(this._id),this.registration)) : undefined;});
 
 eventSchema.plugin(actions, {
   actions:{
-    "publish":{
+    "publish": {
       query: {status: "draft"},
       action: event => {
         this.status = "public";
@@ -67,7 +67,7 @@ eventSchema.plugin(actions, {
       }
     },
 
-    "unpublish":{
+    "unpublish": {
       query: {status: "public"},
       action: event => {
         this.status = "draft";

@@ -31,8 +31,8 @@ var photoSchema = mongoose.Schema({
 
 }, { toJSON: { virtuals: true } });
 
-function getUrl(photo,size,dir){
-  return config.url + path.join(dir,String(photo.album),photo.sizes[size].file);
+function getUrl(photo,size,root){
+  return root + "/" + path.join(String(photo.album),photo.sizes[size].file);
 }
 photoSchema.virtual("sizes.original.url").get(function(){return getUrl(this,"original",config.photos.storageUrl);});
 photoSchema.virtual("sizes.big.url").get(function(){return getUrl(this,"big",config.photos.thumbsUrl);});
