@@ -128,7 +128,15 @@ export class DataService {
 
   /* EVENTS */
   getEvents(options?:any):Promise<Paginated<Event>>{
-    return this.http.get<Paginated<Event>>(this.root + "/events",{params:toParams(options)}).toPromise();
+    return this.http.get<Paginated<Event>>(this.root + "/events",{params:toParams(options)})
+      .toPromise()
+      .then(paginated => {
+        paginated.docs.forEach(event => {
+          if(event.dateFrom) event.dateFrom = new Date(event.dateFrom);
+          if(event.dateTill) event.dateTill = new Date(event.dateTill);
+        });
+        return paginated;
+      });
   }
 
   getEventsUpcoming(options?:any):Promise<Event[]>{
