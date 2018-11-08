@@ -23,7 +23,7 @@
                 <td>{{event.leaders | joinLeaders:false}}</td>
               </tr>
               <tr>
-                <th>Účastníci:</th>
+                <th>Účastníci ({{event.attendees.length || 0}}):</th>
                 <td>{{(event.attendees | joinAttendees) || "-"}}</td>
               </tr>
               <tr>
@@ -33,9 +33,10 @@
             </table>
           </div>
           <div class="col-md-3 buttons">            
-            <button *ngIf="event.status !== 'public'" class="btn btn-light btn-sm" type="button">Upravit akci</button>
+            <button *ngIf="event.status !== 'public'" class="btn btn-light btn-sm" type="button">Upravit info</button>
             <button *ngIf="event.status === 'public' && event.dateTill >= today" class="btn btn-light btn-sm" type="button">Poslat ohlášku</button>
             <button *ngIf="event.dateFrom <= today" class="btn btn-light btn-sm" type="button">Odevzdat účetnictví</button>
+            <button *ngIf="event.dateFrom <= today" class="btn btn-light btn-sm" type="button">Vyplnit report</button>
           </div>
         </div>
       </div>
