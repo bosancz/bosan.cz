@@ -32,6 +32,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
 
   pages:number = 1;
   page:number = 1;
+  perPage:number = 25;
 
   view:string;
 
@@ -40,17 +41,14 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   views:any = {
     "future": { dateFrom: {$lte: undefined}, dateTill: {$gte: this.today}, recurring: null },
     "past": { dateFrom: {$lte: this.today}, dateTill: {$gte: undefined}, recurring:null },
-    "my": { dateFrom: {$lte: undefined}, dateTill: {$gte: this.today}, leaders: null /* filled in in constructor */, recurring: null },
     "noleader": { dateFrom: {$lte: undefined}, dateTill: {$gte: undefined}, leaders: {$size:0}, recurring: null },
     "all": { dateFrom: {$gte: undefined}, dateTill: {$gte: undefined}, recurring: null },
     "recurring": { dateFrom: {$gte: undefined}, dateTill: {$gte: undefined}, recurring: { $ne: null } }
   };
 
   options = {
-    page:1,
     sort:"dateFrom",
     populate: ["leaders"],
-    limit: 50,
     search:undefined,
     filter:{}
   };
@@ -64,8 +62,6 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   paramsSubscription:Subscription;
 
   constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService:BsModalService) {
-
-    this.views.my.leaders = authService.user.memberId;
   }
 
   ngOnInit() {
@@ -79,7 +75,6 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
 
       // set options
       this.options.filter = this.views[this.view] || {};
-      this.options.page = this.page;
 
       this.loadEvents();
     });
@@ -94,9 +89,11 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   }
 
   async loadEvents(){
-    let paginated:Paginated<Event> = await this.dataService.getEvents(this.options);
+    const options = { ...this.options, limit: this.perPage, skip: (this.page - 1) * this.perPage || 0 };
+    const paginated:Paginated<Event> = await this.dataService.getEvents(options);
+    
     this.events = paginated.docs;
-    this.pages = paginated.pages;
+    this.pages = Math.ceil(paginated.total / this.perPage);
   }
 
   loadEventTypes(){

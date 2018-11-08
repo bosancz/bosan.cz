@@ -3,7 +3,7 @@
 
     <div *ngIf="i >= 1 && (event.dateFrom | date:'M') !== (events[i-1].dateFrom | date:'M')" class="row">
       <div class="col-4 col-lg-2 py-lg-3 px-0 px-lg-3 pt-1">
-        <h4>{{getMonthName(event.dateFrom)}}</h4>
+        <h4>{{event.dateFrom | monthName}}</h4>
       </div>
       <div class="col-lg-1 px-lg-3 d-none d-lg-flex justify-content-lg-end">
         <div class="line-container">
@@ -12,7 +12,7 @@
       </div>
       <div class="col-4 col-lg-9 d-none d-lg-block"></div>
     </div>
-    <div [class]="'row h-100 event ' + eventTypes[event.type].class">
+    <div [class]="'row h-100 event ' + (event | event:'class')">
 
       <div *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay" class="col-10 col-lg-2 order-2 order-lg-1 px-0 px-lg-3 d-flex align-items-center align-items-lg-start">
         <h5>{{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}
@@ -28,8 +28,8 @@
       <div class="col-2 col-lg-1 order-1 px-0 py-3 px-lg-3  py-lg-0 order-lg-2 justify-content-start justify-content-lg-end d-flex">
         <div class="circle-container">
           <div class="line"></div>
-          <div class="circle" [style.background-color]="eventSubTypes[event.subtype]?.color || '#ccc'">
-            <img *ngIf="eventSubTypes[event.subtype]?.image" class="img-fluid" [src]="eventSubTypes[event.subtype].image">
+          <div class="circle" [style.background-color]="(event | event:'image') ? 'transparent' : (event | event:'color') || '#ccc'">
+            <img *ngIf="event | event:'image'" class="img-fluid" [src]="event | event:'image'">
           </div>
           <div class="arrow-horizontal d-none d-lg-block"></div>
         </div>

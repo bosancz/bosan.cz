@@ -10,7 +10,6 @@
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'future'}]" [class.active]="view === 'future'">Budoucí akce</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'past'}]" [class.active]="view === 'past'">Minulé akce</a></li>
-          <li *ngIf="views.my.leaders" class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'my'}]" [class.active]="view === 'my'">Moje akce</a></li>      
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'noleader'}]" [class.active]="view === 'noleader'">Vede pan NIKDO</a></li>      
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Všechny akce</a></li>      
           <br>
@@ -89,10 +88,10 @@
         </table>
 
         <nav>
-          <ul *ngIf="pages > 1" class="pagination justify-content-center">
-            <li class="page-item" [class.disabled]="page <= 1"><a class="page-link" [routerLink]="getPageLink(i-1)">&laquo;</a></li>
-            <li *ngFor="let i of getPages()" class="page-item" [class.disabled]="page === 1"><a class="page-link" [routerLink]="getPageLink(i)">{{i}}</a></li>
-            <li class="page-item" [class.disabled]="page >= pages"><a class="page-link" [routerLink]="getPageLink(i+1)">&raquo;</a></li>
+          <ul class="pagination justify-content-center">
+            <li class="page-item" [class.disabled]="page <= 1"><a class="page-link" [routerLink]="getPageLink(page-1)">&laquo;</a></li>
+            <li *ngFor="let i of getPages()" class="page-item" [class.disabled]="page === i"><a class="page-link" [routerLink]="getPageLink(i)">{{i}}</a></li>
+            <li class="page-item" [class.disabled]="page >= pages"><a class="page-link" [routerLink]="getPageLink(page+1)">&raquo;</a></li>
           </ul>
         </nav>
 

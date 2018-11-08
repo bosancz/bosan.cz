@@ -34,16 +34,10 @@ export class EventsTimelineComponent implements OnInit {
 
   events:TimelineEvent[]= [];
 
-  eventTypes:{[s:string]:WebConfigEventType};
-  eventSubTypes:{[s:string]:WebConfigEventSubType};
-
-  monthNames:string[] = ["Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec"];
-
   constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService) { }
 
   ngOnInit() {
     this.loadEvents();
-    this.loadEventTypes();
   }
 
   async loadEvents(){
@@ -56,16 +50,5 @@ export class EventsTimelineComponent implements OnInit {
 
     // set the apeared variable, wil be true when scrolled into view
     this.events.forEach(event => event.appeared = false);
-  }
-
-  loadEventTypes(){
-    this.configService.getConfig().then(config => {
-      this.eventTypes = config.events.types.reduce((acc,cur) => ({...acc, [cur.name]: cur}),{});
-      this.eventSubTypes = config.events.subtypes.reduce((acc,cur) => ({...acc, [cur.name]: cur}),{});
-    });
-  }
-
-  getMonthName(date:string|Date){
-    return this.monthNames[new Date(date).getMonth()];
   }
 }

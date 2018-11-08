@@ -5,9 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
  
 import { SafeurlPipe } from "app/pipes/safeurl.pipe";
-import { GroupPipe } from "app/pipes/group.pipe";
-import { Nl2brPipe } from "app/pipes/nl2br.pipe";
-import { DateRangePipe } from "app/pipes/date-range.pipe";
+
 
 import { BreadCrumbsComponent } from "app/components/bread-crumbs/bread-crumbs.component";
 import { PhotoGalleryComponent } from "app/components/photo-gallery/photo-gallery.component";
@@ -17,6 +15,11 @@ import { ContenteditableDirective } from "app/directives/contenteditable.directi
 /* PIPES */
 import { JoinLeadersPipe } from 'app/pipes/join-leaders.pipe';
 import { JoinAttendeesPipe } from 'app/pipes/join-attendees.pipe';
+import { GroupPipe } from "app/pipes/group.pipe";
+import { Nl2brPipe } from "app/pipes/nl2br.pipe";
+import { DateRangePipe } from "app/pipes/date-range.pipe";
+import { EventPipe } from "app/pipes/event.pipe";
+import { MonthNamePipe } from 'app/pipes/month-name.pipe';
 
 /* THIRD PARTY */
 import { CollapseModule } from "ngx-bootstrap/collapse";
@@ -51,7 +54,7 @@ export function getTooltipConfig():TooltipConfig {
   declarations: [
     BreadCrumbsComponent,
     PhotoGalleryComponent,
-    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe,
+    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe,
     ContenteditableDirective
   ],
   exports: [
@@ -63,7 +66,7 @@ export function getTooltipConfig():TooltipConfig {
     
     /* DIRECTIVES */ ContenteditableDirective,
     
-    /* PIPES */ SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe
+    /* PIPES */ SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
   ],
   providers: [
     { provide: TooltipConfig, useFactory: getTooltipConfig }
