@@ -17,6 +17,10 @@ module.exports = function(err, req, res, next){
     return res.status(401).send("Invalid token.");
   }
   
+  if (err.name === 'MongooseActionsError') {
+    return res.status(400).json(err.message);
+  }
+  
   console.error(err);
   res.sendStatus(500);
 };

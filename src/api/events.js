@@ -51,14 +51,12 @@ var getEventsSchema = {
       },
       additionalProperties: false
     },
-    "select": { anyOf: [
-      { type: "string" },
-      { type: "array", items: { type: "string" } }
-    ]},
+    "select": { type: "string" },
     "populate": { type: "array", items: { enum: ["leaders","attendees"] } },
     "search": { type: "string" },
+    "has_action": { type: "string" },
     "sort": { type: "string", enum: ["dateFrom","-dateFrom","name","-name"] },
-    "page": { type: "number" },
+    "skip": { type: "number" },
     "limit": { type: "number" },
   },
   additionalProperties: false
@@ -66,22 +64,28 @@ var getEventsSchema = {
 
 router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (req,res,next) => {
 
-  const options = {
-    select: ["_id","name","dateFrom","dateTill","type","status"],
-    page: req.query.page || 1,
-    limit: req.query.limit ? Math.min(100,req.query.limit) : 20,
-    populate: req.query.populate || []
-  };
-  if(req.query.select) options.select = (typeof req.query.select === "string" ? req.query.select.split(" ") : req.query.select);
+  if(req.query.search) req.query.filter.name = new RegExp(req.query.search,"i");
+  
+  // construct the query
+  const query = Event.find();
+  
+  if(req.query.filter) query.where(req.query.filter);
+  if(req.query.has_action) query.hasAction(req.query.has_action);
+  
+  query.select(req.query.select || "_id name dateFrom dateTill type status");
+  if(req.query.populate) query.populate(req.query.populate);
+  
+  query.limit(req.query.limit ? Math.min(req.query.limit,100) : 20);
+  if(req.query.skip) query.skip(req.query.skip);
+  if(req.query.sort) query.sort = req.query.sort.replace(/(\-?)dateFrom/,"$1dateFrom $1order");
 
-  var where = req.query.filter || {};
-  if(req.query.search) where.name = new RegExp(req.query.search,"i");
-
-  if(!await acl.can("events:drafts:list",req)) where.status = "public";
-
-  if(req.query.sort) options.sort = req.query.sort.replace(/(\-?)dateFrom/,"$1dateFrom $1order");
-
-  res.json(await Event.paginate(where,options));
+  res.json({
+    docs: await query,
+    total: await Event.find().where(req.query.filter || {}).count(),
+    limit: req.query.limit || 20,
+    skip: req.query.skip || 0
+  });
+  
 });
 
 router.post("/", acl("events:create"), async (req,res,next) => {
@@ -131,8 +135,11 @@ var getEventSchema = {
 
 // read the event document
 router.get("/:event", validate({query:getEventSchema}), acl("events:read"), async (req,res,next) => {
-  let event = Event.findOne({_id:req.params.event});
-  if(req.query.populate.leaders) event.populate("leaders","_id name nickname");
+  const query = Event.findOne({_id:req.params.event});
+  if(req.query.populate && req.query.populate.leaders) query.populate("leaders","_id name nickname");
+  
+  const event = await query;
+  
   res.json(await event);
 });
 

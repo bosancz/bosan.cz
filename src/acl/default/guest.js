@@ -6,7 +6,7 @@ var guest = module.exports = {
     "albums:download": true,
     "albums:recent:list": true,
     
-    "events:list": true,
+    "events:list": false,
     "events:upcoming:list": true,
     "events:read": true,
     
