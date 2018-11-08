@@ -18,7 +18,11 @@ module.exports = function(err, req, res, next){
   }
   
   if (err.name === 'MongooseActionsError') {
-    return res.status(400).json(err.message);
+    return res.status(400).send(err.message);
+  }
+  
+  if (err.name === 'UploadError') {
+    return res.status(400).send(err.message);
   }
   
   console.error(err);

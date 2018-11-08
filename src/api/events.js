@@ -172,14 +172,23 @@ router.post("/:event/registration", upload.single("file"), acl("events:edit"), a
   
   var event = await Event.findOne({_id:req.params.event});
   
-  var file = req.file;
-  var eventDir = path.join(config.events.storageDir,String(event._id));
-  var originalPath = req.file.path;
-  var storagePath = path.join(eventDir,"registration.pdf");
-  
-  await new Promise((resolve,reject) => fs.mkdir(eventDir,err => err && err.code !== "EEXIST" ? reject(err) : resolve()));
+  try{
+
+    var file = req.file;
+    if(!file) throw new Error("Missing file");
+
+    var eventDir = path.join(config.events.storageDir,String(event._id));
+    var originalPath = req.file.path;
+    var storagePath = path.join(eventDir,"registration.pdf");
+
+    await fs.ensureDir(eventDir);
     
-  await new Promise((resolve,reject) => mv(originalPath,storagePath,err => err ? reject(err) : resolve()));   
+    await fs.move(originalPath,storagePath);
+  }
+  catch(err){
+    err.name = "UploadError";
+    throw err;    
+  }
   
   event.registration = "registration.pdf";
   await event.save()
