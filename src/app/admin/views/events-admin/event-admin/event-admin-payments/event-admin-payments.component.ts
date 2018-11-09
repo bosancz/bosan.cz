@@ -1,6 +1,6 @@
 import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 
 import { Event } from "app/schema/event";
 import { Payment } from "app/schema/payment";
@@ -16,14 +16,14 @@ export class EventAdminPaymentsComponent implements OnChanges {
   
   payments:Payment[] = [];
   
-  constructor(private dataService:DataService) { }
+  constructor(private api:ApiService) { }
 
   ngOnChanges(changes:SimpleChanges){
-    if(changes.event) this.loadPayments(this.event._id);
+    if(changes.event) this.loadPayments(this.event);
   }
   
-  async loadPayments(eventId:string){
-    this.payments = await this.dataService.getEventPayments(eventId);
+  async loadPayments(event:Event){
+    this.payments = await this.api.get<Payment[]>(event._links.payments);
   }
 
 }

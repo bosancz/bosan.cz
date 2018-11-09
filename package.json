@@ -24,11 +24,13 @@
     "@auth0/angular-jwt": "^2.0.0",
     "@ngx-share/core": "^7.0.0-beta.0",
     "@nicky-lenaers/ngx-scroll-to": "^1.1.1",
+    "@types/urijs": "^1.15.38",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.7",
     "ngx-bootstrap": "^3.1.1",
     "ngx-permissions": "^6.0.4",
     "rxjs": "^6.3.3",
+    "urijs": "^1.19.1",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.19"
   },

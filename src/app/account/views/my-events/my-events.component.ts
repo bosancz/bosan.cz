@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { AuthService } from "app/services/auth.service";
 
-import { Event } from "app/schema/event";
 import { Paginated } from "app/schema/paginated";
+import { Event } from "app/schema/event";
 
 @Component({
   selector: 'my-events',
@@ -19,7 +19,7 @@ export class MyEventsComponent implements OnInit {
   
   loading:boolean = false;
   
-  constructor(private authService:AuthService, private dataService:DataService) { 
+  constructor(private authService:AuthService, private api:ApiService) { 
     this.today = new Date();
     this.today.setHours(0,0,0,0);
   }
@@ -44,7 +44,7 @@ export class MyEventsComponent implements OnInit {
       populate: ["leaders","attendees"]
     };
     
-    this.events = await this.dataService.getEvents(requestOptions).then(paginated => paginated.docs)
+    this.events = await this.api.get<Paginated<Event>>("events",requestOptions).then(paginated => paginated.docs)
     
     this.events.forEach(event => {
       event.dateFrom = new Date(event.dateFrom);

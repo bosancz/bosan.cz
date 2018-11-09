@@ -3,9 +3,9 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, Templ
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 
-import { Event } from "app/schema/event";
+import { Event, EventLeader } from "app/schema/event";
 import { Member } from "app/schema/member";
 
 @Component({
@@ -22,11 +22,11 @@ export class EventAdminLeadersComponent implements OnChanges {
   
   membersModalRef:BsModalRef;
   
-  leaders:any[] = [];
+  leaders:Member[] = [];
   
   membersSelectOptions:any = { role: "vedoucí"};
   
-  constructor(private dataService:DataService, private modalService:BsModalService) {
+  constructor(private api:ApiService, private modalService:BsModalService) {
   }
   
   ngOnChanges(changes:SimpleChanges){
@@ -37,7 +37,7 @@ export class EventAdminLeadersComponent implements OnChanges {
     
     if(!this.event._id) return;
     
-    this.leaders = await this.dataService.getEventLeaders(this.event._id);
+    this.leaders = await this.api.get<Member[]>(this.event._links.leaders);
   }
   
   saveLeaders(){

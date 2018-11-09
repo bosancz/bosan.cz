@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, Inject, LOCALE_ID, ViewChild, E
 import { formatDate } from "@angular/common";
 import { NgForm } from "@angular/forms";
 
+import { ApiService } from "app/services/api.service";
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
 
@@ -28,11 +29,11 @@ export class AlbumAdminMetadataComponent {
   
   currentYear:number = (new Date()).getFullYear();
   
-  constructor(private dataService:DataService, private toastService:ToastService) {
+  constructor(private api:ApiService, private dataService:DataService, private toastService:ToastService) {
   }
   
   async loadTypeaheadEvents(search:string){
-    this.eventsMatched = await (this.dataService.getEvents({search:search,limit:10,sort:"dateFrom"}).then(paginated => paginated.docs));
+    this.eventsMatched = await this.api.get<Paginated<Event>>("event",{search:search,limit:10,sort:"dateFrom"}).then(paginated => paginated.docs);
   }
   
   getEventString(event:Event):string{

@@ -14,6 +14,7 @@ import { AuthService } from "app/services/auth.service";
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
 import { MenuService } from "app/services/menu.service";
+import { ApiService } from "app/services/api.service";
 
 /* VIEWS */
 import { AboutViewComponent } from 'app/views/about-view/about-view.component';
@@ -95,7 +96,7 @@ export const jwtOptions = {
     JwtModule.forRoot(jwtOptions)
   ],
   providers: [
-    /* Services */ ACLService, AuthService, DataService, ToastService, MenuService,
+    /* Services */ ACLService, AuthService, DataService, ToastService, MenuService, ApiService,
     /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler },
     /* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
   ],

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
 import { ToastService } from "app/services/toast.service";
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 
 import { Event } from "app/schema/event";
 
@@ -17,7 +17,7 @@ export class EventAdminRegistrationComponent {
   
   @Output() saved:EventEmitter<void> = new EventEmitter();
   
-  constructor(private dataService:DataService, private toastService:ToastService) { }
+  constructor(private api:ApiService, private toastService:ToastService) { }
 
   async uploadRegistration(photoInput:HTMLInputElement){
     
@@ -34,7 +34,7 @@ export class EventAdminRegistrationComponent {
 
     formData.set("file",file,file.name);
 
-    await this.dataService.uploadEventRegistration(this.event._id,formData);
+    await this.api.post(this.event._links.registration,formData);
     
     this.saved.emit();
     
@@ -42,11 +42,11 @@ export class EventAdminRegistrationComponent {
   }
   
   async deleteRegistration(){
-    await this.dataService.deleteEventRegistration(this.event._id);
+    await this.api.delete(this.event._links.registration);
     
     this.saved.emit();
     
     this.toastService.toast("Přihláška smazána.");
   }
-
+  
 }

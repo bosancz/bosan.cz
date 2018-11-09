@@ -4,8 +4,9 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { Subscription } from "rxjs";
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 
+import { Paginated } from "app/schema/paginated";
 import { Event } from "app/schema/event";
 
 @Component({
@@ -34,7 +35,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
   
   paramsSubscription:Subscription;
 
-  constructor(private dataService:DataService, private router:Router, private route:ActivatedRoute) {
+  constructor(private api:ApiService, private router:Router, private route:ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -108,7 +109,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
       limit: 100
     };
 
-    let events = await this.dataService.getEvents(requestOptions).then(paginated => paginated.docs);
+    let events = await this.api.get<Paginated<Event>>("events",requestOptions).then(paginated => paginated.docs);
     
     this.calendar.forEach(month => {
       month.days.forEach(day => {

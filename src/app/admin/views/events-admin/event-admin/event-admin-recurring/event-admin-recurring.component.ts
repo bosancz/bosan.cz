@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitte
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { ConfigService } from "app/services/config.service";
 import { ToastService } from "app/services/toast.service";
 
@@ -26,7 +26,7 @@ export class EventAdminRecurringComponent implements OnInit, OnChanges {
   
   @Output() saved:EventEmitter<void> = new EventEmitter<void>();
   
-  constructor(private dataService:DataService, private configService:ConfigService, private router:Router, private toastService:ToastService) { }
+  constructor(private api:ApiService, private configService:ConfigService, private router:Router, private toastService:ToastService) { }
 
   ngOnInit(){
     this.loadRecurringTypes();
@@ -46,7 +46,7 @@ export class EventAdminRecurringComponent implements OnInit, OnChanges {
       return;
     }
     this.loading = true;
-    this.recurring = await this.dataService.getEventRecurring(this.event._id,{events:true}).catch(err => {
+    this.recurring = await this.api.get<EventRecurring[]>(this.event._links.recurring,{events:true}).catch(err => {
       if(err.status !== 404) throw err;
       return null;
     });
@@ -61,7 +61,7 @@ export class EventAdminRecurringComponent implements OnInit, OnChanges {
     
     let recurringData = form.value;
     
-    await this.dataService.createEventRecurring(this.event._id,recurringData);
+    await this.api.put(this.event._links.recurring,recurringData);
     
     this.saved.emit();
     
@@ -69,7 +69,7 @@ export class EventAdminRecurringComponent implements OnInit, OnChanges {
   }
   
   async deleteRecurring(){
-    await this.dataService.deleteEventRecurring(this.event._id);
+    await this.api.delete(this.event._links.recurring);
     this.recurring = undefined;
     this.event.recurring = null;
     this.toastService.toast("Opakování smazáno.");

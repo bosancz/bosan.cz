@@ -8,7 +8,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { ConfigService } from "app/services/config.service";
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { AuthService } from "app/services/auth.service";
 import { ToastService } from "app/services/toast.service";
 
@@ -61,7 +61,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
 
   paramsSubscription:Subscription;
 
-  constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService:BsModalService) {
+  constructor(private api:ApiService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService:BsModalService) {
   }
 
   ngOnInit() {
@@ -90,7 +90,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
 
   async loadEvents(){
     const options = { ...this.options, limit: this.perPage, skip: (this.page - 1) * this.perPage || 0 };
-    const paginated:Paginated<Event> = await this.dataService.getEvents(options);
+    const paginated = await this.api.get<Paginated<Event>>("events",options);
     
     this.events = paginated.docs;
     this.pages = Math.ceil(paginated.total / this.perPage);
@@ -116,7 +116,9 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
     // get data from form
     let eventData = form.value;
     // create the event and wait for confirmation
-    let event = await this.dataService.createEvent(eventData);
+    let response = await this.api.post("events",eventData);
+    // get the event id
+    let event = await this.api.get<Event>(response.headers.get("location"),{ select: "_id"});
     // close the modal
     this.createEventModalRef.hide();
     // show the confrmation

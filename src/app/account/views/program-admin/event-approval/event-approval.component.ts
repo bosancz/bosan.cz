@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
+import { ToastService } from "app/services/toast.service";
 
+import { Paginated } from "app/schema/paginated";
 import { Event } from "app/schema/event";
 
 @Component({
@@ -13,7 +15,7 @@ export class EventApprovalComponent implements OnInit {
 
   events:Event[] = [];
   
-  constructor(private dataService:DataService) { }
+  constructor(private api:ApiService, private toastService:ToastService) { }
 
   ngOnInit() {
     this.loadEvents();
@@ -24,9 +26,17 @@ export class EventApprovalComponent implements OnInit {
     const options = {
       has_actions: "publish",
       limit: 100,
-      select: "_id name description"
+      select: "_id status name description _actions"
     };
     
-    this.events = await this.dataService.getEvents(options).then(paginated => paginated.docs);
+    this.events = await this.api.get<Paginated<Event>>("events",options).then(paginated => paginated.docs);
+  }
+  
+  async publishEvent(event:Event):Promise<void>{
+    await this.api.post(event._actions.publish);
+    
+    this.toastService.toast("Publikováno.");
+    
+    this.loadEvents();
   }
 }

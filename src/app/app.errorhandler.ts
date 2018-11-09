@@ -20,16 +20,15 @@ export class AppErrorHandler implements ErrorHandler {
       if (!navigator.onLine) {
         toastService.toast("Chybí připojení k internetu", "error");
       } else if(err.status === 401) {
-        toastService.toast("K načtení některých dat na této stránce nemáte oprávnění.", "error");
+        toastService.toast("K této akci nemáte oprávnění.", "error");
       } else {
         toastService.toast("Chyba serveru: " + err.message, "error");
       }
-    } /*else if(err.message && err.message.match("Cannot match any routes")) {
-      toastService.toast("Tato stránka neexistuje.", "error");
-      console.error({err});
-    }*/ else {
+      console.error(err);
+    }
+    else {
       toastService.toast("Nastala neočekávaná chyba :(", "error");
-      console.error({err});
+      console.error(err);
     }
   }
 
