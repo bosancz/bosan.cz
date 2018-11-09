@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Inject, LOCALE_ID, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { formatDate } from "@angular/common";
 import { NgForm } from "@angular/forms";
 
@@ -21,15 +21,20 @@ export class AlbumAdminMetadataComponent {
   
   @Output() save:EventEmitter<void> = new EventEmitter();
   
-  @ViewChild('dateFrom') dateFromInput:ElementRef;
-  @ViewChild('dateTill') dateTillInput:ElementRef;
-  @ViewChild('year') yearInput:ElementRef;
+  dateFrom:Date;
+  dateTill:Date;
+  year:number;
   
   eventsMatched:Event[] = [];
   
-  currentYear:number = (new Date()).getFullYear();
+  constructor(private api:ApiService, private dataService:DataService, private toastService:ToastService) {  }
   
-  constructor(private api:ApiService, private dataService:DataService, private toastService:ToastService) {
+  ngOnChanges(changes:SimpleChanges){
+    if(changes.album){
+      if(this.album.dateFrom) this.dateFrom = new Date(this.album.dateFrom);
+      if(this.album.dateTill) this.dateTill = new Date(this.album.dateTill);
+      if(this.album.year) this.year = this.album.year;
+    }
   }
   
   async loadTypeaheadEvents(search:string){
@@ -55,8 +60,8 @@ export class AlbumAdminMetadataComponent {
   
   eventSelected(event:Event){
     if(!event) return;
-    this.dateFromInput.nativeElement.value = formatDate(event.dateFrom, 'yyyy-MM-dd', "cs");
-    this.dateTillInput.nativeElement.value = formatDate(event.dateTill, 'yyyy-MM-dd', "cs");
-    this.yearInput.nativeElement.value = formatDate(event.dateTill, 'yyyy', "cs");
+    this.dateFrom = event.dateFrom;
+    this.dateTill = event.dateTill;
+    this.year = (new Date(event.dateTill)).getFullYear();
   }
 }
