@@ -15,7 +15,12 @@
 
   .modal .btn{line-height: 24px;}
   
-  .card-title,.card-title h5{margin:0;}
-  
-  .card-title button{float:right;}
+  .card {
+    margin-bottom:20px;
+    
+    .card-title,.card-title h5{margin:0;}
+    .card-title .btn{float:right;}
+
+    .buttons .btn{display:block;width:100%;margin-bottom:10px;}
+  }
 }

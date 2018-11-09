@@ -1,3 +1,13 @@
-<p>
-  event-approval works!
-</p>
+<div class="events">
+  <div *ngFor="let event of events" class="event card">
+    <div class="card-body row">
+      <div class="col-md-9">
+        <h3>{{event.name}}</h3>
+        <p>{{event.description}}</p>
+      </div>
+      <div class="col-md-3 buttons">
+        <button class="btn btn-primary btn-sm">Schválit</button>
+        <a [routerLink]="'/interni/akce/' + event._id" class="btn btn-light btn-sm">Upravit info</a>
+      </div>
+  </div>
+</div>
