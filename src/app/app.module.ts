@@ -39,6 +39,7 @@ import { GalleryAlbumComponent } from 'app/components/gallery-album/gallery-albu
 import { GoogleMapComponent } from 'app/components/google-map/google-map.component';
 import { LoginFormComponent } from 'app/components/login-form/login-form.component';
 import { TimelineScrollComponent } from 'app/components/timeline-scroll/timeline-scroll.component';
+import { PhotoGalleryComponent } from "app/components/photo-gallery/photo-gallery.component";
 
 // Directives
 import { AdminLinkDirective } from 'app/directives/admin-link.directive';
@@ -75,7 +76,7 @@ export const jwtOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent,
+    /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent, NotFoundComponent,
     /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent,
     /* CHILD VIEWS */ GalleryViewTimelineComponent, GalleryViewAlbumComponent, GalleryViewPhotosComponent,
 
@@ -83,7 +84,7 @@ export const jwtOptions = {
 
     /* DIRECTIVES */ AdminLinkDirective,
 
-    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective, NotFoundComponent
+    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective, PhotoGalleryComponent
   ],
   imports: [
     BrowserAnimationsModule,    

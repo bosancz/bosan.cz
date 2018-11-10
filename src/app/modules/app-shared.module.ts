@@ -4,14 +4,6 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
  
-import { SafeurlPipe } from "app/pipes/safeurl.pipe";
-
-
-import { BreadCrumbsComponent } from "app/components/bread-crumbs/bread-crumbs.component";
-import { PhotoGalleryComponent } from "app/components/photo-gallery/photo-gallery.component";
-
-import { ContenteditableDirective } from "app/directives/contenteditable.directive";
-
 /* PIPES */
 import { JoinLeadersPipe } from 'app/pipes/join-leaders.pipe';
 import { JoinAttendeesPipe } from 'app/pipes/join-attendees.pipe';
@@ -20,11 +12,11 @@ import { Nl2brPipe } from "app/pipes/nl2br.pipe";
 import { DateRangePipe } from "app/pipes/date-range.pipe";
 import { EventPipe } from "app/pipes/event.pipe";
 import { MonthNamePipe } from 'app/pipes/month-name.pipe';
+import { SafeurlPipe } from "app/pipes/safeurl.pipe";
 
 /* THIRD PARTY */
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { ModalModule } from "ngx-bootstrap/modal";
-import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { TooltipConfig } from 'ngx-bootstrap/tooltip';
 import { NgxPermissionsModule } from 'ngx-permissions';
@@ -46,27 +38,21 @@ export function getTooltipConfig():TooltipConfig {
     
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
-    TypeaheadModule.forRoot(),
     TooltipModule.forRoot(),
     NgxPermissionsModule.forRoot(),
     ShareModule.forRoot()
   ],
   declarations: [
-    BreadCrumbsComponent,
-    PhotoGalleryComponent,
-    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe,
-    ContenteditableDirective
+    /* PIPES */
+    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
   ],
   exports: [
     /* MODULES */ CommonModule, FormsModule, HttpClientModule,
-    CollapseModule, ModalModule, TypeaheadModule, TooltipModule,
+    CollapseModule, ModalModule, TooltipModule,
     ShareModule,
     
-    /* COMPONENTS */ BreadCrumbsComponent, PhotoGalleryComponent,
-    
-    /* DIRECTIVES */ ContenteditableDirective,
-    
-    /* PIPES */ SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
+    /* PIPES */
+    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
   ],
   providers: [
     { provide: TooltipConfig, useFactory: getTooltipConfig }

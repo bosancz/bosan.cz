@@ -10,7 +10,7 @@ import { AppSharedModule } from "../modules/app-shared.module";
   imports: [
     CommonModule,
     AdminRoutingModule,
-    AppSharedModule
+    AppSharedModule,
   ]
 })
 export class AdminModule { }

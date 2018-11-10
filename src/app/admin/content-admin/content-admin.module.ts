@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AppSharedModule } from "app/modules/app-shared.module";
+import { AdminSharedModule } from "../modules/admin-shared.module";
 
 import { ContentAdminComponent } from './content-admin.component';
 
@@ -57,7 +58,8 @@ import { GroupsSelectComponent } from './components/groups-select/groups-select.
   imports: [
     CommonModule,
     ContentAdminRoutingModule,
-    AppSharedModule
+    AppSharedModule,
+    AdminSharedModule
   ],
   declarations: [
     ContentAdminComponent,
