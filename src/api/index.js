@@ -1,5 +1,7 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const express = require("express");
+const router = module.exports = express.Router();
+
+const config = require("../../config");
 
 router.use("/albums", require("./albums"));
 
@@ -25,3 +27,14 @@ router.use("/versions", require("./versions"));
 router.use("/share", require("./share"));
 
 router.get("/test", (req,res,next) => res.sendStatus(200));
+
+router.get("/", (req,res,next) => {
+  res.json({
+    "events": {
+      "_links": {
+        "self": { "href": `${config.api.root}/events{/_id}`, "type": "json"},
+        "upcoming": { "href": `${config.api.root}/events/upcoming`, "type": "json"}
+      }
+    }
+  });
+});

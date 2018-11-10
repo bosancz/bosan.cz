@@ -21,14 +21,20 @@ var Event = require("../models/event");
 var getEventSchema = {
   type: 'object',
   properties: {
-    "populate":{type: "array", items: { enum: ["leaders"] } },
+    "select": { type: "string" },
+    "populate": { type: "array", items: { enum: ["leaders"] } },
   },
   additionalProperties: false
 };
 
 // read the event document
 router.get("/", validate({query:getEventSchema}), acl("events:read"), async (req,res,next) => {
+  
   const query = Event.findOne({_id:req.params.event});
+  
+  if(req.query.select) query.select(req.query.select);
+  
+  // TODO: fix
   if(req.query.populate && req.query.populate.leaders) query.populate("leaders","_id name nickname");
   
   const event = await query;
@@ -101,4 +107,17 @@ router.delete("/registration", acl("events:edit"), async (req,res,next) => {
   await event.save();
   
   res.sendStatus(204);
+});
+
+router.post("/actions/:action", async (req,res,next) => {
+  
+  if(!await acl.can("events:" + req.params.action,req)) return res.sendStatus(401);
+  
+  var event = await Event.findOne({_id:req.params.event});
+  
+  await event.action(req.params.action);
+  
+  await event.save();
+  
+  res.sendStatus(200);
 });

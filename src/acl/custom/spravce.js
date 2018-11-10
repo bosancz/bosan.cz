@@ -35,6 +35,7 @@ module.exports = {
     "events:drafts:list": true,
     "events:drafts:read": true,
     "events:upcoming:list": true,
+    "events:publish": true,
 
     /* MEMBERS */
     "members:list": true,

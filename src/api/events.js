@@ -73,7 +73,7 @@ router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (re
   
   query.limit(req.query.limit ? Math.min(req.query.limit,100) : 20);
   if(req.query.skip) query.skip(req.query.skip);
-  if(req.query.sort) query.sort = req.query.sort.replace(/(\-?)dateFrom/,"$1dateFrom $1order");
+  if(req.query.sort) query.sort(req.query.sort.replace(/(\-?)([a-z]+)/i,"$1$2 $1order"));
 
   res.json({
     docs: await query,
@@ -87,11 +87,9 @@ router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (re
 router.post("/", acl("events:create"), async (req,res,next) => {
   
   var event = await createEvent(req.body);
-  
-  res.status(201).json(event);
+  res.location("/events/" + event._id);
+  res.sendStatus(201);
 });     
-
-
 
 var getEventsUpcomingSchema = {
   type: 'object',

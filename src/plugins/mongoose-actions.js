@@ -1,13 +1,16 @@
 
 const mongoParser = require("mongo-parse");
 
+class MongooseActionsError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'MongooseActionsError';
+  }
+}
+
 function checkActionsExist(actions,names){
   for(let name of names){
-    if(!actions[name]){
-      const e = new Error("Invalid value for _actions: " + name);
-      e.name = "MongooseActionsError";
-      throw e;
-    }   
+    if(!actions[name]) throw new MongooseActionsError("Invalid value for _actions: " + name);
   }
   return true;
 }
@@ -33,6 +36,7 @@ function filterInDB(query,actions){
 module.exports = function(schema,options){
 
   const actions = options.actions;
+  const links = options.links;
 
   // prepare parsed query for matching retrieved documens
   Object.entries(actions).forEach(action => {
@@ -41,12 +45,28 @@ module.exports = function(schema,options){
 
   // add virtuals to get available actions
   schema.virtual("_actions").get(function(){
-    return Object.keys(actions).filter(action => !actions[action].queryParsed || actions[action].queryParsed.matches(this,false));
+    const docActions = {}
+    Object.entries(actions)
+      .filter(action => !action[1].queryParsed || action[1].queryParsed.matches(this,false))
+      .forEach(action => docActions[action[0]] = { href: action[1].href(this) } );
+    return docActions;
+  });
+  
+  // add links to get available actions
+  schema.virtual("_links").get(function(){
+    const docLinks = {};
+    Object.entries(links).forEach(link => docLinks[link[0]] = { href: link[1](this) } );
+    return docLinks;
   });
 
   // add method action() for the Document objects
   schema.method("action",function(name,data){
-    actions[name].action(this,data);
+    const action = actions[name];
+    
+    if(!action) throw new MongooseActionsError("Action " + name + " does not exist on this document.");
+    if(!action.queryParsed.matches(this,false)) throw new MongooseActionsError("Action is not available on this document.");
+    
+    return action.action(this,data);
   });
 
   // add the hasAction(s) query helpers

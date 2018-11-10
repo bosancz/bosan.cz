@@ -1,12 +1,12 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-var actions = require("../plugins/mongoose-actions");
+const actions = require("../plugins/mongoose-actions");
 
-var path = require("path");
-var config= require("../../config");
+const path = require("path");
+const config = require("../../config");
 
-var Member = require("./member"); // load because of reference
-var EventRecurring = require("./event-recurring"); // load because of reference
+const Member = require("./member"); // load because of reference
+const EventRecurring = require("./event-recurring"); // load because of reference
 
 var eventSchema = mongoose.Schema({
 
@@ -55,23 +55,29 @@ var eventSchema = mongoose.Schema({
   }]
 }, { toJSON: { virtuals: true } });
 
-eventSchema.virtual("registrationUrl").get(function(){return this.registration ? (config.events.storageUrl + "/" + path.join(String(this._id),this.registration)) : undefined;});
-
 eventSchema.plugin(actions, {
+  links:{
+    "self": event => `${config.api.root}/events/${event._id}`,
+    "leaders": event => `${config.api.root}/events/${event._id}/leaders`,
+    "recurring": event => `${config.api.root}/events/${event._id}/recurring`,
+    "payments": event => `${config.api.root}/events/${event._id}/payments`,
+    "registration": event => `${config.api.root}/events/${event._id}/registration`,
+    "registration_file": event => event.registration ? (config.events.storageUrl + "/" + path.join(String(event._id),event.registration)) : null
+  },
   actions:{
     "publish": {
+      href: event => `${config.api.root}/events/${event._id}/actions/publish`,
       query: {status: "draft"},
       action: event => {
-        this.status = "public";
-        return this.save();
+        event.status = "public";
       }
     },
 
     "unpublish": {
+      href: event => `${config.api.root}/events/${event._id}/actions/unpublish`,
       query: {status: "public"},
       action: event => {
-        this.status = "draft";
-        return this.save();
+        event.status = "draft";
       }
     }
   }
