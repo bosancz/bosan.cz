@@ -1,0 +1,89 @@
+<section>
+  <div class="container">
+
+    <h2>Členská databáze</h2>
+
+    <div class="row">
+
+      <div class="col-3">
+
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link font-weight-bold" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Celá databáze</a></li>
+          <li *ngFor="let group of groups" class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'group',group:group.id}]" [class.active]="view === 'group' && group === group.id">{{group.id | group:'name'}}</a></li>
+          <br>
+          <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateMemberModal(createMemberModal)">Nový člen</button></li>      
+        </ul>
+
+      </div>
+
+      <div class="col-9">
+        <table class="table table-striped table-hover table-sm">
+          <thead class="thead-dark">
+            <tr>
+              <th>Přezdívka</th>
+              <th>Jméno</th>
+              <th>Příjmení</th>
+              <th>Oddíl</th>
+              <th>Role</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let member of members" [routerLink]="['./',{},member._id]">
+              <td>{{member.nickname}}</td>
+              <td>{{member.name?.first}}</td>
+              <td>{{member.name?.last}}</td>
+              <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
+              <td>{{member.role}}</td>
+              <td class="text-right"><a [routerLink]="['./',{},member._id]"><i class="fas fa-pencil-alt"></i></a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #createMemberModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Zapsat nového člena</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="createMemberModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #createMemberForm="ngForm" (ngSubmit)="createMember(createMemberForm)">
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Přezdívka</label>
+        <input type="text" name="nickname" ngModel class="form-control" placeholder="Nositel prstenu">
+      </div>
+      <div class="row" ngModelGroup="name">
+        <div class="form-group col-md-6">
+          <label>Jméno</label>
+          <input type="text" ngModel name="first" class="form-control" placeholder="Bilbo" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label>Příjmení</label>
+          <input type="text" ngModel name="last" class="form-control" placeholder="Pytlík" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-6">
+          <label>Oddíl</label>
+          <select name="group" ngModel class="form-control" required>
+            <option *ngFor="let group of groups" [value]="group._id">{{group.name}}</option>
+          </select>
+        </div>
+        <div class="form-group col-6">
+          <label>Role</label>
+          <select name="role" ngModel class="form-control" required>
+            <option *ngFor="let role of roles">{{role}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer text-right">
+      <button class="btn btn-primary" type="submit" [disabled]="!createMemberForm.valid">Vytvořit</button>
+    </div>
+  </form>
+</ng-template>

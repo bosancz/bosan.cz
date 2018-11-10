@@ -1,0 +1,86 @@
+<section>
+  <div class="container">
+
+    <h2>Nastavení účtu</h2>
+
+    <div class="row">
+
+      <div class="col-3">
+
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Informace</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../login" routerLinkActive="active">Změnit login</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../heslo" routerLinkActive="active">Změnit heslo</a></li>
+        </ul>
+
+      </div>
+
+      <div class="col-9" [ngSwitch]="cat">
+
+        <div *ngSwitchCase="'info'">
+          <ng-container *ngIf="user">
+            <h4>Bošánovský mail:</h4>
+            <p><strong>E-mail:</strong>&nbsp;<a [href]="'mailto:' + user.email">{{user.email}}</a></p>
+            <p>Přihlásit do mailu se můžeš na adrese <a href="https://mail.bosan.cz" target="_blank">mail.bosan.cz</a>.</p>
+
+            <h4>Záznam v členské databázi:</h4>
+            <p *ngIf="user.member">
+              <strong>Přezdívka:</strong>&nbsp;{{user.member?.nickname}}<br>
+              <strong>Jméno:</strong>&nbsp;{{user.member?.name?.first}} {{user.member?.name?.last}}<br>
+              <strong>Oddíl:</strong>&nbsp;{{user.member?.group | group:'name'}}
+            </p>
+            <h4>Uživatelské role:</h4>
+            <p>{{user.roles?.join(', ')}}</p>
+          </ng-container>
+        </div>
+
+        <div *ngSwitchCase="'login'">
+          <ng-container *ngIf="user">
+            <form #userForm="ngForm" (ngSubmit)="updateUser(userForm)">
+
+              <div class="form-group">
+                <label>Login:</label>
+                <input type="text" name="login" [ngModel]="user.login" class="form-control" required>
+              </div>
+
+              <div class="buttons text-right">
+                <button type="submit" [disabled]="!userForm.valid" class="btn btn-primary">Uložit</button>
+              </div>
+
+            </form>
+          </ng-container>
+        </div>
+
+        <div *ngSwitchCase="'heslo'">
+
+          <p><strong>Tvoje heslo bude zabezpečovat osobní údaje všech dětí i vedoucích v našem oddíle</strong>, tj. přístup do databáze členů a uživatelů tohoto webu. Na jeho výběru si proto dej záležet!</p>
+          <p>Správné heslo, heslo jak má být, tak takové heslo:</p>
+          <ul>
+            <li><strong>je dostatečně dlouhé</strong> - Bohužel u krátkých hesel stačí prostě zkusit všechny možnosti.</li>
+            <li><strong>je jednoduché si ho zapamatovat</strong> - Heslo s třemi velkými písmeny, šesti čísly a jedním čínským znakem je bezpečné jen do té doby, než si ho někam napíšeš.</li>
+            <li><strong>není uhádnutelné</strong> - Nejenom klasická hesla jako "heslo1", ale i texty písniček nebo tvoje datum narození můžou být věci, které útočník prostě uhádne. Nijak ani nepomůže třeba přidat nakonec nějaké číslo nebo zaměnit písmena za čísla a&nbsp;podobně. To útočník dávno zná a vždy vyzkouší.</li>              
+          </ul>
+          <p><strong>Jaké je tedy takové správné heslo?</strong> Záleží, kdo si co zvládne zapamatovat, ale pokud nejsi autista, aby sis pamatoval/a deset náhodných znaků, zkus třeba pár nesouvisejících slov za sebou, ideálně ještě s nějakou chybkou, aby to nešlo uhádnout ze slovníku.</p>
+
+          <form #passwordForm="ngForm" (ngSubmit)="updatePassword(passwordForm)">
+
+            <div class="form-group">
+              <label>Heslo:</label>
+              <input [type]="passwordsVisible ? 'text' : 'password'" name="password" ngModel class="form-control" required pattern="^.{8,}$">
+              <small class="form-text text-muted">Heslo musí mít alespoň osm znaků.</small>
+            </div>
+
+            <div class="form-group">
+              <a (mousedown)="passwordsVisible = true" (mouseup)="passwordsVisible = false" class="link showPasswords">Zobrazit heslo</a>
+            </div>
+
+            <div class="buttons text-right">
+              <button type="submit" class="btn btn-primary" [disabled]="!passwordForm.valid">Nastavit heslo</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

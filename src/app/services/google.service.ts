@@ -2,16 +2,26 @@ import { Injectable } from '@angular/core';
 
 declare const gapi:any;
 
+declare const window:any;
+
 @Injectable({
   providedIn: 'root'
 })
 export class GoogleService {
   
+  gapi:any;
+  
   auth2:any;
 
   constructor() {
     
-    this.auth2 = new Promise((resolve,reject) => {
+    this.gapi = this.loadgapi();
+    
+    this.auth2 = this.gapi.then(gapi => this.loadAuth2(gapi));
+  }
+   
+  loadAuth2(gapi){
+    return new Promise((resolve,reject) => {
       gapi.load('auth2', () => {
 
         const auth2 = gapi.auth2.init({
@@ -25,6 +35,15 @@ export class GoogleService {
       });
     });
 
+  }
+  
+  loadgapi(){
+    if(window.gapi) return Promise.resolve(window.gapi);
+    else{
+      return new Promise((resolve,reject) => {
+        window.gapi_loaded = function(){ resolve(window.gapi); }
+      });
+    }
   }
 
   async signIn():Promise<string>{

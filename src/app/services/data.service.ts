@@ -126,67 +126,6 @@ export class DataService {
     return this.http.delete(this.root + "/camps/" + campId, {responseType: "text"}).toPromise();
   }
 
-  /* EVENTS */
-  getEvents(options?:any):Promise<Paginated<Event>>{
-    return this.http.get<Paginated<Event>>(this.root + "/events",{params:toParams(options)})
-      .toPromise()
-      .then(paginated => {
-        paginated.docs.forEach(event => {
-          if(event.dateFrom) event.dateFrom = new Date(event.dateFrom);
-          if(event.dateTill) event.dateTill = new Date(event.dateTill);
-        });
-        return paginated;
-      });
-  }
-
-  getEventsUpcoming(options?:any):Promise<Event[]>{
-    return this.http.get<Event[]>(this.root + "/events/upcoming", {params: toParams(options)}).toPromise();
-  }
-
-  getEvent(eventId:string,options?:any):Promise<Event>{
-    return this.http.get<Event>(this.root + "/events/" + eventId, {params: toParams(options)}).toPromise();
-  }
-
-  createEvent(eventData:any):Promise<Event>{
-    return this.http.post<Event>(this.root + "/events",eventData).toPromise();
-  }
-
-  updateEvent(eventId:string,eventData:any):Promise<string>{
-    return this.http.patch(this.root + "/events/" + eventId,eventData, {responseType:"text"}).toPromise();
-  }
-
-  deleteEvent(eventId:string):Promise<string>{
-    return this.http.delete(this.root + "/events/" + eventId, {responseType:"text"}).toPromise();
-  }
-
-  uploadEventRegistration(eventId:string,registrationData:any):Promise<string>{
-    return this.http.post(this.root + "/events/" + eventId + "/registration",registrationData,{responseType:"text"}).toPromise();
-  }
-
-  deleteEventRegistration(eventId:string,):Promise<string>{
-    return this.http.delete(this.root + "/events/" + eventId + "/registration",{responseType:"text"}).toPromise();
-  }
-
-  getEventLeaders(eventId:string):Promise<any[]>{
-    return this.http.get<any[]>(this.root + "/events/" + eventId + "/leaders").toPromise();
-  }
-
-  getEventRecurring(eventId:string,options?:any):Promise<EventRecurring>{
-    return this.http.get<EventRecurring>(this.root + "/events/" + eventId + "/recurring", {params: toParams(options)}).toPromise();
-  }
-
-  createEventRecurring(eventId:string,recurringData:any):Promise<string>{
-    return this.http.put(this.root + "/events/" + eventId + "/recurring",recurringData,{responseType:"text"}).toPromise();
-  }
-
-  deleteEventRecurring(eventId:string):Promise<string>{
-    return this.http.delete(this.root + "/events/" + eventId + "/recurring",{responseType:"text"}).toPromise();
-  }
-    
-  getEventPayments(eventId:string,options?:any):Promise<Payment[]>{
-    return this.http.get<Payment[]>(this.root + "/events/" + eventId + "/payments", {params: toParams(options)}).toPromise();
-  }
-
   /* MEMBERS */
   getMembers(options?:any):Promise<Member[]>{
     return this.http.get<Member[]>(this.root + "/members", {params: toParams(options)}).toPromise();

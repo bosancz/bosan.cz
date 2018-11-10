@@ -14,7 +14,6 @@ export class NotFoundComponent implements OnInit {
 
   ngOnInit() {
     this.toastService.toast("Stránka " + (location.pathname || location.href) + " neexistuje. Byli jste přesměrováni na úvodní stránku.", "error");
-    console.log("location");
     this.router.navigate(["/"],{replaceUrl: true});    
   }
 

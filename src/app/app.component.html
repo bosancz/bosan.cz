@@ -36,8 +36,8 @@
         </ng-container>
 
         <ng-container *ngIf="authService.logged">
-          <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/moje" routerLinkActive="active" tooltip="Můj Bošán" placement="bottom"><i class="fas fa-user"></i></a>
-          <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/interni" routerLinkActive="active" tooltip="Správa obsahu" placement="bottom"><i class="fas fa-th"></i></a>
+          <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/interni/moje" routerLinkActive="active" tooltip="Můj Bošán" placement="bottom"><i class="fas fa-user"></i></a>
+          <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/interni/obsah" routerLinkActive="active" tooltip="Správa obsahu" placement="bottom"><i class="fas fa-th"></i></a>
           <a *ngIf="authService.logged" class="nav-link" (click)="logout(); menuCollapsed=true" tooltip="Odhlásit se" placement="bottom"><i class="fas fa-sign-out-alt"></i></a>
         </ng-container>
       </div>

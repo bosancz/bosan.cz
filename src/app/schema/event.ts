@@ -5,6 +5,8 @@ export class EventRecurring{
   instances:any[];
 }
 
+export type EventLeader = string;
+
 export class Event {
   
   _id:string;
@@ -34,4 +36,7 @@ export class Event {
   
   groups?:string[];
   leadersEvent?:boolean;
+  
+  _links?:{[name:string]:string};
+  _actions?:{[name:string]:string};
 }
