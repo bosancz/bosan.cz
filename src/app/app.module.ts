@@ -6,7 +6,7 @@ import { AppRoutingModule } from 'app/app-routing.module';
 import { AppErrorHandler } from "app/app.errorhandler";
 
 /* SHARED */
-import { SharedModule } from "app/modules/shared.module";
+import { AppSharedModule } from "app/modules/app-shared.module";
 
 /* SERVICES */
 import { ACLService } from "app/services/acl.service";
@@ -89,7 +89,7 @@ export const jwtOptions = {
     BrowserAnimationsModule,    
     AppRoutingModule,
 
-    SharedModule,
+    AppSharedModule,
 
     ScrollToModule.forRoot(),
 

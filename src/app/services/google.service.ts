@@ -38,10 +38,10 @@ export class GoogleService {
   }
   
   loadgapi(){
-    if(gapi) return Promise.resolve(gapi);
+    if(window.gapi) return Promise.resolve(window.gapi);
     else{
       return new Promise((resolve,reject) => {
-        window.gapi_loaded = function(){ resolve(gapi); }
+        window.gapi_loaded = function(){ resolve(window.gapi); }
       });
     }
   }
