@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { trigger, state,  style, animate, transition } from '@angular/animations';
 
 import { ConfigService } from "app/services/config.service";
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { ToastService } from "app/services/toast.service";
 
 import { Event } from "app/schema/event";
@@ -34,7 +34,7 @@ export class EventsTimelineComponent implements OnInit {
 
   events:TimelineEvent[]= [];
 
-  constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService) { }
+  constructor(private api:ApiService, private configService:ConfigService, private toastService:ToastService) { }
 
   ngOnInit() {
     this.loadEvents();
@@ -46,7 +46,7 @@ export class EventsTimelineComponent implements OnInit {
       days: this.days || undefined
     };
 
-    this.events = await this.dataService.getEventsUpcoming(options);
+    this.events = await this.api.get<Event[]>("events:upcoming",options);
 
     // set the apeared variable, wil be true when scrolled into view
     this.events.forEach(event => event.appeared = false);

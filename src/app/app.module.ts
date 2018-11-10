@@ -6,7 +6,7 @@ import { AppRoutingModule } from 'app/app-routing.module';
 import { AppErrorHandler } from "app/app.errorhandler";
 
 /* SHARED */
-import { SharedModule } from "app/modules/shared.module";
+import { AppSharedModule } from "app/modules/app-shared.module";
 
 /* SERVICES */
 import { ACLService } from "app/services/acl.service";
@@ -14,6 +14,7 @@ import { AuthService } from "app/services/auth.service";
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
 import { MenuService } from "app/services/menu.service";
+import { ApiService } from "app/services/api.service";
 
 /* VIEWS */
 import { AboutViewComponent } from 'app/views/about-view/about-view.component';
@@ -38,6 +39,7 @@ import { GalleryAlbumComponent } from 'app/components/gallery-album/gallery-albu
 import { GoogleMapComponent } from 'app/components/google-map/google-map.component';
 import { LoginFormComponent } from 'app/components/login-form/login-form.component';
 import { TimelineScrollComponent } from 'app/components/timeline-scroll/timeline-scroll.component';
+import { PhotoGalleryComponent } from "app/components/photo-gallery/photo-gallery.component";
 
 // Directives
 import { AdminLinkDirective } from 'app/directives/admin-link.directive';
@@ -74,7 +76,7 @@ export const jwtOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent,
+    /* VIEWS */ AboutViewComponent, ContactsViewComponent, EventsViewComponent, NewsViewComponent, CampViewComponent, GalleryViewComponent, NotFoundComponent,
     /* SHARED */ EventsTimelineComponent, GoogleMapComponent, AlbumsRecentComponent,
     /* CHILD VIEWS */ GalleryViewTimelineComponent, GalleryViewAlbumComponent, GalleryViewPhotosComponent,
 
@@ -82,20 +84,20 @@ export const jwtOptions = {
 
     /* DIRECTIVES */ AdminLinkDirective,
 
-    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective, NotFoundComponent
+    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective, PhotoGalleryComponent
   ],
   imports: [
     BrowserAnimationsModule,    
     AppRoutingModule,
 
-    SharedModule,
+    AppSharedModule,
 
     ScrollToModule.forRoot(),
 
     JwtModule.forRoot(jwtOptions)
   ],
   providers: [
-    /* Services */ ACLService, AuthService, DataService, ToastService, MenuService,
+    /* Services */ ACLService, AuthService, DataService, ToastService, MenuService, ApiService,
     /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler },
     /* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
   ],

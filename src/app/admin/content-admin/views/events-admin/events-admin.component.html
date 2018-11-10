@@ -1,0 +1,131 @@
+<section>
+  <div class="container">
+ 
+    <h2>Přehled akcí</h2>
+
+    <div class="row">
+
+      <div class="col-3">
+
+        <ul class="nav flex-column">
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'future'}]" [class.active]="view === 'future'">Budoucí akce</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'past'}]" [class.active]="view === 'past'">Minulé akce</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'noleader'}]" [class.active]="view === 'noleader'">Vede pan NIKDO</a></li>      
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Všechny akce</a></li>      
+          <br>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'recurring'}]" [class.active]="view === 'small'">Opakované akce</a></li>      
+          <br>
+          <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateEventModal(createEventModal)">Nová akce</button></li>      
+        </ul>
+
+      </div>
+
+      <div class="col-9">
+        
+        <div *ngIf="openFilter" class="filter">
+          <form class="form" (ngSubmit)="loadEvents()">
+            <div class="form-row">
+
+              <div class="form-group col-md-3">
+                <label>Vyhledat</label>
+                <input type="text" [(ngModel)]="options.search" name="search" class="form-control">
+              </div>
+
+              <div class="form-group col-md-2">
+                <label>Stav</label>
+                <select [(ngModel)]="options.filter.status" name="status" class="form-control">
+                  <option value="draft">v přípravě</option>
+                  <option value="public">zveřejněná</option>
+                  <option value="">vše</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label>Datum od</label>
+                <input type="date" name="dateFrom" [(ngModel)]="options.filter.dateTill.$gte" class="form-control">
+              </div>
+
+              <div class="form-group col-md-3">
+                <label>Datum do</label>
+                <input type="date" name="dateTill" [(ngModel)]="options.filter.dateFrom.$lte" class="form-control">
+              </div>
+
+              <div class="form-group col-md-1">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary text-center" style="width:100%;"><i class="fas fa-search"></i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <table class="table table-striped table-hover table-sm">
+          <thead class="thead-dark">
+            <tr>
+              <th (click)="setSort('name')">Název akce</th>
+              <th (click)="setSort('dateFrom')">Datum</th>
+              <th>Vede</th>
+              <th (click)="setSort('status')">Status</th>
+              <th class="filter text-right"><a (click)="openFilter=!openFilter" [class.active]="openFilter"><i class="fas fa-filter"></i></a></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let event of events" [routerLink]="['./',{},event._id,'upravit']">
+              <td>{{event.name}}</td>
+              <td class="date">{{event.dateFrom | date:"EEEEEE d. M."}} - {{event.dateTill | date:"EEEEEE d. M. y"}}</td>
+              <td>
+                <ng-container *ngFor="let leader of event.leaders;let isFirst = first">
+                  <ng-container *ngIf="!isFirst">, </ng-container>
+                  <span [style.color]="leader.group | group:'color'">{{leader.nickname || leader.name?.first}}</span>
+                </ng-container>
+                <strong *ngIf="!event.leaders?.length" class="text-danger">Pan NIKDO</strong>
+              </td>
+              <td>{{statuses[event.status] || "N/A"}}</td>
+              <td class="text-right">
+                <a [routerLink]="['./',{},event._id,'upravit']"><i class="fas fa-pencil-alt"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <nav>
+          <ul class="pagination justify-content-center">
+            <li class="page-item" [class.disabled]="page <= 1"><a class="page-link" [routerLink]="getPageLink(page-1)">&laquo;</a></li>
+            <li *ngFor="let i of getPages()" class="page-item" [class.disabled]="page === i"><a class="page-link" [routerLink]="getPageLink(i)">{{i}}</a></li>
+            <li class="page-item" [class.disabled]="page >= pages"><a class="page-link" [routerLink]="getPageLink(page+1)">&raquo;</a></li>
+          </ul>
+        </nav>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #createEventModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Vytvořit novou akci</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="createEventModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #createEventForm="ngForm" (ngSubmit)="createEvent(createEventForm)">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="createEventInput-name">Název</label>
+        <input type="text" name="name" ngModel class="form-control" id="createEventInput-name" placeholder="Neočekávaný dýchánek" required>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="createEventInput-datefrom">Začátek</label>
+          <input type="date" ngModel name="dateFrom" class="form-control" id="createEventInput-datefrom" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="createEventInput-datetill">Konec</label>
+          <input type="date" ngModel name="dateTill" class="form-control" id="createEventInput-datetill" required>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer text-right">
+      <button class="btn btn-primary" type="submit" [disabled]="!createEventForm.valid">Vytvořit</button>
+    </div>
+  </form>
+</ng-template>
