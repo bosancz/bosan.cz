@@ -11,6 +11,9 @@ h4{z-index: 10}
 h5{margin-bottom: 0px !important;}
 .group-badges{z-index: 10;}
 
+.timeline{position:relative;min-height:200px;}
+.timeline .loading{position:absolute;top:50%;left:0;right:0;text-align:center;margin-top:-24px;}
+
 .timeline .line-container{
   position: relative;
   width: $circle-size;

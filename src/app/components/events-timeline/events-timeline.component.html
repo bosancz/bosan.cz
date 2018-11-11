@@ -1,4 +1,7 @@
 <div class="container timeline">
+  
+  <p *ngIf="loading" class="loading">Načítám program&hellip;</p>
+  
   <ng-container *ngFor="let event of events;let i = index">
 
     <div *ngIf="i >= 1 && (event.dateFrom | date:'M') !== (events[i-1].dateFrom | date:'M')" class="row">
