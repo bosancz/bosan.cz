@@ -84,7 +84,7 @@ export class ApiService {
     }
     
     const href = URITemplate(link.href).expand(key => {
-      if(params[key]){
+      if(params && params[key]){
         const value = params[key];
         delete params[key];
         return value;
