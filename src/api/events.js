@@ -63,14 +63,14 @@ router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (re
 
   // construct the query
   const query = Event.find();
-  
+
   if(req.query.filter) query.where(req.query.filter);
   if(req.query.search) query.where({ name: new RegExp(req.query.search,"i") });
   if(req.query.has_actions) query.hasActions(req.query.has_actions.split(" "));
-  
+
   query.select(req.query.select || "_id name dateFrom dateTill type status");
   if(req.query.populate) query.populate(req.query.populate);
-  
+
   query.limit(req.query.limit ? Math.min(req.query.limit,100) : 20);
   if(req.query.skip) query.skip(req.query.skip);
   if(req.query.sort) query.sort(req.query.sort.replace(/(\-?)([a-z]+)/i,"$1$2 $1order"));
@@ -81,11 +81,11 @@ router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (re
     limit: req.query.limit || 20,
     skip: req.query.skip || 0
   });
-  
+
 });
 
 router.post("/", acl("events:create"), async (req,res,next) => {
-  
+
   var event = await createEvent(req.body);
   res.location("/events/" + event._id);
   res.sendStatus(201);
@@ -116,3 +116,30 @@ router.get("/upcoming", validate({query:getEventsUpcomingSchema}), acl("events:u
 
   res.json(await events);
 });
+
+const getEventsProgramSchema = {
+  type: 'object',
+  properties: {
+    "dateFrom": {type: "string", format: "date"},
+    "dateTill": {type: "string", format: "date"},
+    "limit": {type: "number"}
+  },
+  additionalProperties: false
+};
+
+router.get("/program", validate({query:getEventsProgramSchema}), acl("events:program:read"), async (req,res,next) => {
+
+  const query = Event.find({status:"public"});
+
+  query.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
+  query.populate("leaders","_id name nickname group contacts.mobile");
+
+  if(req.query.dateFrom) query.where({ dateTill: { $gte: new Date(req.query.dateFrom) } });
+  if(req.query.dateTill) query.where({ dateFrom: { $lte: new Date(req.query.dateTill) } });
+
+  query.sort("dateFrom order");  
+  query.limit(req.query.limit ? Math.min(100,Number(req.query.limit)) : 100);
+
+  res.json(await query);
+});
+

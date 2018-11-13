@@ -33,7 +33,8 @@ router.get("/", (req,res,next) => {
     "events": {
       "_links": {
         "self": { "href": `${config.api.root}/events{/_id}`, "type": "json"},
-        "upcoming": { "href": `${config.api.root}/events/upcoming`, "type": "json"}
+        "upcoming": { "href": `${config.api.root}/events/upcoming`, "type": "json"},
+        "program": { "href": `${config.api.root}/events/program{?dateFrom,dateTill,limit}`, "type": "json"}
       }
     }
   });

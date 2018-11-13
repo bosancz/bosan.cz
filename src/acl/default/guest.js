@@ -7,7 +7,7 @@ var guest = module.exports = {
     "albums:recent:list": true,
     
     "events:list": false,
-    "events:upcoming:list": true,
+    "events:program:read": true,
     "events:read": true,
     
     "config:read": true,
