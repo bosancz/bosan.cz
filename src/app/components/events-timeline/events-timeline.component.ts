@@ -43,11 +43,10 @@ export class EventsTimelineComponent implements OnInit {
     this.loading = true;
     
     let options = {
-      limit: this.limit || undefined,
-      days: this.days || undefined
+      dateFrom: (new Date()).toISOString().split("T")[0]
     };
 
-    this.events = await this.api.get<Event[]>("events:upcoming",options);
+    this.events = await this.api.get<Event[]>("events:program",options);
 
     this.loading = false;
     
