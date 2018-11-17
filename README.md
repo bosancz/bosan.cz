@@ -32,7 +32,7 @@ Použijte svůj oblíbený webový server pro vystavení složky ```dist```.
 
 Facebook a další nečtou obsah stránky vygenerovaný dynamicky. Je proto potřeba jim dodat obsah jinak, prostřednictvím OpenGraph tagů. Odchycení těchto dotazů docílíte např. metodou rewrite v Nginx:
 ```nginx
-if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)") {
+if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)|(Slackbot)") {
   rewrite ^/(\/(?!data).*)$ /api/share/$1;#only when doesnt start with /data because there are the pictures shared
 }
 ```
