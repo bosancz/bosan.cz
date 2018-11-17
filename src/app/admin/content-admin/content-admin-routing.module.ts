@@ -8,6 +8,8 @@ import { ContentAdminComponent } from './content-admin.component';
 import { CampsAdminComponent } from './views/camps-admin/camps-admin.component';
 import { CampAdminComponent } from './views/camps-admin/camp-admin/camp-admin.component';
 
+import { ErrorsAdminComponent } from './views/errors-admin/errors-admin.component';
+
 import { EventsAdminComponent } from './views/events-admin/events-admin.component';
 import { EventAdminComponent } from './views/events-admin/event-admin/event-admin.component';
 
@@ -63,6 +65,8 @@ const routes:Routes = [
       {path: 'uzivatele/:user', redirectTo: "uzivatele/:user/ucet", pathMatch: "full"}, 
       {path: 'uzivatele', component: UsersAdminComponent, canActivate: [ACLService]},   
       
+      {path: 'chyby', component: ErrorsAdminComponent, canActivate: [ACLService]},   
+  
       {path: '', redirectTo: "akce", pathMatch: "full", canActivate: [ACLService]},
     ]
   }
