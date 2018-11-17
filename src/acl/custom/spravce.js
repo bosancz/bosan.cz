@@ -26,6 +26,12 @@ module.exports = {
     "login": true,
     "login:renew": true,
 
+    /* ERRORS */
+    "errors:list": true,
+    "errors:read": true,
+    "errors:create": true,
+    "errors:delete": true,
+    
     /* EVENTS */
     "events:list": true,
     "events:read": true,

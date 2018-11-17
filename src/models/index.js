@@ -6,5 +6,6 @@ module.exports = {
   "Member": require("./member"),
   "Payment": require("./payment"),
   "Photo": require("./photo"),
+  "ReportedError": require("./reported-error"),
   "User": require("./user")
 };
