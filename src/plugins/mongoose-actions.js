@@ -33,10 +33,17 @@ function filterInDB(query,actions){
   delete query._conditions._actions;
 }
 
+function createLink(doc,linkFn,root){
+  const link = linkFn(doc);
+  if(typeof link === "string") return link.replace(/^\/\//,root + "/");
+  else return undefined;
+}
+
 module.exports = function(schema,options){
 
   const actions = options.actions || {};
   const links = options.links || {};
+  const root = options.root || "";
 
   // prepare parsed query for matching retrieved documens
   Object.entries(actions).forEach(action => {
@@ -48,14 +55,14 @@ module.exports = function(schema,options){
     const docActions = {}
     Object.entries(actions)
       .filter(action => !action[1].queryParsed || action[1].queryParsed.matches(this,false))
-      .forEach(action => docActions[action[0]] = { href: action[1].href(this) } );
+      .forEach(action => docActions[action[0]] = { href: createLink(this,action[1].href,root) } );
     return docActions;
   });
   
   // add links to get available actions
   schema.virtual("_links").get(function(){
     const docLinks = {};
-    Object.entries(links).forEach(link => docLinks[link[0]] = { href: link[1](this) } );
+    Object.entries(links).forEach(link => docLinks[link[0]] = { href: createLink(this,link[1],root) } );
     return docLinks;
   });
 
