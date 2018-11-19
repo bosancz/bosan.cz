@@ -8,8 +8,8 @@
       <div class="col-3">
 
         <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'week'}]" [class.active]="view === 'future'">Posledních 7 dní</a></li>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'past'">Vše</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'week'}]" [class.active]="view === 'week'">Posledních 7 dní</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Vše</a></li>
         </ul>
 
       </div>
@@ -21,15 +21,13 @@
             <tr>
               <th>Datum</th>
               <th>Chyba</th>
-              <th>HTTP</th>
               <th>Uživatel</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let error of errors">
+            <tr *ngFor="let error of errors" [routerLink]="['../chyby',error._id]">
               <td class="date">{{error.timestamp | date:"d. M. y H:mm:ss"}}</td>
               <td>{{error.message}}</td>
-              <td>{{error.status || "-"}}</td>
               <td>{{error.user?.login || "-"}}</td>
             </tr>
           </tbody>
