@@ -30,12 +30,13 @@ export class AppErrorHandler implements ErrorHandler {
       console.error(err);
     } else {
       toastService.toast("Nastala neočekávaná chyba :(", "error"); // TODO: message as a config
-      console.error({err});
+      console.error(err);
     }
 
     const errorData = {
       message: err.message,
-      status: err.status,
+      status: (err instanceof HttpErrorResponse && err.error) ? err.error.status : undefined,
+      description: err.description,
       stack: err.stack,
       url: window.location.href,
       ng: {}

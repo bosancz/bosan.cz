@@ -3,7 +3,9 @@ export class ReportedError {
   url:string;
   timestamp:Date;
   
+  description?:string;
   stack?:string
+  status?:number;
   user?:any;
   
   ng?:{
