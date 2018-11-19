@@ -35,8 +35,8 @@ function filterInDB(query,actions){
 
 module.exports = function(schema,options){
 
-  const actions = options.actions;
-  const links = options.links;
+  const actions = options.actions || {};
+  const links = options.links || {};
 
   // prepare parsed query for matching retrieved documens
   Object.entries(actions).forEach(action => {

@@ -37,7 +37,7 @@ router.get("/", (req,res,next) => {
     
     "errors": {
       "_links": {
-        "self": { href: `${config.api.root}/errors`, type: "json" }
+        "self": { href: `${config.api.root}/errors{/_id}`, type: "json" }
       }
     },
     

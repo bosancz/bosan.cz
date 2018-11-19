@@ -56,17 +56,18 @@ var eventSchema = mongoose.Schema({
 }, { toJSON: { virtuals: true } });
 
 eventSchema.plugin(actions, {
+  root: config.api.root,
   links:{
-    "self": event => `${config.api.root}/events/${event._id}`,
-    "leaders": event => `${config.api.root}/events/${event._id}/leaders`,
-    "recurring": event => `${config.api.root}/events/${event._id}/recurring`,
-    "payments": event => `${config.api.root}/events/${event._id}/payments`,
-    "registration": event => `${config.api.root}/events/${event._id}/registration`,
+    "self": event => `/events/${event._id}`,
+    "leaders": event => `/events/${event._id}/leaders`,
+    "recurring": event => `/events/${event._id}/recurring`,
+    "payments": event => `/events/${event._id}/payments`,
+    "registration": event => `/events/${event._id}/registration`,
     "registration_file": event => event.registration ? (config.events.storageUrl + "/" + path.join(String(event._id),event.registration)) : null
   },
   actions:{
     "publish": {
-      href: event => `${config.api.root}/events/${event._id}/actions/publish`,
+      href: event => `/events/${event._id}/actions/publish`,
       query: {status: "draft"},
       action: event => {
         event.status = "public";
@@ -74,7 +75,7 @@ eventSchema.plugin(actions, {
     },
 
     "unpublish": {
-      href: event => `${config.api.root}/events/${event._id}/actions/unpublish`,
+      href: event => `/events/${event._id}/actions/unpublish`,
       query: {status: "public"},
       action: event => {
         event.status = "draft";
