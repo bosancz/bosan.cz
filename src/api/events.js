@@ -87,7 +87,7 @@ router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (re
 router.post("/", acl("events:create"), async (req,res,next) => {
 
   var event = await createEvent(req.body);
-  res.location("/events/" + event._id);
+  res.location(`${config.api.root}/events/${event._id}`);
   res.sendStatus(201);
 });     
 
