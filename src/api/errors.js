@@ -13,16 +13,19 @@ const validate = require("../validator");
 const getErrorsSchema = {
   type: 'object',
   properties: {
-    "from": { type: "string", format: "date" },
-    "till": { type: "string", format: "date" }
+    "from": { type: "string", format: "date-time" },
+    "till": { type: "string", format: "date-time" }
   },
   additionalProperties: false
 };
 
 router.get("/", validate({query:getErrorsSchema}), acl("errors:list"), async (req,res,next) => {
-  var errors = ReportedError.find({}).select("_id message timestamp url").populate("user","_id login").sort("-timestamp");
+  var query = ReportedError.find({}).select("_id message timestamp url").populate("user","_id login").sort("-timestamp");
 
-  res.json(await errors);
+  if(req.query.from) query.where({timestamp: { $gte: new Date(req.query.from) }});
+  if(req.query.till) query.where({timestamp: { $lt: new Date(req.query.till) }});
+  
+  res.json(await query);
 });
 
 router.post("/", acl("errors:create"), async (req,res) => {
