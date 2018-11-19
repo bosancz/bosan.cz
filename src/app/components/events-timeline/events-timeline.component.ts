@@ -9,10 +9,6 @@ import { Event } from "app/schema/event";
 import { Member } from "app/schema/member";
 import { WebConfigEventType, WebConfigEventSubType } from "app/schema/webconfig";
 
-class TimelineEvent extends Event {
-  appeared?:boolean = false;
-}
-
 @Component({
   selector: 'events-timeline',
   templateUrl: "events-timeline.component.html",
@@ -32,7 +28,9 @@ export class EventsTimelineComponent implements OnInit {
 
   @Input() full:boolean = false;
 
-  events:TimelineEvent[]= [];
+  events:Event[]= [];
+  
+  loading:boolean = false;
 
   constructor(private api:ApiService, private configService:ConfigService, private toastService:ToastService) { }
 
@@ -41,14 +39,16 @@ export class EventsTimelineComponent implements OnInit {
   }
 
   async loadEvents(){
+    
+    this.loading = true;
+    
     let options = {
-      limit: this.limit || undefined,
-      days: this.days || undefined
+      dateFrom: (new Date()).toISOString().split("T")[0]
     };
 
-    this.events = await this.api.get<Event[]>("events:upcoming",options);
+    this.events = await this.api.get<Event[]>("events:program",options);
 
-    // set the apeared variable, wil be true when scrolled into view
-    this.events.forEach(event => event.appeared = false);
+    this.loading = false;
+    
   }
 }

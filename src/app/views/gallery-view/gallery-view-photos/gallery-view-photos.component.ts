@@ -164,7 +164,7 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   showControls():void{
     this.controlsState = "visible";
     clearTimeout(this.controlsTimeout);
-    this.controlsTimeout = setTimeout(() => this.controlsState = "hidden",1500);
+    this.controlsTimeout = setTimeout(() => this.controlsState = "hidden",2000);
   }
 
 }

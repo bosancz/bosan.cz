@@ -1,64 +1,102 @@
 import { Injectable } from '@angular/core';
 
+import { environment } from "../../environments/environment";
+
 declare const gapi:any;
 
 declare const window:any;
+
+export class GoogleError extends Error {
+  description?:string;
+}
+  
 
 @Injectable({
   providedIn: 'root'
 })
 export class GoogleService {
-  
+
   gapi:any;
-  
-  auth2:any;
 
   constructor() {
-    
-    this.gapi = this.loadgapi();
-    
-    this.auth2 = this.gapi.then(gapi => this.loadAuth2(gapi));
-  }
-   
-  loadAuth2(gapi){
-    return new Promise((resolve,reject) => {
-      gapi.load('auth2', () => {
 
-        const auth2 = gapi.auth2.init({
-          client_id: '249555539983-j8rvff7bovgnecsmjffe0a3dj55j33hh.apps.googleusercontent.com',
-          cookiepolicy: 'single_host_origin',
-          scope: 'profile email'
-        });
-        
-        if(auth2) resolve(auth2);
-        else reject();
-      });
+    this.gapi = this.load_gapi();
+
+  }
+
+  async load_gapi(){
+    // wait for the GAPI <script> to be loaded
+    const gapi:any = await new Promise((resolve,reject) => {
+      if(window.gapi){
+        resolve(window.gapi);
+      }
+      else{
+        window.gapi_loaded = function() { resolve(window.gapi); }
+      }
     });
 
+    // https://github.com/google/google-api-javascript-client/blob/master/samples/loadedDiscovery.html
+    await new Promise((resolve,reject) => {
+      gapi.load('client:auth2', resolve);
+    });
+    
+    try{
+      await gapi.client.init(environment.gapi);
+    }
+    catch(googleErr){
+      const err = new GoogleError(googleErr.error);
+      err.description = googleErr.details;
+      throw err;
+    }     
+    
+    return gapi;
   }
   
-  loadgapi(){
-    if(window.gapi) return Promise.resolve(window.gapi);
-    else{
-      return new Promise((resolve,reject) => {
-        window.gapi_loaded = function(){ resolve(window.gapi); }
-      });
-    }
+  async getAuth2(){
+    const gapi = await this.gapi;
+    return gapi.auth2.getAuthInstance();
   }
-
+  
   async signIn():Promise<string>{
 
-    const auth2 = await this.auth2;
+    try{
+      const auth2 = await this.getAuth2();
 
-    await auth2.signIn();
+      await auth2.signIn();
 
-    const token = auth2.currentUser.get().getAuthResponse(true).id_token;
+      const token = auth2.currentUser.get().getAuthResponse(true).id_token;
 
-    return token;
+      return token;
+    }
+    catch(googleErr){
+      const err = new GoogleError(googleErr.error);
+      err.description = googleErr.details;
+      throw err;
+    }
+
   }
 
   async signOut():Promise<void>{
-    const auth2 = await this.auth2;
+    const auth2 = await this.getAuth2();
     await auth2.signOut();
+  }
+  
+  async isSignedIn():Promise<boolean> {
+    const auth2 = await this.getAuth2();
+    return await auth2.isSignedIn.get();
+  }
+  
+  async getCurrentUser() {
+    
+    if(!await this.isSignedIn()) return null;
+    
+    const auth2 = await this.getAuth2();
+    
+    let profile = auth2.currentUser.get().getBasicProfile();
+    
+    return {
+      email: profile.getEmail(),
+      token: auth2.currentUser.get().getAuthResponse(true).id_token
+    };
   }
 }

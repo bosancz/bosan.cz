@@ -126,17 +126,15 @@ export class AppComponent implements OnInit {
   }
   
   async checkGoogleLogin(){
-    const auth2 = await this.googleService.auth2;
 
-    const signedIn:boolean = auth2.isSignedIn.get();
+    const googleUser:any = await this.googleService.getCurrentUser();
     
-    console.log("Checking google login... " + (signedIn ? "signed in." : "not signed in."));
-    if(signedIn){
+    if(googleUser){
+      
+      console.log("GoogleService: Logged in as " + googleUser.email);
+      
       try{
-        let profile = auth2.currentUser.get().getBasicProfile();
-        console.log("Google user:",profile.getEmail());
-        let token:string = auth2.currentUser.get().getAuthResponse(true).id_token;
-        await this.authService.googleLogin(token); 
+        await this.authService.googleLogin(googleUser.token); 
       } catch(err){
         console.log(err);
       }

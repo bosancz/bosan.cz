@@ -6,8 +6,8 @@
         <p>{{event.description}}</p>
       </div>
       <div class="col-md-3 buttons">
-        <button class="btn btn-primary btn-sm" (click)="publishEvent(event)">Schválit</button>
-        <a [routerLink]="'/interni/akce/' + event._id" class="btn btn-light btn-sm">Upravit info</a>
+        <button *ngIf="event._actions.publish" class="btn btn-primary btn-sm" (click)="publishEvent(event)">Schválit</button>
+        <a [routerLink]="'/interni/obsah/akce/' + event._id" class="btn btn-light btn-sm">Upravit info</a>
       </div>
   </div>
 </div>

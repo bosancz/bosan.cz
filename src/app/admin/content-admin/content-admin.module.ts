@@ -53,6 +53,8 @@ import { CodelistEditorComponent } from './components/codelist-editor/codelist-e
 import { TypeaheadFieldComponent } from './components/typeahead-field/typeahead-field.component';
 import { PhotoTagsEditorComponent } from './components/photo-tags-editor/photo-tags-editor.component';
 import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
+import { ErrorsAdminComponent } from './views/errors-admin/errors-admin.component';
+import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admin.component';
 
 @NgModule({
   imports: [
@@ -74,7 +76,7 @@ import { GroupsSelectComponent } from './components/groups-select/groups-select.
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, GroupsSelectComponent, EventAdminPaymentsComponent
+    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, GroupsSelectComponent, EventAdminPaymentsComponent, ErrorsAdminComponent, ErrorAdminComponent
     
   ]
 })
