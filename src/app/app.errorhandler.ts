@@ -18,7 +18,19 @@ export class AppErrorHandler implements ErrorHandler {
 
     if (err.promise && err.rejection) err = err.rejection;
 
+    const errorData = {
+      message: err.message,
+      status: err.status,
+      description: err.description,
+      stack: err.stack,
+      url: window.location.href,
+      ng: {}
+    };
+
     if (err instanceof HttpErrorResponse) {
+      
+      errorData.description = JSON.stringify(err.error,undefined,"  ");
+      
       // Server or connection error happened
       if (!navigator.onLine) {
         toastService.toast("Chybí připojení k internetu", "error");
@@ -27,27 +39,20 @@ export class AppErrorHandler implements ErrorHandler {
       } else {
         toastService.toast("Chyba serveru: " + err.message, "error");
       }
-      console.error(err);
+
     } else {
       toastService.toast("Nastala neočekávaná chyba :(", "error"); // TODO: message as a config
-      console.error(err);
     }
+    
+    console.error(err);
 
-    const errorData = {
-      message: err.message,
-      status: (err instanceof HttpErrorResponse && err.error) ? err.error.status : undefined,
-      description: err.description,
-      stack: err.stack,
-      url: window.location.href,
-      ng: {}
-    };
     if(err.ngDebugContext){
       errorData.ng = {
         component: err.ngDebugContext.component ? err.ngDebugContext.component.constructor.name : undefined,
         environment: environment.production ? "production" : "development"
       }
     }
-    
+
     api.post("errors", errorData)
       .then(() => toastService.toast("Zpráva o chybě byla zaznamenána."))
       .catch(err => console.error(err));

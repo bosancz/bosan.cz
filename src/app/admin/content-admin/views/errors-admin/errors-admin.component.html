@@ -9,7 +9,7 @@
 
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'week'}]" [class.active]="view === 'week'">Posledních 7 dní</a></li>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'all'}]" [class.active]="view === 'all'">Vše</a></li>
+          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'older'}]" [class.active]="view === 'older'">Starší</a></li>
         </ul>
 
       </div>
@@ -27,8 +27,8 @@
           <tbody>
             <tr *ngFor="let error of errors" [routerLink]="['../chyby',error._id]">
               <td class="date">{{error.timestamp | date:"d. M. y H:mm:ss"}}</td>
-              <td>{{error.message}}</td>
-              <td>{{error.user?.login || "-"}}</td>
+              <td class="message"><span [title]="error.message">{{error.message}}</span></td>
+              <td class="user">{{error.user?.login || "-"}}</td>
             </tr>
           </tbody>
         </table>
