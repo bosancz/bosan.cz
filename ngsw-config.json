@@ -24,19 +24,6 @@
       }
     },
     {
-      "name": "api",
-      "installMode": "lazy",
-      "updateMode": "prefetch",
-      "resources": {
-        "urls": [
-          "https://bosan.cz/api",
-          "https://bosan.cz/api/config",
-          "https://bosan.cz/api/events/program",
-          "https://bosan.cz/api/albums/recent?limit=3"
-        ]
-      }
-    },
-    {
       "name": "vendor",
       "installMode": "lazy",
       "updateMode": "prefetch",
@@ -46,6 +33,22 @@
           "https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700",
           "https://use.fontawesome.com/releases/v5.0.10/css/all.css"
         ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "https://bosan.cz/api",
+        "https://bosan.cz/api/config",
+        "https://bosan.cz/api/events/program",
+        "https://bosan.cz/api/albums/recent?limit=3"
+      ],
+      "cacheConfig": {
+        "strategy": "performance"
       }
     }
   ]
