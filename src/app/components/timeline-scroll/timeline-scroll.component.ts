@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, ElementRef, HostListener, ViewChild, ApplicationRef } from '@angular/core';
 
 export interface TimelinePoint {
   y:number;
@@ -53,13 +53,16 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   timelineMouseMoveHandler:any;
 
-  constructor(private changeDetectorRef:ChangeDetectorRef) {
+  constructor(private changeDetectorRef:ChangeDetectorRef,private applicationRef:ApplicationRef) {
     this.timelineMouseMoveHandler = function(event){this.timelineMouseMove(event);}.bind(this);
   }
 
   ngAfterViewInit(){
     // there is no event to check for div resize :(
-    this.resizeCheckInterval = window.setInterval(() => this.updateDimensions(),500);
+    this.applicationRef.isStable.subscribe((s) => { // https://github.com/angular/angular/issues/20970
+      if(s) this.resizeCheckInterval = window.setInterval(() => this.updateDimensions(),500);
+      else window.clearInterval(this.resizeCheckInterval);
+    });
   }
 
   ngOnDestroy(){

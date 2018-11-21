@@ -5,6 +5,8 @@ import { AppComponent } from 'app/app.component';
 import { AppRoutingModule } from 'app/app-routing.module';
 import { AppErrorHandler } from "app/app.errorhandler";
 
+import { ServiceWorkerModule } from '@angular/service-worker';
+
 /* SHARED */
 import { AppSharedModule } from "app/modules/app-shared.module";
 
@@ -41,6 +43,8 @@ import { LoginFormComponent } from 'app/components/login-form/login-form.compone
 import { TimelineScrollComponent } from 'app/components/timeline-scroll/timeline-scroll.component';
 import { PhotoGalleryComponent } from "app/components/photo-gallery/photo-gallery.component";
 
+import { NotFoundComponent } from './views/not-found/not-found.component';
+
 // Directives
 import { AdminLinkDirective } from 'app/directives/admin-link.directive';
 
@@ -57,7 +61,8 @@ import { SharingModalComponent } from './components/sharing-modal/sharing-modal.
 import { ShareUrlDirective } from './directives/share-url.directive';
 
 import { environment } from "environments/environment";
-import { NotFoundComponent } from './views/not-found/not-found.component';
+
+console.log("Angular is running in " + (environment.production ? "production" : "development") + " environment");
 
 // settings for JWT
 export function JwtTokenGetter():string{
@@ -94,7 +99,9 @@ export const jwtOptions = {
 
     ScrollToModule.forRoot(),
 
-    JwtModule.forRoot(jwtOptions)
+    JwtModule.forRoot(jwtOptions),
+
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     /* Services */ ACLService, AuthService, DataService, ToastService, MenuService, ApiService,
