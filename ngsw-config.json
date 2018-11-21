@@ -39,8 +39,6 @@
   "dataGroups": [
     {
       "name": "api",
-      "installMode": "lazy",
-      "updateMode": "prefetch",
       "urls": [
         "https://bosan.cz/api",
         "https://bosan.cz/api/config",
@@ -48,7 +46,7 @@
         "https://bosan.cz/api/albums/recent?limit=3"
       ],
       "cacheConfig": {
-        "strategy": "performance"
+        "strategy": "freshness"
       }
     }
   ]
