@@ -17,7 +17,8 @@
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles/styles.scss"
@@ -40,7 +41,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "serviceWorker": true
             }
           }
         },
@@ -78,15 +80,10 @@
   "defaultProject": "bosan.cz",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "",
-      "styleExt": "scss",
       "spec": false
     },
     "@schematics/angular:directive": {
       "prefix": "",
-      "spec":false
-    },
-    "@schematics/angular:component": {
       "spec": false
     },
     "@schematics/angular:service": {
