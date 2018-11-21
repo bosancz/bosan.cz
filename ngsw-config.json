@@ -46,7 +46,9 @@
         "/api/albums/recent?limit=3"
       ],
       "cacheConfig": {
-        "strategy": "freshness"
+        "strategy": "freshness",
+        "maxSize": 10,
+        "maxAge": "7d"
       }
     }
   ]
