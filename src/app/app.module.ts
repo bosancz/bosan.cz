@@ -62,6 +62,8 @@ import { ShareUrlDirective } from './directives/share-url.directive';
 
 import { environment } from "environments/environment";
 
+console.log("Angular is running in " + (environment.production ? "production" : "development") + " environment");
+
 // settings for JWT
 export function JwtTokenGetter():string{
   return localStorage.getItem('id_token') || "";

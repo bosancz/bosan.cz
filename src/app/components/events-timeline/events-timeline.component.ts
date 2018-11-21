@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { trigger, state,  style, animate, transition } from '@angular/animations';
 
 import { ConfigService } from "app/services/config.service";
 import { ApiService } from "app/services/api.service";
@@ -12,12 +11,7 @@ import { WebConfigEventType, WebConfigEventSubType } from "app/schema/webconfig"
 @Component({
   selector: 'events-timeline',
   templateUrl: "events-timeline.component.html",
-  styleUrls: ["events-timeline.component.scss"],
-  animations: [
-    trigger("eventWow", [
-      transition('notappeared => appeared', [style({opacity:0}),animate('500ms 100ms',style({opacity:1}))])
-    ])
-  ]
+  styleUrls: ["events-timeline.component.scss"]
 })
 export class EventsTimelineComponent implements OnInit {
 
@@ -42,11 +36,7 @@ export class EventsTimelineComponent implements OnInit {
     
     this.loading = true;
     
-    let options = {
-      dateFrom: (new Date()).toISOString().split("T")[0]
-    };
-
-    this.events = await this.api.get<Event[]>("events:program",options);
+    this.events = await this.api.get<Event[]>("events:program");
 
     this.loading = false;
     

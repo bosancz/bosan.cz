@@ -4,16 +4,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from "../environments/environment";
 
 import { ToastService } from "./services/toast.service";
+import { OnlineService } from "./services/online.service";
 import { ApiService } from "./services/api.service";
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
 
-  constructor(private injector: Injector) {}
+  constructor(private injector: Injector) {
+    
+  }
 
   handleError(err: any) {
 
     const toastService = this.injector.get(ToastService);
+    const onlineService = this.injector.get(OnlineService);
     const api = this.injector.get(ApiService);
 
     if (err.promise && err.rejection) err = err.rejection;
@@ -32,9 +36,9 @@ export class AppErrorHandler implements ErrorHandler {
       errorData.description = JSON.stringify(err.error,undefined,"  ");
       
       // Server or connection error happened
-      if (!navigator.onLine) {
-        toastService.toast("Chybí připojení k internetu", "error");
-      } else if (err.status === 401) {
+      if (!onlineService.online.value) return;
+      
+      if (err.status === 401) {
         toastService.toast("K této akci nemáte oprávnění.", "error");
       } else {
         toastService.toast("Chyba serveru: " + err.message, "error");

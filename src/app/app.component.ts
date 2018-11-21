@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart, NavigationEnd, Params } from '@angular/router';
+import { SwUpdate } from "@angular/service-worker";
 import { Observable } from 'rxjs';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -11,6 +12,7 @@ import { ConfigService } from "app/services/config.service";
 import { ToastService, Toast } from "app/services/toast.service";
 import { MenuService } from "app/services/menu.service";
 import { GoogleService } from "app/services/google.service";
+import { OnlineService } from "app/services/online.service";
 
 import { LoginFormComponent } from "app/components/login-form/login-form.component";
 
@@ -35,7 +37,7 @@ export class AppComponent implements OnInit {
   
   environment:string;
 
-  constructor(private configService:ConfigService, public authService:AuthService, private aclService:ACLService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService,private router:Router,private route:ActivatedRoute,  @Inject(AppConfig) private config:IAppConfig, private googleService:GoogleService){
+  constructor(private configService:ConfigService, public authService:AuthService, private aclService:ACLService, public toastService:ToastService, private modalService:BsModalService, public menuService:MenuService, private router:Router, private route:ActivatedRoute,  @Inject(AppConfig) private config:IAppConfig, private googleService:GoogleService, public onlineService:OnlineService, public swUpdate:SwUpdate){
     aclService.routes = config.acl.routes;
     aclService.default = config.acl.default;
   }

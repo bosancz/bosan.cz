@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, ApplicationRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject }    from 'rxjs';
 
@@ -35,14 +35,19 @@ export class AuthService {
   // current user (use blank user as default)
   user:AuthUser = new AuthUser;
 
-  constructor(private http:HttpClient, private jwtHelper:JwtHelperService){
+  renewInterval:number;
+  
+  constructor(private http:HttpClient, private jwtHelper:JwtHelperService, applicationRef:ApplicationRef){
 
     // refresh user data to match token
     this.refreshState();
 
     // periodically renew token and check token validity
-    setInterval(() => this.renewToken(), 5 * 60 * 1000);
-    setInterval(() => this.refreshState(), 5 * 1000);
+    applicationRef.isStable.subscribe((s) => { // https://github.com/angular/angular/issues/20970
+      if (s) this.renewInterval = window.setInterval(() => this.renewToken(), 5 * 60 * 1000);
+      else window.clearInterval(this.renewInterval);
+    });
+    
   }
 
   saveToken(token){
