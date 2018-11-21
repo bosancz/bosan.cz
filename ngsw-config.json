@@ -40,10 +40,10 @@
     {
       "name": "api",
       "urls": [
-        "https://bosan.cz/api",
-        "https://bosan.cz/api/config",
-        "https://bosan.cz/api/events/program",
-        "https://bosan.cz/api/albums/recent?limit=3"
+        "/api",
+        "/api/config",
+        "/api/events/program",
+        "/api/albums/recent?limit=3"
       ],
       "cacheConfig": {
         "strategy": "freshness"
