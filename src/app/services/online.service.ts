@@ -7,7 +7,7 @@ import { BehaviorSubject } from "rxjs";
 })
 export class OnlineService {
 
-  online:BehaviorSubject<boolean> = new BehaviorSubject(true);
+  online:BehaviorSubject<boolean> = new BehaviorSubject(window.navigator.onLine);
 
   constructor() {
     this.watch();
