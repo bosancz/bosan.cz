@@ -134,7 +134,7 @@ router.get("/program", validate({query:getEventsProgramSchema}), acl("events:pro
   query.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
   query.populate("leaders","_id name nickname group contacts.mobile");
 
-  if(req.query.dateFrom) query.where({ dateTill: { $gte: new Date(req.query.dateFrom) } });
+  query.where({ dateTill: { $gte: req.query.dateFrom ? new Date(req.query.dateFrom) : new Date() } });
   if(req.query.dateTill) query.where({ dateFrom: { $lte: new Date(req.query.dateTill) } });
 
   query.sort("dateFrom order");  
