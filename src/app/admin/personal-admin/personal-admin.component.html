@@ -6,10 +6,11 @@
       <a routerLink="sprava-programu" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Správa programu</a>
       <a routerLink="oddil" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Vedení oddílu</a>
       <a routerLink="kanal" routerLinkActive="active">Troja</a>
-      <a routerLink="dokumenty" routerLinkActive="active">Dokumenty</a>
       <a routerLink="admin" routerLinkActive="active">Nastavení účtu</a>
     </div>
   </nav>
 
-  <router-outlet></router-outlet>
+  <div id="adminPage">
+    <router-outlet></router-outlet>
+  </div>
 </div>

@@ -17,11 +17,11 @@ Je k dispozici nová verze bosan.cz. Obnovte stránku pro její načtení.
 -->
 
 <!-- Navigation -->
-<page-menu></page-menu>
+<page-menu *ngIf="layoutService.menu.visible"></page-menu>
 
 <!-- MAIN CONTENT -->
-<div id="page" [style.margin-top]="layoutService.menu.transparent ? '0' : '60px'">
+<div id="page" [style.margin-top]="(layoutService.menu.transparent || !layoutService.menu.visible) ? '0' : '60px'">
   <router-outlet></router-outlet>
 </div>
 
-<page-footer></page-footer>
+<page-footer *ngIf="layoutService.footer.visible"></page-footer>

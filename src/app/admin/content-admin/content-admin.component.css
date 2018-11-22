@@ -1,9 +1,0 @@
-nav{background-color:#666;padding:0;}
-
-nav a{display:inline-block;padding:5px 10px;margin:0 10px;text-decoration:none;color:#fff;transition: background-color 250ms, color 250ms;}
-nav a:hover{background-color:#ccc;color:#333 !important;}
-nav a.active{background-color:#fff;color:#333;}
-
-nav a:first-child{margin-left:0;}
-nav a:last-child{margin-right:0;}
-
