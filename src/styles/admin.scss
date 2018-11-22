@@ -2,7 +2,20 @@
 @import '~styles/variables';
 
 #admin {
-  /* ADMIN */
+
+  > nav{
+    position:fixed;top:60px;left:0;right:0;background-color:#666;padding:0;z-index:1000;
+
+    a{display:inline-block;padding:5px 10px;margin:0 10px;text-decoration:none;color:#fff;transition: background-color 250ms, color 250ms;}
+    a:hover{background-color:#ccc;color:#333 !important;}
+    a.active{background-color:#fff;color:#333;}
+
+    a:first-child{margin-left:0;}
+    a:last-child{margin-right:0;}
+  }
+  
+  #adminPage{margin-top:94px;}
+  
   h2{margin-bottom:20px;}
   h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
   

@@ -56,8 +56,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
 
   ngOnInit() {  
     
-    this.layoutService.footer.visible = false;
-    this.layoutService.menu.visible = false;
+    this.layoutService.hideMenu(true);
+    this.layoutService.hideFooter(true);
     
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       
@@ -75,8 +75,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   }
   
   ngOnDestroy(){
-    this.layoutService.footer.visible = true;
-    this.layoutService.menu.visible = true;
+    this.layoutService.hideMenu(false);
+    this.layoutService.hideFooter(false);
     this.paramsSubscription.unsubscribe();
   }
   
