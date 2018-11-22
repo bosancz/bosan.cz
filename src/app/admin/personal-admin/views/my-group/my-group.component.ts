@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MyGroupService } from "./my-group.service";
+
 @Component({
   selector: 'my-group',
   templateUrl: './my-group.component.html',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyGroupComponent implements OnInit {
 
-  constructor() { }
+  constructor(private groupService:MyGroupService) { }
 
   ngOnInit() {
+    this.loadGroup();
+  }
+  
+  async loadGroup(){
+    
   }
 
 }
