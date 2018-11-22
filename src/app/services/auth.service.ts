@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, ApplicationRef } from '@angular/core';
+import { Injectable, EventEmitter, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject }    from 'rxjs';
 
@@ -36,18 +36,19 @@ export class AuthService {
   user:AuthUser = new AuthUser;
 
   renewInterval:number;
-  
-  constructor(private http:HttpClient, private jwtHelper:JwtHelperService, applicationRef:ApplicationRef){
+
+  constructor(private http:HttpClient, private jwtHelper:JwtHelperService, ngZone:NgZone){
 
     // refresh user data to match token
     this.refreshState();
 
     // periodically renew token and check token validity
-    applicationRef.isStable.subscribe((s) => { // https://github.com/angular/angular/issues/20970
-      if (s) this.renewInterval = window.setInterval(() => this.renewToken(), 5 * 60 * 1000);
-      else window.clearInterval(this.renewInterval);
+    ngZone.runOutsideAngular(() => { // https://github.com/angular/angular/issues/20970
+      this.renewInterval = window.setInterval(() => {
+        ngZone.run(() => this.renewToken());
+      }, 5 * 60 * 1000);
     });
-    
+
   }
 
   saveToken(token){
@@ -155,9 +156,9 @@ export class AuthService {
     let isExpired = this.jwtHelper.isTokenExpired(token);
 
     let userData;
-    
+
     try{
-       userData = this.jwtHelper.decodeToken(token);
+      userData = this.jwtHelper.decodeToken(token);
     }
     catch(err) {
       console.error("Invalid JWT token, deleting.");
