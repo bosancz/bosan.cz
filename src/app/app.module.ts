@@ -10,14 +10,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 /* SHARED */
 import { AppSharedModule } from "app/modules/app-shared.module";
 
-/* SERVICES */
-import { ACLService } from "app/services/acl.service";
-import { AuthService } from "app/services/auth.service";
-import { DataService } from "app/services/data.service";
-import { ToastService } from "app/services/toast.service";
-import { MenuService } from "app/services/menu.service";
-import { ApiService } from "app/services/api.service";
-
 /* VIEWS */
 import { AboutViewComponent } from 'app/views/about-view/about-view.component';
 import { CampViewComponent } from 'app/views/camp-view/camp-view.component';
@@ -61,6 +53,8 @@ import { SharingModalComponent } from './components/sharing-modal/sharing-modal.
 import { ShareUrlDirective } from './directives/share-url.directive';
 
 import { environment } from "environments/environment";
+import { PageMenuComponent } from './components/page-menu/page-menu.component';
+import { PageFooterComponent } from './components/page-footer/page-footer.component';
 
 console.log("Angular is running in " + (environment.production ? "production" : "development") + " environment");
 
@@ -89,7 +83,7 @@ export const jwtOptions = {
 
     /* DIRECTIVES */ AdminLinkDirective,
 
-    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective, PhotoGalleryComponent
+    /* COMPONENTS */ ContactCardComponent, LoginFormComponent, TimelineScrollComponent, GalleryAlbumComponent, SharingModalComponent, ShareUrlDirective, PhotoGalleryComponent, PageMenuComponent, PageFooterComponent
   ],
   imports: [
     BrowserAnimationsModule,    
@@ -104,7 +98,6 @@ export const jwtOptions = {
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    /* Services */ ACLService, AuthService, DataService, ToastService, MenuService, ApiService,
     /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler },
     /* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
   ],

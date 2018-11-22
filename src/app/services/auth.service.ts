@@ -17,7 +17,9 @@ export class AuthUser{
 /**
 	* Service to save user information and commnicate user data with server
 	*/
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
   apiRoot:string = environment.apiRoot;

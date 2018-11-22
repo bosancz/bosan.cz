@@ -1,0 +1,31 @@
+@import '~styles/variables';
+
+footer {
+  background-color: $black70;
+}
+
+footer img.logo{
+  height: 20vh;
+}
+
+footer h4{
+  color: $white;
+}
+
+footer li{
+  display: block;
+}
+
+footer a{
+  color: $white;
+  text-decoration: none;
+  font-weight:bold;
+}
+
+footer a:hover{
+  color: $hover-yellow;
+}
+
+footer i{
+  font-size: 5vh;
+}
