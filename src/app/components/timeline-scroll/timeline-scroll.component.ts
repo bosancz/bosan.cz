@@ -60,11 +60,6 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(){
     // there is no event to check for div resize :(
-    /*this.appStableSubscription = this.applicationRef.isStable.subscribe((s) => { // https://github.com/angular/angular/issues/20970
-      if(s) this.resizeCheckInterval = window.setInterval(() => this.updateDimensions(),500);
-      else window.clearInterval(this.resizeCheckInterval);
-    });*/
-
     this.ngZone.runOutsideAngular(() => {
       this.resizeCheckInterval = window.setInterval(() => {
         this.ngZone.run(() => this.updateDimensions());
@@ -73,13 +68,11 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    console.log("destroy");
     window.clearInterval(this.resizeCheckInterval);
   }
 
   @HostListener('window:scroll', [])
   updateScroll():void{
-    console.log("updateScroll");
     this.updateTimeline();
     this.updateVisiblePoints();
     this.changeDetectorRef.detectChanges();
@@ -87,8 +80,6 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   @HostListener('window:resize', [])
   updateDimensions():number{
-
-    console.log("updateDimensions",this.points.length);
 
     let el = this.container.nativeElement;
 
