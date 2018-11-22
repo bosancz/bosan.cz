@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from "rxjs";
 
 import { MyGroupService } from "./my-group.service";
+
+import { Group } from "app/schema/group";
 
 @Component({
   selector: 'my-group',
@@ -8,15 +11,13 @@ import { MyGroupService } from "./my-group.service";
   styleUrls: ['./my-group.component.scss']
 })
 export class MyGroupComponent implements OnInit {
+  
+  group:Observable<Group>
 
   constructor(private groupService:MyGroupService) { }
 
   ngOnInit() {
-    this.loadGroup();
-  }
-  
-  async loadGroup(){
-    
+    this.group = this.groupService.group;
   }
 
 }
