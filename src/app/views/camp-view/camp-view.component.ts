@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { Router } from "@angular/router";
 
 import { ConfigService } from "app/services/config.service";
-import { MenuService } from "app/services/menu.service";
+import { LayoutService } from "app/services/layout.service";
 import { TitleService } from "app/services/title.service";
 
 import { Photo } from "app/schema/photo";
@@ -31,8 +31,8 @@ export class CampViewComponent implements OnInit, OnDestroy {
   
   mapUrl:string;
   
-  constructor(private menuService:MenuService, private titleService:TitleService, private configService:ConfigService, private router:Router) {
-    this.menuService.transparent = true;
+  constructor(private layoutService:LayoutService, private titleService:TitleService, private configService:ConfigService, private router:Router) {
+    this.layoutService.menu.transparent = true;
   }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class CampViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.menuService.transparent = false;
+    this.layoutService.menu.transparent = false;
   }
   
   loadMapUrl(){

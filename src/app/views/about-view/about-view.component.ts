@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 
 import { ConfigService } from "app/services/config.service";
 import { ToastService } from "app/services/toast.service";
-import { MenuService } from "app/services/menu.service";
+import { LayoutService } from "app/services/layout.service";
 import { TitleService } from "app/services/title.service";
 
 import { Contact } from "app/schema/contact";
@@ -19,8 +19,8 @@ export class AboutViewComponent implements OnInit, OnDestroy {
   
   mapUrl:string;
 
-  constructor(private configService:ConfigService, private toastService:ToastService, private menuService:MenuService, private router:Router, private titleService:TitleService) {
-    this.menuService.transparent = true;
+  constructor(private configService:ConfigService, private toastService:ToastService, private layoutService:LayoutService, private router:Router, private titleService:TitleService) {
+    this.layoutService.menu.transparent = true;
   }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class AboutViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.menuService.transparent = false;
+    this.layoutService.menu.transparent = false;
   }
   
   slideDown(){

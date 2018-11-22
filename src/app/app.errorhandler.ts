@@ -54,7 +54,7 @@ export class AppErrorHandler implements ErrorHandler {
     }
     else {
       toastService.toast("Nastala neočekávaná chyba :(\nReport byl odeslán.", "error"); // TODO: message as a config
-      console.error({err});
+      console.error(err);
     }
     
     if(err.ngDebugContext){

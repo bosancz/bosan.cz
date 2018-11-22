@@ -1,7 +1,7 @@
 <div id="toasts">
   <ul class="text-center" (click)="clearToasts()">
     <li *ngFor="let toast of toasts" [class]="toast.status">
-      <p>{{toast.text | nl2br}}</p>
+      <p [innerHTML]="toast.text | nl2br"></p>
     </li>
   </ul>
 </div>
@@ -12,99 +12,16 @@
 
 <!--
 <div *ngIf="swUpdate.available | async" id="update" class="text-center bg-warning text-light">
-  Je k dispozici nová verze bosan.cz. Obnovte stránku pro její načtení.
+Je k dispozici nová verze bosan.cz. Obnovte stránku pro její načtení.
 </div>
 -->
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="menuService.transparent && menuCollapsed">
-  <div class="container">
-
-    <a class="navbar-brand text-uppercase" routerLink="/o-nas" routerLinkActive="active">
-      <img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small mr-3" />Bosan.cz
-      <span *ngIf="environment" class="environment">{{environment}}</span>
-    </a>
-
-    <button class="navbar-toggler" (click)="menuCollapsed = !menuCollapsed" type="button">
-      <i class="fa fa-bars"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="collapsibleNavbar" [collapse]="menuCollapsed">
-      <div class="navbar-nav text-uppercase ml-auto" data-toggle="collapse" data-target=".navbar-collapse.show">
-        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/o-nas" routerLinkActive="active">O nás</a>
-        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
-        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/program" routerLinkActive="active">Program</a>
-        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
-        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/tabor" routerLinkActive="active">Tábor</a>
-        <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
-
-        <ng-container *ngIf="onlineService.online | async">
-          <ng-container *ngIf="!authService.logged">
-            <a class="nav-item nav-link px-lg-3" (click)="openLogin(); menuCollapsed=true" tooltip="Přihlásit se do interní sekce" placement="bottom"><i class="fa fa-lock"></i></a>
-          </ng-container>
-
-          <ng-container *ngIf="authService.logged">
-            <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/interni/moje" routerLinkActive="active" tooltip="Můj Bošán" placement="bottom"><i class="fas fa-user"></i></a>
-            <a class="nav-item nav-link px-lg-3" (click)="menuCollapsed=true" routerLink="/interni/obsah" routerLinkActive="active" tooltip="Správa obsahu" placement="bottom"><i class="fas fa-th"></i></a>
-            <a *ngIf="authService.logged" class="nav-link" (click)="logout(); menuCollapsed=true" tooltip="Odhlásit se" placement="bottom"><i class="fas fa-sign-out-alt"></i></a>
-          </ng-container>
-        </ng-container>
-      </div>
-    </div>
-  </div>
-</nav>
+<page-menu></page-menu>
 
 <!-- MAIN CONTENT -->
-<div id="page">
+<div id="page" [style.margin-top]="layoutService.menu.transparent ? '0' : '60px'">
   <router-outlet></router-outlet>
 </div>
-<!-- Footer -->
-<footer>
-  <div class="container">
 
-    <div class="row">
-
-      <div class="col-6 col-md-3 p-3">
-        <img src="/assets/img/san_logo_barva.png" class="logo">
-      </div>
-
-      <div class="col-6 col-md-3 p-3">
-        <h4 class="text-uppercase">Činnost</h4>
-        <ul class="list-unstyled">
-          <li class="pl-3 pb-1"><a routerLink="/program">Program</a></li>
-          <li class="pl-3 pb-1"><a routerLink="/fotogalerie">Fotogalerie</a></li>
-          <li class="pl-3 pb-1"><a routerLink="/tabor">Tábor</a></li>
-          <!--<a>Bazén (Suchdol)</a>
-<a>Kanál (Troja)</a>-->
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3 p-3">
-        <h4 class="text-uppercase">Kontakty</h4>
-        <ul class="list-unstyled">
-          <li class="pl-3 pb-1"><a routerLink="/kontakty" fragment="vedeni">Vedení skupiny</a></li>
-          <li class="pl-3 pb-1"><a routerLink="/kontakty" fragment="pondeli">Schůzky v pondělí</a></li>
-          <li class="pl-3 pb-1"><a routerLink="/kontakty" fragment="streda">Schůzky ve středu</a></li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3 p-3">
-        <h4 class="text-uppercase">Naši sponzoři</h4>
-        <ul class="list-unstyled">
-          <li class="pl-3 pb-1"><a href="https://www.eurosignal.cz/" target="_blank">Eurosignal</a></li>
-          <li class="pl-3 pb-1"><a href="https://www.boatpark.cz" target="_blank">Boatpark</a></li>
-          <li class="pl-3 pb-1"><a href="https://www.praha.eu" target="_blank">Hlavní město Praha</a></li>
-          <li class="pl-3 pb-1"><a href="http://www.praha4.cz/" target="_blank">MČ Praha 4</a></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <div class="row">
-      <div class="col-12 text-center">
-        <a href="https://www.facebook.com/bosan.cz/" target="_blank"><i class="p-3 fab fa-facebook"></i></a>
-        <a href="https://www.youtube.com/channel/UCXYrg3UCZtu4_wlYR2Cj_5A" target="_blank"><i class="p-3 fab fa-youtube"></i></a>
-      </div>
-    </div>
-
-  </div>
-</footer>
+<page-footer></page-footer>
