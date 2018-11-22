@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class LayoutService {
   
   public menu = {
+    visible:true,
     transparent: false,
     collapsed: true
   };

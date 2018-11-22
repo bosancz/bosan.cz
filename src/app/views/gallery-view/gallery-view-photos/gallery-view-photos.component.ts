@@ -6,7 +6,7 @@ import { trigger,state,style,animate,transition } from '@angular/animations';
 import { Subscription } from "rxjs";
 
 import { DataService } from "app/services/data.service";
-import { ToastService } from "app/services/toast.service";
+import { LayoutService } from "app/services/layout.service";
 
 import { Album, Photo } from "app/schema/album";
 
@@ -51,10 +51,14 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location) {
+  constructor(private dataService:DataService, private layoutService:LayoutService, private router:Router, private route:ActivatedRoute, private location:Location) {
   }
 
   ngOnInit() {  
+    
+    this.layoutService.footer.visible = false;
+    this.layoutService.menu.visible = false;
+    
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       
       if(!this.album || params.album !== this.album._id) this.loadAlbum(params.album);
@@ -71,6 +75,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   }
   
   ngOnDestroy(){
+    this.layoutService.footer.visible = true;
+    this.layoutService.menu.visible = true;
     this.paramsSubscription.unsubscribe();
   }
   
