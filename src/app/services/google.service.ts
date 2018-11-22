@@ -59,6 +59,7 @@ export class GoogleService {
   }
 
   getAuthInstance(){
+    if(!this.gapi) return undefined;
     return this.gapi.auth2.getAuthInstance();
   }
 
