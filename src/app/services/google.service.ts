@@ -83,12 +83,12 @@ export class GoogleService {
 
   async signOut():Promise<void>{
     const auth2 = this.getAuthInstance();
-    await auth2.signOut();
+    if(auth2) await auth2.signOut();
   }
 
   async isSignedIn():Promise<boolean> {
     const auth2 = this.getAuthInstance();
-    return await auth2.isSignedIn.get();
+    return auth2 ? await auth2.isSignedIn.get() : false;
   }
 
   async getCurrentUser() {
