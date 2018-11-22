@@ -22,11 +22,13 @@ export class TitleService {
 
   setTitle(title:string){
     this.subTitle = title;
-    this.updateTitle();
+    return this.updateTitle();
   }
 
   updateTitle(){
-    let entireTitle = (this.subTitle ? this.subTitle + " :: " : "") + this.mainTitle;
-    return this.title.setTitle(entireTitle);
+    const titleParts = [];
+    if(this.subTitle) titleParts.push(this.subTitle);
+    if(this.mainTitle) titleParts.push(this.mainTitle);
+    return this.title.setTitle(titleParts.join(" :: "));
   }
 }
