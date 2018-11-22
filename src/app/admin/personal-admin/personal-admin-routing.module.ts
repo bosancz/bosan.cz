@@ -9,7 +9,6 @@ import { AccountAdminComponent } from "./views/account-admin/account-admin.compo
 import { CanalRegistrationComponent } from "./views/canal-registration/canal-registration.component";
 import { DocumentsViewComponent } from "./views/documents-view/documents-view.component";
 import { MyEventsComponent } from "./views/my-events/my-events.component";
-import { ProgramAdminComponent } from "./views/program-admin/program-admin.component";
 
 /* SERVICES */
 import { ACLService } from "app/services/acl.service";
@@ -23,8 +22,12 @@ const routes:Routes = [
       { path: 'prehled', component: MyDashboardComponent, canActivate: [ACLService] },
 
       { path: 'vedeni-akci', component: MyEventsComponent, canActivate: [ACLService] },
+      
+      { path: 'vedeni-oddilu', loadChildren: './views/my-group/my-group.module#MyGroupModule', canActivate: [ACLService] },
 
-      { path: 'sprava-programu', loadChildren: './views/program-admin/program-admin.module#ProgramAdminModule', canActivate: [ACLService] },
+      { path: 'sprava-programu', loadChildren: './views/program/program-admin.module#ProgramAdminModule', canActivate: [ACLService] },
+      
+      { path: 'revizor', loadChildren: './views/auditor/auditor.module#AuditorModule', canActivate: [ACLService] },
 
       { path: 'kanal', component: CanalRegistrationComponent, canActivate: [ACLService] },
 
