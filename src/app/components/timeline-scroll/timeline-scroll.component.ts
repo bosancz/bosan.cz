@@ -1,4 +1,5 @@
-import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, ElementRef, HostListener, ViewChild, ApplicationRef } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, ElementRef, HostListener, ViewChild, NgZone } from '@angular/core';
+import { Subscription } from "rxjs";
 
 export interface TimelinePoint {
   y:number;
@@ -21,7 +22,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   @Input() points:TimelinePoint[] = [];
   @Input() labels:TimelineLabel[] = [];
-  
+
   @Input() showPoints:boolean = true;
   @Input() showLabels:boolean = true;
 
@@ -53,24 +54,32 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   timelineMouseMoveHandler:any;
 
-  constructor(private changeDetectorRef:ChangeDetectorRef,private applicationRef:ApplicationRef) {
+  constructor(private changeDetectorRef:ChangeDetectorRef,private ngZone:NgZone) {
     this.timelineMouseMoveHandler = function(event){this.timelineMouseMove(event);}.bind(this);
   }
 
   ngAfterViewInit(){
     // there is no event to check for div resize :(
-    this.applicationRef.isStable.subscribe((s) => { // https://github.com/angular/angular/issues/20970
+    /*this.appStableSubscription = this.applicationRef.isStable.subscribe((s) => { // https://github.com/angular/angular/issues/20970
       if(s) this.resizeCheckInterval = window.setInterval(() => this.updateDimensions(),500);
       else window.clearInterval(this.resizeCheckInterval);
+    });*/
+
+    this.ngZone.runOutsideAngular(() => {
+      this.resizeCheckInterval = window.setInterval(() => {
+        this.ngZone.run(() => this.updateDimensions());
+      },500);
     });
   }
 
   ngOnDestroy(){
+    console.log("destroy");
     window.clearInterval(this.resizeCheckInterval);
   }
 
   @HostListener('window:scroll', [])
   updateScroll():void{
+    console.log("updateScroll");
     this.updateTimeline();
     this.updateVisiblePoints();
     this.changeDetectorRef.detectChanges();
@@ -78,6 +87,8 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   @HostListener('window:resize', [])
   updateDimensions():number{
+
+    console.log("updateDimensions",this.points.length);
 
     let el = this.container.nativeElement;
 
@@ -87,7 +98,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     this.containerLeft = el.offsetLeft;
     this.containerHeight = el.offsetHeight;
     this.containerWidth = el.offsetWidth;
-    
+
     this.updateScroll();
   }
 
@@ -95,10 +106,10 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     const doc = document.documentElement;
     const top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
-    
+
     this.timelineTop = Math.max(10,this.containerTop - top);
     this.timelineBottom = Math.max(10,(top + window.innerHeight) - (this.containerTop + this.containerHeight));
-    
+
     this.timelineHeight = window.innerHeight - this.timelineBottom - this.timelineTop;
     this.timelineLeft = this.containerLeft + this.containerWidth;
 
@@ -141,16 +152,16 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   }
 
   timelineMouseMove(event){  
-    
+
     let top = event.clientY - this.timelineTop;
     let height = this.timelineHeight;
     let percentage = top/height;
-    
+
     if(this.visibleFrom === 0 && percentage <= (this.visibleTo / 2)) return;
     if(this.visibleTo === 1 && percentage >= ((this.visibleFrom + 1) / 2)) return;
-    
+
     let scroll = this.containerTop + this.containerHeight * percentage - window.innerHeight / 2;
-    
+
     window.scrollTo(0,scroll);
   }
 

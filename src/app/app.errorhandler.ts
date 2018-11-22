@@ -7,6 +7,8 @@ import { ToastService } from "./services/toast.service";
 import { OnlineService } from "./services/online.service";
 import { ApiService } from "./services/api.service";
 
+import { GoogleError } from "./services/google.service";
+
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
 
@@ -35,21 +37,26 @@ export class AppErrorHandler implements ErrorHandler {
       
       errorData.description = JSON.stringify(err.error,undefined,"  ");
       
-      // Server or connection error happened
-      if (!onlineService.online.value) return;
+      if (!onlineService.online.value) return; // dont report errors due to conenction loss
       
       if (err.status === 401) {
         toastService.toast("K této akci nemáte oprávnění.", "error");
       } else {
-        toastService.toast("Chyba serveru: " + err.message, "error");
+        toastService.toast("Nastala chyba na serveru.\nReport byl odeslán.", "error");
       }
+      
+      console.error(err);
 
-    } else {
-      toastService.toast("Nastala neočekávaná chyba :(", "error"); // TODO: message as a config
+    }
+    else if(err.name === "GoogleError"){
+      if(err.message === "idpiframe_initialization_failed") console.error("Failed to initialize Google Services");    
+      else console.error(err);
+    }
+    else {
+      toastService.toast("Nastala neočekávaná chyba :(\nReport byl odeslán.", "error"); // TODO: message as a config
+      console.error({err});
     }
     
-    console.error(err);
-
     if(err.ngDebugContext){
       errorData.ng = {
         component: err.ngDebugContext.component ? err.ngDebugContext.component.constructor.name : undefined,
@@ -57,9 +64,7 @@ export class AppErrorHandler implements ErrorHandler {
       }
     }
 
-    api.post("errors", errorData)
-      .then(() => toastService.toast("Zpráva o chybě byla zaznamenána."))
-      .catch(err => console.error(err));
+    api.post("errors", errorData).catch(err => console.error(err));
   }
 
 }
