@@ -19,7 +19,9 @@
       </div>
 
     </div>
+    
+    <div *ngIf="loading" class="loading">
+      <p>Načítám&hellip;</p>
+    </div>
   </timeline-scroll>
-
-  <p *ngIf="loading">Načítám&hellip;</p>
 </div>
