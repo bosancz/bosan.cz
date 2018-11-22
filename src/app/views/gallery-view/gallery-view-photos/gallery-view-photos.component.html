@@ -22,8 +22,8 @@
   </div>
 </div>
 
-<a *ngIf="currentI > 0" class="arrow left" (click)="openPreviousPhoto()"><i class="fas fa-chevron-circle-left fa-3x"></i></a>
-<a *ngIf="currentI < album?.photos?.length - 1" class="arrow right" (click)="openNextPhoto()"><i class="fas fa-chevron-circle-right fa-3x"></i></a>
+<a class="arrow left" (click)="openPreviousPhoto()"><i class="fas fa-chevron-circle-left fa-3x"></i></a>
+<a class="arrow right" (click)="openNextPhoto()"><i class="fas fa-chevron-circle-right fa-3x"></i></a>
 
 <div class="footer" [@controlsHide]="controlsState">
   <div *ngIf="currentPhoto?.caption" class="caption text-light text-center">
