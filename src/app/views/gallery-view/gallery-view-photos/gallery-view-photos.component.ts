@@ -154,13 +154,13 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   }
   
   openNextPhoto():void{
-    if(this.currentI >= this.album.photos.length - 1) return;
-    this.openPhoto(this.album.photos[this.currentI + 1]);
+    if(this.currentI >= this.album.photos.length - 1) this.openPhoto(this.album.photos[0]);
+    else this.openPhoto(this.album.photos[this.currentI + 1]);
   }
   
   openPreviousPhoto(){
-    if(this.currentI <= 0) return;
-    this.openPhoto(this.album.photos[this.currentI - 1]);
+    if(this.currentI <= 0) this.openPhoto(this.album.photos[this.album.photos.length - 1]);
+    else this.openPhoto(this.album.photos[this.currentI - 1]);
   }
   
   close():void{

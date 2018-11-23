@@ -24,9 +24,9 @@ export class AuthService {
 
   apiRoot:string = environment.apiRoot;
 
-  public onLogin:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);
-  public onLogout:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);
-  public onExpired:BehaviorSubject<{user:AuthUser}> = new BehaviorSubject(null);
+  public onLogin:EventEmitter<{user:AuthUser}> = new EventEmitter();
+  public onLogout:EventEmitter<{user:AuthUser}> = new EventEmitter();
+  public onExpired:EventEmitter<{user:AuthUser}> = new EventEmitter();
 
   // boolean if user is logged
   logged:boolean = false;
@@ -35,7 +35,7 @@ export class AuthService {
   token:string = null;
 
   // current user (use blank user as default)
-  user:AuthUser = new AuthUser;
+  user:BehaviorSubject<AuthUser> = new BehaviorSubject(null);
 
   renewInterval:number;
 
@@ -78,10 +78,6 @@ export class AuthService {
 
     // update state to match token from storage
     this.refreshState();
-
-    // if user is not logged at this step, token was invalid
-    if(this.logged) return this.user;
-    else throw new Error("Invalid token");
 
   }
 
@@ -174,18 +170,18 @@ export class AuthService {
       this.token = token;
 
       // set user
-      this.setUser(userData);
+      this.user.next(userData);
 
       // announce login to subscribers if applicable
-      if(!this.logged) this.onLogin.next({ user: this.user });
+      if(!this.logged) this.onLogin.emit({ user: this.user.value });
 
       this.logged = true;
 
     }	else if(token) {
 
       if(this.logged){
-        if(isExpired) this.onExpired.next({ user: this.user });
-        else this.onLogout.next({ user: this.user });
+        if(isExpired) this.onExpired.emit({ user: this.user.value });
+        else this.onLogout.emit({ user: this.user.value });
       }
 
       this.deleteToken();
@@ -204,7 +200,7 @@ export class AuthService {
     // delete token from storage
     this.deleteToken();
 
-    this.onLogout.next({ user: this.user });
+    this.onLogout.emit({ user: this.user.value });
 
     this.deleteUser();
 
@@ -216,18 +212,18 @@ export class AuthService {
 
   setUser(userData:any){
 
-    this.user = userData || new AuthUser();
+    if(!userData.roles) userData.roles = [];
+    userData.roles.push("guest");
 
-    if(!this.user.roles) this.user.roles = [];
+    this.user.next(userData);
 
-    this.user.roles.push("guest");
   }
 
   deleteUser(){
     // token invalid or missing, so set empty token and user
     this.token = null;
     this.logged = false;	
-    this.setUser(null);
+    this.user.next(null);
   }
 
 }
