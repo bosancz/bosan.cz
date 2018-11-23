@@ -25,20 +25,20 @@ export class MyEventsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadEvents();
+    this.authService.user.subscribe(user => this.loadMyEvents(user));
   }
   
-  async loadEvents(){
+  async loadMyEvents(user){
     
     this.loading = true;
     
-    const userId:string = this.authService.user.memberId;
+    const memberId:string = user.memberId;
     
     const today = new Date(); today.setHours(0,0,0,0);
     
     const requestOptions = {
       filter: {
-        leaders: userId
+        leaders: memberId
       },
       select: "_id name dateFrom dateTill description leaders attendees status",
       populate: ["leaders","attendees"]

@@ -1,31 +1,27 @@
+<div class="gallery container" #gallery>
+  <timeline-scroll [points]="timeline" [labels]="timelineLabels" (load)="loadAlbum($event)" [showPoints]="false" [bsContainer]="true">
+    <div class="albums pt-3">
 
-<section>
-  <div class="container pt-3">
+      <div *ngFor="let point of timeline;let i = index" class="album">
 
-    <timeline-scroll [points]="timeline" [labels]="timelineLabels" (load)="loadAlbum($event)" [showPoints]="false">
-      <div class="albums">
+        <gallery-album *ngIf="point.album; else dummyAlbum" [album]="point.album"></gallery-album>
 
-        <ng-container *ngFor="let point of timeline;let i = index">
-          <div class="album">
-            
-            <gallery-album *ngIf="point.album; else dummyAlbum" [album]="point.album"></gallery-album>
-
-            <ng-template #dummyAlbum>
-              <h4>{{point.name}} ({{[point.dateFrom,point.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}})</h4>
-              <div class="row photos">
-                <div class="col-sm-12 col-md-6 col-lg-4"><div class="image"></div></div>
-                <div class="col-sm-12 col-md-6 col-lg-4 d-lg-block d-none"><div class="image"></div></div>
-                <div class="col-sm-12 col-md-6 col-lg-4 d-lg-block d-md-block d-none"><div class="image"></div></div>
-              </div>
-              <p></p>
-            </ng-template>
-
+        <ng-template #dummyAlbum>
+          <h4>{{point.name}} ({{[point.dateFrom,point.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}})</h4>
+          <div class="row photos">
+            <div class="col-sm-12 col-md-6 col-lg-4"><div class="image"></div></div>
+            <div class="col-sm-12 col-md-6 col-lg-4 d-lg-block d-none"><div class="image"></div></div>
+            <div class="col-sm-12 col-md-6 col-lg-4 d-lg-block d-md-block d-none"><div class="image"></div></div>
           </div>
-        </ng-container>
+          <p></p>
+        </ng-template>
 
       </div>
-    </timeline-scroll>
 
-    <p *ngIf="loading">Načítám&hellip;</p>
-  </div>
-</section>
+    </div>
+    
+    <div *ngIf="loading" class="loading">
+      <p>Načítám&hellip;</p>
+    </div>
+  </timeline-scroll>
+</div>

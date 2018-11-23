@@ -3,6 +3,8 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
+
+import { AclModule } from "../lib/acl/acl.module";
  
 /* PIPES */
 import { JoinLeadersPipe } from 'app/pipes/join-leaders.pipe';
@@ -19,7 +21,6 @@ import { CollapseModule } from "ngx-bootstrap/collapse";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { TooltipConfig } from 'ngx-bootstrap/tooltip';
-import { NgxPermissionsModule } from 'ngx-permissions';
 import { ShareModule } from '@ngx-share/core';
 
 export function getTooltipConfig():TooltipConfig {
@@ -39,8 +40,9 @@ export function getTooltipConfig():TooltipConfig {
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
-    NgxPermissionsModule.forRoot(),
-    ShareModule.forRoot()
+    ShareModule.forRoot(),
+    
+    
   ],
   declarations: [
     /* PIPES */
@@ -50,6 +52,8 @@ export function getTooltipConfig():TooltipConfig {
     /* MODULES */ CommonModule, FormsModule, HttpClientModule,
     CollapseModule, ModalModule, TooltipModule,
     ShareModule,
+    
+    AclModule,
     
     /* PIPES */
     SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe

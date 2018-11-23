@@ -68,8 +68,8 @@ export class ApiService {
       
       const resources = await this.resources;
     
-      if(!resources[name]) throw new ApiError("Resource does not exist.");
-      if(!resources[name]._links[linkName]) throw new ApiError("Resource link does not exist.");
+      if(!resources[name]) throw new ApiError(`Resource ${name} does not exist.`);
+      if(!resources[name]._links[linkName]) throw new ApiError(`Resource link ${name}:${linkName} does not exist.`);
       
       link = resources[name]._links[linkName];
     }

@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark" [class.top]="isTop" [class.transparent]="layoutService.menu.transparent && layoutService.menu.collapsed">
+  <div class="container">
+
+    <a class="navbar-brand text-uppercase" routerLink="/o-nas" routerLinkActive="active">
+      <img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small mr-3" />Bosan.cz
+      <span *ngIf="environment" class="environment">{{environment}}</span>
+    </a>
+
+    <button class="navbar-toggler" (click)="layoutService.menu.collapsed = !layoutService.menu.collapsed" type="button">
+      <i class="fa fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar" [collapse]="layoutService.menu.collapsed">
+      <div class="navbar-nav text-uppercase ml-auto" (click)="layoutService.menu.collapsed = true">
+        <a class="nav-item nav-link px-lg-3" routerLink="/o-nas" routerLinkActive="active">O nás</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/program" routerLinkActive="active">Program</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/tabor" routerLinkActive="active">Tábor</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
+
+        <ng-container *ngIf="onlineService.online | async">
+          <ng-container *ngIf="!authService.logged">
+            <a *aclCan="'login'" class="nav-item nav-link px-lg-3" (click)="openLogin(); menuCollapsed=true" tooltip="Přihlásit se do interní sekce" placement="bottom"><i class="fa fa-lock"></i></a>
+          </ng-container>
+
+          <ng-container *ngIf="authService.logged">
+            <a class="nav-item nav-link px-lg-3" routerLink="/interni/moje" routerLinkActive="active" tooltip="Můj Bošán" placement="bottom"><i class="fas fa-user"></i></a>
+            <a class="nav-item nav-link px-lg-3" routerLink="/interni/obsah" routerLinkActive="active" tooltip="Správa obsahu" placement="bottom"><i class="fas fa-th"></i></a>
+            <a *ngIf="authService.logged" class="nav-link" (click)="logout()" tooltip="Odhlásit se" placement="bottom"><i class="fas fa-sign-out-alt"></i></a>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</nav>

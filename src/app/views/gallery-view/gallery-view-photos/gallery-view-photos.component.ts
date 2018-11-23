@@ -6,7 +6,7 @@ import { trigger,state,style,animate,transition } from '@angular/animations';
 import { Subscription } from "rxjs";
 
 import { DataService } from "app/services/data.service";
-import { ToastService } from "app/services/toast.service";
+import { LayoutService } from "app/services/layout.service";
 
 import { Album, Photo } from "app/schema/album";
 
@@ -51,10 +51,14 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private location:Location) {
+  constructor(private dataService:DataService, private layoutService:LayoutService, private router:Router, private route:ActivatedRoute, private location:Location) {
   }
 
   ngOnInit() {  
+    
+    this.layoutService.hideMenu(true);
+    this.layoutService.hideFooter(true);
+    
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
       
       if(!this.album || params.album !== this.album._id) this.loadAlbum(params.album);
@@ -71,6 +75,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   }
   
   ngOnDestroy(){
+    this.layoutService.hideMenu(false);
+    this.layoutService.hideFooter(false);
     this.paramsSubscription.unsubscribe();
   }
   
@@ -148,13 +154,13 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   }
   
   openNextPhoto():void{
-    if(this.currentI >= this.album.photos.length - 1) return;
-    this.openPhoto(this.album.photos[this.currentI + 1]);
+    if(this.currentI >= this.album.photos.length - 1) this.openPhoto(this.album.photos[0]);
+    else this.openPhoto(this.album.photos[this.currentI + 1]);
   }
   
   openPreviousPhoto(){
-    if(this.currentI <= 0) return;
-    this.openPhoto(this.album.photos[this.currentI - 1]);
+    if(this.currentI <= 0) this.openPhoto(this.album.photos[this.album.photos.length - 1]);
+    else this.openPhoto(this.album.photos[this.currentI - 1]);
   }
   
   close():void{

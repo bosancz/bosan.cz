@@ -80,7 +80,8 @@
   "defaultProject": "bosan.cz",
   "schematics": {
     "@schematics/angular:component": {
-      "spec": false
+      "spec": false,
+      "styleext": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "",

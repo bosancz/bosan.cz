@@ -1,9 +1,9 @@
-<div #container>
+<div class="contents" #contents>
   <ng-content></ng-content>
 </div>
 
-<div class="timeline" [style.top]="timelineTop + 'px'" [style.bottom]="timelineBottom + 'px'" [style.left]="timelineLeft + 'px'" (mousedown)="timelineMouseDown($event)">
-  <div class="visible" [style.top]="visibleTop + 'px'"></div>
+<div class="timeline" [style.top]="timelineDim.top + 'px'" [style.right]="timelineDim.right + 'px'" [style.bottom]="timelineDim.bottom + 'px'" (mousedown)="timelineMouseDown($event)">
+  <div class="visible" [style.top]="timelineDim.visible.mid + 'px'"></div>
   <!--<div class="visible" [style.top]="visibleFrom * 100 + '%'" [style.bottom]="(1 - visibleTo) * 100 + '%'"></div>-->
   <ng-container *ngIf="showLabels"><div class="label" *ngFor="let label of labels" [style.top]="label.y * 100 + '%'">{{label.label}}</div></ng-container>
   <ng-container *ngIf="showPoints"><div class="point" *ngFor="let point of points" [style.top]="point.y * 100 + '%'">{{point.title}}</div></ng-container>

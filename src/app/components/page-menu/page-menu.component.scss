@@ -1,0 +1,47 @@
+@import '~styles/variables';
+
+:host{display:block;}
+
+/* === NAVBAR === */
+
+nav {
+  background-color:$black70;
+  transition:background-color 1s;
+  min-height:60px;
+}
+
+nav.transparent.top{
+  background-color:transparent;
+}
+
+nav .navbar-toggler {
+  border: none;
+  outline: none;
+  color: $white;
+}
+
+nav .navbar-brand {
+  color: $white;
+  font-weight: bold;
+  z-index:9
+}
+
+nav .navbar-brand:hover {
+  color: $hover-yellow;
+}
+
+nav .nav-link {
+  font-weight: bold;
+  color: $white;
+  cursor: pointer;
+}
+
+nav .nav-link.active, nav .nav-link:hover {
+  color: $linkBlue;
+}
+
+.logo-small{
+  height:2rem;
+}
+
+.environment{color:#f00;}

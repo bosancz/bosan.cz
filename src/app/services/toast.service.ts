@@ -11,7 +11,9 @@ export class Toast{
 	* 
 	* toast() - create new toast
 	*/
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ToastService {
 
   /**

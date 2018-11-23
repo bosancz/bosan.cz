@@ -37,7 +37,9 @@ function toParams(options:{[s:string]:any}):HttpParams{
   return params;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class DataService {
 
   root:string = environment.apiRoot;

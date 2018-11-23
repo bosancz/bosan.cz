@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ViewportScroller } from "@angular/common";
 import { Router, Scroll, RouterEvent } from "@angular/router";
 
 import { filter } from "rxjs/operators";
 
 import { DataService } from "app/services/data.service";
+import { LayoutService } from "app/services/layout.service";
 
 import { Paginated } from "app/schema/paginated";
 import { Album } from "app/schema/album";
@@ -28,8 +29,10 @@ class TimelineAlbumContainer implements TimelinePoint{
   templateUrl: './gallery-view-timeline.component.html',
   styleUrls: ['./gallery-view-timeline.component.scss']
 })
-export class GalleryViewTimelineComponent implements OnInit {
+export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
+  @ViewChild('gallery') container:ElementRef<HTMLElement>;
+  
   timeline:TimelinePoint[] = [];
   timelineLabels:TimelineLabel[] = [];
 
@@ -37,12 +40,18 @@ export class GalleryViewTimelineComponent implements OnInit {
 
   lastRouterScrollEvent:Scroll;
 
-  constructor(private dataService:DataService, router:Router, private viewportScroller:ViewportScroller) {
+  constructor(private dataService:DataService, private layoutService:LayoutService, router:Router, private viewportScroller:ViewportScroller) {
     router.events.pipe(filter<Scroll>(e => e instanceof Scroll)).subscribe(e => this.lastRouterScrollEvent = e);
+    
+    layoutService.footer.visible = false;
   }
 
   ngOnInit() {
     this.loadAlbumsList().then(() => setTimeout(() => this.updateScroll(),100));
+  }
+  
+  ngOnDestroy(){
+    this.layoutService.footer.visible = true;
   }
 
   async loadAlbumsList(){
