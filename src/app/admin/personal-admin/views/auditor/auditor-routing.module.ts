@@ -5,8 +5,6 @@ import { AuditorComponent } from "./auditor.component";
 
 import { EventReportsComponent } from './event-reports/event-reports.component';
 
-import { ACLService } from "app/services/acl.service";
-
 const routes: Routes = [
 
   {
@@ -14,7 +12,7 @@ const routes: Routes = [
     component: AuditorComponent,
     children: [
 
-      { path: 'reporty', component: EventReportsComponent, canActivate: [ACLService] },
+      { path: 'reporty', component: EventReportsComponent },
 
       { path: '', redirectTo: "reporty", pathMatch: "full"}
       

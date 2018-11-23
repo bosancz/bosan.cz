@@ -30,8 +30,10 @@
     <div class="buttons text-right">
       <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button>
       <br><br>
-      <button type="button" class="btn btn-secondary" (click)="googleLogin()"><i class="fab fa-google"></i>&nbsp;&nbsp;Přihlásit přes Bošánovský mail</button>
-      <br><br>
+      <ng-container *ngIf="googleLoaded">
+        <button type="button" class="btn btn-secondary" (click)="googleLogin()"><i class="fab fa-google"></i>&nbsp;&nbsp;Přihlásit přes Bošánovský mail</button>
+        <br><br>
+      </ng-container>
       <button type="button" class="btn btn-secondary" (click)="sendLink = true">Poslat přihlašovací odkaz</button>
     </div>
   </form>

@@ -15,9 +15,7 @@ import { GalleryViewAlbumComponent } from 'app/views/gallery-view/gallery-view-a
 import { GalleryViewTimelineComponent } from 'app/views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
 import { GalleryViewPhotosComponent } from 'app/views/gallery-view/gallery-view-photos/gallery-view-photos.component';
 
-
 /* SERVICES */
-import { ACLService } from "app/services/acl.service";
 
 const routes:Routes = [
   {path: 'aktualne', component: NewsViewComponent},

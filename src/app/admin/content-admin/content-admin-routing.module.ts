@@ -30,7 +30,6 @@ import { WebAdminComponent } from './views/web-admin/web-admin.component';
 
 
 /* SERVICES */
-import { ACLService } from "app/services/acl.service";
 
 
 const routes:Routes = [

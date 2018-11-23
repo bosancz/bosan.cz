@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ACLService } from "app/services/acl.service";
-
 const routes: Routes = [
   
   {path: 'moje', loadChildren: './personal-admin/personal-admin.module#PersonalAdminModule'},

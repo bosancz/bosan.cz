@@ -20,7 +20,7 @@
 
         <ng-container *ngIf="onlineService.online | async">
           <ng-container *ngIf="!authService.logged">
-            <a class="nav-item nav-link px-lg-3" (click)="openLogin(); menuCollapsed=true" tooltip="Přihlásit se do interní sekce" placement="bottom"><i class="fa fa-lock"></i></a>
+            <a *aclCan="'login'" class="nav-item nav-link px-lg-3" (click)="openLogin(); menuCollapsed=true" tooltip="Přihlásit se do interní sekce" placement="bottom"><i class="fa fa-lock"></i></a>
           </ng-container>
 
           <ng-container *ngIf="authService.logged">
