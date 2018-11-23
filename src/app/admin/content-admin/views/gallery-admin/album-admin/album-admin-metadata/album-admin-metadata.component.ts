@@ -38,7 +38,7 @@ export class AlbumAdminMetadataComponent {
   }
   
   async loadTypeaheadEvents(search:string){
-    this.eventsMatched = await this.api.get<Paginated<Event>>("event",{search:search,limit:10,sort:"dateFrom"}).then(paginated => paginated.docs);
+    this.eventsMatched = await this.api.get<Paginated<Event>>("events",{search:search,limit:10,sort:"dateFrom",select:"_id name dateFrom dateTill"}).then(paginated => paginated.docs);
   }
   
   getEventString(event:Event):string{
