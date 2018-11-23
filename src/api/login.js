@@ -59,7 +59,7 @@ router.post("/", validate({body:loginSchema}), acl("login:credentials"), async (
 
 });
 
-router.get("/renew",acl("login:renew"), async (req,res) => {
+router.post("/renew",acl("login:renew"), async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
   const user = await User.findOne({_id:req.user._id});
