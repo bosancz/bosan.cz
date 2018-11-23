@@ -47,6 +47,29 @@ router.get("/", (req,res,next) => {
         "upcoming": { href: `${config.api.root}/events/upcoming`, type: "json"},
         "program": { href: `${config.api.root}/events/program{?dateFrom,dateTill,limit}`, type: "json"}
       }
+    },
+    
+    "login": {
+      "_links": {
+        "self": { href: `${config.api.root}/login`, type: "string" },
+        "google": { href: `${config.api.root}/login/google`, type: "string" },
+        "renew": { href: `${config.api.root}/login/renew`, type: "string" },
+        "sendlink": { href: `${config.api.root}/login/sendlink`, type: "string" }
+      }
+    },
+    
+    "members": {
+      "_links": {
+        "self": { href: `${config.api.root}/members`, type: "json"},
+        "one": { href: `${config.api.root}/members/{_id}`, type: "json"}
+      }
+    },
+    
+    "groups": {
+      "_links": {
+        "self": { href: `${config.api.root}/groups`, type: "json"},
+        "one": { href: `${config.api.root}/groups/{_id}`, type: "json"}
+      }
     }
   });
 });
