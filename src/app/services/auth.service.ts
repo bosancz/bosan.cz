@@ -31,6 +31,8 @@ export class AuthService {
   // boolean if user is logged
   logged:boolean = false;
 
+  token:string;
+  
   // current user (use blank user as default)
   user:BehaviorSubject<AuthUser> = new BehaviorSubject(null);
 
@@ -79,6 +81,9 @@ export class AuthService {
 
     // get token from storage
     const token = this.getToken();
+    
+    if(token === this.token) return;
+    this.token = token;
 
     let isExpired = this.jwtHelper.isTokenExpired(token);
 
@@ -141,6 +146,7 @@ export class AuthService {
   deleteUser(){
     // token invalid or missing, so set empty token and user`
     this.logged = false;	
+    this.token = undefined;
     this.user.next(null);
   }
 
