@@ -37,6 +37,11 @@ import { PhotoGalleryComponent } from "app/components/photo-gallery/photo-galler
 
 import { NotFoundComponent } from './views/not-found/not-found.component';
 
+import { PageMenuComponent } from './components/page-menu/page-menu.component';
+import { PageFooterComponent } from './components/page-footer/page-footer.component';
+import { SharingModalComponent } from './components/sharing-modal/sharing-modal.component';
+import { ShareUrlDirective } from './directives/share-url.directive';
+
 // Directives
 import { AdminLinkDirective } from 'app/directives/admin-link.directive';
 
@@ -48,13 +53,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 // App Config
-import { AppConfig, AppConfigData } from "config/config";
-import { SharingModalComponent } from './components/sharing-modal/sharing-modal.component';
-import { ShareUrlDirective } from './directives/share-url.directive';
-
 import { environment } from "environments/environment";
-import { PageMenuComponent } from './components/page-menu/page-menu.component';
-import { PageFooterComponent } from './components/page-footer/page-footer.component';
 
 console.log("Angular is running in " + (environment.production ? "production" : "development") + " environment");
 
@@ -92,14 +91,12 @@ export const jwtOptions = {
     AppSharedModule,
 
     ScrollToModule.forRoot(),
-
     JwtModule.forRoot(jwtOptions),
-
+    
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler },
-    /* Config Providers */ { provide: AppConfig, useValue: AppConfigData }
+    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler }    
   ],
   bootstrap: [ AppComponent ],
   entryComponents: [ LoginFormComponent, SharingModalComponent ]

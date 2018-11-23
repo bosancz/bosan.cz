@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 import { AuthService } from "app/services/auth.service";
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { ToastService } from "app/services/toast.service";
 import { GoogleService } from "app/services/google.service";
 
@@ -24,21 +24,34 @@ export class LoginFormComponent implements OnInit {
   error:Error;
   
   sendLink:boolean = false;
+  
+  googleLoaded:boolean = false;
 
-  constructor(public loginModal:BsModalRef, private authService:AuthService, private dataService:DataService, private router:Router, private toastService:ToastService, private googleService:GoogleService) {
-  }
+  constructor(
+    public loginModal:BsModalRef,
+    private authService:AuthService,
+    private api:ApiService,
+    private router:Router,
+    private toastService:ToastService,
+    private googleService:GoogleService
+  ) { }
 
   ngOnInit() {
+    this.googleService.loaded.subscribe(loaded => this.googleLoaded = loaded);
   }
   
   async login(loginForm:NgForm){
     
     this.status = null;
     
-    const loginData = loginForm.value;
+    const credentials = loginForm.value;
 
     try{
-      await this.authService.login(loginData);
+      
+      const response = await this.api.post("login", credentials);
+      
+      this.authService.loginToken(response.body);
+      
       this.loginModal.hide();
       this.router.navigate(["/interni"]);
     }
@@ -52,8 +65,11 @@ export class LoginFormComponent implements OnInit {
   async googleLogin(){
     
     try{
-      const token = await this.googleService.signIn();
-      await this.authService.googleLogin(token);
+      const googleToken = await this.googleService.signIn();
+      
+      const response = await this.api.post("login:google",{token:googleToken});
+      
+      this.authService.loginToken(response.body);      
     }
     catch(err){
       this.toastService.toast("Přihlášení přes Google se nezdařilo.");
@@ -61,10 +77,6 @@ export class LoginFormComponent implements OnInit {
     
     this.loginModal.hide();
     
-  }
-  
-  async googleLogout(){
-    await this.googleService.signOut();
   }
   
   async loginLink(form:NgForm){
@@ -75,7 +87,7 @@ export class LoginFormComponent implements OnInit {
       
       this.status = null;
       
-      await this.authService.sendToken(formData.login);
+      await this.api.post("login:sendlink",formData);
       
       this.status = "linkSent";
       

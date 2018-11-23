@@ -1,13 +1,13 @@
 <div id="admin">
   <nav>
     <div class="container">
-      <a routerLink="prehled" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Přehled</a>
-      <a routerLink="vedeni-akci" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Vedení akcí</a>
-      <a routerLink="vedeni-oddilu" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Vedení oddílu</a>
-      <a routerLink="sprava-programu" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Správa programu</a>
-      <a routerLink="revizor" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Revizor</a>
-      <a routerLink="kanal" routerLinkActive="active">Troja</a>
-      <a routerLink="admin" routerLinkActive="active">Nastavení účtu</a>
+      <a *aclCan="'my:dashboard'" routerLink="prehled" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Přehled</a>
+      <a *aclCan="'my:events'" routerLink="vedeni-akci" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Vedení akcí</a>
+      <a *aclCan="'my:group'" routerLink="vedeni-oddilu" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Vedení oddílu</a>
+      <a *aclCan="'my:program'" routerLink="sprava-programu" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Správa programu</a>
+      <a *aclCan="'my:auditor'" routerLink="revizor" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Revizor</a>
+      <a *aclCan="'my:canal'" routerLink="kanal" routerLinkActive="active">Troja</a>
+      <a *aclCan="'my:account'" routerLink="admin" routerLinkActive="active">Nastavení účtu</a>
     </div>
   </nav>
 

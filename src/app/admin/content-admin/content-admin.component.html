@@ -1,14 +1,14 @@
 <div id="admin">
   <nav>
     <div class="container">
-      <a routerLink="akce" routerLinkActive="active">Akce</a>
-      <a routerLink="tabory" routerLinkActive="active">Tábory</a>
-      <a routerLink="galerie" routerLinkActive="active">Galerie</a>
-      <a routerLink="clenove" routerLinkActive="active">Členská databáze</a>
-      <a routerLink="nastaveni-webu" routerLinkActive="active">Nastavení webu</a>
-      <a routerLink="nastaveni-serveru" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Nastavení serveru</a>
-      <a routerLink="uzivatele" routerLinkActive="active">Uživatelé</a>
-      <a routerLink="chyby" routerLinkActive="active">Chyby</a>
+      <a *aclCan="'admin:events'" routerLink="akce" routerLinkActive="active">Akce</a>
+      <a *aclCan="'admin:camps'" routerLink="tabory" routerLinkActive="active">Tábory</a>
+      <a *aclCan="'admin:gallery'" routerLink="galerie" routerLinkActive="active">Galerie</a>
+      <a *aclCan="'admin:members'" routerLink="clenove" routerLinkActive="active">Členská databáze</a>
+      <a *aclCan="'admin:webconfig'" routerLink="nastaveni-webu" routerLinkActive="active">Nastavení webu</a>
+      <a *aclCan="'admin:serverconfig'" routerLink="nastaveni-serveru" routerLinkActive="active" tooltip="Připravujeme" placement="bottom">Nastavení serveru</a>
+      <a *aclCan="'admin:users'" routerLink="uzivatele" routerLinkActive="active">Uživatelé</a>
+      <a *aclCan="'admin:errors'" routerLink="chyby" routerLinkActive="active">Chyby</a>
     </div>
   </nav>
   <div id="adminPage">

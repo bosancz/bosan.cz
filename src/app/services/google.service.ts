@@ -22,7 +22,7 @@ export class GoogleService {
 
   gapi:any;
 
-  loaded:EventEmitter<void> = new EventEmitter();
+  loaded:BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor() {
     this.load_gapi();
@@ -55,7 +55,7 @@ export class GoogleService {
 
     this.gapi = gapi;
 
-    this.loaded.emit();
+    this.loaded.next(true);
   }
 
   getAuthInstance(){
