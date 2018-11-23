@@ -110,9 +110,7 @@ export class RuntimeService {
 
           console.log("GoogleService: Logged in as " + googleUser.email);
 
-          const googleToken = await this.googleService.signIn();
-
-          const response = await this.api.post("login:google",{token:googleToken});
+          const response = await this.api.post("login:google",{token:googleUser.token});
 
           this.authService.loginToken(response.body);
         }
