@@ -29,7 +29,7 @@ export class NotFoundComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.removeNoIndex
+    this.removeNoIndex();
   }
 
   setNoIndex() {
