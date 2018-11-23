@@ -33,7 +33,7 @@ const routes:Routes = [
 
       { path: 'dokumenty', component: DocumentsViewComponent },
 
-      { path: 'admin/:cat', component: AccountAdminComponent,  canActivate: [ACLService] },
+      { path: 'admin/:cat', component: AccountAdminComponent },
       { path: 'admin', redirectTo: "admin/info", pathMatch: "full"},
 
       { path: '', redirectTo: "admin/info", pathMatch: "full"},
