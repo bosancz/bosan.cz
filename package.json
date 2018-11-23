@@ -5,7 +5,9 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build --prod --i18n-locale cs",
+    "build-dev": "ng build --aot --i18n-locale cs",
     "build-quiet": "ng build --prod --i18n-locale cs --no-progress",
+    "build-quiet-dev": "ng build --aot --i18n-locale cs --no-progress",
     "dev": "ng build --watch --aot --i18n-locale cs",
     "dev-augury": "ng build --watch --i18n-locale cs"
   },
@@ -30,7 +32,6 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.7",
     "ngx-bootstrap": "^3.1.2",
-    "ngx-permissions": "^6.0.4",
     "rxjs": "^6.3.3",
     "urijs": "^1.19.1",
     "web-animations-js": "^2.3.1",

@@ -6,6 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { LayoutService } from "app/services/layout.service";
 import { OnlineService } from "app/services/online.service";
 import { AuthService } from "app/services/auth.service";
+import { AclService } from "app/lib/acl/services/acl.service";
 import { ConfigService } from "app/services/config.service";
 
 import { LoginFormComponent } from "app/components/login-form/login-form.component";
@@ -23,7 +24,14 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
 
   environment:string;
 
-  constructor(public layoutService:LayoutService, public onlineService:OnlineService, public authService:AuthService, private configService:ConfigService, private modalService:BsModalService) { }
+  constructor(
+    public aclService:AclService,
+    public authService:AuthService,
+    public layoutService:LayoutService,
+    public onlineService:OnlineService,
+    private configService:ConfigService,
+    private modalService:BsModalService
+  ) { }
 
   ngOnInit(){
     this.configService.config.subscribe(config => {

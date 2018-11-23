@@ -1,6 +1,6 @@
-import { Injectable, EventEmitter, NgZone } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject }    from 'rxjs';
+import { BehaviorSubject, ReplaySubject }    from 'rxjs';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -24,20 +24,15 @@ export class AuthService {
 
   apiRoot:string = environment.apiRoot;
 
-  public onLogin:EventEmitter<{user:AuthUser}> = new EventEmitter();
-  public onLogout:EventEmitter<{user:AuthUser}> = new EventEmitter();
-  public onExpired:EventEmitter<{user:AuthUser}> = new EventEmitter();
+  public onLogin:ReplaySubject<AuthUser> = new ReplaySubject(1);
+  public onLogout:ReplaySubject<AuthUser> = new ReplaySubject(1);
+  public onExpired:ReplaySubject<AuthUser> = new ReplaySubject(1);
 
   // boolean if user is logged
   logged:boolean = false;
 
-  // current token
-  token:string = null;
-
   // current user (use blank user as default)
   user:BehaviorSubject<AuthUser> = new BehaviorSubject(null);
-
-  renewInterval:number;
 
   constructor(private http:HttpClient, private jwtHelper:JwtHelperService, ngZone:NgZone){
 
@@ -46,43 +41,23 @@ export class AuthService {
 
     // periodically renew token and check token validity
     ngZone.runOutsideAngular(() => { // https://github.com/angular/angular/issues/20970
-      this.renewInterval = window.setInterval(() => {
-        ngZone.run(() => this.renewToken());
-      }, 5 * 60 * 1000);
+      window.setInterval(() => {
+        ngZone.run(() => this.refreshState());
+      }, 5 * 1000);
     });
 
   }
 
-  saveToken(token){
+  private saveToken(token){
     return window.localStorage.setItem("id_token", token);
   }
 
-  getToken(){
+  private getToken(){
     return window.localStorage.getItem("id_token");	
   }
 
-  deleteToken(){
+  private deleteToken(){
     return window.localStorage.removeItem("id_token");
-  }
-
-  // get the token by credentials
-  async login(credentials){
-
-    // query the web api to get the token
-
-    /* LOGIN */
-    const token = await this.http.post(this.apiRoot + "/login", credentials, { responseType: 'text' }).toPromise();
-
-    // save the token to storage
-    this.saveToken(token);
-
-    // update state to match token from storage
-    this.refreshState();
-
-  }
-
-  sendToken(userId:string):Promise<string>{
-    return this.http.post(this.apiRoot + "/login/sendlink",{login:userId},{ responseType: "text" }).toPromise();
   }
 
   // login by directly providing valid token
@@ -95,52 +70,6 @@ export class AuthService {
     // if user is not logged at this step, token was invalid
     if(this.logged) return this.user;
     else throw new Error("Invalid token");
-  }
-
-  async googleLogin(googleToken:string){
-
-    const token = await this.http.post(this.apiRoot + "/login/google",{token:googleToken},{ responseType: "text" }).toPromise();
-
-    // save the token to storage
-    this.saveToken(token);
-
-    // update state to match token from storage
-    this.refreshState();
-
-    // if user is not logged at this step, token was invalid
-    if(this.logged) return this.user;
-    else throw new Error("Invalid token");
-  }
-
-  /**
-		* Tokens have limited time validity to avoid misues, however, we do not want user to be "logged out" while working with the application.
-    * Therefore we have to renew this token from time to time.
-		*/
-  renewToken():void{
-
-    // if we dont have token or it is expired, there is nothing to renew
-    if(!this.token || this.jwtHelper.isTokenExpired(this.token)) return;
-
-    // get the new token. as an authorization, we use current token
-    this.http.get(this.apiRoot + "/login/renew", { responseType: 'text' }).toPromise()
-
-      .then(token => {
-
-      // save the token to storage
-      this.saveToken(token);
-
-      // update state to match token from storage
-      this.refreshState();
-
-    })
-
-      .catch(err => {
-      // on Unauthorized error delete token - access was lost
-      if(err.code === 401){
-        this.deleteToken();
-        this.refreshState();
-      }
-    });
   }
 
   /*
@@ -166,28 +95,16 @@ export class AuthService {
     // check if token valid
     if(token && userData && !isExpired){
 
-      // save the token
-      this.token = token;
+      this.setUser(userData);
 
-      // set user
-      this.user.next(userData);
-
-      // announce login to subscribers if applicable
-      if(!this.logged) this.onLogin.emit({ user: this.user.value });
-
-      this.logged = true;
-
-    }	else if(token) {
+    }	else {
 
       if(this.logged){
-        if(isExpired) this.onExpired.emit({ user: this.user.value });
-        else this.onLogout.emit({ user: this.user.value });
+        if(isExpired) this.onExpired.next(this.user.value);
+        else this.onLogout.next(this.user.value);
       }
 
       this.deleteToken();
-      this.deleteUser();
-    }
-    else{
       this.deleteUser();
     }
   }
@@ -200,7 +117,7 @@ export class AuthService {
     // delete token from storage
     this.deleteToken();
 
-    this.onLogout.emit({ user: this.user.value });
+    this.onLogout.next(this.user.value);
 
     this.deleteUser();
 
@@ -210,18 +127,19 @@ export class AuthService {
     return !this.logged;
   }
 
-  setUser(userData:any){
+  setUser(userData){
 
-    if(!userData.roles) userData.roles = [];
-    userData.roles.push("guest");
-
+    // set user
     this.user.next(userData);
 
+    // announce login to subscribers if applicable
+    if(!this.logged) this.onLogin.next(this.user.value);
+
+    this.logged = true;
   }
 
   deleteUser(){
-    // token invalid or missing, so set empty token and user
-    this.token = null;
+    // token invalid or missing, so set empty token and user`
     this.logged = false;	
     this.user.next(null);
   }
