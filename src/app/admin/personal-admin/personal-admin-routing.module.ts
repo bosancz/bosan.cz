@@ -10,9 +10,6 @@ import { CanalRegistrationComponent } from "./views/canal-registration/canal-reg
 import { DocumentsViewComponent } from "./views/documents-view/documents-view.component";
 import { MyEventsComponent } from "./views/my-events/my-events.component";
 
-/* SERVICES */
-import { ACLService } from "app/services/acl.service";
-
 const routes:Routes = [
   {
     path: '',
