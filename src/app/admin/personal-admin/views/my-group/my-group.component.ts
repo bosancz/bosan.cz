@@ -12,12 +12,12 @@ import { Group } from "app/schema/group";
 })
 export class MyGroupComponent implements OnInit {
   
-  group:Observable<Group>
+  group:Group;
 
   constructor(private groupService:MyGroupService) { }
 
   ngOnInit() {
-    this.group = this.groupService.group;
+    this.groupService.group.subscribe(group => this.group = group);
   }
 
 }

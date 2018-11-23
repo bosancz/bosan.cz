@@ -5,9 +5,9 @@ import { ACLService } from "app/services/acl.service";
 
 const routes: Routes = [
   
-  {path: 'moje', loadChildren: './personal-admin/personal-admin.module#PersonalAdminModule', canActivate: [ACLService]},
+  {path: 'moje', loadChildren: './personal-admin/personal-admin.module#PersonalAdminModule'},
   
-  {path: 'obsah', loadChildren: './content-admin/content-admin.module#ContentAdminModule', canActivate: [ACLService]},
+  {path: 'obsah', loadChildren: './content-admin/content-admin.module#ContentAdminModule'},
   
   {path: '', redirectTo: "obsah", pathMatch: "full"}
 ];

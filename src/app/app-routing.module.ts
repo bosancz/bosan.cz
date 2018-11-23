@@ -38,7 +38,7 @@ const routes:Routes = [
 
   {path: 'tabor', component: CampViewComponent},  
 
-  {path: 'interni', loadChildren: './admin/admin.module#AdminModule', canActivate: [ACLService]},
+  {path: 'interni', loadChildren: './admin/admin.module#AdminModule'},
   
   {path: '', redirectTo: "o-nas", pathMatch: "full"},
   
