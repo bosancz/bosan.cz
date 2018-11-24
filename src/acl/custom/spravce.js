@@ -25,6 +25,7 @@ module.exports = {
     /* LOGIN */
     "login": true,
     "login:renew": true,
+    "login:impersonate": true,
 
     /* ERRORS */
     "errors:list": true,
@@ -50,6 +51,9 @@ module.exports = {
     "members:edit": true,
     "members:delete": true,
 
+    /* PAYMENTS */
+    "payments:list": true,
+    
     /* PHOTOS */
     "photos:list": true,
     "photos:read": true,

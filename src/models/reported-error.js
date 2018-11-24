@@ -24,7 +24,7 @@ var reportedErrorSchema = mongoose.Schema({
 
 reportedErrorSchema.plugin(actions, {
   root: config.api.root,
-  links:{
+  links: {
     "self": error => `/errors/${error._id}`,
   }
 });

@@ -15,11 +15,16 @@ router.use("/events", require("./events"));
 router.use("/events/:event", require("./events-event"));
 router.use("/events/:event/recurring", require("./events-event-recurring"));
 
+router.use("/groups", require("./groups"));
+
 router.use("/login", require("./login"));
 
+router.use("/my/groups", require("./my-groups"));
 router.use("/me", require("./me"));
 
 router.use("/members", require("./members"));
+
+router.use("/payments", require("./payments"));
 
 router.use("/photos", require("./photos"));
 
@@ -54,7 +59,8 @@ router.get("/", (req,res,next) => {
         "self": { href: `${config.api.root}/login`, type: "string" },
         "google": { href: `${config.api.root}/login/google`, type: "string" },
         "renew": { href: `${config.api.root}/login/renew`, type: "string" },
-        "sendlink": { href: `${config.api.root}/login/sendlink`, type: "string" }
+        "sendlink": { href: `${config.api.root}/login/sendlink`, type: "string" },
+        "impersonate": { href: `${config.api.root}/login/impersonate`, type: "string" }
       }
     },
     
@@ -62,6 +68,12 @@ router.get("/", (req,res,next) => {
       "_links": {
         "self": { href: `${config.api.root}/members`, type: "json"},
         "one": { href: `${config.api.root}/members/{_id}`, type: "json"}
+      }
+    },
+    
+    "payments": {
+      "_links": {
+        "self": { href: `${config.api.root}/payments`, type: "json"},
       }
     },
     

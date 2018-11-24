@@ -124,3 +124,30 @@ router.post("/google",acl("login:google"), async (req,res) => {
   res.send(token);
   
 });
+
+var loginImpersonareSchema = {
+  type: "object",
+  properties: {
+    "_id": {type: "string"},
+    "roles": {type: "array", items: { type: "string" } }
+  },
+  additionalProperties: false
+};
+
+router.post("/impersonate", validate({body:loginImpersonareSchema}), acl("login:impersonate"), async (req,res) => {
+  
+  let user = {};
+  
+  if (req.body._id) {
+    user = await User.findOne({_id: req.body._id}).lean();
+    if(!user) return res.status(404).send("User not found.");
+  }
+  
+  if (req.body.roles) {
+    user.roles = req.body.roles;
+  }
+  
+  var token = await createToken(user,config.auth.jwt.expiration);
+
+  res.send(token);
+});
