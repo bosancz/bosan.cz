@@ -13,10 +13,10 @@ module.exports = function(schema,options){
 
     const links = {};
 
-    restifyStore.resources
-      .filter(route => options.cmpFn(this,route.resource))
-      .filter(route => !route.query || route.queryParsed.matches(this,false))
-      .forEach(route => links[route.link] = ({ href: options.expFn(this,route.href) }))
+    routesStore.routes
+      .filter(route => options.cmpFn(this,route.options.resource))
+      .filter(route => !route.options.mongoose.queryParsed || route.options.mongoose.queryParsed.matches(this,false))
+      .forEach(route => links[route.options.link] = ({ href: options.expFn(this,route.options.href) }))
 
     return links;
   });

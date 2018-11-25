@@ -57,61 +57,15 @@ function list(model,options){
 
 }
 
-function get(model,options){
-  
-  options = Object.assign({},{id: "id"},options);
-  
+function get(model,idFn){
   return async function(req,res,next) {
-    return res.json(await model.findOne({_id: req.params[options.id]}));
-  }
-}
-
-function create(model,options){
-  
-  options = Object.assign({},{id: "id"},options);
-  
-  return async function(req,res,next) {
-    const doc = await model.create(req.body,{new:true});
-    res.header("location",doc._links.self)
-    res.sendStatus(201);
-  }
-}
-
-function update(model,options){
-  
-  options = Object.assign({},{id: "id"},options);
-  
-  return async function(req,res,next) {
-    await model.findOneAndUpdate({_id: req.params[options.id]}, req.body);
-    res.sendStatus(204);
-  }
-}
-
-function replace(model,options){
-  
-  options = Object.assign({},{id: "id"},options);
-  
-  return async function(req,res,next) {
-    await model.replaceOne({_id: req.params[options.id]},req.body);
-    res.sendStatus(204);
-  }
-}
-
-function remove(){
-  
-  options = Object.assign({},{id: "id"},options);
-  
-  return async function(req,res,next) {
-    await model.remove({_id: req.params[options.id]});
-    res.sendStatus(204);
-  }
-}
-
-function action(model,action,options) {
-  return async function(req,res,next) {
-    const doc = await model.findOne({_id: req.params[options.id]});
     
+    const query = model.findOne(idFn(req))
+    
+    if(req.query.select) query.select(req.query.select)
+    
+    return res.json(await query);
   }
 }
 
-module.exports = { list, get, create, update, replace, remove, action };
+module.exports = { list, get };

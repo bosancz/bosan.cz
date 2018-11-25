@@ -36,10 +36,10 @@ router.get("/test", (req,res,next) => res.sendStatus(200));
 
 router.use("/users", require("./users"));
 
-var restify = require("../middleware/restify");
+var routes = require("../middleware/routes");
 
 // TODO: refactorize this into its own part, make logic around, maybe automatic creation, etc.
-router.get("/", restify.resources());
+router.get("/", routes.resources());
 
 /*
   res.json({
