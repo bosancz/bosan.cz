@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 
 mongoose.plugin(require('mongoose-paginate'));
 
+mongoose.plugin(require("./middleware/restify").mongoosePlugin);
+
 mongoose.Promise = global.Promise;
 
 var connection = mongoose.connect(config.database.uri,config.database.options)

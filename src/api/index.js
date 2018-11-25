@@ -36,8 +36,12 @@ router.get("/test", (req,res,next) => res.sendStatus(200));
 
 router.use("/users", require("./users"));
 
+var restify = require("../middleware/restify");
+
 // TODO: refactorize this into its own part, make logic around, maybe automatic creation, etc.
-router.get("/", (req,res,next) => {
+router.get("/", restify.resources());
+
+/*
   res.json({
     
     "errors": {
@@ -84,4 +88,4 @@ router.get("/", (req,res,next) => {
       }
     }
   });
-});
+});*/
