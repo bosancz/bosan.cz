@@ -3,10 +3,10 @@ module.exports = function(){
 
     const resources = {};
 
-    restifyRoutes.forEach(route => {
+    restifyStore.resources.forEach(route => {
       if(!resources[route.resource]) resources[route.resource] = { _links: { } };
 
-      resources[route.resource]._links[route.name] = {
+      resources[route.resource]._links[route.link] = {
         href: route.href
       };
     });

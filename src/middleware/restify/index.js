@@ -1,11 +1,12 @@
+global.restifyStore = {
+  resources: []
+}
 
-global.restifyRoutes = [];
+const router = require("./restify.router");
 
-const restify = require("./restify");
+const mongoose = require("./restify.mongoose");
+const mongoosePlugin = require("./restify.mongoose-plugin");
 
-restify.mongoose = require("./restify.mongoose");
-restify.mongoosePlugin = require("./restify.mongoose-plugin");
+const resources = require("./restify.resources");
 
-restify.resources = require("./restify.resources");
-
-module.exports = restify;
+module.exports = { router, resources, mongoose, mongoosePlugin };

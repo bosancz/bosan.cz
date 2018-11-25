@@ -1,38 +1,36 @@
 var express = require("express");
-var router = module.exports = express.Router();
+var expressRouter = module.exports = express.Router();
 
 var acl = require("express-dynacl");
 
-var restify = require("../middleware/restify");
+const config = require("../../config");
+var restful = require("../middleware/restify");
+var router = restful.router(expressRouter,{root:config.api.root + "/groups"});
 
 var Group = require("../models/group");
 var Member = require("../models/member");
 
-const resources = {
+router.get("groups:self", {
+  path: "",
+  middleware: [ acl("groups:list") ],
+  handler: restful.mongoose.list(Group)
+});
 
-  "groups": {
-    path: "",
-    routes: {
-      "self": {
-        path: "/",
-        actions: {
-          "GET": { middleware: [ acl("groups:list") ], handler: restify.mongoose.list(Group), available: {} }
-        }
-      }
-    }
-  },
+router.get("group:self", {
+  path: "/:id",
+  middleware: [ acl("groups:read") ],
+  handler: restful.mongoose.get(Group)
+});
 
-  "group": {
-    path: "/:id",
-    routes: {
-      "self": {
-        path: "",
-        actions: {
-          "GET": { available: {}, middleware: [ acl("groups:list") ], handler: restify.mongoose.get(Group) }      
-        }
-      }
-    }
-  }
-};
+router.get("group:members", {
+  path: "/:id/members",
+  middleware: [ acl("groups:members:list") ],
+  handler: async (req,res) => res.json(await Member.find({group:req.params.id}).select("_id nickname name"))
+});
 
-restify(router, resources, { root: "/api/groups" });
+router.post("group:publish", {
+  path: "/:id/actions/publish",
+  query: { status: "draft" },
+  access: acl("groups:publish"),
+  handler: restful.mongoose.action(Group,group => group.status = "public")
+});

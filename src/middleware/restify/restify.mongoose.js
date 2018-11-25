@@ -13,7 +13,7 @@ function list(model,options){
       "select": { type: "string" },
       "limit": { type: "number", maximum: options.limit }
     },
-    additionalProperties: options.validation && options.validation.additionalProperties
+    additionalProperties: options.additionalProperties
   }
     
   // compile the validationschema
@@ -59,15 +59,59 @@ function list(model,options){
 
 function get(model,options){
   
-  const defaultOptions = {
-    id: "id"
-  }
-  
-  options = Object.assign({},defaultOptions,options);
+  options = Object.assign({},{id: "id"},options);
   
   return async function(req,res,next) {
     return res.json(await model.findOne({_id: req.params[options.id]}));
   }
 }
 
-module.exports = { list, get };
+function create(model,options){
+  
+  options = Object.assign({},{id: "id"},options);
+  
+  return async function(req,res,next) {
+    const doc = await model.create(req.body,{new:true});
+    res.header("location",doc._links.self)
+    res.sendStatus(201);
+  }
+}
+
+function update(model,options){
+  
+  options = Object.assign({},{id: "id"},options);
+  
+  return async function(req,res,next) {
+    await model.findOneAndUpdate({_id: req.params[options.id]}, req.body);
+    res.sendStatus(204);
+  }
+}
+
+function replace(model,options){
+  
+  options = Object.assign({},{id: "id"},options);
+  
+  return async function(req,res,next) {
+    await model.replaceOne({_id: req.params[options.id]},req.body);
+    res.sendStatus(204);
+  }
+}
+
+function remove(){
+  
+  options = Object.assign({},{id: "id"},options);
+  
+  return async function(req,res,next) {
+    await model.remove({_id: req.params[options.id]});
+    res.sendStatus(204);
+  }
+}
+
+function action(model,action,options) {
+  return async function(req,res,next) {
+    const doc = await model.findOne({_id: req.params[options.id]});
+    
+  }
+}
+
+module.exports = { list, get, create, update, replace, remove, action };
