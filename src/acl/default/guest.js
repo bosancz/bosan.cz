@@ -10,6 +10,8 @@ var guest = module.exports = {
     "events:program:read": true,
     "events:read": true,
     
+    "program:read": true,
+    
     "errors:create": true,
     
     "config:read": true,
