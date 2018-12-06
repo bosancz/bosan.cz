@@ -7,6 +7,8 @@ import { Subscription } from "rxjs";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
+import { ApiService } from "app/services/api.service";
+import { AuthService } from "app/services/auth.service";
 import { ConfigService } from "app/services/config.service";
 import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
@@ -30,7 +32,16 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
   
   paramsSubscription:Subscription;
 
-  constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
+  constructor(
+    private api:ApiService,
+    private authService:AuthService,
+    private dataService:DataService, 
+    private configService:ConfigService,
+    private toastService:ToastService,
+    private router:Router,
+    private route:ActivatedRoute,
+    private modalService:BsModalService
+   ) { }
 
   ngOnInit() {
 
@@ -77,5 +88,15 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
     this.toastService.toast("Uživatel vytvořen.");
     // open the user
     this.router.navigate(["./",{},userId], {relativeTo: this.route});
+  }
+  
+  async impersonateUser(event:Event,user:User):Promise<void>{
+    
+    event.stopPropagation();
+    
+    const response = await this.api.post("login:impersonate",{_id:user._id});
+    this.authService.loginToken(response.body);
+    this.toastService.toast("Přihlášen jako " + user.login);
+    this.router.navigate(["/"]);
   }
 }
