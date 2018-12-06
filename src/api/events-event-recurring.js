@@ -1,5 +1,9 @@
-var express = require("express");
-var router = module.exports = express.Router({mergeParams: true});
+const { Routes } = require("../../lib/routes");
+
+const config = require("../../config");
+
+const routes = new Routes({url:config.api.root + "/events/{id}/recurring", routerOptions: { mergeParams: true }});
+module.exports = routes.router;
 
 var mongoose = require('mongoose');
 var path = require("path");
@@ -7,8 +11,6 @@ var acl = require("express-dynacl");
 
 var createEvent = require("./events/create-event");
 var deleteEvent = require("./events/delete-event");
-
-var config = require("../../config");
 
 var Event = require("../models/event");
 var EventRecurring = require("../models/event-recurring");
@@ -105,7 +107,7 @@ async function createInstances(date,nextDate,endDate,eventData,eventFiles){
 } 
 
 
-router.get("/", acl("events:read"), async (req,res) => {
+routes.get("event:recurring","/").handle(acl("events:read"), async (req,res) => {
   // find the event to find recurring _id
   var event = await Event.findOne({"_id": req.params.event}).select("_id recurring");
   if(!event) return res.status(404).send("Event not found");
@@ -119,7 +121,7 @@ router.get("/", acl("events:read"), async (req,res) => {
   res.json(await recurring);
 });
 
-router.put("/", acl("events:edit"), async (req,res,next) => {
+routes.put("event:recurring","/").handle(acl("events:edit"), async (req,res,next) => {
   // find the event to find recurring _id
   var event = await Event.findOne({"_id": req.params.event});
   if(!event) return res.status(404).send("Event not found");
@@ -171,7 +173,7 @@ router.put("/", acl("events:edit"), async (req,res,next) => {
 
 });
 
-router.delete("/", acl("events:edit"), async (req,res) => {
+routes.delete("event:recurring","/").handle(acl("events:edit"), async (req,res) => {
 
   var event = await Event.findOne({"_id": req.params.event}).select("_id recurring");
   if(!event) return res.status(404).send("Event not found");

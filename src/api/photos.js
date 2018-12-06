@@ -1,7 +1,8 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const config = require("../../config");
 
-var config = require("../../config");
+const { Routes } = require("../../lib/routes");
+const routes = new Routes({url:config.api.root + "/payments"});
+module.exports = routes.router;
 
 var acl = require("express-dynacl");
 
@@ -17,7 +18,7 @@ var Photo = require("../models/photo");
 var savePhoto = require("./albums/photo-save");
 
 // LIST ALBUMS
-router.get("/", acl("photos:list"), async (req,res,next) => {
+routes.get("photos","/").handle(acl("photos:list"), async (req,res,next) => {
 
   var query = Photo.find({});
 
@@ -31,7 +32,7 @@ router.get("/", acl("photos:list"), async (req,res,next) => {
 });
 
 // POST A PHOTO TO AN ALBUM
-router.post("/", acl("photos:create"), acl("albums:edit"), upload.single("photo"), async (req,res,next) => {
+routes.post("photos","/").handle(acl("photos:create"), acl("albums:edit"), upload.single("photo"), async (req,res,next) => {
 
   // if file missing we send 400
   if(!req.file) return res.status(400).send("No photo");
@@ -75,14 +76,14 @@ router.post("/", acl("photos:create"), acl("albums:edit"), upload.single("photo"
 
 });
 
-router.get("/:photo", acl("photos:read"), async (req,res) => res.json(await Photo.findOne({_id:req.params.photo})));
+routes.get("photo", "/:photo").handle(acl("photos:read"), async (req,res) => res.json(await Photo.findOne({_id:req.params.photo})));
 
-router.patch("/:photo", acl("photos:edit"), async (req,res) => {
+routes.patch("photo", "/:photo").handle(acl("photos:edit"), async (req,res) => {
   await Photo.findOneAndUpdate({_id:req.params.photo},req.body);
   res.sendStatus(204);
 });
 
-router.delete("/:photo", acl("photos:delete"), async (req,res,next) => {
+routes.delete("photo", "/:photo").handle(acl("photos:delete"), async (req,res,next) => {
   
   var photo = await Photo.findOne({_id:req.params.photo});
   if(!photo) return res.status(404).send("Photo not found.");

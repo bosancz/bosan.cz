@@ -1,7 +1,9 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const { Routes } = require("../../lib/routes");
 
-var config = require("../../config");
+const config = require("../../config");
+
+const routes = new Routes({url:config.api.root + "/groups"});
+const router = module.exports = routes.router;
 
 var acl = require("express-dynacl");
 var fs = require("fs-extra");
@@ -59,7 +61,7 @@ var getEventsSchema = {
   additionalProperties: false
 };
 
-router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (req,res,next) => {
+routes.get("events","/").handle(validate({query:getEventsSchema}), acl("events:list"), async (req,res,next) => {
 
   // construct the query
   const query = Event.find();
@@ -84,7 +86,7 @@ router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (re
 
 });
 
-router.post("/", acl("events:create"), async (req,res,next) => {
+routes.post("events","/").handle(acl("events:create"), async (req,res,next) => {
 
   var event = await createEvent(req.body);
   res.location(`${config.api.root}/events/${event._id}`);
@@ -99,7 +101,7 @@ var getEventsUpcomingSchema = {
   }
 };
 
-router.get("/upcoming", validate({query:getEventsUpcomingSchema}), acl("events:upcoming:list"), async (req,res,next) => {
+routes.get("events:upcoming","/upcoming").handle(validate({query:getEventsUpcomingSchema}), acl("events:upcoming:list"), async (req,res,next) => {
 
   let today = new Date(); today.setHours(0,0,0,0);
 
@@ -127,7 +129,7 @@ const getEventsProgramSchema = {
   additionalProperties: false
 };
 
-router.get("/program", validate({query:getEventsProgramSchema}), acl("events:program:read"), async (req,res,next) => {
+routes.get("events:program","/program").handle(validate({query:getEventsProgramSchema}), acl("events:program:read"), async (req,res,next) => {
 
   const query = Event.find({status:"public"});
 

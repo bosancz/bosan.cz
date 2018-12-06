@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const actions = require("../plugins/mongoose-actions");
-
 const path = require("path");
 const config = require("../../config");
 
@@ -54,34 +52,5 @@ var eventSchema = mongoose.Schema({
     "role": {type: String, enum: ['h','v','i','d'], required: true, default: 'd'}
   }]
 }, { toJSON: { virtuals: true } });
-
-eventSchema.plugin(actions, {
-  root: config.api.root,
-  links:{
-    "self": event => `//events/${event._id}`,
-    "leaders": event => `//events/${event._id}/leaders`,
-    "recurring": event => `//events/${event._id}/recurring`,
-    "payments": event => `//events/${event._id}/payments`,
-    "registration": event => `//events/${event._id}/registration`,
-    "registration_file": event => event.registration ? (config.events.storageUrl + "/" + path.join(String(event._id),event.registration)) : ""
-  },
-  actions:{
-    "publish": {
-      href: event => `//events/${event._id}/actions/publish`,
-      query: {status: "draft"},
-      action: event => {
-        event.status = "public";
-      }
-    },
-
-    "unpublish": {
-      href: event => `//events/${event._id}/actions/unpublish`,
-      query: {status: "public"},
-      action: event => {
-        event.status = "draft";
-      }
-    }
-  }
-});
 
 module.exports = mongoose.model("Event", eventSchema);

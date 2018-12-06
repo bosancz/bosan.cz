@@ -1,9 +1,10 @@
-const express = require("express");
-const router = module.exports = express.Router();
+const config = require("../../config");
+
+const { Routes } = require("../../lib/routes");
+const routes = new Routes({url:config.api.root + "/errors", routerOptions: { mergeParams: true }});
+module.exports = routes.router;
 
 const acl = require("express-dynacl");
-
-const config = require("../../config");
 
 const ReportedError = require("../models").ReportedError;
 
@@ -19,7 +20,7 @@ const getErrorsSchema = {
   additionalProperties: false
 };
 
-router.get("/", validate({query:getErrorsSchema}), acl("errors:list"), async (req,res,next) => {
+routes.get("errors","/").handle(validate({query:getErrorsSchema}), acl("errors:list"), async (req,res,next) => {
   var query = ReportedError.find({}).select("_id message timestamp url").populate("user","_id login").sort("-timestamp");
 
   if(req.query.from) query.where({timestamp: { $gte: new Date(req.query.from) }});
@@ -28,7 +29,7 @@ router.get("/", validate({query:getErrorsSchema}), acl("errors:list"), async (re
   res.json(await query);
 });
 
-router.post("/", acl("errors:create"), async (req,res) => {
+routes.post("errors","/").handle(acl("errors:create"), async (req,res) => {
 
   const errorData = {
     ...req.body,
@@ -43,13 +44,13 @@ router.post("/", acl("errors:create"), async (req,res) => {
   res.sendStatus(201);
 });
 
-router.delete("/", acl("errors:delete"), async (req,res) => {
+routes.delete("errors","/").handle(acl("errors:delete"), async (req,res) => {
 
   await ReportedError.remove({});
 
   res.sendStatus(204);
 });
 
-router.get("/:error", acl("errors:read"), async (req,res,next) => {
-  res.json(await ReportedError.findOne({_id:req.params.error}).populate("user","_id login"));
+routes.get("error","/:id").handle(acl("errors:read"), async (req,res,next) => {
+  res.json(await ReportedError.findOne({_id:req.params.id}).populate("user","_id login"));
 });

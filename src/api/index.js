@@ -1,7 +1,12 @@
 const express = require("express");
-const router = module.exports = express.Router();
+
+const { Routes } = require("../../lib/routes");
 
 const config = require("../../config");
+
+const routes = new Routes({url:config.api.root + "/groups", rootEndpoint:true});
+const router = module.exports = routes.router;
+
 
 router.use("/albums", require("./albums"));
 
@@ -35,57 +40,3 @@ router.use("/share", require("./share"));
 router.get("/test", (req,res,next) => res.sendStatus(200));
 
 router.use("/users", require("./users"));
-
-var routes = require("../middleware/routes");
-
-// TODO: refactorize this into its own part, make logic around, maybe automatic creation, etc.
-router.get("/", routes.resources());
-
-/*
-  res.json({
-    
-    "errors": {
-      "_links": {
-        "self": { href: `${config.api.root}/errors{/_id}`, type: "json" }
-      }
-    },
-    
-    "events": {
-      "_links": {
-        "self": { href: `${config.api.root}/events{/_id}`, type: "json"},
-        "upcoming": { href: `${config.api.root}/events/upcoming`, type: "json"},
-        "program": { href: `${config.api.root}/events/program{?dateFrom,dateTill,limit}`, type: "json"}
-      }
-    },
-    
-    "login": {
-      "_links": {
-        "self": { href: `${config.api.root}/login`, type: "string" },
-        "google": { href: `${config.api.root}/login/google`, type: "string" },
-        "renew": { href: `${config.api.root}/login/renew`, type: "string" },
-        "sendlink": { href: `${config.api.root}/login/sendlink`, type: "string" },
-        "impersonate": { href: `${config.api.root}/login/impersonate`, type: "string" }
-      }
-    },
-    
-    "members": {
-      "_links": {
-        "self": { href: `${config.api.root}/members`, type: "json"},
-        "one": { href: `${config.api.root}/members/{_id}`, type: "json"}
-      }
-    },
-    
-    "payments": {
-      "_links": {
-        "self": { href: `${config.api.root}/payments`, type: "json"},
-      }
-    },
-    
-    "groups": {
-      "_links": {
-        "self": { href: `${config.api.root}/groups`, type: "json"},
-        "one": { href: `${config.api.root}/groups/{_id}`, type: "json"}
-      }
-    }
-  });
-});*/
