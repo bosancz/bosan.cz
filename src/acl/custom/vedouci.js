@@ -29,6 +29,7 @@ module.exports = {
     "events:edit": true,
     "events:create": true,
     "events:delete": true,
+    //"events:publish": true,
     //"events:upcoming:list": true,
     
     /* MEMBERS */

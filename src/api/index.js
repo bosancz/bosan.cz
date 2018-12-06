@@ -33,6 +33,8 @@ router.use("/payments", require("./payments"));
 
 router.use("/photos", require("./photos"));
 
+router.use("/program", require("./program"));
+
 router.use("/versions", require("./versions"));
 
 router.use("/share", require("./share"));

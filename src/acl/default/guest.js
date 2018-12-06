@@ -12,6 +12,8 @@ var guest = module.exports = {
     
     "groups:list": true,
     "groups:read": true,
+
+    "program:read": true,
     
     "errors:create": true,
     

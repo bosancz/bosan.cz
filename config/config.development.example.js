@@ -61,5 +61,15 @@ module.exports = {
     username: "username",
     password: "password",
     databases: ["database","database-test"]
+  },
+  
+  facebook: {
+    app_id: "1234"
+  },
+  
+  ical: {
+    domain: "bosan.cz",
+    timezone: "Europe/Prague",
+    organizer: "Bošán Program <program@bosan.cz>"
   }
 }
