@@ -1,10 +1,7 @@
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
+
 const config = require("../../config");
-
-const { Routes } = require("../../lib/routes");
-const routes = new Routes({url:config.api.root + "/payments"});
-module.exports = routes.router;
-
-var acl = require("express-dynacl");
 
 var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
@@ -18,7 +15,7 @@ var Photo = require("../models/photo");
 var savePhoto = require("./albums/photo-save");
 
 // LIST ALBUMS
-routes.get("photos","/").handle(acl("photos:list"), async (req,res,next) => {
+routes.get("photos","/",{permission:"photos:list"}).handle(async (req,res,next) => {
 
   var query = Photo.find({});
 
@@ -32,7 +29,7 @@ routes.get("photos","/").handle(acl("photos:list"), async (req,res,next) => {
 });
 
 // POST A PHOTO TO AN ALBUM
-routes.post("photos","/").handle(acl("photos:create"), acl("albums:edit"), upload.single("photo"), async (req,res,next) => {
+routes.post("photos","/",{permission:"photos:create"}).handle(upload.single("photo"), async (req,res,next) => {
 
   // if file missing we send 400
   if(!req.file) return res.status(400).send("No photo");
@@ -76,14 +73,14 @@ routes.post("photos","/").handle(acl("photos:create"), acl("albums:edit"), uploa
 
 });
 
-routes.get("photo", "/:photo").handle(acl("photos:read"), async (req,res) => res.json(await Photo.findOne({_id:req.params.photo})));
+routes.get("photo", "/:photo",{permission:"photos:read"}).handle(async (req,res) => res.json(await Photo.findOne({_id:req.params.photo})));
 
-routes.patch("photo", "/:photo").handle(acl("photos:edit"), async (req,res) => {
+routes.patch("photo", "/:photo",{permission:"photos:edit"}).handle(async (req,res) => {
   await Photo.findOneAndUpdate({_id:req.params.photo},req.body);
   res.sendStatus(204);
 });
 
-routes.delete("photo", "/:photo").handle(acl("photos:delete"), async (req,res,next) => {
+routes.delete("photo", "/:photo",{permission:"photos:delete"}).handle(async (req,res,next) => {
   
   var photo = await Photo.findOne({_id:req.params.photo});
   if(!photo) return res.status(404).send("Photo not found.");

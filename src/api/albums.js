@@ -1,8 +1,7 @@
 const config = require("../../config");
 
-const { Routes } = require("../../lib/routes");
-const routes = new Routes({url:config.api.root + "/albums", routerOptions: { mergeParams: true }});
-module.exports = routes.router;
+const { Routes, RoutesACL } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
 const fs = require("fs-extra");
 const path = require("path");
@@ -10,7 +9,6 @@ const rmfr = require("rmfr");
 
 const mongoose = require("mongoose");
 
-const acl = require("express-dynacl");
 const validate = require("../validator");
 
 const Album = require("../models/album");
@@ -38,9 +36,12 @@ var getAlbumsSchema = {
 };
 
 // LIST ALBUMS
-routes.get("albums","/").handle(validate({query: getAlbumsSchema}), acl("albums:list"), async (req,res,next) => {
+routes.get("albums","/", {permission: "albums:list"}).handle(validate({query: getAlbumsSchema}), async (req,res,next) => {
 
-  var where = req.query.filter || {};
+  var where = [];
+  if(!RoutesACL.can("albums:drafts:list",req)) where.push({ status: "public" });
+  if(req.query.filter) where.push(req.query.filter);
+  
   if(req.query.search) where.name = new RegExp(req.query.search,"i");
   
   var populations = {
@@ -54,14 +55,15 @@ routes.get("albums","/").handle(validate({query: getAlbumsSchema}), acl("albums:
     limit: req.query.limit ? Math.min(req.query.limit,100) : 100,
     page: req.query.page || 1
   };
+  
   if(req.query.sort) options.sort = req.query.sort;
   if(req.query.populate && req.query.populate.indexOf("titlePhotos") !== null) options.select.push("titlePhotos");
 
-  res.json(await Album.paginate(where,options));
+  res.json(await Album.paginate(where.length ? { $and: where } : {},options));
 });
 
 // CREATE NEW ALBUM */
-routes.post("album","/").handle(acl("albums:create"), async (req,res,next) => {
+routes.post("album","/", {permission: "albums:create"}).handle(async (req,res,next) => {
   const album = await Album.create(req.body);
 
   await fs.mkdir(config.photos.storageDir(album._id));
@@ -71,7 +73,7 @@ routes.post("album","/").handle(acl("albums:create"), async (req,res,next) => {
 });
 
 // GET THE DISTINCT YEARS OF ALBUMS
-routes.get("albums:years","/years").handle(acl("albums:list"), async (req,res) => {
+routes.get("albums:years","/years", {permission: "albums:list"}).handle(async (req,res) => {
   res.json(await Album.distinct("year"))
 });
 
@@ -94,12 +96,12 @@ var getAlbumsListSchema = {
   additionalProperties: false
 };
       
-routes.get("albums:list","/list").handle(validate({query:getAlbumsListSchema}), acl("albums:list"), async (req,res) => {
+routes.get("albums:list","/list", {permission: "albums:list"}).handle(validate({query:getAlbumsListSchema}), async (req,res) => {
   
   let albums = Album.find({}).select("_id name dateFrom dateTill")
   
   let where = req.query.filter || {};
-  if(!await acl.can("albums:drafts:list",req)) where.status = "public";
+  if(!RoutesACL.can("albums:drafts:list",req)) where.status = "public";
   albums.where(where);
   
   if(req.query.sort) albums.sort(req.query.sort);
@@ -107,7 +109,7 @@ routes.get("albums:list","/list").handle(validate({query:getAlbumsListSchema}), 
   res.json(await albums);
 });
 
-routes.get("albums:recent","/recent").handle(acl("albums:recent:list"), async (req,res) => {
+routes.get("albums:recent","/recent", {permission: "albums:list"}).handle(async (req,res) => {
   
   var albums = Album.find({status:"public"}).sort("-datePublished").populate("titlePhotos");
   
@@ -117,7 +119,7 @@ routes.get("albums:recent","/recent").handle(acl("albums:recent:list"), async (r
 });
 
 // GET ALBUM BY ID
-routes.get("album","/:id").handle(acl("albums:read"), async (req,res,next) => {
+routes.get("album","/:id", {permission: "albums:read"}).handle(async (req,res,next) => {
   
   var query = Album.findOne({_id: req.params.id})
   
@@ -130,13 +132,13 @@ routes.get("album","/:id").handle(acl("albums:read"), async (req,res,next) => {
 });
 
 // UPDATE ALBUM AT ID
-routes.patch("album","/:id").handle(acl("albums:edit"), async (req,res,next) => {
+routes.patch("album","/:id", {permission: "albums:edit"}).handle(async (req,res,next) => {
   await Album.findOneAndUpdate({_id: req.params.id},req.body);
   res.sendStatus(204);
 });
 
 /// DELETE ALBUM BY ID
-routes.delete("album","/:id").handle(acl("albums:delete"), async (req,res,next) => {
+routes.delete("album","/:id", {permission: "albums:delete"}).handle(async (req,res,next) => {
 
   const album = await Album.findOne({_id:req.params.id});
 
@@ -148,7 +150,7 @@ routes.delete("album","/:id").handle(acl("albums:delete"), async (req,res,next) 
   res.sendStatus(204);
 });
 
-routes.get("album:photos","/:id/photos").handle(acl("albums:read"), async (req,res,next) => {
+routes.get("album:photos","/:id/photos", {permission:"albums:read"}).handle(async (req,res,next) => {
   
   let select = {
     "status": 1,
@@ -158,12 +160,12 @@ routes.get("album:photos","/:id/photos").handle(acl("albums:read"), async (req,r
   let album = await Album.findOne({_id:req.params.id},select).populate("photos");
   
   if(!album) return res.sendStatus(404);
-  if(album.status === "draft" && !await acl.can("albums:drafts:read",req)) return res.sendStatus(401);
+  if(album.status === "draft" && !RoutesACL.can("albums:drafts:read",req)) return res.sendStatus(401);
   
   res.json(album.photos);
 });
 
-routes.get("album:download","/:id/download").handle(acl("albums:download"), (req,res,next) => {
+routes.get("album:download","/:id/download", {permission:"albums:download"}).handle((req,res,next) => {
 
   res.writeHead(200, {
     'Content-Type': 'application/zip',

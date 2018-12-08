@@ -27,6 +27,5 @@ const albumSchema = mongoose.Schema({
   "photos": [{type: mongoose.Schema.Types.ObjectId, ref: "Photo"}]
 }, { toJSON: { virtuals: true } });
 
-albumSchema.virtual("downloadUrl").get(function(){return `${config.url}/api/albums/${this._id}/download`;});
 
 module.exports = mongoose.model("Album", albumSchema);

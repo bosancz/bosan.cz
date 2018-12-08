@@ -1,11 +1,9 @@
-const { Routes } = require("../../lib/routes");
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
 const config = require("../../config");
 
-const routes = new Routes({url:config.api.root + "/groups"});
-const router = module.exports = routes.router;
 
-var acl = require("express-dynacl");
 var fs = require("fs-extra");
 
 var multer = require("multer");
@@ -61,7 +59,7 @@ var getEventsSchema = {
   additionalProperties: false
 };
 
-routes.get("events","/").handle(validate({query:getEventsSchema}), acl("events:list"), async (req,res,next) => {
+routes.get("events","/",{permission:"events:list"}).handle(validate({query:getEventsSchema}), async (req,res,next) => {
 
   // construct the query
   const query = Event.find();
@@ -86,7 +84,7 @@ routes.get("events","/").handle(validate({query:getEventsSchema}), acl("events:l
 
 });
 
-routes.post("events","/").handle(acl("events:create"), async (req,res,next) => {
+routes.post("events","/",{permission:"events:create"}).handle(async (req,res,next) => {
 
   var event = await createEvent(req.body);
   res.location(`${config.api.root}/events/${event._id}`);
@@ -100,48 +98,3 @@ var getEventsUpcomingSchema = {
     "days":{ type: "number" }
   }
 };
-
-routes.get("events:upcoming","/upcoming").handle(validate({query:getEventsUpcomingSchema}), acl("events:upcoming:list"), async (req,res,next) => {
-
-  let today = new Date(); today.setHours(0,0,0,0);
-
-  var events = Event.find({status:"public",dateTill: { $gte: today }});
-  events.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
-  events.populate("leaders","_id name nickname group contacts.mobile");
-  events.sort("dateFrom order");  
-
-  if(req.query.limit) events.limit(Number(req.query.limit));
-  if(req.query.days){
-    let dateTill = new Date(); dateTill.setDate(dateTill.getDate() + Number(req.query.days));
-    events.where({dateFrom: { $lte: dateTill }});
-  }
-
-  res.json(await events);
-});
-
-const getEventsProgramSchema = {
-  type: 'object',
-  properties: {
-    "dateFrom": {type: "string", format: "date"},
-    "dateTill": {type: "string", format: "date"},
-    "limit": {type: "number"}
-  },
-  additionalProperties: false
-};
-
-routes.get("events:program","/program").handle(validate({query:getEventsProgramSchema}), acl("events:program:read"), async (req,res,next) => {
-
-  const query = Event.find({status:"public"});
-
-  query.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
-  query.populate("leaders","_id name nickname group contacts.mobile");
-
-  query.where({ dateTill: { $gte: req.query.dateFrom ? new Date(req.query.dateFrom) : new Date() } });
-  if(req.query.dateTill) query.where({ dateFrom: { $lte: new Date(req.query.dateTill) } });
-
-  query.sort("dateFrom order");  
-  query.limit(req.query.limit ? Math.min(100,Number(req.query.limit)) : 100);
-
-  res.json(await query);
-});
-

@@ -1,44 +1,42 @@
 const express = require("express");
 
-const { Routes } = require("../../lib/routes");
+const { Routes, RoutesLinksRoot } = require("@smallhillcz/routesjs");
 
 const config = require("../../config");
 
-const routes = new Routes({url:config.api.root + "/groups", rootEndpoint:true});
+const routes = new Routes({url:"/"});
 const router = module.exports = routes.router;
 
+routes.child("/albums", require("./albums"));
 
-router.use("/albums", require("./albums"));
+routes.child("/config", require("./config"));
 
-router.use("/camps", require("./camps"));
+routes.child("/errors", require("./errors"));
 
-router.use("/config", require("./config"));
+routes.child("/events", require("./events"));
+routes.child("/events/:id/recurring", require("./events-event-recurring"));
+routes.child("/events/:id", require("./events-event"));
 
-router.use("/errors", require("./errors"));
+routes.child("/gallery", require("./gallery"));
 
-router.use("/events", require("./events"));
-router.use("/events/:event", require("./events-event"));
-router.use("/events/:event/recurring", require("./events-event-recurring"));
+routes.child("/groups", require("./groups"));
 
-router.use("/groups", require("./groups"));
+routes.child("/login", require("./login"));
 
-router.use("/login", require("./login"));
+routes.child("/me", require("./me"));
 
-router.use("/my/groups", require("./my-groups"));
-router.use("/me", require("./me"));
+routes.child("/members", require("./members"));
 
-router.use("/members", require("./members"));
+routes.child("/payments", require("./payments"));
 
-router.use("/payments", require("./payments"));
+routes.child("/photos", require("./photos"));
 
-router.use("/photos", require("./photos"));
+routes.child("/program", require("./program"));
 
-router.use("/program", require("./program"));
+routes.child("/share", require("./share"));
 
-router.use("/versions", require("./versions"));
+routes.child("/users", require("./users"));
 
-router.use("/share", require("./share"));
+routes.router.get("/test", (req,res,next) => res.sendStatus(200));
 
-router.get("/test", (req,res,next) => res.sendStatus(200));
-
-router.use("/users", require("./users"));
+routes.get(null,"/",{permission:"api:read"}).handle(RoutesLinksRoot({url: "/"}));

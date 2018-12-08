@@ -4,10 +4,6 @@ var mongoose = require('mongoose');
 
 mongoose.plugin(require('mongoose-paginate'));
 
-const { routesMongoosePlugin } = require("../lib/routes/lib/plugins/mongoose");
-
-mongoose.plugin(routesMongoosePlugin);
-
 mongoose.Promise = global.Promise;
 
 var connection = mongoose.connect(config.database.uri,config.database.options)

@@ -1,7 +1,6 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
-var acl = require("express-dynacl");
 var bcrypt = require("bcryptjs");
 
 var config = require("../../config");
@@ -12,7 +11,7 @@ var mailings = require("../mailings");
 
 var createToken = require("./login/create-token");
 
-router.get("/", acl("users:list"), async (req,res,next) => {
+routes.get("users","/",{permission:"users:list"}).handle(async (req,res,next) => {
   var users = User.find({}).select("_id login member roles email");
   
   if(req.query.members) users.populate("member","_id nickname name group");
@@ -20,7 +19,7 @@ router.get("/", acl("users:list"), async (req,res,next) => {
   res.json(await users);
 });
 
-router.post("/", acl("users:create"), async (req,res) => {
+routes.post("users", "/",{permission:"users:create"}).handle(async (req,res) => {
   
   // get the user data
   const userData = req.body;
@@ -44,12 +43,12 @@ router.post("/", acl("users:create"), async (req,res) => {
   res.sendStatus(204);
 });
 
-router.get("/:id", acl("users:read"), async (req,res,next) => {
+routes.get("user", "/:id", {permission:"users:read"}).handle(async (req,res,next) => {
   var user = User.findOne({_id:req.params.id}).populate("member","_id nickname name group")
   res.json(await user);
 });
 
-router.patch("/:id", acl("users:edit"), async (req,res) => {
+routes.patch("user", "/:id", {permission:"users:edit"}).handle(async (req,res) => {
   
   var userData = req.body;
   
@@ -69,7 +68,7 @@ router.patch("/:id", acl("users:edit"), async (req,res) => {
   res.sendStatus(204);
 });
 
-router.delete("/:id", acl("users:delete"), async (req,res) => {
+routes.delete("user", "/:id", {permission:"users:delete"}).handle(async (req,res) => {
   const userId = req.params.id.toLowerCase();
   await User.remove({_id:userId});
   res.sendStatus(204);

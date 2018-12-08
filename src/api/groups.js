@@ -1,19 +1,20 @@
-const { Routes } = require("../../lib/routes");
-
-const acl = require("express-dynacl");
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
 const config = require("../../config");
-
-const routes = new Routes({url:config.api.root + "/groups"});
-module.exports = routes.router;
 
 const Group = require("../models/group");
 const Member = require("../models/member");
 
-routes.get("groups:self", "/").handle( acl("groups:list"), async (req,res) => res.json(await Group.find()));
+routes.get("groups", "/",{permission:"groups:list"}).handle(async (req,res) => {
+  var groups = Group.find();
+  
+  groups = req.routes.links(groups,"group");
+  
+  res.json(await groups)
+});
 
-routes.get("group:self", "/:group").handle( acl("groups:read"), async (req,res) => res.json(Group.findOne({_id:req.params.group})));
-
-routes.get("group:members", "/:id/members", {}).handle(acl("groups:members:list"), async (req,res) => {
-  res.json(await Member.find({group:req.params.id}).select("_id nickname name"))
+routes.get("group", "/:_id",{permission:"groups:read"}).handle(async (req,res) => {
+  var group = Group.findOne({_id:req.params._id});
+  res.json(await req.routes.links(group,"group"));
 });

@@ -1,113 +1,20 @@
-const { Routes } = require("../../lib/routes");
+const { Routes } = require("@smallhillcz/routesjs");
 
 const config = require("../../config");
 
-const routes = new Routes({url:config.api.root + "/events/{id}/recurring", routerOptions: { mergeParams: true }});
-module.exports = routes.router;
+const routes = module.exports = new Routes();
 
 var mongoose = require('mongoose');
 var path = require("path");
-var acl = require("express-dynacl");
 
 var createEvent = require("./events/create-event");
 var deleteEvent = require("./events/delete-event");
+var createRecurring = require("./events/create-recurring.js");
 
 var Event = require("../models/event");
 var EventRecurring = require("../models/event-recurring");
 
-async function createRecurring(recurring,event){
-  
-  // list event files to copy
-  var eventFiles = [];
-  if(event.registration) eventFiles.push(path.join(config.events.eventDir(String(event._id)),event.registration));
-  
-  // normalize DB data
-  var eventData = event.toObject();
-  eventData.recurring = recurring._id;
-  eventData.dateFrom.setUTCHours(0,0,0,0);
-  eventData.dateTill.setUTCHours(0,0,0,0);
-  delete eventData._id;
-  delete eventData.id;
-  delete eventData.__v;
-
-  let startDate = recurring.startDate;
-  let endDate = recurring.endDate;
-  startDate.setUTCHours(0,0,0,0);
-  endDate.setUTCHours(0,0,0,0);
-  
-  let date;
-  
-  switch(recurring.type){
-    case "weekly":
-      date = startDate;
-      while(date.getDay() !== eventData.dateFrom.getDay()) date.setDate(date.getDate() + 1);
-      
-      // create the instances
-      return createInstances(date,date => date.setDate(date.getDate() + 7),endDate,eventData,eventFiles); 
-
-    case "monthly":
-      date = new Date(startDate.getFullYear(), startDate.getMonth(), eventData.getDate());
-      while(date < startDate) date.setMonth(date.getMonth() + 1);// move past the start date
-      
-      // create the instances
-      return createInstances(date,date => date.setMonth(date.getMonth() + 1),endDate,eventData,eventFiles); 
-      
-    case "monthlyDay":
-      let nth = Math.ceil(event.dateFrom.getDate() / 7);
-      let day = event.dateFrom.getDay();
-      
-      date = new Date(startDate.getFullYear(),startDate.getMonth(),(nth - 1) * 7 + 1);
-      while(date < startDate) date.setMonth(date.getMonth() + 1);// move past the start date
-      date.setDate(date.getDate() + (day + 7 - date.getDay()) % 7); // move to the same weekday
-      
-      // create the instances
-      return createInstances(date,date => {
-        date.setMonth(date.getMonth() + 1)
-        date.setDate((nth - 1) * 7 + 1);
-        date.setDate(date.getDate() + (day + 7 - date.getDay()) % 7);
-      },endDate,eventData,eventFiles); 
-
-    case "yearly":
-      date = new Date(startDate.getFullYear(),eventData.dateFrom.getMonth(),eventData.dateFrom.getDate());
-      while(date < startDate) date.setFullYear(date.getFullYear() + 1);// move past the start date
-      
-      // create the instances
-      return createInstances(date,date => date.setFullYear(date.getFullYear() + 1),endDate,eventData,eventFiles); 
-
-  }
-}
-
-async function createInstances(date,nextDate,endDate,eventData,eventFiles){
-  
-  var instances = [];
-  
-  var length = eventData.dateTill.getTime() - eventData.dateFrom.getTime();
-  
-  var sourceEventTime = eventData.dateFrom.getTime();
-  
-  while(date <= endDate){
-    
-    // skip source event date
-    if(date.getTime() === sourceEventTime){
-      nextDate(date);
-      continue;
-    }
-    
-    eventData.dateFrom = date;
-    eventData.dateTill = new Date(date.getTime() + length);
-    
-    let instance = await createEvent(eventData,eventFiles,{copyFiles:true});
-    instances.push({_id: instance._id, date: new Date(date)});
-
-    nextDate(date);
-  } 
-  
-  return instances;
-
-} 
-
-
-routes.get("event:recurring","/").handle(acl("events:read"), async (req,res) => {
+routes.get("event:recurring","/",{permission:"events:read"}).handle(async (req,res) => {
   // find the event to find recurring _id
   var event = await Event.findOne({"_id": req.params.event}).select("_id recurring");
   if(!event) return res.status(404).send("Event not found");
@@ -121,7 +28,7 @@ routes.get("event:recurring","/").handle(acl("events:read"), async (req,res) => 
   res.json(await recurring);
 });
 
-routes.put("event:recurring","/").handle(acl("events:edit"), async (req,res,next) => {
+routes.put("event:recurring","/",{permission:"events:edit"}).handle(async (req,res,next) => {
   // find the event to find recurring _id
   var event = await Event.findOne({"_id": req.params.event});
   if(!event) return res.status(404).send("Event not found");
@@ -173,7 +80,7 @@ routes.put("event:recurring","/").handle(acl("events:edit"), async (req,res,next
 
 });
 
-routes.delete("event:recurring","/").handle(acl("events:edit"), async (req,res) => {
+routes.delete("event:recurring","/",{permission:"events:delete"}).handle(async (req,res) => {
 
   var event = await Event.findOne({"_id": req.params.event}).select("_id recurring");
   if(!event) return res.status(404).send("Event not found");

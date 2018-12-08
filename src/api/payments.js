@@ -1,10 +1,7 @@
 const config = require("../../config");
 
-const { Routes } = require("../../lib/routes");
-const routes = new Routes({url:config.api.root + "/payments"});
-module.exports = routes.router;
-
-var acl = require("express-dynacl");
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
 var Payment = require("../models/payment");
 
@@ -26,7 +23,7 @@ var getPaymentsSchema = {
   additionalProperties: false
 };          
           
-routes.get("payments","/").handle(validate({query:getPaymentsSchema}), acl("payments:list"), async (req,res) => {
+routes.get("payments","/",{permission:"payments:list"}).handle(validate({query:getPaymentsSchema}), async (req,res) => {
   let payments = Payment.find();
   
   if(req.query.filter) payments.where(req.query.filter);
@@ -34,19 +31,19 @@ routes.get("payments","/").handle(validate({query:getPaymentsSchema}), acl("paym
   res.json(await payments);
 });
 
-routes.post("payments","/").handle(acl("payments:create"), async (req,res) => {
+routes.post("payments","/",{permission:"payments:create"}).handle(async (req,res) => {
   var payment = Payment.create(req.body);
   res.json(await payment);
 });
 
-routes.get("payment","/:id").handle(acl("payments:read"), async (req,res) => res.json(await Payment.findOne({_id:req.params.id})) );
+routes.get("payment","/:id",{permission:"payments:read"}).handle(async (req,res) => res.json(await Payment.findOne({_id:req.params.id})) );
 
-routes.patch("payment","/:id").handle(acl("payments:edit"), async (req,res) => {
+routes.patch("payment","/:id",{permission:"payments:edit"}).handle(async (req,res) => {
   await Payment.findOneAndUpdate({_id:req.params.id},req.body)
   res.sendStatus(204);
 });
 
-routes.delete("payment","/:id").handle(acl("payments:delete"), async (req,res) => {
+routes.delete("payment","/:id",{permission:"payments:delete"}).handle(async (req,res) => {
   await Payment.deleteOne({_id:req.params.id});
   res.sendStatus(204);
 });

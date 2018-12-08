@@ -1,11 +1,9 @@
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
+
 const config = require("../../config");
 
-const { Routes } = require("../../lib/routes");
-const routes = new Routes({url:config.api.root + "/login", routerOptions: { mergeParams: true }});
-module.exports = routes.router;
-
 var bcrypt = require("bcryptjs");
-var acl = require("express-dynacl");
 
 var User = require("../models/user");
 
@@ -24,7 +22,7 @@ var loginSchema = {
   required: ["login","password"]
 };
 
-routes.post("login","/").handle(validate({body:loginSchema}), acl("login:credentials"), async (req,res,next) => {
+routes.post("login","/",{permission:"login:credentials"}).handle(validate({body:loginSchema}), async (req,res,next) => {
   
   if(!req.body.login) return res.status(400).send("Missing login");
   if(!req.body.password) return res.status(400).send("Missing password");
@@ -60,7 +58,7 @@ routes.post("login","/").handle(validate({body:loginSchema}), acl("login:credent
 
 });
 
-routes.post("login:renew","/renew").handle(acl("login:renew"), async (req,res) => {
+routes.post("login:renew","/renew",{permission:"login:renew"}).handle(async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
   const user = await User.findOne({_id:req.user._id});
@@ -83,7 +81,7 @@ var sendLinkSchema = {
   required: ["login"]
 };
 
-routes.post("login:sendlink","/sendlink").handle(validate({body:sendLinkSchema}), acl("login:sendlink"), async (req,res) => {
+routes.post("login:sendlink","/sendlink",{permission:"login:sendlink"}).handle(validate({body:sendLinkSchema}), async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
   const userId = req.body.login.toLowerCase();
@@ -97,7 +95,7 @@ routes.post("login:sendlink","/sendlink").handle(validate({body:sendLinkSchema})
 	
 });
 
-routes.post("login:google","/google").handle(acl("login:google"), async (req,res) => {
+routes.post("login:google","/google",{permission:"login:google"}).handle(async (req,res) => {
   
   var ticket;
   
@@ -126,7 +124,7 @@ routes.post("login:google","/google").handle(acl("login:google"), async (req,res
   
 });
 
-var loginImpersonareSchema = {
+var loginImpersonateSchema = {
   type: "object",
   properties: {
     "_id": {type: "string"},
@@ -135,7 +133,7 @@ var loginImpersonareSchema = {
   additionalProperties: false
 };
 
-routes.post("login:impersonate","/impersonate").handle(validate({body:loginImpersonareSchema}), acl("login:impersonate"), async (req,res) => {
+routes.post("login:impersonate","/impersonate", { permission: "login:impersonate"}).handle(validate({body:loginImpersonateSchema}), async (req,res) => {
   
   let user = {};
   

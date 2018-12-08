@@ -1,16 +1,12 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
-var moment = require("moment");
+const config = require("../../config");
 
-var config = require("../../config");
-
+const moment = require("moment");
 const ical = require('ical-generator');
 
-var acl = require("express-dynacl");
-
 var validate = require("../validator");
-
 
 var Event = require("../models/event");
 
@@ -24,7 +20,7 @@ const getEventsProgramSchema = {
   additionalProperties: false
 };
 
-router.get("/", validate({query:getEventsProgramSchema}), acl("program:read"), async (req,res,next) => {
+routes.get("program","/",{permission:"program:read"}).handle(validate({query:getEventsProgramSchema}), async (req,res,next) => {
 
   
   const query = Event.find({status:"public"});
@@ -41,7 +37,7 @@ router.get("/", validate({query:getEventsProgramSchema}), acl("program:read"), a
   res.json(await query);
 });
 
-router.get("/ical", acl("program:read"), async (req,res,next) => {
+routes.get("program:ical","/ical",{permission:"program:read"}).handle(async (req,res,next) => {
   
   const cal = ical({
     domain: config.ical.domain,

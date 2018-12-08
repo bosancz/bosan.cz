@@ -1,10 +1,8 @@
 const config = require("../../config");
 
-const { Routes } = require("../../lib/routes");
-const routes = new Routes({url:config.api.root + "/events/{id}", routerOptions: { mergeParams: true }});
-module.exports = routes.router;
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
-var acl = require("express-dynacl");
 var fs = require("fs-extra");
 var path = require("path");
 var rmfr = require("rmfr");
@@ -29,8 +27,8 @@ var getEventSchema = {
 };
 
 // read the event document
-routes.get("event","/").handle(validate({query:getEventSchema}), acl("events:read"), async (req,res,next) => {
-  const query = Event.findOne({_id:req.params.event});
+routes.get("event","/",{permission:"events:read"}).handle(validate({query:getEventSchema}), async (req,res,next) => {
+  const query = Event.findOne({_id:req.params.id});
   
   if(req.query.select) query.select(req.query.select);
   
@@ -43,33 +41,37 @@ routes.get("event","/").handle(validate({query:getEventSchema}), acl("events:rea
 });
 
 // change part of the events
-routes.patch("event","/").handle(acl("events:edit"), async (req,res,next) => {
+routes.patch("event","/",{permission:"events:edit"}).handle(async (req,res,next) => {
   // update event in the database with new data
-  await Event.findOneAndUpdate({_id:req.params.event},req.body);
+  await Event.findOneAndUpdate({_id:req.params.id},req.body);
   // return OK, no data
   res.sendStatus(204);
 });
 
 
-routes.delete("event","/").handle(acl("events:delete"), async (req,res,next) => {
-  await deleteEvent(req.params.event);
+routes.delete("event","/",{permission:"events:delete"}).handle(async (req,res,next) => {
+  await deleteEvent(req.params.id);
 
   // return OK, no data
   res.sendStatus(204);
 });
 
-routes.get("event:leaders","/leaders").handle(acl("events:read"), async (req,res,next) => {
+routes.get("event:leaders","/leaders",{permission:"events:read"}).handle(async (req,res,next) => {
 
   // get event with populated leaders' members
-  var event = await Event.findOne({_id:req.params.event}).select("leaders").populate("leaders","_id nickname name group");
+  var event = await Event.findOne({_id:req.params.id}).select("leaders").populate("leaders","_id nickname name group");
 
   // return just the leaders
   res.json(event.leaders || []);
 });
 
-routes.post("event:registration","/registration").handle(upload.single("file"), acl("events:edit"), async (req,res,next) => {
+routes.get("event:registration","/registration",{permission:"events:registration:read"}).handle(async (req,res,next) => {
+  res.sendFile(path.join(config.events.eventDir(req.params.id),"registration.pdf"))
+});
   
-  var event = await Event.findOne({_id:req.params.event});
+routes.post("event:registration","/registration",{permission:"events:registration:edit"}).handle(upload.single("file"), async (req,res,next) => {
+  
+  var event = await Event.findOne({_id:req.params.id});
   
   try{
 
@@ -95,8 +97,8 @@ routes.post("event:registration","/registration").handle(upload.single("file"), 
   res.sendStatus(204);
 });
 
-routes.delete("event:registration","/registration").handle(acl("events:edit"), async (req,res,next) => {
-  var event = await Event.findOne({_id:req.params.event});
+routes.delete("event:registration","/registration",{permission:"events:registration:delete"}).handle(async (req,res,next) => {
+  var event = await Event.findOne({_id:req.params.id});
   
   if(!event.registration) return res.sendStatus(404);
   
@@ -108,3 +110,14 @@ routes.delete("event:registration","/registration").handle(acl("events:edit"), a
   
   res.sendStatus(204);
 });
+
+routes.post("event:publish","/actions/publish", {permission:"events:publish", hideRoot: true, query: {status: "draft"}}).handle(async (req,res,next) => {
+  var event = await Event.findOne({_id:req.params.id});
+  
+  event.status = "public";
+  
+  await event.save();
+  
+  res.sendStatus(200);
+});
+
