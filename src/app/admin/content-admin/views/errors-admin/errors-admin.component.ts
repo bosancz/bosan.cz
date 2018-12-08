@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
 import { ApiService } from "app/services/api.service";
+import { ToastService } from "app/services/toast.service";
 
 import { ReportedError } from "app/schema/reported-error";
 
@@ -21,7 +22,7 @@ export class ErrorsAdminComponent implements OnInit, OnDestroy {
 
   paramsSubscription:Subscription;
 
-  constructor(private api:ApiService, private route:ActivatedRoute) {
+  constructor(private api:ApiService, private route:ActivatedRoute, private toastService:ToastService) {
     const weekAgo = new Date();
     weekAgo.setDate(weekAgo.getDate() - 7);
     
@@ -47,6 +48,12 @@ export class ErrorsAdminComponent implements OnInit, OnDestroy {
   async loadErrors(view){
     if(!view) return;
     this.errors = await this.api.get<ReportedError[]>("errors", view);
+  }
+  
+  async deleteErrors(){
+    await this.api.delete("errors");
+    await this.loadErrors(this.views[this.view]);
+    this.toastService.toast("Všechny chyby byly smazány.");
   }
 
 }

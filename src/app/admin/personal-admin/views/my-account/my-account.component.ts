@@ -11,11 +11,11 @@ import { AuthService } from "app/services/auth.service";
 import { User } from "app/schema/user";
 
 @Component({
-  selector: 'account-admin',
-  templateUrl: './account-admin.component.html',
-  styleUrls: ['./account-admin.component.scss']
+  selector: 'my-account',
+  templateUrl: './my-account.component.html',
+  styleUrls: ['./my-account.component.scss']
 })
-export class AccountAdminComponent implements OnInit, OnDestroy {
+export class MyAccountComponent implements OnInit, OnDestroy {
 
   cat:string;
   

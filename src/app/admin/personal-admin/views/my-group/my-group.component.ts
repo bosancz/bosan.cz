@@ -12,14 +12,14 @@ import { Group } from "app/schema/group";
 })
 export class MyGroupComponent implements OnInit {
   
-  group:Group;
+  groupId:string;
   
   groupSubscription:Subscription;
 
   constructor(private groupService:MyGroupService) { }
 
   ngOnInit() {
-    this.groupSubscription = this.groupService.group.subscribe(group => this.group = group);
+    this.groupSubscription = this.groupService.groupId.subscribe(groupId => this.groupId = groupId);
   }
   
   ngOnDestroy(){

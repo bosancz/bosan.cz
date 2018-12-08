@@ -53,18 +53,24 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   timelineMouseMoveHandler:any;
 
-  constructor(private changeDetectorRef:ChangeDetectorRef,private ngZone:NgZone) {
+  constructor(private cdRef:ChangeDetectorRef,private ngZone:NgZone) {
     this.timelineMouseMoveHandler = function(event){this.timelineMouseMove(event);}.bind(this);
   }
 
   ngAfterViewInit(){
 
-    // there is no event to check for div resize :(
-    this.ngZone.runOutsideAngular(() => {
+    this.ngZone.runOutsideAngular(() => { // setInterval in NgZone blocks loading of Service Worker
+      
+      // update dimensions right after init, needs to trigger manual changeDetection round
+      this.updateDimensions();
+      this.cdRef.detectChanges();
+      
+      // there is no event to check for div resize, we have to poll :(
       this.resizeCheckInterval = window.setInterval(() => {
         this.ngZone.run(() => this.updateDimensions());
       },500);
     });
+    
   }
 
   ngOnDestroy(){
@@ -74,7 +80,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   @HostListener('window:scroll', [])
   updateScroll():void{
     this.updateVisible();
-    this.changeDetectorRef.detectChanges();
+    this.cdRef.detectChanges();
   }
 
   @HostListener('window:resize', [])

@@ -14,9 +14,9 @@ export class MyDashboardComponent implements OnInit {
 
   noLeaderEvents:Event[];
   
-  myFutureEvents:Event[] = [{_id:"123",name:"Moje nejlepší akce",dateFrom:new Date(),dateTill:new Date(),status:"public",type:"akce",subtype:"podzimky",place:"",description:""}];
+  myFutureEvents:Event[] = [];
   
-  myEventsAccounting:Event[] = [{_id:"123",name:"Moje druhá akce",dateFrom:new Date(),dateTill:new Date(),status:"public",type:"akce",subtype:"podzimky",place:"",description:""}];
+  myEventsAccounting:Event[] = [];
   
   constructor(private api:ApiService) { }
 

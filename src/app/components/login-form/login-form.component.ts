@@ -52,6 +52,8 @@ export class LoginFormComponent implements OnInit {
       
       this.authService.loginToken(response.body);
       
+      this.toastService.toast("Přihlášeno.")
+      
       this.loginModal.hide();
       this.router.navigate(["/interni"]);
     }
@@ -70,6 +72,8 @@ export class LoginFormComponent implements OnInit {
       const response = await this.api.post("login:google",{token:googleToken});
       
       this.authService.loginToken(response.body);      
+      
+      this.toastService.toast("Přihlášeno.")
     }
     catch(err){
       this.toastService.toast("Přihlášení přes Google se nezdařilo.");

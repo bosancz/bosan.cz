@@ -42,10 +42,10 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   // DB interaction
   async loadEvent(eventId:string){
     let options = {
-      _id: eventId,
+      id: eventId,
       populate: ["leaders"]
     };
-    this.event = await this.api.get<Event>("events",options);
+    this.event = await this.api.get<Event>("event",options);
   }
   
   async saveEvent(eventData:any){
@@ -68,7 +68,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   }
   
   async publishEvent(){
-    await this.api.post(this.event._actions.publish);
+    await this.api.post(this.event._links.publish);
     this.loadEvent(this.event._id);
     this.toastService.toast("Publikováno.");
   }

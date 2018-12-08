@@ -19,6 +19,7 @@
 
         <div *ngSwitchCase="'info'">
           <ng-container *ngIf="user">
+            
             <h4>Bošánovský mail:</h4>
             <p><strong>E-mail:</strong>&nbsp;<a [href]="'mailto:' + user.email">{{user.email}}</a></p>
             <p>Přihlásit do mailu se můžeš na adrese <a href="https://mail.bosan.cz" target="_blank">mail.bosan.cz</a>.</p>
@@ -29,8 +30,11 @@
               <strong>Jméno:</strong>&nbsp;{{user.member?.name?.first}} {{user.member?.name?.last}}<br>
               <strong>Oddíl:</strong>&nbsp;{{user.member?.group | group:'name'}}
             </p>
+            <p *ngIf="!user.member">K tomuto účtu není připojený člen z členské databáze.</p>
+            
             <h4>Uživatelské role:</h4>
             <p>{{user.roles?.join(', ')}}</p>
+            
           </ng-container>
         </div>
 

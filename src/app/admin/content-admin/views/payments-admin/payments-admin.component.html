@@ -1,0 +1,63 @@
+<section>
+  <div class="container">
+
+    <h2>Přehled plateb</h2>
+
+
+    <div *ngIf="openFilter" class="filter">
+      <form class="form" (ngSubmit)="loadPayments()">
+        <div class="form-row">
+
+          <div class="form-group col-md-3">
+            <label>Člen</label>
+            <input type="text" name="member" class="form-control" [ngModel]="filter.member">
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>Akce</label>
+            <input type="text" name="event" class="form-control" [ngModel]="filter.event">
+          </div>
+
+          <div class="form-group col-md-3">
+            <label>Typ platby</label>
+            <select name="type" class="form-control" [ngModel]="filter.type">
+              <option *ngFor="let type of paymentTypes">{{type}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-1">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn btn-primary text-center" style="width:100%;"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <admin-table>
+      <thead class="thead-dark">
+        <tr>
+          <th>Datum</th>
+          <th>Typ platby</th>
+          <th>Akce</th>
+          <th>Člen</th>
+          <th>Variabilní symbol</th>
+          <th>Částka</th>
+          <th>Zaplaceno</th>
+          <th class="filter text-right"><a (click)="openFilter=!openFilter" [class.active]="openFilter"><i class="fas fa-filter"></i></a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let payment of payments">
+          <td class="date">{{payment.timestamp | date:"d. M. y"}}</td>
+          <td>{{payment.type}}</td>
+          <td>{{payment.event?.name}}</td>
+          <td>{{payment.member?.nickname}}</td>
+          <td>{{payment.bankId}}</td>
+          <td>{{payment.amountDue}}</td>
+          <td>{{payment.amountPaid}}</td>
+        </tr>
+      </tbody>
+    </admin-table>
+
+  </div>
+</section>

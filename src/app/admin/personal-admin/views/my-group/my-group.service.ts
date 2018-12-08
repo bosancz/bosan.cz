@@ -14,19 +14,17 @@ import { Member } from "app/schema/member";
 })
 export class MyGroupService {
   
-  group:BehaviorSubject<Group> = new BehaviorSubject(null);
+  groupId:BehaviorSubject<string> = new BehaviorSubject(undefined);
 
   constructor(private authService:AuthService, private api:ApiService) { 
-    this.authService.user.subscribe(user => this.getGroup(user));
+    this.authService.user.subscribe(user => this.getGroupId(user));
   }
   
-  async getGroup(user){
+  async getGroupId(user){
     
     const member = await this.api.get<Member>("members:one",{_id:user.memberId,select:"_id group"});
     
-    const group = await this.api.get<Group>("groups:one",{_id:member.group})
-    
-    this.group.next(group);
+    this.groupId.next(member.group);
     
   }
   
