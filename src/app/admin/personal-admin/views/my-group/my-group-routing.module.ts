@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MyGroupComponent } from "./my-group.component";
-import { GroupMembersComponent } from './group-members/group-members.component';
+import { MyGroupMembersComponent } from './my-group-members/my-group-members.component';
 
 const routes: Routes = [
   {
     path: "",
     component: MyGroupComponent,
     children: [
-      { path: "clenove", component: GroupMembersComponent },
+      { path: "clenove", component: MyGroupMembersComponent },
       { path: "", redirectTo: "clenove", pathMatch: "full" }
     ]
   }

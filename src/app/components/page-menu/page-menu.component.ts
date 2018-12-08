@@ -1,4 +1,5 @@
 import { Component, HostListener, AfterViewInit, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -8,6 +9,7 @@ import { OnlineService } from "app/services/online.service";
 import { AuthService } from "app/services/auth.service";
 import { AclService } from "app/lib/acl/services/acl.service";
 import { ConfigService } from "app/services/config.service";
+import { ToastService } from "app/services/toast.service";
 
 import { LoginFormComponent } from "app/components/login-form/login-form.component";
 
@@ -30,7 +32,9 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
     public layoutService:LayoutService,
     public onlineService:OnlineService,
     private configService:ConfigService,
-    private modalService:BsModalService
+    private modalService:BsModalService,
+    private toastService:ToastService,
+    private router:Router
   ) { }
 
   ngOnInit(){
@@ -56,6 +60,8 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
 
   logout(){
     this.authService.logout();
+    this.toastService.toast("Odhlášeno.");
+    this.router.navigate(["/"]);
   }
 
 }

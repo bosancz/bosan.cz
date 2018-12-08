@@ -54,7 +54,7 @@ export class ApiService {
   }
 
   loadResources(){
-    this.resources = this.http.get<{[name:string]:HalResource}>(this.root).toPromise();
+    this.resources = this.http.get<any>(this.root).toPromise().then(api => api._links);
   }
   
   async path2link(path:any,params?:any):Promise<HalLink>{
@@ -64,14 +64,11 @@ export class ApiService {
     var link;
     
     if(typeof path === "string" && path.match(/^[a-z]+(\:[a-z]+)?$/i)){
-      const [name,linkName = "self"] = path.split(":");
-      
       const resources = await this.resources;
     
-      if(!resources[name]) throw new ApiError(`Resource ${name} does not exist.`);
-      if(!resources[name]._links[linkName]) throw new ApiError(`Resource link ${name}:${linkName} does not exist.`);
+      if(!resources[path]) throw new ApiError(`Resource ${path} does not exist on the API endpoint ${this.root}.`);
       
-      link = resources[name]._links[linkName];
+      link = resources[path];
     }
     else if(typeof path === "string"){
       link = { href: path };
@@ -83,7 +80,9 @@ export class ApiService {
       throw new ApiError("Invalid link.");
     }
     
-    const href = URITemplate(link.href).expand(key => {
+    
+    
+    var href = URITemplate(link.href).expand(key => {
       if(params && params[key]){
         const value = params[key];
         delete params[key];
@@ -91,6 +90,8 @@ export class ApiService {
       }
       return undefined;
     });
+    
+    if(!href.match(/^[a-z]+\:\/\//)) href = this.root + href;
     
     return {
       href: href,

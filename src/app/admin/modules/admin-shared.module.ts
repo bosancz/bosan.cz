@@ -2,13 +2,16 @@ import { NgModule } from "@angular/core";
  
 import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 
+import { AdminTableComponent } from '../components/admin-table/admin-table.component';
+
 @NgModule({
   imports: [
     TypeaheadModule.forRoot()
   ],
-  declarations: [ ],
+  declarations: [AdminTableComponent],
   exports: [
-    TypeaheadModule
+    TypeaheadModule,
+    AdminTableComponent
   ],
   providers: [ ]
   

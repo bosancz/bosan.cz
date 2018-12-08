@@ -42,7 +42,6 @@ export function getTooltipConfig():TooltipConfig {
     TooltipModule.forRoot(),
     ShareModule.forRoot(),
     
-    
   ],
   declarations: [
     /* PIPES */

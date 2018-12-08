@@ -21,7 +21,9 @@
   
   .btn {font-size:$font-basic;}
   
-  table .actions a{margin: 0 5px;cursor:pointer;}
+  table .actions a{margin: 0 5px;cursor:pointer;color:$linkBlue;}
+  
+  
   ul.nav a.active{color:$hover-yellow;}
   .btn{line-height: 24px;}
   section{padding:20px 0;background-color:transparent;}

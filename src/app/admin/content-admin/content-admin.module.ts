@@ -55,6 +55,7 @@ import { PhotoTagsEditorComponent } from './components/photo-tags-editor/photo-t
 import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
 import { ErrorsAdminComponent } from './views/errors-admin/errors-admin.component';
 import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admin.component';
+import { PaymentsAdminComponent } from './views/payments-admin/payments-admin.component';
 
 @NgModule({
   imports: [
@@ -76,7 +77,7 @@ import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admi
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, GroupsSelectComponent, EventAdminPaymentsComponent, ErrorsAdminComponent, ErrorAdminComponent
+    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, GroupsSelectComponent, EventAdminPaymentsComponent, ErrorsAdminComponent, ErrorAdminComponent, PaymentsAdminComponent
     
   ]
 })

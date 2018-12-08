@@ -25,7 +25,7 @@ export class AclService {
       
       let permission = this.permissions[checkedPermission];
       
-      if(!permission) continue;
+      if(!permission) throw new Error("Permission " + checkedPermission + " is not defined!");
       
       if(permission.roles && this.roles.some(role => permission.roles.indexOf(role) !== -1)) return true;
       

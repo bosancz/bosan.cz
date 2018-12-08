@@ -81,13 +81,8 @@ export class RuntimeService {
       }, 5 * 60 * 1000);
     });
 
-    // handle login
-    this.authService.onLogin.subscribe(user => this.toastService.toast("Přihlášeno."));
-
     // handle logout
     this.authService.onLogout.subscribe(user => {
-      this.toastService.toast("Odhlášeno.");
-      this.router.navigate(["/"]);
       this.googleService.signOut();
     });
 
