@@ -66,6 +66,8 @@ export class RuntimeService {
     this.authService.user.subscribe(user => {
       if(user) this.aclService.setRoles(["guest","user",...user.roles]);
       else this.aclService.setRoles(["guest"]);
+      
+      this.api.loadResources();
     });
 
     // update login

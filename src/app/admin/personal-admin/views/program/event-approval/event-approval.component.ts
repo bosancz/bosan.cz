@@ -24,19 +24,34 @@ export class EventApprovalComponent implements OnInit {
   async loadEvents(){
     
     const options = {
-      has_actions: "publish",
       limit: 100,
+      filter: {
+        recurring: null
+      },
+      has_link: "publish",
       select: "_id status name description _actions"
     };
+    
+    console.log(options);
     
     this.events = await this.api.get<Paginated<Event>>("events",options).then(paginated => paginated.docs);
   }
   
+  async reloadEvent(event:Event){
+    const i = this.events.indexOf(event);
+    const newEvent = await this.api.get<Event>(event._links.self);
+    this.events.splice(i, 1, newEvent);
+  }
+  
   async publishEvent(event:Event):Promise<void>{
-    await this.api.post(event._actions.publish);
-    
+    await this.api.post(event._links.publish);
     this.toastService.toast("Publikováno.");
-    
-    this.loadEvents();
+    await this.reloadEvent(event);
+  }
+  
+   async unpublishEvent(event:Event):Promise<void>{
+    await this.api.post(event._links.unpublish);
+    this.toastService.toast("Vráceno do připravovaných akcí.");
+    await this.reloadEvent(event);
   }
 }

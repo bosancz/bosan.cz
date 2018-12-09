@@ -4,7 +4,7 @@ import { NgForm } from "@angular/forms";
 
 import { Subscription } from "rxjs";
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { ToastService } from "app/services/toast.service";
 import { AuthService } from "app/services/auth.service";
 
@@ -25,7 +25,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
 
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private authService:AuthService, private route:ActivatedRoute) { }
+  constructor(private api:ApiService, private toastService:ToastService, private authService:AuthService, private route:ActivatedRoute) { }
 
   ngOnInit() {
     
@@ -42,16 +42,14 @@ export class MyAccountComponent implements OnInit, OnDestroy {
   }
   
   async loadUser(){
-    
-    this.user = await this.dataService.getMe();
-    
+    this.user = await this.api.get<User>("me:user");
   }
   
   async updateUser(form:NgForm){
     
     let userData = form.value;
     
-    await this.dataService.updateMe(userData);
+    await this.api.patch("me:user",userData);
     
     this.toastService.toast("Uloženo.");
     
@@ -61,7 +59,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     
     let userData = form.value;
     
-    await this.dataService.updateMyPassword(userData);
+    await this.api.patch("me:user",userData);
     
     this.toastService.toast("Uloženo.");
     

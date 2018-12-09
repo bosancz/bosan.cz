@@ -7,4 +7,6 @@ export class User {
   active:boolean;
   
   email:string;
+  
+  _links?:any;
 }
