@@ -2,29 +2,31 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AppSharedModule } from "app/modules/app-shared.module";
+import { AdminSharedModule } from "app/admin/modules/admin-shared.module";
 
 /* MAIN */
 import { PersonalAdminComponent } from './personal-admin.component';
 import { PersonalAdminRoutingModule } from './personal-admin-routing.module';
 
 /* VIEWS */
-import { AccountAdminComponent } from './views/account-admin/account-admin.component';
 import { MyDashboardComponent } from './views/my-dashboard/my-dashboard.component';
 import { CanalRegistrationComponent } from './views/canal-registration/canal-registration.component';
 import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
 import { MyEventsComponent } from './views/my-events/my-events.component';
+import { MyAccountComponent } from './views/my-account/my-account.component';
 
 @NgModule({
   imports: [
     CommonModule,
     PersonalAdminRoutingModule,
     
-    AppSharedModule
+    AppSharedModule,
+    AdminSharedModule
   ],
   declarations: [
     PersonalAdminComponent,
     
-    /* VIEWS */ AccountAdminComponent, DocumentsViewComponent, MyDashboardComponent, MyEventsComponent, CanalRegistrationComponent
+    /* VIEWS */ DocumentsViewComponent, MyDashboardComponent, MyEventsComponent, CanalRegistrationComponent, MyAccountComponent
   ]
 })
 export class PersonalAdminModule { }

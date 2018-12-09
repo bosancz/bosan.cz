@@ -1,0 +1,18 @@
+<admin-table>
+  <thead>
+    <tr>
+      <th>Přezdívka</th>
+      <th>Jméno</th>
+      <th>Příjmení</th>
+      <th>Hodnost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let member of members">
+      <td>{{member.nickname}}</td>
+      <td>{{member.name?.first}}</td>
+      <td>{{member.name?.last}}</td>
+      <td>{{member.role}}</td>
+    </tr>
+  </tbody>
+</admin-table>

@@ -73,4 +73,8 @@ export interface WebConfig {
     recurringTypes:WebConfigRecurringType[],
     descriptionWarnings:WebConfigDescriptionWarning[]
   };
+  
+  payments:{
+    types:Array<{name:string}>
+  };
 }

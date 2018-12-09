@@ -3,50 +3,39 @@
 
     <h2>Uživatelské účty</h2>
 
-    <div class="row">
-
-      <div class="col-3">
-
-        <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{active:1}]" [class.active]="active">Aktivní účty</a></li>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{active:0}]" [class.active]="!active">Deaktivované účty</a></li>
-          <br>
-          <li class="nav-item"><button type="button" class="btn btn-primary" (click)="openCreateUserModal(createUserModal)">Nový uživatel</button></li>      
-        </ul>
-
-      </div>
-
-      <div class="col-9">
-
-        <table class="table table-striped table-hover table-sm">
-          <thead class="thead-dark">
-            <tr>
-              <th>Login</th>
-              <th>Bošánovský mail</th>
-              <th>Propojený člen</th>
-              <th>Role</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of users" [routerLink]="['./',{},user._id]">
-              <td>{{user.login}}</td>
-              <td>{{user.email || "-"}}</td>
-              <td>
-                <ng-container *ngIf="user.member">{{user.member.nickname}} ({{user.member.name?.first}} {{user.member.name?.last}})</ng-container>
-                <ng-container *ngIf="!user.member">-</ng-container>
-              </td>
-              <td>
-                <span *ngFor="let role of user.roles" class="role badge badge-dark">{{roleNames[role] || role}}</span>
-              </td>
-              <td class="text-right"><a [routerLink]="['./',{},user._id]"><i class="fas fa-pencil-alt"></i></a></td>
-            </tr>
-          </tbody>
-        </table>
-
-      </div>
-    </div>
+    <admin-table>
+      <thead class="thead-dark">
+        <tr>
+          <th>Login</th>
+          <th>Bošánovský mail</th>
+          <th>Propojený člen</th>
+          <th>Role</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users" [routerLink]="['./',{},user._id]">
+          <td>{{user.login}}</td>
+          <td>{{user.email || "-"}}</td>
+          <td>
+            <ng-container *ngIf="user.member">{{user.member.nickname}} ({{user.member.name?.first}} {{user.member.name?.last}})</ng-container>
+            <ng-container *ngIf="!user.member">-</ng-container>
+          </td>
+          <td>
+            <span *ngFor="let role of user.roles" class="role badge badge-dark">{{roleNames[role] || role}}</span>
+          </td>
+          <td class="text-right actions">
+            <a [routerLink]="['./',{},user._id]" tooltip="Upravit" placement="bottom"><i class="fas fa-pencil-alt"></i></a>
+            <a *ngIf="user._links?.impersonate" (click)="impersonateUser($event,user)" [tooltip]="'Přihlásit jako ' + user.login" placement="bottom"><i class="fas fa-sign-in-alt"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </admin-table>
+    
+    <button type="button" class="btn btn-primary" (click)="openCreateUserModal(createUserModal)">Nový uživatel</button>
+    
   </div>
+
 </section>
 
 <ng-template #createUserModal>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
 import { MyGroupService } from "./my-group.service";
 
@@ -12,12 +12,18 @@ import { Group } from "app/schema/group";
 })
 export class MyGroupComponent implements OnInit {
   
-  group:Group;
+  groupId:string;
+  
+  groupSubscription:Subscription;
 
   constructor(private groupService:MyGroupService) { }
 
   ngOnInit() {
-    this.groupService.group.subscribe(group => this.group = group);
+    this.groupSubscription = this.groupService.groupId.subscribe(groupId => this.groupId = groupId);
+  }
+  
+  ngOnDestroy(){
+    this.groupSubscription.unsubscribe();
   }
 
 }

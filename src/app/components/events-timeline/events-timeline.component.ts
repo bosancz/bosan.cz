@@ -36,7 +36,7 @@ export class EventsTimelineComponent implements OnInit {
     
     this.loading = true;
     
-    this.events = await this.api.get<Event[]>("events:program");
+    this.events = await this.api.get<Event[]>("program");
 
     this.loading = false;
     

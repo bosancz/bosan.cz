@@ -5,7 +5,7 @@ import { PersonalAdminComponent } from "./personal-admin.component";
 
 /* VIEWS */
 import { MyDashboardComponent } from "./views/my-dashboard/my-dashboard.component";
-import { AccountAdminComponent } from "./views/account-admin/account-admin.component";
+import { MyAccountComponent } from "./views/my-account/my-account.component";
 import { CanalRegistrationComponent } from "./views/canal-registration/canal-registration.component";
 import { DocumentsViewComponent } from "./views/documents-view/documents-view.component";
 import { MyEventsComponent } from "./views/my-events/my-events.component";
@@ -30,7 +30,7 @@ const routes:Routes = [
 
       { path: 'dokumenty', component: DocumentsViewComponent },
 
-      { path: 'admin/:cat', component: AccountAdminComponent },
+      { path: 'admin/:cat', component: MyAccountComponent },
       { path: 'admin', redirectTo: "admin/info", pathMatch: "full"},
 
       { path: '', redirectTo: "admin/info", pathMatch: "full"},

@@ -11,11 +11,11 @@ const routes: Routes = [
   {
     path: '', component: ProgramAdminComponent,
     children: [
-      {path: 'planovani-akci', component: EventPlanningComponent},  
+      {path: 'planovani', component: EventPlanningComponent},  
 
-      {path: 'schvalovani-akci', component: EventApprovalComponent},  
+      {path: 'ke-schvaleni', component: EventApprovalComponent},  
 
-      {path: '', redirectTo: "schvalovani-akci", pathMatch: "full"}
+      {path: '', redirectTo: "ke-schvaleni", pathMatch: "full"}
     ]
   },  
 

@@ -57,6 +57,10 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     {"name": "text", "title": "Varování", "type": "text"}
   ];
   
+  paymentTypeFields:CodelistField[] = [
+    {"name": "name", "title": "ID", "type": "text"}
+  ];
+  
   memberRolesFields:CodelistField[] = [
     {"name": "id", "title": "ID", "type": "text"}
   ];

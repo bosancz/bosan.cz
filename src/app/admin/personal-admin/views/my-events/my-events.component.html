@@ -5,8 +5,9 @@
 
     <div class="events">
       
-      <p *ngIf="loading">Načítám...</p>
-      <p *ngIf="!loading && !events.length">Žádné akce jsi zatím nevedl/a.</p>
+      <p *ngIf="status === 'loading'">Načítám...</p>
+      <p *ngIf="status === 'nomember'">Nelze vypsat vaše akce, k uživatelskému účtu není připojený žádný člen.</p>
+      <p *ngIf="status === 'loaded' && !events.length">Žádné akce jsi zatím nevedl/a.</p>
 
       <div *ngFor="let event of events" class="event card">
         <div class="card-header">

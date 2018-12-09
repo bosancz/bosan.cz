@@ -11,6 +11,8 @@
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'week'}]" [class.active]="view === 'week'">Posledních 7 dní</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'older'}]" [class.active]="view === 'older'">Starší</a></li>
         </ul>
+        <br><br>
+        <button type="button" class="btn btn-danger" (click)="deleteErrors()">Smazat chyby</button>
 
       </div>
 

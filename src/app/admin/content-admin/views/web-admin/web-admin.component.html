@@ -10,6 +10,7 @@
           <li class="nav-item"><a class="nav-link" routerLink="../obecne" routerLinkActive="active">Obecné nastavení</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../akce" routerLinkActive="active">Akce</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../clenska-databaze" routerLinkActive="active">Členská databáze</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="../platby" routerLinkActive="active">Platby</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../kontakty" routerLinkActive="active">Kontakty</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../dokumenty" routerLinkActive="active">Dokumenty</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="../kanal" routerLinkActive="active">Kanál</a></li>
@@ -93,6 +94,11 @@
             <h4>Role členů (dítě, instruktor, ...)</h4>
 
             <codelist-editor [fields]="memberRolesFields" [(ngModel)]="config.members.roles"></codelist-editor>
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'platby'">
+            <h4>Typy plateb</h4>
+            <codelist-editor [fields]="paymentTypeFields" [(ngModel)]="config.payments.types"></codelist-editor>
           </ng-container>
           
           <ng-container *ngSwitchCase="'kontakty'">

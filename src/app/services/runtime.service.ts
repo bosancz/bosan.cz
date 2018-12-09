@@ -66,6 +66,8 @@ export class RuntimeService {
     this.authService.user.subscribe(user => {
       if(user) this.aclService.setRoles(["guest","user",...user.roles]);
       else this.aclService.setRoles(["guest"]);
+      
+      this.api.loadResources();
     });
 
     // update login
@@ -81,13 +83,8 @@ export class RuntimeService {
       }, 5 * 60 * 1000);
     });
 
-    // handle login
-    this.authService.onLogin.subscribe(user => this.toastService.toast("Přihlášeno."));
-
     // handle logout
     this.authService.onLogout.subscribe(user => {
-      this.toastService.toast("Odhlášeno.");
-      this.router.navigate(["/"]);
       this.googleService.signOut();
     });
 
@@ -110,9 +107,7 @@ export class RuntimeService {
 
           console.log("GoogleService: Logged in as " + googleUser.email);
 
-          const googleToken = await this.googleService.signIn();
-
-          const response = await this.api.post("login:google",{token:googleToken});
+          const response = await this.api.post("login:google",{token:googleUser.token});
 
           this.authService.loginToken(response.body);
         }
