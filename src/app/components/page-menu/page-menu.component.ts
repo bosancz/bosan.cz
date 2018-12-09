@@ -25,6 +25,8 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
   isTop:boolean = true;
 
   environment:string;
+  
+  userLogin:string;
 
   constructor(
     public aclService:AclService,
@@ -41,6 +43,7 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
     this.configService.config.subscribe(config => {
       this.environment = config.general.environment;
     });
+    this.authService.user.subscribe(user => this.userLogin = user ? user.login : "");
   }
 
   ngAfterViewInit(){
@@ -56,6 +59,10 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
 
   openLogin() {
     this.loginModal = this.modalService.show(LoginFormComponent, {});
+  }
+  
+  updateAccountDropdown(dropdown){
+    dropdown.isOpen = !this.layoutService.menu.collapsed;
   }
 
   logout(){
