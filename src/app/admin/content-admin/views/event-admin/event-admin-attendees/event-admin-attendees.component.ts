@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { ApiService } from "app/services/api.service";
+
 import { Event } from "app/schema/event";
 
 @Component({
@@ -11,9 +13,9 @@ export class EventAdminAttendeesComponent implements OnInit {
 
   @Input() event:Event;
   
-  @Output() save:EventEmitter<void> = new EventEmitter();
+  @Output() saved:EventEmitter<void> = new EventEmitter();
   
-  constructor() { }
+  constructor(private api:ApiService) { }
 
   ngOnInit() {
   }

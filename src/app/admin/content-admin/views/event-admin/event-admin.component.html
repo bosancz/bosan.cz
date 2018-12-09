@@ -33,17 +33,17 @@
 
         <event-admin-dashboard *ngSwitchCase="'prehled'" [event]="event"></event-admin-dashboard>
         
-        <event-admin-info *ngSwitchCase="'upravit'" [event]="event" (save)="saveEvent($event)"></event-admin-info>
+        <event-admin-info *ngSwitchCase="'upravit'" [event]="event" (saves)="reloadEvent()"></event-admin-info>
         
-        <event-admin-recurring *ngSwitchCase="'opakovani'" [event]="event" (saved)="loadEvent(event._id)"></event-admin-recurring>
+        <event-admin-recurring *ngSwitchCase="'opakovani'" [event]="event" (saved)="reloadEvent()"></event-admin-recurring>
         
-        <event-admin-attendees *ngSwitchCase="'ucastnici'" [event]="event" (save)="saveEvent()"></event-admin-attendees>
+        <event-admin-attendees *ngSwitchCase="'ucastnici'" [event]="event" (saved)="reloadEvent()"></event-admin-attendees>
         
-        <event-admin-registration *ngSwitchCase="'prihlaska'" [event]="event" (saved)="loadEvent(event._id)"></event-admin-registration>
+        <event-admin-registration *ngSwitchCase="'prihlaska'" [event]="event" (saved)="reloadEvent()"></event-admin-registration>
         
-        <event-admin-leaders *ngSwitchCase="'vedouci'" [event]="event" (save)="saveEvent($event)"></event-admin-leaders>
+        <event-admin-leaders *ngSwitchCase="'vedouci'" [event]="event" (saved)="reloadEvent()"></event-admin-leaders>
         
-        <event-admin-payments *ngSwitchCase="'platby'" [event]="event"></event-admin-payments>
+        <event-admin-payments *ngSwitchCase="'platby'" [event]="event" (saved)="reloadEvent()"></event-admin-payments>
 
         <div *ngSwitchCase="'smazat'">
           <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tuto akci</label>

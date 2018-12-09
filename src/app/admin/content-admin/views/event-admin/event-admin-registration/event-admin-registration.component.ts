@@ -18,6 +18,10 @@ export class EventAdminRegistrationComponent {
   @Output() saved:EventEmitter<void> = new EventEmitter();
   
   constructor(private api:ApiService, private toastService:ToastService) { }
+  
+  getRegistrationUrl(event:Event):string{
+    return this.api.link2href(event._links.registration);
+  }
 
   async uploadRegistration(photoInput:HTMLInputElement){
     

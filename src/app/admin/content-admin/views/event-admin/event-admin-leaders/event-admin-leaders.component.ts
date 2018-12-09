@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { ApiService } from "app/services/api.service";
+import { ToastService } from "app/services/toast.service";
 
 import { Event, EventLeader } from "app/schema/event";
 import { Member } from "app/schema/member";
@@ -13,12 +14,17 @@ import { Member } from "app/schema/member";
   templateUrl: './event-admin-leaders.component.html',
   styleUrls: ['./event-admin-leaders.component.scss']
 })
-export class EventAdminLeadersComponent implements OnChanges {
+export class EventAdminLeadersComponent {
 
-  @Input()
   event:Event;
   
-  @Output() save:EventEmitter<any> = new EventEmitter();
+  @Input("event")
+  set setEvent(event:Event){
+    this.event = event;
+    this.loadLeaders(event);
+  }
+  
+  @Output() saved:EventEmitter<any> = new EventEmitter();
   
   membersModalRef:BsModalRef;
   
@@ -26,18 +32,14 @@ export class EventAdminLeadersComponent implements OnChanges {
   
   membersSelectOptions:any = { role: "vedoucí"};
   
-  constructor(private api:ApiService, private modalService:BsModalService) {
+  constructor(private api:ApiService, private toastService:ToastService, private modalService:BsModalService) {
   }
   
-  ngOnChanges(changes:SimpleChanges){
-    if(changes.event) this.loadLeaders();
-  }
-  
-  async loadLeaders(){    
+  async loadLeaders(event:Event){    
     
-    if(!this.event._id) return;
+    if(!event._id) return;
     
-    this.leaders = await this.api.get<Member[]>(this.event._links.leaders);
+    this.leaders = await this.api.get<Member[]>(event._links.leaders);
   }
   
   saveLeaders(){
@@ -46,7 +48,11 @@ export class EventAdminLeadersComponent implements OnChanges {
       leaders: this.leaders.map(leader => leader._id)
     };
     
-    this.save.emit(eventData);
+    this.api.patch(this.event._links.self,eventData);
+    
+    this.toastService.toast("Uloženo.");
+    
+    this.saved.emit();
   }
   
   removeLeader(member:Member){
