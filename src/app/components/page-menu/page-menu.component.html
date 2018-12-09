@@ -24,9 +24,15 @@
           </ng-container>
 
           <ng-container *ngIf="authService.logged">
-            <a class="nav-item nav-link px-lg-3" routerLink="/interni/moje" routerLinkActive="active" tooltip="Můj Bošán" placement="bottom"><i class="fas fa-user"></i></a>
-            <a class="nav-item nav-link px-lg-3" routerLink="/interni/obsah" routerLinkActive="active" tooltip="Správa obsahu" placement="bottom"><i class="fas fa-th"></i></a>
-            <a *ngIf="authService.logged" class="nav-link" (click)="logout()" tooltip="Odhlásit se" placement="bottom"><i class="fas fa-sign-out-alt"></i></a>
+            <div class="dropdown" dropdown>
+              <a class="nav-item nav-link pl-lg-3" dropdownToggle routerLinkActive="active" (click)="$event.stopPropagation()"><i class="fas fa-user pr-2"></i>{{userLogin}}
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                  <li role="menuitem"><a class="dropdown-item" routerLink="/interni/moje" routerLinkActive="active">Můj Bošán</a>
+                  <li role="menuitem"><a class="dropdown-item" routerLink="/interni/obsah" routerLinkActive="active">Správa obsahu</a>
+                  <li role="menuitem"><a class="dropdown-item" (click)="logout()">Odhlásit se</a>
+                </ul>
+              </a>
+            </div>
           </ng-container>
         </ng-container>
       </div>

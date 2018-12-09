@@ -10,8 +10,10 @@ import { User } from "app/schema/user";
 
 export class AuthUser{
   _id:string;
-  memberId?:string;
   roles:string[] = [];
+  login?:string;
+  member?:string;
+  group?:string;
 }
 
 /**
