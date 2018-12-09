@@ -6,28 +6,7 @@ import * as URITemplate from "urijs/src/URITemplate";
 
 import { environment } from "environments/environment";
 
-type HttpObserve = 'body' | 'events' | 'response';
-
-export interface HalLinkText {
-  href:string;
-  type:'text';
-  method?:"GET"|"POST"|"PUT"|"PATCH"|"DELETE";
-}
-
-export interface HalLinkJson {
-  href:string;
-  type:'json';
-  method?:"GET"|"POST"|"PUT"|"PATCH"|"DELETE";
-}
-
-type HalLink = HalLinkText|HalLinkJson;
-
-export interface HalResource {
-  _links?:{
-    "self":HalLinkText|HalLinkJson,
-    [name:string]:HalLinkText|HalLinkJson
-  }
-}
+import { HalLink } from "app/schema/hal-link";
 
 export class ApiError extends Error{
 }
@@ -39,7 +18,7 @@ export class ApiService {
   
   root = environment.apiRoot;
 
-  resources:Promise<{[name:string]:HalResource}>;
+  resources:Promise<{ [name:string]:HalLink }>;
 
   constructor(private http:HttpClient) {
     this.loadResources();
@@ -49,7 +28,12 @@ export class ApiService {
     this.resources = this.http.get<any>(this.root).toPromise().then(api => api._links);
   }
   
-  async path2link(pathObj:any):Promise<HalLink>{
+  link2href(link):string{
+    if(!link.href.match(/^[a-z]+\:\/\//)) return this.root + link.href;
+    else return link.href;
+  }
+  
+  async path2href(pathObj:any):Promise<string>{
     
     if(!pathObj) throw new ApiError("Missing link");
     
@@ -60,63 +44,63 @@ export class ApiService {
     else if(Array.isArray(pathObj) && pathObj.length > 2){ path = pathObj.shift(); expand = pathObj; }
     else path = pathObj;
     
-    var link;
+    var href;
     
-    if(typeof path === "string" && path.match(/^[a-z]+(\:[a-z]+)?$/i)){
+    if(typeof path === "string" && path.match(/^[a-z\:]+$/i)){
       const resources = await this.resources;
     
       if(!resources[path]) throw new ApiError(`Resource ${path} does not exist on the API endpoint ${this.root}.`);
       
-      link = resources[path];
+      href = resources[path].href;
     }
     else if(typeof path === "string"){
-      link = { href: path };
+      href = path;
     }
     else if(path.href){
-      link = path;
+      href = path.href;
     }
     else{
       throw new ApiError("Invalid link: " + pathObj);
     }
     
-    if(typeof expand === "object") link.href = URITemplate(link.href).expand(key => expand[key]);
-    if(typeof expand === "string" || typeof expand === "number") link.href = URITemplate(link.href).expand(key => expand);
-    if(Array.isArray(expand)){ var i = 0; link.href = URITemplate(link.href).expand(key => { i++; return expand[i - 1]; }); }
+    if(typeof expand === "object") href = URITemplate(href).expand(key => expand[key]);
+    if(typeof expand === "string" || typeof expand === "number") href = URITemplate(href).expand(key => expand);
+    if(Array.isArray(expand)){ var i = 0; href = URITemplate(href).expand(key => { i++; return expand[i - 1]; }); }
     
-    if(!link.href.match(/^[a-z]+\:\/\//)) link.href = this.root + link.href;
+    if(!href.match(/^[a-z]+\:\/\//)) href = this.root + href;
     
-    return link;
+    return href;
       
   }
 
   async get<T>(path:any,params?:any):Promise<T>{
-    const link = await this.path2link(path);
-    return this.http.get<T>(link.href, { params: this.toParams(params) }).toPromise();
+    const href = await this.path2href(path);
+    return this.http.get<T>(href, { params: this.toParams(params) }).toPromise();
   }
   
   async getAsText(path:any,params?:any):Promise<string>{
-    const link = await this.path2link(path);
-    return this.http.get(link.href, { params: this.toParams(params), responseType: "text" }).toPromise();
+    const href = await this.path2href(path);
+    return this.http.get(href, { params: this.toParams(params), responseType: "text" }).toPromise();
   }
   
   async post(path:any,data?:any):Promise<HttpResponse<string>>{
-    const link = await this.path2link(path);
-    return this.http.post(link.href, data, { observe: "response", responseType: "text" }).toPromise();
+    const href = await this.path2href(path);
+    return this.http.post(href, data, { observe: "response", responseType: "text" }).toPromise();
   }
   
   async put(path:any,data?:any):Promise<HttpResponse<string>>{
-    const link = await this.path2link(path);
-    return this.http.put(link.href, data, { observe: "response", responseType: "text" }).toPromise();
+    const href = await this.path2href(path);
+    return this.http.put(href, data, { observe: "response", responseType: "text" }).toPromise();
   }
   
   async patch(path:any,data?:any):Promise<HttpResponse<string>>{
-    const link = await this.path2link(path);
-    return this.http.patch(link.href, data, { observe: "response", responseType: "text" }).toPromise();
+    const href = await this.path2href(path);
+    return this.http.patch(href, data, { observe: "response", responseType: "text" }).toPromise();
   }
   
   async delete(path:any,expand?:any):Promise<HttpResponse<string>>{
-    const link = await this.path2link(path);
-    return this.http.delete(link.href, { observe: "response", responseType: "text" }).toPromise();
+    const href = await this.path2href(path);
+    return this.http.delete(href, { observe: "response", responseType: "text" }).toPromise();
   }  
 
   private setParam(params:HttpParams,name:string,value:any){

@@ -5,10 +5,6 @@
 
     <div class="events">
       
-      <p *ngIf="status === 'loading'">Načítám...</p>
-      <p *ngIf="status === 'nomember'">Nelze vypsat vaše akce, k uživatelskému účtu není připojený žádný člen.</p>
-      <p *ngIf="status === 'loaded' && !events.length">Žádné akce jsi zatím nevedl/a.</p>
-
       <div *ngFor="let event of events" class="event card">
         <div class="card-header">
           <div class="card-title">
@@ -34,7 +30,7 @@
             </table>
           </div>
           <div class="col-md-3 buttons">            
-            <button *ngIf="event.status !== 'public'" class="btn btn-light btn-sm" type="button">Upravit info</button>
+            <a *ngIf="event.status !== 'public'" [routerLink]="['/interni/obsah/akce',event._id]" class="btn btn-light btn-sm">Upravit info</a>
             <button *ngIf="event.status === 'public' && event.dateTill >= today" class="btn btn-light btn-sm" type="button">Poslat ohlášku</button>
             <button *ngIf="event.dateFrom <= today" class="btn btn-light btn-sm" type="button">Odevzdat účetnictví</button>
             <button *ngIf="event.dateFrom <= today" class="btn btn-light btn-sm" type="button">Vyplnit report</button>

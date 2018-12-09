@@ -22,7 +22,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
   dateFrom:Date;
   dateTill:Date;
 
-  calendar:Array<{days:Array<{events:Event[],date:Date}>}>;
+  calendar:Array<{days:Array<Date>,events:Event[]}>;
 
   events:Event[] = [];
 
@@ -73,22 +73,20 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
     const currentDate = new Date(this.dateFrom.getTime());
 
     var month = {
-      days: []
+      days: [],
+      events: []
     }
 
     const calendar = [month];
 
     while(currentDate <= this.dateTill){
 
-      if(month.days[0] && month.days[0].date.getMonth() !== currentDate.getMonth()){
-        month = {days:[]};
+      if(month.days[0] && month.days[0].getMonth() !== currentDate.getMonth()){
+        month = {days:[],events:[]};
         calendar.push(month);
       }
 
-      month.days.push({
-        events:[],
-        date: new Date(currentDate.getTime())
-      })
+      month.days.push(new Date(currentDate.getTime()))
 
       currentDate.setDate(currentDate.getDate() + 1);
     }
@@ -109,14 +107,21 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
       limit: 100
     };
 
-    let events = await this.api.get<Paginated<Event>>("events",requestOptions).then(paginated => paginated.docs);
+    let events = await this.api.get<Paginated<Event>>("events",requestOptions).then(paginated => paginated.docs)
+    
+    events.forEach(event => {
+      event.dateFrom = new Date(event.dateFrom);
+      event.dateTill = new Date(event.dateTill);
+    });
     
     this.calendar.forEach(month => {
-      month.days.forEach(day => {
-        const dayStart = day.date;
-        const dayEnd = new Date(day.date); dayEnd.setHours(23,59,59);
-        day.events = events.filter(event => new Date(event.dateFrom) <= dayEnd && new Date(event.dateTill) >= dayStart);
-      });
+      const start = month.days[0];
+      start.setHours(0,0,0);
+      
+      const end = new Date(month.days[month.days.length - 1]);
+      end.setHours(23,59,59);
+      
+      month.events = events.filter(event => event.dateTill >= start && event.dateFrom <= end);
     });
     
   }
@@ -141,6 +146,14 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
   setEventEnd(date:Date){
     if(this.eventStartDate) this.eventEndDate = date;
+  }
+  
+  getEventLeft(event:Event,month){
+    return ((event.dateFrom.getTime() - month.days[0].getTime()) / 1000 / 60 / 60 / 24) / month.days.length;
+  }
+  
+  getEventWidth(event:Event,month){
+    return ((event.dateTill.getTime() - event.dateFrom.getTime()) / 1000 / 60 / 60 / 24 + 1) / month.days.length;
   }
 
   createEvent(){

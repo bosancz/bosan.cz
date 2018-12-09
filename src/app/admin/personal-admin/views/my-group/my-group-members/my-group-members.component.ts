@@ -1,32 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from "rxjs";
+import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from "app/services/api.service";
 
-import { MyGroupService } from "../my-group.service";
+import { Member } from "app/schema/member";
 
 @Component({
   selector: 'my-group-members',
   templateUrl: './my-group-members.component.html',
   styleUrls: ['./my-group-members.component.scss']
 })
-export class MyGroupMembersComponent implements OnInit, OnDestroy {
+export class MyGroupMembersComponent implements OnInit {
 
-  members = [];
+  members:Member[] = [];
   
-  groupSubscription:Subscription;
-
-  constructor(private groupService:MyGroupService, private api:ApiService) { }
+  constructor(private api:ApiService) { }
 
   ngOnInit() {
-    this.groupSubscription = this.groupService.groupId.subscribe(groupId => this.loadMembers(groupId));
-  }
-
-  ngOnDestroy(){
-    this.groupSubscription.unsubscribe();
+    this.loadMembers();
   }
   
-  async loadMembers(groupId:string){
-    
+  async loadMembers(){
+    this.members = await this.api.get<Member[]>("me:group:members");
   }
 }

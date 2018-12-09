@@ -1,3 +1,5 @@
+import { HalLinks } from "./hal-link";
+
 export class EventRecurring{
   recurring:string;
   startDate:Date;
@@ -37,6 +39,5 @@ export class Event {
   groups?:string[];
   leadersEvent?:boolean;
   
-  _links?:{[name:string]:string};
-  _actions?:{[name:string]:string};
+  _links?:HalLinks;
 }

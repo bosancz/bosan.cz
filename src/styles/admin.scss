@@ -6,7 +6,7 @@
   > nav{
     position:fixed;top:60px;left:0;right:0;background-color:#666;padding:0;z-index:800;
 
-    a{display:inline-block;padding:5px 10px;margin:0 10px;text-decoration:none;color:#fff;transition: background-color 250ms, color 250ms;}
+    a{display:inline-block;padding:5px 10px;margin:0 10px;text-decoration:none;color:#fff;transition: background-color 500ms, color 500ms;transition-timing-function: ease-in-out;border-radius: 4px 4px 0 0;}
     a:hover{background-color:#ccc;color:#333 !important;}
     a.active{background-color:#fff;color:#333;}
 

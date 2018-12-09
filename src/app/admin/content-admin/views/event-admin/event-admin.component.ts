@@ -47,6 +47,10 @@ export class EventAdminComponent implements OnInit, OnDestroy {
     this.event = await this.api.get<Event>(["event",{id:eventId}],options);
   }
   
+  async reloadEvent(){
+    return this.loadEvent(this.event._id);
+  }
+  
   async saveEvent(eventData:any){
     
     // if data provided update with data, otherwise send the current (possibly modified) state of event to the server

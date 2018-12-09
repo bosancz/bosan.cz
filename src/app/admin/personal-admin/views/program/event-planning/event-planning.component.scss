@@ -6,31 +6,20 @@ form button{width:100%;}
 .calendar{user-select: none;}
 
 .calendar{
-
   
-  .month{padding-right:10px;}
+  .month{position:relative;width:100%;overflow:hidden;border-left:2px solid #666;border-right:2px solid #666;margin-bottom:40px;}
   
-  .day{display:block;border-bottom:1px solid #eee;border-radius:4px;}
-
-  .day::after{content:" ";clear:both;display:block;}
-
+  .days{}
+  .events{position:absolute;top:24px;right:0;bottom:0;left:0;}
+  .events .event{position:absolute;height:10px; white-space:nowrap;background-color:#333;color:#fff;}
+  
+  .day{float:left;height:100px;border-right:1px solid #eee}  
+  
   .day.weekend{background-color:#eee;border-color:#fff;}
   .day.holiday{background-color:#ccc;border-color:#fff;}
   .day.selected{background-color:#f00;border-color:#fff;}
-  .day.weekend,.day.holiday,.day.selected{
-    .date{border-color:#fff;}
-  }
   
   .day{
-    .date{float:left;width:24px;padding:0 2px;border-right:1px solid #eee;height:100%;}
-
-    .events{margin-left:24px;padding:0 10px;}
-    .event{position:relative;color:#fff;text-align:left;width:100%;cursor:pointer;overflow:hidden;}
-    .event span{display:block;overflow:hidden;text-overflow:ellipsis;}
-    .event .delete{display:none;position:absolute;top:0;right:0;bottom:0;cursor:pointer;width:18px;text-align:center;line-height:18px;vertical-align:middle;border-left:1px solid #fff;}
-    .event:hover .delete{display:block;}
-    .event:hover span{margin-right:18px;}
-    .event .delete:hover{display:block;background-color:$red;color:#fff !important;}
-
+    .date{width:100%;padding:0 2px;border-bottom:1px solid #eee;}
   }
 }
