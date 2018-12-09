@@ -10,6 +10,9 @@ import { CanalRegistrationComponent } from "./views/canal-registration/canal-reg
 import { DocumentsViewComponent } from "./views/documents-view/documents-view.component";
 import { MyEventsComponent } from "./views/my-events/my-events.component";
 
+import { MyGroupComponent } from './views/my-group/my-group.component';
+import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
+
 const routes:Routes = [
   {
     path: '',
@@ -18,11 +21,17 @@ const routes:Routes = [
 
       { path: 'prehled', component: MyDashboardComponent },
 
-      { path: 'vedeni-akci', component: MyEventsComponent },
+      { path: 'akce', component: MyEventsComponent },
       
-      { path: 'vedeni-oddilu', loadChildren: './views/my-group/my-group.module#MyGroupModule' },
+      {
+        path: 'oddil', component: MyGroupComponent,
+        children: [
+          { path: 'clenove', component: MyGroupMembersComponent },
+          { path: '', redirectTo: "clenove", pathMatch: "full" }
+        ]
+      },
 
-      { path: 'sprava-programu', loadChildren: './views/program/program-admin.module#ProgramAdminModule' },
+      { path: 'program', loadChildren: './views/program/program-admin.module#ProgramAdminModule' },
       
       { path: 'revizor', loadChildren: './views/auditor/auditor.module#AuditorModule' },
 

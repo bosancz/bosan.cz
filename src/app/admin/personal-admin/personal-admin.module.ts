@@ -15,6 +15,9 @@ import { DocumentsViewComponent } from './views/documents-view/documents-view.co
 import { MyEventsComponent } from './views/my-events/my-events.component';
 import { MyAccountComponent } from './views/my-account/my-account.component';
 
+import { MyGroupComponent } from './views/my-group/my-group.component';
+import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +29,9 @@ import { MyAccountComponent } from './views/my-account/my-account.component';
   declarations: [
     PersonalAdminComponent,
     
-    /* VIEWS */ DocumentsViewComponent, MyDashboardComponent, MyEventsComponent, CanalRegistrationComponent, MyAccountComponent
+    /* VIEWS */
+    DocumentsViewComponent, MyDashboardComponent, MyEventsComponent, CanalRegistrationComponent, MyAccountComponent,
+    MyGroupComponent, MyGroupMembersComponent
   ]
 })
 export class PersonalAdminModule { }

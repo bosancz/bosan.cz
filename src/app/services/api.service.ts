@@ -46,7 +46,7 @@ export class ApiService {
     
     var href;
     
-    if(typeof path === "string" && path.match(/^[a-z]+(\:[a-z]+)?$/i)){
+    if(typeof path === "string" && path.match(/^[a-z\:]+$/i)){
       const resources = await this.resources;
     
       if(!resources[path]) throw new ApiError(`Resource ${path} does not exist on the API endpoint ${this.root}.`);
