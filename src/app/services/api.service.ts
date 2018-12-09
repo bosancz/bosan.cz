@@ -41,14 +41,6 @@ export class ApiService {
 
   resources:Promise<{[name:string]:HalResource}>;
 
-  defaultResponseTypes:{[method:string]:'arraybuffer' | 'blob' | 'json' | 'text'} = {
-    "GET": "json",
-    "POST": "text",
-    "PUT": "text",
-    "PATCH": "text",
-    "DELETE": "text",
-  }
-
   constructor(private http:HttpClient) {
     this.loadResources();
   }
@@ -57,14 +49,18 @@ export class ApiService {
     this.resources = this.http.get<any>(this.root).toPromise().then(api => api._links);
   }
   
-  async path2link(path:any):Promise<HalLink>{
+  async path2link(pathObj:any):Promise<HalLink>{
     
-    if(!path) throw new ApiError("Missing link");
+    if(!pathObj) throw new ApiError("Missing link");
+    
+    var path:any;
+    var expand:any;
+    
+    if(Array.isArray(pathObj) && pathObj.length <= 2) [path,expand] = pathObj;
+    else if(Array.isArray(pathObj) && pathObj.length > 2){ path = pathObj.shift(); expand = pathObj; }
+    else path = pathObj;
     
     var link;
-    var expand = {};
-    
-    if(Array.isArray(path)) [path,expand] = path;
     
     if(typeof path === "string" && path.match(/^[a-z]+(\:[a-z]+)?$/i)){
       const resources = await this.resources;
@@ -80,17 +76,16 @@ export class ApiService {
       link = path;
     }
     else{
-      throw new ApiError("Invalid link.");
+      throw new ApiError("Invalid link: " + pathObj);
     }
     
-    var href = URITemplate(link.href).expand(key => expand[key])
+    if(typeof expand === "object") link.href = URITemplate(link.href).expand(key => expand[key]);
+    if(typeof expand === "string" || typeof expand === "number") link.href = URITemplate(link.href).expand(key => expand);
+    if(Array.isArray(expand)){ var i = 0; link.href = URITemplate(link.href).expand(key => { i++; return expand[i - 1]; }); }
     
-    if(!href.match(/^[a-z]+\:\/\//)) href = this.root + href;
+    if(!link.href.match(/^[a-z]+\:\/\//)) link.href = this.root + link.href;
     
-    return {
-      href: href,
-      type: link.type || "json"
-    };
+    return link;
       
   }
 

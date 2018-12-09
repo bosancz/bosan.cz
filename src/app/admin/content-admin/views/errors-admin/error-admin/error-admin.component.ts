@@ -32,7 +32,7 @@ export class ErrorAdminComponent implements OnInit, OnDestroy {
   }
 
   async loadError(errorId:string){
-    this.error = await this.api.get<ReportedError>("errors", {_id:errorId});
+    this.error = await this.api.get<ReportedError>(["error",errorId]);
   }
 
 }

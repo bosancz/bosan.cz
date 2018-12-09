@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Subscription } from "rxjs";
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { ToastService } from "app/services/toast.service";
 
 import { Album, Photo } from "app/schema/album";
@@ -37,7 +37,7 @@ export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private toastService:ToastService, private router:Router, private route:ActivatedRoute) { }
+  constructor(private api:ApiService, private toastService:ToastService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
@@ -57,7 +57,7 @@ export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
   }
   
   async loadAlbum(id:string){
-    this.album = await this.dataService.getAlbum(id,{photos:1});
+    this.album = await this.api.get<Album>(["galleryalbum",id]);
     
     if(!this.album) return this.toastService.toast("Album nenalezeno :(");
                                                    

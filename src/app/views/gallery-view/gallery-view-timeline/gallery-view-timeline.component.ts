@@ -4,7 +4,7 @@ import { Router, Scroll, RouterEvent } from "@angular/router";
 
 import { filter } from "rxjs/operators";
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { LayoutService } from "app/services/layout.service";
 
 import { Paginated } from "app/schema/paginated";
@@ -40,7 +40,7 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
   lastRouterScrollEvent:Scroll;
 
-  constructor(private dataService:DataService, private layoutService:LayoutService, router:Router, private viewportScroller:ViewportScroller) {
+  constructor(private api:ApiService, private layoutService:LayoutService, router:Router, private viewportScroller:ViewportScroller) {
     router.events.pipe(filter<Scroll>(e => e instanceof Scroll)).subscribe(e => this.lastRouterScrollEvent = e);
     
     layoutService.footer.visible = false;
@@ -62,7 +62,7 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
       filter: { status: "public" }
     };
 
-    let albums = await this.dataService.getAlbumsList(options);
+    let albums = await this.api.get<Album[]>("gallery");
 
     let year:number;
 
@@ -104,13 +104,7 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
     point.loading = true;
 
-    let album = await this.dataService.getAlbum(point._id,{titlePhotos:1});
-
-    if(!album.titlePhotos) album.titlePhotos = [];
-
-    if(album.titlePhotos.length < 3){
-      album.titlePhotos.push(...await this.dataService.getAlbumPhotos(album._id,{limit: 3 - album.titlePhotos.length}));
-    }
+    let album = await this.api.get<Album>(["galleryalbum:preview",point._id]);
 
     point.album = album;
     point.loading = false;

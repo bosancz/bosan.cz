@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { Album } from "app/schema/album";
 
 @Component({
@@ -12,22 +12,14 @@ export class AlbumsRecentComponent implements OnInit {
 
   albums:Album[] = [];
   
-  constructor(private dataService:DataService) { }
+  constructor(private api:ApiService) { }
 
   ngOnInit() {
     this.loadAlbums();
   }
   
   async loadAlbums(){
-    this.albums = await this.dataService.getAlbumsRecent({limit:3});
-    
-    for(let album of this.albums){
-      if(!album.titlePhotos) album.titlePhotos = [];
-
-      if(album.titlePhotos.length < 3){
-        album.titlePhotos.push(...await this.dataService.getAlbumPhotos(album._id,{limit: 3 - album.titlePhotos.length}));
-      }
-    }
+    this.albums = await this.api.get<Album[]>("gallery:recent",{limit:3});
   }
 
 }

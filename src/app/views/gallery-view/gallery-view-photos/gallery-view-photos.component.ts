@@ -5,7 +5,7 @@ import { trigger,state,style,animate,transition } from '@angular/animations';
 
 import { Subscription } from "rxjs";
 
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { LayoutService } from "app/services/layout.service";
 
 import { Album, Photo } from "app/schema/album";
@@ -51,7 +51,7 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private layoutService:LayoutService, private router:Router, private route:ActivatedRoute, private location:Location) {
+  constructor(private api:ApiService, private layoutService:LayoutService, private router:Router, private route:ActivatedRoute, private location:Location) {
   }
 
   ngOnInit() {  
@@ -97,7 +97,7 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   }
   
   async loadAlbum(id:string){
-    this.album = await this.dataService.getAlbum(id,{photos:1});
+    this.album = await this.api.get<Album>(["galleryalbum",id]);
     
     // if(this.album.photos) this.album.photos.sort((a,b) => a.name.localeCompare(b.name));
     // if(this.album.photos) this.album.photos.sort((a,b) => (new Date(a.date)).getTime() - (new Date(b.date)).getTime());
