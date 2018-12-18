@@ -20,10 +20,11 @@
         <div *ngSwitchCase="'info'" class="row">
           <div class="col-md-6">
             <h4>Uživatelský účet:</h4>
-
-            <p><strong>Login:</strong> {{user?.login}}</p>
-            <p><strong>E-mail:</strong> <a *ngIf="user?.email" [href]="'mailto:' + user.email">{{user.email}}</a></p>
-            <p><strong>Role:</strong> {{user?.roles?.join(', ')}}</p>
+            <p>
+              <strong>Login:</strong>&nbsp;{{user?.login}}<br>
+              <strong>E-mail:</strong>&nbsp;<a *ngIf="user?.email" [href]="'mailto:' + user.email">{{user.email}}</a><br>
+              <strong>Role:</strong>&nbsp;{{user?.roles?.join(', ')}}
+            </p>
           </div>
           <div class="col-md-6">
             <h4>Členská databáze:</h4>
