@@ -1,0 +1,80 @@
+<section>
+  <div *ngIf="event" class="container">
+    <h2>
+      {{event.name}}
+      <sup>
+        <span class="badge badge-secondary" *ngIf="event.status === 'draft'">Připravovaná akce</span>
+        <span class="badge badge-success" *ngIf="event.status === 'public'">Akce v programu</span>
+      </sup>
+    </h2>
+
+    <div class="row">
+      <div class="col-md-10">
+        {{[event.dateFrom,event.dateTill] | dateRange}}
+        <div class="block">
+          <h4>Popisek</h4>
+          <p *ngIf="event.decription else noDescription">{{event.description | nl2br}}</p>
+          <ng-template #noDescription><p>Popisek akce chybí</p></ng-template>
+        </div>
+        
+        <div class="block row no-gutters">
+          <div class="col-md-4">
+            <h4>Vedoucí</h4>
+            <div class="body">
+              <ul>
+                <li *ngFor="let leader of event.leaders" [title]="leader.name.first + ' ' + leader.name.last">{{leader.nickname}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <h4>Účastníci</h4>
+            <div class="body">
+              <ul>
+                <li *ngFor="let attendee of event.attendees">{{attendee.nickname}} ({{attendee.group | group:"name"}})</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <h4>Platby</h4>
+          <table class="table table-sm">
+            <thead>
+              <tr><th>Typ platby</th><th>Účastník</th><th>Částka</th><th>Zaplaceno</th><th></th></tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>                
+            </tfoot>
+          </table>
+        </div>
+        <div class="block">
+          <h4>Výdaje</h4>
+          <table>
+            <thead>
+              <tr><th>Doklad</th><th>Výdaj</th><th>Částka</th></tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>                
+            </tfoot>
+          </table>
+        </div>
+        <div class="block">
+          <h4>Report</h4>
+          <div *ngIf="!edit.report" [innerHTML]="event.report || '<p>Report je prázdný.</p>'"></div>
+          <ng-template #reportForm>
+            <form>
+            </form>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-md-2 buttons right">            
+        <button [disabled]="!event._actions?.announce" class="btn btn-primary btn-sm" type="button">Poslat ohlášku</button>
+        <button [disabled]="!event._actions?.finalize" class="btn btn-primary btn-sm" type="button">Uzavřít akci</button>
+        <button [disabled]="!event._actions?.cancel" class="btn btn-danger btn-sm" type="button">Zrušit akci</button>
+        <button [disabled]="!event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button">Smazat akci</button>
+      </div>
+    </div>
+  </div>
+</section>

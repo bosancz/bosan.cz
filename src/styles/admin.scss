@@ -6,10 +6,27 @@
   > nav{
     position:fixed;top:60px;left:0;right:0;background-color:#666;padding:0;z-index:800;
 
-    a{display:inline-block;padding:5px 10px;margin:0 10px;text-decoration:none;color:#fff;transition: background-color 500ms, color 500ms;transition-timing-function: ease-in-out;border-radius: 4px 4px 0 0;}
-    a:hover{background-color:#ccc;color:#333 !important;}
-    a.active{background-color:#fff;color:#333;}
+    a{
+      display:inline-block; position:relative;
+      padding:5px 10px;margin:0 10px;border-radius: 6px 6px 0 0;
+      transition: background-color 500ms;transition-timing-function: ease-in-out;
+      text-decoration:none;color:#fff;
+    }
+    
+    a.active{ background-color:#fff; color:#333; }
+    a.active:hover{color:#333 !important;}
+    
+    /* round bottom connection */
+    a::before,a::after{
+      --menu-box-shadow-color: transparent;
+      transition: box-shadow 500ms, color 500ms;transition-timing-function: ease-in-out;
+      content: " "; position: absolute; bottom: 0; background-color: #666; width: 6px; height: 6px;
+    }
+    a::before{ left: 100%; border-radius: 0 0 0 6px; box-shadow: -3px 3px 3px var(--menu-box-shadow-color); }
+    a::after{ right: 100%; border-radius: 0 0 6px 0; box-shadow: 3px 3px 3px var(--menu-box-shadow-color); }
 
+    a.active::before,a.active::after{--menu-box-shadow-color: #fff;}
+    
     a:first-child{margin-left:0;}
     a:last-child{margin-right:0;}
   }

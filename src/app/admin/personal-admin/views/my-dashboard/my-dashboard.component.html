@@ -25,15 +25,13 @@
 
           <div *ngIf="noLeaderEvents?.length > 0" class="card">
             <div class="card-header">
+              <a routerLink="../ved-akci" class="card-link float-right">Otevřít</a>
               <h5 class="card-title">Veď akci!</h5>
             </div>
             <div class="card-body">
               <p class="card-text">Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí:</p>
               <ul>
-                <li *ngFor="let event of noLeaderEvents">
-                  <a [routerLink]="'/interni/akce/' + event._id">{{[event.dateFrom,event.dateTill] | dateRange}} {{event.name}}</a>
-                  <button class="btn btn-primary btn-sm">Vést akci</button>
-                </li>
+                <li *ngFor="let event of noLeaderEvents">{{[event.dateFrom,event.dateTill] | dateRange}} | {{event.name}}</li>
               </ul>
             </div>
           </div>

@@ -6,8 +6,8 @@
         <p>{{event.description}}</p>
       </div>
       <div class="col-md-3 buttons">
-        <button *ngIf="event._links.publish" class="btn btn-primary btn-sm" (click)="publishEvent(event)">Schválit</button>
-        <button *ngIf="event._links.unpublish" class="btn btn-secondary btn-sm" (click)="unpublishEvent(event)">Vrátit</button>
+        <button *ngIf="event._actions?.publish" class="btn btn-primary btn-sm" [disabled]="!event._actions.publish.allowed" (click)="publishEvent(event)">Publikovat</button>
+        <button *ngIf="event._actions?.unpublish" class="btn btn-secondary btn-sm" [disabled]="!event._actions.unpublish.allowed" (click)="unpublishEvent(event)">Vrátit</button>
         <a [routerLink]="'/interni/obsah/akce/' + event._id" class="btn btn-light btn-sm">Upravit info</a>
       </div>
   </div>

@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import * as URITemplate from "urijs/src/URITemplate";
+//import * as URITemplate from "urijs/src/URITemplate";
 
 import { environment } from "environments/environment";
 
-import { HalLink } from "app/schema/hal-link";
+import { Document,DocumentLink } from "app/schema/api";
 
 export class ApiError extends Error{
 }
@@ -18,7 +18,7 @@ export class ApiService {
   
   root = environment.apiRoot;
 
-  resources:Promise<{ [name:string]:HalLink }>;
+  resources:Promise<{ [name:string]:DocumentLink }>;
 
   constructor(private http:HttpClient) {
     this.loadResources();
@@ -46,7 +46,7 @@ export class ApiService {
     
     var href;
     
-    if(typeof path === "string" && path.match(/^[a-z\:]+$/i)){
+    if(typeof path === "string" && path.match(/^[a-z\-\:]+$/i)){
       const resources = await this.resources;
     
       if(!resources[path]) throw new ApiError(`Resource ${path} does not exist on the API endpoint ${this.root}.`);
@@ -60,17 +60,22 @@ export class ApiService {
       href = path.href;
     }
     else{
-      throw new ApiError("Invalid link: " + pathObj);
+      throw new ApiError("Invalid link: " + JSON.stringify(pathObj));
     }
     
-    if(typeof expand === "object") href = URITemplate(href).expand(key => expand[key]);
-    if(typeof expand === "string" || typeof expand === "number") href = URITemplate(href).expand(key => expand);
-    if(Array.isArray(expand)){ var i = 0; href = URITemplate(href).expand(key => { i++; return expand[i - 1]; }); }
+    if(typeof expand === "object") href = this.expandHref(href,key => expand[key]);
+    if(typeof expand === "string" || typeof expand === "number") href = this.expandHref(href,key => expand);
+    if(Array.isArray(expand)){ var i = 0; href = this.expandHref(href,key => { i++; return expand[i - 1]; }); }
     
     if(!href.match(/^[a-z]+\:\/\//)) href = this.root + href;
     
     return href;
       
+  }
+  
+  expandHref(href:string,expand:any):string{
+    //return URITemplate(href).expand(expand)
+    return href.replace(/\{([^\}]+)\}/g,(match,p1) => expand(p1));
   }
 
   async get<T>(path:any,params?:any):Promise<T>{

@@ -17,6 +17,8 @@ import { MyAccountComponent } from './views/my-account/my-account.component';
 
 import { MyGroupComponent } from './views/my-group/my-group.component';
 import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
+import { LeadEventComponent } from './views/lead-event/lead-event.component';
+import { MyEventComponent } from './views/my-event/my-event.component';
 
 @NgModule({
   imports: [
@@ -31,7 +33,7 @@ import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-gr
     
     /* VIEWS */
     DocumentsViewComponent, MyDashboardComponent, MyEventsComponent, CanalRegistrationComponent, MyAccountComponent,
-    MyGroupComponent, MyGroupMembersComponent
+    MyGroupComponent, MyGroupMembersComponent, LeadEventComponent, MyEventComponent
   ]
 })
 export class PersonalAdminModule { }

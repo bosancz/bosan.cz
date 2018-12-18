@@ -17,21 +17,21 @@
 
 <div class="calendar">
   <ng-container *ngFor="let month of calendar">
-    <h3 class="text-center">{{month.days[0] | monthName}} {{month.days[0].getFullYear()}}</h3>
+    <h3 class="text-center">{{month.number | monthName}} {{month.year}}</h3>
 
     <div class="month">
 
       <div class="days clearfix">
-        <div *ngFor="let day of month.days" class="day" [style.width]="(1/month.days.length)*100 + '%'" [class.weekend]="isWeekend(day)" [class.holiday]="isHoliday(day)" [class.selected]="isSelected(day)" (mousedown)="setEventStart(day)" (mouseover)="setEventEnd(day)" (mouseup)="createEvent()">
+        <div *ngFor="let day of month.days" class="day" [style.left]="(day.date.day - 1) * (1/month.days.length) * 100 + '%'" [style.width]="(1/month.days.length)*100 + '%'" [class.weekend]="isWeekend(day)" [class.holiday]="isHoliday(day)" [class.selected]="isSelected(day)" (mousedown)="setEventStart(day)" (mouseover)="setEventEnd(day)" (mouseup)="createEvent()">
           <div class="date">
-            {{day | date:"d."}}
+            {{day.date | date:"d."}}
           </div>
         </div>
       </div>
 
 
       <div class="events">
-        <div *ngFor="let event of month.events" class="event" [style.left]="getEventLeft(event,month) * 100 + '%'" [style.width]="getEventWidth(event,month) * 100 + '%'" [tooltip]="event.name" placement="bottom"></div>
+        <div *ngFor="let calEvent of month.events" class="event" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="12 * calEvent.level + 'px'" [tooltip]="calEvent.event.name" placement="bottom"></div>
       </div>
     </div>
   </ng-container>

@@ -8,7 +8,10 @@ import { MyDashboardComponent } from "./views/my-dashboard/my-dashboard.componen
 import { MyAccountComponent } from "./views/my-account/my-account.component";
 import { CanalRegistrationComponent } from "./views/canal-registration/canal-registration.component";
 import { DocumentsViewComponent } from "./views/documents-view/documents-view.component";
+import { LeadEventComponent } from "./views/lead-event/lead-event.component";
+
 import { MyEventsComponent } from "./views/my-events/my-events.component";
+import { MyEventComponent } from "./views/my-event/my-event.component";
 
 import { MyGroupComponent } from './views/my-group/my-group.component';
 import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
@@ -21,6 +24,9 @@ const routes:Routes = [
 
       { path: 'prehled', component: MyDashboardComponent },
 
+      { path: 'ved-akci', component: LeadEventComponent },
+      
+      { path: 'akce/:akce', component: MyEventComponent },
       { path: 'akce', component: MyEventsComponent },
       
       {

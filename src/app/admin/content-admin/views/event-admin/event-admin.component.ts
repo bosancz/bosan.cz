@@ -71,7 +71,7 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   }
   
   async publishEvent(){
-    await this.api.post(this.event._links.publish);
+    await this.api.post(this.event._actions.publish);
     this.loadEvent(this.event._id);
     this.toastService.toast("Publikováno.");
   }
