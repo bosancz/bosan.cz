@@ -28,7 +28,7 @@ export class EventApprovalComponent implements OnInit {
       filter: {
         recurring: null
       },
-      has_link: "publish",
+      has_action: "publish",
       select: "_id status name description _actions"
     };
     
@@ -44,13 +44,13 @@ export class EventApprovalComponent implements OnInit {
   }
   
   async publishEvent(event:Event):Promise<void>{
-    await this.api.post(event._links.publish);
+    await this.api.post(event._actions.publish);
     this.toastService.toast("Publikováno.");
     await this.reloadEvent(event);
   }
   
    async unpublishEvent(event:Event):Promise<void>{
-    await this.api.post(event._links.unpublish);
+    await this.api.post(event._actions.unpublish);
     this.toastService.toast("Vráceno do připravovaných akcí.");
     await this.reloadEvent(event);
   }

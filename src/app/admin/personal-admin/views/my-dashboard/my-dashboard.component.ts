@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from "app/services/api.service";
 
-import { Paginated } from "app/schema/paginated";
 import { Event } from "app/schema/event";
 
 @Component({
@@ -21,21 +20,12 @@ export class MyDashboardComponent implements OnInit {
   constructor(private api:ApiService) { }
 
   ngOnInit() {
-    this.loadEvents();
+    this.loadNoLeaderEvents();
   }
   
-  async loadEvents(){
+  async loadNoLeaderEvents(){
     
-    const options = {
-      filter: {
-        leaders: { $size:0 },
-        dateFrom:{ $gte:new Date().toISOString().split("T")[0] }
-      }
-    };
-    
-    let events = await this.api.get<Paginated<Event>>("events",options);
-    
-    this.noLeaderEvents = events.docs;
+    this.noLeaderEvents = await this.api.get<Event[]>("events:noleader");
   }
 
 }

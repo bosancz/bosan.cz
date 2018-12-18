@@ -33,12 +33,7 @@ export class MyEventsComponent implements OnInit {
       
     this.events = await this.api.get<Event[]>("me:events");
     
-    this.events.forEach(event => {
-      event.dateFrom = new Date(event.dateFrom);
-      event.dateTill = new Date(event.dateTill);
-    });
-    
-    this.events.sort((a,b) => b.dateFrom.getTime() - a.dateFrom.getTime());
+    this.events.sort((a,b) => b.dateFrom.localeCompare(a.dateFrom));
     
   }
 

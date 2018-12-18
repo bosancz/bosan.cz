@@ -9,6 +9,8 @@ export class JoinLeadersPipe implements PipeTransform {
 
   transform(value:any[], phone:boolean = true):string{
     
+    if(!value || !value.length) return "";
+    
     const formatPhonePipe = new FormatPhonePipe();
     
     const leadersStrings = value.map(leader => leader.nickname + (phone && leader.contacts && leader.contacts.mobile ? " (" + formatPhonePipe.transform(leader.contacts.mobile,"short",true) + ")" : ""));

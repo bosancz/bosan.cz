@@ -1,4 +1,4 @@
-import { HalLinks } from "./hal-link";
+import { Document } from "./api";
 
 export class EventRecurring{
   recurring:string;
@@ -9,7 +9,7 @@ export class EventRecurring{
 
 export type EventLeader = string;
 
-export class Event {
+export class Event extends Document {
   
   _id:string;
   status:string;
@@ -20,8 +20,11 @@ export class Event {
   place:string;
   description:string;
   
-  dateFrom:Date;
-  dateTill:Date;
+  dateFrom:string;
+  dateTill:string;
+  timeFrom:string;
+  timeTill:string;
+  
   recurring?:EventRecurring;
   
   order?:number;
@@ -38,6 +41,4 @@ export class Event {
   
   groups?:string[];
   leadersEvent?:boolean;
-  
-  _links?:HalLinks;
 }
