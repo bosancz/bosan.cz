@@ -35,9 +35,9 @@ class CalendarEvent {
   dateFrom:DateTime;
   dateTill:DateTime;
   
-  constructor(public event:Event|CPVEvent){
-    this.dateFrom = DateTime.fromISO(event.dateFrom);
-    this.dateTill = DateTime.fromISO(event.dateTill);
+  constructor(public event:any){
+    this.dateFrom = DateTime.fromISO(event.dateFrom).set({hour:0,minute:0});
+    this.dateTill = DateTime.fromISO(event.dateTill).set({hour:0,minute:0});
   }
 }
 
@@ -157,7 +157,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
         dateTill: { $gte: this.dateFrom.toISODate() },
         dateFrom: { $lte: this.dateTill.toISODate() }
       },
-      select: "_id name dateFrom dateTill",
+      select: "_id name dateFrom dateTill timeFrom timeTill",
       limit: 100
     };
 
