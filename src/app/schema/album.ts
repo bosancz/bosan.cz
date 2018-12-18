@@ -8,9 +8,9 @@ export class Album {
   name:string;
   description:string;
   
-  datePublished:Date;
-  dateFrom:Date;
-  dateTill:Date;
+  datePublished:string;
+  dateFrom:string;
+  dateTill:string;
   
   event:any;
   

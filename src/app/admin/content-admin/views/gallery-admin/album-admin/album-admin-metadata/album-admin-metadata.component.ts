@@ -21,8 +21,8 @@ export class AlbumAdminMetadataComponent {
   
   @Output() save:EventEmitter<void> = new EventEmitter();
   
-  dateFrom:Date;
-  dateTill:Date;
+  dateFrom:string;
+  dateTill:string;
   year:number;
   
   eventsMatched:Event[] = [];
@@ -31,8 +31,8 @@ export class AlbumAdminMetadataComponent {
   
   ngOnChanges(changes:SimpleChanges){
     if(changes.album){
-      if(this.album.dateFrom) this.dateFrom = new Date(this.album.dateFrom);
-      if(this.album.dateTill) this.dateTill = new Date(this.album.dateTill);
+      if(this.album.dateFrom) this.dateFrom = this.album.dateFrom;
+      if(this.album.dateTill) this.dateTill = this.album.dateTill;
       if(this.album.year) this.year = this.album.year;
     }
   }

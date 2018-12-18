@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { DateTime } from "luxon";
 
@@ -14,21 +14,9 @@ import { Member } from "app/schema/member";
   templateUrl: './event-admin-info.component.html',
   styleUrls: ['./event-admin-info.component.css']
 })
-export class EventAdminInfoComponent implements OnInit {
+export class EventAdminInfoComponent implements OnInit, OnChanges {
 
-  event:any;
-  
-  @Input("event") 
-  set setEvent(event:Event){
-    this.event = JSON.parse(JSON.stringify(event));
-    const dateFrom = DateTime.fromISO(this.event.dateFrom);
-    const dateTill = DateTime.fromISO(this.event.dateTill);
-    this.event.dateFrom = dateFrom.toISODate();
-    this.event.dateTill = dateFrom.toISODate();
-    this.event.timeFrom = dateTill.toISOTime({includeOffset:false});
-    this.event.timeTill = dateTill.toISOTime({includeOffset:false});
-    this.setAllDay(this.event.allDay);
-  }
+  @Input("event") event:Event;
 
   @Output() saved:EventEmitter<void> = new EventEmitter();
 
@@ -47,6 +35,10 @@ export class EventAdminInfoComponent implements OnInit {
 
   ngOnInit() {
     this.loadConfig();
+  }
+  
+  ngOnChanges(){
+    this.allDay = this.event && !this.event.timeFrom && !this.event.timeTill;
   }
 
   async loadConfig(){
@@ -73,11 +65,8 @@ export class EventAdminInfoComponent implements OnInit {
     
     const eventData = eventForm.value;
     
-    // merge date and time to date
-    eventData.dateFrom = DateTime.fromISO(this.event.dateFrom + "T" + (this.event.timeFrom || "00:00")).setZone("Europe/Prague").toISO();
-    eventData.dateTill = DateTime.fromISO(this.event.dateTill + "T" + (this.event.timeTill || "00:00")).setZone("Europe/Prague").toISO();
-    delete eventData.timeFrom;
-    delete eventData.timeTill;
+    eventData.timeFrom = eventData.timeFrom || null;
+    eventData.timeTill = eventData.timeTill || null;
     
     await this.api.patch(this.event._links.self,eventData);
     
@@ -87,21 +76,6 @@ export class EventAdminInfoComponent implements OnInit {
 
   checkDescription(description:string):void{
     this.descriptionWarnings = this.descriptionWarningDefs.filter(warning => warning.regexp.test(description)).map(warning => warning.text);
-  }
-  
-  setAllDay(status:boolean){
-    
-    if(status){
-      this.event.timeFrom = undefined;
-      this.event.timeTill = undefined;
-    }
-    else{
-      this.event.timeFrom = "00:00:00";
-      this.event.timeTill = "00:00:00";
-    }
-      
-    
-    this.allDay = status;
-  }
+  }  
   
 }

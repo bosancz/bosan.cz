@@ -20,9 +20,11 @@ export class Event extends Document {
   place:string;
   description:string;
   
-  dateFrom:Date;
-  dateTill:Date;
-  allDay:boolean;
+  dateFrom:string;
+  dateTill:string;
+  timeFrom:string;
+  timeTill:string;
+  
   recurring?:EventRecurring;
   
   order?:number;

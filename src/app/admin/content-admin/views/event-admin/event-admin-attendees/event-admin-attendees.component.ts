@@ -20,6 +20,7 @@ export class EventAdminAttendeesComponent implements OnInit {
   ngOnInit() {
   }
   
+    /*
   getAttendeeAge(attendee):number{
     let date = this.event.dateFrom;
     let bd = attendee.birthday;
@@ -31,7 +32,7 @@ export class EventAdminAttendeesComponent implements OnInit {
     if(date.getMonth() > bd.getMonth()) return age;
     if(date.getMonth() === bd.getMonth() && date.getDate() >= bd.getDate()) return age;
     return age - 1;
-  }
+  }*/
   
   isAttendeeBirthday(attendee):boolean{
     return false; // TODO

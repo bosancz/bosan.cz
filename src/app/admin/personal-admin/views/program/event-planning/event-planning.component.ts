@@ -10,10 +10,17 @@ import { ApiService } from "app/services/api.service";
 
 import { Paginated } from "app/schema/paginated";
 import { Event } from "app/schema/event";
+import { CPVEvent } from "app/schema/cpv-event";
 
 class CalendarMonth {  
+  
   days:CalendarDay[] = [];
-  events:CalendarEvent[] = [];
+  
+  events:{
+    own:CalendarEvent[],
+    cpv:CalendarEvent[]
+  } = { own: [], cpv: [] };
+  
   constructor(public number:number,public year:number){ }
 }
 
@@ -28,7 +35,7 @@ class CalendarEvent {
   dateFrom:DateTime;
   dateTill:DateTime;
   
-  constructor(public event:Event){
+  constructor(public event:Event|CPVEvent){
     this.dateFrom = DateTime.fromISO(event.dateFrom);
     this.dateTill = DateTime.fromISO(event.dateTill);
   }
@@ -55,6 +62,8 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
   trimesterMonths = [ [1,4], [5,8], [9,12] ]; // trimster months (jan-may, ...)
 
+  eventsCPV:CalendarEvent[];
+  
   paramsSubscription:Subscription;
 
   constructor(private api:ApiService, private router:Router, private route:ActivatedRoute) {
@@ -62,9 +71,11 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.loadEventsCPV();
+    
     this.paramsSubscription = this.route.params.subscribe((params:Params) => {
 
-      if(params.rok === undefined) return this.router.navigate(["./",{rok: (new Date()).getFullYear(), trimestr: 0}], { relativeTo: this.route, replaceUrl: true });
+      if(params.rok === undefined) return this.router.navigate(["./",this.getUpcomingTrimester()], { relativeTo: this.route, replaceUrl: true });
       if(params.trimestr === undefined) this.router.navigate(["./",{rok: params.rok, trimestr: 0}], { relativeTo: this.route, replaceUrl: true });
 
       this.year = Number(params.rok);
@@ -75,6 +86,11 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
       this.createCalendar();
       this.loadEvents();
+
+      if(this.eventsCPV){
+        this.assignEvents(this.eventsCPV,"cpv");
+        this.updateEventLevels("cpv");
+      }
     });
   }
 
@@ -88,6 +104,26 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
     this.router.navigate(["./", { rok:formData.year,trimestr: formData.trimester }], { relativeTo: this.route, replaceUrl: true });
 
+  }
+  
+  getPreviousTrimester(){
+    if(this.trimester === 0) return { rok: this.year - 1, trimestr: this.trimesterMonths.length - 1 };
+    else return { rok: this.year, trimestr: this.trimester - 1 };
+  }
+  getNextTrimester(){
+    if(this.trimester === this.trimesterMonths.length - 1) return { rok: this.year + 1, trimestr: 0 };
+    else return { rok: this.year, trimestr: this.trimester + 1 };
+  }
+  
+  getUpcomingTrimester(){
+    const currentDate = new Date();
+    let currentYear = currentDate.getFullYear();
+    let i = 0;
+    while(new Date(currentYear,this.trimesterMonths[i][0],1) < currentDate){
+      if(i < this.trimesterMonths.length - 1) i++;
+      else { i = 0; currentYear++; }
+    }
+    return { rok: currentYear, trimestr: i };
   }
 
   createCalendar(){
@@ -131,25 +167,33 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
     events.sort((a,b) => a.dateFrom.diff(b.dateFrom));
     
-    this.assignEvents(events);
+    this.assignEvents(events,"own");
     
-    this.updateEventLevels();
+    this.updateEventLevels("own");
 
   }
+  
+  async loadEventsCPV(){
+    this.eventsCPV = await this.api.get<CPVEvent[]>("cpv").then(events => events.map(event => new CalendarEvent(event)));
+    this.eventsCPV.sort((a,b) => a.dateFrom.diff(b.dateFrom));
+    
+    this.assignEvents(this.eventsCPV,"cpv");
+    this.updateEventLevels("cpv");
+  }
 
-  assignEvents(events){
+  assignEvents(events,type){
     this.calendar.forEach(month => {
       const monthStart = month.days[0].date;
       const monthEnd = month.days[month.days.length - 1].date;
-      month.events = events.filter(event => event.dateTill >= monthStart && event.dateFrom <= monthEnd);
+      month.events[type] = events.filter(event => event.dateTill >= monthStart && event.dateFrom <= monthEnd);
     });
     
   }
 
-  updateEventLevels(){
+  updateEventLevels(type){
 
     this.calendar.forEach(month => {
-      month.events.forEach(event => {
+      month.events[type].forEach(event => {
         
         for(let date = event.dateFrom; date <= event.dateTill; date = date.plus({days:1})){
 
