@@ -11,7 +11,6 @@ require('express-async-errors');
 
 
 /* CONFIG */
-
 var config = require("../config");
 
 
@@ -27,8 +26,8 @@ app.use(require("./middleware/query-guess-types.js"));
 
 /* LOCALE */
 
-var moment = require("moment");
-moment.locale("cs");
+const { DateTime } = require("luxon");
+DateTime.defaultLocale = "cs-CZ";
 
 
 /* AUTHENTICATION AND ACL */

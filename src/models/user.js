@@ -8,8 +8,10 @@ var userSchema = mongoose.Schema({
   
   "roles": [String],
   
-  "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"}
-});
+  "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
+  
+  "notifications": [String]
+},{toObject:{virtuals:true}});
 
 
 

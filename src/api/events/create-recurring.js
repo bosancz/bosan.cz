@@ -1,3 +1,5 @@
+const createEvent = require("./create-event");
+
 module.exports = async function createRecurring(recurring,event){
   
   // list event files to copy

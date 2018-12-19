@@ -3,7 +3,7 @@ const routes = module.exports = new Routes();
 
 const config = require("../../config");
 
-const moment = require("moment");
+const { DateTime } = require("luxon");
 const ical = require('ical-generator');
 
 var validate = require("../validator");
@@ -23,9 +23,9 @@ const getEventsProgramSchema = {
 routes.get("program","/",{permission:"program:read"}).handle(validate({query:getEventsProgramSchema}), async (req,res,next) => {
 
   
-  const query = Event.find({status:"public"});
+  const query = Event.find({status: "public" });
 
-  query.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
+  query.select("_id name status dateFrom dateTill groups leadersEvent description type subtype meeting registration");
   query.populate("leaders","_id name nickname group contacts.mobile");
 
   query.where({ dateTill: { $gte: req.query.dateFrom ? new Date(req.query.dateFrom) : new Date() } });
@@ -46,21 +46,19 @@ routes.get("program:ical","/ical",{permission:"program:read"}).handle(async (req
     method: "publish"
   });
   
-  const from = moment().subtract(30, 'days');
+  const from = DateTime.local().minus({ days: 30 });
   
-  const query = Event.find({ status: "public", dateTill: { $gte: from }, recurring: req.query.recurring ? undefined : null});
+  const query = Event.find({ status: "public", dateTill: { $gte: from.toISODate() }, recurring: req.query.recurring ? undefined : null});
   query.select("_id name dateFrom dateTill groups leadersEvent description type subtype");
   query.populate("leaders","_id nickname contacts.email");
   
   const events = await query;
   
-  console.log(events.length);
-
   for(let event of events){
-    cal.createEvent({
+    let ev = cal.createEvent({
       uid: event._id,
       start: event.dateFrom,
-      end: event.dateTill,
+      end: DateTime.fromISO(event.dateTill).plus({ days: 1 }).toISODate(),
       allDay: true,
       summary: event.name,
       url: event._links && event._links.registration_url,
@@ -68,10 +66,28 @@ routes.get("program:ical","/ical",{permission:"program:read"}).handle(async (req
       description: event.description,
       location: event.place,      
       organizer: config.ical.organizer,
-      attendees: event.leaders.map(member => ({name: member.nickname, email: member.contacts && member.contacts.email || "info@bosan.cz", rsvp: true}))
+      attendees: event.leaders.map(member => ({name: member.nickname, email: member.contacts && member.contacts.email || "info@bosan.cz", rsvp: true})),
+      timezone: config.ical.timezone
     });
+    
   }
 
   cal.serve(res);
   
+});
+
+routes.get("program:stats","/stats",{permission:"program:stats"}).handle(async (req,res,next) => {
+
+  const stats = { }
+  const status = await Event.aggregate([
+    { $match: { dateFrom: { $gte: new Date() } } },
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+    { $project: { _id: false, status: "$_id", count: "$count" } }
+  ]);
+  
+
+  stats.count = status.map(item => item.count).reduce((acc,cur) => acc + cur, 0);
+  stats.status = status.reduce((acc,cur) => { acc[cur.status] = cur.count; return acc; },{});
+  
+  res.json(stats);
 });

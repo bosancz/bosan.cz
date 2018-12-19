@@ -38,28 +38,34 @@ var getAlbumsSchema = {
 // LIST ALBUMS
 routes.get("albums","/", {permission: "albums:list"}).handle(validate({query: getAlbumsSchema}), async (req,res,next) => {
 
-  var where = [];
-  if(!RoutesACL.can("albums:drafts:list",req)) where.push({ status: "public" });
-  if(req.query.filter) where.push(req.query.filter);
+  const query = Album.find();
+  query.filterByPermission("albums:drafts:list",req);
   
-  if(req.query.search) where.name = new RegExp(req.query.search,"i");
+  query.select("_id name status dateFrom dateTill datePublished event");
+  
+  if(req.query.filter) query.where(req.query.filter);
+  
+  if(req.query.search) query.where({name: new RegExp(req.query.search,"i")});
   
   var populations = {
     events: {path: "event", select:"_id name dateFrom dateTill"},
     titlePhotos: {path: "titlePhotos"}
   };
+  if(req.query.populate){
+    req.query.populate
+      .map(item => populations[item])
+      .filter(item => item)
+      .forEach(item => query.populate(item));
+  }
   
-  var options = {
-    select: ["_id","name","status","dateFrom","dateTill","datePublished","event"],
-    populate: req.query.populate ? req.query.populate.map(item => populations[item]).filter(item => item) : [],
-    limit: req.query.limit ? Math.min(req.query.limit,100) : 100,
-    page: req.query.page || 1
-  };
+  const limit = req.query.limit ? Math.min(req.query.limit,100) : 100;
+  const skip = req.query.page ? (req.query.page - 1) * limit : 0;
   
-  if(req.query.sort) options.sort = req.query.sort;
-  if(req.query.populate && req.query.populate.indexOf("titlePhotos") !== null) options.select.push("titlePhotos");
+  const albums = await query.paginate(limit,skip);
+  
+  req.routes.links(albums.docs,"album");
 
-  res.json(await Album.paginate(where.length ? { $and: where } : {},options));
+  res.json(albums);
 });
 
 // CREATE NEW ALBUM */
@@ -163,17 +169,4 @@ routes.get("album:photos","/:id/photos", {permission:"albums:read"}).handle(asyn
   if(album.status === "draft" && !RoutesACL.can("albums:drafts:read",req)) return res.sendStatus(401);
   
   res.json(album.photos);
-});
-
-routes.get("album:download","/:id/download", {permission:"albums:download"}).handle((req,res,next) => {
-
-  res.writeHead(200, {
-    'Content-Type': 'application/zip',
-    'Content-disposition': 'attachment; filename=album.zip'
-  });
-
-  albumDownload(req.params.id,res)
-    .catch(err => {
-    console.log(err.message);
-  });
 });

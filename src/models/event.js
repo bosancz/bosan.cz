@@ -8,7 +8,8 @@ const EventRecurring = require("./event-recurring"); // load because of referenc
 
 var eventSchema = mongoose.Schema({
 
-  "status": {type: String, enum: ['draft','public','cancelled'], required: true, default: 'draft'},
+  "status": {type: String, enum: ['draft','public'], required: true, default: 'draft'},
+  "cancelled": { type: Boolean, default: false },
   "srcId": Number,
 
   "name": {type: String, required: true},
@@ -17,6 +18,10 @@ var eventSchema = mongoose.Schema({
 
   "dateFrom": Date,
   "dateTill": Date,
+  
+  "timeFrom": String,
+  "timeTill": String,
+  
   "dateChanged": Date,
   "recurring": {type: mongoose.Schema.Types.ObjectId, ref: "EventRecurring"},
 
@@ -51,6 +56,6 @@ var eventSchema = mongoose.Schema({
     },
     "role": {type: String, enum: ['h','v','i','d'], required: true, default: 'd'}
   }]
-}, { toJSON: { virtuals: true } });
+}, { toObject: { virtuals: true } });
 
 module.exports = mongoose.model("Event", eventSchema);

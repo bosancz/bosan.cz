@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { Routes, RoutesLinksRoot } = require("@smallhillcz/routesjs");
+const { Routes, RoutesLinks } = require("@smallhillcz/routesjs");
 
 const config = require("../../config");
 
@@ -10,6 +10,8 @@ const router = module.exports = routes.router;
 routes.child("/albums", require("./albums"));
 
 routes.child("/config", require("./config"));
+
+routes.child("/cpv", require("./cpv"));
 
 routes.child("/errors", require("./errors"));
 
@@ -39,4 +41,12 @@ routes.child("/users", require("./users"));
 
 routes.router.get("/test", (req,res,next) => res.sendStatus(200));
 
-routes.get(null,"/",{permission:"api:read"}).handle(RoutesLinksRoot({url: "/"}));
+routes.get(null,"/",{permission:"api:read"}).handle((req,res) => {
+  
+  res.json({
+    name: "bosancz-api",
+    description: "API for bosan.cz",
+    _links: RoutesLinks.root(req)
+  });
+  
+});

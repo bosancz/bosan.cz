@@ -1,3 +1,5 @@
+var config = require("../../../config");
+
 module.exports = function createPage(options){
   var image = "";
   if(options.image){

@@ -29,7 +29,7 @@ routes.post("login","/",{permission:"login:credentials"}).handle(validate({body:
 
   let login = req.body.login.toLowerCase();
   
-  var user = await User.findOne({$or: [{login:login},{email:login}]}).select("+password")
+  var user = await User.findOne({$or: [{login:login},{email:login}]}).select("+password").lean();
 
   if(!user) return res.sendStatus(401); // dont send that user dont exists
   if(!user.password) return res.status(503).send("Password not set."); // dont send user dont exists
@@ -37,7 +37,7 @@ routes.post("login","/",{permission:"login:credentials"}).handle(validate({body:
   var same = await bcrypt.compare(req.body.password, user.password)
 
   if(!same) return res.sendStatus(401);
-
+  
   // create the token
   var token = await createToken(user,config.auth.jwt.expiration);
 
@@ -117,36 +117,9 @@ routes.post("login:google","/google",{permission:"login:google"}).handle(async (
   const user = await User.findOne({email: userEmail});
 
   if(!user) return res.status(404).send("User with email " + userEmail + " not found");
-
-  var token = await createToken(user,config.auth.jwt.expiration);
-
-  res.send(token);
-  
-});
-
-var loginImpersonateSchema = {
-  type: "object",
-  properties: {
-    "_id": {type: "string"},
-    "roles": {type: "array", items: { type: "string" } }
-  },
-  additionalProperties: false
-};
-
-routes.post("login:impersonate","/impersonate", { permission: "login:impersonate"}).handle(validate({body:loginImpersonateSchema}), async (req,res) => {
-  
-  let user = {};
-  
-  if (req.body._id) {
-    user = await User.findOne({_id: req.body._id}).lean();
-    if(!user) return res.status(404).send("User not found.");
-  }
-  
-  if (req.body.roles) {
-    user.roles = req.body.roles;
-  }
   
   var token = await createToken(user,config.auth.jwt.expiration);
 
   res.send(token);
+  
 });

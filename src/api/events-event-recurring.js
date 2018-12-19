@@ -1,8 +1,7 @@
 const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
 const config = require("../../config");
-
-const routes = module.exports = new Routes();
 
 var mongoose = require('mongoose');
 var path = require("path");
@@ -16,7 +15,7 @@ var EventRecurring = require("../models/event-recurring");
 
 routes.get("event:recurring","/",{permission:"events:read"}).handle(async (req,res) => {
   // find the event to find recurring _id
-  var event = await Event.findOne({"_id": req.params.event}).select("_id recurring");
+  var event = await Event.findOne({"_id": req.params.id}).select("_id recurring");
   if(!event) return res.status(404).send("Event not found");
   if(!event.recurring) return res.status(404).send("Event recurring not found.");
 
@@ -30,7 +29,7 @@ routes.get("event:recurring","/",{permission:"events:read"}).handle(async (req,r
 
 routes.put("event:recurring","/",{permission:"events:edit"}).handle(async (req,res,next) => {
   // find the event to find recurring _id
-  var event = await Event.findOne({"_id": req.params.event});
+  var event = await Event.findOne({"_id": req.params.id});
   if(!event) return res.status(404).send("Event not found");
   if(event.recurring) return res.status(400).send("Recurring already active.");
 
@@ -82,7 +81,7 @@ routes.put("event:recurring","/",{permission:"events:edit"}).handle(async (req,r
 
 routes.delete("event:recurring","/",{permission:"events:delete"}).handle(async (req,res) => {
 
-  var event = await Event.findOne({"_id": req.params.event}).select("_id recurring");
+  var event = await Event.findOne({"_id": req.params.id}).select("_id recurring");
   if(!event) return res.status(404).send("Event not found");
   if(!event.recurring) return res.status(404).send("Event recurring not found.");
 

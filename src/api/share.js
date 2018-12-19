@@ -1,7 +1,7 @@
 const { Routes } = require("@smallhillcz/routesjs");
 const routes = module.exports = new Routes();
 
-var moment = require("moment");
+const { DateTime } = require("luxon");
 
 var config = require("../../config");
 
@@ -11,12 +11,15 @@ var Photo = require("../models/photo");
 
 routes.get(null,"/fotogalerie/:album",{permission:"gallery:read"}).handle(async (req,res) => {
   
-  var album = await Album.findOne({_id:req.params.album}).populate("titlePhotos");
+  const album = await Album.findOne({_id:req.params.album}).populate("titlePhotos");
   
-  var options = {
+  const dateFrom = DateTime.fromJSDate(album.dateFrom).toFormat("d. M. y");
+  const dateTill = DateTime.fromJSDate(album.dateFrom).toFormat("d. M. y");
+  
+  const options = {
     url: `${config.url}/fotogalerie/${req.params.album}`,
-    title: album.name + " (" + moment(album.dateFrom).format('l') + " - " + moment(album.dateTill).format('l') + ")",
-    description: album.description,
+    title: album.name + " (" + (dateFrom === dateTill ? dateFrom : dateFrom + " - " + dateTill) + ")",
+    description: album.description || "",
     type: "image.gallery",
     image: {
       url: album.titlePhotos && album.titlePhotos[0] ? album.titlePhotos[0].sizes.big.url : "",
@@ -33,10 +36,15 @@ routes.get(null, "/fotogalerie/:album/:photo",{permission:"gallery:read"}).handl
   var album = await Album.findOne({_id:req.params.album});
   var photo = await Photo.findOne({_id:req.params.photo});
   
+  if(!photo || !album) return res.sendStatus(404);
+  
+  const dateFrom = DateTime.fromJSDate(album.dateFrom).toFormat("d. M. y");
+  const dateTill = DateTime.fromJSDate(album.dateFrom).toFormat("d. M. y");
+  
   var options = {
     url: `${config.url}/fotogalerie/${req.params.album}/${req.params.photo}`,
-    title: album.name + " (" + moment(album.dateFrom).format('l') + " - " + moment(album.dateTill).format('l') + ")",
-    description: photo.caption || album.description,
+    title: album.name + " (" + (dateFrom === dateTill ? dateFrom : dateFrom + " - " + dateTill) + ")",
+    description: photo.caption || album.description || "",
     type: "image.gallery",
     image: {
       url: photo.sizes.big.url,

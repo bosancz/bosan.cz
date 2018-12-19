@@ -25,7 +25,7 @@ const albumSchema = mongoose.Schema({
   "titlePhoto": {type: mongoose.Schema.Types.ObjectId, ref: "Photo"},
   "titlePhotos": [{type: mongoose.Schema.Types.ObjectId, ref: "Photo"}],
   "photos": [{type: mongoose.Schema.Types.ObjectId, ref: "Photo"}]
-}, { toJSON: { virtuals: true } });
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
 
 module.exports = mongoose.model("Album", albumSchema);
