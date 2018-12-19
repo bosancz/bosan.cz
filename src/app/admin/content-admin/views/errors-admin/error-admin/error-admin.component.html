@@ -5,7 +5,7 @@
 
     <p>
       <strong>Datum a čas</strong>: {{error.timestamp | date:"d. M. y H:mm:ss"}}<br>
-      <strong>Uživatel</strong>: {{error.user.login}}<br>
+      <strong>Uživatel</strong>: {{error.user?.login}}<br>
       <strong>URL</strong>: <a [href]="error.url" target="_blank">{{error.url}}</a><br>
       <strong>HTTP kód</strong>: {{error.status || "-"}}<br>
       <strong>Angular komponenta</strong>: {{error.ng?.component || "-"}}<br>
