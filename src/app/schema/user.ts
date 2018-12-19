@@ -1,3 +1,8 @@
+export class UserNotification {
+  email:boolean;
+  system:boolean;
+}
+
 export class User {
   
   _id:string;
@@ -7,6 +12,8 @@ export class User {
   active:boolean;
   
   email:string;
+  
+  notifications
   
   _links?:any;
 }

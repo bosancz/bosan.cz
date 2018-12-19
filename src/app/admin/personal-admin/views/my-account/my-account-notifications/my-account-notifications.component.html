@@ -1,0 +1,38 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th></th><th>Mail</th><th>Systémové</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let notification of notifications">
+      <th>{{notification.name}}</th>
+      <th>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" [id]="notification.id + '_email_checkbox'" [(ngModel)]="userNotifications[notification.id].email">
+          <label class="custom-control-label" [for]="notification.id + '_email_checkbox'">Ano</label>
+        </div>
+      </th>
+      <th>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" [id]="notification.id + '_system_checkbox'" [(ngModel)]="userNotifications[notification.id].system">
+          <label class="custom-control-label" [for]="notification.id + '_system_checkbox'">Ano</label>
+        </div>
+      </th>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Mailové notifikace</h4>
+<p>Tyto notifikace ti přijdou na email nastavený u tvého účtu.</p>
+<p>Nastavený email: <strong>{{user?.email}}</strong></p>
+
+<h4>Systémové notifikace</h4>
+<p>Tyto notifikace se zobrazí na ploše počítače, nebo v notifikačním panelu tvého mobilního telefonu.</p>
+<p>
+  Stav systémových notifikací na tomto zařízení:
+  <span *ngIf="systemNotificationStatus" class="text-success">zapnuté</span>
+  <span *ngIf="!systemNotificationStatus" class="text-danger">vypnuté</span>
+</p>
+
+<button *ngIf="!systemNotificationStatus" class="btn btn-primary" (click)="requestNotificationPermission()">Zapnout na tomto zařízení</button>

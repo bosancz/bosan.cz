@@ -9,7 +9,7 @@
         <div class="cards">
 
           <div *ngIf="dashboard?.noLeaderEventsCount > 0" class="alert alert-warning">
-            <a routerLink="../ved-akci" class="float-right">Otevřít</a>
+            <a routerLink="../ved-akci" class="float-right ml-2">Otevřít</a>
             Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí!
           </div>
 
@@ -18,6 +18,7 @@
       </div>
 
       <div class="col-md-4 right">
+        <h4 class="d-block d-md-none border-bottom border-secondary">Nejbližší akce</h4>
         <div *ngFor="let event of dashboard?.program" class="mb-4">
           <h5>{{[event.dateFrom,event.dateTill] | dateRange}} | {{event.name}}</h5>
           <p>Vede <strong>{{(event.leaders | joinLeaders) || "pan NIKDO"}}</strong></p>

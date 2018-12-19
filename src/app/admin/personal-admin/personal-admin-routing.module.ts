@@ -5,10 +5,14 @@ import { PersonalAdminComponent } from "./personal-admin.component";
 
 /* VIEWS */
 import { MyDashboardComponent } from "./views/my-dashboard/my-dashboard.component";
-import { MyAccountComponent } from "./views/my-account/my-account.component";
 import { CanalRegistrationComponent } from "./views/canal-registration/canal-registration.component";
 import { DocumentsViewComponent } from "./views/documents-view/documents-view.component";
 import { LeadEventComponent } from "./views/lead-event/lead-event.component";
+
+import { MyAccountComponent } from "./views/my-account/my-account.component";
+import { MyAccountInfoComponent } from "./views/my-account/my-account-info/my-account-info.component";
+import { MyAccountCredentialsComponent } from "./views/my-account/my-account-credentials/my-account-credentials.component";
+import { MyAccountNotificationsComponent } from "./views/my-account/my-account-notifications/my-account-notifications.component";
 
 import { MyEventsComponent } from "./views/my-events/my-events.component";
 import { MyEventComponent } from "./views/my-event/my-event.component";
@@ -45,8 +49,15 @@ const routes:Routes = [
 
       { path: 'dokumenty', component: DocumentsViewComponent },
 
-      { path: 'ucet/:cat', component: MyAccountComponent },
-      { path: 'ucet', redirectTo: "ucet/info", pathMatch: "full"},
+      {
+        path: 'ucet', component: MyAccountComponent,
+        children: [
+          { path: 'info', component: MyAccountInfoComponent },
+          { path: 'notifikace', component: MyAccountNotificationsComponent },
+          { path: 'prihlasovaci-udaje', component: MyAccountCredentialsComponent },
+          { path: '', redirectTo: "info", pathMatch: "full"}
+        ]
+      },
 
       { path: '', redirectTo: "prehled", pathMatch: "full"},
 
