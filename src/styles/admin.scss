@@ -3,8 +3,13 @@
 
 #admin {
 
+  #adminPage{margin-top:94px;}
+  
   > nav{
     position:fixed;top:60px;left:0;right:0;background-color:#666;padding:0;z-index:800;
+    
+    overflow: auto;    
+    white-space: nowrap;
 
     a{
       display:inline-block; position:relative;
@@ -12,6 +17,8 @@
       transition: background-color 500ms;transition-timing-function: ease-in-out;
       text-decoration:none;color:#fff;
     }
+    
+ 
     
     a.active{ background-color:#fff; color:#333; }
     a.active:hover{color:#333 !important;}
@@ -31,7 +38,7 @@
     a:last-child{margin-right:0;}
   }
   
-  #adminPage{margin-top:94px;}
+  
   
   h2{margin-bottom:20px;}
   h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
@@ -54,5 +61,30 @@
     .card-title .btn{float:right;}
 
     .buttons .btn{display:block;width:100%;margin-bottom:10px;}
+  }
+  
+  @media (max-width: 992px) { 
+    h2{display:none;}
+    #adminPage nav{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      white-space: nowrap;
+      display: block;
+      padding: 1.5vh 3vw;
+      background-color: #fff;
+      z-index: 10;
+      border-top: 1px solid #ccc;
+      overflow: auto;
+      
+      .nav-link{display:inline-block;}
+    }
+    
+    > nav a {
+      padding:15px 20px; margin: 0 6px;
+    }
+    
+    #adminPage{margin-top:114px;margin-bottom:65px;}
   }
 }

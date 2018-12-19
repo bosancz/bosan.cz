@@ -45,10 +45,10 @@ const routes:Routes = [
 
       { path: 'dokumenty', component: DocumentsViewComponent },
 
-      { path: 'admin/:cat', component: MyAccountComponent },
-      { path: 'admin', redirectTo: "admin/info", pathMatch: "full"},
+      { path: 'ucet/:cat', component: MyAccountComponent },
+      { path: 'ucet', redirectTo: "ucet/info", pathMatch: "full"},
 
-      { path: '', redirectTo: "admin/info", pathMatch: "full"},
+      { path: '', redirectTo: "prehled", pathMatch: "full"},
 
     ]
   }
