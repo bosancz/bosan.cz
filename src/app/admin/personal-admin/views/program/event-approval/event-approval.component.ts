@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from "app/services/api.service";
 import { ToastService } from "app/services/toast.service";
 
+import { ProgramAdminService } from "../program-admin.service";
+
 import { Paginated } from "app/schema/paginated";
 import { Event } from "app/schema/event";
 
@@ -15,7 +17,7 @@ export class EventApprovalComponent implements OnInit {
 
   events:Event[] = [];
   
-  constructor(private api:ApiService, private toastService:ToastService) { }
+  constructor(private api:ApiService, private toastService:ToastService, private programAdminService:ProgramAdminService) { }
 
   ngOnInit() {
     this.loadEvents();
@@ -29,29 +31,16 @@ export class EventApprovalComponent implements OnInit {
         recurring: null
       },
       has_action: "publish",
-      select: "_id status name description _actions"
+      select: "_id status name description dateFrom dateTill leaders"
     };
     
-    console.log(options);
-    
     this.events = await this.api.get<Paginated<Event>>("events",options).then(paginated => paginated.docs);
-  }
-  
-  async reloadEvent(event:Event){
-    const i = this.events.indexOf(event);
-    const newEvent = await this.api.get<Event>(event._links.self);
-    this.events.splice(i, 1, newEvent);
   }
   
   async publishEvent(event:Event):Promise<void>{
     await this.api.post(event._actions.publish);
     this.toastService.toast("Publikováno.");
-    await this.reloadEvent(event);
-  }
-  
-   async unpublishEvent(event:Event):Promise<void>{
-    await this.api.post(event._actions.unpublish);
-    this.toastService.toast("Vráceno do připravovaných akcí.");
-    await this.reloadEvent(event);
+    await this.loadEvents();
+    this.programAdminService.loadStats();
   }
 }

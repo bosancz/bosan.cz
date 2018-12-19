@@ -1,17 +1,17 @@
 <section>
   <div class="container">
-    <h2>Správa programu</h2>
+    <h2 class="d-none d-lg-block">Správa programu</h2>
     <div class="row">
 
-      <div class="col-xl-2 col-md-3">
-        <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" routerLink="./ke-schvaleni" routerLinkActive="active">Akce ke schválení</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="./v-programu" routerLinkActive="active">Akce v programu</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="./planovani" routerLinkActive="active">Plánování akcí</a></li>
-        </ul>
+      <div class="col-lg-2">
+        <nav class="nav flex-column nav-pills">
+          <a class="nav-link" routerLink="./ke-schvaleni" routerLinkActive="active">Ke schválení ({{(programAdminService.stats | async)?.status?.draft || 0}})</a>
+          <a class="nav-link" routerLink="./v-programu" routerLinkActive="active">V programu ({{(programAdminService.stats | async)?.status?.public || 0}})</a>
+          <a class="nav-link" routerLink="./planovani" routerLinkActive="active">Plánování akcí</a>
+        </nav>
       </div>
 
-      <div class="col-xl-10 col-md-9">
+      <div class="col-lg-10">
         <router-outlet></router-outlet>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from "app/services/data.service";
+import { ProgramAdminService } from "./program-admin.service";
 
 @Component({
   selector: 'program-admin',
@@ -9,17 +9,11 @@ import { DataService } from "app/services/data.service";
 })
 export class ProgramAdminComponent implements OnInit {
 
-  events:{ [status:string]: Event[] } = {  };
-    
-  constructor(private dataService:DataService) {
-  }
-
-  ngOnInit() {
-    this.loadEvents();
+  constructor(public programAdminService:ProgramAdminService) {
   }
   
-  async loadEvents(){
-    
+  ngOnInit(){
+    this.programAdminService.loadStats();
   }
 
 }

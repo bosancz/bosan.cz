@@ -8,6 +8,7 @@ import { ProgramAdminComponent } from './program-admin.component';
 
 import { EventPlanningComponent } from './event-planning/event-planning.component';
 import { EventApprovalComponent } from './event-approval/event-approval.component';
+import { EventProgramComponent } from './event-program/event-program.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { EventApprovalComponent } from './event-approval/event-approval.componen
   ],
   declarations: [
     ProgramAdminComponent,
-    EventPlanningComponent, EventApprovalComponent
+    EventPlanningComponent, EventApprovalComponent, EventProgramComponent
   ]
 })
 export class ProgramAdminModule { }
