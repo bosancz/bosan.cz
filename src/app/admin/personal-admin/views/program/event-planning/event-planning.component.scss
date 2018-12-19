@@ -13,9 +13,11 @@ form {margin-bottom:40px;}
   
   .events{position:absolute;overflow:hidden;}
   .events .event{position:absolute;height:10px; white-space:nowrap;background-color:#333;color:#fff;border:1px solid #fff;}
+  .events .event-small{background-color:#999;}
   
   .events.own{top:24px;right:0;bottom:24px;left:0;}
   .events.cpv{height:24px;right:0;bottom:0;left:0;border-top:1px solid #ccc;}
+  
   
   .day{position:absolute;top:0;height:100%;border-right:1px solid #eee}  
   

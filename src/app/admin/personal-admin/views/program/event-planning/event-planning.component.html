@@ -35,7 +35,7 @@
 
 
       <div class="events own">
-        <div *ngFor="let calEvent of month.events.own" class="event" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="12 * calEvent.level + 'px'" [tooltip]="calEvent.event.name" placement="bottom" [routerLink]="['/interni/obsah/akce',calEvent.event._id]"></div>
+        <div *ngFor="let calEvent of month.events.own" [class]="'event ' + (calEvent.event | event:'class')" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="12 * calEvent.level + 'px'" [tooltip]="calEvent.event.name" placement="bottom" [routerLink]="['/interni/obsah/akce',calEvent.event._id]"></div>
       </div>
 
       <div class="events cpv">
