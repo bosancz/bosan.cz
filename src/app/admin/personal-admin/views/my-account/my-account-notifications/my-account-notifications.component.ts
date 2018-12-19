@@ -54,12 +54,12 @@ export class MyAccountNotificationsComponent implements OnInit {
   }
   
   updateSystemNotificationStatus(){
-    this.systemNotificationStatus = Notification && Notification.permission === "granted";
+    this.systemNotificationStatus = Notification && Notification.permission || "unavailable";
   }
   
   async requestNotificationPermission(){
     const permission = await Notification.requestPermission();
-    if(permission === "granted") this.systemNotificationStatus = true;
+    this.systemNotificationStatus = permission;
   }
 
 }
