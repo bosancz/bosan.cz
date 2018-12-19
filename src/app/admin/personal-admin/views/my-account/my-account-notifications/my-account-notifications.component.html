@@ -31,8 +31,10 @@
 <p>Tyto notifikace se zobrazí na ploše počítače, nebo v notifikačním panelu tvého mobilního telefonu.</p>
 <p>
   Stav systémových notifikací na tomto zařízení:
-  <span *ngIf="systemNotificationStatus" class="text-success">zapnuté</span>
-  <span *ngIf="!systemNotificationStatus" class="text-danger">vypnuté</span>
+  <span *ngIf="systemNotificationStatus === 'unavailable'">notifikace nejsou podporované</span>
+  <span *ngIf="systemNotificationStatus === 'granted'" class="text-success">zapnuté</span>
+  <span *ngIf="systemNotificationStatus === 'default'">vypnuté</span>
+  <span *ngIf="systemNotificationStatus === 'denied'" class="text-danger">blokované</span>
 </p>
 
-<button *ngIf="!systemNotificationStatus" class="btn btn-primary" (click)="requestNotificationPermission()">Zapnout na tomto zařízení</button>
+<button *ngIf="systemNotificationStatus === 'default'" class="btn btn-primary" (click)="requestNotificationPermission()">Zapnout na tomto zařízení</button>
