@@ -31,10 +31,30 @@
 <p>Tyto notifikace se zobrazí na ploše počítače, nebo v notifikačním panelu tvého mobilního telefonu.</p>
 <p>
   Stav systémových notifikací na tomto zařízení:
-  <span *ngIf="systemNotificationStatus === 'unavailable'">notifikace nejsou podporované</span>
-  <span *ngIf="systemNotificationStatus === 'granted'" class="text-success">zapnuté</span>
-  <span *ngIf="systemNotificationStatus === 'default'">vypnuté</span>
-  <span *ngIf="systemNotificationStatus === 'denied'" class="text-danger">blokované</span>
+  <strong>
+    <span *ngIf="systemNotificationStatus === 'unavailable'">notifikace nejsou podporované</span>
+    <span *ngIf="systemNotificationStatus === 'granted'" class="text-success">zapnuté</span>
+    <span *ngIf="systemNotificationStatus === 'default'">vypnuté</span>
+    <span *ngIf="systemNotificationStatus === 'denied'" class="text-danger">blokované</span>
+  </strong>
 </p>
 
 <button *ngIf="systemNotificationStatus === 'default'" class="btn btn-primary" (click)="requestNotificationPermission()">Zapnout na tomto zařízení</button>
+<p *ngIf="systemNotificationStatus === 'denied'">Odblokovat notifikace jde pouze v nastavení prohlížeče. Návody:</p>
+<ul>
+  <li>
+    Chrome:
+    <a href="https://support.google.com/chrome/answer/3220216?co=GENIE.Platform%3DDesktop&hl=cs" target="_blank">Počítač</a>, 
+    <a href="https://support.google.com/chrome/answer/3220216?co=GENIE.Platform%3DAndroid&hl=cs&oco=1" target="_blank">Android</a>, 
+    <a href="https://support.google.com/chrome/answer/3220216?co=GENIE.Platform%3DiOS&hl=cs&oco=1" target="_blank">iPhone/iPad</a>
+  </li>
+  <li>
+    Safari:
+    <a href="https://support.apple.com/cs-cz/guide/safari/customize-website-notifications-sfri40734/mac" target="_blank">Mac</a>
+  </li>
+  <li>
+    Firefox:
+    <a href="https://support.mozilla.org/en-US/kb/push-notifications-firefox" target="_blank">Počítač</a>,
+    <a href="https://support.mozilla.org/en-US/kb/control-notifications-firefox-android" target="_blank">Android</a>
+  </li>
+</ul>
