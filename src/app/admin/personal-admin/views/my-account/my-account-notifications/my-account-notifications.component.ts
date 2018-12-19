@@ -24,7 +24,7 @@ export class MyAccountNotificationsComponent implements OnInit {
   
   userNotifications:{ [id:string]:UserNotification };
   
-  systemNotificationStatus:boolean = false;
+  systemNotificationStatus:string = "default";
   
   constructor(private api:ApiService) {
     this.updateNotifications();
@@ -32,6 +32,7 @@ export class MyAccountNotificationsComponent implements OnInit {
 
   ngOnInit() {
     this.loadUser();
+    this.updateSystemNotificationStatus();
   }
   
   async loadUser(){
