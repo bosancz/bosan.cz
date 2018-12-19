@@ -1,26 +1,55 @@
 <section>
   <div *ngIf="error" class="container">
 
+    <button type="button" class="btn btn-danger float-right" (click)="deleteError()">Smazat chybu</button>
     <h2>{{error.message}}</h2>
 
     <p>
-      <strong>Datum a čas</strong>: {{error.timestamp | date:"d. M. y H:mm:ss"}}<br>
-      <strong>Uživatel</strong>: {{error.user?.login}}<br>
-      <strong>URL</strong>: <a [href]="error.url" target="_blank">{{error.url}}</a><br>
-      <strong>HTTP kód</strong>: {{error.status || "-"}}<br>
-      <strong>Angular komponenta</strong>: {{error.ng?.component || "-"}}<br>
-      <strong>Angular build</strong>: {{error.ng?.environment || "-"}}
+      <strong>Poslední případ</strong>: {{error.lastTimestamp | date:"d. M. y H:mm:ss"}}<br>
+      <strong>Počet</strong>: {{error.instances.length}}
     </p>
 
-    <ng-container *ngIf="error.description">
-      <h3>Popis</h3>
-      <pre>{{error.description}}</pre>
-    </ng-container>
+    <h3>Jednotlivé případy</h3>
 
-    <ng-container *ngIf="error.stack">
-      <h3>Stack trace</h3>
-      <pre>{{error.stack}}</pre>
-    </ng-container>
+    <div class="row">
+      <div class="col-md-4">
+        <table class="table table-striped table-hover table-sm">
+          <thead class="thead-dark">
+            <tr>
+              <th></th>
+              <th>Datum</th>
+              <th>Uživatel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let instance of error.instances" (click)="currentInstance = instance">
+              <td>{{instance === currentInstance ? "x" : ""}}</td>
+              <td class="date">{{instance.timestamp | date:"d. M. y H:mm:ss"}}</td>
+              <td class="user">{{instance.user?.login}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="currentInstance" class="col-md-8">
+        <p>
+          <strong>Datum a čas</strong>: {{currentInstance.timestamp | date:"d. M. y H:mm:ss"}}<br>
+          <strong>Uživatel</strong>: {{currentInstance.user?.login}}<br>
+          <strong>URL</strong>: <a [href]="error.url" target="_blank">{{currentInstance.url}}</a><br>
+          <strong>HTTP kód</strong>: {{currentInstance.status || "-"}}<br>
+          <strong>Angular komponenta</strong>: {{currentInstance.ng?.component || "-"}}<br>
+          <strong>Angular build</strong>: {{currentInstance.ng?.environment || "-"}}
+        </p>
 
+        <ng-container *ngIf="currentInstance.description">
+          <h3>Popis</h3>
+          <pre>{{currentInstance.description}}</pre>
+        </ng-container>
+
+        <ng-container *ngIf="currentInstance.stack">
+          <h3>Stack trace</h3>
+          <pre>{{currentInstance.stack}}</pre>
+        </ng-container>
+      </div>
+    </div>
   </div>
 </section>
