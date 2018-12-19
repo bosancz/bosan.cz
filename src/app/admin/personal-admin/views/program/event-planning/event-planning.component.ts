@@ -157,7 +157,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
         dateTill: { $gte: this.dateFrom.toISODate() },
         dateFrom: { $lte: this.dateTill.toISODate() }
       },
-      select: "_id name dateFrom dateTill timeFrom timeTill",
+      select: "_id name type dateFrom dateTill timeFrom timeTill",
       limit: 100
     };
 

@@ -32,6 +32,7 @@ export class EventProgramComponent implements OnInit {
         dateTill: { $gte: DateTime.local().toISODate() },
         recurring: null
       },
+      populate: ["leaders"],
       select: "_id name description dateFrom dateTill leaders status cancelled"
     };
     

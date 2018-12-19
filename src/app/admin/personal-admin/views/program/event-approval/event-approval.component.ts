@@ -30,6 +30,7 @@ export class EventApprovalComponent implements OnInit {
       filter: {
         recurring: null
       },
+      populate: ["leaders"],
       has_action: "publish",
       select: "_id status name description dateFrom dateTill leaders"
     };
