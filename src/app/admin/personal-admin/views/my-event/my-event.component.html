@@ -1,6 +1,6 @@
 <section>
   <div *ngIf="event" class="container">
-    <h2>
+    <h2 class="d-none d-lg-block">
       {{event.name}}
       <sup>
         <span class="badge badge-secondary" *ngIf="event.status === 'draft'">Připravovaná</span>

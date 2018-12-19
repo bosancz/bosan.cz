@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from "app/services/api.service";
 
-import { Event } from "app/schema/event";
+import { Dashboard } from "app/schema/dashboard";
 
 @Component({
   selector: 'my-dashboard',
@@ -11,11 +11,7 @@ import { Event } from "app/schema/event";
 })
 export class MyDashboardComponent implements OnInit {
 
-  noLeaderEvents:Event[];
-  
-  myFutureEvents:Event[] = [];
-  
-  myEventsAccounting:Event[] = [];
+  dashboard:Dashboard;
   
   constructor(private api:ApiService) { }
 
@@ -25,7 +21,7 @@ export class MyDashboardComponent implements OnInit {
   
   async loadNoLeaderEvents(){
     
-    this.noLeaderEvents = await this.api.get<Event[]>("events:noleader");
+    this.dashboard = await this.api.get<Dashboard>("me:dashboard");
   }
 
 }

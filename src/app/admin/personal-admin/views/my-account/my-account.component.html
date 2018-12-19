@@ -1,21 +1,21 @@
 <section>
   <div class="container">
 
-    <h2>Nastavení účtu</h2>
+    <h2 class="d-none d-lg-block">Nastavení účtu</h2>
 
     <div class="row">
 
-      <div class="col-3">
+      <div class="col-lg-2">
 
-        <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" routerLink="../info" routerLinkActive="active">Informace</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../login" routerLinkActive="active">Změnit login</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../heslo" routerLinkActive="active">Změnit heslo</a></li>
-        </ul>
+        <nav class="nav nav-pills flex-column">
+          <a class="nav-link" routerLink="../info" routerLinkActive="active">Informace</a>
+          <a class="nav-link" routerLink="../login" routerLinkActive="active">Změnit login</a>
+          <a class="nav-link" routerLink="../heslo" routerLinkActive="active">Změnit heslo</a>
+        </nav>
 
       </div>
 
-      <div class="col-9" [ngSwitch]="cat">
+      <div class="col-lg-10" [ngSwitch]="cat">
 
         <div *ngSwitchCase="'info'" class="row">
           <div class="col-md-6">

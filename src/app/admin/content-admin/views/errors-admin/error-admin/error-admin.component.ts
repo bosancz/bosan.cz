@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 
 import { ApiService } from "app/services/api.service";
+import { ToastService } from "app/services/toast.service";
 
-import { ReportedError } from "app/schema/reported-error";
+import { ReportedError, ReportedErrorInstance } from "app/schema/reported-error";
 
 @Component({
   selector: 'error-admin',
@@ -14,10 +15,11 @@ import { ReportedError } from "app/schema/reported-error";
 export class ErrorAdminComponent implements OnInit, OnDestroy {
 
   error:ReportedError;
-
+  currentInstance:ReportedErrorInstance;
+  
   paramsSubscription:Subscription;
 
-  constructor(private api:ApiService, private route:ActivatedRoute) { }
+  constructor(private api:ApiService, private route:ActivatedRoute, private router:Router, private toastService:ToastService) { }
 
   ngOnInit() {
 
@@ -33,6 +35,13 @@ export class ErrorAdminComponent implements OnInit, OnDestroy {
 
   async loadError(errorId:string){
     this.error = await this.api.get<ReportedError>(["error",errorId]);
+    this.currentInstance = this.error.instances[0];
+  }
+  
+  async deleteError(){
+    await this.api.delete(this.error._links.self);
+    this.router.navigate(["../"],{relativeTo: this.route});
+    this.toastService.toast("Chyba smazána.");
   }
 
 }
