@@ -13,10 +13,14 @@
 
     a{
       display:inline-block; position:relative;
+      cursor:pointer;
       padding:5px 10px;margin:0 10px;border-radius: 6px 6px 0 0;
       transition: background-color 500ms;transition-timing-function: ease-in-out;
       text-decoration:none;color:#fff;
     }
+    
+    .buttons{float:right;}
+    .buttons a{margin:0 6px;}
     
  
     
@@ -64,7 +68,7 @@
   }
   
   @media (max-width: 992px) { 
-    h2{display:none;}
+    
     #adminPage nav{
       position: fixed;
       left: 0;
@@ -81,9 +85,11 @@
       .nav-link{display:inline-block;}
     }
     
-    > nav a {
-      padding:15px 20px; margin: 0 6px;
+    > nav{
+      a { padding:15px 20px; margin: 0 6px;}
+      .buttons{float:none;display:inline-block;}
     }
+    
     
     #adminPage{margin-top:114px;margin-bottom:65px;}
   }

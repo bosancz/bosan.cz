@@ -1,6 +1,6 @@
 <section>
   <div *ngIf="event" class="container">
-    <h2 class="d-none d-lg-block">
+    <h2>
       {{event.name}}
       <sup>
         <span class="badge badge-secondary" *ngIf="event.status === 'draft'">Připravovaná</span>
@@ -10,67 +10,105 @@
 
     <div class="row">
       <div class="col-md-10">
-        {{[event.dateFrom,event.dateTill] | dateRange}}
+
+        <groups-select [(ngModel)]="eventData.groups" name="groups"></groups-select>
+
         <div class="block">
-          <p *ngIf="event.decription else noDescription">{{event.description | nl2br}}</p>
-          <ng-template #noDescription><p>Popisek akce chybí</p></ng-template>
-          <p>
-            <strong>Vede</strong>
-            &nbsp;
-            <span *ngFor="let leader of event.leaders" [tooltip]="leader.name?.first + ' ' + leader.name?.last">{{leader.nickname}}</span>
-            &nbsp;
-            <a>přidat vedoucího</a>
-          </p>
-        </div>
-        
-        <div class="block">
-          <h4>Účastníci</h4>
-          <table class="table table-sm">
-            <thead>
-              <tr><th>Účastník</th><th>Role</th><th>Přihláška</th><th>Cena</th><th>Zaplaceno</th><th>Vrátit</th><th>Vráceno</th></tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>                
-            </tfoot>
-          </table>
-          <a>přidat účastníka</a>
-        </div>
-        <div class="accounting block row no-gutters">
-          <div class="col-md-6">
-            <h4>Výdaje</h4>
-            <table class="table table-sm">
-              <tbody>
-                <tr><th>Potraviny</th><td>0 Kč</td><td>0 Kč/os</td></tr>
-                <tr><th>Doprava</th><td>0 Kč</td><td>0 Kč/os</td></tr>
-                <tr><th>Materiál</th><td>0 Kč</td><td>0 Kč/os</td></tr>
-              </tbody>
-              <tfoot>    
-                <tr><th>Celkem</th><td>0 Kč</td><td>0 Kč/os</td></tr>
-              </tfoot>
-            </table>
-            <a>soupis výdajů</a>
-            <br>
-            <a>přidat výdaj</a>
-          </div>
-          <div class="col-md-6">
-            <h4>Příjmy</h4>
-            <table class="table table-sm">
-              <tbody>
-                <tr><th>Poplatky za akci</th><td>0 Kč</td></tr>
-                <tr><th>Dotace</th><td>0 Kč</td></tr>
-              </tbody>
-              <tfoot>    
-                <tr><th>Celkem</th><td>0 Kč</td></tr>
-              </tfoot>
-            </table>
+          <div class="row">
+
+            <div class="col-md-8">
+              <h5>Popisek <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+              <p [innerHTML]="event.description ? (event.description | nl2br) : 'Nevyplněno'"></p>
+            </div>
+
+            <div class="col-6 col-md-4">
+              <h5>Přihláška</h5>
+              <p *ngIf="uploadingRegistration">Nahrávám&hellip;</p>
+              <p *ngIf="event.registration && !uploadingRegistration">
+                <a [href]="getRegistrationUrl()">Stáhnout přihlášku</a><br>
+                <a class="text-danger delete" (click)="deleteRegistration()">Smazat přihlášku</a>
+              </p>
+              <div *ngIf="!event.registration && !uploadingRegistration" class="form-group">
+                <input type="file" name="file" accept="application/pdf" #registrationInput ngModel (ngModelChange)="uploadRegistration(registrationInput)" required>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-4">
+              <h5>Datum a místo <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+              <p>
+                {{[event.dateFrom,event.dateTill] | dateRange}}<br>
+                {{event.place || "Nevyplněno"}}
+              </p>
+            </div>
+
+            <div class="col-6 col-md-4">
+              <h5>Typ akce <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+              <p>
+                <strong>Typ:</strong> {{event.type || "Nevyplněno"}}<br>
+                <strong>Charakter:</strong> {{event.subtype || "Nevyplněno"}}
+              </p>
+            </div>
+            
+            <div class="col-6 col-md-4">
+              <h5>Sraz a konec <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+              <p>
+                <strong>Sraz:</strong> {{event.meeting?.start || "Nevyplněno"}}<br>
+                <strong>Konec:</strong> {{event.meeting?.end || "Nevyplněno"}}
+              </p>
+            </div>
           </div>
         </div>
-        <div class="block">
-          <h4>Report</h4>
-          <div *ngIf="!edit.report" [innerHTML]="event.report || '<p>Report je prázdný.</p>'"></div>
-          <a>upravit report</a>
+        <div class="block row no-gutters attendees">
+          <div class="col-md-4">
+            <h4>Vedoucí</h4>
+            <p>
+              <span *ngFor="let member of eventData.leaders" class="badge badge-primary mr-2" [tooltip]="getMemberTooltip(member,member.group | group:'name')">{{member.nickname}} <a (click)="removeItem(member,eventData.leaders);this.saveEvent();">&times;</a></span>
+              <a class="text-success add" (click)="openModal(leadersModal)"><i class="fas fa-plus-circle align-middle"></i></a>
+            </p>
+          </div>
+          <div class="col-md-8">
+            <h4>Účastníci</h4>
+            <p>
+              <span *ngFor="let member of eventData.attendees" class="badge badge-primary mr-2" [tooltip]="getMemberTooltip(member,member.group | group:'name')">{{member.nickname}} <a (click)="removeItem(member,eventData.attendees);this.saveEvent();">&times;</a></span>
+              <a class="text-success add" (click)="openModal(attendeesModal)"><i class="fas fa-plus-circle align-middle"></i></a>
+            </p>
+          </div>
         </div>
+
+        <div class="block accounting">
+          <h4>Účetnictví</h4>
+          <div class="row">
+            <div class="col-md-6">
+
+              <table class="table table-sm">
+                <tbody>
+                  <tr><th>Potraviny</th><td class="text-right">0 Kč</td><td class="text-right">0 Kč/os</td></tr>
+                  <tr><th>Doprava</th><td class="text-right">0 Kč</td><td class="text-right">0 Kč/os</td></tr>
+                  <tr><th>Materiál</th><td class="text-right">0 Kč</td><td class="text-right">0 Kč/os</td></tr>
+                  <tr><th>Ostatní</th><td class="text-right">0 Kč</td><td class="text-right">0 Kč/os</td></tr>
+                </tbody>
+                <tfoot>    
+                  <tr><th>Celkem</th><td class="text-right">0 Kč</td><td class="text-right">0 Kč/os</td></tr>
+                </tfoot>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <table class="table table-sm">
+                <tbody>
+                  <tr><th>Poplatky za akci</th><td class="text-right">0 Kč</td></tr>
+                  <tr><th>Dotace</th><td class="text-right">0 Kč</td></tr>
+                </tbody>
+                <tfoot>    
+                  <tr><th>Celkem</th><td class="text-right">0 Kč</td></tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <h4>Report <a (click)="openModal(reportModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h4>
+        <div [innerHTML]="event.report || '<p>Report je prázdný.</p>'"></div>
+
       </div>
       <div class="col-md-2 buttons right">            
         <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce.allowed" class="btn btn-primary btn-sm" type="button">Poslat ohlášku</button>
@@ -81,3 +119,101 @@
     </div>
   </div>
 </section>
+
+<ng-template #basicInfoModal>
+  <div class="modal-body members-select"> 
+
+
+
+    <div class="form-group">
+      <label>Název</label>
+      <input type="text" class="form-control" [(ngModel)]="eventData.name" placeholder="Neočekávaný dýchánek">
+    </div>
+
+    <div class="form-group">
+      <label>Popisek</label>
+      <textarea class="form-control" rows="3" [(ngModel)]="eventData.description"></textarea>
+    </div>    
+
+    <div class="form-row">
+      <div class="form-group col-8">
+        <label>Od</label>
+        <input type="date" name="dateFrom" [ngModel]="eventData.dateFrom | date:'yyyy-MM-dd'" class="form-control" required>
+      </div>
+      <div class="form-group col-4">
+        <label>&nbsp;</label>
+        <input type="time" name="timeFrom" [ngModel]="eventData.timeFrom" class="form-control" [disabled]="allDay">
+      </div>
+      <div class="form-group col-8">
+        <label>Do</label>
+        <input type="date" name="dateTill" [ngModel]="eventData.dateTill | date:'yyyy-MM-dd'" class="form-control" required>
+      </div>
+      <div class="form-group col-4">
+        <label>&nbsp;</label>
+        <input type="time" name="timeTill" [ngModel]="eventData.timeTill" class="form-control" [disabled]="allDay">
+      </div>
+
+      <div class="form-group offset-8 col-4">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" name="allDay" class="custom-control-input" id="allDayCheck" [(ngModel)]="allDay">
+          <label class="custom-control-label" for="allDayCheck">Celý den</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label>Typ akce</label>
+        <select name="type" [(ngModel)]="eventData.type" class="form-control">
+          <option *ngFor="let type of eventTypes" [value]="type">{{type}}</option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label>Charakter akce</label>
+        <select name="subtype" [(ngModel)]="eventData.subtype" class="form-control">
+          <option *ngFor="let type of eventSubTypes" [value]="type">{{type}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Místo</label>
+      <input type="text" class="form-control" [(ngModel)]="eventData.place" placeholder="Dno pytle">
+    </div> 
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Sraz</label>
+        <input type="text" name="start" [ngModel]="event.meeting?.start" class="form-control" placeholder="17:00, u Bilba doma">
+      </div>
+      <div class="form-group col-md-6">
+        <label>Konec</label>
+        <input type="text" name="end" [ngModel]="event.meeting?.end" class="form-control" placeholder="3:00, tamtéž">
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>
+  </div>
+</ng-template>
+
+<ng-template #leadersModal>
+  <div class="modal-body members-select"> 
+    <members-select [role]="['vedoucí','instruktor']" [(ngModel)]="eventData.leaders"></members-select>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
+    <button type="button" class="btn btn-primary" (click)="saveEvent();modalRef.hide()">Uložit</button>
+  </div>
+</ng-template>
+
+<ng-template #attendeesModal>
+  <div class="modal-body members-select"> 
+    <members-select [(ngModel)]="eventData.attendees"></members-select>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>
+  </div>
+</ng-template>

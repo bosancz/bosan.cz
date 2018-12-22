@@ -67,6 +67,7 @@ export class EventAdminInfoComponent implements OnInit, OnChanges {
     
     eventData.timeFrom = eventData.timeFrom || null;
     eventData.timeTill = eventData.timeTill || null;
+    if(!eventData.groups || !eventData.groups.length) eventData.leadersEvent = true;
     
     await this.api.patch(this.event._links.self,eventData);
     

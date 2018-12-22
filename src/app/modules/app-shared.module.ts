@@ -60,7 +60,7 @@ export function getTooltipConfig():TooltipConfig {
     /* PIPES */
     SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
   ],
-  providers: [
+  providers: [    
     { provide: TooltipConfig, useFactory: getTooltipConfig }
   ]
   

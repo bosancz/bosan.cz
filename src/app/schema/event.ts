@@ -1,4 +1,5 @@
 import { Document } from "./api";
+import { Member } from "./member";
 
 export class EventRecurring{
   recurring:string;
@@ -6,8 +7,6 @@ export class EventRecurring{
   endDate:Date;
   instances:any[];
 }
-
-export type EventLeader = string;
 
 export class Event extends Document {
   
@@ -34,8 +33,8 @@ export class Event extends Document {
     end?:string
   } = {};
   
-  attendees?:any[] = [];
-  leaders?:any[] = [];
+  attendees?:Member[] = [];
+  leaders?:Member[] = [];
   
   registration?:string;
   

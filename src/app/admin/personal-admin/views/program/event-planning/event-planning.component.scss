@@ -15,6 +15,7 @@ form {margin-bottom:40px;}
   .events .event{position:absolute;height:10px; white-space:nowrap;background-color:#333;color:#fff;border:1px solid #fff;}
   .events .draft{background-color:$darkGrey;}
   .events .public{background-color:$blue;}
+  .events .cancelled{background-color:$red;}
   
   .events.own{top:24px;right:0;bottom:24px;left:0;}
   .events.cpv{height:24px;right:0;bottom:0;left:0;border-top:1px solid #ccc;}

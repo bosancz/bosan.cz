@@ -6,7 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ApiService } from "app/services/api.service";
 import { ToastService } from "app/services/toast.service";
 
-import { Event, EventLeader } from "app/schema/event";
+import { Event } from "app/schema/event";
 import { Member } from "app/schema/member";
 
 @Component({
