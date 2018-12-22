@@ -6,7 +6,7 @@
       <div class="col-lg-2">
         <nav class="nav flex-column nav-pills">
           <a class="nav-link" routerLink="./ke-schvaleni" routerLinkActive="active">Ke schválení ({{(programAdminService.stats | async)?.status?.draft || 0}})</a>
-          <a class="nav-link" routerLink="./v-programu" routerLinkActive="active">V programu ({{(programAdminService.stats | async)?.status?.public || 0}})</a>
+          <a class="nav-link" routerLink="./v-programu" routerLinkActive="active">V programu ({{((programAdminService.stats | async)?.status?.public || 0) + ((programAdminService.stats | async)?.status?.cancelled || 0)}})</a>
           <a class="nav-link" routerLink="./planovani" routerLinkActive="active">Plánování akcí</a>
         </nav>
       </div>

@@ -154,10 +154,10 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
     const requestOptions = {
       filter: {
-        dateTill: { $gte: this.dateFrom.toISODate() },
-        dateFrom: { $lte: this.dateTill.toISODate() }
+        dateTill: { $gte: this.dateFrom.toISO() },
+        dateFrom: { $lte: this.dateTill.toISO() }
       },
-      select: "_id name type dateFrom dateTill timeFrom timeTill",
+      select: "_id name status type dateFrom dateTill timeFrom timeTill",
       limit: 100
     };
 

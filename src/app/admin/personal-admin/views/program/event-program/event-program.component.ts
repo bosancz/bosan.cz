@@ -28,7 +28,7 @@ export class EventProgramComponent implements OnInit {
     
     const options = {
       filter: {
-        status: "public",
+        status: ["public","cancelled"],
         dateTill: { $gte: DateTime.local().toISODate() },
         recurring: null
       },

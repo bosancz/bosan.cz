@@ -17,7 +17,7 @@
           <p>
             <strong>Vede</strong>
             &nbsp;
-            <span *ngFor="let leader of event.leaders" [tooltip]="leader.name.first + ' ' + leader.name.last">{{leader.nickname}}</span>
+            <span *ngFor="let leader of event.leaders" [tooltip]="leader.name?.first + ' ' + leader.name?.last">{{leader.nickname}}</span>
             &nbsp;
             <a>přidat vedoucího</a>
           </p>
@@ -73,10 +73,10 @@
         </div>
       </div>
       <div class="col-md-2 buttons right">            
-        <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce" class="btn btn-primary btn-sm" type="button">Poslat ohlášku</button>
-        <button *ngIf="event._actions?.finalize" [disabled]="!event._actions?.finalize" class="btn btn-primary btn-sm" type="button">Uzavřít akci</button>
-        <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel" class="btn btn-danger btn-sm" type="button">Zrušit akci</button>
-        <button *ngIf="event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button">Smazat akci</button>
+        <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce.allowed" class="btn btn-primary btn-sm" type="button">Poslat ohlášku</button>
+        <button *ngIf="event._actions?.finalize" [disabled]="!event._actions?.finalize.allowed" class="btn btn-primary btn-sm" type="button">Uzavřít akci</button>
+        <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel.allowed" class="btn btn-danger btn-sm" type="button">Zrušit akci</button>
+        <button [disabled]="!event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button">Smazat akci</button>
       </div>
     </div>
   </div>
