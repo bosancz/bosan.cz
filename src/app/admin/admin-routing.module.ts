@@ -7,7 +7,7 @@ const routes: Routes = [
   
   {path: 'obsah', loadChildren: './content-admin/content-admin.module#ContentAdminModule'},
   
-  {path: '', redirectTo: "obsah", pathMatch: "full"}
+  {path: '', redirectTo: "moje", pathMatch: "full"}
 ];
 
 @NgModule({

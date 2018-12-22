@@ -3,6 +3,7 @@
 .group-badge{opacity:.1;cursor:pointer;}
 .group-badge.active{opacity:1;}
 
+.group-badges{display:inline-block;}
 .group-badges.disabled{filter: grayscale(100%);}
 .group-badges.disabled .group-badge{opacity:1;}
 .group-badges.disabled .group-badge:hover{opacity:1;}
@@ -10,4 +11,4 @@
 .group-badges.disabled .group-badge{cursor:default;}
 
 
-.selectAll{display:inline-block;margin-left:20px;cursor:pointer;}
+.selectAll, .leadersOnly{display:inline-block;margin: 10px 0;cursor:pointer;}

@@ -1,9 +1,11 @@
 // ACL
 export const permissions = {
   "login": { roles: ["guest"] },
+  "logout": { roles: ["user"] },
   
+  "admin": { roles: ["vedouci"] },
   "admin:events": { roles: ["vedouci"] },
-  "admin:camps": { roles: [] },
+  "admin:camps": { roles: ["vedouci"] },
   "admin:gallery": { roles: ["vedouci"] },
   "admin:members": { roles: ["vedouci"] },
   "admin:payments": { roles: ["hospodar","revizor","spravce"] },

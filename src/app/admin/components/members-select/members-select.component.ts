@@ -2,7 +2,7 @@ import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { ConfigService } from "app/services/config.service";
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 
 import { Member } from "app/schema/member";
 import { WebConfigGroup } from "app/schema/webconfig";
@@ -21,16 +21,7 @@ import { WebConfigGroup } from "app/schema/webconfig";
 })
 export class MembersSelectComponent implements OnInit, ControlValueAccessor {
 
-  
-  @Input() options:{
-    group:string,
-    role:string,
-    status:string
-  } = {
-    group:"",
-    role:"",
-    status:""
-  };
+  @Input() role:string;
   
   members:Member[] = [];
   selectedMembers:Member[] = [];
@@ -51,7 +42,7 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
   registerOnTouched(fn:any):void{ this.onTouched = fn; }
   setDisabledState(isDisabled:boolean):void{ this.disabled = isDisabled; }
   
-  constructor(private dataService:DataService, private configService:ConfigService) {
+  constructor(private api:ApiService, private configService:ConfigService) {
   }
 
   ngOnInit() {
@@ -59,13 +50,24 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
     this.loadConfig();
   }
   
+  ngOnChanges(){
+    
+  }
+  
   async loadMembers(){    
-    this.members = await this.dataService.getMembers();  
+    const options = {
+      role: this.role      
+    }
+    
+    this.members = await this.api.get<Member[]>("members",options);
     this.members.sort((a,b) => a.nickname.localeCompare(b.nickname));
     // TODO: diacritics insensitive search
     this.searchIndex = this.members.map((member,i) => {
       let names = member.nickname + (member.name ? (" " + member.name.first + " " + member.name.last) : "");
-      return names.toLowerCase();
+      
+      names = names.toLowerCase();
+      names = this.specialCharsReplace(names);
+      return names;
     });      
   }
   
@@ -77,12 +79,13 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
   }
   
   setSearch(search:string){
+    search = this.specialCharsReplace(search);
     if(search) this.search = new RegExp(search.toLowerCase());
     else this.search = null;
   }
   
   isHidden(member:Member,i:number):boolean{
-    return Object.entries(this.options).some(entry => entry[1] && entry[1] !== member[entry[0]]) || (this.search && !this.search.test(this.searchIndex[i]));
+    return this.search && !this.search.test(this.searchIndex[i]);
   }
   
   selectedMember(member:Member):boolean{
@@ -93,6 +96,11 @@ export class MembersSelectComponent implements OnInit, ControlValueAccessor {
     if(select && !this.selectedMember(member)) this.selectedMembers.push(member);
     if(!select) this.selectedMembers = this.selectedMembers.filter(item => item._id !== member._id);
     this.onChange(this.selectedMembers);
+  }
+  
+  specialCharsReplace(string:string){
+    const replaceChars = ["áčďéěíľňóřšťúůýž","acdeeilnorstuuyz"];
+    return string.replace(/[áčďéěíľňóřšťúůýž]/g,char => replaceChars[1].charAt(replaceChars[0].indexOf(char))); 
   }
 
 }

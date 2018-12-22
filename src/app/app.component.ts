@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+    import { Component, OnInit, Inject } from '@angular/core';
 import { SwUpdate } from "@angular/service-worker";
 import { Observable } from 'rxjs';
 

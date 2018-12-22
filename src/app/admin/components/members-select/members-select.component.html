@@ -1,43 +1,6 @@
-<form>
-  <div class="form-row">
-    <div class="form-group col-md-5">
-      <label>Jméno a přezdívka</label>
-      <input type="text" name="search" class="form-control" ngModel (ngModelChange)="setSearch($event)" placeholder="Vyhledat (s diakritikou)">
-    </div>
-
-    <div class="form-group col-md-2">
-      <label>Oddíl</label>
-      <select name="group" class="form-control" [(ngModel)]="options.group">
-        <option value="">--všechny--</option>
-        <option *ngFor="let group of groups" [value]="group.id">{{group.name}}</option>
-      </select>
-    </div>
-
-    <div class="form-group col-md-2">
-      <label>Role</label>
-      <select name="group" class="form-control" [(ngModel)]="options.role">
-        <option value="">--všichni--</option>
-        <option *ngFor="let role of roles" [value]="role">{{role}}</option>
-      </select>
-    </div>
-
-    <div class="form-group col-md-2">
-      <label>Stav</label>
-      <select name="status" class="form-control" [(ngModel)]="options.status">
-        <option value="">--všichni--</option>
-        <option>člen</option>
-        <option>bývalý člen</option>
-        <option>nečlen</option>
-      </select>
-    </div>
-
-    <div class="form-group col-md-1">
-      <label>&nbsp;</label>
-      <button type="submit" class="btn btn-primary text-center" style="width:100%;"><i class="fas fa-search"></i></button>
-    </div>
-  </div>
+<form class="mb-3">
+  <input type="text" name="search" class="form-control" ngModel (ngModelChange)="setSearch($event)" placeholder="Vyhledat (s diakritikou)">
 </form>
-
 
 <div class="list">
   <table class="table table-striped table-hover table-sm">
@@ -45,7 +8,6 @@
       <tr>
         <th></th>
         <th>Přezdívka</th>
-        <th>Příjmení</th>
         <th>Jméno</th>
         <th>Oddíl</th>
       </tr>
@@ -54,8 +16,7 @@
       <tr *ngFor="let member of members;let i = index" [hidden]="isHidden(member,i)" (click)="toggleMember(member,!selectedMember(member))">
         <td><input type="checkbox" [ngModel]="selectedMember(member)" (ngModelChange)="toggleMember(member,$event)"></td>
         <td>{{member.nickname}}</td>
-        <td>{{member.name?.last}}</td>
-        <td>{{member.name?.first}}</td>
+        <td>{{member.name?.first}} {{member.name?.last}}</td>
         <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
       </tr>
     </tbody>

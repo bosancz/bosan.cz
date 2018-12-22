@@ -58,6 +58,16 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
     return this.selectedGroups.length === this.groups.length;
   }
   
+  selectNone(checked:boolean):void{
+    if(this.disabled) return;
+    if(checked) this.selectedGroups = [];    
+    this.onChange(this.selectedGroups);
+  }
+  
+  isSelectedNone():boolean{
+    return this.selectedGroups.length === 0;
+  }
+  
   toggleGroup(group:string){
     if(this.disabled) return;
     let i = this.selectedGroups.indexOf(group);
