@@ -71,13 +71,13 @@ routes.action("event:unpublish","/actions/unpublish", {permission:"events:publis
   res.sendStatus(200);
 });
 
-routes.action("event:cancel","/actions/cancel", {permission:"events:cancel", hideRoot: true, query: {status: "public", cancelled: { $ne: true } }}).handle(async (req,res,next) => {
-  await Event.findOneAndUpdate({_id:req.params.id},{cancelled:true});
+routes.action("event:cancel","/actions/cancel", {permission:"events:cancel", hideRoot: true, query: {status: "public"}}).handle(async (req,res,next) => {
+  await Event.findOneAndUpdate({_id:req.params.id},{status:"cancelled"});
   res.sendStatus(200);
 });
 
-routes.action("event:uncancel","/actions/uncancel", {permission:"events:cancel", hideRoot: true, query: {cancelled: true}}).handle(async (req,res,next) => {
-  await Event.findOneAndUpdate({_id:req.params.id},{cancelled:false});
+routes.action("event:uncancel","/actions/uncancel", {permission:"events:cancel", hideRoot: true, query: {status: "cancelled"}}).handle(async (req,res,next) => {
+  await Event.findOneAndUpdate({_id:req.params.id},{status:"public"});
   res.sendStatus(200);
 });
 
@@ -101,51 +101,9 @@ routes.get("event:leaders","/leaders",{permission:"events:read"}).handle(async (
   res.json(leaders);
 });
 
-routes.get("event:registration","/registration",{permission:"events:registration:read"}).handle(async (req,res,next) => {
-  res.sendFile(path.join(config.events.eventDir(req.params.id),"registration.pdf"))
-});
-  
-routes.post("event:registration","/registration",{permission:"events:registration:edit"}).handle(upload.single("file"), async (req,res,next) => {
-  
-  var event = await Event.findOne({_id:req.params.id});
-  
-  try{
+routes.child("/registration", require("./events-event-registration"));
 
-    var file = req.file;
-    if(!file) throw new Error("Missing file");
-
-    var eventDir = path.join(config.events.storageDir,String(event._id));
-    var originalPath = req.file.path;
-    var storagePath = path.join(eventDir,"registration.pdf");
-
-    await fs.ensureDir(eventDir);
-    
-    await fs.move(originalPath,storagePath);
-  }
-  catch(err){
-    err.name = "UploadError";
-    throw err;    
-  }
-  
-  event.registration = "registration.pdf";
-  await event.save()
-  
-  res.sendStatus(204);
-});
-
-routes.delete("event:registration","/registration",{permission:"events:registration:delete"}).handle(async (req,res,next) => {
-  var event = await Event.findOne({_id:req.params.id});
-  
-  if(!event.registration) return res.sendStatus(404);
-  
-  var registrationFile = path.join(config.events.storageDir,String(event._id),event.registration);
-  await rmfr(registrationFile);
-  
-  event.registration = null;
-  await event.save();
-  
-  res.sendStatus(204);
-});
+routes.child("/accounting", require("./events-event-accounting"));
 
 routes.get("event:payments","/payments", {permission:"events:payments:list"}).handle(async (req,res,next) => {
   const payments = await Payment.find({event:req.params.id}).toObject();

@@ -8,8 +8,7 @@ const EventRecurring = require("./event-recurring"); // load because of referenc
 
 var eventSchema = mongoose.Schema({
 
-  "status": {type: String, enum: ['draft','public'], required: true, default: 'draft'},
-  "cancelled": { type: Boolean, default: false },
+  "status": {type: String, enum: ['draft','public','cancelled'], required: true, default: 'draft'},  
   "srcId": Number,
 
   "name": {type: String, required: true},
@@ -33,6 +32,7 @@ var eventSchema = mongoose.Schema({
   },
 
   "registration":String,
+  "accounting":String,
 
   "groups": [String],
   "leadersEvent": Boolean,
@@ -41,21 +41,19 @@ var eventSchema = mongoose.Schema({
   "subtype": String,
   "srcType": String,
 
-  "leaders":[{type: mongoose.Schema.Types.ObjectId, ref: "Member"}],
+  "leaders":[{ type: mongoose.Schema.Types.ObjectId, ref: "Member", autopopulate: { select: '_id nickname name group role' } }],
+  
+  "attendees":[{ type: mongoose.Schema.Types.ObjectId, ref: "Member", autopopulate: { select: '_id nickname name group role' } }],
 
   "leadersLine": String,
-
-  "attendees": [{
-    "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
-    "name": String,
-    "birthday": Date,
-    "address": {
-      "street": String,
-      "city": String,
-      "postalCode": String
-    },
-    "role": {type: String, enum: ['h','v','i','d'], required: true, default: 'd'}
-  }]
+  
+  "expenses": [{
+    "id": String,
+    "amount": Number,
+    "type": { type: String },
+    "description": String
+  }]    
+  
 }, { toObject: { virtuals: true } });
 
 module.exports = mongoose.model("Event", eventSchema);

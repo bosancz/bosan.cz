@@ -9,7 +9,7 @@ routes.get("members","/",{permission:"members:list"}).handle(async (req,res,next
   
   var members = Member.find({}).select("_id nickname name group role");
   
-  if(req.query.group) members.where({"group":req.query.group});
+  if(req.query.role) members.where({"role": Array.isArray(req.query.role) ? { $in: req.query.role } : req.query.role});
   
   res.json(await members);
 });

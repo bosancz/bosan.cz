@@ -25,11 +25,11 @@ var getEventsSchema = {
       properties: {
         "dateFrom": { anyOf: [
           { type: "string" }, 
-          { type: "object", properties: {"$gte": {type: "string", format: "date"},"$lte": {type: "string", format: "date"}}, additionalProperties: false}
+          { type: "object", properties: {"$gte": { anyof: [{type: "string", format: "date"}, {type: "string", format: "date-time"}] },"$lte": { anyof: [{type: "string", format: "date"}, {type: "string", format: "date-time"}] } }, additionalProperties: false}
         ]},
         "dateTill": { anyOf: [
           { type: "string" }, 
-          { type: "object", properties: {"$gte": {type: "string", format: "date"},"$lte": {type: "string", format: "date"}}, additionalProperties: false}
+          { type: "object", properties: {"$gte": { anyof: [{type: "string", format: "date"}, {type: "string", format: "date-time"}] },"$lte": { anyof: [{type: "string", format: "date"}, {type: "string", format: "date-time"}] }}, additionalProperties: false}
         ]},
         "leaders": { anyOf: [
           { type: "string" }, 
@@ -45,12 +45,15 @@ var getEventsSchema = {
           { type: "string" },
           { type: "object", properties: {"$ne": { anyOf: [{type:"string"},{type:"null"}]}}, additionalProperties: false}
         ]},
-        "status": { type: "string", enum: ["public","draft"] }       
+        "status": { anyOf: [
+          { type: "string", enum: ["public","draft","cancelled"] },
+          { type: "array", items: { type: "string", enum: ["public","draft","cancelled"] } }
+        ]}
       },
       additionalProperties: false
     },
     "select": { type: "string" },
-    "populate": { type: "array", items: { enum: ["leaders","attendees"] } },
+    "populate": { type: "array", items: { enum: ["leaders"] } }, // TODO remove, but check requests due to additionalProperties: false
     "search": { type: "string" },
     "has_action": { type: "string" },
     "sort": { type: "string", enum: ["dateFrom","-dateFrom","name","-name"] },
@@ -65,6 +68,19 @@ routes.get("events","/").handle(validate({query:getEventsSchema}), async (req,re
   // construct the query
   const query = Event.find().permission("events:list",req);
 
+  // angular fix, https://github.com/angular/angular/issues/18884 not possible to implement on client side as plus URL replacement would become double encoded
+  // TODO: after fix comes, remove, despite will not cause problems when not removed
+  if(req.query.filter){
+    if(typeof req.query.filter.dateFrom === "string") req.query.filter.dateFrom = req.query.filter.dateFrom.replace(" ","+");
+    else if(req.query.filter.dateFrom && req.query.filter.dateFrom.$gte) req.query.filter.dateFrom.$gte = req.query.filter.dateFrom.$gte.replace(" ","+");
+    else if(req.query.filter.dateFrom && req.query.filter.dateFrom.$lte) req.query.filter.dateFrom.$lte = req.query.filter.dateFrom.$lte.replace(" ","+");
+    if(typeof req.query.filter.dateTill === "string") req.query.filter.dateTill = req.query.filter.dateTill.replace(" ","+");
+    else if(req.query.filter.dateTill && req.query.filter.dateTill.$gte) req.query.filter.dateTill.$gte = req.query.filter.dateTill.$gte.replace(" ","+");
+    else if(req.query.filter.dateTill && req.query.filter.dateTill.$lte) req.query.filter.dateTill.$lte = req.query.filter.dateTill.$lte.replace(" ","+");
+  }
+  
+  if(req.query.filter && Array.isArray(req.query.filter.status)) req.query.filter.status = { $in: req.query.filter.status };
+     
   if(req.query.filter) query.where(req.query.filter);
   if(req.query.search) query.where({ name: new RegExp(req.query.search,"i") });
   if(req.query.has_action){
@@ -73,7 +89,6 @@ routes.get("events","/").handle(validate({query:getEventsSchema}), async (req,re
   }
   
   query.select(req.query.select || "_id name dateFrom dateTill type status");
-  if(req.query.populate) query.populate(req.query.populate);
 
   if(req.query.sort) query.sort(req.query.sort.replace(/(\-?)([a-z]+)/i,"$1$2 $1order"));
 

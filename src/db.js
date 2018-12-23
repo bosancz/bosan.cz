@@ -2,7 +2,8 @@ var config = require("../config");
 
 var mongoose = require('mongoose');
 
-var { RoutesPluginsMongoose } = require("@smallhillcz/routesjs/lib/plugins/mongoose");
+const mongooseAutopopulate = require("mongoose-autopopulate");
+mongoose.plugin(mongooseAutopopulate);
 
 mongoose.plugin(function(schema){
   schema.query.toObject = function(){
@@ -38,6 +39,7 @@ mongoose.plugin(function(schema){
   }
 });
 
+const { RoutesPluginsMongoose } = require("@smallhillcz/routesjs/lib/plugins/mongoose");
 mongoose.plugin(RoutesPluginsMongoose);
 
 mongoose.Promise = global.Promise;

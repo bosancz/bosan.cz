@@ -14,17 +14,3 @@ routes.get("me:user","/",{permission:"me:user:read"}).handle(async (req,res,next
   req.routes.links(user,"user");
   res.json(user);
 });
-
-routes.patch("me:user","/",{permission:"me:user:edit"}).handle(async (req,res) => {
-  
-  var userData = req.body;
- 
-  // if there is password in the payload, hash it with bcrypt
-  userData.password = await bcrypt.hash(userData.password, config.auth.bcrypt.rounds)
-
-  // update the user
-  await User.findOneAndUpdate({ _id: req.user._id }, userData )
-
-  // respond success
-  res.sendStatus(204);
-});

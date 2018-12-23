@@ -46,10 +46,11 @@ routes.post("users", "/",{permission:"users:create"}).handle(async (req,res) => 
 });
 
 routes.get("user", "/:id", {permission:"users:read"}).handle(async (req,res,next) => {
-  var user = User.findOne({_id:req.params.id}).populate("member","_id nickname name group").toObject();
+  var user = await User.findOne({_id:req.params.id}).populate("member","_id nickname name group").toObject();
   
-  console.log(await user);
-  res.json(req.routes.links(await user,"user"));
+  user = req.routes.links(user,"user");
+  
+  res.json(user);
 });
 
 routes.patch("user", "/:id", {permission:"users:edit"}).handle(async (req,res) => {
@@ -86,4 +87,18 @@ routes.post("user:impersonate","/:id/impersonate", { permission: "users:imperson
   var token = await createToken(user,config.auth.jwt.expiration);
 
   res.send(token);
+});
+
+routes.put("user:credentials", "/:id/credentials", {permission:"users:credentials:edit"}).handle(async (req,res) => {
+  
+  var userData = req.body;
+  
+  userData.login = userData.login.toLowerCase();
+  userData.password = await bcrypt.hash(userData.password, config.auth.bcrypt.rounds)  
+  
+  // update the user
+  await User.findOneAndUpdate({ _id: req.params.id }, userData )
+  
+  // respond success
+  res.sendStatus(204);
 });
