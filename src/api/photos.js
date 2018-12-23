@@ -1,9 +1,7 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
-var config = require("../../config");
-
-var acl = require("express-dynacl");
+const config = require("../../config");
 
 var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
@@ -17,7 +15,7 @@ var Photo = require("../models/photo");
 var savePhoto = require("./albums/photo-save");
 
 // LIST ALBUMS
-router.get("/", acl("photos:list"), async (req,res,next) => {
+routes.get("photos","/",{permission:"photos:list"}).handle(async (req,res,next) => {
 
   var query = Photo.find({});
 
@@ -31,7 +29,7 @@ router.get("/", acl("photos:list"), async (req,res,next) => {
 });
 
 // POST A PHOTO TO AN ALBUM
-router.post("/", acl("photos:create"), acl("albums:edit"), upload.single("photo"), async (req,res,next) => {
+routes.post("photos","/",{permission:"photos:create"}).handle(upload.single("photo"), async (req,res,next) => {
 
   // if file missing we send 400
   if(!req.file) return res.status(400).send("No photo");
@@ -75,14 +73,14 @@ router.post("/", acl("photos:create"), acl("albums:edit"), upload.single("photo"
 
 });
 
-router.get("/:photo", acl("photos:read"), async (req,res) => res.json(await Photo.findOne({_id:req.params.photo})));
+routes.get("photo", "/:photo",{permission:"photos:read"}).handle(async (req,res) => res.json(await Photo.findOne({_id:req.params.photo})));
 
-router.patch("/:photo", acl("photos:edit"), async (req,res) => {
+routes.patch("photo", "/:photo",{permission:"photos:edit"}).handle(async (req,res) => {
   await Photo.findOneAndUpdate({_id:req.params.photo},req.body);
   res.sendStatus(204);
 });
 
-router.delete("/:photo", acl("photos:delete"), async (req,res,next) => {
+routes.delete("photo", "/:photo",{permission:"photos:delete"}).handle(async (req,res,next) => {
   
   var photo = await Photo.findOne({_id:req.params.photo});
   if(!photo) return res.status(404).send("Photo not found.");

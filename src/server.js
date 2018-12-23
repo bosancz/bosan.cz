@@ -1,6 +1,9 @@
 var express = require("express");
 var app = express();
 
+/* EXPRESS CONFIG */
+app.set('json spaces', 2);
+
 /* POLYFILLS */
 
 // polyfill before express allows for async middleware
@@ -8,7 +11,6 @@ require('express-async-errors');
 
 
 /* CONFIG */
-
 var config = require("../config");
 
 
@@ -24,8 +26,8 @@ app.use(require("./middleware/query-guess-types.js"));
 
 /* LOCALE */
 
-var moment = require("moment");
-moment.locale("cs");
+const { DateTime } = require("luxon");
+DateTime.defaultLocale = "cs-CZ";
 
 
 /* AUTHENTICATION AND ACL */
@@ -37,9 +39,8 @@ app.use(jwt(config.auth.jwt));
 // connect to database
 require("./db");
 
-// setup acl roles
-require("./acl");
-
+const { Routes } = require("@smallhillcz/routesjs");
+Routes.setACL(config.acl);
 
 /* ROUTING */
 

@@ -1,10 +1,9 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
+
+const config = require("../../config");
 
 var bcrypt = require("bcryptjs");
-var acl = require("express-dynacl");
-
-var config = require("../../config");
 
 var User = require("../models/user");
 
@@ -23,14 +22,14 @@ var loginSchema = {
   required: ["login","password"]
 };
 
-router.post("/", validate({body:loginSchema}), acl("login:credentials"), async (req,res,next) => {
+routes.post("login","/",{permission:"login:credentials"}).handle(validate({body:loginSchema}), async (req,res,next) => {
   
   if(!req.body.login) return res.status(400).send("Missing login");
   if(!req.body.password) return res.status(400).send("Missing password");
 
   let login = req.body.login.toLowerCase();
   
-  var user = await User.findOne({$or: [{login:login},{email:login}]}).select("+password")
+  var user = await User.findOne({$or: [{login:login},{email:login}]}).select("+password").lean();
 
   if(!user) return res.sendStatus(401); // dont send that user dont exists
   if(!user.password) return res.status(503).send("Password not set."); // dont send user dont exists
@@ -38,7 +37,7 @@ router.post("/", validate({body:loginSchema}), acl("login:credentials"), async (
   var same = await bcrypt.compare(req.body.password, user.password)
 
   if(!same) return res.sendStatus(401);
-
+  
   // create the token
   var token = await createToken(user,config.auth.jwt.expiration);
 
@@ -59,7 +58,7 @@ router.post("/", validate({body:loginSchema}), acl("login:credentials"), async (
 
 });
 
-router.post("/renew",acl("login:renew"), async (req,res) => {
+routes.post("login:renew","/renew",{permission:"login:renew"}).handle(async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
   const user = await User.findOne({_id:req.user._id});
@@ -82,7 +81,7 @@ var sendLinkSchema = {
   required: ["login"]
 };
 
-router.post("/sendlink", validate({body:sendLinkSchema}), acl("login:sendlink"), async (req,res) => {
+routes.post("login:sendlink","/sendlink",{permission:"login:sendlink"}).handle(validate({body:sendLinkSchema}), async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
   const userId = req.body.login.toLowerCase();
@@ -96,7 +95,7 @@ router.post("/sendlink", validate({body:sendLinkSchema}), acl("login:sendlink"),
 	
 });
 
-router.post("/google",acl("login:google"), async (req,res) => {
+routes.post("login:google","/google",{permission:"login:google"}).handle(async (req,res) => {
   
   var ticket;
   
@@ -118,36 +117,9 @@ router.post("/google",acl("login:google"), async (req,res) => {
   const user = await User.findOne({email: userEmail});
 
   if(!user) return res.status(404).send("User with email " + userEmail + " not found");
-
-  var token = await createToken(user,config.auth.jwt.expiration);
-
-  res.send(token);
-  
-});
-
-var loginImpersonareSchema = {
-  type: "object",
-  properties: {
-    "_id": {type: "string"},
-    "roles": {type: "array", items: { type: "string" } }
-  },
-  additionalProperties: false
-};
-
-router.post("/impersonate", validate({body:loginImpersonareSchema}), acl("login:impersonate"), async (req,res) => {
-  
-  let user = {};
-  
-  if (req.body._id) {
-    user = await User.findOne({_id: req.body._id}).lean();
-    if(!user) return res.status(404).send("User not found.");
-  }
-  
-  if (req.body.roles) {
-    user.roles = req.body.roles;
-  }
   
   var token = await createToken(user,config.auth.jwt.expiration);
 
   res.send(token);
+  
 });
