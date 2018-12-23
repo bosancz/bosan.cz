@@ -4,6 +4,8 @@ const user = true;
 
 const clen = true, revizor = true, hospodar = true, vedouci = true, spravce = true, program = true;
 
+const vedouciAkce = { vedouci: req => ({ leaders: req.user._id}) };
+
 module.exports = {
   
   "api:read": { guest },
@@ -30,13 +32,9 @@ module.exports = {
   
   "events:list": { spravce, program, clen, guest: { status: "public" } },
   "events:read": { spravce, program, clen, guest: { status: "public" } },  
-  "events:create": {
-    spravce,
-    program,
-    vedouci: req => ({ leaders: req.user._id})
-  },
-  "events:edit": { spravce, program, vedouci },
-  "events:delete": { spravce, program, vedouci },
+  "events:create": { spravce, program },
+  "events:edit": { spravce, program, ...vedouciAkce },
+  "events:delete": { spravce, program },
   
   "events:publish": { spravce, program },
   "events:lead": { spravce, vedouci },
@@ -47,7 +45,11 @@ module.exports = {
   
   "events:registration:read": { spravce, guest },
   "events:registration:edit": { spravce, vedouci },
-  "events:registration:delete": { spravce, vedouci },
+  "events:registration:delete": { spravce, vedouci },  
+  
+  "events:accounting:read": { spravce, revizor, hospodar, ...vedouciAkce },
+  "events:accounting:edit": { spravce, revizor, hospodar, ...vedouciAkce },
+  "events:accounting:delete": { spravce, revizor, hospodar, ...vedouciAkce },
 
   "gallery:list": { spravce, guest },
   "gallery:read": { spravce, guest },
@@ -67,7 +69,6 @@ module.exports = {
   "me:read": { guest },
   
   "me:user:read": { spravce, user },
-  "me:user:edit": { spravce, user },
   
   "me:group:read": { spravce, clen },
   "me:group:members:list": { spravce, clen },
@@ -100,6 +101,8 @@ module.exports = {
   "users:edit": { spravce },
   "users:delete": { spravce },
   "users:impersonate": { spravce }, 
+  
+  "users:credentials:edit": { spravce, user: req => ({ _id: req.user._id }) },
 
   "versions:read": { spravce, guest }
 };

@@ -40,13 +40,7 @@ app.use(jwt(config.auth.jwt));
 require("./db");
 
 const { Routes } = require("@smallhillcz/routesjs");
-Routes.setACL({
-  permissions: require("../config/acl"),
-  userRoles: req => req.user ? req.user.roles || [] : [],
-  defaultRole: "guest",
-  logConsole: true,
-  logString: event => `ACL ${event.result ? "OK" : "XX"} | permission: ${event.permission}, user: ${event.req.user ? event.req.user._id : "-"}, roles: ${event.req.user ? event.req.user.roles.join(",") : "-"}, ip: ${event.req.headers['x-forwarded-for'] || event.req.connection.remoteAddress}`
-});
+Routes.setACL(config.acl);
 
 /* ROUTING */
 
