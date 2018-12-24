@@ -8,6 +8,13 @@ export class EventRecurring{
   instances:any[];
 }
 
+export class EventExpense {
+  id:string;
+  amount:number;
+  type:string;
+  description:string;
+}
+
 export class Event extends Document {
   
   _id:string;
@@ -40,4 +47,6 @@ export class Event extends Document {
   
   groups?:string[];
   leadersEvent?:boolean;
+  
+  expenses:EventExpense[] = [];
 }

@@ -25,6 +25,10 @@ export class WebConfigEventSubType{
   image?:string;
 }
 
+export class WebConfigEventExpenseType{
+  name:string;
+}
+
 export class WebConfigRecurringType {
   name:string;
   title:string;
@@ -70,6 +74,7 @@ export interface WebConfig {
   events:{
     types:WebConfigEventType[],
     subtypes:WebConfigEventSubType[],
+    expenseTypes:WebConfigEventExpenseType[],
     recurringTypes:WebConfigRecurringType[],
     descriptionWarnings:WebConfigDescriptionWarning[]
   };
