@@ -2,11 +2,13 @@
 
 <div class="modal-header">
   <h4 class="modal-title pull-left">Přihlásit se</h4>
-  <button type="button" class="close pull-right" aria-label="Close" (click)="loginModal.hide()">
+  <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body">
+  
+  <p *ngIf="expired" class="text-danger">Přihlášení vypršelo, přihlas se znovu.</p>
   
   <div class="status" [ngSwitch]="status">
     <p *ngSwitchCase="'invalidCredentials'" class="text-danger">Chybné uživatelské jméno nebo heslo.</p>

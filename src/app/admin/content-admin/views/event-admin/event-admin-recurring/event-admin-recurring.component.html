@@ -37,12 +37,10 @@
         <div class="form-group col-md-6">
           <label>Typ opakování</label>
           <select name="type" ngModel required class="form-control">
-            <option *ngFor="let type of recurringTypes" [value]="type.name" [ngSwitch]="type.name">
-              <ng-container *ngSwitchCase="'weekly'">každý týden v {{event.dateFrom | date:"EEEE"}}</ng-container>
-              <ng-container *ngSwitchCase="'monthly'">každý měsíc {{event.dateFrom | date:"d."}}</ng-container>
-              <ng-container *ngSwitchCase="'monthlyDay'">každý {{getNthDay(event.dateFrom)}}. {{event.dateFrom | date:"EEEE"}} v měsíci</ng-container>
-              <ng-container *ngSwitchCase="'yearly'">každý rok {{event.dateFrom | date:"d. M."}}</ng-container>
-            </option>
+            <option value="weekly">každý týden v {{event.dateFrom | date:"EEEE"}}</option>
+            <option value="monthly">každý měsíc {{event.dateFrom | date:"d."}}</option>
+            <option value="monthlyDay">každý {{getNthDay(event.dateFrom)}}. {{event.dateFrom | date:"EEEE"}} v měsíci</option>
+            <option value="yearly">každý rok {{event.dateFrom | date:"d. M."}}</option>
           </select>
         </div>
 

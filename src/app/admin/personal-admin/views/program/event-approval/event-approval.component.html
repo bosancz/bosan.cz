@@ -9,9 +9,9 @@
         <p>Vede {{(event.leaders | joinLeaders) || "pan NIKDO"}}</p>
       </div>
       <div class="col-md-3 buttons">
-        <a [routerLink]="'/interni/obsah/akce/' + event._id" class="btn btn-light btn-sm">Upravit info</a>
+        <a [routerLink]="'/interni/moje/akce/' + event._id" class="btn btn-light btn-sm">Upravit info</a>
         <button *ngIf="event._actions?.publish" class="btn btn-primary btn-sm" [disabled]="!event._actions.publish.allowed" (click)="publishEvent(event)">Do programu</button>
-        <button class="btn btn-danger btn-sm" [disabled]="!event._links.self.allowed.DELETE">Smazat</button>
+        <button *ngIf="!event._links.self.allowed.DELETE" class="btn btn-danger btn-sm">Smazat</button>
       </div>
     </div>
   </div>

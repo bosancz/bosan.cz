@@ -53,7 +53,7 @@ a.flat{font-weight:bold;text-transform:uppercase;text-decoration:none;}
 
 h2 .back{margin-right:10px;}
 
-a {color: $linkBlue;}
+a {color: $linkBlue;cursor:pointer;}
 a.link{color:$linkBlue !important;cursor:pointer;}
 a:not(.btn):hover {color: $hover-yellow !important;}
 

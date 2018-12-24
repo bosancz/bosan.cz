@@ -58,7 +58,7 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
   }
 
   openLogin() {
-    this.loginModal = this.modalService.show(LoginFormComponent, {});
+    this.loginModal = this.modalService.show(LoginFormComponent);
   }
   
   updateAccountDropdown(dropdown){

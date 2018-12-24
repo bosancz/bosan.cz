@@ -8,7 +8,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { ConfigService } from "app/services/config.service";
-import { DataService } from "app/services/data.service";
+import { ApiService } from "app/services/api.service";
 import { ToastService } from "app/services/toast.service";
 
 import { Member } from "app/schema/member";
@@ -37,7 +37,7 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
   
   paramsSubscription:Subscription;
   
-  constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
+  constructor(private api:ApiService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
 
   ngOnInit() {
     this.loadConfig();
@@ -66,7 +66,7 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
   
   async loadMembers(view:string){
     const options = Object.assign({},this.views[view] || {});
-    this.members = await this.dataService.getMembers(options);
+    this.members = await this.api.get<Member[]>("members",options);
   }
   
   openCreateMemberModal(template:TemplateRef<any>){
@@ -77,7 +77,9 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
     // get data from form
     const eventData = form.value;
     // create the event and wait for confirmation
-    const member = await this.dataService.createMember(eventData);
+    const response = await this.api.post("members",eventData);
+    // get new member _id
+    let member = await this.api.get<Member>(response.headers.get("location"),{ select: "_id"});
     // close the modal
     this.createMemberModalRef.hide();
     // show the confrmation

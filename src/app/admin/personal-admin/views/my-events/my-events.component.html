@@ -12,8 +12,7 @@
             <h5>
               {{[event.dateFrom,event.dateTill] | dateRange}} | {{event.name}}
               <sup>
-                <span class="badge badge-secondary" *ngIf="event.status === 'draft'">Připravovaná</span>
-                <span class="badge badge-success" *ngIf="event.status === 'public'">V programu</span>
+                <event-status-badge [event]="event"></event-status-badge>
               </sup>
             </h5>
           </div>

@@ -1,0 +1,2 @@
+<ng-container *ngFor="let birthday of birthdays;let isLast = last">{{birthday.member.nickname}} ({{birthday.age}})<ng-container *ngIf="!isLast">,</ng-container></ng-container>
+<ng-container *ngIf="!birthdays.length">Žádné</ng-container>

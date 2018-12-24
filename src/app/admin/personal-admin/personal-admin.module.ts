@@ -22,6 +22,10 @@ import { MyEventComponent } from './views/my-event/my-event.component';
 import { MyAccountInfoComponent } from './views/my-account/my-account-info/my-account-info.component';
 import { MyAccountCredentialsComponent } from './views/my-account/my-account-credentials/my-account-credentials.component';
 import { MyAccountNotificationsComponent } from './views/my-account/my-account-notifications/my-account-notifications.component';
+import { EventAgeHistogramComponent } from './components/event-age-histogram/event-age-histogram.component';
+import { EventExpensesTableComponent } from './components/event-expenses-table/event-expenses-table.component';
+import { EventBirthdayListComponent } from './components/event-birthday-list/event-birthday-list.component';
+import { EventStatusBadgeComponent } from './components/event-status-badge/event-status-badge.component';
 
 @NgModule({
   imports: [
@@ -35,8 +39,17 @@ import { MyAccountNotificationsComponent } from './views/my-account/my-account-n
     PersonalAdminComponent,
     
     /* VIEWS */
-    DocumentsViewComponent, MyDashboardComponent, MyEventsComponent, CanalRegistrationComponent, MyAccountComponent,
-    MyGroupComponent, MyGroupMembersComponent, LeadEventComponent, MyEventComponent, MyAccountInfoComponent, MyAccountCredentialsComponent, MyAccountNotificationsComponent
+    MyDashboardComponent,
+    LeadEventComponent,
+    MyEventsComponent, MyEventComponent,
+    MyGroupComponent, MyGroupMembersComponent,
+    MyAccountComponent, MyAccountInfoComponent, MyAccountCredentialsComponent, MyAccountNotificationsComponent,
+    
+    CanalRegistrationComponent,
+    DocumentsViewComponent,
+    
+    /* COMPONENTS */
+    EventAgeHistogramComponent, EventExpensesTableComponent, EventBirthdayListComponent, EventStatusBadgeComponent
   ]
 })
 export class PersonalAdminModule { }

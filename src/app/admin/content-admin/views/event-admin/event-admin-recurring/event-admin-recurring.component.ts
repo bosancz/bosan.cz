@@ -7,7 +7,6 @@ import { ConfigService } from "app/services/config.service";
 import { ToastService } from "app/services/toast.service";
 
 import { Event, EventRecurring } from "app/schema/event";
-import { WebConfigRecurringType } from "app/schema/webconfig";
 
 @Component({
   selector: 'event-admin-recurring',
@@ -20,8 +19,6 @@ export class EventAdminRecurringComponent implements OnInit, OnChanges {
   
   recurring:EventRecurring;
   
-  recurringTypes:WebConfigRecurringType[];
-  
   loading:boolean = false;
   
   @Output() saved:EventEmitter<void> = new EventEmitter<void>();
@@ -29,11 +26,6 @@ export class EventAdminRecurringComponent implements OnInit, OnChanges {
   constructor(private api:ApiService, private configService:ConfigService, private router:Router, private route:ActivatedRoute, private toastService:ToastService) { }
 
   ngOnInit(){
-    this.loadRecurringTypes();
-  }
-  
-  loadRecurringTypes(){
-    this.configService.getConfig().then(config => this.recurringTypes = config.events.recurringTypes);
   }
   
   ngOnChanges(changes:SimpleChanges) {

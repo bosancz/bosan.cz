@@ -22,7 +22,9 @@ export class MyEventsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userSubscription = this.authService.user.subscribe(user => this.loadMyEvents(user.member));
+    this.userSubscription = this.authService.user.subscribe(user => {
+      if(user && user.member) this.loadMyEvents(user.member);
+    });
   }
   
   ngOnDestroy(){

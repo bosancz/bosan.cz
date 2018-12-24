@@ -106,5 +106,10 @@ export class LoginFormComponent implements OnInit {
     
   }
   
+  close(){
+    if(this.expired) this.router.navigate(["/"]);
+    this.loginModal.hide();
+  }
+  
 
 }

@@ -2,7 +2,7 @@
   <span *ngFor="let group of groups" (click)="toggleGroup(group)" [class.active]="isSelected(group)" [style.background-color]="group | group:'color'" [title]="group | group:'name'" class="group-badge">{{group}}</span>
 </div>
 <div class="selectAll custom-control custom-checkbox mr-2">
-  <input type="checkbox" [ngModel]="isSelectedAll()" (ngModelChange)="selectAll($event)" [disabled]="disabled || leadersOnly.checked" class="custom-control-input" id="checkboxSelectAll">
+  <input type="checkbox" [ngModel]="isSelectedAll()" (ngModelChange)="selectAll($event)" [disabled]="disabled" class="custom-control-input" id="checkboxSelectAll">
   <label class="custom-control-label" for="checkboxSelectAll">Všechny oddíly</label>
 </div>
 <div class="leadersOnly custom-control custom-checkbox">
