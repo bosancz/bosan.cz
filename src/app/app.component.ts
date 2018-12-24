@@ -21,7 +21,8 @@ export class AppComponent implements OnInit {
     runtime:RuntimeService,
     private toastService:ToastService,
     public onlineService:OnlineService,
-    public layoutService:LayoutService
+    public layoutService:LayoutService,
+    public swUpdate:SwUpdate
   ){
     runtime.init();
   }

@@ -110,11 +110,14 @@
             </div>
           </div>
         </div>
-
-        <h5>Report <a (click)="openModal(reportModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
-        <div [innerHTML]="eventDatareport || '<p>Report je prázdný.</p>'"></div>
-
+        
+        <div class="block">
+          <h5>Report <a (click)="openModal(reportModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+          <div [innerHTML]="eventDatareport || '<p>Report je prázdný.</p>'"></div>
+        </div>
+        
       </div>
+      
       <div class="col-md-2 buttons right">            
         <button *ngIf="event._actions?.submit" [disabled]="!event._actions?.submit.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Ke schválení</button>
         <button *ngIf="event._actions?.publish" [disabled]="!event._actions?.publish.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('publish')">Do programu</button>
@@ -123,7 +126,8 @@
         
         <button *ngIf="event._actions?.unpublish" [disabled]="!event._actions?.unpublish.allowed" class="btn btn-secondary btn-sm" type="button" (click)="eventAction('unpublish')">Z programu</button>
         
-        <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('submit')">Zrušit</button>
+        <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('cancel')">Zrušit</button>
+        <button *ngIf="event._actions?.uncancel" [disabled]="!event._actions?.uncancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('uncancel')">Odzrušit</button>
         <button [disabled]="!event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button" (click)="deleteEvent()">Smazat</button>
       </div>
     </div>
