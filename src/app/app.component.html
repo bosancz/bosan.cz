@@ -6,22 +6,27 @@
   </ul>
 </div>
 
-<div *ngIf="!(onlineService.online | async)" id="offline" class="text-center bg-danger text-light">
-  Nejste připojeni k internetu. Zobrazené údaje mohou být zastaralé.
+<div id="layout"
+     [class.menu-transparent]="layoutService.menu.transparent"
+     [class.menu-hidden]="!layoutService.menu.visible"
+     [class.offline]="!(onlineService.online | async)"
+     [class.update]="(onlineService.online | async) && (swUpdate.available | async)">
+  
+  <div *ngIf="!(onlineService.online | async)" id="offline" class="text-center bg-danger text-light">
+    Nejste připojeni k internetu. Zobrazené údaje mohou být zastaralé.
+  </div>
+
+  <div *ngIf="(onlineService.online | async) && (swUpdate.available | async)" id="update" class="text-center bg-warning text-light">
+    Je k dispozici nová verze bosan.cz. Obnovte stránku pro její načtení.
+  </div>
+
+  <!-- Navigation -->
+  <page-menu *ngIf="layoutService.menu.visible"></page-menu>
+
+  <!-- MAIN CONTENT -->
+  <div id="page">
+    <router-outlet></router-outlet>
+  </div>
+
+  <page-footer *ngIf="layoutService.footer.visible"></page-footer>
 </div>
-
-<!--
-<div *ngIf="swUpdate.available | async" id="update" class="text-center bg-warning text-light">
-Je k dispozici nová verze bosan.cz. Obnovte stránku pro její načtení.
-</div>
--->
-
-<!-- Navigation -->
-<page-menu *ngIf="layoutService.menu.visible"></page-menu>
-
-<!-- MAIN CONTENT -->
-<div id="page" [style.margin-top]="(layoutService.menu.transparent || !layoutService.menu.visible) ? '0' : '60px'">
-  <router-outlet></router-outlet>
-</div>
-
-<page-footer *ngIf="layoutService.footer.visible"></page-footer>

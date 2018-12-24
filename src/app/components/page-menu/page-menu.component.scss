@@ -6,7 +6,7 @@
 
 nav {
   background-color:$black70;
-  transition:background-color 1s;
+  //transition:background-color 1s;
   min-height:60px;
 }
 
@@ -34,6 +34,7 @@ nav .nav-link {
   font-weight: bold;
   color: $white;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 nav .nav-link.active, nav .nav-link:hover {

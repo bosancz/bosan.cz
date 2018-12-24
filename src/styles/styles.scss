@@ -111,6 +111,10 @@ input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invali
     border-radius:0;
     border:none;
   }
+  
+  .modal-footer,.modal-header{
+    flex: 0 0 auto;
+  }
 
 }
 
