@@ -2,6 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { ApiService } from "app/services/api.service";
 import { AuthService } from "app/services/auth.service";
@@ -18,6 +19,8 @@ import { permissions } from "config/permissions";
   providedIn: 'root'
 })
 export class RuntimeService {
+  
+  loginModal:BsModalRef;
 
   constructor(
   private api:ApiService,
@@ -42,7 +45,7 @@ export class RuntimeService {
     this.checkTokenLogin();
 
     this.checkGoogleLogin();
-
+    
   }
 
   checkTokenLogin(){
@@ -87,8 +90,7 @@ export class RuntimeService {
     });
 
     this.authService.onExpired.subscribe(event => {
-      this.toastService.toast("Přihlášení vypršelo, přihlas se znovu.");
-      this.modalService.show(LoginFormComponent, {});
+      this.loginModal = this.modalService.show(LoginFormComponent, { initialState: { expired: true }, keyboard: false, ignoreBackdropClick: true });
       this.googleService.signOut();
     });
   }
@@ -116,4 +118,5 @@ export class RuntimeService {
     });
 
   }
+
 }

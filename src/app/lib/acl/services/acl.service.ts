@@ -1,4 +1,4 @@
-import { Injectable, ApplicationRef } from '@angular/core';
+import { Injectable, ApplicationRef, EventEmitter } from '@angular/core';
 
 export interface AclPermissions {
   [name:string]:{
@@ -15,6 +15,8 @@ export class AclService {
   permissions:AclPermissions = {};
   
   roles:string[] = [];
+  
+  onUpdate:EventEmitter<void> = new EventEmitter();
 
   constructor(private appRef:ApplicationRef) { }
 
@@ -45,9 +47,11 @@ export class AclService {
   
   setPermissions(permissions:AclPermissions):void{
     this.permissions = permissions;
+    this.onUpdate.emit();
   }
   
   setRoles(roles:string[]):void{
     this.roles = roles;
+    this.onUpdate.emit();
   }
 }
