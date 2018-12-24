@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/c
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { DateTime } from "luxon";
 
 import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -10,7 +11,7 @@ import { ApiService } from "app/services/api.service";
 import { ToastService } from "app/services/toast.service";
 import { ConfigService } from "app/services/config.service";
 
-import { Event } from "app/schema/event";
+import { Event, EventExpense } from "app/schema/event";
 import { Member } from "app/schema/member";
 
 @Component({
@@ -25,8 +26,10 @@ export class MyEventComponent implements OnInit, OnDestroy {
   
   eventTypes:string[] = [];
   eventSubTypes:string[] = [];
+  expenseTypes:string[] = [];
 
   uploadingRegistration:boolean = false;
+  uploadingAccounting:boolean = false;
 
   allDay:boolean = false;
 
@@ -76,16 +79,12 @@ export class MyEventComponent implements OnInit, OnDestroy {
     
     this.eventTypes = config.events.types.map(type => type.name);
     this.eventSubTypes = config.events.subtypes.map(type => type.name);
+    this.expenseTypes = config.events.expenseTypes.map(type => type.name);
   }
 
   async loadEvent(eventId:string) {
     this.event = await this.api.get<Event>(["event",eventId],{populate:["leaders"]});
-
-    this.eventData = JSON.parse(JSON.stringify(this.event));
-
-    this.eventData.attendees.sort((a,b) => a.nickname.localeCompare(b.nickname));
-    
-    this.allDay = !this.eventData.timeFrom && !this.eventData.timeTill;
+    this.setFormData();
   }
 
   async saveEvent(){
@@ -96,15 +95,29 @@ export class MyEventComponent implements OnInit, OnDestroy {
     if(!eventData.groups || !eventData.groups.length) eventData.leadersEvent = true;
     
     await this.api.patch(this.event._links.self,eventData);
-    this.event = await this.api.get<Event>(this.event._links.self);
+    await this.loadEvent(this.event._id);
     this.toastService.toast("Uloženo.");
   }
 
-  async uploadRegistration(registrationInput:HTMLInputElement){
+  async deleteEvent(){
+    if(window.prompt("Opravdu chcete smazat tuto akci?")){
+      await this.api.delete(this.event._links.self);
+      this.router.navigate(["../"]);
+      this.toastService.toast("Akce smazána");
+    }
+  }
+  
+  async eventAction(action:string){
+    await this.api.post(this.event._actions[action]);
+    await this.loadEvent(this.event._id);
+    this.toastService.toast("Uloženo");
+  }
+  
+  async uploadRegistration(input:HTMLInputElement){
 
-    if(!registrationInput.files.length) return;
+    if(!input.files.length) return;
 
-    let file = registrationInput.files[0];
+    let file = input.files[0];
 
     if(file.name.split(".").pop().toLowerCase() !== "pdf"){
       this.toastService.toast("Soubor musí být ve formátu PDF");
@@ -140,14 +153,76 @@ export class MyEventComponent implements OnInit, OnDestroy {
   getRegistrationUrl():string{
     return this.api.link2href(this.event._links.registration);
   }
+  
+  async uploadAccounting(input:HTMLInputElement){
 
-  reset(){
-    this.eventData = JSON.parse(JSON.stringify(this.event));
+    if(!input.files.length) return;
+
+    let file = input.files[0];
+
+    if(file.name.split(".").pop().toLowerCase() !== "xlsx"){
+      this.toastService.toast("Soubor musí být ve formátu XLSX");
+      return;
+    }
+
+    let formData:FormData = new FormData();
+
+    formData.set("file",file,file.name);
+
+    this.uploadingAccounting = true;
+
+    try{
+      await this.api.post(this.event._links.accounting,formData);
+    }
+    catch(err){
+      this.toastService.toast("Nastala chyba při nahrávání: " + err.message);
+    }
+
+    this.uploadingAccounting = false;
+
+    this.loadEvent(this.event._id);
+
+    this.toastService.toast("Účetnictví nahráno.");
+  }
+
+  async deleteAccounting(){
+    await this.api.delete(this.event._links.accounting);
+    this.loadEvent(this.event._id);
+    this.toastService.toast("Účetnictví smazáno.");
+  }
+
+  getAccountingUrl():string{
+    return this.api.link2href(this.event._links.accounting);
+  }
+  
+  getAccountingTemplateUrl():string{
+    return this.api.link2href(this.event._links["accounting-template"]);
+  }
+
+
+  setFormData(){
+    const eventData = JSON.parse(JSON.stringify(this.event));
+
+    eventData.attendees.sort((a,b) => a.nickname.localeCompare(b.nickname));
+    
+    if(!eventData.meeting) eventData.meeting = { start: undefined, end: undefined };
+    if(!eventData.expenses) eventData.expenses = [];
+    
+    eventData.dateFrom = DateTime.fromISO(eventData.dateFrom).toISODate();
+    eventData.dateTill = DateTime.fromISO(eventData.dateTill).toISODate();
+    
+    this.eventData = eventData;
+    this.allDay = !eventData.timeFrom && !eventData.timeTill;
+    
   }
 
   openModal(modal:TemplateRef<any>){
     this.router.navigate(['./',{modal:"open"}], { relativeTo: this.route });
     this.modalRef = this.modalService.show(modal, { animated: false });
+  }
+  
+  reset(){
+    this.setFormData();
   }
 
   removeItem(item:any,array:any[]):void{
@@ -160,4 +235,13 @@ export class MyEventComponent implements OnInit, OnDestroy {
     if(member.role) info.push(member.role);
     return info.join(", ");
   }
+  
+  addExpense(){
+    this.eventData.expenses.push(new EventExpense());
+  }
+  
+  removeExpense(expense:EventExpense){
+    this.eventData.expenses.splice(this.eventData.expenses.indexOf(expense),1);
+  }
+  
 }
