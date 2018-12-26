@@ -26,6 +26,7 @@ import { EventAgeHistogramComponent } from './components/event-age-histogram/eve
 import { EventExpensesTableComponent } from './components/event-expenses-table/event-expenses-table.component';
 import { EventBirthdayListComponent } from './components/event-birthday-list/event-birthday-list.component';
 import { EventStatusBadgeComponent } from './components/event-status-badge/event-status-badge.component';
+import { MyAccountAppComponent } from './views/my-account/my-account-app/my-account-app.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,7 @@ import { EventStatusBadgeComponent } from './components/event-status-badge/event
     DocumentsViewComponent,
     
     /* COMPONENTS */
-    EventAgeHistogramComponent, EventExpensesTableComponent, EventBirthdayListComponent, EventStatusBadgeComponent
+    EventAgeHistogramComponent, EventExpensesTableComponent, EventBirthdayListComponent, EventStatusBadgeComponent, MyAccountAppComponent
   ]
 })
 export class PersonalAdminModule { }

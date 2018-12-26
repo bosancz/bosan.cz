@@ -13,6 +13,7 @@ import { MyAccountComponent } from "./views/my-account/my-account.component";
 import { MyAccountInfoComponent } from "./views/my-account/my-account-info/my-account-info.component";
 import { MyAccountCredentialsComponent } from "./views/my-account/my-account-credentials/my-account-credentials.component";
 import { MyAccountNotificationsComponent } from "./views/my-account/my-account-notifications/my-account-notifications.component";
+import { MyAccountAppComponent } from "./views/my-account/my-account-app/my-account-app.component";
 
 import { MyEventsComponent } from "./views/my-events/my-events.component";
 import { MyEventComponent } from "./views/my-event/my-event.component";
@@ -55,6 +56,7 @@ const routes:Routes = [
           { path: 'info', component: MyAccountInfoComponent },
           { path: 'notifikace', component: MyAccountNotificationsComponent },
           { path: 'prihlasovaci-udaje', component: MyAccountCredentialsComponent },
+          { path: 'aplikace', component: MyAccountAppComponent },
           { path: '', redirectTo: "info", pathMatch: "full"}
         ]
       },
