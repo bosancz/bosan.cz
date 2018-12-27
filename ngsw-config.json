@@ -50,9 +50,9 @@
         "maxSize": 10,
         "maxAge": "7d"
       },
-      navigationUrls: [
-        '/**', 
-        '!/events/**/accounting/template'
+      "navigationUrls": [
+        "/**", 
+        "!/events/**/accounting/template"
       ]
     }
   ]

@@ -9,25 +9,26 @@ export class MyAccountAppComponent implements OnInit {
 
   beforeinstallprompt:any;
   
+  installed:boolean = false;
+  
   promptShown:boolean = false;
   
   constructor() { }
 
   ngOnInit() {
-    window.addEventListener('beforeinstallprompt', (e) => {
+    window.addEventListener('beforeinstallprompt', event => {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault();
-      console.log("event beforeinstallprompt",e);
+      event.preventDefault();
       // Stash the event so it can be triggered later.
-      this.beforeinstallprompt = e;
+      this.beforeinstallprompt = event;
     });
 
-    window.addEventListener('appinstalled', (evt) => {
+    window.addEventListener('appinstalled', event => {
       this.installed = true;
     });
   }
   
-  installApp(){
+  install(){
     
     this.promptShown = true;
     
