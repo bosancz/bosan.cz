@@ -1,4 +1,4 @@
-const { Routes } = require("@smallhillcz/routesjs");
+const { Routes, RoutesACL } = require("@smallhillcz/routesjs");
 const routes = module.exports = new Routes();
 
 var bcrypt = require("bcryptjs");
@@ -91,6 +91,9 @@ routes.post("user:impersonate","/:id/impersonate", { permission: "users:imperson
 
 routes.put("user:credentials", "/:id/credentials", {permission:"users:credentials:edit"}).handle(async (req,res) => {
   
+  const user = await User.findOne({_id:req.params.id}).filterByPermission("users:credentials:edit",req);
+  if(!user) return res.sendStatus(401);
+  
   var userData = req.body;
   
   userData.login = userData.login.toLowerCase();
@@ -101,4 +104,25 @@ routes.put("user:credentials", "/:id/credentials", {permission:"users:credential
   
   // respond success
   res.sendStatus(204);
+});
+
+routes.post("user:subscriptions", "/subscriptions", {permission:"users:subscriptions:edit"}).handle(async (req,res) => {
+  const user = await User.findOne({_id: req.user._id}).filterByPermission("users:subscriptions:edit",req);
+  if(!user) return res.sendStatus(401);
+  
+  if(!user.pushSubscriptions) user.pushSubscriptions = []
+  user.pushSubscriptions.push(req.body);
+  
+  await user.save();
+  res.sendStatus(200);
+});
+
+routes.delete("user:subscriptions", "/subscriptions/:id", {permission:"users:subscriptions:edit"}).handle(async (req,res) => {
+  const user = await User.findOne({_id: req.user._id}).filterByPermission("users:subscriptions:edit",req);
+  if(!user) return res.sendStatus(401);
+  
+  user.pushSubscriptions = [];
+  
+  await user.save();
+  res.sendStatus(200);
 });

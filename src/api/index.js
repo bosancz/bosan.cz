@@ -29,6 +29,8 @@ routes.child("/me", require("./me"));
 
 routes.child("/members", require("./members"));
 
+routes.child("/notifications", require("./notifications"));
+
 routes.child("/payments", require("./payments"));
 
 routes.child("/photos", require("./photos"));

@@ -66,7 +66,8 @@ var getEventsSchema = {
 routes.get("events","/").handle(validate({query:getEventsSchema}), async (req,res,next) => {
 
   // construct the query
-  const query = Event.find().permission("events:list",req);
+  const query = Event.find();
+  query.filterByPermission("events:list",req);
 
   // angular fix, https://github.com/angular/angular/issues/18884 not possible to implement on client side as plus URL replacement would become double encoded
   // TODO: after fix comes, remove, despite will not cause problems when not removed
@@ -112,8 +113,12 @@ routes.post("events","/",{permission:"events:create"}).handle(async (req,res,nex
 routes.get("events:noleader","/noleader",{permission:"events:noleader:list"}).handle(async (req,res,next) => {
 
   // construct the query
-  const events = await Event.find({ leaders: { $size: 0 }, dateFrom: { $gte: new Date() } }).select("_id name dateFrom dateTill description leaders").toObject();
+  const query = Event.find({ leaders: { $size: 0 }, dateFrom: { $gte: new Date() } })
+  query.select("_id name dateFrom dateTill description leaders");
+  query.filterByPermission("events:noleader:list",req);
  
+  const events = await query.toObject();
+  
   req.routes.links(events,"event");
  
   res.json(events);

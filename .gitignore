@@ -5,6 +5,7 @@
 config/environment.*.js
 !config/environment.example.js
 config/google.json
+config/vapid.json
 
 # internal assets
 assets/uctovani-v6-web.xlsx

@@ -32,6 +32,10 @@ module.exports = {
   
   google: environment.google,
   
+  notifications: {
+    vapidKeys: require("./vapid")
+  },
+  
   mailing: {
     from: "Bošán Info <info@bosan.cz>"
   },

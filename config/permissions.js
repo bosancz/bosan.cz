@@ -1,10 +1,12 @@
 
+const mongoose = require("mongoose");
+
 const guest = true;
 const user = true;
 
 const clen = true, revizor = true, hospodar = true, vedouci = true, spravce = true, program = true;
 
-const vedouciAkce = { vedouci: req => ({ leaders: req.user._id}) };
+const vedouciAkce = { vedouci: req => ({ "leaders._id": req.user.member }) };
 
 module.exports = {
   
@@ -30,15 +32,19 @@ module.exports = {
   "errors:read": { spravce },
   "errors:delete": { spravce },
   
-  "events:list": { spravce, program, clen, guest: { status: "public" } },
-  "events:read": { spravce, program, clen, guest: { status: "public" } },  
+  "events:list": { spravce, program, clen },
+  "events:read": { spravce, program, clen },  
   "events:create": { spravce, program },
   "events:edit": { spravce, program, ...vedouciAkce },
   "events:delete": { spravce, program },
   
-  "events:publish": { spravce, program },
   "events:lead": { spravce, vedouci },
+  
+  "events:submit": { spravce, ...vedouciAkce },
+  "events:return": { spravce, program },
+  "events:publish": { spravce, program },
   "events:cancel": { spravce, program },
+  "events:finalize": { spravce, ...vedouciAkce },
   
   "events:payments:list": { spravce, revizor, hospodar },
   "events:noleader:list": { spravce, revizor, program, clen },
@@ -83,6 +89,9 @@ module.exports = {
   "members:edit": { spravce, vedouci },
   "members:delete": { spravce, vedouci },
   
+  "notifications:list": { user },
+  "notifications:key:read": { user },
+  
   "payments:list": { spravce, hospodar, revizor },
   "payments:read": { spravce, hospodar, revizor },
   "payments:create": { spravce, hospodar },
@@ -103,6 +112,7 @@ module.exports = {
   "users:impersonate": { spravce }, 
   
   "users:credentials:edit": { spravce, user: req => ({ _id: req.user._id }) },
+  "users:subscriptions:edit": { user: req => ({ _id: req.user._id }) },
 
   "versions:read": { spravce, guest }
 };

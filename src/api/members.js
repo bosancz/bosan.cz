@@ -7,15 +7,23 @@ var Member = require("../models/member");
 
 routes.get("members","/",{permission:"members:list"}).handle(async (req,res,next) => {
   
-  var members = Member.find({}).select("_id nickname name group role");
+  var query = Member.find({});
+  query.select("_id nickname name group role");
+  query.filterByPermission("members:list",req);
   
-  if(req.query.role) members.where({"role": Array.isArray(req.query.role) ? { $in: req.query.role } : req.query.role});
+  if(req.query.role) query.where({"role": Array.isArray(req.query.role) ? { $in: req.query.role } : req.query.role});
+  if(req.query.group) query.where({"group": req.query.group});
   
-  res.json(await members);
+  const members = await query.toObject();
+  
+  req.routes.links(members,"member");
+  
+  res.json(members);
 });
 
 routes.post("members","/",{permission:"members:list"}).handle(async (req,res) => {
   var member = await Member.create(req.body);
+  res.location(`/members/${member._id}`);
   res.status(201).json(member);
 });
 
