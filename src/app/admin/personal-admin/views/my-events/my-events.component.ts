@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from "rxjs";
 
 import { ApiService } from "app/services/api.service";
-import { AuthService } from "app/services/auth.service";
 
 import { Paginated } from "app/schema/paginated";
 import { Event } from "app/schema/event";
@@ -18,20 +17,14 @@ export class MyEventsComponent implements OnInit {
   
   userSubscription:Subscription;
   
-  constructor(private authService:AuthService, private api:ApiService) { 
+  constructor(private api:ApiService) { 
   }
 
   ngOnInit() {
-    this.userSubscription = this.authService.user.subscribe(user => {
-      if(user && user.member) this.loadMyEvents(user.member);
-    });
+    this.loadMyEvents();
   }
   
-  ngOnDestroy(){
-    this.userSubscription.unsubscribe();
-  }
-  
-  async loadMyEvents(memberId:string){
+  async loadMyEvents(){
       
     this.events = await this.api.get<Event[]>("me:events");
     

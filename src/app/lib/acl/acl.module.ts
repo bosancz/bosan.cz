@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AclCanDirective } from './directives/acl-can.directive';
+import { AclCanDirective } from './acl-can.directive';
 
 @NgModule({
   declarations: [

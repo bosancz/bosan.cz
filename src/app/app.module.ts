@@ -59,7 +59,7 @@ console.log("Angular is running in " + (environment.production ? "production" : 
 
 // settings for JWT
 export function JwtTokenGetter():string{
-  return localStorage.getItem('id_token') || "";
+  return localStorage.getItem('access_token') || "";
 }
 
 export const jwtOptions = {

@@ -23,12 +23,5 @@ export class PersonalAdminComponent implements OnInit {
   ngOnDestroy(){
     this.layoutService.hideFooter(false);
   }
-  
-  
-  logout(){
-    this.authService.logout();
-    this.toastService.toast("Odhlášeno.");
-    this.router.navigate(["/"]);
-  }
 
 }

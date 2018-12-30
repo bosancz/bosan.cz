@@ -23,6 +23,8 @@ export class AppErrorHandler implements ErrorHandler {
     const api = this.injector.get(ApiService);
 
     if (err.promise && err.rejection) err = err.rejection;
+    
+    var reportError = true;
 
     const errorData = {
       message: err.message,
@@ -30,7 +32,10 @@ export class AppErrorHandler implements ErrorHandler {
       description: err.description,
       stack: err.stack,
       url: window.location.href,
-      ng: {}
+      ng: {
+        component: err.ngDebugContext && err.ngDebugContext.component ? err.ngDebugContext.component.constructor.name : undefined,
+        environment: environment.production ? "production" : "development"
+      }
     };
 
     if (err instanceof HttpErrorResponse) {
@@ -49,7 +54,10 @@ export class AppErrorHandler implements ErrorHandler {
 
     }
     else if(err.name === "GoogleError"){
-      if(err.message === "idpiframe_initialization_failed") console.error("Failed to initialize Google Services");    
+      if(err.message === "idpiframe_initialization_failed"){
+        console.error("Failed to initialize Google Services");    
+        reportError = false;
+      }
       else console.error(err);
     }
     else {
@@ -57,14 +65,9 @@ export class AppErrorHandler implements ErrorHandler {
       console.error(err);
     }
     
-    if(err.ngDebugContext){
-      errorData.ng = {
-        component: err.ngDebugContext.component ? err.ngDebugContext.component.constructor.name : undefined,
-        environment: environment.production ? "production" : "development"
-      }
+    if(reportError){
+      api.post("errors", errorData).catch(err => console.error(err));
     }
-
-    api.post("errors", errorData).catch(err => console.error(err));
   }
 
 }

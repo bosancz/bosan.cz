@@ -21,7 +21,9 @@ export class AclService {
   constructor(private appRef:ApplicationRef) { }
 
   async can(permissions:string|string[],data?:any):Promise<boolean>{
-    if(typeof permissions === "string") permissions = [permissions];
+    if(typeof permissions === "string" && permissions) permissions = [permissions];
+    
+    if(!permissions || !permissions.length) return true;
     
     for(let checkedPermission of permissions){
       

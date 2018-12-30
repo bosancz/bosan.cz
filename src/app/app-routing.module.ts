@@ -16,6 +16,7 @@ import { GalleryViewTimelineComponent } from 'app/views/gallery-view/gallery-vie
 import { GalleryViewPhotosComponent } from 'app/views/gallery-view/gallery-view-photos/gallery-view-photos.component';
 
 /* SERVICES */
+import { AclGuard } from "app/lib/acl";
 
 const routes:Routes = [
   {path: 'aktualne', component: NewsViewComponent},
@@ -36,7 +37,7 @@ const routes:Routes = [
 
   {path: 'tabor', component: CampViewComponent},  
 
-  {path: 'interni', loadChildren: './admin/admin.module#AdminModule'},
+  {path: 'interni', loadChildren: './admin/admin.module#AdminModule', canLoad: [AclGuard] },
   
   {path: '', redirectTo: "o-nas", pathMatch: "full"},
   

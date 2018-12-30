@@ -5,9 +5,10 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { LayoutService } from "app/services/layout.service";
+import { LoginService } from "app/services/login.service";
 import { OnlineService } from "app/services/online.service";
-import { AuthService } from "app/services/auth.service";
-import { AclService } from "app/lib/acl/services/acl.service";
+import { UserService } from "app/services/user.service";
+import { AclService } from "app/lib/acl";
 import { ConfigService } from "app/services/config.service";
 import { ToastService } from "app/services/toast.service";
 
@@ -30,9 +31,10 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
 
   constructor(
     public aclService:AclService,
-    public authService:AuthService,
+    public userService:UserService,
     public layoutService:LayoutService,
     public onlineService:OnlineService,
+    private loginService:LoginService,
     private configService:ConfigService,
     private modalService:BsModalService,
     private toastService:ToastService,
@@ -43,7 +45,7 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
     this.configService.config.subscribe(config => {
       this.environment = config.general.environment;
     });
-    this.authService.user.subscribe(user => this.userLogin = user ? user.login : "");
+    this.userService.user.subscribe(user => this.userLogin = user ? user.login : "");
   }
 
   ngAfterViewInit(){
@@ -66,8 +68,7 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
   }
 
   logout(){
-    this.authService.logout();
-    this.toastService.toast("Odhlášeno.");
+    this.loginService.logout();
     this.router.navigate(["/"]);
   }
 
