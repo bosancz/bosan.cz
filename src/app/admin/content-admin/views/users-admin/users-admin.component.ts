@@ -8,7 +8,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { ApiService } from "app/services/api.service";
-import { AuthService } from "app/services/auth.service";
+import { LoginService } from "app/services/login.service";
 import { ConfigService } from "app/services/config.service";
 import { ToastService } from "app/services/toast.service";
 
@@ -33,7 +33,7 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
 
   constructor(
     private api:ApiService,
-    private authService:AuthService,
+    private loginService:LoginService,
     private configService:ConfigService,
     private toastService:ToastService,
     private router:Router,
@@ -93,8 +93,8 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
     
     event.stopPropagation();
     
-    const response = await this.api.post(user._links.impersonate);
-    this.authService.loginToken(response.body);
+    await this.loginService.loginImpersonate(user._id);
+    
     this.toastService.toast("Přihlášen jako " + user.login);
     this.router.navigate(["/"]);
   }

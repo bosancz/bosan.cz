@@ -5,7 +5,7 @@ const routes: Routes = [
   
   {path: 'moje', loadChildren: './personal-admin/personal-admin.module#PersonalAdminModule'},
   
-  {path: 'obsah', loadChildren: './content-admin/content-admin.module#ContentAdminModule'},
+  {path: 'obsah', loadChildren: './content-admin/content-admin.module#ContentAdminModule', data: { permission: "admin" } },
   
   {path: '', redirectTo: "moje", pathMatch: "full"}
 ];

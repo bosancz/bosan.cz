@@ -1,6 +1,6 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
-import { AclService } from "../services/acl.service";
+import { AclService } from "./acl.service";
 
 @Directive({
   selector: '[aclCan]'

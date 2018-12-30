@@ -26,7 +26,7 @@
           </td>
           <td class="text-right actions">
             <a [routerLink]="['./',{},user._id]" tooltip="Upravit" placement="bottom"><i class="fas fa-pencil-alt"></i></a>
-            <a *ngIf="user._links?.impersonate" (click)="impersonateUser($event,user)" [tooltip]="'Přihlásit jako ' + user.login" placement="bottom"><i class="fas fa-sign-in-alt"></i></a>
+            <a (click)="impersonateUser($event,user)" [tooltip]="'Přihlásit jako ' + user.login" placement="bottom"><i class="fas fa-sign-in-alt"></i></a>
           </td>
         </tr>
       </tbody>

@@ -4,12 +4,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
+import { UserService } from "app/services/user.service";
 import { ApiService } from "app/services/api.service";
 import { AuthService } from "app/services/auth.service";
-import { ToastService, Toast } from "app/services/toast.service";
+import { LoginService } from "app/services/login.service";
 import { GoogleService } from "app/services/google.service";
 
-import { AclService } from "app/lib/acl/services/acl.service";
+import { ToastService } from "app/services/toast.service";
+
+import { AclService } from "app/lib/acl";
 
 import { LoginFormComponent } from "app/components/login-form/login-form.component";
 
@@ -23,100 +26,58 @@ export class RuntimeService {
   loginModal:BsModalRef;
 
   constructor(
-  private api:ApiService,
-   private aclService:AclService,
-   private modalService:BsModalService,
-   private toastService:ToastService,
-   private googleService:GoogleService,
-   private ngZone:NgZone,
-   private router:Router,
-   private route:ActivatedRoute,
-   public authService:AuthService
+    private api:ApiService,
+    private userService:UserService,
+    private aclService:AclService,
+    private modalService:BsModalService,
+    private googleService:GoogleService,
+    private authService:AuthService,
+    private loginService:LoginService,
+    private toastService:ToastService
   ) { }
 
   init(){
-
-    // show toasts emitted by toastservice
-
+    
     this.loadPermissions();
 
-    this.initAuthService();
-
-    this.checkTokenLogin();
-
-    this.checkGoogleLogin();
+    this.initUserService();
     
-  }
-
-  checkTokenLogin(){
-    // if token provided (e.g. login link) save it and remove it from URL
-    this.route.queryParams.subscribe((params:any) => {
-      if(params.token){
-        this.authService.loginToken(params.token);
-        this.router.navigate(["/moje/admin/heslo"], { relativeTo: this.route });
-        this.toastService.toast("Byl/a jsi přihlášen/a přes odkaz. Teď si nastav heslo.");
-      }
-    });
+    this.initAuthService();
+    
+    this.initLoginService();
+    
   }
 
   loadPermissions(){
     this.aclService.setPermissions(permissions);
     this.aclService.setRoles(["guest"]);
   }
-
-  initAuthService(){
+  
+  initUserService(){
     // update roles
-    this.authService.user.subscribe(user => {
+    this.userService.user.subscribe(user => {
       if(user) this.aclService.setRoles(["guest","user",...user.roles]);
       else this.aclService.setRoles(["guest"]);
     });
+  }
+  
+  initLoginService(){
+    this.loginService.onLogin.subscribe(() => this.toastService.toast("Přihlášeno."));
+    this.loginService.onLogout.subscribe(() => this.toastService.toast("Odhlášeno."));
+  }
 
-    // update login
-    this.ngZone.runOutsideAngular(() => { // https://github.com/angular/angular/issues/20970
-      window.setInterval(() => {
-        this.ngZone.run(() => {
-          if(this.authService.logged){
-            this.api.post("login:renew").then(response => {
-              this.authService.loginToken(response.body);
-            });
-          }
-        });
-      }, 5 * 60 * 1000);
+  initAuthService(){
+
+    // update current user information on token change
+    this.authService.onUpdate.subscribe(() => {
+      this.userService.loadUser();
     });
 
-    // handle logout
-    this.authService.onLogout.subscribe(user => {
-      this.googleService.signOut();
-    });
-
+    // on expired tokens show login screen
     this.authService.onExpired.subscribe(event => {
       this.loginModal = this.modalService.show(LoginFormComponent, { initialState: { expired: true }, keyboard: false, ignoreBackdropClick: true });
       this.googleService.signOut();
     });
-  }
-
-  checkGoogleLogin(){
-
-    this.googleService.loaded.subscribe(async () => {
-
-      try{
-        
-        const googleUser:any = await this.googleService.getCurrentUser();
-
-        if(googleUser){
-
-          console.log("GoogleService: Logged in as " + googleUser.email);
-
-          const response = await this.api.post("login:google",{token:googleUser.token});
-
-          this.authService.loginToken(response.body);
-        }
-
-      } catch(err){
-        console.log(err);
-      }
-    });
-
   }
 
 }

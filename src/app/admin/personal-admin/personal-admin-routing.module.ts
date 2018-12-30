@@ -21,21 +21,24 @@ import { MyEventComponent } from "./views/my-event/my-event.component";
 import { MyGroupComponent } from './views/my-group/my-group.component';
 import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
 
+import { AclGuard } from "app/lib/acl";
+
 const routes:Routes = [
   {
     path: '',
     component: PersonalAdminComponent,
+    canActivateChild: [AclGuard],
     children: [
 
-      { path: 'prehled', component: MyDashboardComponent },
+      { path: 'prehled', component: MyDashboardComponent, data: { permission: "my:dashboard" } },
 
-      { path: 'ved-akci', component: LeadEventComponent },
+      { path: 'ved-akci', component: LeadEventComponent, data: { permission: "my:events" } },
       
-      { path: 'akce/:akce', component: MyEventComponent },
-      { path: 'akce', component: MyEventsComponent },
+      { path: 'akce/:akce', component: MyEventComponent, data: { permission: "my:events" } },
+      { path: 'akce', component: MyEventsComponent, data: { permission: "my:events" } },
       
       {
-        path: 'oddil', component: MyGroupComponent,
+        path: 'oddil', component: MyGroupComponent, data: { permission: "my:group" },
         children: [
           { path: 'clenove', component: MyGroupMembersComponent },
           { path: '', redirectTo: "clenove", pathMatch: "full" }
@@ -51,7 +54,7 @@ const routes:Routes = [
       { path: 'dokumenty', component: DocumentsViewComponent },
 
       {
-        path: 'ucet', component: MyAccountComponent,
+        path: 'ucet', component: MyAccountComponent, data: { permission: "my:account" },
         children: [
           { path: 'info', component: MyAccountInfoComponent },
           { path: 'notifikace', component: MyAccountNotificationsComponent },
