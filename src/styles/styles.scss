@@ -57,6 +57,29 @@ a {color: $linkBlue;}
 a.link{color:$linkBlue !important;cursor:pointer;}
 a:not(.btn):hover {color: $hover-yellow !important;}
 
+.badge-pill{
+  color:$white;
+  font-size: 1rem;
+  background-color:$black;
+  padding: .5rem 1rem;
+}
+
+.red{
+  background-color:#BB0000;
+}
+
+.green{
+  background-color:#36802D;
+}
+
+.blue{
+  background-color:#012475;
+}
+
+.yellow{
+  background-color:#FEC503;
+}
+
 /* VALIDATION */
 
 input:valid:not(.novalidate), select:valid:not(.novalidate), textarea:valid:not(.novalidate){
