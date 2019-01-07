@@ -3,20 +3,23 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ProgramAdminComponent } from "./program-admin.component";
 
-import { EventPlanningComponent } from "./event-planning/event-planning.component";
-import { EventApprovalComponent } from "./event-approval/event-approval.component";
-import { EventProgramComponent } from "./event-program/event-program.component";
+import { ProgramDraftsComponent } from "./views/program-drafts/program-drafts.component";
+import { EventApprovalComponent } from "./views/event-approval/event-approval.component";
+import { EventPlanningComponent } from "./views/event-planning/event-planning.component";
+import { EventProgramComponent } from "./views/event-program/event-program.component";
 
 const routes: Routes = [
 
   {
     path: '', component: ProgramAdminComponent,
     children: [
-      {path: 'planovani', component: EventPlanningComponent},  
+      {path: 'v-priprave', component: ProgramDraftsComponent},  
+      
+      {path: 'ke-schvaleni', component: EventApprovalComponent},  
       
       {path: 'v-programu', component: EventProgramComponent},  
 
-      {path: 'ke-schvaleni', component: EventApprovalComponent},  
+      {path: 'planovani', component: EventPlanningComponent},  
 
       {path: '', redirectTo: "ke-schvaleni", pathMatch: "full"}
     ]

@@ -174,7 +174,16 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
   }
   
   async loadEventsCPV(){
-    this.eventsCPV = await this.api.get<CPVEvent[]>("cpv").then(events => events.map(event => new CalendarEvent(event)));
+    this.eventsCPV = [];
+    this.eventsCPV.push(...await this.api.get<CPVEvent[]>("cpv:kanoe").then(events => events.map(event => {
+      event.name = "Kanoe.cz: " + event.name;
+      return new CalendarEvent(event);
+    })));
+    this.eventsCPV.push(...await this.api.get<CPVEvent[]>("cpv:raft").then(events => events.map(event => {
+      event.name = "Raft.cz: " + event.name;
+      return new CalendarEvent(event);
+    })));
+    
     this.eventsCPV.sort((a,b) => a.dateFrom.diff(b.dateFrom));
     
     this.assignEvents(this.eventsCPV,"cpv");
