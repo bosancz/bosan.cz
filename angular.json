@@ -23,7 +23,8 @@
             "styles": [
               "src/styles/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "i18nLocale": "cs"
           },
           "configurations": {
             "production": {
