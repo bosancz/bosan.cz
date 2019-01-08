@@ -19,7 +19,7 @@ export class AuthService {
 
   public onUpdate:ReplaySubject<void> = new ReplaySubject(1);
   public onExpired:ReplaySubject<void> = new ReplaySubject(1);
-  
+
   access_token:string;
   refresh_token:string;
 
@@ -38,12 +38,15 @@ export class AuthService {
   }
 
   setTokens(tokens:Tokens){
-    window.localStorage.setItem("access_token", tokens.access_token);
-    window.localStorage.setItem("refresh_token", tokens.refresh_token || null);
+    if(tokens.access_token) window.localStorage.setItem("access_token", tokens.access_token);
+    else window.localStorage.removeItem("access_token");
     
+    if(tokens.refresh_token) window.localStorage.setItem("refresh_token", tokens.refresh_token);
+    else window.localStorage.removeItem("refresh_token");
+
     this.access_token = tokens.access_token;
     this.refresh_token = tokens.refresh_token;
-    
+
     this.onUpdate.next();
   }
 
@@ -57,10 +60,10 @@ export class AuthService {
   deleteTokens(){
     window.localStorage.removeItem("access_token");
     window.localStorage.removeItem("refresh_token");
-    
+
     this.access_token = null;
     this.refresh_token = null;
-    
+
     this.onUpdate.next();
   }
 
@@ -70,30 +73,30 @@ export class AuthService {
   refreshState():void{
 
     const tokens = this.getTokens();
-    
+
     // check if token valid
     const tokensValid = tokens && ( (tokens.access_token && !this.jwtHelper.isTokenExpired(tokens.access_token)) || (tokens.refresh_token && !this.jwtHelper.isTokenExpired(tokens.refresh_token)));
-    
+
     if(!tokensValid && (this.access_token || this.refresh_token)){
 
       this.access_token = null;
       this.refresh_token = null;
-      
+
       this.deleteTokens();
-      
+
       this.onExpired.next();
       this.onUpdate.next();
     }
-    
+
     if(tokensValid && tokens.access_token !== this.access_token){
-      
+
       this.access_token = tokens.access_token;
       this.refresh_token = tokens.refresh_token;
-      
+
       this.onUpdate.next();
     }
-    
-    
+
+
   }
 
 }

@@ -96,7 +96,7 @@ export const jwtOptions = {
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler }    
+    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler }
   ],
   bootstrap: [ AppComponent ],
   entryComponents: [ LoginFormComponent, SharingModalComponent ]
