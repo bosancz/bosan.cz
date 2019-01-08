@@ -22,4 +22,8 @@ export class MyGroupMembersComponent implements OnInit {
   async loadMembers(){
     this.members = await this.api.get<Member[]>("me:group:members");
   }
+  
+  getRoleMembers(members:Member[], role:string):Member[]{
+    return members.filter(member => member.role === role);
+  }
 }
