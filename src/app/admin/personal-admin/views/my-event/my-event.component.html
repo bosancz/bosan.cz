@@ -73,31 +73,13 @@
                 <a class="text-success add" (click)="openModal(attendeesModal)"><i class="fas fa-plus-circle align-middle"></i></a>
               </p>
             </div>
-            <div class="col-md-4">
-              <h5>Statistika</h5>
-              
-              <event-age-histogram [event]="eventData"></event-age-histogram>
-              
-              <p>
-                <strong>Narozeniny:</strong>&nbsp;<event-birthday-list [event]="eventData"></event-birthday-list>
-              </p>
-            </div>
-          </div>
-        </div>
 
-        <div class="block accounting">
-          <div class="row">
-            
-            <div class="col-md-6">
-              <h5>Výdaje <a class="text-success add" (click)="openModal(expensesModal)"><i class="fas fa-plus-circle align-middle"></i></a></h5>
-              <event-expenses-table [event]="eventData" [types]="expenseTypes"></event-expenses-table>
-            </div>
-            
-            <div class="col-md-6">
-              <h5>Účetnictví</h5>
+            <div class="col-md-4">
+              <h5>Ohláška</h5>
 
               <p><a [href]="getAccountingTemplateUrl()">Stáhnout předvyplněné účetnictví</a></p>
 
+              <!--
               <p *ngIf="uploadingAccounting">Nahrávám&hellip;</p>
               <p *ngIf="eventData.accounting && !uploadingAccounting">
                 <a [href]="getAccountingUrl()">Stáhnout účetnictví</a><br>
@@ -105,27 +87,69 @@
               </p>
               <div *ngIf="!eventData.accounting && !uploadingAccounting" class="form-group">
                 <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" #accountingInput ngModel (ngModelChange)="uploadAccounting(accountingInput)" required>
-              </div>
+              </div>-->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <h5>Statistika účastníků</h5>
 
+              <div class="row">
+                <div class="col-6">
+                  <event-age-histogram [event]="eventData"></event-age-histogram>
+                </div>
+                <div class="col-6">
+                  <!--TODO: member role pie chart-->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <h5>Narozeniny</h5>
+              <event-birthday-list [event]="eventData"></event-birthday-list>
             </div>
           </div>
         </div>
-        
+
+        <div class="block accounting">
+          <div class="row">
+
+            <div class="col-md-8">
+              <h5>Výdaje <a class="text-success add" (click)="openModal(expensesModal)"><i class="fas fa-plus-circle align-middle"></i></a></h5>
+              <event-expenses-table [event]="eventData" [types]="expenseTypes"></event-expenses-table>
+            </div>
+
+            <div class="col-md-4">
+              <h5>Účetnictví</h5>
+
+              <p><a [href]="getAccountingTemplateUrl()">Stáhnout předvyplněné účetnictví</a></p>
+
+              <!--<p *ngIf="uploadingAccounting">Nahrávám&hellip;</p>
+              <p *ngIf="eventData.accounting && !uploadingAccounting">
+                <a [href]="getAccountingUrl()">Stáhnout účetnictví</a><br>
+                <a class="text-danger delete" (click)="deleteAccounting()">Smazat účetnictví</a>
+              </p>
+              <div *ngIf="!eventData.accounting && !uploadingAccounting" class="form-group">
+                <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" #accountingInput ngModel (ngModelChange)="uploadAccounting(accountingInput)" required>
+              </div>-->
+            </div>
+          </div>
+        </div>
+
         <div class="block">
           <h5>Report <a (click)="openModal(reportModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
           <div [innerHTML]="eventDatareport || '<p>Report je prázdný.</p>'"></div>
         </div>
-        
+
       </div>
-      
-      <div class="col-md-2 buttons right">            
+
+      <div class="col-md-2 buttons right">
         <button *ngIf="event._actions?.submit" [disabled]="!event._actions?.submit.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Ke schválení</button>
         <button *ngIf="event._actions?.publish" [disabled]="!event._actions?.publish.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('publish')">Do programu</button>
         <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Poslat ohlášku</button>
         <button *ngIf="event._actions?.finalize" [disabled]="!event._actions?.finalize.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Uzavřít</button>
-        
+
         <button *ngIf="event._actions?.unpublish" [disabled]="!event._actions?.unpublish.allowed" class="btn btn-secondary btn-sm" type="button" (click)="eventAction('unpublish')">Z programu</button>
-        
+
         <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('cancel')">Zrušit</button>
         <button *ngIf="event._actions?.uncancel" [disabled]="!event._actions?.uncancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('uncancel')">Odzrušit</button>
         <button [disabled]="!event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button" (click)="deleteEvent()">Smazat</button>
@@ -135,7 +159,7 @@
 </section>
 
 <ng-template #basicInfoModal>
-  <div class="modal-body members-select"> 
+  <div class="modal-body members-select">
 
 
 
@@ -147,7 +171,7 @@
     <div class="form-group">
       <label>Popisek</label>
       <textarea class="form-control" rows="3" [(ngModel)]="eventData.description"></textarea>
-    </div>    
+    </div>
 
     <div class="form-row">
       <div class="form-group col-8">
@@ -192,7 +216,7 @@
     <div class="form-group">
       <label>Místo</label>
       <input type="text" class="form-control" [(ngModel)]="eventData.place" placeholder="Dno pytle">
-    </div> 
+    </div>
 
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -213,7 +237,7 @@
 </ng-template>
 
 <ng-template #leadersModal>
-  <div class="modal-body members-select"> 
+  <div class="modal-body members-select">
     <members-select [role]="['vedoucí','instruktor']" [(ngModel)]="eventData.leaders"></members-select>
   </div>
   <div class="modal-footer">
@@ -223,7 +247,7 @@
 </ng-template>
 
 <ng-template #attendeesModal>
-  <div class="modal-body members-select"> 
+  <div class="modal-body members-select">
     <members-select [(ngModel)]="eventData.attendees"></members-select>
   </div>
   <div class="modal-footer">
@@ -233,19 +257,19 @@
 </ng-template>
 
 <ng-template #expensesModal>
-  <div class="modal-body expensesForm"> 
+  <div class="modal-body expensesForm">
     <table>
       <thead>
-        <tr><th class="id">Číslo</th><th>Popis</th><th class="amount">Částka</th><th>Typ</th><th></th></tr>
+      <tr><th class="id">Číslo</th><th>Popis</th><th class="amount">Částka</th><th>Typ</th><th></th></tr>
       </thead>
       <tbody>
-        <tr *ngFor="let expense of eventData.expenses">
-          <td><input type="text" [(ngModel)]="expense.id" class="form-control" required placeholder="V1"></td>
-          <td><input type="text" [(ngModel)]="expense.description" class="form-control" required placeholder="Špičatý klobouk"></td>
-          <td><input type="number" step=".01" [(ngModel)]="expense.amount" class="form-control" required placeholder="1234"></td>
-          <td><select [(ngModel)]="expense.type" class="form-control" required><option *ngFor="let type of expenseTypes" [value]="type">{{type}}</option></select></td>
-          <td class="px-1"><a (click)="removeExpense(expense)" class="text-danger"><i class="fas fa-trash-alt"></i></a></td>
-        </tr>
+      <tr *ngFor="let expense of eventData.expenses">
+        <td><input type="text" [(ngModel)]="expense.id" class="form-control" required placeholder="V1"></td>
+        <td><input type="text" [(ngModel)]="expense.description" class="form-control" required placeholder="Špičatý klobouk"></td>
+        <td><input type="number" step=".01" [(ngModel)]="expense.amount" class="form-control" required placeholder="1234"></td>
+        <td><select [(ngModel)]="expense.type" class="form-control" required><option *ngFor="let type of expenseTypes" [value]="type">{{type}}</option></select></td>
+        <td class="px-1"><a (click)="removeExpense(expense)" class="text-danger"><i class="fas fa-trash-alt"></i></a></td>
+      </tr>
       </tbody>
     </table>
     <a (click)="addExpense()">přidat výdaj</a>

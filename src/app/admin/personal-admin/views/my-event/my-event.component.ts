@@ -4,8 +4,7 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { DateTime } from "luxon";
 
-import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 
 import { ApiService } from "app/services/api.service";
 import { ToastService } from "app/services/toast.service";
@@ -218,7 +217,8 @@ export class MyEventComponent implements OnInit, OnDestroy {
 
   openModal(modal:TemplateRef<any>){
     this.router.navigate(['./',{modal:"open"}], { relativeTo: this.route });
-    this.modalRef = this.modalService.show(modal, { animated: false });
+    const modalOptions:ModalOptions = { animated: false };
+    this.modalRef = this.modalService.show(modal, modalOptions);
   }
   
   reset(){
