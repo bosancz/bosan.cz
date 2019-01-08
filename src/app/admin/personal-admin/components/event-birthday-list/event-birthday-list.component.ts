@@ -11,7 +11,7 @@ import { Member } from "app/schema/member";
 })
 export class EventBirthdayListComponent {
 
-  birthdays:Array<{age:number,member:Member}> = [];
+  birthdays:Array<{age:number, date:string, member:Member}> = [];
   
   constructor() { }
 
@@ -31,7 +31,7 @@ export class EventBirthdayListComponent {
     members.forEach(member => {
       var ageStart = Math.floor( (-1) * DateTime.fromISO(member.birthday).diff(dateFrom,"years").toObject().years );
       var ageEnd = Math.floor( (-1) * DateTime.fromISO(member.birthday).diff(dateTill,"years").toObject().years );
-      if(ageStart < ageEnd) this.birthdays.push({ age: ageEnd, member: member });
+      if(ageStart < ageEnd) this.birthdays.push({ age: ageEnd, date: member.birthday, member: member });
     });
   }
 
