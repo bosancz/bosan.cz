@@ -13,27 +13,16 @@
         <groups-select [(ngModel)]="eventData.groups" (ngModelChange)="saveEvent()" name="groups"></groups-select>
 
         <div class="block">
+          <h4>Základní info <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pen-square"></i></a></h4>
           <div class="row">
 
             <div class="col-md-8">
-              <h5>Popisek <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+              <h6>Popisek</h6>
               <p [innerHTML]="eventData.description ? (eventData.description | nl2br) : 'Nevyplněno'"></p>
-            </div>
-
-            <div class="col-6 col-md-4">
-              <h5>Přihláška</h5>
-              <p *ngIf="uploadingRegistration">Nahrávám&hellip;</p>
-              <p *ngIf="eventData.registration && !uploadingRegistration">
-                <a [href]="getRegistrationUrl()">Stáhnout přihlášku</a><br>
-                <a class="text-danger delete" (click)="deleteRegistration()">Smazat přihlášku</a>
-              </p>
-              <div *ngIf="!eventData.registration && !uploadingRegistration" class="form-group">
-                <input type="file" name="file" accept="application/pdf" #registrationInput ngModel (ngModelChange)="uploadRegistration(registrationInput)" required>
-              </div>
-            </div>
-
-            <div class="col-6 col-md-4">
-              <h5>Datum a místo <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+              
+              <div class="row">
+                <div class="col-6 col-md-4">
+              <h6>Datum a místo</h6>
               <p>
                 {{[eventData.dateFrom,eventData.dateTill] | dateRange}}
                 <ng-container *ngIf="eventData.timeFrom || eventData.timeTill">{{eventData.timeFrom || "0:00"}} - {{eventData.timeTill || "0:00"}}</ng-container>
@@ -43,7 +32,7 @@
             </div>
 
             <div class="col-6 col-md-4">
-              <h5>Typ akce <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+              <h6>Typ akce</h6>
               <p>
                 <strong>Typ:</strong> {{eventData.type || "Nevyplněno"}}<br>
                 <strong>Charakter:</strong> {{eventData.subtype || "Nevyplněno"}}
@@ -51,33 +40,63 @@
             </div>
 
             <div class="col-6 col-md-4">
-              <h5>Sraz a konec <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+              <h6>Sraz a konec</h6>
               <p>
                 <strong>Sraz:</strong> {{eventData.meeting?.start || "Nevyplněno"}}<br>
                 <strong>Konec:</strong> {{eventData.meeting?.end || "Nevyplněno"}}
               </p>
             </div>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-4">
+              <h6>Přihláška</h6>
+              <p *ngIf="uploadingRegistration">Nahrávám&hellip;</p>
+              <p *ngIf="eventData.registration && !uploadingRegistration">
+                <a class="btn btn-sm btn-secondary" [href]="getRegistrationUrl()">Stáhnout přihlášku</a>
+                <br><br>
+                <a class="btn btn-sm btn-danger text-light delete" (click)="deleteRegistration()">Smazat přihlášku</a>
+              </p>
+              <div *ngIf="!eventData.registration && !uploadingRegistration" class="form-group">
+                <input type="file" name="file" accept="application/pdf" #registrationInput ngModel (ngModelChange)="uploadRegistration(registrationInput)" required>
+              </div>
+            </div>
+
           </div>
         </div>
         <div class="block attendees">
+          <h4>Účastníci</h4>
           <div class="row">
             <div class="col-md-8">
-              <h5>Vedoucí</h5>
+              <h6>Vedoucí</h6>
               <p class="list">
                 <span *ngFor="let member of eventData.leaders" class="badge badge-primary mr-2" [tooltip]="getMemberTooltip(member,member.group | group:'name')">{{member.nickname}} <a (click)="removeItem(member,eventData.leaders);this.saveEvent();">&times;</a></span>
                 <a class="text-success add" (click)="openModal(leadersModal)"><i class="fas fa-plus-circle align-middle"></i></a>
               </p>
-              <h5>Účastníci</h5>
+              <h6>Účastníci</h6>
               <p class="list">
                 <span *ngFor="let member of eventData.attendees" class="badge badge-primary mr-2" [tooltip]="getMemberTooltip(member,member.group | group:'name')">{{member.nickname}} <a (click)="removeItem(member,eventData.attendees);this.saveEvent();">&times;</a></span>
                 <a class="text-success add" (click)="openModal(attendeesModal)"><i class="fas fa-plus-circle align-middle"></i></a>
               </p>
+              
+
+              <div class="row">
+                <div class="col-6">
+                  <h6>Věk účastníků</h6>
+                  <event-age-histogram [event]="eventData"></event-age-histogram>
+                </div>
+                <div class="col-6">
+                  <h6>Narozeniny</h6>
+                  <event-birthday-list [event]="eventData"></event-birthday-list>
+                </div>
+              </div>
+              
             </div>
 
             <div class="col-md-4">
-              <h5>Ohláška</h5>
+              <h6>Ohláška</h6>
 
-              <p><a [href]="getAccountingTemplateUrl()">Stáhnout předvyplněné účetnictví</a></p>
+              <p><a class="btn btn-sm btn-secondary" [href]="getAnnouncementTemplateUrl()">Stáhnout předvyplněnou ohlášku</a></p>
 
               <!--
               <p *ngIf="uploadingAccounting">Nahrávám&hellip;</p>
@@ -90,38 +109,23 @@
               </div>-->
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-8">
-              <h5>Statistika účastníků</h5>
-
-              <div class="row">
-                <div class="col-6">
-                  <event-age-histogram [event]="eventData"></event-age-histogram>
-                </div>
-                <div class="col-6">
-                  <!--TODO: member role pie chart-->
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <h5>Narozeniny</h5>
-              <event-birthday-list [event]="eventData"></event-birthday-list>
-            </div>
-          </div>
+          
         </div>
 
         <div class="block accounting">
+          
+          <h4>Účetnictví <a class="text-warning edit" (click)="openModal(expensesModal)"><i class="fas fa-pen-square"></i></a></h4>
+          
           <div class="row">
 
             <div class="col-md-8">
-              <h5>Výdaje <a class="text-success add" (click)="openModal(expensesModal)"><i class="fas fa-plus-circle align-middle"></i></a></h5>
+              <h6>Výdaje</h6>
               <event-expenses-table [event]="eventData" [types]="expenseTypes"></event-expenses-table>
             </div>
 
             <div class="col-md-4">
-              <h5>Účetnictví</h5>
-
-              <p><a [href]="getAccountingTemplateUrl()">Stáhnout předvyplněné účetnictví</a></p>
+              <h6>Účetnictví</h6>
+              <p><a class="btn btn-sm btn-secondary" [href]="getAccountingTemplateUrl()">Stáhnout předvyplněné účetnictví</a></p>
 
               <!--<p *ngIf="uploadingAccounting">Nahrávám&hellip;</p>
               <p *ngIf="eventData.accounting && !uploadingAccounting">
@@ -136,7 +140,7 @@
         </div>
 
         <div class="block">
-          <h5>Report <a (click)="openModal(reportModal)" class="text-warning edit"><i class="fas fa-pencil-alt"></i></a></h5>
+          <h4>Report <a (click)="openModal(reportModal)" class="text-warning edit"><i class="fas fa-pen-square"></i></a></h4>
           <div [innerHTML]="eventDatareport || '<p>Report je prázdný.</p>'"></div>
         </div>
 

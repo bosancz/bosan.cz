@@ -197,6 +197,10 @@ export class MyEventComponent implements OnInit, OnDestroy {
   getAccountingTemplateUrl():string{
     return this.api.link2href(this.event._links["accounting-template"]);
   }
+  
+  getAnnouncementTemplateUrl():string{
+    return this.api.link2href(this.event._links["announcement-template"]);
+  }
 
 
   setFormData(){

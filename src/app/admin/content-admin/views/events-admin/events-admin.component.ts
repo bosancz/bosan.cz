@@ -9,7 +9,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { ConfigService } from "app/services/config.service";
 import { ApiService } from "app/services/api.service";
-import { AuthService } from "app/services/auth.service";
 import { ToastService } from "app/services/toast.service";
 
 import { Event } from "app/schema/event";
@@ -61,7 +60,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
 
   paramsSubscription:Subscription;
 
-  constructor(private api:ApiService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private authService:AuthService, private modalService:BsModalService) {
+  constructor(private api:ApiService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) {
   }
 
   ngOnInit() {
