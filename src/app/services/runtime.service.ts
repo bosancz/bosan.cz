@@ -6,7 +6,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { UserService } from "app/services/user.service";
 import { ApiService } from "app/services/api.service";
-import { AuthService } from "app/services/auth.service";
 import { LoginService } from "app/services/login.service";
 import { GoogleService } from "app/services/google.service";
 
@@ -31,7 +30,6 @@ export class RuntimeService {
     private aclService:AclService,
     private modalService:BsModalService,
     private googleService:GoogleService,
-    private authService:AuthService,
     private loginService:LoginService,
     private toastService:ToastService
   ) { }
@@ -41,8 +39,6 @@ export class RuntimeService {
     this.loadPermissions();
 
     this.initUserService();
-    
-    this.initAuthService();
     
     this.initLoginService();
     
@@ -54,6 +50,7 @@ export class RuntimeService {
   }
   
   initUserService(){
+    this.userService.loadUser();
     // update roles
     this.userService.user.subscribe(user => {
       if(user) this.aclService.setRoles(["guest","user",...user.roles]);
@@ -62,22 +59,19 @@ export class RuntimeService {
   }
   
   initLoginService(){
-    this.loginService.onLogin.subscribe(() => this.toastService.toast("Přihlášeno."));
-    this.loginService.onLogout.subscribe(() => this.toastService.toast("Odhlášeno."));
-  }
-
-  initAuthService(){
-
-    // update current user information on token change
-    this.authService.onUpdate.subscribe(() => {
+    this.loginService.onLogin.subscribe(() => {
       this.userService.loadUser();
+      this.toastService.toast("Přihlášeno.")
     });
-
-    // on expired tokens show login screen
-    this.authService.onExpired.subscribe(event => {
-      this.loginModal = this.modalService.show(LoginFormComponent, { initialState: { expired: true }, keyboard: false, ignoreBackdropClick: true });
-      this.googleService.signOut();
+    this.loginService.onLogout.subscribe(() => {
+      this.userService.loadUser();
+      this.toastService.toast("Odhlášeno.")
     });
+  }
+  
+  login(expired){
+    this.loginModal = this.modalService.show(LoginFormComponent, { initialState: { expired: expired }, keyboard: false, ignoreBackdropClick: true });
+    this.googleService.signOut();
   }
 
 }
