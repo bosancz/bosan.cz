@@ -14,9 +14,7 @@ import { Event } from "app/schema/event";
 export class MyEventsComponent implements OnInit {
 
   events:Event[] = [];
-  
-  userSubscription:Subscription;
-  
+
   constructor(private api:ApiService) { 
   }
 

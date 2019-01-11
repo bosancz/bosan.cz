@@ -49,27 +49,12 @@ import { AdminLinkDirective } from 'app/directives/admin-link.directive';
 import { FormatPhonePipe } from 'app/pipes/format-phone.pipe';
 
 /* THIRD PARTY */
-import { JwtModule } from '@auth0/angular-jwt';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 // App Config
 import { environment } from "environments/environment";
 
 console.log("Angular is running in " + (environment.production ? "production" : "development") + " environment");
-
-// settings for JWT
-export function JwtTokenGetter():string{
-  return localStorage.getItem('access_token') || "";
-}
-
-export const jwtOptions = {
-  config: {
-    tokenGetter: JwtTokenGetter,
-    whitelistedDomains: environment.jwtDomains,
-    throwNoTokenError: false,
-    skipWhenExpired: true
-  }
-};
 
 @NgModule({
   declarations: [
@@ -91,12 +76,11 @@ export const jwtOptions = {
     AppSharedModule,
 
     ScrollToModule.forRoot(),
-    JwtModule.forRoot(jwtOptions),
     
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler }    
+    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler }
   ],
   bootstrap: [ AppComponent ],
   entryComponents: [ LoginFormComponent, SharingModalComponent ]

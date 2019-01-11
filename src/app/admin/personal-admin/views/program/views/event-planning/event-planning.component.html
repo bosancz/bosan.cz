@@ -39,7 +39,7 @@
       </div>
 
       <div class="events cpv">
-        <div *ngFor="let calEvent of month.events.cpv" class="event" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="12 * calEvent.level + 'px'" [tooltip]="'ČPV ' + calEvent.event.name" placement="bottom"></div>
+        <a *ngFor="let calEvent of month.events.cpv" class="event" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="12 * calEvent.level + 'px'" [tooltip]="calEvent.event.name" [attr.href]="calEvent.event.link || null" target="_blank" placement="bottom"></a>
       </div>
     </div>
   </ng-container>

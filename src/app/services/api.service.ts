@@ -22,6 +22,7 @@ export class ApiService {
 
   constructor(private http:HttpClient) {
     this.loadResources();
+    console.log("API LOADED");
   }
 
   loadResources(){

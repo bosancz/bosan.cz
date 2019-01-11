@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from "rxjs";
 
+import { ProgramAdminModule } from "./program-admin.module";
+
 import { ApiService } from "app/services/api.service";
 
 import { ProgramStats } from "app/schema/program-stats";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: ProgramAdminModule
 })
 export class ProgramAdminService {
   
@@ -14,6 +16,11 @@ export class ProgramAdminService {
 
   constructor(private api:ApiService) {
     this.loadStats();
+    console.log("PROGRAM LOADED");
+  }
+  
+  ngOnDestroy(){
+    console.log("PROGRAM UNLOADED");
   }
   
   async loadStats(){

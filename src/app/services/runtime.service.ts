@@ -1,12 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { skip, take } from "rxjs/operators";
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { UserService } from "app/services/user.service";
 import { ApiService } from "app/services/api.service";
-import { AuthService } from "app/services/auth.service";
 import { LoginService } from "app/services/login.service";
 import { GoogleService } from "app/services/google.service";
 
@@ -24,16 +24,18 @@ import { permissions } from "config/permissions";
 export class RuntimeService {
   
   loginModal:BsModalRef;
-
+  
+  logged:boolean = false;
+  
   constructor(
     private api:ApiService,
     private userService:UserService,
     private aclService:AclService,
     private modalService:BsModalService,
     private googleService:GoogleService,
-    private authService:AuthService,
     private loginService:LoginService,
-    private toastService:ToastService
+    private toastService:ToastService,
+    private router:Router
   ) { }
 
   init(){
@@ -41,8 +43,6 @@ export class RuntimeService {
     this.loadPermissions();
 
     this.initUserService();
-    
-    this.initAuthService();
     
     this.initLoginService();
     
@@ -54,6 +54,14 @@ export class RuntimeService {
   }
   
   initUserService(){
+    
+    this.userService.loadUser();
+    
+    // on the first user value received check if user active and when on root route, redirect to admin (so that for logged users admin is the homepage)
+    this.userService.user.pipe(skip(1)).pipe(take(1)).subscribe(user => {
+      if(user && this.router.url === "/o-nas") this.router.navigate(["/interni/moje/prehled"]);
+    });
+    
     // update roles
     this.userService.user.subscribe(user => {
       if(user) this.aclService.setRoles(["guest","user",...user.roles]);
@@ -62,22 +70,19 @@ export class RuntimeService {
   }
   
   initLoginService(){
-    this.loginService.onLogin.subscribe(() => this.toastService.toast("Přihlášeno."));
-    this.loginService.onLogout.subscribe(() => this.toastService.toast("Odhlášeno."));
-  }
-
-  initAuthService(){
-
-    // update current user information on token change
-    this.authService.onUpdate.subscribe(() => {
+    this.loginService.onLogin.subscribe(() => {
       this.userService.loadUser();
+      this.toastService.toast("Přihlášeno.")
     });
-
-    // on expired tokens show login screen
-    this.authService.onExpired.subscribe(event => {
-      this.loginModal = this.modalService.show(LoginFormComponent, { initialState: { expired: true }, keyboard: false, ignoreBackdropClick: true });
-      this.googleService.signOut();
+    this.loginService.onLogout.subscribe(() => {
+      this.userService.loadUser();
+      this.toastService.toast("Odhlášeno.")
     });
+  }
+  
+  login(expired){
+    this.loginModal = this.modalService.show(LoginFormComponent, { initialState: { expired: expired }, keyboard: false, ignoreBackdropClick: true });
+    this.googleService.signOut();
   }
 
 }

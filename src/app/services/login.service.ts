@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { AuthService } from "app/services/auth.service";
 import { ApiService } from "app/services/api.service";
 import { GoogleService } from "app/services/google.service";
 
@@ -17,10 +16,11 @@ export class LoginService {
   
   onLogin:EventEmitter<void> = new EventEmitter();
   onLogout:EventEmitter<void> = new EventEmitter();
+  
+  refreshToken:string;
 
   constructor(
     private api:ApiService,
-    private authService:AuthService,
     private route:ActivatedRoute,
     private router:Router,
     private googleService:GoogleService
@@ -41,10 +41,7 @@ export class LoginService {
     
     try{
 
-      const response = await this.api.post("login", credentials);
-      const tokens = JSON.parse(response.body);
-      
-      this.authService.setTokens(tokens);
+      await this.api.post("login", credentials);      
       
       this.onLogin.emit();
     }
@@ -69,9 +66,6 @@ export class LoginService {
       // validate token with the server
       const response = await this.api.post("login:google",{token:googleToken});
       
-      // save resulting tokens
-      this.authService.setTokens(JSON.parse(response.body));
-      
       this.onLogin.emit();
       
       return { success: true };
@@ -83,16 +77,14 @@ export class LoginService {
   }
   
   async loginToken(token:string){
-    this.authService.setTokens({access_token: token});
+    await this.api.post("login:token", { token: token })
     this.onLogin.emit();
     this.router.navigate(["./"], { relativeTo: this.route });
   }
   
   async loginImpersonate(userId:string){
     try{
-      const response = await this.api.post("login:impersonate", { id: userId })
-      
-      this.authService.setTokens(JSON.parse(response.body));
+      await this.api.post("login:impersonate", { id: userId })
       
       this.onLogin.emit();
       
@@ -118,9 +110,8 @@ export class LoginService {
     return result;
   }
   
-  logout(){
-    this.authService.deleteTokens();
-    
+  async logout(){
+    await this.api.post("logout");
     this.onLogout.emit();
   }
   
