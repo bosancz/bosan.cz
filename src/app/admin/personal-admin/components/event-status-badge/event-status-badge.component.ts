@@ -1,6 +1,12 @@
 import { Component, Input } from '@angular/core';
 
 import { Event } from "app/schema/event";
+import { ConfigService } from 'app/services/config.service';
+
+interface StatusBadge {
+  name:string;
+  class:string;
+}
 
 @Component({
   selector: 'event-status-badge',
@@ -9,8 +15,20 @@ import { Event } from "app/schema/event";
 })
 export class EventStatusBadgeComponent {
 
-  @Input() event:Event;
-  
-  constructor() { }
+  badge:StatusBadge;
+
+  note:string;
+
+  @Input() set event(event: Event) {
+    this.note = event.statusNote;
+    this.updateBadge(event);
+  }
+
+  constructor(private configService: ConfigService) { }
+
+  async updateBadge(event: Event) {
+    const config = await this.configService.getConfig();
+    this.badge = config.events.statuses.find(status => status.id === event.status);
+  }
 
 }

@@ -16,11 +16,6 @@ export class ProgramAdminService {
 
   constructor(private api:ApiService) {
     this.loadStats();
-    console.log("PROGRAM LOADED");
-  }
-  
-  ngOnDestroy(){
-    console.log("PROGRAM UNLOADED");
   }
   
   async loadStats(){

@@ -99,9 +99,9 @@ export class MyEventComponent implements OnInit, OnDestroy {
   }
 
   async deleteEvent(){
-    if(window.prompt("Opravdu chcete smazat tuto akci?")){
+    if(window.confirm("Opravdu chcete smazat tuto akci?")){
       await this.api.delete(this.event._links.self);
-      this.router.navigate(["../"]);
+      this.router.navigate(["../"], {relativeTo: this.route});
       this.toastService.toast("Akce smazána");
     }
   }

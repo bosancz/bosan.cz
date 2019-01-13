@@ -16,7 +16,7 @@ export const permissions = {
   
   "my:dashboard": { roles: ["clen"] },
   "my:events": { roles: ["vedouci"] },
-  "my:group": { roles: ["vedouci"] },
+  "my:group": { roles: ["spravce"] },
   "my:program": { roles: ["program","spravce"] },
   "my:auditor": { roles: ["revizor","spravce"] },
   "my:canal": { roles: ["clen"] },
