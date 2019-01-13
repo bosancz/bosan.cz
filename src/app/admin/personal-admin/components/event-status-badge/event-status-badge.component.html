@@ -1,4 +1,1 @@
-<span class="badge badge-secondary" *ngIf="event.status === 'draft'">Připravovaná</span>
-<span class="badge badge-success" *ngIf="event.status === 'public'">V programu</span>
-<span class="badge badge-danger" *ngIf="event.status === 'cancelled'">Zrušená</span>
-<span class="badge badge-dark" *ngIf="event.status === 'finalized'">Uzavřená</span>
+<span [class]="'badge badge-' + (badge?.class ? badge.class : 'secondary')">{{badge?.name || badge?.id || ""}}{{note ? " - " + note : ""}}</span>
