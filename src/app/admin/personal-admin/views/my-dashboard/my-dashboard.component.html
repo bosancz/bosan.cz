@@ -6,14 +6,13 @@
 
     <div class="row">
       <div class="col-md-8">
-        <div class="cards">
 
-          <div *ngIf="dashboard?.noLeaderEventsCount > 0" class="alert alert-warning">
-            <a routerLink="../ved-akci" class="float-right ml-2">Otevřít</a>
-            Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí!
-          </div>
-
+        <div *ngIf="dashboard?.noLeaderEventsCount > 0" class="alert alert-warning">
+          <a routerLink="../ved-akci" class="float-right ml-2">Otevřít</a>
+          Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí!
         </div>
+
+        <p>Zde brzy uvidíte nové galerie, nové akce a vůbec co se kde přihodilo.</p>
 
       </div>
 
