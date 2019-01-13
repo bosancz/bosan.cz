@@ -64,7 +64,7 @@ routes.delete("event:accounting","/",{permission:"events:edit"}).handle(async (r
   res.sendStatus(204);
 });
 
-routes.get("event:accounting-template","/template",{/*permission:"events:read"*/}).handle(async (req,res,next) => {
+routes.get("event:accounting-template","/template",{permission:"events:read"}).handle(async (req,res,next) => {
   
   const query = Event.findOne({_id:req.params.id},{},{ autopopulate: false });
   query.select("name place dateFrom dateTill leaders attendees expenses");
@@ -88,14 +88,14 @@ routes.get("event:accounting-template","/template",{/*permission:"events:read"*/
   
   const missing = "Chybí v DB";
   
-  const attendees = attendeeMembers.map(leader => [
-    leader.name && leader.name.first || missing,
-    leader.name && leader.name.last || missing,
-    leader.birthday || missing,
-    leader.address && ((leader.address.street || missing) + " " + (leader.address.streetNo || "")),
-    leader.address && leader.address.city || missing,
-    leader.address && leader.address.postalCode || missing,
-    leader.role ? leader.role.charAt(0) : missing
+  const attendees = attendeeMembers.map(member => [
+    member.name && member.name.first || missing,
+    member.name && member.name.last || missing,
+    member.birthday || missing,
+    member.address && ((member.address.street || missing) + " " + (member.address.streetNo || "")),
+    member.address && member.address.city || missing,
+    member.address && member.address.postalCode || missing,
+    member.role ? member.role.charAt(0) : missing
   ]);
   
   attendees.sort((a,b) => b[6].localeCompare(a[6]) || a[1].localeCompare(b[1]));
