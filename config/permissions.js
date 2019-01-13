@@ -41,7 +41,7 @@ module.exports = {
   "events:lead": { spravce, vedouci },
   
   "events:submit": { spravce, ...vedouciAkce },
-  "events:return": { spravce, program },
+  "events:reject": { spravce, program },
   "events:publish": { spravce, program },
   "events:cancel": { spravce, program },
   "events:finalize": { spravce, ...vedouciAkce },
@@ -68,10 +68,12 @@ module.exports = {
   "program:stats": { spravce, program },
 
   "login:credentials": { spravce, guest },
-  "login:renew": { spravce, user },   
+  "login:refresh": { "refresh": true },
   "login:sendlink": { spravce, guest },
-  "login:google": { spravce, guest },    
-
+  "login:google": { spravce, guest }, 
+  "login:impersonate": { spravce }, 
+  "logout": { guest },
+  
   "me:read": { guest },
   
   "me:user:read": { spravce, user },
@@ -109,7 +111,6 @@ module.exports = {
   "users:create": { spravce },
   "users:edit": { spravce },
   "users:delete": { spravce },
-  "users:impersonate": { spravce }, 
   
   "users:credentials:edit": { spravce, user: req => ({ _id: req.user._id }) },
   "users:subscriptions:edit": { user: req => ({ _id: req.user._id }) },

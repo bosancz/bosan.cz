@@ -8,7 +8,7 @@ const EventRecurring = require("./event-recurring"); // load because of referenc
 
 var eventSchema = mongoose.Schema({
 
-  "status": {type: String, enum: ['draft','public','cancelled'], required: true, default: 'draft'},  
+  "status": {type: String, enum: ['draft','pending','public','cancelled'], required: true, default: 'draft'},  
   "srcId": Number,
 
   "name": {type: String, required: true},
@@ -33,6 +33,7 @@ var eventSchema = mongoose.Schema({
 
   "registration":String,
   "accounting":String,
+  "announcement":String,
 
   "groups": [String],
   "leadersEvent": Boolean,
