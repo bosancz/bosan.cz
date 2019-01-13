@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from 'app/app.component';
 import { AppRoutingModule } from 'app/app-routing.module';
 import { AppErrorHandler } from "app/app.errorhandler";
+import { httpInterceptorProviders } from "app/http-interceptors";
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -80,7 +81,8 @@ console.log("Angular is running in " + (environment.production ? "production" : 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler }
+    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler },
+    httpInterceptorProviders
   ],
   bootstrap: [ AppComponent ],
   entryComponents: [ LoginFormComponent, SharingModalComponent ]
