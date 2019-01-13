@@ -2,15 +2,17 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { DateTime } from "luxon";
-import * as moment from "moment";
 
 import { Subscription } from "rxjs";
 
 import { ApiService } from "app/services/api.service";
+import { ToastService } from "app/services/toast.service";
 
 import { Paginated } from "app/schema/paginated";
 import { Event } from "app/schema/event";
 import { CPVEvent } from "app/schema/cpv-event";
+import { ConfigService } from 'app/services/config.service';
+import { WebConfigEventStatus } from 'app/schema/webconfig';
 
 class CalendarMonth {  
   
@@ -20,7 +22,7 @@ class CalendarMonth {
     own:CalendarEvent[],
     cpv:CalendarEvent[]
   } = { own: [], cpv: [] };
-  
+
   constructor(public number:number,public year:number){ }
 }
 
@@ -63,13 +65,17 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
   trimesterMonths = [ [1,4], [5,8], [9,12] ]; // trimster months (jan-may, ...)
 
   eventsCPV:CalendarEvent[];
+
+  statuses:WebConfigEventStatus[];
   
   paramsSubscription:Subscription;
 
-  constructor(private api:ApiService, private router:Router, private route:ActivatedRoute) {
+  constructor(private api:ApiService, private router:Router, private route:ActivatedRoute, private configService:ConfigService, private toastService:ToastService) {
   }
 
   ngOnInit() {
+
+    this.loadStatuses();
 
     this.loadEventsCPV();
     
@@ -165,12 +171,17 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
       .then(paginated => paginated.docs)
       .then(events => events.map(event => new CalendarEvent(event)));
 
-    events.sort((a,b) => a.dateFrom.diff(b.dateFrom));
+    events.sort((a,b) => a.dateFrom.diff(b.dateFrom).valueOf());
     
     this.assignEvents(events,"own");
     
     this.updateEventLevels("own");
 
+  }
+
+  async loadStatuses(){
+    const config = await this.configService.getConfig();
+    this.statuses = config.events.statuses;
   }
   
   async loadEventsCPV(){
@@ -184,7 +195,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
       return new CalendarEvent(event);
     })));
     
-    this.eventsCPV.sort((a,b) => a.dateFrom.diff(b.dateFrom));
+    this.eventsCPV.sort((a,b) => a.dateFrom.diff(b.dateFrom).valueOf());
     
     this.assignEvents(this.eventsCPV,"cpv");
     this.updateEventLevels("cpv");
@@ -202,16 +213,21 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
   updateEventLevels(type){
 
     this.calendar.forEach(month => {
+      month.days.forEach(day => day.eventCount = 0);
+      month.events[type].forEach(event => event.level = 0);
+    });
+
+    this.calendar.forEach(month => {
       month.events[type].forEach(event => {
-        
+
         for(let date = event.dateFrom; date <= event.dateTill; date = date.plus({days:1})){
 
           if(date.month === month.number){
             
-            const day = month.days[date.day - 1];       
+            const day = month.days[date.day - 1];   
             
             event.level = Math.max(event.level || 0,day.eventCount);
-            day.eventCount++;
+            day.eventCount = event.level + 1;
             
           }
         }
@@ -228,7 +244,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
   }
 
   isHoliday(day:CalendarDay):boolean{
-    const dateString = (day.date.month + 1) + "-" + day.date.date;
+    const dateString = (day.date.month + 1) + "-" + day.date.day;
     return this.holidays.indexOf(dateString) !== -1;
   }
 
@@ -252,26 +268,36 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
     return (event.dateTill.diff(event.dateFrom,"days").days + 1) / month.days.length;
   }
 
-  createEvent(){
+  getEventClass(event:Event):string{
+    const status = this.statuses.find(status => status.id === event.status);
+    return status ? "bg-" + status.class : "bg-secondary";
+  }
+
+  getEventTooltip(event:Event):string{
+    return event.name;
+  }
+
+  async createEvent(){
 
     // date select was not started - drag not started on a date or started on event
     if(!this.selection) return;
 
     this.selection.sort();
 
-    var name = window.prompt("Bude vytvořena akce v termínu " + this.selection[0] + " - " + this.selection[1] + ". Zadejte její název:");
+    var name = window.prompt("Bude vytvořena akce v termínu " + this.selection[0].toLocaleString() + " - " + this.selection[1].toLocaleString() + ". Zadejte její název:");   
+    
+    const eventData = {
+      name,
+      dateFrom: this.selection[0].toISODate(),
+      dateTill: this.selection[1].toISODate()
+    };
 
+    await this.api.post("events",eventData)
+
+    await this.loadEvents();
+
+    this.toastService.toast("Akce vytvořena.")
+    
     this.selection = undefined;
-  }
-
-  deleteEvent(e:MouseEvent,event:Event):void{
-
-    e.stopPropagation();
-
-    window.confirm("Opravdu chcete smazat akci " + event.name + "?");
-  }
-
-  openEvent(event:Event){
-    this.router.navigate(["/interni/akce/" + event._id]);
   }
 } 

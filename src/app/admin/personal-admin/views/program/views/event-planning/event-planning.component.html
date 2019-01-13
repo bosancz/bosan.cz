@@ -1,4 +1,4 @@
-<form #trimesterForm="ngForm">
+<form #trimesterForm="ngForm" class="mb-5">
   <div class="row">
     <div class="col-md-3 col-6">
       <a [routerLink]="['./',getPreviousTrimester()]" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
@@ -19,6 +19,10 @@
   </div>
 </form>
 
+<div class="legend row my-5">
+  <span *ngFor="let status of statuses" [class]="'col text-center text-' + status.class"><i class="fas fa-circle"></i> {{status.name || status.id}}</span>
+</div>
+
 <div class="calendar">
   <ng-container *ngFor="let month of calendar">
     <h3 class="text-center">{{month.number | monthName}} {{month.year}}</h3>
@@ -35,11 +39,11 @@
 
 
       <div class="events own">
-        <div *ngFor="let calEvent of month.events.own" [class]="'event ' + calEvent.event.status" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="12 * calEvent.level + 'px'" [tooltip]="calEvent.event.name" placement="bottom" [routerLink]="['/interni/obsah/akce',calEvent.event._id]"></div>
+        <div *ngFor="let calEvent of month.events.own" [class]="'event ' + getEventClass(calEvent.event)" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="2 + 18 * calEvent.level + 'px'" [tooltip]="getEventTooltip(calEvent.event)" placement="bottom" [routerLink]="['/interni/moje/akce',calEvent.event._id]"></div>
       </div>
 
       <div class="events cpv">
-        <a *ngFor="let calEvent of month.events.cpv" class="event" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="12 * calEvent.level + 'px'" [tooltip]="calEvent.event.name" [attr.href]="calEvent.event.link || null" target="_blank" placement="bottom"></a>
+        <a *ngFor="let calEvent of month.events.cpv" class="event" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="2 + 18 * calEvent.level + 'px'" [tooltip]="calEvent.event.name" [attr.href]="calEvent.event.link || null" target="_blank" placement="bottom"></a>
       </div>
     </div>
   </ng-container>
