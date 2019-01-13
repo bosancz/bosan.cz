@@ -55,8 +55,13 @@ export class ProgramEventsListComponent implements OnInit {
     this.reload();
   }
   async rejectEvent(event:Event):Promise<void>{
-    const comment = window.prompt("Poznámka k akci:")
-    await this.api.post(event._actions.reject, { comment: comment } );
+    const note = window.prompt("Poznámka k vrácení akce:")
+    
+    // hit cancel in the prompt cancels the action
+    if(note === null) return;
+
+    await this.api.post(event._actions.reject, { note: note || undefined } );
+    
     this.toastService.toast("Vráceno k úpravám.");
     this.reload();
   }

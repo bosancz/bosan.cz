@@ -19,6 +19,7 @@ export class Event extends Document {
   
   _id:string;
   status:string;
+  statusNote:string;
   
   name:string;
   type:string;
