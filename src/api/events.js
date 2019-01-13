@@ -89,7 +89,7 @@ routes.get("events","/").handle(validate({query:getEventsSchema}), async (req,re
     query.where(route.query || {});
   }
   
-  query.select(req.query.select || "_id name dateFrom dateTill type status");
+  query.select(req.query.select || "_id name dateFrom dateTill type status statusNote");
 
   if(req.query.sort) query.sort(req.query.sort.replace(/(\-?)([a-z]+)/i,"$1$2 $1order"));
 
@@ -114,7 +114,7 @@ routes.get("events:noleader","/noleader",{permission:"events:noleader:list"}).ha
 
   // construct the query
   const query = Event.find({ leaders: { $size: 0 }, dateFrom: { $gte: new Date() } })
-  query.select("_id name dateFrom dateTill description leaders");
+  query.select("_id name dateFrom dateTill description leaders status statusNote");
   query.filterByPermission("events:noleader:list",req);
  
   const events = await query.toObject();
