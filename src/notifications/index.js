@@ -20,7 +20,7 @@ function createNotification(name,data){
     "notification": {
       "title": "Notifikace z Bošánovského webu",
       "body": "",
-      "icon": "https://test.bosan.cz/dist/assets/logo.png",
+      "icon": "https://test.bosan.cz/assets/img/logo.png",
       "vibrate": [100, 50, 100],
       "data": { },
       "actions": [
