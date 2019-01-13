@@ -43,7 +43,7 @@ export function getTooltipConfig():TooltipConfig {
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     
-    ShareModule.forRoot()
+    ShareModule
     
   ],
   declarations: [

@@ -63,6 +63,9 @@
           "configurations": {
             "production": {
               "browserTarget": "bosan.cz:build:production"
+            },
+            "local": {
+              "browserTarget": "bosan.cz:build:local"
             }
           }
         },
