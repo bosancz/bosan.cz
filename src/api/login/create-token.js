@@ -4,27 +4,23 @@ var config = require("../../../config");
 
 var Member = require("../../models/member");
 
-module.exports = async function createToken(user,validity){
+module.exports = async function createToken(user){
 
   const roles = user.roles || [];
   if(user._id) roles.push("user");
-  
-  const member = await Member.findOne({_id: user.member}).lean();
-  
+
+  const member = user.member ? await Member.findOne({_id: user.member}).lean() : null;
+
   // set the token contents
-  var tokenData = {
+  var accessTokenData = {
     _id: user._id,
     roles: roles,
-    
+
     login: user.login || undefined,
     member: member ? member._id : undefined,
     group: member ? member.group : undefined,
   };
 
-  // set validity
-  var tokenOptions = {
-    expiresIn: validity
-  };
-  
-  return jwt.sign(tokenData, config.auth.jwt.secret, tokenOptions);
+  return jwt.sign(accessTokenData, config.auth.jwt.secret, { expiresIn: config.auth.jwt.expiration });
+
 }

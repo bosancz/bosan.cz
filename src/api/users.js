@@ -9,8 +9,6 @@ var User = require("../models").User;
 
 var mailings = require("../mailings");
 
-var createToken = require("./login/create-token");
-
 routes.get("users","/",{permission:"users:list"}).handle(async (req,res,next) => {
   var query = User.find({}).select("_id login member roles email");
   if(req.query.members) query.populate("member","_id nickname name group");
@@ -77,16 +75,6 @@ routes.delete("user", "/:id", {permission:"users:delete"}).handle(async (req,res
   const userId = req.params.id.toLowerCase();
   await User.remove({_id:userId});
   res.sendStatus(204);
-});
-
-routes.post("user:impersonate","/:id/impersonate", { permission: "users:impersonate", hideRoot: true}).handle(async (req,res) => {
-  
-  const user = await User.findOne({_id: req.params.id}).lean();
-  if(!user) return res.status(404).send("User not found.");
-
-  var token = await createToken(user,config.auth.jwt.expiration);
-
-  res.send(token);
 });
 
 routes.put("user:credentials", "/:id/credentials", {permission:"users:credentials:edit"}).handle(async (req,res) => {

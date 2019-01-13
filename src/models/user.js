@@ -8,6 +8,8 @@ var userSchema = mongoose.Schema({
   
   "roles": [String],
   
+  "tokenRecallCode": String,
+  
   "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
   
   "notifications": [String],

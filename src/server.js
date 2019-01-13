@@ -13,12 +13,24 @@ require('express-async-errors');
 /* CONFIG */
 var config = require("../config");
 
+/* CORS for development */
+if(config.server.cors){
+  app.use(require("cors")({
+    origin: /localhost/,
+    credentials: true,
+    methods: "GET,PUT,POST,PATCH,DELETE",
+    allowedHeaders: ["Content-type","Set-Cookie"]
+  }));
+}
 
 /* REQUEST PARSING */
 
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 app.use(bodyParser.json({ limit:'10mb' })); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true,  limit:'10mb' })); // support urlencoded bodies
+
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 // guess types like numbers, nulls and booleans
 app.use(require("./middleware/query-guess-types.js"));

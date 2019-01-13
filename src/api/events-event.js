@@ -64,15 +64,15 @@ routes.action("event:submit","/actions/submit", {permission:"events:submit", hid
   if(!event) return req.sendStatus(401);
 
   event.status  = "pending";
-  event.save();
+  await event.save();
 
   res.sendStatus(200);
 
   sendNotifications({all: ["eventSubmitted"], except: req.user._id});
 });
 
-routes.action("event:return","/actions/return", {permission:"events:return", hideRoot: true, query: {status: "pending"}}).handle(async (req,res,next) => {
-  const event = await Event.findOne({_id:req.params.id},"name status leaders", {autopopulate:false}).filterByPermission("events:return", req);
+routes.action("event:reject","/actions/reject", {permission:"events:reject", hideRoot: true, query: { status: { $in: ["pending","public"] } }}).handle(async (req,res,next) => {
+  const event = await Event.findOne({_id:req.params.id},"name status leaders", {autopopulate:false}).filterByPermission("events:reject", req);
   if(!event) return req.sendStatus(401);
 
   event.status = "draft";
@@ -80,7 +80,7 @@ routes.action("event:return","/actions/return", {permission:"events:return", hid
 
   res.sendStatus(200);
 
-  sendNotifications({ all: ["eventReturned"], members: { "myEventReturned": event.leaders }, except: req.user._id }, event);
+  sendNotifications({ all: ["eventRejected"], members: { "myEventRejected": event.leaders }, except: req.user._id }, event);
 });
 
 routes.action("event:publish","/actions/publish", { permission:"events:publish", hideRoot: true, query: {status: { $in: ["draft","pending"] }} }).handle(async (req,res,next) => {
@@ -93,18 +93,6 @@ routes.action("event:publish","/actions/publish", { permission:"events:publish",
   res.sendStatus(200);
   
   sendNotifications({all: ["eventPublished"], members: { "myEventPublished": event.leaders }, except: req.user._id},event);
-});
-
-routes.action("event:unpublish","/actions/unpublish", {permission:"events:publish", hideRoot: true, query: {status: "public"}}).handle(async (req,res,next) => {
-  const event = await Event.findOne({_id:req.params.id}, "name status leaders", {autopopulate:false}).filterByPermission("events:publish", req);
-  if(!event) return req.sendStatus(401);
-  
-  event.status = "draft";
-  event.save();
-  
-  res.sendStatus(200);
-  
-  sendNotifications({all: ["eventUnpublished"], members: { "myEventUnpublished": event.leaders }, except: req.user._id}, event);
 });
 
 routes.action("event:cancel","/actions/cancel", {permission:"events:cancel", hideRoot: true, query: {status: "public"}}).handle(async (req,res,next) => {
@@ -140,7 +128,7 @@ routes.action("event:lead","/actions/lead", {permission:"events:lead", hideRoot:
   res.sendStatus(200);
 });
 
-routes.action("event:finalize","/actions/finalize", {permission:"events:finalize", hideRoot: true, query: {status: "public"}}).handle(async (req,res,next) => {
+/*routes.action("event:finalize","/actions/finalize", {permission:"events:finalize", hideRoot: true, query: {status: "public"}}).handle(async (req,res,next) => {
   const event = await Event.findOne({_id:req.params.id},"name status leaders",{autopopulate:false});
   if(!event) return req.sendStatus(401);
   
@@ -150,7 +138,7 @@ routes.action("event:finalize","/actions/finalize", {permission:"events:finalize
   res.sendStatus(200);
   
   sendNotifications({all: ["eventFinalized"], except: req.user._id}, event);
-});
+});*/
 
 routes.get("event:leaders","/leaders",{permission:"events:read"}).handle(async (req,res,next) => {
 
@@ -166,6 +154,8 @@ routes.get("event:leaders","/leaders",{permission:"events:read"}).handle(async (
 routes.child("/registration", require("./events-event-registration"));
 
 routes.child("/accounting", require("./events-event-accounting"));
+
+routes.child("/announcement", require("./events-event-announcement"));
 
 routes.get("event:payments","/payments", {permission:"events:payments:list"}).handle(async (req,res,next) => {
   const payments = await Payment.find({event:req.params.id}).toObject();

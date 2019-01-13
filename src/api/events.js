@@ -46,8 +46,8 @@ var getEventsSchema = {
           { type: "object", properties: {"$ne": { anyOf: [{type:"string"},{type:"null"}]}}, additionalProperties: false}
         ]},
         "status": { anyOf: [
-          { type: "string", enum: ["public","draft","cancelled"] },
-          { type: "array", items: { type: "string", enum: ["public","draft","cancelled"] } }
+          { type: "string", enum: ["draft","pending","public","cancelled"] },
+          { type: "array", items: { type: "string", enum: ["draft","pending","public","cancelled"] } }
         ]}
       },
       additionalProperties: false

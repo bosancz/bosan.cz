@@ -12,6 +12,8 @@ var validate = require("../validator");
 var google = require("../google");
 
 var createToken = require("./login/create-token");
+var saveCookie = require("./login/save-cookie");
+var clearCookie = require("./login/clear-cookie");
 
 var loginSchema = {
   type: "object",
@@ -39,10 +41,13 @@ routes.post("login","/",{permission:"login:credentials"}).handle(validate({body:
   if(!same) return res.sendStatus(401);
   
   // create the token
-  var token = await createToken(user,config.auth.jwt.expiration);
+  var token = await createToken(user);
 
+  // set cookie header
+  saveCookie(res,token);
+  
   // send it to the user
-  res.send(token);
+  res.send({ access_token: token });
   
   // if hash using weak hashing strength, then update hash
   if(bcrypt.getRounds(user.password) < config.auth.bcrypt.rounds) {
@@ -56,21 +61,6 @@ routes.post("login","/",{permission:"login:credentials"}).handle(validate({body:
       .catch(err => console.error(err.message));
   }
 
-});
-
-routes.post("login:renew","/renew",{permission:"login:renew"}).handle(async (req,res) => {
-	
-	// we get the data from DB so we can update token data if something changed (e.g. roles)
-  const user = await User.findOne({_id:req.user._id});
-  
-  if(!user) return res.status(404).send("User not found");
-  
-  // create the token
-  var token = await createToken(user,config.auth.jwt.expiration);
-  
-  //send the new token to user
-  res.send(token);
-	
 });
 
 var sendLinkSchema = {
@@ -89,7 +79,9 @@ routes.post("login:sendlink","/sendlink",{permission:"login:sendlink"}).handle(v
   
   if(!user || !user.email) return res.status(404).send("User not found");
   
-  await mailings("send-login-link",{user: user, token: createToken(user,"1 hour")});
+  const token = await createToken(user,"1 hour");
+  
+  await mailings("send-login-link",{user: user, token: token });
   
   res.sendStatus(200);
 	
@@ -118,8 +110,31 @@ routes.post("login:google","/google",{permission:"login:google"}).handle(async (
 
   if(!user) return res.status(404).send("User with email " + userEmail + " not found");
   
-  var token = await createToken(user,config.auth.jwt.expiration);
-
-  res.send(token);
+  var token = await createToken(user);
   
+  saveCookie(res,token);
+
+  res.send({ access_token: token });
+  
+});
+
+
+routes.post("login:impersonate","/impersonate", { permission: "login:impersonate" }).handle(async (req,res) => {
+  
+  if(!req.body.id) return res.status(400).send("Missing id.");
+  
+  const user = await User.findOne({_id: req.body.id}).lean();
+  
+  if(!user) return res.status(404).send("User not found.");
+
+  var token = await createToken(user);
+  
+  saveCookie(res,token);
+
+  res.send({ access_token: token });
+});
+
+routes.post("logout","/logout", { permission: "logout" }).handle(async (req,res) => {
+  clearCookie(res);
+  res.sendStatus(200);
 });
