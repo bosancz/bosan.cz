@@ -7,6 +7,7 @@
 
 # editors
 .idea
+*.code-workspace
 
 # logs
 npm-debug.log
