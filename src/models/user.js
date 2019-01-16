@@ -1,15 +1,22 @@
 var mongoose = require("mongoose");
 
 var userSchema = mongoose.Schema({
-  "login": {type:String, index: { unique: true }},
-  "password": {type: String, select:false},
+  "login": { type:String, index: { unique: true } },
+  "password": { type: String, select:false },
   
   "email": {type:String, index: { unique: true, sparse: true}},
   
   "roles": [String],
   
-  "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"}
-});
+  "tokenRecallCode": String,
+  
+  "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
+  
+  "notifications": [String],
+  
+  "pushSubscriptions": [{ type: mongoose.Schema.Types.Mixed, select:false }]
+  
+},{toObject:{virtuals:true}});
 
 
 

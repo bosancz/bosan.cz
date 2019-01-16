@@ -6,21 +6,26 @@ const config = require("../../config");
 
 var reportedErrorSchema = mongoose.Schema({
   
+  "_id": String,
   "message": String,
-  "timestamp": Date,
-  "url": String,
+  "lastTimestamp": Date,
   
-  "status": Number,
-  "description": String,
-  "stack": String,
-  "user": {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-  
-  "ng": {
-    "component": String,
-    "environment": String
-  }
-  
-});
+  "instances": [{
+    "timestamp": Date,
+    "url": String,
+
+    "status": Number,
+    "description": String,
+    "stack": String,
+    "user": {type: mongoose.Schema.Types.ObjectId, ref: "User"},
+
+    "ng": {
+      "component": String,
+      "environment": String
+    }
+  }]
+
+}, { toObject: { virtuals: true } });
 
 reportedErrorSchema.plugin(actions, {
   root: config.api.root,

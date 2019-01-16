@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const actions = require("../plugins/mongoose-actions");
-
 const path = require("path");
 const config = require("../../config");
 
@@ -10,7 +8,9 @@ const EventRecurring = require("./event-recurring"); // load because of referenc
 
 var eventSchema = mongoose.Schema({
 
-  "status": {type: String, enum: ['draft','public','cancelled'], required: true, default: 'draft'},
+  "status": { type: String, enum: ['draft','pending','public','cancelled'], required: true, default: 'draft' },  
+  "statusNote": { type: String },
+  
   "srcId": Number,
 
   "name": {type: String, required: true},
@@ -19,9 +19,12 @@ var eventSchema = mongoose.Schema({
 
   "dateFrom": Date,
   "dateTill": Date,
-  "dateChanged": Date,
+  
+  "timeFrom": String,
+  "timeTill": String,
+  
   "recurring": {type: mongoose.Schema.Types.ObjectId, ref: "EventRecurring"},
-
+  
   "order": Number,
 
   "meeting": {
@@ -30,6 +33,8 @@ var eventSchema = mongoose.Schema({
   },
 
   "registration":String,
+  "accounting":String,
+  "announcement":String,
 
   "groups": [String],
   "leadersEvent": Boolean,
@@ -38,50 +43,19 @@ var eventSchema = mongoose.Schema({
   "subtype": String,
   "srcType": String,
 
-  "leaders":[{type: mongoose.Schema.Types.ObjectId, ref: "Member"}],
+  "leaders":[{ type: mongoose.Schema.Types.ObjectId, ref: "Member", autopopulate: { select: '_id nickname name group role' } }],
+  
+  "attendees":[{ type: mongoose.Schema.Types.ObjectId, ref: "Member", autopopulate: { select: '_id nickname name group role' } }],
 
   "leadersLine": String,
-
-  "attendees": [{
-    "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
-    "name": String,
-    "birthday": Date,
-    "address": {
-      "street": String,
-      "city": String,
-      "postalCode": String
-    },
-    "role": {type: String, enum: ['h','v','i','d'], required: true, default: 'd'}
-  }]
-}, { toJSON: { virtuals: true } });
-
-eventSchema.plugin(actions, {
-  root: config.api.root,
-  links:{
-    "self": event => `//events/${event._id}`,
-    "leaders": event => `//events/${event._id}/leaders`,
-    "recurring": event => `//events/${event._id}/recurring`,
-    "payments": event => `//events/${event._id}/payments`,
-    "registration": event => `//events/${event._id}/registration`,
-    "registration_file": event => event.registration ? (config.events.storageUrl + "/" + path.join(String(event._id),event.registration)) : ""
-  },
-  actions:{
-    "publish": {
-      href: event => `//events/${event._id}/actions/publish`,
-      query: {status: "draft"},
-      action: event => {
-        event.status = "public";
-      }
-    },
-
-    "unpublish": {
-      href: event => `//events/${event._id}/actions/unpublish`,
-      query: {status: "public"},
-      action: event => {
-        event.status = "draft";
-      }
-    }
-  }
-});
+  
+  "expenses": [{
+    "id": String,
+    "amount": Number,
+    "type": { type: String },
+    "description": String
+  }]    
+  
+}, { toObject: { virtuals: true } });
 
 module.exports = mongoose.model("Event", eventSchema);

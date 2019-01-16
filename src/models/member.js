@@ -12,6 +12,8 @@ var memberSchema = mongoose.Schema({
     "last": String
   },
   
+  "birthday": Date,
+  
   "address": {
     "street": String,
     "streetNo": String,

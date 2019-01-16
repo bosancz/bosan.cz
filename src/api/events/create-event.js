@@ -5,7 +5,7 @@ var config = require("../../../config");
 var Event = require("../../models/event");
 
 module.exports = async function(eventData,eventFiles = [],options = {}){
-  
+    
   var event = await Event.create(eventData);
   
   var eventDir = config.events.eventDir(String(event._id));
