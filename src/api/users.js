@@ -1,7 +1,6 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const { Routes, RoutesACL } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
-var acl = require("express-dynacl");
 var bcrypt = require("bcryptjs");
 
 var config = require("../../config");
@@ -10,24 +9,23 @@ var User = require("../models").User;
 
 var mailings = require("../mailings");
 
-var createToken = require("./login/create-token");
-
-router.get("/", acl("users:list"), async (req,res,next) => {
-  var users = User.find({}).select("_id login member roles email");
+routes.get("users","/",{permission:"users:list"}).handle(async (req,res,next) => {
+  var query = User.find({}).select("_id login member roles email");
+  if(req.query.members) query.populate("member","_id nickname name group");
   
-  if(req.query.members) users.populate("member","_id nickname name group");
-  
+  const users = await query.toObject();
+  req.routes.links(users,"user");
   res.json(await users);
 });
 
-router.post("/", acl("users:create"), async (req,res) => {
+routes.post("users", "/",{permission:"users:create"}).handle(async (req,res) => {
   
   // get the user data
   const userData = req.body;
   
   // normalize
   userData.login = userData.login.toLowerCase();
-  userData.email = userData.email.toLowerCase();
+  userData.email = userData.email.toLowerCase() || undefined;
   
   // choose the proper type for null member
   if(!userData.member) userData.member = null;
@@ -40,16 +38,20 @@ router.post("/", acl("users:create"), async (req,res) => {
   // send mail
   if(user.email) mailings("new-account", { user: user, validity: 10, token: createToken(user,"10 days") });
     
+  res.location("/users/" + user._id);
   // respond if succeeded
   res.sendStatus(204);
 });
 
-router.get("/:id", acl("users:read"), async (req,res,next) => {
-  var user = User.findOne({_id:req.params.id}).populate("member","_id nickname name group")
-  res.json(await user);
+routes.get("user", "/:id", {permission:"users:read"}).handle(async (req,res,next) => {
+  var user = await User.findOne({_id:req.params.id}).populate("member","_id nickname name group").toObject();
+  
+  user = req.routes.links(user,"user");
+  
+  res.json(user);
 });
 
-router.patch("/:id", acl("users:edit"), async (req,res) => {
+routes.patch("user", "/:id", {permission:"users:edit"}).handle(async (req,res) => {
   
   var userData = req.body;
   
@@ -69,8 +71,46 @@ router.patch("/:id", acl("users:edit"), async (req,res) => {
   res.sendStatus(204);
 });
 
-router.delete("/:id", acl("users:delete"), async (req,res) => {
+routes.delete("user", "/:id", {permission:"users:delete"}).handle(async (req,res) => {
   const userId = req.params.id.toLowerCase();
   await User.remove({_id:userId});
   res.sendStatus(204);
+});
+
+routes.put("user:credentials", "/:id/credentials", {permission:"users:credentials:edit"}).handle(async (req,res) => {
+  
+  const user = await User.findOne({_id:req.params.id}).filterByPermission("users:credentials:edit",req);
+  if(!user) return res.sendStatus(401);
+  
+  var userData = req.body;
+  
+  userData.login = userData.login.toLowerCase();
+  userData.password = await bcrypt.hash(userData.password, config.auth.bcrypt.rounds)  
+  
+  // update the user
+  await User.findOneAndUpdate({ _id: req.params.id }, userData )
+  
+  // respond success
+  res.sendStatus(204);
+});
+
+routes.post("user:subscriptions", "/subscriptions", {permission:"users:subscriptions:edit"}).handle(async (req,res) => {
+  const user = await User.findOne({_id: req.user._id}).filterByPermission("users:subscriptions:edit",req);
+  if(!user) return res.sendStatus(401);
+  
+  if(!user.pushSubscriptions) user.pushSubscriptions = []
+  user.pushSubscriptions.push(req.body);
+  
+  await user.save();
+  res.sendStatus(200);
+});
+
+routes.delete("user:subscriptions", "/subscriptions/:id", {permission:"users:subscriptions:edit"}).handle(async (req,res) => {
+  const user = await User.findOne({_id: req.user._id}).filterByPermission("users:subscriptions:edit",req);
+  if(!user) return res.sendStatus(401);
+  
+  user.pushSubscriptions = [];
+  
+  await user.save();
+  res.sendStatus(200);
 });

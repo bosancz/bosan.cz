@@ -1,9 +1,9 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
-var config = require("../../config");
+const config = require("../../config");
 
-var acl = require("express-dynacl");
+
 var fs = require("fs-extra");
 
 var multer = require("multer");
@@ -25,11 +25,11 @@ var getEventsSchema = {
       properties: {
         "dateFrom": { anyOf: [
           { type: "string" }, 
-          { type: "object", properties: {"$gte": {type: "string", format: "date"},"$lte": {type: "string", format: "date"}}, additionalProperties: false}
+          { type: "object", properties: {"$gte": { anyof: [{type: "string", format: "date"}, {type: "string", format: "date-time"}] },"$lte": { anyof: [{type: "string", format: "date"}, {type: "string", format: "date-time"}] } }, additionalProperties: false}
         ]},
         "dateTill": { anyOf: [
           { type: "string" }, 
-          { type: "object", properties: {"$gte": {type: "string", format: "date"},"$lte": {type: "string", format: "date"}}, additionalProperties: false}
+          { type: "object", properties: {"$gte": { anyof: [{type: "string", format: "date"}, {type: "string", format: "date-time"}] },"$lte": { anyof: [{type: "string", format: "date"}, {type: "string", format: "date-time"}] }}, additionalProperties: false}
         ]},
         "leaders": { anyOf: [
           { type: "string" }, 
@@ -44,14 +44,18 @@ var getEventsSchema = {
           { type: "null" },
           { type: "string" },
           { type: "object", properties: {"$ne": { anyOf: [{type:"string"},{type:"null"}]}}, additionalProperties: false}
+        ]},
+        "status": { anyOf: [
+          { type: "string", enum: ["draft","pending","public","cancelled"] },
+          { type: "array", items: { type: "string", enum: ["draft","pending","public","cancelled"] } }
         ]}
       },
       additionalProperties: false
     },
     "select": { type: "string" },
-    "populate": { type: "array", items: { enum: ["leaders","attendees"] } },
+    "populate": { type: "array", items: { enum: ["leaders"] } }, // TODO remove, but check requests due to additionalProperties: false
     "search": { type: "string" },
-    "has_actions": { type: "string" },
+    "has_action": { type: "string" },
     "sort": { type: "string", enum: ["dateFrom","-dateFrom","name","-name"] },
     "skip": { type: "number" },
     "limit": { type: "number" },
@@ -59,91 +63,64 @@ var getEventsSchema = {
   additionalProperties: false
 };
 
-router.get("/", validate({query:getEventsSchema}), acl("events:list"), async (req,res,next) => {
+routes.get("events","/").handle(validate({query:getEventsSchema}), async (req,res,next) => {
 
   // construct the query
   const query = Event.find();
+  query.filterByPermission("events:list",req);
 
+  // angular fix, https://github.com/angular/angular/issues/18884 not possible to implement on client side as plus URL replacement would become double encoded
+  // TODO: after fix comes, remove, despite will not cause problems when not removed
+  if(req.query.filter){
+    if(typeof req.query.filter.dateFrom === "string") req.query.filter.dateFrom = req.query.filter.dateFrom.replace(" ","+");
+    else if(req.query.filter.dateFrom && req.query.filter.dateFrom.$gte) req.query.filter.dateFrom.$gte = req.query.filter.dateFrom.$gte.replace(" ","+");
+    else if(req.query.filter.dateFrom && req.query.filter.dateFrom.$lte) req.query.filter.dateFrom.$lte = req.query.filter.dateFrom.$lte.replace(" ","+");
+    if(typeof req.query.filter.dateTill === "string") req.query.filter.dateTill = req.query.filter.dateTill.replace(" ","+");
+    else if(req.query.filter.dateTill && req.query.filter.dateTill.$gte) req.query.filter.dateTill.$gte = req.query.filter.dateTill.$gte.replace(" ","+");
+    else if(req.query.filter.dateTill && req.query.filter.dateTill.$lte) req.query.filter.dateTill.$lte = req.query.filter.dateTill.$lte.replace(" ","+");
+  }
+  
+  if(req.query.filter && Array.isArray(req.query.filter.status)) req.query.filter.status = { $in: req.query.filter.status };
+     
   if(req.query.filter) query.where(req.query.filter);
   if(req.query.search) query.where({ name: new RegExp(req.query.search,"i") });
-  if(req.query.has_actions) query.hasActions(req.query.has_actions.split(" "));
+  if(req.query.has_action){
+    const route = req.routes.findRoute("event",req.query.has_action,"action");
+    query.where(route.query || {});
+  }
+  
+  query.select(req.query.select || "_id name dateFrom dateTill type status statusNote");
 
-  query.select(req.query.select || "_id name dateFrom dateTill type status");
-  if(req.query.populate) query.populate(req.query.populate);
-
-  query.limit(req.query.limit ? Math.min(req.query.limit,100) : 20);
-  if(req.query.skip) query.skip(req.query.skip);
   if(req.query.sort) query.sort(req.query.sort.replace(/(\-?)([a-z]+)/i,"$1$2 $1order"));
 
-  res.json({
-    docs: await query,
-    total: await Event.find().where(req.query.filter || {}).count(),
-    limit: req.query.limit || 20,
-    skip: req.query.skip || 0
-  });
-
-});
-
-router.post("/", acl("events:create"), async (req,res,next) => {
-
-  var event = await createEvent(req.body);
-  res.location(`${config.api.root}/events/${event._id}`);
-  res.sendStatus(201);
-});     
-
-var getEventsUpcomingSchema = {
-  type: 'object',
-  properties: {
-    "limit":{ type: "number" },
-    "days":{ type: "number" }
-  }
-};
-
-router.get("/upcoming", validate({query:getEventsUpcomingSchema}), acl("events:upcoming:list"), async (req,res,next) => {
-
-  let today = new Date(); today.setHours(0,0,0,0);
-
-  var events = Event.find({status:"public",dateTill: { $gte: today }});
-  events.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
-  events.populate("leaders","_id name nickname group contacts.mobile");
-  events.sort("dateFrom order");  
-
-  if(req.query.limit) events.limit(Number(req.query.limit));
-  if(req.query.days){
-    let dateTill = new Date(); dateTill.setDate(dateTill.getDate() + Number(req.query.days));
-    events.where({dateFrom: { $lte: dateTill }});
-  }
-
-  res.json(await events);
-});
-
-const getEventsProgramSchema = {
-  type: 'object',
-  properties: {
-    "dateFrom": {type: "string", format: "date"},
-    "dateTill": {type: "string", format: "date"},
-    "limit": {type: "number"}
-  },
-  additionalProperties: false
-};
-
-router.get("/program", validate({query:getEventsProgramSchema}), acl("events:program:read"), async (req,res,next) => {
-
-  const query = Event.find({status:"public"});
-
-  query.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
-  query.populate("leaders","_id name nickname group contacts.mobile");
-
-  const today = new Date();
-  today.setDate(today.getDate() - 1);
-  today.setHours(0,0,0);
+  const limit = req.query.limit ? Math.min(req.query.limit,100) : 20;
+  const skip = req.query.skip || 0;
   
-  query.where({ dateTill: { $gte: req.query.dateFrom ? new Date(req.query.dateFrom) : today } });
-  if(req.query.dateTill) query.where({ dateFrom: { $lte: new Date(req.query.dateTill) } });
+  const events = await query.paginate(limit,skip);
+  
+  req.routes.links(events.docs,"event"),
+    
+  res.json(events);
 
-  query.sort("dateFrom order");  
-  query.limit(req.query.limit ? Math.min(100,Number(req.query.limit)) : 100);
-
-  res.json(await query);
 });
 
+routes.post("events","/",{permission:"events:create"}).handle(async (req,res,next) => {
+  var event = await createEvent(req.body);
+  res.location(`/events/${event._id}`);
+  res.sendStatus(201);
+});
+
+routes.get("events:noleader","/noleader",{permission:"events:noleader:list"}).handle(async (req,res,next) => {
+
+  // construct the query
+  const query = Event.find({ leaders: { $size: 0 }, dateFrom: { $gte: new Date() } })
+  query.select("_id name dateFrom dateTill description leaders status statusNote");
+  query.filterByPermission("events:noleader:list",req);
+ 
+  const events = await query.toObject();
+  
+  req.routes.links(events,"event");
+ 
+  res.json(events);
+
+});

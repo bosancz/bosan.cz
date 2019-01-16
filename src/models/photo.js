@@ -29,7 +29,7 @@ var photoSchema = mongoose.Schema({
   
   bg: String  
 
-}, { toJSON: { virtuals: true } });
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
 function getUrl(photo,size,root){
   return root + "/" + path.join(String(photo.album),photo.sizes[size].file);

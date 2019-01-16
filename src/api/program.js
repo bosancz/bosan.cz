@@ -1,16 +1,12 @@
-var express = require("express");
-var router = module.exports = express.Router();
+const { Routes } = require("@smallhillcz/routesjs");
+const routes = module.exports = new Routes();
 
-var moment = require("moment");
+const config = require("../../config");
 
-var config = require("../../config");
-
+const { DateTime } = require("luxon");
 const ical = require('ical-generator');
 
-var acl = require("express-dynacl");
-
 var validate = require("../validator");
-
 
 var Event = require("../models/event");
 
@@ -24,12 +20,12 @@ const getEventsProgramSchema = {
   additionalProperties: false
 };
 
-router.get("/", validate({query:getEventsProgramSchema}), acl("program:read"), async (req,res,next) => {
+routes.get("program","/",{permission:"program:read"}).handle(validate({query:getEventsProgramSchema}), async (req,res,next) => {
 
   
-  const query = Event.find({status:"public"});
+  const query = Event.find({ status: { $in: ["public","cancelled"] } });
 
-  query.select("_id name dateFrom dateTill groups leadersEvent description type subtype meeting registration");
+  query.select("_id name status dateFrom dateTill groups leadersEvent description type subtype meeting registration");
   query.populate("leaders","_id name nickname group contacts.mobile");
 
   const today = new Date();
@@ -40,11 +36,15 @@ router.get("/", validate({query:getEventsProgramSchema}), acl("program:read"), a
 
   query.sort("dateFrom order");  
   query.limit(req.query.limit ? Math.min(100,Number(req.query.limit)) : 100);
+  
+  const program = await query.toObject();
+  
+  req.routes.links(program,"event");
 
-  res.json(await query);
+  res.json(program);
 });
 
-router.get("/ical", acl("program:read"), async (req,res,next) => {
+routes.get("program:ical","/ical",{permission:"program:read"}).handle(async (req,res,next) => {
   
   const cal = ical({
     domain: config.ical.domain,
@@ -53,21 +53,19 @@ router.get("/ical", acl("program:read"), async (req,res,next) => {
     method: "publish"
   });
   
-  const from = moment().subtract(30, 'days');
+  const from = DateTime.local().minus({ days: 30 });
   
-  const query = Event.find({ status: "public", dateTill: { $gte: from }, recurring: req.query.recurring ? undefined : null});
+  const query = Event.find({ status: "public", dateTill: { $gte: from.toISODate() }, recurring: req.query.recurring ? undefined : null});
   query.select("_id name dateFrom dateTill groups leadersEvent description type subtype");
   query.populate("leaders","_id nickname contacts.email");
   
   const events = await query;
   
-  console.log(events.length);
-
   for(let event of events){
-    cal.createEvent({
+    let ev = cal.createEvent({
       uid: event._id,
       start: event.dateFrom,
-      end: event.dateTill,
+      end: DateTime.fromISO(event.dateTill).plus({ days: 1 }).toISODate(),
       allDay: true,
       summary: event.name,
       url: event._links && event._links.registration_url,
@@ -75,10 +73,28 @@ router.get("/ical", acl("program:read"), async (req,res,next) => {
       description: event.description,
       location: event.place,      
       organizer: config.ical.organizer,
-      attendees: event.leaders.map(member => ({name: member.nickname, email: member.contacts && member.contacts.email || "info@bosan.cz", rsvp: true}))
+      attendees: event.leaders.map(member => ({name: member.nickname, email: member.contacts && member.contacts.email || "info@bosan.cz", rsvp: true})),
+      timezone: config.ical.timezone
     });
+    
   }
 
   cal.serve(res);
   
+});
+
+routes.get("program:stats","/stats",{permission:"program:stats"}).handle(async (req,res,next) => {
+
+  const stats = { }
+  const status = await Event.aggregate([
+    { $match: { dateFrom: { $gte: new Date() } } },
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+    { $project: { _id: false, status: "$_id", count: "$count" } }
+  ]);
+  
+
+  stats.count = status.map(item => item.count).reduce((acc,cur) => acc + cur, 0);
+  stats.status = status.reduce((acc,cur) => { acc[cur.status] = cur.count; return acc; },{});
+  
+  res.json(stats);
 });

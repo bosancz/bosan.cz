@@ -2,9 +2,13 @@
 /node_modules
 
 # config files
-config/config.production.js
-config/config.development.js
+config/environment.*.js
+!config/environment.example.js
 config/google.json
+config/vapid.json
+
+# internal assets
+assets/uctovani-v6-web.xlsx
 
 # data
 data/
