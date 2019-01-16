@@ -4,6 +4,7 @@ import { Event } from "app/schema/event";
 import { ConfigService } from 'app/services/config.service';
 
 interface StatusBadge {
+  id:string;
   name:string;
   class:string;
 }
