@@ -74,7 +74,7 @@
               </p>
             </div>
             <div class="col-auto justify-content-end mb-3">
-              <a *ngIf="event._links?.registration?.allowed?.GET" [href]="getEventRegistrationUrl(event) | safeurl" class="flat" target="_blank">Přihláška</a>
+              <a *ngIf="event._links?.registration?.allowed?.GET" [href]="getEventRegistrationUrl(event) | safeurl" download="registration.pdf" class="flat" target="_blank">Přihláška</a>
             </div>
           </div>
         </div>
