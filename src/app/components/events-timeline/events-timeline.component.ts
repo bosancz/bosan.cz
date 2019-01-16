@@ -40,4 +40,8 @@ export class EventsTimelineComponent implements OnInit {
     this.loading = false;
     
   }
+
+  getEventRegistrationUrl(event:Event):string{
+    return this.api.link2href(event._links.registration);
+  }
 }
