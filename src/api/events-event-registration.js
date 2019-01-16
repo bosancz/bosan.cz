@@ -14,7 +14,7 @@ var validate = require("../validator");
 
 var Event = require("../models/event");
 
-routes.get("event:registration","/",{permission:"events:registration:read"}).handle(async (req,res,next) => {
+routes.get("event:registration","/",{ permission:"events:registration:read", query: { registration: { $exists: true } } }).handle(async (req,res,next) => {
   const registrationPath = path.join(config.events.eventDir(req.params.id),"registration.pdf");
   if(await fs.pathExists(registrationPath)) res.sendFile(registrationPath);
   else res.sendStatus(404);
