@@ -33,8 +33,12 @@ routes.get("program","/",{permission:"program:read"}).handle(validate({query:get
 
   query.sort("dateFrom order");  
   query.limit(req.query.limit ? Math.min(100,Number(req.query.limit)) : 100);
+  
+  const program = await query.toObject();
+  
+  req.routes.links(program,"event");
 
-  res.json(await query);
+  res.json(program);
 });
 
 routes.get("program:ical","/ical",{permission:"program:read"}).handle(async (req,res,next) => {
