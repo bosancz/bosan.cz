@@ -2,32 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import * as URITemplate from "urijs/src/URITemplate";
+//import * as URITemplate from "urijs/src/URITemplate";
 
 import { environment } from "environments/environment";
 
-type HttpObserve = 'body' | 'events' | 'response';
-
-export interface HalLinkText {
-  href:string;
-  type:'text';
-  method?:"GET"|"POST"|"PUT"|"PATCH"|"DELETE";
-}
-
-export interface HalLinkJson {
-  href:string;
-  type:'json';
-  method?:"GET"|"POST"|"PUT"|"PATCH"|"DELETE";
-}
-
-type HalLink = HalLinkText|HalLinkJson;
-
-export interface HalResource {
-  _links?:{
-    "self":HalLinkText|HalLinkJson,
-    [name:string]:HalLinkText|HalLinkJson
-  }
-}
+import { Document,DocumentLink } from "app/schema/api";
 
 export class ApiError extends Error{
 }
@@ -39,94 +18,95 @@ export class ApiService {
   
   root = environment.apiRoot;
 
-  resources:Promise<{[name:string]:HalResource}>;
-
-  defaultResponseTypes:{[method:string]:'arraybuffer' | 'blob' | 'json' | 'text'} = {
-    "GET": "json",
-    "POST": "text",
-    "PUT": "text",
-    "PATCH": "text",
-    "DELETE": "text",
-  }
+  resources:Promise<{ [name:string]:DocumentLink }>;
 
   constructor(private http:HttpClient) {
     this.loadResources();
+    console.log("API LOADED");
   }
 
   loadResources(){
-    this.resources = this.http.get<{[name:string]:HalResource}>(this.root).toPromise();
+    this.resources = this.http.get<any>(this.root).toPromise().then(api => api._links);
   }
   
-  async path2link(path:any,params?:any):Promise<HalLink>{
+  link2href(link):string{
+    if(!link.href.match(/^[a-z]+\:\/\//)) return this.root + link.href;
+    else return link.href;
+  }
+  
+  async path2href(pathObj:any):Promise<string>{
     
-    if(!path) throw new ApiError("Missing link");
+    if(!pathObj) throw new ApiError("Missing link");
     
-    var link;
+    var path:any;
+    var expand:any;
     
-    if(typeof path === "string" && path.match(/^[a-z]+(\:[a-z]+)?$/i)){
-      const [name,linkName = "self"] = path.split(":");
-      
+    if(Array.isArray(pathObj) && pathObj.length <= 2) [path,expand] = pathObj;
+    else if(Array.isArray(pathObj) && pathObj.length > 2){ path = pathObj.shift(); expand = pathObj; }
+    else path = pathObj;
+    
+    var href;
+    
+    if(typeof path === "string" && path.match(/^[a-z\-\:]+$/i)){
       const resources = await this.resources;
     
-      if(!resources[name]) throw new ApiError(`Resource ${name} does not exist.`);
-      if(!resources[name]._links[linkName]) throw new ApiError(`Resource link ${name}:${linkName} does not exist.`);
+      if(!resources[path]) throw new ApiError(`Resource ${path} does not exist on the API endpoint ${this.root}.`);
       
-      link = resources[name]._links[linkName];
+      href = resources[path].href;
     }
     else if(typeof path === "string"){
-      link = { href: path };
+      href = path;
     }
     else if(path.href){
-      link = path;
+      href = path.href;
     }
     else{
-      throw new ApiError("Invalid link.");
+      throw new ApiError("Invalid link: " + JSON.stringify(pathObj));
     }
     
-    const href = URITemplate(link.href).expand(key => {
-      if(params && params[key]){
-        const value = params[key];
-        delete params[key];
-        return value;
-      }
-      return undefined;
-    });
+    if(typeof expand === "object") href = this.expandHref(href,key => expand[key]);
+    if(typeof expand === "string" || typeof expand === "number") href = this.expandHref(href,key => expand);
+    if(Array.isArray(expand)){ var i = 0; href = this.expandHref(href,key => { i++; return expand[i - 1]; }); }
     
-    return {
-      href: href,
-      type: link.type || "json"
-    };
+    if(!href.match(/^[a-z]+\:\/\//)) href = this.root + href;
+    
+    return href;
       
   }
+  
+  expandHref(href:string,expand:any):string{
+    //return URITemplate(href).expand(expand)
+    return href.replace(/\{([^\}]+)\}/g,(match,p1) => expand(p1));
+  }
 
-  async get<T>(path:any,data?:any):Promise<T>{
-    const link = await this.path2link(path,data);
-    return this.http.get<T>(link.href, { params: this.toParams(data) }).toPromise();
+  async get<T>(path:any,params?:any):Promise<T>{
+    const href = await this.path2href(path);
+    return this.http.get<T>(href, { params: this.toParams(params) }).toPromise();
   }
   
-  async getAsText(path:any,data?:any):Promise<string>{
-    const link = await this.path2link(path);
-    return this.http.get(link.href, { params: this.toParams(data), responseType: "text" }).toPromise();
+  async getAsText(path:any,params?:any):Promise<string>{
+    const href = await this.path2href(path);
+    return this.http.get(href, { params: this.toParams(params), responseType: "text" }).toPromise();
   }
   
   async post(path:any,data?:any):Promise<HttpResponse<string>>{
-    const link = await this.path2link(path);
-    return this.http.post(link.href, data, { observe: "response", responseType: "text" }).toPromise();
+    const href = await this.path2href(path);
+    return this.http.post(href, data, { observe: "response", responseType: "text" }).toPromise();
   }
   
   async put(path:any,data?:any):Promise<HttpResponse<string>>{
-    const link = await this.path2link(path);
-    return this.http.put(link.href, data, { observe: "response", responseType: "text" }).toPromise();
+    const href = await this.path2href(path);
+    return this.http.put(href, data, { observe: "response", responseType: "text" }).toPromise();
   }
   
   async patch(path:any,data?:any):Promise<HttpResponse<string>>{
-    const link = await this.path2link(path);
-    return this.http.patch(link.href, data, { observe: "response", responseType: "text" }).toPromise();
+    const href = await this.path2href(path);
+    return this.http.patch(href, data, { observe: "response", responseType: "text" }).toPromise();
   }
   
-  async delete(path:any,data?:any):Promise<HttpResponse<string>>{
-    const link = await this.path2link(path);
-    return this.http.delete(link.href, { observe: "response", responseType: "text" }).toPromise();
+  async delete(path:any,expand?:any):Promise<HttpResponse<string>>{
+    const href = await this.path2href(path);
+    return this.http.delete(href, { observe: "response", responseType: "text" }).toPromise();
   }  
 
   private setParam(params:HttpParams,name:string,value:any){

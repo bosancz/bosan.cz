@@ -7,8 +7,9 @@ import { Subscription } from "rxjs";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
+import { ApiService } from "app/services/api.service";
+import { LoginService } from "app/services/login.service";
 import { ConfigService } from "app/services/config.service";
-import { DataService } from "app/services/data.service";
 import { ToastService } from "app/services/toast.service";
 
 import { User } from "app/schema/user";
@@ -30,7 +31,15 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
   
   paramsSubscription:Subscription;
 
-  constructor(private dataService:DataService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
+  constructor(
+    private api:ApiService,
+    private loginService:LoginService,
+    private configService:ConfigService,
+    private toastService:ToastService,
+    private router:Router,
+    private route:ActivatedRoute,
+    private modalService:BsModalService
+   ) { }
 
   ngOnInit() {
 
@@ -51,7 +60,7 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
   }
 
   async loadUsers(){
-    this.users = await this.dataService.getUsers({active:this.active ? 1 : 0,members:1});
+    this.users = await this.api.get<User[]>("users",{active:this.active ? 1 : 0,members:1});
   }
   
   loadRoleNames(){
@@ -68,14 +77,25 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
   async createUser(form:NgForm){
     // get data from form
     const userData = form.value;
-    const userId = userData._id;
     // create the user and wait for confirmation
-    await this.dataService.createUser(userId,userData);
+    const response = await this.api.post("users",userData);
     // close the modal
     this.createUserModalRef.hide();
     // show the confrmation
     this.toastService.toast("Uživatel vytvořen.");
+    // get the new user
+    const user = await this.api.get<User>(response.headers.get("location"));
     // open the user
-    this.router.navigate(["./",{},userId], {relativeTo: this.route});
+    this.router.navigate(["./",user._id], {relativeTo: this.route});
+  }
+  
+  async impersonateUser(event:Event,user:User):Promise<void>{
+    
+    event.stopPropagation();
+    
+    await this.loginService.loginImpersonate(user._id);
+    
+    this.toastService.toast("Přihlášen jako " + user.login);
+    this.router.navigate(["/"]);
   }
 }

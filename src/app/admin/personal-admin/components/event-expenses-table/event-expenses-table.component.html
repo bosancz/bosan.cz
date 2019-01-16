@@ -1,0 +1,9 @@
+<table class="table table-sm">
+  <tbody>
+    <tr *ngFor="let type of types"><th>{{type}}</th><td class="text-right">{{sumExpensesType(type)}} Kč</td><td class="text-right">{{perPerson(sumExpensesType(type))}} Kč/os</td></tr>
+    <tr *ngIf="sumExpensesOther() !== 0"><th>Nezařazené</th><td class="text-right">{{sumExpensesOther()}} Kč</td><td class="text-right">{{perPerson(sumExpensesOther())}} Kč/os</td></tr>
+  </tbody>
+  <tfoot>    
+    <tr><th>Celkem</th><td class="text-right">{{sumExpenses()}} Kč</td><td class="text-right">{{perPerson(sumExpenses())}} Kč/os</td></tr>
+  </tfoot>
+</table>

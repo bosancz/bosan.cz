@@ -12,7 +12,7 @@ import { ErrorsAdminComponent } from './views/errors-admin/errors-admin.componen
 import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admin.component';
 
 import { EventsAdminComponent } from './views/events-admin/events-admin.component';
-import { EventAdminComponent } from './views/events-admin/event-admin/event-admin.component';
+import { EventAdminComponent } from './views/event-admin/event-admin.component';
 
 import { GalleryAdminComponent } from './views/gallery-admin/gallery-admin.component';
 import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
@@ -21,12 +21,14 @@ import { AlbumAdminComponent } from './views/gallery-admin/album-admin/album-adm
 import { MembersAdminComponent } from './views/members-admin/members-admin.component';
 import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
 
-import { ServerAdminComponent } from './views/server-admin/server-admin.component';
+import { PaymentsAdminComponent } from "./views/payments-admin/payments-admin.component";
 
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
 
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
+
+import { ServerAdminComponent } from './views/server-admin/server-admin.component';
 
 
 /* SERVICES */
@@ -55,15 +57,17 @@ const routes:Routes = [
       {path: 'tabory/:camp', redirectTo: "tabory/:camp/upravit", pathMatch: "full"},
       {path: 'tabory', component: CampsAdminComponent},
 
+      {path: 'platby', component: PaymentsAdminComponent},   
+      
+      {path: 'uzivatele/:user/:cat', component: UserAdminComponent},      
+      {path: 'uzivatele/:user', redirectTo: "uzivatele/:user/ucet", pathMatch: "full"}, 
+      {path: 'uzivatele', component: UsersAdminComponent},   
+
       {path: 'nastaveni-webu/:cat', component: WebAdminComponent},
       {path: 'nastaveni-webu', redirectTo: "nastaveni-webu/obecne", pathMatch: "full"},
 
       {path: 'nastaveni-serveru/:cat', component: ServerAdminComponent},
       {path: 'nastaveni-serveru', redirectTo: "nastaveni-serveru/obecne", pathMatch: "full"},
-
-      {path: 'uzivatele/:user/:cat', component: UserAdminComponent},      
-      {path: 'uzivatele/:user', redirectTo: "uzivatele/:user/ucet", pathMatch: "full"}, 
-      {path: 'uzivatele', component: UsersAdminComponent},   
       
       {path: 'chyby/:chyba', component: ErrorAdminComponent},   
       {path: 'chyby', component: ErrorsAdminComponent},   

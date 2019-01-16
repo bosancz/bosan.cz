@@ -1,14 +1,18 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { skip, take } from "rxjs/operators";
 
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
+import { UserService } from "app/services/user.service";
 import { ApiService } from "app/services/api.service";
-import { AuthService } from "app/services/auth.service";
-import { ToastService, Toast } from "app/services/toast.service";
+import { LoginService } from "app/services/login.service";
 import { GoogleService } from "app/services/google.service";
 
-import { AclService } from "app/lib/acl/services/acl.service";
+import { ToastService } from "app/services/toast.service";
+
+import { AclService } from "app/lib/acl";
 
 import { LoginFormComponent } from "app/components/login-form/login-form.component";
 
@@ -18,107 +22,67 @@ import { permissions } from "config/permissions";
   providedIn: 'root'
 })
 export class RuntimeService {
-
+  
+  loginModal:BsModalRef;
+  
+  logged:boolean = false;
+  
   constructor(
-  private api:ApiService,
-   private aclService:AclService,
-   private modalService:BsModalService,
-   private toastService:ToastService,
-   private googleService:GoogleService,
-   private ngZone:NgZone,
-   private router:Router,
-   private route:ActivatedRoute,
-   public authService:AuthService
+    private api:ApiService,
+    private userService:UserService,
+    private aclService:AclService,
+    private modalService:BsModalService,
+    private googleService:GoogleService,
+    private loginService:LoginService,
+    private toastService:ToastService,
+    private router:Router
   ) { }
 
   init(){
-
-    // show toasts emitted by toastservice
-
+    
     this.loadPermissions();
 
-    this.initAuthService();
-
-    this.checkTokenLogin();
-
-    this.checkGoogleLogin();
-
-  }
-
-  checkTokenLogin(){
-    // if token provided (e.g. login link) save it and remove it from URL
-    this.route.queryParams.subscribe((params:any) => {
-      if(params.token){
-        this.authService.loginToken(params.token);
-        this.router.navigate(["/moje/admin/heslo"], { relativeTo: this.route });
-        this.toastService.toast("Byl/a jsi přihlášen/a přes odkaz. Teď si nastav heslo.");
-      }
-    });
+    this.initUserService();
+    
+    this.initLoginService();
+    
   }
 
   loadPermissions(){
     this.aclService.setPermissions(permissions);
     this.aclService.setRoles(["guest"]);
   }
-
-  initAuthService(){
+  
+  initUserService(){
+    
+    this.userService.loadUser();
+    
+    // on the first user value received check if user active and when on root route, redirect to admin (so that for logged users admin is the homepage)
+    this.userService.user.pipe(skip(1)).pipe(take(1)).subscribe(user => {
+      if(user && this.router.url === "/o-nas") this.router.navigate(["/interni/moje/prehled"]);
+    });
+    
     // update roles
-    this.authService.user.subscribe(user => {
+    this.userService.user.subscribe(user => {
       if(user) this.aclService.setRoles(["guest","user",...user.roles]);
       else this.aclService.setRoles(["guest"]);
     });
-
-    // update login
-    this.ngZone.runOutsideAngular(() => { // https://github.com/angular/angular/issues/20970
-      window.setInterval(() => {
-        this.ngZone.run(() => {
-          if(this.authService.logged){
-            this.api.post("login:renew").then(response => {
-              this.authService.loginToken(response.body);
-            });
-          }
-        });
-      }, 5 * 60 * 1000);
+  }
+  
+  initLoginService(){
+    this.loginService.onLogin.subscribe(() => {
+      this.userService.loadUser();
+      this.toastService.toast("Přihlášeno.")
     });
-
-    // handle login
-    this.authService.onLogin.subscribe(user => this.toastService.toast("Přihlášeno."));
-
-    // handle logout
-    this.authService.onLogout.subscribe(user => {
-      this.toastService.toast("Odhlášeno.");
-      this.router.navigate(["/"]);
-      this.googleService.signOut();
-    });
-
-    this.authService.onExpired.subscribe(event => {
-      this.toastService.toast("Přihlášení vypršelo, přihlas se znovu.");
-      this.modalService.show(LoginFormComponent, {});
-      this.googleService.signOut();
+    this.loginService.onLogout.subscribe(() => {
+      this.userService.loadUser();
+      this.toastService.toast("Odhlášeno.")
     });
   }
-
-  checkGoogleLogin(){
-
-    this.googleService.loaded.subscribe(async () => {
-
-      try{
-        
-        const googleUser:any = await this.googleService.getCurrentUser();
-
-        if(googleUser){
-
-          console.log("GoogleService: Logged in as " + googleUser.email);
-
-          const response = await this.api.post("login:google",{token:googleUser.token});
-
-          this.authService.loginToken(response.body);
-        }
-
-      } catch(err){
-        console.log(err);
-      }
-    });
-
+  
+  login(expired){
+    this.loginModal = this.modalService.show(LoginFormComponent, { initialState: { expired: expired }, keyboard: false, ignoreBackdropClick: true });
+    this.googleService.signOut();
   }
+
 }

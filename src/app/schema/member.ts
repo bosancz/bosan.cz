@@ -11,6 +11,8 @@ export class Member {
     last:string
   };
   
+  birthday:string;
+  
   address:{
     street:string,
     streetNo:string,

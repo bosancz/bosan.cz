@@ -15,8 +15,7 @@ import { WebConfigEventType, WebConfigEventSubType } from "app/schema/webconfig"
 })
 export class EventsTimelineComponent implements OnInit {
 
-  @Input() limit:number;
-  @Input() days:number;
+  @Input() limit:number;  
 
   @Input() groupsFilter:boolean;
 
@@ -36,9 +35,13 @@ export class EventsTimelineComponent implements OnInit {
     
     this.loading = true;
     
-    this.events = await this.api.get<Event[]>("events:program");
+    this.events = await this.api.get<Event[]>("program", { limit: this.limit || undefined });
 
     this.loading = false;
     
+  }
+
+  getEventRegistrationUrl(event:Event):string{
+    return this.api.link2href(event._links.registration);
   }
 }

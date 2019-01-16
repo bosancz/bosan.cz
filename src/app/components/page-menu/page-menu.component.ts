@@ -1,13 +1,16 @@
 import { Component, HostListener, AfterViewInit, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { LayoutService } from "app/services/layout.service";
+import { LoginService } from "app/services/login.service";
 import { OnlineService } from "app/services/online.service";
-import { AuthService } from "app/services/auth.service";
-import { AclService } from "app/lib/acl/services/acl.service";
+import { UserService } from "app/services/user.service";
+import { AclService } from "app/lib/acl";
 import { ConfigService } from "app/services/config.service";
+import { ToastService } from "app/services/toast.service";
 
 import { LoginFormComponent } from "app/components/login-form/login-form.component";
 
@@ -23,20 +26,26 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
   isTop:boolean = true;
 
   environment:string;
+  
+  userLogin:string;
 
   constructor(
     public aclService:AclService,
-    public authService:AuthService,
+    public userService:UserService,
     public layoutService:LayoutService,
     public onlineService:OnlineService,
+    private loginService:LoginService,
     private configService:ConfigService,
-    private modalService:BsModalService
+    private modalService:BsModalService,
+    private toastService:ToastService,
+    private router:Router
   ) { }
 
   ngOnInit(){
     this.configService.config.subscribe(config => {
       this.environment = config.general.environment;
     });
+    this.userService.user.subscribe(user => this.userLogin = user ? user.login : "");
   }
 
   ngAfterViewInit(){
@@ -51,11 +60,16 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
   }
 
   openLogin() {
-    this.loginModal = this.modalService.show(LoginFormComponent, {});
+    this.loginModal = this.modalService.show(LoginFormComponent);
+  }
+  
+  updateAccountDropdown(dropdown){
+    dropdown.isOpen = !this.layoutService.menu.collapsed;
   }
 
   logout(){
-    this.authService.logout();
+    this.loginService.logout();
+    this.router.navigate(["/"]);
   }
 
 }

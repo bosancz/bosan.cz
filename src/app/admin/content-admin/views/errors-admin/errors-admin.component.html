@@ -1,40 +1,26 @@
 <section>
   <div class="container">
 
+    <button type="button" class="btn btn-danger float-right" (click)="deleteErrors()">Smazat chyby</button>
+    
     <h2>Přehled chyb</h2>
+    
+    <table class="table table-striped table-hover table-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th>Datum</th>
+          <th>Chyba</th>
+          <th>Počet</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let error of errors" [routerLink]="['../chyby',error._id]">
+          <td class="date">{{error.lastTimestamp | date:"d. M. y H:mm:ss"}}</td>
+          <td class="message"><span [title]="error.message">{{error.message}}</span></td>
+          <td class="user">{{error.count}}</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <div class="row">
-
-      <div class="col-3">
-
-        <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'week'}]" [class.active]="view === 'week'">Posledních 7 dní</a></li>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'older'}]" [class.active]="view === 'older'">Starší</a></li>
-        </ul>
-
-      </div>
-
-      <div class="col-9">
-
-        <table class="table table-striped table-hover table-sm">
-          <thead class="thead-dark">
-            <tr>
-              <th>Datum</th>
-              <th>Chyba</th>
-              <th>Uživatel</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let error of errors" [routerLink]="['../chyby',error._id]">
-              <td class="date">{{error.timestamp | date:"d. M. y H:mm:ss"}}</td>
-              <td class="message"><span [title]="error.message">{{error.message}}</span></td>
-              <td class="user">{{error.user?.login || "-"}}</td>
-            </tr>
-          </tbody>
-        </table>
-        
-      </div>
-      
-    </div>
   </div>
 </section>

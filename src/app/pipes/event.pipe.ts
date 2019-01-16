@@ -35,6 +35,8 @@ export class EventPipe implements PipeTransform {
 
   transform(event:Event,property:EventPipeProperty):string{
 
+    if(!event) return;
+    
     switch(property){
       
       case "class":

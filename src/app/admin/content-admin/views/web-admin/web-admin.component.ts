@@ -34,6 +34,12 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     {"name": "email", "title": "E-mail", "type": "text"},
     {"name": "mobile", "title": "Mobil", "type": "text"}
   ];
+
+  eventStatusFields:CodelistField[] = [
+    {"name": "id", "title": "ID", "type": "text"},
+    {"name": "name", "title": "Název", "type": "text"},
+    {"name": "class", "title": "CSS třída", "type": "text"}
+  ];
   
   eventTypeFields:CodelistField[] = [
     {"name": "name", "title": "Název", "type": "text"},
@@ -46,15 +52,18 @@ export class WebAdminComponent implements OnInit, OnDestroy {
     {"name": "image", "title": "URL obrázku", "type": "text"}
   ];
   
-  eventRecurringTypeFields:CodelistField[] = [
-    {"name": "name", "title": "ID", "type": "text"},
-    {"name": "title", "title": "Název", "type": "text"}
-  ];     
+  eventExpenseTypeFields:CodelistField[] = [
+    {"name": "name", "title": "Typ", "type": "text"}
+  ];  
   
   eventDescriptionWarningsFields:CodelistField[] = [
     {"name": "regexp", "title": "RegExp", "type": "text"},
     {"name": "regexpModifiers", "title": "RegExp modifikátory", "type": "text"},
     {"name": "text", "title": "Varování", "type": "text"}
+  ];
+  
+  paymentTypeFields:CodelistField[] = [
+    {"name": "name", "title": "ID", "type": "text"}
   ];
   
   memberRolesFields:CodelistField[] = [

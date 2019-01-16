@@ -1,52 +1,27 @@
 <section class="padding">
 
   <div class="container">
-    
-    <h2>Přehled</h2>
-    
+
+    <h2 class="d-none d-lg-block">Přehled</h2>
+
     <div class="row">
       <div class="col-md-8">
-        <div class="cards">
 
-          <div *ngFor="let event of myEventsAccounting" class="card border-danger">
-            <div class="card-body">
-              <h5 class="card-title">Nedokončené účetnictví akce! {{event.name}} <button class="btn btn-primary">Dokončit</button></h5>
-            </div>
-          </div>
-
-          <div *ngFor="let event of myFutureEvents" class="card border-warning">
-            <div class="card-header">
-              <h5 class="card-title">{{event.name}} ({{[event.dateFrom,event.dateTill] | dateRange}})</h5>
-            </div>
-            <div class="card-body">
-              <p class="card-text">Tvá akce se blíží! Máš hotovou ohlášku, přihlášky od dětí, zaplacené poplatky?</p>
-            </div>
-          </div>
-
-          <div *ngIf="noLeaderEvents?.length > 0" class="card">
-            <div class="card-header">
-              <h5 class="card-title">Veď akci!</h5>
-            </div>
-            <div class="card-body">
-              <p class="card-text">Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí:</p>
-              <ul>
-                <li *ngFor="let event of noLeaderEvents">
-                  <a [routerLink]="'/interni/akce/' + event._id">{{[event.dateFrom,event.dateTill] | dateRange}} {{event.name}}</a>
-                  <button class="btn btn-primary btn-sm">Vést akci</button>
-                </li>
-              </ul>
-            </div>
-          </div>
-
+        <div *ngIf="dashboard?.noLeaderEventsCount > 0" class="alert alert-warning">
+          <a routerLink="../ved-akci" class="float-right ml-2">Otevřít</a>
+          Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí!
         </div>
+
+        <p>Zde brzy uvidíte nové galerie, nové akce a vůbec co se kde přihodilo.</p>
 
       </div>
 
       <div class="col-md-4 right">
-        Kalendář
-        <br><br>
-        Moje expy, expy dětí, kilometry oddílu?
-
+        <h4 class="d-block d-md-none border-bottom border-secondary">Nejbližší akce</h4>
+        <div *ngFor="let event of dashboard?.program" class="mb-4">
+          <h5>{{[event.dateFrom,event.dateTill] | dateRange}} | {{event.name}}</h5>
+          <p>Vede <strong>{{(event.leaders | joinLeaders) || "pan NIKDO"}}</strong></p>
+        </div>
       </div>
     </div>
   </div>

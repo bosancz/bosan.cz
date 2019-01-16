@@ -88,7 +88,7 @@ export class UserAdminComponent implements OnInit, OnDestroy {
     const name = this.user._id;
     await this.dataService.deleteUser(this.user._id);
     this.toastService.toast("Uživatel " + name + " byl smazán.");
-    this.router.navigate(["../../"]);
+    this.router.navigate(["../../"],{relativeTo:this.route});
   }
   
   hasRole(name:string){

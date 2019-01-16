@@ -1,3 +1,6 @@
+import { Document } from "./api";
+import { Member } from "./member";
+
 export class EventRecurring{
   recurring:string;
   startDate:Date;
@@ -5,12 +8,18 @@ export class EventRecurring{
   instances:any[];
 }
 
-export type EventLeader = string;
+export class EventExpense {
+  id:string;
+  amount:number;
+  type:string;
+  description:string;
+}
 
-export class Event {
+export class Event extends Document {
   
   _id:string;
   status:string;
+  statusNote:string;
   
   name:string;
   type:string;
@@ -18,8 +27,11 @@ export class Event {
   place:string;
   description:string;
   
-  dateFrom:Date;
-  dateTill:Date;
+  dateFrom:string;
+  dateTill:string;
+  timeFrom:string;
+  timeTill:string;
+  
   recurring?:EventRecurring;
   
   order?:number;
@@ -29,14 +41,13 @@ export class Event {
     end?:string
   } = {};
   
-  attendees?:any[] = [];
-  leaders?:any[] = [];
+  attendees?:Member[] = [];
+  leaders?:Member[] = [];
   
   registration?:string;
   
   groups?:string[];
   leadersEvent?:boolean;
   
-  _links?:{[name:string]:string};
-  _actions?:{[name:string]:string};
+  expenses:EventExpense[] = [];
 }

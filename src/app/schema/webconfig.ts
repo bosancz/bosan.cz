@@ -14,6 +14,12 @@ export class WebConfigAchievement{
   image:string;
 }
 
+export class WebConfigEventStatus {
+  id:string;
+  name:string;
+  class:string;
+}
+
 export class WebConfigEventType {
   name:string;
   class:string;
@@ -23,6 +29,10 @@ export class WebConfigEventSubType{
   name:string;
   class:string;
   image?:string;
+}
+
+export class WebConfigEventExpenseType{
+  name:string;
 }
 
 export class WebConfigRecurringType {
@@ -68,9 +78,15 @@ export interface WebConfig {
   };
   
   events:{
+    statuses:WebConfigEventStatus[],
     types:WebConfigEventType[],
     subtypes:WebConfigEventSubType[],
+    expenseTypes:WebConfigEventExpenseType[],
     recurringTypes:WebConfigRecurringType[],
     descriptionWarnings:WebConfigDescriptionWarning[]
+  };
+  
+  payments:{
+    types:Array<{name:string}>
   };
 }

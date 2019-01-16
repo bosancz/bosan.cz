@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-3">
+    <h3>Vedoucí</h3>
+    <div class="members">
+      <a *ngFor="let member of getRoleMembers(members,'vedoucí')" [routerLink]="['/interni/obsah/clenove',member._id]" class="badge badge-primary text-light mr-3">{{member.nickname}}</a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <h3>Instruktoři</h3>
+    <div class="members">
+      <a *ngFor="let member of getRoleMembers(members,'instruktor')" [routerLink]="['/interni/obsah/clenove',member._id]" class="badge badge-primary text-light mr-3">{{member.nickname}}</a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <h3>Děti</h3>
+    <div class="members">
+      <a *ngFor="let member of getRoleMembers(members,'dítě')" [routerLink]="['/interni/obsah/clenove',member._id]" class="badge badge-primary text-light mr-3">{{member.nickname}}</a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <h3>Neaktivní</h3>
+    <div class="members">
+      <a *ngFor="let member of getRoleMembers(members,'neaktivní')" [routerLink]="['/interni/obsah/clenove',member._id]" class="badge badge-secondary text-light mr-3">{{member.nickname}}</a>
+    </div>
+  </div>
+</div>

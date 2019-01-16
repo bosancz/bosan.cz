@@ -15,14 +15,15 @@ import { CampAdminDashboardComponent } from './views/camps-admin/camp-admin/camp
 import { CampAdminBasicComponent } from './views/camps-admin/camp-admin/camp-admin-basic/camp-admin-basic.component';
 
 import { EventsAdminComponent } from './views/events-admin/events-admin.component';
-import { EventAdminComponent } from './views/events-admin/event-admin/event-admin.component';
-import { EventAdminDashboardComponent } from './views/events-admin/event-admin/event-admin-dashboard/event-admin-dashboard.component';
-import { EventAdminAttendeesComponent } from './views/events-admin/event-admin/event-admin-attendees/event-admin-attendees.component';
-import { EventAdminInfoComponent } from './views/events-admin/event-admin/event-admin-info/event-admin-info.component';
-import { EventAdminLeadersComponent } from './views/events-admin/event-admin/event-admin-leaders/event-admin-leaders.component';
-import { EventAdminPaymentsComponent } from './views/events-admin/event-admin/event-admin-payments/event-admin-payments.component';
-import { EventAdminRegistrationComponent } from './views/events-admin/event-admin/event-admin-registration/event-admin-registration.component';
-import { EventAdminRecurringComponent } from './views/events-admin/event-admin/event-admin-recurring/event-admin-recurring.component';
+
+import { EventAdminComponent } from './views/event-admin/event-admin.component';
+import { EventAdminDashboardComponent } from './views/event-admin/event-admin-dashboard/event-admin-dashboard.component';
+import { EventAdminAttendeesComponent } from './views/event-admin/event-admin-attendees/event-admin-attendees.component';
+import { EventAdminInfoComponent } from './views/event-admin/event-admin-info/event-admin-info.component';
+import { EventAdminLeadersComponent } from './views/event-admin/event-admin-leaders/event-admin-leaders.component';
+import { EventAdminPaymentsComponent } from './views/event-admin/event-admin-payments/event-admin-payments.component';
+import { EventAdminRegistrationComponent } from './views/event-admin/event-admin-registration/event-admin-registration.component';
+import { EventAdminRecurringComponent } from './views/event-admin/event-admin-recurring/event-admin-recurring.component';
 
 import { GalleryAdminComponent } from './views/gallery-admin/gallery-admin.component';
 import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
@@ -48,13 +49,12 @@ import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.co
 /* COMMON COMPONENTS */
 
 import { ContactsEditorComponent } from './components/contacts-editor/contacts-editor.component';
-import { MembersSelectComponent } from './components/members-select/members-select.component';
 import { CodelistEditorComponent } from './components/codelist-editor/codelist-editor.component';
 import { TypeaheadFieldComponent } from './components/typeahead-field/typeahead-field.component';
 import { PhotoTagsEditorComponent } from './components/photo-tags-editor/photo-tags-editor.component';
-import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
 import { ErrorsAdminComponent } from './views/errors-admin/errors-admin.component';
 import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admin.component';
+import { PaymentsAdminComponent } from './views/payments-admin/payments-admin.component';
 
 @NgModule({
   imports: [
@@ -76,7 +76,7 @@ import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admi
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, MembersSelectComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, GroupsSelectComponent, EventAdminPaymentsComponent, ErrorsAdminComponent, ErrorAdminComponent
+    ContactsEditorComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, EventAdminPaymentsComponent, ErrorsAdminComponent, ErrorAdminComponent, PaymentsAdminComponent
     
   ]
 })

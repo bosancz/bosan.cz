@@ -9,17 +9,13 @@ export class MonthNamePipe implements PipeTransform {
     "cs": ["Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec"]
   };
 
-  transform(value:Date|number|string, lang:string = "cs"):string {
+  transform(value:number|string, lang:string = "cs"):string {
+    
+    if(typeof value === "string") value = Number(value);
     
     if(!this.monthNames[lang]) return "[Language " + lang + " not available.]";
     
-    if(typeof value === "number") this.monthNames[lang][value];
-    
-    if(typeof value === "string") value = new Date(value);
-    
-    if(value instanceof Date) return this.monthNames[lang][value.getMonth()];
-    
-    return "???";
+    return this.monthNames[lang][value - 1] || "???";
   }
 
 }

@@ -11,7 +11,8 @@ html {
 body{
   font-family:$font-family;
   color:$black;
-  background-color:$black70;
+  background-color:#fff;
+  //background-color:$black70;
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -46,39 +47,18 @@ section:nth-child(odd) {background-color:$grey;}
 a.btn{display:inline-block;}
 a.flat{font-weight:bold;text-transform:uppercase;text-decoration:none;}
 
-.group-badges .group-badge{display:inline-block;height:30px;width:30px;border-radius:50%;font-weight:bold;color:#fff;text-align:center;line-height:30px;vertical-align:middle;margin:0 5px;text-decoration:none;opacity:.8;}
-.group-badges .group-badge:hover{opacity:1;}
+.group-badges .group-badge{display:inline-block;height:30px;width:30px;border-radius:50%;font-weight:bold;color:#fff;text-align:center;line-height:30px;vertical-align:middle;margin:0 5px;text-decoration:none;opacity:1;}
 .group-badges .group-badge:first-of-type{margin-left:0;}
 .group-badges .group-badge:last-of-type{margin-right:0;}
 
 h2 .back{margin-right:10px;}
 
-a {color: $linkBlue;}
+a {color: $linkBlue;cursor:pointer;}
 a.link{color:$linkBlue !important;cursor:pointer;}
 a:not(.btn):hover {color: $hover-yellow !important;}
 
-.badge-pill{
-  color:$white;
-  font-size: 1rem;
-  background-color:$black;
-  padding: .5rem 1rem;
-}
+a.badge,.badge a{cursor:pointer;}
 
-.red{
-  background-color:#BB0000;
-}
-
-.green{
-  background-color:#36802D;
-}
-
-.blue{
-  background-color:#012475;
-}
-
-.yellow{
-  background-color:#FEC503;
-}
 
 /* VALIDATION */
 
@@ -102,6 +82,40 @@ input:invalid:not(.novalidate), select:invalid:not(.novalidate), textarea:invali
 /* SHADOW FOR IMAGES */
 .img-shadow {
   box-shadow: $shadow;
+}
+
+.modal-content {
+  max-height: 90vh;
+  overflow:auto;
+  display:flex;    
+  flex-direction: column;
+  
+}
+
+.modal-body {
+  overflow:auto;
+  flex: 1 1 auto;
+}
+
+@media (max-width: 768px) { 
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .modal-content{
+    max-height: 100vh;
+    height:100%; 
+    border-radius:0;
+    border:none;
+  }
+  
+  .modal-footer,.modal-header{
+    flex: 0 0 auto;
+  }
+
 }
 
 @import "~styles/admin";

@@ -6,7 +6,7 @@
 
 nav {
   background-color:$black70;
-  transition:background-color 1s;
+  //transition:background-color 1s;
   min-height:60px;
 }
 
@@ -34,6 +34,7 @@ nav .nav-link {
   font-weight: bold;
   color: $white;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 nav .nav-link.active, nav .nav-link:hover {
@@ -45,3 +46,12 @@ nav .nav-link.active, nav .nav-link:hover {
 }
 
 .environment{color:#f00;}
+
+.dropdown{
+  position:relative;
+  
+  ul{z-index:900;border-radius:0;}
+  .dropdown-item{cursor:pointer;}
+  .dropdown-item.active, .dropdown-item:active{background-color:transparent;color:$linkBlue;}
+  .dropdown-item:focus, .dropdown-item:hover{background-color:transparent;}
+}

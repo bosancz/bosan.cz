@@ -5,24 +5,47 @@ import { PersonalAdminComponent } from "./personal-admin.component";
 
 /* VIEWS */
 import { MyDashboardComponent } from "./views/my-dashboard/my-dashboard.component";
-import { AccountAdminComponent } from "./views/account-admin/account-admin.component";
 import { CanalRegistrationComponent } from "./views/canal-registration/canal-registration.component";
 import { DocumentsViewComponent } from "./views/documents-view/documents-view.component";
+import { LeadEventComponent } from "./views/lead-event/lead-event.component";
+
+import { MyAccountComponent } from "./views/my-account/my-account.component";
+import { MyAccountInfoComponent } from "./views/my-account/my-account-info/my-account-info.component";
+import { MyAccountCredentialsComponent } from "./views/my-account/my-account-credentials/my-account-credentials.component";
+import { MyAccountNotificationsComponent } from "./views/my-account/my-account-notifications/my-account-notifications.component";
+import { MyAccountAppComponent } from "./views/my-account/my-account-app/my-account-app.component";
+
 import { MyEventsComponent } from "./views/my-events/my-events.component";
+import { MyEventComponent } from "./views/my-event/my-event.component";
+
+import { MyGroupComponent } from './views/my-group/my-group.component';
+import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
+
+import { AclGuard } from "app/lib/acl";
 
 const routes:Routes = [
   {
     path: '',
     component: PersonalAdminComponent,
+    canActivateChild: [AclGuard],
     children: [
 
-      { path: 'prehled', component: MyDashboardComponent },
+      { path: 'prehled', component: MyDashboardComponent, data: { permission: "my:dashboard" } },
 
-      { path: 'vedeni-akci', component: MyEventsComponent },
+      { path: 'ved-akci', component: LeadEventComponent, data: { permission: "my:events" } },
       
-      { path: 'vedeni-oddilu', loadChildren: './views/my-group/my-group.module#MyGroupModule' },
+      { path: 'akce/:akce', component: MyEventComponent, data: { permission: "my:events" } },
+      { path: 'akce', component: MyEventsComponent, data: { permission: "my:events" } },
+      
+      {
+        path: 'oddil', component: MyGroupComponent, data: { permission: "my:group" },
+        children: [
+          { path: 'clenove', component: MyGroupMembersComponent },
+          { path: '', redirectTo: "clenove", pathMatch: "full" }
+        ]
+      },
 
-      { path: 'sprava-programu', loadChildren: './views/program/program-admin.module#ProgramAdminModule' },
+      { path: 'program', loadChildren: './views/program/program-admin.module#ProgramAdminModule' },
       
       { path: 'revizor', loadChildren: './views/auditor/auditor.module#AuditorModule' },
 
@@ -30,10 +53,18 @@ const routes:Routes = [
 
       { path: 'dokumenty', component: DocumentsViewComponent },
 
-      { path: 'admin/:cat', component: AccountAdminComponent },
-      { path: 'admin', redirectTo: "admin/info", pathMatch: "full"},
+      {
+        path: 'ucet', component: MyAccountComponent, data: { permission: "my:account" },
+        children: [
+          { path: 'info', component: MyAccountInfoComponent },
+          { path: 'notifikace', component: MyAccountNotificationsComponent },
+          { path: 'prihlasovaci-udaje', component: MyAccountCredentialsComponent },
+          { path: 'aplikace', component: MyAccountAppComponent },
+          { path: '', redirectTo: "info", pathMatch: "full"}
+        ]
+      },
 
-      { path: '', redirectTo: "admin/info", pathMatch: "full"},
+      { path: '', redirectTo: "prehled", pathMatch: "full"},
 
     ]
   }

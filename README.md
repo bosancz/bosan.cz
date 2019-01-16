@@ -43,9 +43,9 @@ if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)|(Slackbo
 
 Popis toho, jak web interně funguje, jak co nastavit a jak co naprogramovat najdete ve [wiki](https://github.com/bosancz/bosan.cz/wiki). Obecné věci najdete samozřejmě v dokumentaci k příslušným technologiím.
 
-## Spuštění pro testovací provoz
+## Spuštění pro testovací provoz na localhostu
 
-```npm run dev``` - spustí [angular-cli](https://github.com/angular/angular-cli) v režimu automatické rekompilace v případě změn v adresáři ```src```
+```ng serve --configuration=local``` - spustí [angular-cli](https://github.com/angular/angular-cli) v režimu automatické rekompilace v případě změn v adresáři ```src``` a nastaví jako testovací server test.bosan.cz s podporou CORS.
 
 ## Přispívání
 

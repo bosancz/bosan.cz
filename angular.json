@@ -11,6 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -23,7 +24,8 @@
             "styles": [
               "src/styles/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "i18nLocale": "cs"
           },
           "configurations": {
             "production": {
@@ -43,17 +45,29 @@
                 }
               ],
               "serviceWorker": true
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bosan.cz:build"
+            "browserTarget": "bosan.cz:build",
+            "aot": true
           },
           "configurations": {
             "production": {
               "browserTarget": "bosan.cz:build:production"
+            },
+            "local": {
+              "browserTarget": "bosan.cz:build:local"
             }
           }
         },

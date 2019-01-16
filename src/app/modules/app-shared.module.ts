@@ -21,6 +21,7 @@ import { CollapseModule } from "ngx-bootstrap/collapse";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { TooltipConfig } from 'ngx-bootstrap/tooltip';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ShareModule } from '@ngx-share/core';
 
 export function getTooltipConfig():TooltipConfig {
@@ -40,8 +41,9 @@ export function getTooltipConfig():TooltipConfig {
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
-    ShareModule.forRoot(),
+    BsDropdownModule.forRoot(),
     
+    ShareModule
     
   ],
   declarations: [
@@ -50,7 +52,7 @@ export function getTooltipConfig():TooltipConfig {
   ],
   exports: [
     /* MODULES */ CommonModule, FormsModule, HttpClientModule,
-    CollapseModule, ModalModule, TooltipModule,
+    CollapseModule, ModalModule, TooltipModule, BsDropdownModule,
     ShareModule,
     
     AclModule,
@@ -58,7 +60,7 @@ export function getTooltipConfig():TooltipConfig {
     /* PIPES */
     SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
   ],
-  providers: [
+  providers: [    
     { provide: TooltipConfig, useFactory: getTooltipConfig }
   ]
   

@@ -5,6 +5,10 @@
 # dependencies
 /node_modules
 
+# editors
+.idea
+*.code-workspace
+
 # logs
 npm-debug.log
 

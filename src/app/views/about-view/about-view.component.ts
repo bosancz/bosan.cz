@@ -11,7 +11,7 @@ import { Contact } from "app/schema/contact";
 @Component({
   selector: 'about-view',
   templateUrl: "about-view.component.html",
-  styleUrls: ["about-view.component.css"]
+  styleUrls: ["about-view.component.scss"]
 })
 export class AboutViewComponent implements OnInit, OnDestroy {
   
