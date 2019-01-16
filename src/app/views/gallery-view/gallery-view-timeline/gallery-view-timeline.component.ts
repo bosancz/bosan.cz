@@ -18,10 +18,11 @@ class TimelineAlbumContainer implements TimelinePoint{
 
   _id:string;
   name:string;
-  date:Date;
+  dateFrom:Date;
+  dateTill:Date;
   album:Album;
 
-  loading:boolean = false;
+  loading?:boolean = false;
 }
 
 @Component({
@@ -33,7 +34,7 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
   @ViewChild('gallery') container:ElementRef<HTMLElement>;
   
-  timeline:TimelinePoint[] = [];
+  timeline:TimelineAlbumContainer[] = [];
   timelineLabels:TimelineLabel[] = [];
 
   loading:boolean = false;
@@ -62,15 +63,17 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
       filter: { status: "public" }
     };
 
-    let albums = await this.api.get<Album[]>("gallery");
+    let albums = (await this.api.get<Album[]>("gallery")).filter(album => album.dateFrom);
+
+    albums.sort((a,b) => b.dateFrom.localeCompare(a.dateFrom));
 
     let year:number;
 
-    this.timeline = albums.filter(album => album.dateFrom).map((album,i,filteredAlbums) => {
+    this.timeline = albums.map((album,i,filteredAlbums) => {
 
       let y = i / (filteredAlbums.length - 1);
 
-      let point = {
+      let point:TimelineAlbumContainer = {
         y: y,
         title: null,
 
