@@ -38,7 +38,6 @@
     "googleapis": "^33.0.0",
     "ical-generator": "^1.4.2",
     "is-plain-object": "^2.0.4",
-    "jsonwebtoken": "^8.4.0",
     "luxon": "^1.8.3",
     "mongo-parse": "^2.1.0",
     "mongoose": "^5.4.0",
