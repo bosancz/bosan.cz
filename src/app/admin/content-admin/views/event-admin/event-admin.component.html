@@ -31,8 +31,6 @@
 
       <div class="col-9" [ngSwitch]="category">
 
-        <event-admin-dashboard *ngSwitchCase="'prehled'" [event]="event"></event-admin-dashboard>
-        
         <event-admin-info *ngSwitchCase="'upravit'" [event]="event" (saved)="reloadEvent()"></event-admin-info>
         
         <event-admin-recurring *ngSwitchCase="'opakovani'" [event]="event" (saved)="reloadEvent()"></event-admin-recurring>
