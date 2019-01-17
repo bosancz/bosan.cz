@@ -12,7 +12,8 @@
 
   <div class="status" [ngSwitch]="status">
     <p *ngSwitchCase="'invalidCredentials'" class="text-danger">Chybné uživatelské jméno nebo heslo.</p>
-    <p *ngSwitchCase="'credentialsLoginNotAvalible'" class="text-danger">Přihlášení přes login a heslo není možné. Použijte možnost zaslání odkazu.</p>
+    <p *ngSwitchCase="'credentialsLoginNotAvalible'" class="text-danger">Přihlášení přes login a heslo není možné. Je možné, že nemáte heslo nastavené. Použijte možnost zaslání odkazu.</p>
+    <p *ngSwitchCase="'linkSending'" class="text-warning">Odesílám odkaz na email...</p>
     <p *ngSwitchCase="'linkSent'" class="text-success">Odkaz odeslán na email.</p>
     <p *ngSwitchCase="'userNotFound'" class="text-danger">Uživatel nenalezen.</p>
     <p *ngSwitchDefault class="text-danger">{{status}}</p>

@@ -52,6 +52,7 @@ export class LoginFormComponent {
   }
   
   async sendLoginLink(linkForm:NgForm){
+    this.status = "linkSending";
     const formData = linkForm.value;
     const result = await this.loginService.sendLoginLink(formData.login);
     if(result.success) this.status = "linkSent";
