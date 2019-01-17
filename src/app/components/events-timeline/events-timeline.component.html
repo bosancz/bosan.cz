@@ -55,7 +55,7 @@
           </div>
           <div class="row">
             <div class="col">
-              <p *ngIf="event.description" class="description" [innerHTML]="event.description | nl2br"></p>
+              <p *ngIf="event.description" class="description multiline">{{event.description}}</p>
             </div>
           </div>
           <div class="row">

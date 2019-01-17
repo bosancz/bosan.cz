@@ -18,7 +18,7 @@
 
             <div class="col-md-8">
               <h6>Popisek</h6>
-              <p [innerHTML]="eventData.description ? (eventData.description | nl2br) : 'Nevyplněno'"></p>
+              <p class="multiline">{{eventData.description || 'Nevyplněno'}}</p>
               
               <div class="row">
                 <div class="col-6 col-md-4">
