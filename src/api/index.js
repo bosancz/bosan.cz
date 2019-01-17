@@ -41,10 +41,7 @@ routes.child("/share", require("./share"));
 
 routes.child("/users", require("./users"));
 
-routes.router.get("/test", (req,res,next) => {
-  console.log(req.cookies);
-  res.sendStatus(200)
-});
+routes.child("/test", require("./test"));
 
 routes.get(null,"/",{permission:"api:read"}).handle((req,res) => {
   

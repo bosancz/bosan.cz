@@ -69,7 +69,7 @@ module.exports = {
 
   "login:credentials": { spravce, guest },
   "login:refresh": { "refresh": true },
-  "login:sendlink": { spravce, guest },
+  "login:link": { spravce, guest },
   "login:google": { spravce, guest }, 
   "login:impersonate": { spravce }, 
   "logout": { guest },
