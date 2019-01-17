@@ -16,6 +16,8 @@ export class LoginService {
   
   onLogin:EventEmitter<void> = new EventEmitter();
   onLogout:EventEmitter<void> = new EventEmitter();
+
+  googleLoginAvailable = this.googleService.loaded;
   
   refreshToken:string;
 
