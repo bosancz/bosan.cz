@@ -22,6 +22,8 @@ export class LoginFormComponent {
   
   view:string = "login";
 
+  googleLoginAvailable = this.loginService.googleLoginAvailable;
+
   constructor(
     private loginModal:BsModalRef,
     private router:Router,

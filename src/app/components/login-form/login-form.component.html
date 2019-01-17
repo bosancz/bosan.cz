@@ -35,7 +35,7 @@
       <div class="buttons text-right">
         <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button>
         <br><br>
-        <ng-container *ngIf="googleLoaded">
+        <ng-container *ngIf="googleLoginAvailable | async">
           <button type="button" class="btn btn-secondary" (click)="loginGoogle()"><i class="fab fa-google"></i>&nbsp;&nbsp;Přihlásit přes Bošánovský mail</button>
           <br><br>
         </ng-container>
