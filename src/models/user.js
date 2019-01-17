@@ -8,7 +8,8 @@ var userSchema = mongoose.Schema({
   
   "roles": [String],
   
-  "tokenRecallCode": String,
+  "loginCode": { type: String, index: { unique: true, sparse: true } },
+  "loginCodeExp": String,
   
   "member": {type: mongoose.Schema.Types.ObjectId, ref: "Member"},
   

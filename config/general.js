@@ -28,8 +28,8 @@ module.exports = {
   contact: "admin@bosan.cz",
   
   api: {
-    root: environment.api_root + "/api",
-    shareRoot: environment.api_root + "/api/share"
+    root: environment.api_root,
+    shareRoot: environment.api_root + "/share"
   },
   
   google: environment.google,

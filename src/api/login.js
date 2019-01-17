@@ -1,6 +1,9 @@
 const { Routes } = require("@smallhillcz/routesjs");
 const routes = module.exports = new Routes();
 
+const request = require("request-promise-native");
+const { DateTime } = require("luxon");
+
 const config = require("../../config");
 
 var bcrypt = require("bcryptjs");
@@ -12,6 +15,7 @@ var validate = require("../validator");
 var google = require("../google");
 
 var createToken = require("./login/create-token");
+var loginUser = require("./login/login-user");
 var saveCookie = require("./login/save-cookie");
 var clearCookie = require("./login/clear-cookie");
 
@@ -36,18 +40,15 @@ routes.post("login","/",{permission:"login:credentials"}).handle(validate({body:
   if(!user) return res.sendStatus(401); // dont send that user dont exists
   if(!user.password) return res.status(503).send("Password not set."); // dont send user dont exists
   
-  var same = await bcrypt.compare(req.body.password, user.password)
+  var same = await bcrypt.compare(req.body.password, user.password);
 
   if(!same) return res.sendStatus(401);
   
   // create the token
-  var token = await createToken(user);
-
-  // set cookie header
-  saveCookie(res,token);
+  var tokens = await loginUser(res,user);
   
   // send it to the user
-  res.send({ access_token: token });
+  res.send(tokens);
   
   // if hash using weak hashing strength, then update hash
   if(bcrypt.getRounds(user.password) < config.auth.bcrypt.rounds) {
@@ -71,7 +72,7 @@ var sendLinkSchema = {
   required: ["login"]
 };
 
-routes.post("login:sendlink","/sendlink",{permission:"login:sendlink"}).handle(validate({body:sendLinkSchema}), async (req,res) => {
+routes.post("login:sendlink","/sendlink",{permission:"login:link"}).handle(validate({body:sendLinkSchema}), async (req,res) => {
 	
 	// we get the data from DB so we can update token data if something changed (e.g. roles)
   const userId = req.body.login.toLowerCase();
@@ -79,12 +80,42 @@ routes.post("login:sendlink","/sendlink",{permission:"login:sendlink"}).handle(v
   
   if(!user || !user.email) return res.status(404).send("User not found");
   
-  const token = await createToken(user,"1 hour");
+  const code = await request("https://www.random.org/strings/?num=2&len=16&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new")
+    .then(codes => codes.replace(/\r?\n/g,""))
+    .catch(err => [...Array(32)].map(i=>(~~(Math.random()*36)).toString(36)).join(''));
   
-  await mailings("send-login-link",{user: user, token: token });
+  user.loginCode = code;
+  user.loginCodeExp = DateTime.local().plus({hours:1}).toJSDate();
+  
+  await user.save();
+  
+  const link = config.api.root + "/login/link?code=" + code;
+  
+  await mailings("send-login-link",{user: user, link: link });
   
   res.sendStatus(200);
 	
+});
+
+routes.get("login:link","/link",{permission:"login:link"}).handle(async (req,res) => {
+  
+	var user = await User.findOne({ loginCode: req.query.code });
+  
+  if(!user || !user.email) return res.status(404).send("Login code not valid");
+
+  if (!user.loginCodeExp || DateTime.fromJSDate(user.loginCodeExp) < DateTime.local()) {
+    return res.status(403).send("Login code expired")
+  }
+
+  await loginUser(res,user);
+
+  res.redirect("/");
+
+  // reset login code
+  user.loginCode = null;
+  user.loginCodeExp = null;
+  await user.save();
+    
 });
 
 routes.post("login:google","/google",{permission:"login:google"}).handle(async (req,res) => {
@@ -110,11 +141,9 @@ routes.post("login:google","/google",{permission:"login:google"}).handle(async (
 
   if(!user) return res.status(404).send("User with email " + userEmail + " not found");
   
-  var token = await createToken(user);
-  
-  saveCookie(res,token);
+  const tokens = await loginUser(res,user);
 
-  res.send({ access_token: token });
+  res.send(tokens);
   
 });
 
@@ -127,11 +156,9 @@ routes.post("login:impersonate","/impersonate", { permission: "login:impersonate
   
   if(!user) return res.status(404).send("User not found.");
 
-  var token = await createToken(user);
-  
-  saveCookie(res,token);
+  const tokens = await loginUser(res,user);
 
-  res.send({ access_token: token });
+  res.send(tokens);
 });
 
 routes.post("logout","/logout", { permission: "logout" }).handle(async (req,res) => {
