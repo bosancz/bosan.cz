@@ -156,12 +156,21 @@ routes.post("login:impersonate","/impersonate", { permission: "login:impersonate
   
   if(!user) return res.status(404).send("User not found.");
 
-  const tokens = await loginUser(res,user);
+  const tokens = await loginUser(res,user,req.user._id);
 
   res.send(tokens);
 });
 
 routes.post("logout","/logout", { permission: "logout" }).handle(async (req,res) => {
+  
+  if(req.user && req.user.impersonatedBy){
+    const user = await User.findOne({_id: req.user.impersonatedBy});
+    if(user){
+      await loginUser(res,user);
+      return res.sendStatus(200);
+    }
+  }
+
   clearCookie(res);
   res.sendStatus(200);
 });
