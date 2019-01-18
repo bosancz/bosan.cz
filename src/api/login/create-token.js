@@ -4,7 +4,7 @@ var config = require("../../../config");
 
 var Member = require("../../models/member");
 
-module.exports = async function createToken(user){
+module.exports = async function createToken(user, impersonatedBy){
 
   const roles = user.roles || [];
   if(user._id) roles.push("user");
@@ -13,8 +13,11 @@ module.exports = async function createToken(user){
 
   // set the token contents
   var accessTokenData = {
+    
     _id: user._id,
     roles: roles,
+    
+    impersonatedBy: impersonatedBy,
 
     login: user.login || undefined,
     member: member ? member._id : undefined,
