@@ -37,6 +37,8 @@ routes.child("/photos", require("./photos"));
 
 routes.child("/program", require("./program"));
 
+routes.child("/reports", require("./reports"));
+
 routes.child("/share", require("./share"));
 
 routes.child("/users", require("./users"));

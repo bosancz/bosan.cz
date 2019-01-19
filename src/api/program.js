@@ -23,7 +23,7 @@ const getEventsProgramSchema = {
 routes.get("program","/",{permission:"program:read"}).handle(validate({query:getEventsProgramSchema}), async (req,res,next) => {
 
   
-  const query = Event.find({ status: { $in: ["public","cancelled"] } });
+  const query = Event.find({ status: { $in: ["public","cancelled"] } }, null, { autopopulate: false });
 
   query.select("_id name status dateFrom dateTill groups leadersEvent description type subtype meeting registration");
   query.populate("leaders","_id name nickname group contacts.mobile");
