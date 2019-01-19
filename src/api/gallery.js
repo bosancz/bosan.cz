@@ -7,7 +7,9 @@ const Album = require("../models/album");
 const Photo = require("../models/photo");
 
 routes.get("gallery","/",{permission:"gallery:list"}).handle(async (req,res) => {
-  res.json(await Album.find({status:"public"}));
+  const query = Album.find({status:"public"});
+  if(req.query.sort) query.sort(req.query.sort);
+  res.json(await query);
 });
 
 routes.get("gallery:recent","/recent",{permission:"gallery:list"}).handle(async (req,res) => {
