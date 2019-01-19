@@ -61,7 +61,7 @@ routes.delete("event","/",{permission:"events:delete", query: {status:"draft"}})
 
 routes.action("event:submit","/actions/submit", {permission:"events:submit", hideRoot: true, query: {status: "draft"}}).handle(async (req,res,next) => {
   const event = await Event.findOne({_id:req.params.id},"name status statusHistory leader", {autopopulate:false}).filterByPermission("events:submit", req);
-  if(!event) return req.sendStatus(401);
+  if(!event) return res.sendStatus(401);
 
   event.status  = "pending";
   event.statusNote = req.body.note || null;

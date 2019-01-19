@@ -6,7 +6,7 @@ const user = true;
 
 const clen = true, revizor = true, hospodar = true, vedouci = true, spravce = true, program = true;
 
-const vedouciAkce = { vedouci: req => ({ "leaders._id": req.user.member }) };
+const vedouciAkce = { vedouci: req => ({ $or: [ {"leaders._id": req.user.member}, {"leaders": req.user.member} ] }) };
 
 module.exports = {
   
