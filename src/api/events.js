@@ -1,6 +1,8 @@
 const { Routes } = require("@smallhillcz/routesjs");
 const routes = module.exports = new Routes();
 
+const { DateTime } = require("luxon");
+
 const config = require("../../config");
 
 
@@ -15,6 +17,7 @@ var createEvent = require("./events/create-event");
 var deleteEvent = require("./events/delete-event");
 
 var Event = require("../models/event");
+var Member = require("../models/member");
 var EventRecurring = require("../models/event-recurring");
 
 var getEventsSchema = {
@@ -79,28 +82,28 @@ routes.get("events","/").handle(validate({query:getEventsSchema}), async (req,re
     else if(req.query.filter.dateTill && req.query.filter.dateTill.$gte) req.query.filter.dateTill.$gte = req.query.filter.dateTill.$gte.replace(" ","+");
     else if(req.query.filter.dateTill && req.query.filter.dateTill.$lte) req.query.filter.dateTill.$lte = req.query.filter.dateTill.$lte.replace(" ","+");
   }
-  
+
   if(req.query.filter && Array.isArray(req.query.filter.status)) req.query.filter.status = { $in: req.query.filter.status };
-     
+
   if(req.query.filter) query.where(req.query.filter);
   if(req.query.search) query.where({ name: new RegExp(req.query.search,"i") });
   if(req.query.has_action){
     const route = req.routes.findRoute("event",req.query.has_action,"action");
     query.where(route.query || {});
   }
-  
+
   query.select(req.query.select || "_id name dateFrom dateTill type status statusNote");
 
   if(req.query.sort) query.sort(req.query.sort.replace(/(\-?)([a-z]+)/i,"$1$2 $1order"));
 
   const limit = req.query.limit ? Math.min(req.query.limit,100) : 20;
   const skip = req.query.skip || 0;
-  
+
   const events = await query.paginate(limit,skip);
-  
+
   req.routes.links(events.docs,"event"),
-    
-  res.json(events);
+
+    res.json(events);
 
 });
 
@@ -116,11 +119,11 @@ routes.get("events:noleader","/noleader",{permission:"events:noleader:list"}).ha
   const query = Event.find({ leaders: { $size: 0 }, dateFrom: { $gte: new Date() } })
   query.select("_id name dateFrom dateTill description leaders status statusNote");
   query.filterByPermission("events:noleader:list",req);
- 
+
   const events = await query.toObject();
-  
+
   req.routes.links(events,"event");
- 
+
   res.json(events);
 
 });
