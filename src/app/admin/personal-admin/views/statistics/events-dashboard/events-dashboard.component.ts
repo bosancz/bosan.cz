@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'app/services/api.service';
 import { DateTime } from 'luxon';
 import { BehaviorSubject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 interface EventsStats {
   leaders:{ count:number, groups: { [group:string]:number }, age: { [age:string]:number } };
@@ -23,16 +24,26 @@ export class EventsDashboardComponent implements OnInit {
 
   events:EventsStats;
 
+  minYear:number;
+  maxYear:number;
+
   year:BehaviorSubject<number> = new BehaviorSubject(DateTime.local().year);
 
   constructor(private api:ApiService) { }
 
   ngOnInit() {
-    this.year.subscribe(year => this.loadData(year));
+    this.loadEventYears();
+    this.year.pipe(debounceTime(500)).subscribe(year => this.loadData(year));
+  }
+
+  async loadEventYears(){
+    const years = await this.api.get<number[]>("events:years");
+    this.minYear = Math.min(...years);
+    this.maxYear = Math.max(...years);
   }
 
   async loadData(year:number){
-    this.events = await this.api.get<EventsStats>("reports:leaders", { year: year });
+    this.events = await this.api.get<EventsStats>(["reports:leaders",year]);
   }
 
   getChartData(data:{[key:string]:number}):ChartData[]{    

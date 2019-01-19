@@ -6,18 +6,18 @@ import "assets/lib/Chart.min.js";
 
 import { ChartsModule } from 'ng2-charts';
 
-import { AuditorRoutingModule } from './auditor-routing.module';
+import { StatisticsRoutingModule } from './statistics-routing.module';
 import { EventReportsComponent } from './event-reports/event-reports.component';
-import { AuditorComponent } from './auditor.component';
+import { StatisticsComponent } from './statistics.component';
 import { EventsDashboardComponent } from './events-dashboard/events-dashboard.component';
 
 @NgModule({
-  declarations: [EventReportsComponent, AuditorComponent, EventsDashboardComponent],
+  declarations: [EventReportsComponent, StatisticsComponent, EventsDashboardComponent],
   imports: [
     CommonModule,
-    AuditorRoutingModule,
+    StatisticsRoutingModule,
     FormsModule,
     ChartsModule
   ]
 })
-export class AuditorModule { }
+export class StatisticsModule { }

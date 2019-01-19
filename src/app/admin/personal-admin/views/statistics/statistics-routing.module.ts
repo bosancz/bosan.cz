@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuditorComponent } from "./auditor.component";
+import { StatisticsComponent } from "./statistics.component";
 
 import { EventReportsComponent } from './event-reports/event-reports.component';
 import { EventsDashboardComponent } from './events-dashboard/events-dashboard.component';
@@ -10,7 +10,7 @@ const routes: Routes = [
 
   {
     path: '',
-    component: AuditorComponent,
+    component: StatisticsComponent,
     children: [
 
       { path: 'reporty', component: EventReportsComponent },
@@ -28,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AuditorRoutingModule { }
+export class StatisticsRoutingModule { }

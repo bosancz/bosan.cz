@@ -27,8 +27,7 @@
               <th>Jméno</th>
               <th>Příjmení</th>
               <th>Datum narození</th>
-              <th>Ulice</th>
-              <th>Město</th>
+              <th>Adresa</th>
 
               <th></th>
             </tr>
@@ -41,8 +40,7 @@
               <td>{{member.name?.first}}</td>
               <td>{{member.name?.last}}</td>
               <td>{{member.birthday | date:"d. M. y"}}</td>
-              <td>{{member.address?.street}} {{member.address?.streetNo}}</td>
-              <td>{{member.address?.city}}</td>
+              <td>{{member.address?.street}} {{member.address?.streetNo}}, {{member.address?.city}}</td>
               <td class="text-right"><a [routerLink]="['./',{},member._id]"><i class="fas fa-pencil-alt"></i></a></td>
             </tr>
           </tbody>
