@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuditorComponent } from "./auditor.component";
 
 import { EventReportsComponent } from './event-reports/event-reports.component';
+import { EventsDashboardComponent } from './events-dashboard/events-dashboard.component';
 
 const routes: Routes = [
 
@@ -13,8 +14,10 @@ const routes: Routes = [
     children: [
 
       { path: 'reporty', component: EventReportsComponent },
+      
+      { path: 'akce', component: EventsDashboardComponent },
 
-      { path: '', redirectTo: "reporty", pathMatch: "full"}
+      { path: '', redirectTo: "akce", pathMatch: "full"}
       
     ]
   }

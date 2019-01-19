@@ -1,0 +1,11 @@
+<input type="number" [ngModel]="year | async" (ngModelChange)="year.next($event)">
+
+<div class="row">
+
+  <div class="col-md-4">
+    <h3>Věk vedoucích</h3>    
+
+    {{events?.leaders?.age | json}}
+    <canvas *ngIf="events" baseChart chartType="bar" width="400" height="400" [datasets]="getChartData(events?.leaders?.age)" [labels]="getChartLabels(events?.leaders?.age)" [legend]="false" ></canvas>
+  </div>
+</div>
