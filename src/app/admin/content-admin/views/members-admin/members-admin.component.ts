@@ -27,6 +27,7 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
   roles:string[] = [];
   
   view:string;
+  currentGroup:string;
   
   views:any = {
     "all": {},
@@ -47,6 +48,7 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
       if(!params.view || !this.views[params.view]) return this.router.navigate(["./", {view: "all"}], {relativeTo: this.route, replaceUrl: true});
       
       this.view = params.view;
+      this.currentGroup = params.group;
       this.views.group.group = params.group;
       
       this.loadMembers(params.view);
@@ -65,7 +67,7 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
   }
   
   async loadMembers(view:string){
-    const options = Object.assign({},this.views[view] || {});
+    const options = Object.assign({ sort: "group nickname" },this.views[view] || {});
     this.members = await this.api.get<Member[]>("members",options);
   }
   
