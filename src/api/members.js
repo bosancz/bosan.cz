@@ -7,12 +7,12 @@ var Member = require("../models/member");
 
 routes.get("members","/",{permission:"members:list"}).handle(async (req,res,next) => {
   
-  var query = Member.find({});
-  query.select("_id nickname name group role");
+  var query = Member.find({});  
   query.filterByPermission("members:list",req);
   
   if(req.query.role) query.where({"role": Array.isArray(req.query.role) ? { $in: req.query.role } : req.query.role});
   if(req.query.group) query.where({"group": req.query.group});
+  if(req.query.sort) query.sort(req.query.sort);
   
   const members = await query.toObject();
   
