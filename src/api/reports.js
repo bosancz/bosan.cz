@@ -6,7 +6,7 @@ const { DateTime } = require("luxon");
 var Event = require("../models/event");
 var Member = require("../models/member");
 
-routes.get("reports:leaders","/leaders/:year").handle(async (req,res,next) => {
+routes.get("reports:leaders","/leaders/:year", { permission: "reports:events:read" }).handle(async (req,res,next) => {
   
   const query = Event.find({}, null, { autopopulate:false }).select("_id name groups leadersEvent leaders attendees");
   query.populate("leaders","birthday group");

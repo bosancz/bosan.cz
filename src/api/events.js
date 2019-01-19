@@ -66,7 +66,7 @@ var getEventsSchema = {
   additionalProperties: false
 };
 
-routes.get("events","/").handle(validate({query:getEventsSchema}), async (req,res,next) => {
+routes.get("events","/", { permission: "events:list" }).handle(validate({query:getEventsSchema}), async (req,res,next) => {
 
   // construct the query
   const query = Event.find();
@@ -128,7 +128,7 @@ routes.get("events:noleader","/noleader",{permission:"events:noleader:list"}).ha
 
 });
 
-routes.get("events:years","/years",/*{permission:"events:list"}*/).handle(async (req,res,next) => {
+routes.get("events:years","/years", {permission:"events:list"}).handle(async (req,res,next) => {
   const years = await Event.aggregate([
     { $project: { year: { $year: "$dateFrom" } } },
     { $group: { _id: null, years: { $addToSet: "$year" } } }
