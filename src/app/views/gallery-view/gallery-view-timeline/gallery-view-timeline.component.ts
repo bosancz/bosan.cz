@@ -58,14 +58,8 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
   async loadAlbumsList(){
 
     this.loading = true;
-    let options = {
-      sort:"-dateFrom",
-      filter: { status: "public" }
-    };
 
-    let albums = (await this.api.get<Album[]>("gallery")).filter(album => album.dateFrom);
-
-    albums.sort((a,b) => b.dateFrom.localeCompare(a.dateFrom));
+    let albums = (await this.api.get<Album[]>("gallery",{ sort:"-dateFrom" })).filter(album => album.dateFrom);
 
     let year:number;
 
