@@ -6,7 +6,7 @@ const { DateTime } = require("luxon");
 var Event = require("../models/event");
 var Member = require("../models/member");
 
-routes.get("reports:leaders","/leaders").handle(async (req,res,next) => {
+routes.get("reports:leaders","/leaders/:year").handle(async (req,res,next) => {
   
   const query = Event.find({}, null, { autopopulate:false }).select("_id name groups leadersEvent leaders attendees");
   query.populate("leaders","birthday group");
@@ -14,14 +14,14 @@ routes.get("reports:leaders","/leaders").handle(async (req,res,next) => {
   
   query.where({
     dateFrom: {
-      $gte: DateTime.local().set({ day: 1, month: 1, year: Number(req.query.year) }).toJSDate(),
-      $lt: DateTime.local().set({ day: 1, month: 1, year: Number(req.query.year) + 1 }).toJSDate()
+      $gte: DateTime.local().set({ day: 1, month: 1, year: Number(req.params.year) }).toJSDate(),
+      $lt: DateTime.local().set({ day: 1, month: 1, year: Number(req.params.year) + 1 }).toJSDate()
     }
   });
   
   const events = await query;
   
-  const ages = { "NA": 0 };
+  const ages = { };
   for(let i = 7; i <= 26; i++) ages[String(i)] = 0;
   
   const report = {
@@ -39,14 +39,14 @@ routes.get("reports:leaders","/leaders").handle(async (req,res,next) => {
   report.leaders = events
     .map(event => {
       return event.leaders.map(member => ({
-        age: member.birthday ? Math.min(26,Math.max(7,Math.floor((-1) * DateTime.fromJSDate(member.birthday).diffNow("years").years))) : "NA",
-        group: member.group || "NA"
+        age: member.birthday ? Math.min(26,Math.max(7,Math.floor((-1) * DateTime.fromJSDate(member.birthday).diffNow("years").years))) : undefined,
+        group: member.group || undefined
       }));
     })
     .reduce((acc,cur) => {
       cur.forEach(member => {
-        acc.age[member.age]++;
-        acc.groups[member.group] = acc.groups[member.group] ? acc.groups[member.group] + 1 : 1;
+        if(member.age) acc.age[member.age]++;
+        if(member.group) acc.groups[member.group] = acc.groups[member.group] ? acc.groups[member.group] + 1 : 1;
         acc.count++;
       })
       return acc;
@@ -55,14 +55,14 @@ routes.get("reports:leaders","/leaders").handle(async (req,res,next) => {
   report.attendees = events
     .map(event => {
       return event.attendees.map(member => ({
-        age: member.birthday ? Math.min(26,Math.max(7,Math.floor((-1) * DateTime.fromJSDate(member.birthday).diffNow("years").years))) : "NA",
-        group: member.group || "NA"
+        age: member.birthday ? Math.min(26,Math.max(7,Math.floor((-1) * DateTime.fromJSDate(member.birthday).diffNow("years").years))) : undefined,
+        group: member.group || undefined
       }));
     })
     .reduce((acc,cur) => {
-      cur.forEach(member => {        
-        acc.age[member.age]++;
-        acc.groups[member.group] = acc.groups[member.group] ? acc.groups[member.group] + 1 : 1;
+      cur.forEach(member => {       
+        if(member.age) acc.age[member.age]++;
+        if(member.group) acc.groups[member.group] = acc.groups[member.group] ? acc.groups[member.group] + 1 : 1;
         acc.count++;
       })
       return acc;

@@ -127,3 +127,11 @@ routes.get("events:noleader","/noleader",{permission:"events:noleader:list"}).ha
   res.json(events);
 
 });
+
+routes.get("events:years","/years",/*{permission:"events:list"}*/).handle(async (req,res,next) => {
+  const years = await Event.aggregate([
+    { $project: { year: { $year: "$dateFrom" } } },
+    { $group: { _id: null, years: { $addToSet: "$year" } } }
+  ])
+  res.json(years[0].years);
+});
