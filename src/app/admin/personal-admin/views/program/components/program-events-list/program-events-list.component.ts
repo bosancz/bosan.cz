@@ -36,10 +36,11 @@ export class ProgramEventsListComponent implements OnInit {
         status: this.status || undefined
       },
       populate: ["leaders"],
+      sort: "dateFrom",
       select: "_id status name description dateFrom dateTill leaders"
     };
     
-    this.events = await this.api.get<Paginated<Event>>("events",options).then(paginated => paginated.docs);
+    this.events = await this.api.get<Paginated<Event>>("events",options).then(paginated => paginated.docs);    
   }
   
   reload(){
