@@ -6,8 +6,13 @@ import { debounceTime } from 'rxjs/operators';
 import { Member } from 'app/schema/member';
 
 interface EventsStats {
-  leaders:{ count:number, groups: { [group:string]:number }, age: { [age:string]:number } };
   attendees:{ count:number, groups: { [group:string]:number }, age: { [age:string]:number } };
+  
+  leaders:{ count:number,
+    groups: { [group:string]:number },
+    age: { [age:string]:number },
+    top: [{ member: { nickname:string }, events:Event[] }]
+  };
   
   events:{
     count:number,

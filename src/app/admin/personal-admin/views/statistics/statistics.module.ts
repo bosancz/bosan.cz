@@ -7,12 +7,11 @@ import "assets/lib/Chart.min.js";
 import { ChartsModule } from 'ng2-charts';
 
 import { StatisticsRoutingModule } from './statistics-routing.module';
-import { EventReportsComponent } from './event-reports/event-reports.component';
 import { StatisticsComponent } from './statistics.component';
 import { EventsDashboardComponent } from './events-dashboard/events-dashboard.component';
 
 @NgModule({
-  declarations: [EventReportsComponent, StatisticsComponent, EventsDashboardComponent],
+  declarations: [StatisticsComponent, EventsDashboardComponent],
   imports: [
     CommonModule,
     StatisticsRoutingModule,

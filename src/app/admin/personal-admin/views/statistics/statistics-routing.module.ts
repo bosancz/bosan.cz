@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { StatisticsComponent } from "./statistics.component";
 
-import { EventReportsComponent } from './event-reports/event-reports.component';
 import { EventsDashboardComponent } from './events-dashboard/events-dashboard.component';
 
 const routes: Routes = [
@@ -13,8 +12,6 @@ const routes: Routes = [
     component: StatisticsComponent,
     children: [
 
-      { path: 'reporty', component: EventReportsComponent },
-      
       { path: 'akce', component: EventsDashboardComponent },
 
       { path: '', redirectTo: "akce", pathMatch: "full"}
