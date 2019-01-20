@@ -3,11 +3,17 @@ import { ApiService } from 'app/services/api.service';
 import { DateTime } from 'luxon';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { Member } from 'app/schema/member';
 
 interface EventsStats {
   leaders:{ count:number, groups: { [group:string]:number }, age: { [age:string]:number } };
   attendees:{ count:number, groups: { [group:string]:number }, age: { [age:string]:number } };
-  events:{ count:number, groups: { [group:string]:number } };
+  
+  events:{
+    count:number,
+    groups: { [group:string]:number },
+    top: [{ name:string, dateFrom:string, dateTill:string, count:number }]
+  };
 }
 
 interface ChartData {
@@ -22,7 +28,7 @@ interface ChartData {
 })
 export class EventsDashboardComponent implements OnInit {
 
-  events:EventsStats;
+  report:EventsStats;
 
   minYear:number;
   maxYear:number;
@@ -43,7 +49,7 @@ export class EventsDashboardComponent implements OnInit {
   }
 
   async loadData(year:number){
-    this.events = await this.api.get<EventsStats>(["reports:leaders",year]);
+    this.report = await this.api.get<EventsStats>(["reports:events",year]);
   }
 
   getChartData(data:{[key:string]:number}):ChartData[]{    
@@ -56,4 +62,7 @@ export class EventsDashboardComponent implements OnInit {
     return Object.keys(data);
   }
 
+  joinMembers(members:Member[]){
+    return members.slice(0,members.length - 1).map(member => member.nickname).join(", ") + (members.length > 1 ? " a " : "") + members[members.length - 1].nickname;
+  }
 }
