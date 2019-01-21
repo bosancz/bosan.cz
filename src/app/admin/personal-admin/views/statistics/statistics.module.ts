@@ -9,9 +9,10 @@ import { ChartsModule } from 'ng2-charts';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { StatisticsComponent } from './statistics.component';
 import { EventsDashboardComponent } from './events-dashboard/events-dashboard.component';
+import { EventsCompetitionComponent } from './events-competition/events-competition.component';
 
 @NgModule({
-  declarations: [StatisticsComponent, EventsDashboardComponent],
+  declarations: [StatisticsComponent, EventsDashboardComponent, EventsCompetitionComponent],
   imports: [
     CommonModule,
     StatisticsRoutingModule,
