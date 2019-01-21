@@ -2,8 +2,12 @@
   <div class="container">
 
     <a class="navbar-brand text-uppercase" routerLink="/o-nas" routerLinkActive="active">
-      <img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small mr-3" />Bosan.cz
-      <span *ngIf="environment" class="environment">{{environment}}</span>
+      <img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small mr-3" />
+      
+      <span class="d-none d-lg-inline">Bosan.cz</span>
+      <span class="d-inline d-lg-none">{{subTitle | async}}</span>
+      
+      <span *ngIf="environment" class="environment">&nbsp;{{environment}}</span>
     </a>
 
     <button class="navbar-toggler" (click)="layoutService.menu.collapsed = !layoutService.menu.collapsed" type="button">

@@ -1,5 +1,7 @@
 import { Component, HostListener, AfterViewInit, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { Observable } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -11,8 +13,10 @@ import { UserService } from "app/services/user.service";
 import { AclService } from "app/lib/acl";
 import { ConfigService } from "app/services/config.service";
 import { ToastService } from "app/services/toast.service";
+import { TitleService } from 'app/services/title.service';
 
 import { LoginFormComponent } from "app/components/login-form/login-form.component";
+
 
 @Component({
   selector: 'page-menu',
@@ -29,22 +33,28 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
   
   userLogin:string;
 
+  subTitle:Observable<string>;
+
   constructor(
     public aclService:AclService,
     public userService:UserService,
     public layoutService:LayoutService,
     public onlineService:OnlineService,
+    public titleService:TitleService,
     private loginService:LoginService,
     private configService:ConfigService,
     private modalService:BsModalService,
     private toastService:ToastService,
-    private router:Router
+    private router:Router,
   ) { }
 
   ngOnInit(){
     this.configService.config.subscribe(config => {
       this.environment = config.general.environment;
     });
+
+    this.subTitle = this.titleService.subTitle.pipe(debounceTime(0));
+
     this.userService.user.subscribe(user => this.userLogin = user ? user.login : "");
   }
 
