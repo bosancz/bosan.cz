@@ -67,7 +67,8 @@ export class EventsDashboardComponent implements OnInit {
     return Object.keys(data);
   }
 
-  joinMembers(members:Member[]){
+  joinMembers(members:Member[]):string {
+    if(!members || !members.length) return "";
     return members.slice(0,members.length - 1).map(member => member.nickname).join(", ") + (members.length > 1 ? " a " : "") + members[members.length - 1].nickname;
   }
 }
