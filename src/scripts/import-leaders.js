@@ -7,6 +7,8 @@ var Member = require("../models/member");
 
 var connectionMongo = require("../db");
 
+const dry = false;
+
 var connectionSql = mysql.createConnection({
   host     : 'localhost',
   user     : 'bosancz',
@@ -16,7 +18,7 @@ var connectionSql = mysql.createConnection({
 
 
 function parseGroup(group){
-  if(group === 100) return "KV";
+  if(group === 100) return "KP";
   if(group === 99) return "UH";
   return String(group);
 }
@@ -29,6 +31,8 @@ async function importEvents(){
   
   for(var leader of leaders){
 
+    if(!(leader.id_vedouci > 0)) continue;
+    
     let memberData = {
       "srcId": leader.id_vedouci,
       "nickname": leader.prezdivka,
@@ -39,9 +43,14 @@ async function importEvents(){
       "group": parseGroup(leader.oddil_id)
     };
     
+    const existingLeader = await Member.findOne({ srcId: leader.id_vedouci });
+    
+    if(existingLeader) continue;
+    
+    
     console.log(memberData);
 
-    await Member.create(memberData);
+    if(!dry) await Member.create(memberData);
   }
   
 }

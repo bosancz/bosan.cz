@@ -8,13 +8,14 @@ var Member = require("../models/member");
 
 var connectionMongo = require("../db");
 
+const dry = false;
+
 var connectionSql = mysql.createConnection({
   host     : 'localhost',
   user     : 'bosancz',
   password : '',
   database : 'bosan-old'
 });
-
 
 function parseDate(dateString,timeString){
   let string = timeString ? dateString.toISOString().split("T")[0] + " " + String(timeString) : dateString;
@@ -31,7 +32,7 @@ async function importEvents(){
   leaders.forEach(leader => leadersIndex[leader.srcId] = leader);
   
   var groups = await new Promise((resolve,reject) => connectionSql.query('SELECT * FROM bo_akce_oddilu', (err,result,fields) => err ? reject(err) : resolve(result)));
-  var events = await new Promise((resolve,reject) => connectionSql.query('SELECT PA.*,TA.typ FROM bo_program_akci AS PA LEFT JOIN bo_typ_akce AS TA ON TA.id_typ = PA.typ_akce_id WHERE PA.prihlaska IS NOT NULL', (err,result,fields) => err ? reject(err) : resolve(result)));
+  var events = await new Promise((resolve,reject) => connectionSql.query('SELECT PA.*,TA.typ FROM bo_program_akci AS PA LEFT JOIN bo_typ_akce AS TA ON TA.id_typ = PA.typ_akce_id', (err,result,fields) => err ? reject(err) : resolve(result)));
   
   var groupEventIndex = {}
   for(var group of groups){
@@ -40,6 +41,10 @@ async function importEvents(){
   }
     
   for(var event of events){
+    
+    const existingEvent = await Event.findOne({ srcId: event.id_akce });
+    
+    if(existingEvent) continue;
     
     let eventData = {
       "srcId": event.id_akce,
@@ -54,12 +59,18 @@ async function importEvents(){
       "status": event.status === 0 ? "public" : "draft"
     };
     
-    if(event.vede_1_id) eventData.leaders.push(leadersIndex[event.vede_1_id]._id);
-    if(event.vede_2_id) eventData.leaders.push(leadersIndex[event.vede_2_id]._id);
+    if(eventData.dateTill > new Date()) continue;
+    
+    
+    if(!leadersIndex[event.vede_1_id] && event.vede_1_id > 0) console.log("Missing leader: " + event.vede_1_id);
+    if(!leadersIndex[event.vede_2_id] && event.vede_2_id > 0) console.log("Missing leader: " + event.vede_2_id);
+    
+    if(event.vede_1_id && leadersIndex[event.vede_1_id]) eventData.leaders.push(leadersIndex[event.vede_1_id]._id);
+    if(event.vede_2_id && leadersIndex[event.vede_2_id]) eventData.leaders.push(leadersIndex[event.vede_2_id]._id);
     
     console.log(" - " + eventData.name + "(" + eventData.dateFrom + ")" + eventData.leaders.join("+"));
     
-    await Event.create(eventData);
+    if(!dry) await Event.create(eventData);
     
   }
   
