@@ -7,10 +7,10 @@ mongoose.plugin(mongooseAutopopulate);
 
 mongoose.plugin(function(schema){
   schema.query.toObject = function(){
-    
+
     return this.then(docs => {
       if(!docs) return docs;
-      
+
       if(Array.isArray(docs)) return docs.map(doc => doc.toObject ? doc.toObject() : doc);
       else return docs.toObject ? docs.toObject() : docs;
     });
@@ -44,13 +44,14 @@ mongoose.plugin(RoutesPluginsMongoose);
 
 mongoose.Promise = global.Promise;
 
-var connection = mongoose.connect(config.database.uri,config.database.options)
-.then(() => console.log("Connected to " + config.database.uri))
-.then(() => mongoose)
-.catch(err => {
-  throw new Error("Error when connectiong to " + config.database.uri + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
-});
 
-var models = require("./models"); // just load, so that we dont have to worry about missing schemas for references
+mongoose.connect(config.database.uri,config.database.options)
+  .then(() => console.log("Connected to " + config.database.uri))
+  .then(() => mongoose)
+  .catch(err => {
+    throw new Error("Error when connectiong to " + config.database.uri + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
+  });
 
-module.exports = connection;
+require("./models"); // just load, so that we dont have to worry about missing schemas for references
+
+module.exports = mongoose;

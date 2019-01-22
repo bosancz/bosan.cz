@@ -49,7 +49,7 @@ var jwt = require('express-jwt');
 app.use(jwt(config.auth.jwt));
 
 // connect to database
-require("./db");
+const mongoose = require("./db");
 
 const { Routes } = require("@smallhillcz/routesjs");
 Routes.setACL(config.acl);
@@ -69,7 +69,6 @@ if(config.mongoExpress.enabled){
 var errorHandler = require("./error-handler");
 app.use(errorHandler);
 
-
 /* SET UP SERVER */
 let host = config.server.host;
 let port = config.server.port;
@@ -78,4 +77,12 @@ var http = require("http");
 
 http.createServer(app).listen(port, host, function () {
   console.log('Listening on ' + host + ':' + port + '!');
+  process.send('ready');
+});
+
+/* GRACEFUL RELOAD */
+process.on('SIGINT', function() {
+   mongoose.disconnect(function(err) {
+     process.exit(err ? 1 : 0);
+   });
 });
