@@ -59,12 +59,15 @@ routes.get("reports:events","/events/:year", { permission: "reports:events:read"
         if(!acc.top[leader.member._id]) acc.top[leader.member._id] = { member: { _id: leader.member._id, nickname: leader.member.nickname}, events: [] };        
         acc.top[leader.member._id].events.push({ _id: leader.event._id, name: leader.event.name })
         
-        acc.count++;
+        acc.index[leader.member._id] = true;
       })
       return acc;
-    },{ count: 0, groups: {}, top: [], age: JSON.parse(JSON.stringify(ages)) });
+    },{ groups: {}, index: {}, top: [], age: JSON.parse(JSON.stringify(ages)) });
   
   report.leaders.top = Object.values(report.leaders.top).sort((a,b) => b.events.length - a.events.length).slice(0,10);
+  report.leaders.count = Object.keys(report.leaders.index).length;
+  delete report.leaders.index;
+
   
   report.attendees = events
     .map(event => {
