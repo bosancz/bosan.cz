@@ -1,5 +1,15 @@
 <form class="mb-3">
-  <input type="text" name="search" class="form-control" ngModel (ngModelChange)="setSearch($event)" placeholder="Vyhledat (s diakritikou)">
+  <div class="row">
+    <div class="col-8">
+      <input type="text" name="search" class="form-control" ngModel (ngModelChange)="setSearch($event)" placeholder="Vyhledat (s diakritikou)">
+    </div>
+    <div class="col-4">
+      <select name="group" class="form-control" [(ngModel)]="group">
+        <option value="">--vše--</option>
+        <option *ngFor="let group of groups" [value]="group.id">{{group.name}}</option>
+      </select>
+    </div>
+  </div>
 </form>
 
 <div class="list">
@@ -9,6 +19,7 @@
         <th></th>
         <th>Přezdívka</th>
         <th>Jméno</th>
+        <th>Role</th>
         <th>Oddíl</th>
       </tr>
     </thead>
@@ -17,7 +28,8 @@
         <td><input type="checkbox" [ngModel]="selectedMember(member)" (ngModelChange)="toggleMember(member,$event)"></td>
         <td>{{member.nickname}}</td>
         <td>{{member.name?.first}} {{member.name?.last}}</td>
-        <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
+        <td>{{member.role}}</td>
+        <td [style.color]="member.group | group:'color'">{{member.group}}</td>
       </tr>
     </tbody>
   </table>
