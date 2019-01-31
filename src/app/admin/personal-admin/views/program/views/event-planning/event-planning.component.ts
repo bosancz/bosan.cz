@@ -288,6 +288,11 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
     var name = window.prompt("Bude vytvořena akce v termínu " + this.selection[0].toLocaleString() + " - " + this.selection[1].toLocaleString() + ". Zadejte její název:");
 
+    if(!name){
+      this.selection = undefined;
+      return;
+    }
+
     const eventData = {
       name,
       dateFrom: this.selection[0].toISODate(),
