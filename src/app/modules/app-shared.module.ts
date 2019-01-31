@@ -10,7 +10,6 @@ import { AclModule } from "../lib/acl/acl.module";
 import { JoinLeadersPipe } from 'app/pipes/join-leaders.pipe';
 import { JoinAttendeesPipe } from 'app/pipes/join-attendees.pipe';
 import { GroupPipe } from "app/pipes/group.pipe";
-import { Nl2brPipe } from "app/pipes/nl2br.pipe";
 import { DateRangePipe } from "app/pipes/date-range.pipe";
 import { EventPipe } from "app/pipes/event.pipe";
 import { MonthNamePipe } from 'app/pipes/month-name.pipe';
@@ -48,7 +47,7 @@ export function getTooltipConfig():TooltipConfig {
   ],
   declarations: [
     /* PIPES */
-    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
+    SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
   ],
   exports: [
     /* MODULES */ CommonModule, FormsModule, HttpClientModule,
@@ -58,7 +57,7 @@ export function getTooltipConfig():TooltipConfig {
     AclModule,
     
     /* PIPES */
-    SafeurlPipe, GroupPipe, Nl2brPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
+    SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe
   ],
   providers: [    
     { provide: TooltipConfig, useFactory: getTooltipConfig }

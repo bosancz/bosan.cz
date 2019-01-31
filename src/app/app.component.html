@@ -1,7 +1,7 @@
 <div id="toasts">
   <ul class="text-center" (click)="clearToasts()">
     <li *ngFor="let toast of toasts" [class]="toast.status">
-      <p [innerHTML]="toast.text | nl2br"></p>
+      <p class="multiline">{{toast.text}}</p>
     </li>
   </ul>
 </div>

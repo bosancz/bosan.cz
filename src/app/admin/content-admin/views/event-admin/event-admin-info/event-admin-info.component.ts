@@ -8,6 +8,7 @@ import { ToastService } from "app/services/toast.service";
 
 import { Event } from "app/schema/event";
 import { Member } from "app/schema/member";
+import { WebConfigEventStatus } from 'app/schema/webconfig';
 
 @Component({
   selector: 'event-admin-info',
@@ -22,6 +23,7 @@ export class EventAdminInfoComponent implements OnInit, OnChanges {
 
   leaders:Member[] = [];
 
+  eventStatuses:WebConfigEventStatus[] = [];
   eventTypes:string[] = [];
   eventSubTypes:string[] = [];
 
@@ -45,6 +47,7 @@ export class EventAdminInfoComponent implements OnInit, OnChanges {
 
     const config = await this.configService.getConfig();
     
+    this.eventStatuses = config.events.statuses;
     this.eventTypes = config.events.types.map(type => type.name);
     this.eventSubTypes = config.events.subtypes.map(type => type.name);
 

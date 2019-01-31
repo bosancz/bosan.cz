@@ -17,7 +17,6 @@ import { CampAdminBasicComponent } from './views/camps-admin/camp-admin/camp-adm
 import { EventsAdminComponent } from './views/events-admin/events-admin.component';
 
 import { EventAdminComponent } from './views/event-admin/event-admin.component';
-import { EventAdminDashboardComponent } from './views/event-admin/event-admin-dashboard/event-admin-dashboard.component';
 import { EventAdminAttendeesComponent } from './views/event-admin/event-admin-attendees/event-admin-attendees.component';
 import { EventAdminInfoComponent } from './views/event-admin/event-admin-info/event-admin-info.component';
 import { EventAdminLeadersComponent } from './views/event-admin/event-admin-leaders/event-admin-leaders.component';
@@ -67,7 +66,7 @@ import { PaymentsAdminComponent } from './views/payments-admin/payments-admin.co
     ContentAdminComponent,
     
     /* VIEWS */
-    EventsAdminComponent, EventAdminComponent, EventAdminDashboardComponent, EventAdminAttendeesComponent, EventAdminInfoComponent, EventAdminLeadersComponent, EventAdminRegistrationComponent, EventAdminRecurringComponent, 
+    EventsAdminComponent, EventAdminComponent, EventAdminAttendeesComponent, EventAdminInfoComponent, EventAdminLeadersComponent, EventAdminRegistrationComponent, EventAdminRecurringComponent, 
     GalleryAdminComponent, AlbumsAdminComponent, AlbumAdminDashboardComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
     MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent, MemberAdminAchievementsComponent, 
     WebAdminComponent,
