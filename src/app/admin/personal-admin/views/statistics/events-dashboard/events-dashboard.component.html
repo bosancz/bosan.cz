@@ -1,10 +1,12 @@
 <div class="row">
-  <div class="col-2">
-    <h3>{{year | async}}</h3>
+  <div class="col-1">
+    <a class="btn btn-light" [routerLink]="['./',{ year: (year | async) - 1 }]"><i class=" fas fa-arrow-left"></i></a>
   </div>
   <div class="col-10">
-    <input type="range" [min]="minYear" [max]="maxYear" [ngModel]="year | async" class="custom-range novalidate"
-      (ngModelChange)="year.next($event)">
+    <list-slider [items]="years" [ngModel]="year | async" (ngModelChange)="setYear($event)"></list-slider>
+  </div>
+  <div class="col-1 text-right">
+    <a class="btn btn-light" [routerLink]="['./',{ year: (year | async) + 1 }]"><i class=" fas fa-arrow-right"></i></a>
   </div>
 </div>
 

@@ -47,7 +47,7 @@ const routes:Routes = [
 
       { path: 'program', loadChildren: './views/program/program-admin.module#ProgramAdminModule' },
       
-      { path: 'revizor', loadChildren: './views/statistics/statistics.module#StatisticsModule' },
+      { path: 'statistiky', loadChildren: './views/statistics/statistics.module#StatisticsModule' },
 
       { path: 'kanal', component: CanalRegistrationComponent },
 

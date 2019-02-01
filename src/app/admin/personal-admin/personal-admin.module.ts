@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AppSharedModule } from "app/modules/app-shared.module";
-import { AdminSharedModule } from "app/admin/modules/admin-shared.module";
+import { AdminSharedModule } from "app/admin/shared/admin-shared.module";
 
 /* MAIN */
 import { PersonalAdminComponent } from './personal-admin.component';
