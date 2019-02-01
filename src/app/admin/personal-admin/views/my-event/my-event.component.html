@@ -69,15 +69,10 @@
           <div class="row">
             <div class="col-md-8">
               <h6>Vedoucí</h6>
-              <p class="list">
-                <span *ngFor="let member of eventData.leaders" class="badge badge-primary mr-2" [tooltip]="getMemberTooltip(member,member.group | group:'name')">{{member.nickname}} <a (click)="removeItem(member,eventData.leaders);this.saveEvent();">&times;</a></span>
-                <a class="text-success add" (click)="openModal(leadersModal)"><i class="fas fa-plus-circle align-middle"></i></a>
-              </p>
+              <event-attendees-list [(ngModel)]="eventData.leaders" (ngModelChange)="saveEvent()"></event-attendees-list>
+              
               <h6>Účastníci</h6>
-              <p class="list">
-                <span *ngFor="let member of eventData.attendees" class="badge badge-primary mr-2" [tooltip]="getMemberTooltip(member,member.group | group:'name')">{{member.nickname}} <a (click)="removeItem(member,eventData.attendees);this.saveEvent();">&times;</a></span>
-                <a class="text-success add" (click)="openModal(attendeesModal)"><i class="fas fa-plus-circle align-middle"></i></a>
-              </p>
+              <event-attendees-list [(ngModel)]="eventData.attendees" (ngModelChange)="saveEvent()"></event-attendees-list>
               
 
               <div class="row">
@@ -247,16 +242,6 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
     <button type="button" class="btn btn-primary" (click)="saveEvent();modalRef.hide()">Uložit</button>
-  </div>
-</ng-template>
-
-<ng-template #attendeesModal>
-  <div class="modal-body members-select">
-    <members-select [(ngModel)]="eventData.attendees"></members-select>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
-    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>
   </div>
 </ng-template>
 

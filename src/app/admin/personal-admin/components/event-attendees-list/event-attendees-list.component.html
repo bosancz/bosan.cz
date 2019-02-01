@@ -1,0 +1,16 @@
+<p class="list">
+  <span *ngFor="let member of members" class="badge badge-primary mr-2" [class.badge-danger]="isInvalid(member)" [tooltip]="getMemberTooltip(member,member.group | group:'name')">
+    <span [routerLink]="'/interni/obsah/clenove/' + member._id">{{member.nickname}}</span>
+    <a (click)="removeMember(member)" class="ml-1">&times;</a></span>
+  <a class="text-success add" (click)="openModal(attendeesModal)"><i class="fas fa-plus-circle align-middle"></i></a>
+</p>
+
+<ng-template #attendeesModal>
+  <div class="modal-body members-select">
+    <members-select [(ngModel)]="members"></members-select>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="publishValue();modalRef.hide()">Uložit</button>
+  </div>
+</ng-template>

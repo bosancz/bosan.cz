@@ -233,13 +233,6 @@ export class MyEventComponent implements OnInit, OnDestroy {
     array.splice(array.indexOf(item),1);
   }
 
-  getMemberTooltip(member:Member,groupName:string){
-    const info = [groupName];
-    if(member.name) info.push(member.name.first + " " + member.name.last);
-    if(member.role) info.push(member.role);
-    return info.join(", ");
-  }
-  
   addExpense(){
     this.eventData.expenses.push(new EventExpense());
   }
