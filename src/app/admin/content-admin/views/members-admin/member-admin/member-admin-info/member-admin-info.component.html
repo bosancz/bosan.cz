@@ -34,7 +34,7 @@
     </div>
     <div class="form-group col-4">
       <label>Datum narození</label>
-      <input type="date" name="birthday" [ngModel]="member.birthday | date:'yyyy-MM-dd'" class="form-control">
+      <input type="date" name="birthday" [ngModel]="member.birthday | date:'yyyy-MM-dd'" class="form-control" required>
     </div>
   </div>
 
@@ -44,22 +44,22 @@
     <div class="row">
       <div class="form-group col-8">
         <label>Ulice</label>
-        <input type="text" name="street" [ngModel]="member.address?.street" class="form-control" placeholder="Pytlová ulice (Dno pytle)">
+        <input type="text" name="street" [ngModel]="member.address?.street" class="form-control" placeholder="Pytlová ulice (Dno pytle)" required>
       </div>
       <div class="form-group col-4">
         <label>Číslo</label>
-        <input type="text" name="streetNo" [ngModel]="member.address?.streetNo" class="form-control" placeholder="123/1a">
+        <input type="text" name="streetNo" [ngModel]="member.address?.streetNo" class="form-control" placeholder="123/1a" required>
       </div>
     </div>
 
     <div class="row">
       <div class="form-group col-2">
         <label>PSČ</label>
-        <input type="text" name="postalCode" [ngModel]="member.address?.postalCode" class="form-control" pattern="\d{3} ?\d{2}" placeholder="123 45">
+        <input type="text" name="postalCode" [ngModel]="member.address?.postalCode" class="form-control" pattern="\d{3} ?\d{2}" placeholder="123 45" required>
       </div>
       <div class="form-group col-6">
         <label>Město</label>
-        <input type="text" name="city" [ngModel]="member.address?.city" class="form-control" placeholder="Hobitín, Kraj - Západní čtvrtka">
+        <input type="text" name="city" [ngModel]="member.address?.city" class="form-control" placeholder="Hobitín, Kraj - Západní čtvrtka" required>
       </div>
       <div class="form-group col-4">
         <label>Země</label>
