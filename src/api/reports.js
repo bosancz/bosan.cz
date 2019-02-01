@@ -47,6 +47,7 @@ routes.get("reports:events","/events/:year", { permission: "reports:events:read"
   report.events.top = events
     .sort((a,b) => b.attendees.length - a.attendees.length)
     .slice(0,10)
+    .filter(event => event.attendees.length > 0)
     .map(event => ({ name: event.name, dateFrom: event.dateFrom, dateTill: event.dateTill, leaders: event.leaders.map(leader => ({ nickname: leader.nickname})), count: event.attendees.length }))
 
   report.leaders = events
@@ -71,7 +72,7 @@ routes.get("reports:events","/events/:year", { permission: "reports:events:read"
     return acc;
   },{ groups: {}, index: {}, top: [], age: JSON.parse(JSON.stringify(ages)) });
 
-  report.leaders.top = Object.values(report.leaders.top).sort((a,b) => b.events.length - a.events.length).slice(0,10);
+  report.leaders.top = Object.values(report.leaders.top).sort((a,b) => b.events.length - a.events.length).slice(0,10).filter(item => item.events.length > 0);
   report.leaders.count = Object.keys(report.leaders.index).length;
   delete report.leaders.index;
 
