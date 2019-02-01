@@ -6,10 +6,20 @@
     akcí
   </div>
   <div class="col-4">
+    <span class="number">{{report?.events?.days || "-"}}</span>
+    dní
+  </div>
+  <div class="col-4">
+    <span class="number">{{report?.events?.mandays || "-"}}</span>
+    člověkodnů
+  </div>
+</div>
+<div class="row numbers text-center my-5">
+  <div class="col-6">
     <span class="number">{{report?.leaders?.count || "-"}}</span>
     vedoucích
   </div>
-  <div class="col-4">
+  <div class="col-6">
     <span class="number">{{report?.attendees?.count || "-"}}</span>
     účastníků
   </div>
