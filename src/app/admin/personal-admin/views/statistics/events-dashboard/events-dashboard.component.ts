@@ -19,7 +19,9 @@ interface EventsStats {
   events: {
     count: number,
     groups: { [group: string]: number },
-    top: [{ name: string, dateFrom: string, dateTill: string, count: number }]
+    top: [{ name: string, dateFrom: string, dateTill: string, count: number }],
+    days: number,
+    mandays: number
   };
 }
 
