@@ -1,16 +1,4 @@
-<div class="row">
-  <div class="col-1">
-    <a class="btn btn-light" [routerLink]="['./',{ year: (year | async) - 1 }]"><i class=" fas fa-arrow-left"></i></a>
-  </div>
-  <div class="col-10 years">
-    <h3>
-      <list-slider [items]="years" [ngModel]="year | async" (ngModelChange)="setYear($event)" itemWidth="60"></list-slider>
-    </h3>
-  </div>
-  <div class="col-1 text-right">
-    <a class="btn btn-light" [routerLink]="['./',{ year: (year | async) + 1 }]"><i class=" fas fa-arrow-right"></i></a>
-  </div>
-</div>
+<list-slider [items]="years" [ngModel]="year | async" (ngModelChange)="setYear($event)" itemWidth="60"></list-slider>
 
 <div class="row numbers text-center my-5">
   <div class="col-4">

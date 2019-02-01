@@ -1,3 +1,12 @@
-<div class="slider" [style.margin-left]="(-1) * getLeft() + 'px'">
-  <a *ngFor="let item of items; let i = index" (click)="setValue(item)" class="item" [style.width]="itemWidth + 'px'" [style.opacity]="getOpacity(i)" [class.current]="value == item">{{item}}</a>
+<div class="float-left" *ngIf="arrows">
+  <a class="btn btn-light" (click)="prevItem()"><i class=" fas fa-arrow-left"></i></a>
 </div>
+<div class="float-right text-right" *ngIf="arrows">
+  <a class="btn btn-light" (click)="nextItem()"><i class=" fas fa-arrow-right"></i></a>
+</div>
+<h3 class="slider">
+  <div class="items" [style.margin-left]="(-1) * getLeft() + 'px'">
+    <a *ngFor="let item of items; let i = index" (click)="setValue(item)" class="item" [style.width]="itemWidth + 'px'"
+      [style.opacity]="getOpacity(i)" [class.current]="value == item">{{item}}</a>
+  </div>
+</h3>

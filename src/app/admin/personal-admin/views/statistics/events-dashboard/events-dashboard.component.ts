@@ -51,7 +51,7 @@ export class EventsDashboardComponent implements OnInit {
 
     this.year = this.route.params.pipe(map((params: Params) => Number(params.year) || null));
 
-    this.year.pipe(debounceTime(500)).subscribe(year => this.loadData(year));
+    this.year.pipe(filter(year => !!year),debounceTime(500)).subscribe(year => this.loadData(year));
 
     this.year.pipe(first(), filter(year => !year)).subscribe(year => this.setYear(DateTime.local().year));
   }
@@ -61,7 +61,7 @@ export class EventsDashboardComponent implements OnInit {
     this.years.sort();
   }
 
-  async loadData(year: number) {
+  async loadData(year: number) {    
     this.report = await this.api.get<EventsStats>(["reports:events", year]);
   }
 

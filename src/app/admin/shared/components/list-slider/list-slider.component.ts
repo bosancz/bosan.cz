@@ -19,6 +19,8 @@ export class ListSliderComponent implements ControlValueAccessor {
   @Input() visible: number = 3;
   @Input() itemWidth = 40;
 
+  @Input() arrows = true;
+
   value: any;
 
   disabled: boolean = false;
@@ -33,11 +35,21 @@ export class ListSliderComponent implements ControlValueAccessor {
     return this.items.indexOf(this.value);
   }
   getLeft() {
-    return this.getI() * this.itemWidth
+    return (this.getI() + 0.5) * this.itemWidth;
   }
 
   getOpacity(i: number) {
     return Math.max(1 - (1 / this.visible) * Math.abs(this.getI() - i), 0);
+  }
+
+  nextItem(){
+    const i = this.getI();
+    if(i + 1 < this.items.length) this.setValue(this.items[i + 1])
+  }
+
+  prevItem(){
+    const i = this.getI();
+    if(i - 1 >= 0) this.setValue(this.items[i - 1])
   }
 
   /* NgModel (ControlValueAccessor) */
