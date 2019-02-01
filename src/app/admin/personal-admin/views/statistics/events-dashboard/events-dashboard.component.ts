@@ -39,7 +39,7 @@ export class EventsDashboardComponent implements OnInit {
 
   minYear: number;
   maxYear: number;
-  years: number[];
+  years: number[] = [];
 
   year: Observable<number>;
 

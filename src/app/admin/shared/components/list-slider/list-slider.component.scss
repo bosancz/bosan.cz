@@ -1,0 +1,4 @@
+:host{display:block;position:relative;overflow:hidden;font-size:inherit;}
+.slider{position:relative;left:50%;height:100%;white-space:nowrap;margin-left:0;transition:margin-left 500ms;}
+.slider .item{display:inline-block;width:40px;transition:font-weight 500ms, opacity 500ms;font-size:inherit;}
+.slider .item.current{font-weight: bold}

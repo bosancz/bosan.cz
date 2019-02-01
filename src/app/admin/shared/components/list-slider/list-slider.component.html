@@ -1,0 +1,3 @@
+<div class="slider" [style.margin-left]="(-1) * getLeft() + 'px'">
+  <a *ngFor="let item of items; let i = index" (click)="setValue(item)" class="item" [style.width]="itemWidth + 'px'" [style.opacity]="getOpacity(i)" [class.current]="value == item">{{item}}</a>
+</div>
