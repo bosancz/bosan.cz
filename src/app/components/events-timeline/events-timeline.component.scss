@@ -61,13 +61,13 @@ h5{margin-bottom: 0px !important;}
 .timeline .event.event-big .arrow-horizontal::after{
   content:" ";
   position: absolute;
-  width:$arrow-size;
-  height:$arrow-size;
+  width:$arrow-size/3*5;
+  height:$arrow-size/3*2;
   background-color:#fff;
   display: inline-block;
-  -ms-transform: translatex($arrow-offset)  translatey(-$arrow-offset);
-  -webkit-transform: translatex($arrow-offset) translatey(-$arrow-offset);
-  transform:  translatex($arrow-offset) translatey(-$arrow-offset);
+  // -ms-transform: translatex($arrow-offset)  translatey(-$arrow-offset);
+  // -webkit-transform: translatex($arrow-offset) translatey(-$arrow-offset);
+  transform: rotate(45deg);
 }
 
 .timeline .line{
