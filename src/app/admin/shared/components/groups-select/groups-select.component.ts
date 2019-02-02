@@ -1,7 +1,7 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import { ConfigService } from "app/services/config.service";
+import { ConfigService } from "app/core/services/config.service";
 
 @Component({
   selector: 'groups-select',

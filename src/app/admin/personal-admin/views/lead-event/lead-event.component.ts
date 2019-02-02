@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApiService } from "app/services/api.service";
-import { ToastService } from "app/services/toast.service";
+import { ApiService } from "app/core/services/api.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { Event } from "app/schema/event";
+import { Event } from "app/core/schema/event";
 
 @Component({
   selector: 'lead-event',

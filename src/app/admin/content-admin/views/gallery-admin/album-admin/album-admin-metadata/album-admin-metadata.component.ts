@@ -2,13 +2,13 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { formatDate } from "@angular/common";
 import { NgForm } from "@angular/forms";
 
-import { ApiService } from "app/services/api.service";
-import { DataService } from "app/services/data.service";
-import { ToastService } from "app/services/toast.service";
+import { ApiService } from "app/core/services/api.service";
+import { DataService } from "app/core/services/data.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { Album } from "app/schema/album";
-import { Event } from "app/schema/event";
-import { Paginated } from "app/schema/paginated";
+import { Album } from "app/core/schema/album";
+import { Event } from "app/core/schema/event";
+import { Paginated } from "app/core/schema/paginated";
 
 @Component({
   selector: 'album-admin-metadata',

@@ -2,13 +2,13 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angu
 import { NgForm } from "@angular/forms";
 import { DateTime } from "luxon";
 
-import { ApiService } from "app/services/api.service";
-import { ConfigService } from "app/services/config.service";
-import { ToastService } from "app/services/toast.service";
+import { ApiService } from "app/core/services/api.service";
+import { ConfigService } from "app/core/services/config.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { Event } from "app/schema/event";
-import { Member } from "app/schema/member";
-import { WebConfigEventStatus } from 'app/schema/webconfig';
+import { Event } from "app/core/schema/event";
+import { Member } from "app/core/schema/member";
+import { WebConfigEventStatus } from 'app/core/schema/webconfig';
 
 @Component({
   selector: 'event-admin-info',

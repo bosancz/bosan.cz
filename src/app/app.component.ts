@@ -2,10 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { SwUpdate } from "@angular/service-worker";
 import { Observable } from 'rxjs';
 
-import { RuntimeService } from "app/services/runtime.service";
-import { LayoutService } from "app/services/layout.service";
-import { OnlineService } from "app/services/online.service";
-import { ToastService, Toast } from "app/services/toast.service";
+import { RuntimeService } from "app/core/services/runtime.service";
+import { LayoutService } from "app/core/services/layout.service";
+import { OnlineService } from "app/core/services/online.service";
+import { ToastService, Toast } from "app/core/services/toast.service";
 
 
 @Component({

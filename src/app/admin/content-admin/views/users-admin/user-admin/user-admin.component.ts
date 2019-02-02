@@ -4,12 +4,12 @@ import { NgForm } from "@angular/forms";
 
 import { Subscription } from "rxjs";
 
-import { ConfigService } from "app/services/config.service";
-import { DataService } from "app/services/data.service";
-import { ToastService } from "app/services/toast.service";
+import { ConfigService } from "app/core/services/config.service";
+import { DataService } from "app/core/services/data.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { User } from "app/schema/user";
-import { Member } from "app/schema/member";
+import { User } from "app/core/schema/user";
+import { Member } from "app/core/schema/member";
 
 @Component({
   selector: 'user-admin',

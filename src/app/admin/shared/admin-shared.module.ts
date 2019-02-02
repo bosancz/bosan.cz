@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
  
-import { AppSharedModule } from "app/modules/app-shared.module";
+import { AppSharedModule } from "app/shared/app-shared.module";
 import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 
 import { AdminTableComponent } from './components/admin-table/admin-table.component';

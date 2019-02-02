@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { DataService } from "app/services/data.service";
-import { ToastService } from "app/services/toast.service";
+import { DataService } from "app/core/services/data.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { Member } from "app/schema/member";
+import { Member } from "app/core/schema/member";
 
 @Component({
   selector: 'member-admin',

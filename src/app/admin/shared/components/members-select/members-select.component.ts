@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import { ConfigService } from "app/services/config.service";
-import { ApiService } from "app/services/api.service";
+import { ConfigService } from "app/core/services/config.service";
+import { ApiService } from "app/core/services/api.service";
 
-import { Member } from "app/schema/member";
-import { WebConfigGroup } from "app/schema/webconfig";
+import { Member } from "app/core/schema/member";
+import { WebConfigGroup } from "app/core/schema/webconfig";
 
 @Component({
   selector: 'members-select',

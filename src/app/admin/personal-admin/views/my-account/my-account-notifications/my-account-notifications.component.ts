@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SwPush } from "@angular/service-worker";
 
-import { ApiService } from "app/services/api.service";
-import { ToastService } from "app/services/toast.service";
+import { ApiService } from "app/core/services/api.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { User, UserNotification } from "app/schema/user";
+import { User, UserNotification } from "app/core/schema/user";
 
 declare const Notification:any;
 

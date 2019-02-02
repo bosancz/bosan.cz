@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { Event } from "app/schema/event";
-import { ConfigService } from 'app/services/config.service';
+import { Event } from "app/core/schema/event";
+import { ConfigService } from 'app/core/services/config.service';
 
 interface StatusBadge {
   id:string;

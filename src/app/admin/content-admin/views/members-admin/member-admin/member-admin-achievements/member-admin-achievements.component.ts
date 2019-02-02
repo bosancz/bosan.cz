@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { DataService } from "app/services/data.service";
+import { DataService } from "app/core/services/data.service";
 
-import { Member } from "app/schema/member";
+import { Member } from "app/core/schema/member";
 
 @Component({
   selector: 'member-admin-achievements',

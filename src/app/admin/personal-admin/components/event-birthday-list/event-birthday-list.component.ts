@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { DateTime } from "luxon";
 
-import { Event, EventExpense } from "app/schema/event";
-import { Member } from "app/schema/member";
+import { Event, EventExpense } from "app/core/schema/event";
+import { Member } from "app/core/schema/member";
 
 @Component({
   selector: 'event-birthday-list',

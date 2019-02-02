@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { ApiService } from "app/services/api.service";
-import { ToastService } from "app/services/toast.service";
+import { ApiService } from "app/core/services/api.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { ReportedError, ReportedErrorInstance } from "app/schema/reported-error";
+import { ReportedError, ReportedErrorInstance } from "app/core/schema/reported-error";
 
 @Component({
   selector: 'error-admin',

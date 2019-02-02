@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DateTime } from "luxon";
 
-import { ApiService } from "app/services/api.service";
-import { ToastService } from "app/services/toast.service";
+import { ApiService } from "app/core/services/api.service";
+import { ToastService } from "app/core/services/toast.service";
 
 import { ProgramAdminService } from "../../program-admin.service";
 
-import { Paginated } from "app/schema/paginated";
-import { Event } from "app/schema/event";
+import { Paginated } from "app/core/schema/paginated";
+import { Event } from "app/core/schema/event";
 
 @Component({
   selector: 'program-events-list',

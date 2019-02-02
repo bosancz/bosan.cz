@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ConfigService } from "app/services/config.service";
-import { ApiService } from "app/services/api.service";
+import { ConfigService } from "app/core/services/config.service";
+import { ApiService } from "app/core/services/api.service";
 
-import { Payment } from "app/schema/payment";
+import { Payment } from "app/core/schema/payment";
 
 @Component({
   selector: 'payments-admin',

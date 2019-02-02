@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Event } from "app/schema/event";
+import { Event } from "app/core/schema/event";
 
 @Component({
   selector: 'event-expenses-table',

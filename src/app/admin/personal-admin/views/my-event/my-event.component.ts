@@ -6,12 +6,12 @@ import { DateTime } from "luxon";
 
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 
-import { ApiService } from "app/services/api.service";
-import { ToastService } from "app/services/toast.service";
-import { ConfigService } from "app/services/config.service";
+import { ApiService } from "app/core/services/api.service";
+import { ToastService } from "app/core/services/toast.service";
+import { ConfigService } from "app/core/services/config.service";
 
-import { Event, EventExpense } from "app/schema/event";
-import { Member } from "app/schema/member";
+import { Event, EventExpense } from "app/core/schema/event";
+import { Member } from "app/core/schema/member";
 
 @Component({
   selector: 'my-event',
