@@ -12,7 +12,7 @@ import { LoginService } from "app/core/services/login.service";
 import { ConfigService } from "app/core/services/config.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { User } from "app/core/schema/user";
+import { User } from "app/shared/schema/user";
 
 @Component({
   selector: 'users-admin',

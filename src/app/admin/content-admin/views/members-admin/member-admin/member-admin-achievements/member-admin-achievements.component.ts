@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { DataService } from "app/core/services/data.service";
 
-import { Member } from "app/core/schema/member";
+import { Member } from "app/shared/schema/member";
 
 @Component({
   selector: 'member-admin-achievements',

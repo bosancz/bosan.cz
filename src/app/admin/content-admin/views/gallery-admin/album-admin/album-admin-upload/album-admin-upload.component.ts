@@ -4,7 +4,7 @@ import { HttpEvent, HttpEventType } from "@angular/common/http";
 import { DataService } from "app/core/services/data.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Album, Photo } from "app/core/schema/album";
+import { Album, Photo } from "app/shared/schema/album";
 
 class PhotoUploadItem {
   file:File;

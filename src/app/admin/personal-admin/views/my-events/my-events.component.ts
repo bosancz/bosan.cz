@@ -3,8 +3,8 @@ import { Subscription } from "rxjs";
 
 import { ApiService } from "app/core/services/api.service";
 
-import { Paginated } from "app/core/schema/paginated";
-import { Event } from "app/core/schema/event";
+import { Paginated } from "app/shared/schema/paginated";
+import { Event } from "app/shared/schema/event";
 
 @Component({
   selector: 'my-events',

@@ -4,7 +4,7 @@ import { NgForm } from "@angular/forms";
 import { ToastService } from "app/core/services/toast.service";
 import { ApiService } from "app/core/services/api.service";
 
-import { Event } from "app/core/schema/event";
+import { Event } from "app/shared/schema/event";
 
 @Component({
   selector: 'event-admin-registration',

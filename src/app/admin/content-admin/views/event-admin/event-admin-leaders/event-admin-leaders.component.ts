@@ -6,8 +6,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Event } from "app/core/schema/event";
-import { Member } from "app/core/schema/member";
+import { Event } from "app/shared/schema/event";
+import { Member } from "app/shared/schema/member";
 
 @Component({
   selector: 'event-admin-leaders',

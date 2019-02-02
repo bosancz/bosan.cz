@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { ReportedError, ReportedErrorInstance } from "app/core/schema/reported-error";
+import { ReportedError, ReportedErrorInstance } from "app/shared/schema/reported-error";
 
 @Component({
   selector: 'error-admin',

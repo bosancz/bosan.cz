@@ -6,8 +6,8 @@ import { ToastService } from "app/core/services/toast.service";
 
 import { ProgramAdminService } from "../../program-admin.service";
 
-import { Paginated } from "app/core/schema/paginated";
-import { Event } from "app/core/schema/event";
+import { Paginated } from "app/shared/schema/paginated";
+import { Event } from "app/shared/schema/event";
 
 @Component({
   selector: 'program-events-list',

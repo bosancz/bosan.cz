@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { ApiService } from "app/core/services/api.service";
 
-import { Event } from "app/core/schema/event";
+import { Event } from "app/shared/schema/event";
 
 @Component({
   selector: 'event-admin-attendees',

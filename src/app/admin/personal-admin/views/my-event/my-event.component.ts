@@ -10,8 +10,8 @@ import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 import { ConfigService } from "app/core/services/config.service";
 
-import { Event, EventExpense } from "app/core/schema/event";
-import { Member } from "app/core/schema/member";
+import { Event, EventExpense } from "app/shared/schema/event";
+import { Member } from "app/shared/schema/member";
 
 @Component({
   selector: 'my-event',

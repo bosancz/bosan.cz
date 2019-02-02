@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from "app/core/services/api.service";
 
-import { Group } from "app/core/schema/group";
+import { Group } from "app/shared/schema/group";
 
 @Component({
   selector: 'my-group',

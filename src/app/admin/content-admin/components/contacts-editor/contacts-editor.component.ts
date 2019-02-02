@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Contact } from "app/core/schema/contact";
+import { Contact } from "app/shared/schema/contact";
 
 @Component({
   selector: 'contacts-editor',

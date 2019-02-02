@@ -8,7 +8,7 @@ import { Subscription } from "rxjs";
 import { ApiService } from "app/core/services/api.service";
 import { LayoutService } from "app/core/services/layout.service";
 
-import { Album, Photo } from "app/core/schema/album";
+import { Album, Photo } from "app/shared/schema/album";
 
 @Component({
   selector: 'gallery-view-photos',

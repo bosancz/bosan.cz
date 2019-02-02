@@ -10,7 +10,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DataService } from "app/core/services/data.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Camp } from "app/core/schema/camp";
+import { Camp } from "app/shared/schema/camp";
 
 @Component({
   selector: 'camps-admin',

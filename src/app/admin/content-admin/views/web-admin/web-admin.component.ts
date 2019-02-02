@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
 import { ConfigService } from "app/core/services/config.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { WebConfig } from "app/core/schema/webconfig";
+import { WebConfig } from "app/shared/schema/webconfig";
 import { CodelistField } from "../../components/codelist-editor/codelist-editor.component";
 
 const colorPattern = "^([rR][gG][bB][aA]\\([\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\d\\)|[rR][gG][bB]\\([\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\d\\)|#[0-9a-fA-F]{8}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})$";

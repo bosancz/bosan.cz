@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { DataService } from "app/core/services/data.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Album, Photo } from "app/core/schema/album";
+import { Album, Photo } from "app/shared/schema/album";
 
 @Component({
   selector: 'album-admin-photos',

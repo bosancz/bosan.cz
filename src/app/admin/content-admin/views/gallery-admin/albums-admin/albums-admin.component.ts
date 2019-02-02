@@ -5,8 +5,8 @@ import { Subscription } from "rxjs";
 
 import { DataService } from "app/core/services/data.service";
 
-import { Album } from "app/core/schema/album";
-import { Paginated } from "app/core/schema/paginated";
+import { Album } from "app/shared/schema/album";
+import { Paginated } from "app/shared/schema/paginated";
 
 @Component({
   selector: 'albums-admin',

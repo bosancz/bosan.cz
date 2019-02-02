@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 
 import { environment } from "environments/environment";
 
-import { Paginated } from "app/core/schema/paginated";
-import { Album, Photo } from "app/core/schema/album";
-import { Camp } from "app/core/schema/camp";
-import { Contact } from "app/core/schema/contact";
-import { Event, EventRecurring } from "app/core/schema/event";
-import { Member } from "app/core/schema/member";
-import { Payment } from "app/core/schema/payment";
-import { User } from "app/core/schema/user";
+import { Paginated } from "app/shared/schema/paginated";
+import { Album, Photo } from "app/shared/schema/album";
+import { Camp } from "app/shared/schema/camp";
+import { Contact } from "app/shared/schema/contact";
+import { Event, EventRecurring } from "app/shared/schema/event";
+import { Member } from "app/shared/schema/member";
+import { Payment } from "app/shared/schema/payment";
+import { User } from "app/shared/schema/user";
 
 function setParam(params:HttpParams,name:string,value:any){
   if(value === undefined) return params;

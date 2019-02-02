@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfigService } from "app/core/services/config.service";
 import { ApiService } from "app/core/services/api.service";
 
-import { Payment } from "app/core/schema/payment";
+import { Payment } from "app/shared/schema/payment";
 
 @Component({
   selector: 'payments-admin',

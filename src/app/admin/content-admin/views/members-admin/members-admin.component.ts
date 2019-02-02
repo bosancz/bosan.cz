@@ -11,8 +11,8 @@ import { ConfigService } from "app/core/services/config.service";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Member } from "app/core/schema/member";
-import { WebConfigGroup } from "app/core/schema/webconfig";
+import { Member } from "app/shared/schema/member";
+import { WebConfigGroup } from "app/shared/schema/webconfig";
 
 @Component({
   selector: 'members-admin',

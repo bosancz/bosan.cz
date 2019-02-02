@@ -6,9 +6,9 @@ import { ApiService } from "app/core/services/api.service";
 import { DataService } from "app/core/services/data.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Album } from "app/core/schema/album";
-import { Event } from "app/core/schema/event";
-import { Paginated } from "app/core/schema/paginated";
+import { Album } from "app/shared/schema/album";
+import { Event } from "app/shared/schema/event";
+import { Paginated } from "app/shared/schema/paginated";
 
 @Component({
   selector: 'album-admin-metadata',

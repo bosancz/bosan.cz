@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from "app/core/services/api.service";
 
-import { User } from "app/core/schema/user";
+import { User } from "app/shared/schema/user";
 
 @Component({
   selector: 'my-account-info',

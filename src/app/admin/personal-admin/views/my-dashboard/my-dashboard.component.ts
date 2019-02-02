@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from "app/core/services/api.service";
 
-import { Dashboard } from "app/core/schema/dashboard";
+import { Dashboard } from "app/shared/schema/dashboard";
 
 @Component({
   selector: 'my-dashboard',

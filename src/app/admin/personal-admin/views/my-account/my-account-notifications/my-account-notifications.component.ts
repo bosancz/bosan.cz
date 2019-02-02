@@ -4,7 +4,7 @@ import { SwPush } from "@angular/service-worker";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { User, UserNotification } from "app/core/schema/user";
+import { User, UserNotification } from "app/shared/schema/user";
 
 declare const Notification:any;
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Album } from "app/core/schema/album";
+import { Album } from "app/shared/schema/album";
 
 @Component({
   selector: 'album-admin-dashboard',

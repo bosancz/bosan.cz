@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { DateTime } from "luxon";
 
-import { Event } from "app/core/schema/event";
+import { Event } from "app/shared/schema/event";
 
 @Component({
   selector: 'event-age-histogram',

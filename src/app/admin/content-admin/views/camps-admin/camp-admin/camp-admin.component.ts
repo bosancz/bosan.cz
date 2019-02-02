@@ -6,7 +6,7 @@ import { Subscription } from "rxjs";
 import { DataService } from "app/core/services/data.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Camp } from "app/core/schema/camp";
+import { Camp } from "app/shared/schema/camp";
 
 @Component({
   selector: 'camp-admin',

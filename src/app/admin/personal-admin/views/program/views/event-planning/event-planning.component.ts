@@ -8,11 +8,11 @@ import { Subscription } from "rxjs";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Paginated } from "app/core/schema/paginated";
-import { Event } from "app/core/schema/event";
-import { CPVEvent } from "app/core/schema/cpv-event";
+import { Paginated } from "app/shared/schema/paginated";
+import { Event } from "app/shared/schema/event";
+import { CPVEvent } from "app/shared/schema/cpv-event";
 import { ConfigService } from 'app/core/services/config.service';
-import { WebConfigEventStatus } from 'app/core/schema/webconfig';
+import { WebConfigEventStatus } from 'app/shared/schema/webconfig';
 
 class CalendarMonth {
 

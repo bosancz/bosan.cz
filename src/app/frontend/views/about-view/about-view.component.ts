@@ -6,7 +6,7 @@ import { ToastService } from "app/core/services/toast.service";
 import { LayoutService } from "app/core/services/layout.service";
 import { TitleService } from "app/core/services/title.service";
 
-import { Contact } from "app/core/schema/contact";
+import { Contact } from "app/shared/schema/contact";
 
 @Component({
   selector: 'about-view',

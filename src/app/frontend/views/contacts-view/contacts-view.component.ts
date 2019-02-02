@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TitleService } from "app/core/services/title.service";
 import { ConfigService } from "app/core/services/config.service";
 
-import { Contact } from "app/core/schema/contact";
+import { Contact } from "app/shared/schema/contact";
 
 @Component({
   selector: 'contacts-view',

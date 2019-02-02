@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'app/core/services/api.service';
 import { Observable } from 'rxjs';
 import { debounceTime, filter, map, first } from 'rxjs/operators';
-import { Member } from 'app/core/schema/member';
+import { Member } from 'app/shared/schema/member';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DateTime } from 'luxon';
 

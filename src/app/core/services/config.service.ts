@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators';
 
 import { environment } from "environments/environment";
 
-import { WebConfig } from "app/core/schema/webconfig";
+import { WebConfig } from "app/shared/schema/webconfig";
 
 import { first } from "rxjs/operators";
 

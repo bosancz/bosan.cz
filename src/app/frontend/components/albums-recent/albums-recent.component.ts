@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from "app/core/services/api.service";
-import { Album } from "app/core/schema/album";
+import { Album } from "app/shared/schema/album";
 
 @Component({
   selector: 'albums-recent',

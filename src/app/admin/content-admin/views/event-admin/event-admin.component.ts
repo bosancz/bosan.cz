@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Event } from "app/core/schema/event";
+import { Event } from "app/shared/schema/event";
 
 @Component({
   selector: 'event-admin',

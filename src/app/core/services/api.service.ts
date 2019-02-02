@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from "environments/environment";
 
-import { Document,DocumentLink } from "app/core/schema/api";
+import { Document,DocumentLink } from "app/shared/schema/api";
 
 export class ApiError extends Error{
 }

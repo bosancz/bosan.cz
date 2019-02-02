@@ -3,7 +3,7 @@ import { BehaviorSubject } from "rxjs";
 
 import { ApiService } from "app/core/services/api.service";
 
-import { User } from "app/core/schema/user";
+import { User } from "app/shared/schema/user";
 /**
 	* Service to save user information and commnicate user data with server
 	*/

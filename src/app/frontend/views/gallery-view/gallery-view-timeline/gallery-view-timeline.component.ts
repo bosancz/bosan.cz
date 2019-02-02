@@ -7,8 +7,8 @@ import { filter } from "rxjs/operators";
 import { ApiService } from "app/core/services/api.service";
 import { LayoutService } from "app/core/services/layout.service";
 
-import { Paginated } from "app/core/schema/paginated";
-import { Album } from "app/core/schema/album";
+import { Paginated } from "app/shared/schema/paginated";
+import { Album } from "app/shared/schema/album";
 
 import { TimelinePoint, TimelineLabel } from "../../../components/timeline-scroll/timeline-scroll.component";
 

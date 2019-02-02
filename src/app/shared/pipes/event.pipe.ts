@@ -2,8 +2,8 @@ import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
 
 import { ConfigService } from "app/core/services/config.service";
 
-import { Event } from "app/core/schema/event";
-import { WebConfigEventType, WebConfigEventSubType } from "app/core/schema/webconfig";
+import { Event } from "app/shared/schema/event";
+import { WebConfigEventType, WebConfigEventSubType } from "app/shared/schema/webconfig";
 
 enum EventPipeProperty {
   image = "image", color = "color", class = "class"

@@ -6,7 +6,7 @@ import { ApiService } from "app/core/services/api.service";
 import { ConfigService } from "app/core/services/config.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Event, EventRecurring } from "app/core/schema/event";
+import { Event, EventRecurring } from "app/shared/schema/event";
 
 @Component({
   selector: 'event-admin-recurring',

@@ -2,8 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ApiService } from "app/core/services/api.service";
 
-import { Event } from "app/core/schema/event";
-import { Payment } from "app/core/schema/payment";
+import { Event } from "app/shared/schema/event";
+import { Payment } from "app/shared/schema/payment";
 
 @Component({
   selector: 'event-admin-payments',

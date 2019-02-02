@@ -5,8 +5,8 @@ import { Subscription } from "rxjs";
 import { DataService } from "app/core/services/data.service";
 import { ToastService } from "app/core/services/toast.service";
 
-import { Album } from "app/core/schema/album";
-import { Member } from "app/core/schema/member";
+import { Album } from "app/shared/schema/album";
+import { Member } from "app/shared/schema/member";
 
 @Component({
   selector: 'album-admin',
