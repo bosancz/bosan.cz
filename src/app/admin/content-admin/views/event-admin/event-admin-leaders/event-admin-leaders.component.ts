@@ -3,11 +3,11 @@ import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/co
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { ApiService } from "app/services/api.service";
-import { ToastService } from "app/services/toast.service";
+import { ApiService } from "app/core/services/api.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { Event } from "app/schema/event";
-import { Member } from "app/schema/member";
+import { Event } from "app/shared/schema/event";
+import { Member } from "app/shared/schema/member";
 
 @Component({
   selector: 'event-admin-leaders',

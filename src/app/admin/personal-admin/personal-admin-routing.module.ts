@@ -21,7 +21,7 @@ import { MyEventComponent } from "./views/my-event/my-event.component";
 import { MyGroupComponent } from './views/my-group/my-group.component';
 import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
 
-import { AclGuard } from "app/lib/acl";
+import { AclGuard } from "lib/acl";
 
 const routes:Routes = [
   {

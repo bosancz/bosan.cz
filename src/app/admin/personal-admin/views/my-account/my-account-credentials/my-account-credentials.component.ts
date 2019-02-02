@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
-import { ApiService } from "app/services/api.service";
-import { ToastService } from "app/services/toast.service";
+import { ApiService } from "app/core/services/api.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { User } from "app/schema/user";
+import { User } from "app/shared/schema/user";
 
 @Component({
   selector: 'my-account-credentials',

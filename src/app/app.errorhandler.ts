@@ -1,15 +1,15 @@
 import { ErrorHandler, Injectable, Injector, ChangeDetectorRef } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { environment } from "../environments/environment";
+import { environment } from "environments/environment";
 
-import { ToastService } from "./services/toast.service";
-import { OnlineService } from "./services/online.service";
-import { ApiService } from "./services/api.service";
-import { RuntimeService } from "./services/runtime.service";
-import { UserService } from "./services/user.service";
+import { ToastService } from "app/core/services/toast.service";
+import { OnlineService } from "app/core/services/online.service";
+import { ApiService } from "app/core/services/api.service";
+import { RuntimeService } from "app/core/services/runtime.service";
+import { UserService } from "app/core/services/user.service";
 
-import { GoogleError } from "./services/google.service";
+import { GoogleError } from "app/core/services/google.service";
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {

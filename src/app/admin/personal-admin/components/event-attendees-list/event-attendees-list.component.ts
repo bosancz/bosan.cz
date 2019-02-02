@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { BsModalService, ModalOptions, BsModalRef } from 'ngx-bootstrap/modal';
 
-import { Member } from 'app/schema/member';
+import { Member } from 'app/shared/schema/member';
 
 @Component({
   selector: 'event-attendees-list',

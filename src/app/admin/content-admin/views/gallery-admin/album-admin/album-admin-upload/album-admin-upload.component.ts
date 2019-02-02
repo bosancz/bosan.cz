@@ -1,10 +1,10 @@
 import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { HttpEvent, HttpEventType } from "@angular/common/http";
 
-import { DataService } from "app/services/data.service";
-import { ToastService } from "app/services/toast.service";
+import { DataService } from "app/core/services/data.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { Album, Photo } from "app/schema/album";
+import { Album, Photo } from "app/shared/schema/album";
 
 class PhotoUploadItem {
   file:File;

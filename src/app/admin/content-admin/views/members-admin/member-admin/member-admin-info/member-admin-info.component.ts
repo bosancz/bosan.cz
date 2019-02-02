@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
-import { ConfigService } from "app/services/config.service";
+import { ConfigService } from "app/core/services/config.service";
 
-import { Member } from "app/schema/member";
-import { WebConfigGroup } from "app/schema/webconfig";
+import { Member } from "app/shared/schema/member";
+import { WebConfigGroup } from "app/shared/schema/webconfig";
 
 @Component({
   selector: 'member-admin-info',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApiService } from "app/services/api.service";
+import { ApiService } from "app/core/services/api.service";
 
-import { Dashboard } from "app/schema/dashboard";
+import { Dashboard } from "app/shared/schema/dashboard";
 
 @Component({
   selector: 'my-dashboard',

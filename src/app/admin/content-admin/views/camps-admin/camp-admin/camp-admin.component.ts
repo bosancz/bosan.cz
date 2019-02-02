@@ -3,10 +3,10 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
 
-import { DataService } from "app/services/data.service";
-import { ToastService } from "app/services/toast.service";
+import { DataService } from "app/core/services/data.service";
+import { ToastService } from "app/core/services/toast.service";
 
-import { Camp } from "app/schema/camp";
+import { Camp } from "app/shared/schema/camp";
 
 @Component({
   selector: 'camp-admin',

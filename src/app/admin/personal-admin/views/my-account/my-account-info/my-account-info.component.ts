@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApiService } from "app/services/api.service";
+import { ApiService } from "app/core/services/api.service";
 
-import { User } from "app/schema/user";
+import { User } from "app/shared/schema/user";
 
 @Component({
   selector: 'my-account-info',

@@ -3,9 +3,9 @@ import { ReplaySubject } from "rxjs";
 
 import { ProgramAdminModule } from "./program-admin.module";
 
-import { ApiService } from "app/services/api.service";
+import { ApiService } from "app/core/services/api.service";
 
-import { ProgramStats } from "app/schema/program-stats";
+import { ProgramStats } from "app/shared/schema/program-stats";
 
 @Injectable({
   providedIn: ProgramAdminModule

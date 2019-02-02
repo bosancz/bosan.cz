@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { TitleService } from "app/services/title.service";
-import { LayoutService } from "app/services/layout.service";
+import { TitleService } from "app/core/services/title.service";
+import { LayoutService } from "app/core/services/layout.service";
 
 @Component({
   selector: 'content-admin',

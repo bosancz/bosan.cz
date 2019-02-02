@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from "rxjs";
 
-import { ApiService } from "app/services/api.service";
+import { ApiService } from "app/core/services/api.service";
 
-import { Paginated } from "app/schema/paginated";
-import { Event } from "app/schema/event";
+import { Paginated } from "app/shared/schema/paginated";
+import { Event } from "app/shared/schema/event";
 
 @Component({
   selector: 'my-events',
