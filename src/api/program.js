@@ -55,7 +55,7 @@ routes.get("program:ical","/ical",{permission:"program:read"}).handle(async (req
   
   const from = DateTime.local().minus({ days: 30 });
   
-  const query = Event.find({ status: "public", dateTill: { $gte: from.toISODate() }, recurring: req.query.recurring ? undefined : null});
+  const query = Event.find({ status: "public", dateTill: { $gte: from.toJSDate() }, recurring: req.query.recurring ? undefined : null});
   query.select("_id name dateFrom dateTill groups leadersEvent description type subtype");
   query.populate("leaders","_id nickname contacts.email");
   
@@ -65,7 +65,7 @@ routes.get("program:ical","/ical",{permission:"program:read"}).handle(async (req
     let ev = cal.createEvent({
       uid: event._id,
       start: event.dateFrom,
-      end: DateTime.fromISO(event.dateTill).plus({ days: 1 }).toISODate(),
+      end: DateTime.fromJSDate(event.dateTill).plus({ days: 1 }).toJSDate(), // DTEND is non inclusive (https://tools.ietf.org/html/rfc5545#section-3.6.1)
       allDay: true,
       summary: event.name,
       url: event._links && event._links.registration_url,
