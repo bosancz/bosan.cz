@@ -47,6 +47,8 @@ routes.get("albums","/", {permission: "albums:list"}).handle(validate({query: ge
   
   if(req.query.search) query.where({name: new RegExp(req.query.search,"i")});
   
+  if(req.query.sort) query.sort(req.query.sort);
+  
   var populations = {
     events: {path: "event", select:"_id name dateFrom dateTill"},
     titlePhotos: {path: "titlePhotos"}
