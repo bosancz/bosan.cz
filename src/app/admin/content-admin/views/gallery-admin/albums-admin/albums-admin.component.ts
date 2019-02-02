@@ -30,7 +30,7 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy{
   options = {
     search:"",
     page:1,
-    sort:"-dateFrom",
+    sort:"dateFrom",
     filter:{
       status:undefined,
       year:undefined,
