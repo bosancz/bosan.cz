@@ -11,7 +11,7 @@ const routes:Routes = [
 
   {path: 'interni', loadChildren: './admin/admin.module#AdminModule', canLoad: [AclGuard] },
 
-  {path: '', loadChildren: './frontend/frontend.module#FrontendModule', canLoad: [AclGuard] },
+  {path: '', loadChildren: './frontend/frontend.module#FrontendModule' },
     
   {path: '**', component: NotFoundComponent}
 
