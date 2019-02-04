@@ -40,7 +40,7 @@
                 <label for="editUserInput-member">Člen</label>
                 <select name="member" [ngModel]="user.member?._id || ''" class="form-control" id="editUserInput-member">
                   <option value="">--žádný--</option>
-                  <option *ngFor="let member of members" [value]="member._id">{{member.group | group:"name"}} - {{member.nickname}} ({{member.name?.first}} {{member.name?.last}})</option>
+                  <option *ngFor="let member of members" [value]="member._id">{{member.nickname}} ({{member.group | group:"name"}}, {{member.name?.first}} {{member.name?.last}})</option>
                 </select>
               </div>
               

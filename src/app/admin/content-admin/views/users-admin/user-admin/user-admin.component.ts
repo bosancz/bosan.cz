@@ -69,7 +69,7 @@ export class UserAdminComponent implements OnInit, OnDestroy {
   
   async loadMembers(){
     let members = await this.dataService.getMembers();
-    members.sort((a,b) => a.group.localeCompare(b.group) || a.nickname.localeCompare(b.nickname));
+    members.sort((a,b) => a.nickname.localeCompare(b.nickname));
     this.members = members;
   }
   
