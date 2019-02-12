@@ -1,12 +1,9 @@
-import { Injectable, NgZone } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { skip, take } from "rxjs/operators";
+import { Injectable } from '@angular/core';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { UserService } from "app/core/services/user.service";
-import { ApiService } from "app/core/services/api.service";
 import { LoginService } from "app/core/services/login.service";
 import { GoogleService } from "app/core/services/google.service";
 
@@ -28,14 +25,12 @@ export class RuntimeService {
   logged:boolean = false;
   
   constructor(
-    private api:ApiService,
     private userService:UserService,
     private aclService:AclService,
     private modalService:BsModalService,
     private googleService:GoogleService,
     private loginService:LoginService,
-    private toastService:ToastService,
-    private router:Router
+    private toastService:ToastService
   ) { }
 
   init(){
@@ -56,11 +51,6 @@ export class RuntimeService {
   initUserService(){
     
     this.userService.loadUser();
-    
-    // on the first user value received check if user active and when on root route, redirect to admin (so that for logged users admin is the homepage)
-    this.userService.user.pipe(skip(1)).pipe(take(1)).subscribe(user => {
-      if(user && this.router.url === "/o-nas") this.router.navigate(["/interni/moje/prehled"]);
-    });
     
     // update roles
     this.userService.user.subscribe(user => {
