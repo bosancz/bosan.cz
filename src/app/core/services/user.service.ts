@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
+import { ReplaySubject } from "rxjs";
 
 import { ApiService } from "app/core/services/api.service";
 
@@ -12,9 +12,12 @@ import { User } from "app/shared/schema/user";
 })
 export class UserService {
 
-  user:BehaviorSubject<User> = new BehaviorSubject(null);
+  userSnapshot:User;
+
+  user:ReplaySubject<User> = new ReplaySubject(null);
 
   constructor(private api:ApiService){
+    this.user.subscribe(user => this.userSnapshot = user);
   }
   
   async loadUser(){

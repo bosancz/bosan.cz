@@ -45,7 +45,6 @@ export class RuntimeService {
 
   loadPermissions(){
     this.aclService.setPermissions(permissions);
-    this.aclService.setRoles(["guest"]);
   }
   
   initUserService(){
