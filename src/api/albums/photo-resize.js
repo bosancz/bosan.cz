@@ -32,7 +32,7 @@ module.exports = async function(file,sizes,options){
   if(sizes){
 
     // generate smaller versions of the file    
-    var sizesMetadata = await Promise.all(sizes.map(size => sharp(file).resize(size.width,size.height).max().toFile(size.path)));
+    var sizesMetadata = await Promise.all(sizes.map(size => sharp(file).resize(size.width,size.height).max().withMetadata().toFile(size.path)));
 
     result.sizes = sizes.map((size,i) => ({
       width: sizesMetadata[i].width,
