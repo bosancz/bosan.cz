@@ -54,7 +54,9 @@ var eventSchema = mongoose.Schema({
     "amount": Number,
     "type": { type: String },
     "description": String
-  }]    
+  }],
+  
+  "etl":String
   
 }, { toObject: { virtuals: true } });
 
