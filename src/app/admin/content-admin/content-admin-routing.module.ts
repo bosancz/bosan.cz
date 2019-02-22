@@ -14,9 +14,8 @@ import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admi
 import { EventsAdminComponent } from './views/events-admin/events-admin.component';
 import { EventAdminComponent } from './views/event-admin/event-admin.component';
 
-import { GalleryAdminComponent } from './views/gallery-admin/gallery-admin.component';
-import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
-import { AlbumAdminComponent } from './views/gallery-admin/album-admin/album-admin.component';
+import { AlbumsAdminComponent } from './views/albums-admin/albums-admin.component';
+import { AlbumAdminComponent } from './views/album-admin/album-admin.component';
 
 import { MembersAdminComponent } from './views/members-admin/members-admin.component';
 import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
@@ -51,7 +50,7 @@ const routes:Routes = [
 
       {path: 'galerie/:album/:cat', component: AlbumAdminComponent},
       {path: 'galerie/:album', redirectTo: "galerie/:album/upravit", pathMatch: "full"},
-      {path: 'galerie', component: GalleryAdminComponent},
+      {path: 'galerie', component: AlbumsAdminComponent},
 
       {path: 'tabory/:camp/:cat', component: CampAdminComponent},
       {path: 'tabory/:camp', redirectTo: "tabory/:camp/upravit", pathMatch: "full"},

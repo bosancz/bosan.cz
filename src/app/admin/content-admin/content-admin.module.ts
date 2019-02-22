@@ -24,13 +24,11 @@ import { EventAdminPaymentsComponent } from './views/event-admin/event-admin-pay
 import { EventAdminRegistrationComponent } from './views/event-admin/event-admin-registration/event-admin-registration.component';
 import { EventAdminRecurringComponent } from './views/event-admin/event-admin-recurring/event-admin-recurring.component';
 
-import { GalleryAdminComponent } from './views/gallery-admin/gallery-admin.component';
-import { AlbumsAdminComponent } from './views/gallery-admin/albums-admin/albums-admin.component';
-import { AlbumAdminDashboardComponent } from './views/gallery-admin/album-admin/album-admin-dashboard/album-admin-dashboard.component';
-import { AlbumAdminComponent } from './views/gallery-admin/album-admin/album-admin.component';
-import { AlbumAdminMetadataComponent } from './views/gallery-admin/album-admin/album-admin-metadata/album-admin-metadata.component';
-import { AlbumAdminUploadComponent } from './views/gallery-admin/album-admin/album-admin-upload/album-admin-upload.component';
-import { AlbumAdminPhotosComponent } from './views/gallery-admin/album-admin/album-admin-photos/album-admin-photos.component';
+import { AlbumsAdminComponent } from './views/albums-admin/albums-admin.component';
+import { AlbumAdminComponent } from './views/album-admin/album-admin.component';
+import { AlbumAdminMetadataComponent } from './views/album-admin/album-admin-metadata/album-admin-metadata.component';
+import { AlbumAdminUploadComponent } from './views/album-admin/album-admin-upload/album-admin-upload.component';
+import { AlbumAdminPhotosComponent } from './views/album-admin/album-admin-photos/album-admin-photos.component';
 
 import { MembersAdminComponent } from './views/members-admin/members-admin.component';
 import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
@@ -67,7 +65,7 @@ import { PaymentsAdminComponent } from './views/payments-admin/payments-admin.co
     
     /* VIEWS */
     EventsAdminComponent, EventAdminComponent, EventAdminAttendeesComponent, EventAdminInfoComponent, EventAdminLeadersComponent, EventAdminRegistrationComponent, EventAdminRecurringComponent, 
-    GalleryAdminComponent, AlbumsAdminComponent, AlbumAdminDashboardComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
+    AlbumsAdminComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
     MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent, MemberAdminAchievementsComponent, 
     WebAdminComponent,
     ServerAdminComponent,

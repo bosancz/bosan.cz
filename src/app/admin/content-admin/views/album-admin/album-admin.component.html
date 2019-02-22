@@ -1,0 +1,39 @@
+<section *ngIf="album">
+  <div class="container">
+
+    <a [routerLink]="'/fotogalerie/' + album._id" class="btn btn-primary float-right">Otevřít na webu</a>
+
+    <h2>{{album.name}}</h2>
+
+    <div class="row">
+
+      <div class="col-lg-3">
+
+        <nav class="nav nav-pills flex-column">
+          <a class="nav-link" routerLink="../upravit" routerLinkActive="active">Upravit info</a>
+          <a class="nav-link" routerLink="../fotky" routerLinkActive="active">Upravit fotografie ({{album.photos.length}})</a>
+          <a class="nav-link" routerLink="../upload" routerLinkActive="active">Nahrát fotografie</a>
+          <a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat album</a>
+        </nav>
+
+      </div>
+
+      <div class="col-lg-9" [ngSwitch]="category">
+
+        <album-admin-metadata *ngSwitchCase="'upravit'" [album]="album" (saved)="loadAlbum(album._id)"></album-admin-metadata>
+
+        <album-admin-photos *ngSwitchCase="'fotky'" [album]="album" (saved)="loadAlbum(album._id)"></album-admin-photos>
+
+        <album-admin-upload *ngSwitchCase="'upload'" [album]="album" (saved)="loadAlbum(album._id)"></album-admin-upload>
+
+        <div *ngSwitchCase="'smazat'">
+          <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label
+            for="deleteConfirmationInput">Opravdu chcete smazat toto album?</label>
+          <br>
+          <button type="button" [disabled]="!deleteConfirmation" (click)="deleteAlbum()" class="btn btn-danger">Smazat
+            album</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
