@@ -10,6 +10,7 @@ import { Paginated } from "app/shared/schema/paginated";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
 import { ToastService } from 'app/core/services/toast.service';
+import { ApiService } from 'app/core/services/api.service';
 
 @Component({
   selector: 'albums-admin',
@@ -39,7 +40,7 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy {
 
   paramsSubscription: Subscription;
 
-  constructor(private dataService: DataService, private router: Router, private route: ActivatedRoute, private modalService: BsModalService, private toastService: ToastService) { }
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private modalService: BsModalService, private toastService: ToastService) { }
 
   ngOnInit() {
     this.loadYears();
@@ -56,7 +57,7 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy {
   }
 
   async loadYears() {
-    this.years = await this.dataService.getAlbumsYears();
+    this.years = await this.api.get<number[]>("albums:years");
     this.years.sort((a, b) => b - a);
   }
 
@@ -65,32 +66,15 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     const options = {
-      search: "",
-      page: this.page || 1,
       sort: "dateFrom",
       filter: {
         year: this.year
       }
     }
 
-    let paginated: Paginated<Album> = await this.dataService.getAlbums(options);
-
-    this.albums = paginated.docs;
-    this.pages = paginated.pages;
+    this.albums = await this.api.get<Album[]>("albums",options);
 
     this.loading = false;
-  }
-
-  getPages() {
-    let pages = [];
-    for (let i = 1; i <= this.pages; i++) pages.push(i);
-    return pages;
-  }
-
-  getPageLink(page: number) {
-    let params: any = { page: page };
-    if (this.year) params.year = this.year || null;
-    return ["./", params];
   }
 
   openCreateAlbumModal(template: TemplateRef<any>): void {
@@ -101,7 +85,9 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy {
     // get data from form
     const albumData = form.value;
     // create the event and wait for confirmation
-    const album = await this.dataService.createAlbum(albumData);
+    const response = await this.api.post("albums",albumData);
+    // get the newly created album    
+    const album = await this.api.get<Album>(response.headers.get("location"));
     // close the modal
     this.createAlbumModalRef.hide();
     // show the confrmation
