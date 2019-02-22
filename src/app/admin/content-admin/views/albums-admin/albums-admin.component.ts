@@ -65,14 +65,14 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy {
 
     this.loading = true;
 
-    const options = {
-      sort: "dateFrom",
-      filter: {
-        year: this.year
-      }
+    const options: any = {
+      sort: "dateFrom"
     }
 
-    this.albums = await this.api.get<Album[]>("albums",options);
+    if (this.year) options.filter = { year: this.year };
+    else options.filter = { status: "draft" };
+
+    this.albums = await this.api.get<Album[]>("albums", options);
 
     this.loading = false;
   }
@@ -85,7 +85,7 @@ export class AlbumsAdminComponent implements OnInit, OnDestroy {
     // get data from form
     const albumData = form.value;
     // create the event and wait for confirmation
-    const response = await this.api.post("albums",albumData);
+    const response = await this.api.post("albums", albumData);
     // get the newly created album    
     const album = await this.api.get<Album>(response.headers.get("location"));
     // close the modal

@@ -10,7 +10,7 @@
       <div class="col-lg-2">
 
         <nav class="nav nav-pills flex-column">
-          <a class="nav-link font-weight-bold" [routerLink]="['./',{}]" [class.active]="!year">Všechny</a>
+          <a class="nav-link font-weight-bold" [routerLink]="['./',{}]" [class.active]="!year">V přípravě</a>
           <a class="nav-link" *ngFor="let yearItem of years" [routerLink]="['./',{year:yearItem}]"
             [class.active]="year === yearItem">{{yearItem}}</a>
         </nav>
