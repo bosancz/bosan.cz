@@ -1,5 +1,7 @@
 <div class="events">
-
+  
+  <p *ngIf="!events || !events.length">Žádné akce.</p>
+  
   <div *ngFor="let event of events" class="event mb-5">
     <h3>{{event.name}}</h3>
     <p>{{[event.dateFrom,event.dateTill] | dateRange}}</p>
