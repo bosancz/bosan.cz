@@ -7,6 +7,7 @@ import { AdminTableComponent } from './components/admin-table/admin-table.compon
 import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
 import { MembersSelectComponent } from './components/members-select/members-select.component';
 import { ListSliderComponent } from './components/list-slider/list-slider.component';
+import { EventStatusBadgeComponent } from './components/event-status-badge/event-status-badge.component';
 
 @NgModule({
   imports: [
@@ -17,14 +18,16 @@ import { ListSliderComponent } from './components/list-slider/list-slider.compon
     AdminTableComponent,
     GroupsSelectComponent,
     MembersSelectComponent,
-    ListSliderComponent
+    ListSliderComponent,
+    EventStatusBadgeComponent
   ],
   exports: [
     TypeaheadModule,
     AdminTableComponent,
     GroupsSelectComponent,
     MembersSelectComponent,
-    ListSliderComponent
+    ListSliderComponent,
+    EventStatusBadgeComponent
   ],
   providers: [ ]
   

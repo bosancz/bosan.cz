@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AppSharedModule } from "app/shared/app-shared.module";
+import { AdminSharedModule } from 'app/admin/shared/admin-shared.module';
 
 import { ProgramAdminRoutingModule } from './program-admin-routing.module';
 import { ProgramAdminComponent } from './program-admin.component';
@@ -13,11 +14,13 @@ import { EventProgramComponent } from './views/event-program/event-program.compo
 import { ProgramEventsListComponent } from './components/program-events-list/program-events-list.component';
 import { ProgramDraftsComponent } from './views/program-drafts/program-drafts.component';
 
+
 @NgModule({
   imports: [
     CommonModule,
     
     AppSharedModule,
+    AdminSharedModule,
     
     ProgramAdminRoutingModule
   ],

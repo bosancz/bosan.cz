@@ -25,7 +25,6 @@ import { MyAccountNotificationsComponent } from './views/my-account/my-account-n
 import { EventAgeHistogramComponent } from './components/event-age-histogram/event-age-histogram.component';
 import { EventExpensesTableComponent } from './components/event-expenses-table/event-expenses-table.component';
 import { EventBirthdayListComponent } from './components/event-birthday-list/event-birthday-list.component';
-import { EventStatusBadgeComponent } from './components/event-status-badge/event-status-badge.component';
 import { MyAccountAppComponent } from './views/my-account/my-account-app/my-account-app.component';
 import { EventAttendeesListComponent } from './components/event-attendees-list/event-attendees-list.component';
 
@@ -51,7 +50,7 @@ import { EventAttendeesListComponent } from './components/event-attendees-list/e
     DocumentsViewComponent,
     
     /* COMPONENTS */
-    EventAgeHistogramComponent, EventExpensesTableComponent, EventBirthdayListComponent, EventStatusBadgeComponent, MyAccountAppComponent, EventAttendeesListComponent
+    EventAgeHistogramComponent, EventExpensesTableComponent, EventBirthdayListComponent, MyAccountAppComponent, EventAttendeesListComponent
   ]
 })
 export class PersonalAdminModule { }
