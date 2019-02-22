@@ -163,14 +163,13 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
     const requestOptions = {
       filter: {
-        dateTill: { $gte: this.dateFrom.toISO() },
-        dateFrom: { $lte: this.dateTill.toISO() }
+        dateTill: { $gte: this.dateFrom.toISODate() },
+        dateFrom: { $lte: this.dateTill.toISODate() }
       },
-      select: "_id name status type dateFrom dateTill timeFrom timeTill",
-      limit: 100
+      select: "_id name status type dateFrom dateTill timeFrom timeTill"
     };
 
-    const events = await this.api.get<Paginated<Event>>("events", requestOptions).then(paginated => paginated.docs);
+    const events = await this.api.get<Event[]>("events", requestOptions);
 
     this.assignEvents(events, "own");
 

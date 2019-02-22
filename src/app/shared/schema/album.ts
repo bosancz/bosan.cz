@@ -1,7 +1,8 @@
 export { Photo } from "./photo";
 import { Photo } from "./photo";
+import { Document } from "./api";
 
-export class Album {
+export class Album extends Document {
   _id:string;
   year:number;
   status:string;
