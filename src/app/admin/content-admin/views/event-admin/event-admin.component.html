@@ -1,11 +1,7 @@
 <section *ngIf="event">
   <div class="container">
 
-    <h2>
-      <a routerLink="/interni/akce" class="back"><i class="fas fa-arrow-left"></i></a>
-      {{event.name}} ({{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M. y"}})
-      <button type="button" class="btn btn-primary btn-sm" *ngIf="event._actions?.publish" (click)="publishEvent(event)">Publikovat</button>
-    </h2>
+    <h2>{{event.name}} ({{event.dateFrom | date:"d. M."}} ~ {{event.dateTill | date:"d. M. y"}})</h2>
 
     <div class="row">
 
