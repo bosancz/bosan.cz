@@ -12,8 +12,6 @@ import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 
 import { Event } from "app/shared/schema/event";
-import { WebConfigEventType } from "app/shared/schema/webconfig";
-import { Paginated } from "app/shared/schema/paginated";
 import { DateTime } from 'luxon';
 
 @Component({
