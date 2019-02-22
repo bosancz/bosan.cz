@@ -22,14 +22,11 @@ var getAlbumsSchema = {
     "filter": {
       type: "object",
       properties: {
-        "year": { type: "number" }
+        "year": { type: "number" },
+        "status": { type: "string" }
       },
       additionalProperties:false
     },
-    "populate": { type: "array", items: { enum: ["events","titlePhotos"] } },
-    "limit": { type: "number" },
-    "page": { type: "number" },
-    "search": { type: "string" },
     "sort": { type: "string" }
   },
   additionalProperties: false
@@ -45,38 +42,24 @@ routes.get("albums","/", {permission: "albums:list"}).handle(validate({query: ge
   
   if(req.query.filter) query.where(req.query.filter);
   
-  if(req.query.search) query.where({name: new RegExp(req.query.search,"i")});
-  
   if(req.query.sort) query.sort(req.query.sort);
   
-  var populations = {
-    events: {path: "event", select:"_id name dateFrom dateTill"},
-    titlePhotos: {path: "titlePhotos"}
-  };
-  if(req.query.populate){
-    req.query.populate
-      .map(item => populations[item])
-      .filter(item => item)
-      .forEach(item => query.populate(item));
-  }
+  const albums = await query;
   
-  const limit = req.query.limit ? Math.min(req.query.limit,100) : 100;
-  const skip = req.query.page ? (req.query.page - 1) * limit : 0;
-  
-  const albums = await query.paginate(limit,skip);
-  
-  req.routes.links(albums.docs,"album");
+  req.routes.links(albums,"album");
 
   res.json(albums);
 });
 
 // CREATE NEW ALBUM */
-routes.post("album","/", {permission: "albums:create"}).handle(async (req,res,next) => {
+routes.post("albums","/", {permission: "albums:create"}).handle(async (req,res,next) => {
   const album = await Album.create(req.body);
 
   await fs.mkdir(config.photos.storageDir(album._id));
   await fs.mkdir(config.photos.thumbsDir(album._id));
-
+  
+  console.log(`/albums/${album._id}`);
+  res.location(`/albums/${album._id}`);
   res.status(201).json(album);
 });
 
