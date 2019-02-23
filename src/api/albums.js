@@ -119,7 +119,11 @@ routes.get("album","/:id", {permission: "albums:read"}).handle(async (req,res,ne
   if(req.query.titlePhoto) query.populate("titlePhoto");
   if(req.query.titlePhotos) query.populate("titlePhotos");
   
-  res.json(await query)
+  const album = await query;
+  
+  req.routes.links(album,"album");
+  
+  res.json(album)
 });
 
 // UPDATE ALBUM AT ID
