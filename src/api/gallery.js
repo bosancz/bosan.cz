@@ -6,6 +6,8 @@ const config = require("../../config");
 const Album = require("../models/album");
 const Photo = require("../models/photo");
 
+const albumDownload = require("./albums/album-download");
+
 routes.get("gallery","/",{permission:"gallery:list"}).handle(async (req,res) => {
   const query = Album.find({status:"public"});
   if(req.query.sort) query.sort(req.query.sort);
