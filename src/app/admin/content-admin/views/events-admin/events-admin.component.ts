@@ -54,7 +54,7 @@ export class EventsAdminComponent implements OnInit, OnDestroy {
   }
 
   async loadYears() {
-    this.years = await this.api.get<number[]>("albums:years");
+    this.years = await this.api.get<number[]>("events:years");
     this.years.sort((a, b) => b - a);
   }
 
