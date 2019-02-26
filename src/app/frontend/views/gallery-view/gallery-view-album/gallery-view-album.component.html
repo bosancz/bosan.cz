@@ -9,7 +9,7 @@
       <div class="share">
         <a shareUrl [shareData]="{title:album.name,text:album.description}" tooltip="Sdílet" placement="bottom"><i class="fas fa-share-alt"></i></a>
         &nbsp;
-        <a [href]="album.downloadUrl" class="download font-light" download tooltip="Stáhnout celé album v ZIP" placement="bottom"><i class="fas fa-download"></i></a>
+        <a [href]="getAlbumDownloadLink(album)" class="download font-light" download tooltip="Stáhnout celé album v ZIP" placement="bottom"><i class="fas fa-download"></i></a>
       </div>
     </h2>
     
