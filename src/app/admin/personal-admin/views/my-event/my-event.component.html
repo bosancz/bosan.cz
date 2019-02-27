@@ -13,39 +13,41 @@
         <groups-select [(ngModel)]="eventData.groups" (ngModelChange)="saveEvent()" name="groups"></groups-select>
 
         <div class="block">
-          <h4>Základní info <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i class="fas fa-pen-square"></i></a></h4>
+          <h4>Základní info <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i
+                 class="fas fa-pen-square"></i></a></h4>
           <div class="row">
 
             <div class="col-md-8">
               <h6>Popisek</h6>
               <p class="multiline">{{eventData.description || 'Nevyplněno'}}</p>
-              
+
               <div class="row">
                 <div class="col-6 col-md-4">
-              <h6>Datum a místo</h6>
-              <p>
-                {{[eventData.dateFrom,eventData.dateTill] | dateRange}}
-                <ng-container *ngIf="eventData.timeFrom || eventData.timeTill">{{eventData.timeFrom || "0:00"}} - {{eventData.timeTill || "0:00"}}</ng-container>
-                <br>
-                {{eventData.place || "Nevyplněno"}}
-              </p>
-            </div>
+                  <h6>Datum a místo</h6>
+                  <p>
+                    {{[eventData.dateFrom,eventData.dateTill] | dateRange}}
+                    <ng-container *ngIf="eventData.timeFrom || eventData.timeTill">{{eventData.timeFrom || "0:00"}} -
+                      {{eventData.timeTill || "0:00"}}</ng-container>
+                    <br>
+                    {{eventData.place || "Nevyplněno"}}
+                  </p>
+                </div>
 
-            <div class="col-6 col-md-4">
-              <h6>Typ akce</h6>
-              <p>
-                <strong>Typ:</strong> {{eventData.type || "Nevyplněno"}}<br>
-                <strong>Charakter:</strong> {{eventData.subtype || "Nevyplněno"}}
-              </p>
-            </div>
+                <div class="col-6 col-md-4">
+                  <h6>Typ akce</h6>
+                  <p>
+                    <strong>Typ:</strong> {{eventData.type || "Nevyplněno"}}<br>
+                    <strong>Charakter:</strong> {{eventData.subtype || "Nevyplněno"}}
+                  </p>
+                </div>
 
-            <div class="col-6 col-md-4">
-              <h6>Sraz a konec</h6>
-              <p>
-                <strong>Sraz:</strong> {{eventData.meeting?.start || "Nevyplněno"}}<br>
-                <strong>Konec:</strong> {{eventData.meeting?.end || "Nevyplněno"}}
-              </p>
-            </div>
+                <div class="col-6 col-md-4">
+                  <h6>Sraz a konec</h6>
+                  <p>
+                    <strong>Sraz:</strong> {{eventData.meeting?.start || "Nevyplněno"}}<br>
+                    <strong>Konec:</strong> {{eventData.meeting?.end || "Nevyplněno"}}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -69,11 +71,13 @@
           <div class="row">
             <div class="col-md-8">
               <h6>Vedoucí</h6>
-              <event-attendees-list [(ngModel)]="eventData.leaders" (ngModelChange)="saveEvent()"></event-attendees-list>
-              
+              <event-attendees-list [(ngModel)]="eventData.leaders" (ngModelChange)="saveEvent()">
+              </event-attendees-list>
+
               <h6>Účastníci</h6>
-              <event-attendees-list [(ngModel)]="eventData.attendees" (ngModelChange)="saveEvent()"></event-attendees-list>
-              
+              <event-attendees-list [(ngModel)]="eventData.attendees" (ngModelChange)="saveEvent()">
+              </event-attendees-list>
+
 
               <div class="row">
                 <div class="col-6">
@@ -85,7 +89,7 @@
                   <event-birthday-list [event]="eventData"></event-birthday-list>
                 </div>
               </div>
-              
+
             </div>
 
             <div class="col-md-4">
@@ -104,13 +108,14 @@
               </div>-->
             </div>
           </div>
-          
+
         </div>
 
         <div class="block accounting">
-          
-          <h4>Účetnictví <a class="text-warning edit" (click)="openModal(expensesModal)"><i class="fas fa-pen-square"></i></a></h4>
-          
+
+          <h4>Účetnictví <a class="text-warning edit" (click)="openModal(expensesModal)"><i
+                 class="fas fa-pen-square"></i></a></h4>
+
           <div class="row">
 
             <div class="col-md-8">
@@ -134,24 +139,34 @@
           </div>
         </div>
 
+        <!--
         <div class="block">
           <h4>Report <a (click)="openModal(reportModal)" class="text-warning edit"><i class="fas fa-pen-square"></i></a></h4>
           <div [innerHTML]="eventDatareport || '<p>Report je prázdný.</p>'"></div>
         </div>
+      -->
 
       </div>
 
       <div class="col-md-2 buttons right">
-        <button *ngIf="event._actions?.submit" [disabled]="!event._actions?.submit.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Ke schválení</button>
-        <button *ngIf="event._actions?.publish" [disabled]="!event._actions?.publish.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('publish')">Do programu</button>
-        <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Poslat ohlášku</button>
-        <button *ngIf="event._actions?.finalize" [disabled]="!event._actions?.finalize.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Uzavřít</button>
+        <button *ngIf="event._actions?.submit" [disabled]="!event._actions?.submit.allowed"
+                class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Ke schválení</button>
+        <button *ngIf="event._actions?.publish" [disabled]="!event._actions?.publish.allowed"
+                class="btn btn-primary btn-sm" type="button" (click)="eventAction('publish')">Do programu</button>
+        <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce.allowed"
+                class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Poslat ohlášku</button>
+        <button *ngIf="event._actions?.finalize" [disabled]="!event._actions?.finalize.allowed"
+                class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Uzavřít</button>
 
-        <button *ngIf="event._actions?.unpublish" [disabled]="!event._actions?.unpublish.allowed" class="btn btn-secondary btn-sm" type="button" (click)="eventAction('unpublish')">Z programu</button>
+        <button *ngIf="event._actions?.unpublish" [disabled]="!event._actions?.unpublish.allowed"
+                class="btn btn-secondary btn-sm" type="button" (click)="eventAction('unpublish')">Z programu</button>
 
-        <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('cancel')">Zrušit</button>
-        <button *ngIf="event._actions?.uncancel" [disabled]="!event._actions?.uncancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('uncancel')">Odzrušit</button>
-        <button [disabled]="!event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button" (click)="deleteEvent()">Smazat</button>
+        <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel.allowed"
+                class="btn btn-danger btn-sm" type="button" (click)="eventAction('cancel')">Zrušit</button>
+        <button *ngIf="event._actions?.uncancel" [disabled]="!event._actions?.uncancel.allowed"
+                class="btn btn-danger btn-sm" type="button" (click)="eventAction('uncancel')">Odzrušit</button>
+        <button [disabled]="!event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button"
+                (click)="deleteEvent()">Smazat</button>
       </div>
     </div>
   </div>
@@ -220,18 +235,21 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label>Sraz</label>
-        <input type="text" name="start" [(ngModel)]="eventData.meeting.start" class="form-control" placeholder="17:00, u Bilba doma">
+        <input type="text" name="start" [(ngModel)]="eventData.meeting.start" class="form-control"
+               placeholder="17:00, u Bilba doma">
       </div>
       <div class="form-group col-md-6">
         <label>Konec</label>
-        <input type="text" name="end" [(ngModel)]="eventData.meeting.end" class="form-control" placeholder="3:00, tamtéž">
+        <input type="text" name="end" [(ngModel)]="eventData.meeting.end" class="form-control"
+               placeholder="3:00, tamtéž">
       </div>
     </div>
   </div>
 
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
-    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal"
+            (click)="saveEvent();modalRef.hide()">Uložit</button>
   </div>
 </ng-template>
 
@@ -249,16 +267,34 @@
   <div class="modal-body expensesForm">
     <table>
       <thead>
-      <tr><th class="id">Číslo</th><th>Popis</th><th class="amount">Částka</th><th>Typ</th><th></th></tr>
+        <tr>
+          <th class="id">Číslo</th>
+          <th>Popis</th>
+          <th class="amount">Částka</th>
+          <th>Typ</th>
+          <th></th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let expense of eventData.expenses">
-        <td><input type="text" [(ngModel)]="expense.id" class="form-control" required placeholder="V1"></td>
-        <td><input type="text" [(ngModel)]="expense.description" class="form-control" required placeholder="Špičatý klobouk"></td>
-        <td><input type="number" step=".01" [(ngModel)]="expense.amount" class="form-control" required placeholder="1234"></td>
-        <td><select [(ngModel)]="expense.type" class="form-control" required><option *ngFor="let type of expenseTypes" [value]="type">{{type}}</option></select></td>
-        <td class="px-1"><a (click)="removeExpense(expense)" class="text-danger"><i class="fas fa-trash-alt"></i></a></td>
-      </tr>
+        <tr *ngFor="let expense of eventData.expenses">
+          <td>
+            <input type="text" [(ngModel)]="expense.id" class="form-control" required placeholder="V1">
+          </td>
+          <td>
+            <input type="text" [(ngModel)]="expense.description" class="form-control" required placeholder="Špičatý klobouk">
+          </td>
+          <td>
+            <input type="number" step=".01" [(ngModel)]="expense.amount" class="form-control" required placeholder="1234">
+          </td>
+          <td>
+            <select [(ngModel)]="expense.type" class="form-control" required>
+              <option *ngFor="let type of expenseTypes" [value]="type">{{type}}</option>
+            </select>
+          </td>
+          <td class="px-1">
+            <a (click)="removeExpense(expense)" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+          </td>
+        </tr>
       </tbody>
     </table>
     <a (click)="addExpense()">přidat výdaj</a>
