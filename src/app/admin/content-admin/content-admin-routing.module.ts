@@ -20,8 +20,6 @@ import { AlbumAdminComponent } from './views/album-admin/album-admin.component';
 import { MembersAdminComponent } from './views/members-admin/members-admin.component';
 import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
 
-import { PaymentsAdminComponent } from "./views/payments-admin/payments-admin.component";
-
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
 
@@ -56,8 +54,6 @@ const routes:Routes = [
       {path: 'tabory/:camp', redirectTo: "tabory/:camp/upravit", pathMatch: "full"},
       {path: 'tabory', component: CampsAdminComponent},
 
-      {path: 'platby', component: PaymentsAdminComponent},   
-      
       {path: 'uzivatele/:user/:cat', component: UserAdminComponent},      
       {path: 'uzivatele/:user', redirectTo: "uzivatele/:user/ucet", pathMatch: "full"}, 
       {path: 'uzivatele', component: UsersAdminComponent},   

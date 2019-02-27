@@ -20,7 +20,6 @@ import { EventAdminComponent } from './views/event-admin/event-admin.component';
 import { EventAdminAttendeesComponent } from './views/event-admin/event-admin-attendees/event-admin-attendees.component';
 import { EventAdminInfoComponent } from './views/event-admin/event-admin-info/event-admin-info.component';
 import { EventAdminLeadersComponent } from './views/event-admin/event-admin-leaders/event-admin-leaders.component';
-import { EventAdminPaymentsComponent } from './views/event-admin/event-admin-payments/event-admin-payments.component';
 import { EventAdminRegistrationComponent } from './views/event-admin/event-admin-registration/event-admin-registration.component';
 import { EventAdminRecurringComponent } from './views/event-admin/event-admin-recurring/event-admin-recurring.component';
 
@@ -42,6 +41,8 @@ import { ServerAdminComponent } from './views/server-admin/server-admin.componen
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
 
+import { ErrorsAdminComponent } from './views/errors-admin/errors-admin.component';
+import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admin.component';
 
 /* COMMON COMPONENTS */
 
@@ -49,9 +50,7 @@ import { ContactsEditorComponent } from './components/contacts-editor/contacts-e
 import { CodelistEditorComponent } from './components/codelist-editor/codelist-editor.component';
 import { TypeaheadFieldComponent } from './components/typeahead-field/typeahead-field.component';
 import { PhotoTagsEditorComponent } from './components/photo-tags-editor/photo-tags-editor.component';
-import { ErrorsAdminComponent } from './views/errors-admin/errors-admin.component';
-import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admin.component';
-import { PaymentsAdminComponent } from './views/payments-admin/payments-admin.component';
+
 
 @NgModule({
   imports: [
@@ -73,7 +72,7 @@ import { PaymentsAdminComponent } from './views/payments-admin/payments-admin.co
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
-    ContactsEditorComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, EventAdminPaymentsComponent, ErrorsAdminComponent, ErrorAdminComponent, PaymentsAdminComponent
+    ContactsEditorComponent, CodelistEditorComponent, TypeaheadFieldComponent, PhotoTagsEditorComponent, ErrorsAdminComponent, ErrorAdminComponent 
     
   ]
 })

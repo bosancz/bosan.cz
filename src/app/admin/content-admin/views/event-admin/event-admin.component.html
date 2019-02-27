@@ -37,8 +37,6 @@
 
         <event-admin-leaders *ngSwitchCase="'vedouci'" [event]="event" (saved)="reloadEvent()"></event-admin-leaders>
 
-        <event-admin-payments *ngSwitchCase="'platby'" [event]="event" (saved)="reloadEvent()"></event-admin-payments>
-
         <div *ngSwitchCase="'smazat'">
           <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label
             for="deleteConfirmationInput">Opravdu chci smazat tuto akci</label>
@@ -46,6 +44,7 @@
           <button type="button" [disabled]="!deleteConfirmation" (click)="deleteEvent()" class="btn btn-danger">Smazat
             akci</button>
         </div>
+        
       </div>
     </div>
   </div>
