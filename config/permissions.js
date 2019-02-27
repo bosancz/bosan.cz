@@ -107,6 +107,7 @@ module.exports = {
   "photos:delete": { spravce, vedouci },
   
   "reports:events:read": { vedouci },
+  "reports:members:read": { vedouci },
   
   "users:list": { spravce },
   "users:read": { spravce },

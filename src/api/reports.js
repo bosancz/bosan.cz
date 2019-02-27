@@ -99,3 +99,28 @@ routes.get("reports:events","/events/:year", { permission: "reports:events:read"
   
   res.json(report);
 });
+
+routes.get("reports:members","/members", { permission: "reports:members:read" }).handle(async (req,res,next) => {
+  
+  const members = await Member.find().select("_id role birthday address.city").lean();  
+  
+  const report = {
+    count: members.length,
+    
+    roles: members.reduce((acc,cur) => { acc[cur.role] = acc[cur.role] ? acc[cur.role] + 1 : 1; return acc; }, {}),
+    
+    ages: members
+      .map(member => member.birthday ? Math.floor((-1) * DateTime.fromJSDate(member.birthday).diffNow("years").years) : undefined)
+      .map(age => String(age))      
+      .reduce((acc,cur) => { acc[cur] = acc[cur] ? acc[cur] + 1 : 1; return acc; }, {}),
+    
+    cities: members
+      .map(member => member.address && member.address.city)      
+      .reduce((acc,cur) => { acc[cur] = acc[cur] ? acc[cur] + 1 : 1; return acc; }, {}),
+    
+  };
+  
+  res.json(report);
+  
+});
+
