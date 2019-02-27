@@ -9,10 +9,10 @@ const srcDir = "/home/kopec/bosan/old_events";
 
 require("../db");
 
-const dry = false;
+const dry = true;
 
 async function main() {
-  const files = (await fs.readdir(srcDir)).filter(file => file.match(/\.inc$/));
+  const files = (await fs.readdir(srcDir)).filter(file => file.match(/\9\d\.inc$/));
 
   for(let file of files){
 
@@ -66,6 +66,7 @@ async function main() {
         console.log(eventData);
 
         if(!dry) await Event.create(eventData)
+        else console.log("Dry run nothing written.");
         
         
       }

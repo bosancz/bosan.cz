@@ -2,19 +2,18 @@ var bcrypt = require("bcryptjs");
 
 var config = require("../../config");
 
-var mongoose = require('../db");
+var mongoose = require("../db");
 
 var User = require("../models/user");
 
-
 bcrypt.hash("admin", config.bcrypt.rounds)
-  .then(hash => User.findOneAndUpdate({_id: "admin"}, { password: hash, roles: ["admin"] }, {upsert: true, new:true}))
+  .then(hash => User.findOneAndUpdate({_id: "admin"}, { password: hash, roles: ["spravce"] }, {upsert: true, new:true}))
   .then(user => {
-    console.log("Created user with _id admin and password admin with admin role:");
-    console.log(user);
+    console.log("Created user: ", user);
     process.exit();
   })
   .catch(err => {
+    console.error("Error when creating user:");
     console.error(err);
     process.exit();
   })
