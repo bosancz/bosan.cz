@@ -6,7 +6,7 @@ import { Member } from 'app/shared/schema/member';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DateTime } from 'luxon';
 
-interface EventsStats {
+interface EventsReport {
   attendees: { count: number, groups: { [group: string]: number }, age: { [age: string]: number } };
 
   leaders: {
@@ -37,7 +37,7 @@ interface ChartData {
 })
 export class EventsDashboardComponent implements OnInit {
 
-  report: EventsStats;
+  report: EventsReport;
 
   minYear: number;
   maxYear: number;
@@ -64,7 +64,7 @@ export class EventsDashboardComponent implements OnInit {
   }
 
   async loadData(year: number) {    
-    this.report = await this.api.get<EventsStats>(["reports:events", year]);
+    this.report = await this.api.get<EventsReport>(["reports:events", year]);
   }
 
   setYear(year: number) {

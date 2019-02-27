@@ -1,0 +1,16 @@
+<p>Celkem: {{report?.count || "-"}}</p>
+
+<p>Role:</p>
+<ul>
+  <li *ngFor="let role of roles">{{role}}: {{report?.roles[role] || "-"}}</li>  
+</ul>
+
+<p>Věk:</p>
+<ul>
+  <li *ngFor="let age of ages">{{age}}: {{report?.ages[age] || "-"}}</li>
+</ul>
+
+<p>Města:</p>
+<ul>
+  <li *ngFor="let city of cities">{{city}}: {{report?.cities[city] || "-"}}</li>
+</ul>
