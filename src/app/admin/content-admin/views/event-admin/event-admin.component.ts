@@ -6,6 +6,7 @@ import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 
 import { Event } from "app/shared/schema/event";
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'event-admin',
@@ -65,9 +66,10 @@ export class EventAdminComponent implements OnInit, OnDestroy {
   
   async deleteEvent(){
     let name = this.event.name;
+    let year = DateTime.fromISO(this.event.dateFrom).year;
     await this.api.delete(this.event._links.self);
     this.toastService.toast("Akce " + name + " smazána.");
-    this.router.navigate(["../../"],{relativeTo:this.route});
+    this.router.navigate(["../../",{year}],{relativeTo:this.route});
   }
   
   async publishEvent(){
