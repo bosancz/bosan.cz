@@ -90,7 +90,7 @@ module.exports = {
     thumbsUrl: environment.url + "/data/photos",
     allowedTypes: ["jpg","jpeg","png","gif"],
     sizes: {
-      "big": [1024,1024],
+      "big": [1280,1024],
       "small": [1024,340]
     }
   },

@@ -9,7 +9,6 @@ app.set('json spaces', 2);
 // polyfill before express allows for async middleware
 require('express-async-errors');
 
-
 /* CONFIG */
 var config = require("../config");
 
