@@ -110,12 +110,21 @@ routes.get("reports:members","/members", { permission: "reports:members:read" })
     roles: members.reduce((acc,cur) => { acc[cur.role] = acc[cur.role] ? acc[cur.role] + 1 : 1; return acc; }, {}),
     
     ages: members
-      .map(member => member.birthday ? Math.floor((-1) * DateTime.fromJSDate(member.birthday).diffNow("years").years) : undefined)
-      .map(age => String(age))      
-      .reduce((acc,cur) => { acc[cur] = acc[cur] ? acc[cur] + 1 : 1; return acc; }, {}),
+      .map(member => ({
+        age: member.birthday ? String(Math.floor((-1) * DateTime.fromJSDate(member.birthday).diffNow("years").years)) : undefined,
+        role: member.role
+      }))
+      .filter(member => member.age && member.role)
+      .reduce((acc,member) => {
+        if(!acc[member.role]) acc[member.role] = {};
+        if(!acc[member.role][member.age]) acc[member.role][member.age] = 0;
+        acc[member.role][member.age]++;
+        return acc;
+      }, {}),
     
     cities: members
-      .map(member => member.address && member.address.city)      
+      .map(member => member.address && member.address.city)     
+      .filter(city => !!city)
       .reduce((acc,cur) => { acc[cur] = acc[cur] ? acc[cur] + 1 : 1; return acc; }, {}),
     
   };

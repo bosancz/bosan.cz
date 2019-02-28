@@ -2,10 +2,13 @@ var mongoose = require("mongoose");
 
 var memberSchema = mongoose.Schema({
   
+  "srcId": Number,
+  
   "nickname": String,
   "group": String,
   "role": String,
-  "srcId": Number,
+  "inactive": { type: Boolean, default: false },
+  "membership": String,
   
   "name": {
     "first": String,
