@@ -4,26 +4,14 @@
       <th>Přezdívka</th>
       <th>Jméno</th>
       <th>Oddíl</th>
-      <th>Věk</th>
-      <th>Dotace</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let attendee of event.attendees">
-      <td>{{attendee.member?.nickname}}</td>
+      <td>{{attendee.nickname}}</td>
       <td>{{attendee.group}}</td>
       <td>{{attendee.name?.first}} {{attendee.name?.last}}</td>
-      <td>{{getAttendeeAge(attendee)}}</td>
-      <td>
-        <select name="grantType">
-          <option>h</option>
-          <option>v</option>
-          <option>i</option>
-          <option>d</option>
-          <option>n</option>
-        </select>
-      </td>
       <td class="text-right">
         <a><i class="fas fa-edit"></i></a>
         &nbsp;
