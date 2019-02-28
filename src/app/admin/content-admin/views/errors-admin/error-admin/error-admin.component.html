@@ -34,7 +34,7 @@
         <p>
           <strong>Datum a čas</strong>: {{currentInstance.timestamp | date:"d. M. y H:mm:ss"}}<br>
           <strong>Uživatel</strong>: {{currentInstance.user?.login}}<br>
-          <strong>URL</strong>: <a [href]="error.url" target="_blank">{{currentInstance.url}}</a><br>
+          <strong>URL</strong>: <a [href]="currentInstance.url" target="_blank">{{currentInstance.url}}</a><br>
           <strong>HTTP kód</strong>: {{currentInstance.status || "-"}}<br>
           <strong>Angular komponenta</strong>: {{currentInstance.ng?.component || "-"}}<br>
           <strong>Angular build</strong>: {{currentInstance.ng?.environment || "-"}}
