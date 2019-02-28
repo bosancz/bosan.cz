@@ -3,6 +3,8 @@ export class Member {
   
   group:string;
   role:string;
+  membership:string;
+  inactive:boolean;
   
   nickname:string;
   

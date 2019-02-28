@@ -1,46 +1,62 @@
 <form #memberInfoForm="ngForm" (ngSubmit)="saveMember(memberInfoForm)">
 
   <h3>Základní informace</h3>
-  
-  <div class="row">
-    <div class="form-group col-4">
+
+  <div class="row mb-3">
+    <div class="form-group col-lg-3 col-md-6">
       <label>Přezdívka</label>
       <input type="text" name="nickname" [ngModel]="member.nickname" class="form-control" placeholder="Nositel Prstenu">
     </div>
     <ng-container ngModelGroup="name">
-      <div class="form-group col-4">
+      <div class="form-group col-lg-3 col-md-6">
         <label>Jméno</label>
         <input type="text" name="first" [ngModel]="member.name?.first" class="form-control" required placeholder="Bilbo">
       </div>
-      <div class="form-group col-4">
+      <div class="form-group col-lg-3 col-md-6">
         <label>Příjmení</label>
         <input type="text" name="last" [ngModel]="member.name?.last" class="form-control" required placeholder="Pytlík">
       </div>
     </ng-container>
+
+    <div class="form-group col-lg-3 col-md-6">
+      <label>Datum narození</label>
+      <input type="date" name="birthday" [ngModel]="member.birthday | date:'yyyy-MM-dd'" class="form-control" required>
+    </div>
+
   </div>
-  
-  <div class="row">
-    <div class="form-group col-4">
+
+  <h3>Členství ve skupině</h3>
+  <div class="row mb-3">
+    <div class="form-group col-lg-3 col-md-6">
       <label>Oddíl</label>
       <select name="group" [ngModel]="member.group" class="form-control" required>
         <option *ngFor="let group of groups" [value]="group.id">{{group.name}}</option>
       </select>
     </div>
-    <div class="form-group col-4">
+    <div class="form-group col-lg-3 col-md-6">
       <label>Role</label>
       <select name="role" [ngModel]="member.role" class="form-control" required>
         <option *ngFor="let role of roles" [value]="role">{{role}}</option>
       </select>
     </div>
-    <div class="form-group col-4">
-      <label>Datum narození</label>
-      <input type="date" name="birthday" [ngModel]="member.birthday | date:'yyyy-MM-dd'" class="form-control" required>
+    <div class="form-group col-lg-3 col-md-6">
+      <label>Členství</label>
+      <select name="membership" [ngModel]="member.membership" class="form-control" required>
+        <option *ngFor="let membershipType of membershipTypes" [value]="membershipType">{{membershipType}}</option>
+      </select>
     </div>
+    <div class="form-group col-lg-3 col-md-6">
+      <label>&nbsp;</label>
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" name="inactive" [ngModel]="member.inactive" [value]="true" class="custom-control-input" id="checkbox_inactive">
+        <label class="custom-control-label" for="checkbox_inactive">neaktivní</label>
+      </div>
+    </div>
+
   </div>
 
   <h3>Adresa</h3>
-  <div class="form-group" ngModelGroup="address">
-
+  <div ngModelGroup="address">
     <div class="row">
       <div class="form-group col-8">
         <label>Ulice</label>
@@ -52,7 +68,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-3">
       <div class="form-group col-2">
         <label>PSČ</label>
         <input type="text" name="postalCode" [ngModel]="member.address?.postalCode" class="form-control" pattern="\d{3} ?\d{2}" placeholder="123 45" required>

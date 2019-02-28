@@ -19,6 +19,7 @@ export class MemberAdminInfoComponent implements OnInit {
 
   groups:WebConfigGroup[] = [];
   roles:string[] = [];
+  membershipTypes:string[] = [];
 
   constructor(private configService:ConfigService) { }
 
@@ -30,6 +31,7 @@ export class MemberAdminInfoComponent implements OnInit {
     this.configService.getConfig().then(config => {
       this.groups = config.members.groups;
       this.roles = config.members.roles.map(item => item.id);
+      this.membershipTypes = config.members.membershipTypes.map(item => item.id);
     });
   }
 

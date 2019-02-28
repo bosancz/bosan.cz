@@ -69,6 +69,10 @@ export class WebAdminComponent implements OnInit, OnDestroy {
   memberRolesFields:CodelistField[] = [
     {"name": "id", "title": "ID", "type": "text"}
   ];
+
+  membershipTypesFields:CodelistField[] = [
+    {"name": "id", "title": "Typ", "type": "text"}
+  ];
   
   userRolesFields:CodelistField[] = [
     {"name": "name", "title": "ID", "type": "text"},

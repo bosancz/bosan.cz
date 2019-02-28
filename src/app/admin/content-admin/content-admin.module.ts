@@ -30,9 +30,9 @@ import { AlbumAdminUploadComponent } from './views/album-admin/album-admin-uploa
 import { AlbumAdminPhotosComponent } from './views/album-admin/album-admin-photos/album-admin-photos.component';
 
 import { MembersAdminComponent } from './views/members-admin/members-admin.component';
-import { MemberAdminComponent } from './views/members-admin/member-admin/member-admin.component';
-import { MemberAdminInfoComponent } from './views/members-admin/member-admin/member-admin-info/member-admin-info.component';
-import { MemberAdminAchievementsComponent } from './views/members-admin/member-admin/member-admin-achievements/member-admin-achievements.component';
+import { MemberAdminComponent } from './views/member-admin/member-admin.component';
+import { MemberAdminInfoComponent } from './views/member-admin/member-admin-info/member-admin-info.component';
+import { MemberAdminAchievementsComponent } from './views/member-admin/member-admin-achievements/member-admin-achievements.component';
 
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
 
