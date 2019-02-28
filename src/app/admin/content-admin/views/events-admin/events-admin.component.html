@@ -1,8 +1,7 @@
 <section>
   <div class="container">
 
-    <button type="button" class="btn btn-primary float-right" (click)="openCreateEventModal(createEventModal)">Nová
-      akce</button>
+    <button type="button" class="btn btn-primary float-right" (click)="openCreateEventModal(createEventModal)">Nová akce</button>
 
     <h2>Přehled akcí</h2>
 
@@ -12,8 +11,7 @@
 
         <nav class="nav nav-pills flex-column">
           <a class="nav-link font-weight-bold" [routerLink]="['./',{}]" [class.active]="!year">Budoucí</a>
-          <a class="nav-link" *ngFor="let yearItem of years" [routerLink]="['./',{year:yearItem}]"
-            [class.active]="year === yearItem">{{yearItem}}</a>
+          <a class="nav-link" *ngFor="let yearItem of years" [routerLink]="['./',{year:yearItem}]" [class.active]="year === yearItem">{{yearItem}}</a>
         </nav>
 
       </div>
