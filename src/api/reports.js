@@ -102,7 +102,7 @@ routes.get("reports:events","/events/:year", { permission: "reports:events:read"
 
 routes.get("reports:members","/members", { permission: "reports:members:read" }).handle(async (req,res,next) => {
   
-  const members = await Member.find().select("_id role birthday address.city").lean();  
+  const members = await Member.find({ inactive: { $ne: true } }).select("_id role birthday address.city").lean();  
   
   const report = {
     count: members.length,
