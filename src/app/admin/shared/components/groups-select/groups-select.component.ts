@@ -2,6 +2,7 @@ import { Component, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { ConfigService } from "app/core/services/config.service";
+import { WebConfigGroup } from 'app/shared/schema/webconfig';
 
 @Component({
   selector: 'groups-select',
@@ -17,7 +18,7 @@ import { ConfigService } from "app/core/services/config.service";
 })
 export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
 
-  groups:string[] = [];
+  groups:WebConfigGroup[] = [];
   selectedGroups:string[] = [];
   
   disabled:boolean = false;
@@ -39,31 +40,32 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
     this.loadGroups();
   }
   
-  loadGroups(){
-    this.configService.getConfig().then(config => this.groups = config.members.groups.filter(group => group.active).map(group => group.id));
+  async loadGroups(){
+    const config = await this.configService.getConfig()
+    this.groups = config.members.groups.filter(group => group.event);
   }
 
-  isSelected(group:string){
-    return this.selectedGroups.indexOf(group) !== -1;
+  isSelected(group:WebConfigGroup){
+    return this.selectedGroups.indexOf(group.id) !== -1;
   }
   
   selectAll(checked:boolean):void{
     if(this.disabled) return;
-    if(checked) this.selectedGroups = this.groups.slice();
+    if(checked) this.selectedGroups = this.groups.filter(group => group.children).map(group => group.id);
     else this.selectedGroups = [];
     this.onChange(this.selectedGroups);
   }
   
   isSelectedAll():boolean{
-    return this.selectedGroups.length === this.groups.length;
+    return !this.groups.filter(group => group.children).some(group => this.selectedGroups.indexOf(group.id) === -1);
   }
   
-  toggleGroup(group:string, deselectOther = false){
+  toggleGroup(group:WebConfigGroup, deselectOther = false){
     if(this.disabled) return;
-    let i = this.selectedGroups.indexOf(group);
+    let i = this.selectedGroups.indexOf(group.id);
     if(i === -1) {
       if(deselectOther) this.selectedGroups = [];
-      this.selectedGroups.push(group);
+      this.selectedGroups.push(group.id);
     }
     else this.selectedGroups.splice(i,1);
     this.onChange(this.selectedGroups);

@@ -1,6 +1,5 @@
 <div class="group-badges mr-2" [class.disabled]="disabled">
-  <span *ngFor="let group of groups" (click)="toggleGroup(group)" [class.active]="isSelected(group)" [style.background-color]="group | group:'color'" [title]="group | group:'name'" class="group-badge">{{group}}</span>
-  <span (click)="toggleGroup('V',true)" [class.active]="isSelected('V')" [style.background-color]="'#000'" tooltip="Akce pouze pro vedoucí" placement="bottom" class="group-badge">V</span>
+  <span *ngFor="let group of groups" (click)="toggleGroup(group)" [class.active]="isSelected(group)" [style.background-color]="group.id | group:'color'" [title]="group.id | group:'name'" class="group-badge">{{group.id}}</span>
 </div>
 <div class="selectAll custom-control custom-checkbox mr-2">
   <input type="checkbox" [ngModel]="isSelectedAll()" (ngModelChange)="selectAll($event)" [disabled]="disabled" class="custom-control-input" id="checkboxSelectAll">

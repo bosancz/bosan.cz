@@ -29,7 +29,7 @@ export class MemberAdminInfoComponent implements OnInit {
 
   loadConfig(){
     this.configService.getConfig().then(config => {
-      this.groups = config.members.groups;
+      this.groups = config.members.groups.filter(group => group.real);
       this.roles = config.members.roles.map(item => item.id);
       this.membershipTypes = config.members.membershipTypes.map(item => item.id);
     });

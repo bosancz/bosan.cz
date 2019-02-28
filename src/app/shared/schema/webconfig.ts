@@ -5,7 +5,10 @@ export class WebConfigGroup{
   id:string;
   name:string;
   color:string;
+  real:boolean;
   active:boolean;
+  event:boolean;
+  children:boolean;
 }
 
 export class WebConfigAchievement{

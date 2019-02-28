@@ -33,7 +33,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let member of members" [routerLink]="['./',{},member._id]">
+            <tr *ngFor="let member of members" [routerLink]="['./',{},member._id]" [class.inactive]="member.inactive">
               <td>{{member.nickname}}</td>
               <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
               <td>{{member.role}}</td>

@@ -17,7 +17,7 @@ import { WebConfigGroup } from "app/shared/schema/webconfig";
 @Component({
   selector: 'members-admin',
   templateUrl: './members-admin.component.html',
-  styleUrls: ['./members-admin.component.css']
+  styleUrls: ['./members-admin.component.scss']
 })
 export class MembersAdminComponent implements OnInit, OnDestroy {
 
@@ -61,13 +61,13 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
   
   loadConfig(){
     this.configService.getConfig().then(config => {
-      this.groups = config.members.groups;
+      this.groups = config.members.groups.filter(group => group.real);
       this.roles = config.members.roles.map(item => item.id);
     })
   }
   
   async loadMembers(view:string){
-    const options = Object.assign({ sort: "group nickname" },this.views[view] || {});
+    const options = Object.assign({ sort: "inactive group nickname" },this.views[view] || {});
     this.members = await this.api.get<Member[]>("members",options);
   }
   

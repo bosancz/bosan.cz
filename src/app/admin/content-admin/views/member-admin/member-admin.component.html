@@ -9,7 +9,7 @@
 
     <div class="row">
 
-      <div class="col-lg-3">
+      <div class="col-lg-2">
 
         <nav class="nav nav-pills flex-column">
           <a class="nav-link" routerLink="../osobni" routerLinkActive="active">Osobní údaje</a>
@@ -19,7 +19,7 @@
 
       </div>
 
-      <div class="col-lg-9" [ngSwitch]="category">
+      <div class="col-lg-10" [ngSwitch]="category">
 
         <member-admin-info *ngSwitchCase="'osobni'" [member]="member" (save)="saveMember($event)"></member-admin-info>
         <member-admin-achievements *ngSwitchCase="'expy'" [member]="member" (save)="saveMember($event)"></member-admin-achievements>
