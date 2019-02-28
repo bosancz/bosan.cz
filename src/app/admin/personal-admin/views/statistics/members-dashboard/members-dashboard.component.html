@@ -1,17 +1,14 @@
-<p>Celkem: {{report?.count || "-"}}</p>
-
-<p>Role:</p>
-<ul>
-  <li *ngFor="let role of roles">{{role}}: {{report?.roles[role] || "-"}}</li>
-</ul>
-
-<p>Věk:</p>
-<div>
-
-  <canvas *ngIf="agesData" baseChart chartType="bar" width="800" height="300" [datasets]="agesData.datasets" [labels]="agesData.labels" [options]="agesOptions" [legend]="true"></canvas>
+<div class="row numbers text-center my-5">
+  <div [class]="getRolesColClass(roles)">
+    <span class="number">{{report?.count || "-"}}</span>
+    členů
+  </div>
+  <div *ngFor="let role of roles" [class]="getRolesColClass(roles)">
+    <span class="number">{{report?.roles[role.id] || "-"}}</span>
+    {{role.genitiv}}
+  </div>
 </div>
 
-<p>Města:</p>
-<ul>
-  <li *ngFor="let city of cities">{{city}}: {{report?.cities[city] || "-"}}</li>
-</ul>
+<div>
+  <canvas *ngIf="agesData" baseChart chartType="bar" width="800" height="300" [datasets]="agesData.datasets" [labels]="agesData.labels" [options]="agesOptions" [legend]="true"></canvas>
+</div>

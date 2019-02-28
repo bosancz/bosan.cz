@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'app/core/services/api.service';
 import { ConfigService } from 'app/core/services/config.service';
+import { WebConfigMemberRole } from 'app/shared/schema/webconfig';
 
 export interface MembersReport {
 
@@ -27,7 +28,7 @@ export class MembersDashboardComponent implements OnInit {
 
   report: MembersReport;
 
-  roles: string[];
+  roles: WebConfigMemberRole[];
   cities: string[];
 
   agesData: ChartData;
@@ -61,7 +62,7 @@ export class MembersDashboardComponent implements OnInit {
 
   async loadMemberRoles() {
     const config = await this.config.getConfig();
-    this.roles = config.members.roles.map(role => role.id);
+    this.roles = config.members.roles;
   }
 
   fillMissingKeys(data: { [key: string]: number }, min: number, max: number) {
@@ -88,6 +89,10 @@ export class MembersDashboardComponent implements OnInit {
     }
 
     this.agesData = agesData;
+  }
+
+  getRolesColClass(roles: any[]): string {
+    return "col-" + Math.max(1, Math.floor(12 / ((roles ? roles.length : 0) + 1)));
   }
 
 }

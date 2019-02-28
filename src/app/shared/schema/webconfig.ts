@@ -46,6 +46,10 @@ export class WebConfigDescriptionWarning {
   text:string;
 }
 
+export class WebConfigMemberRole {
+  id:string;
+  genitiv:string;
+}
 export class WebConfigMembershipType{
   id:string;
 }
@@ -71,7 +75,7 @@ export interface WebConfig {
   };
 
   members:{
-    roles:Array<{id:string}>,
+    roles:WebConfigMemberRole[],
     groups:WebConfigGroup[],
     membershipTypes:WebConfigMembershipType[],
     achievements:WebConfigAchievement[]
