@@ -17,17 +17,21 @@ import { MyAccountComponent } from './views/my-account/my-account.component';
 
 import { MyGroupComponent } from './views/my-group/my-group.component';
 import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
-import { LeadEventComponent } from './views/lead-event/lead-event.component';
 import { MyEventComponent } from './views/my-event/my-event.component';
 import { MyAccountInfoComponent } from './views/my-account/my-account-info/my-account-info.component';
 import { MyAccountCredentialsComponent } from './views/my-account/my-account-credentials/my-account-credentials.component';
 import { MyAccountNotificationsComponent } from './views/my-account/my-account-notifications/my-account-notifications.component';
+import { MyAccountAppComponent } from './views/my-account/my-account-app/my-account-app.component';
+import { PaddlerCompetitionComponent } from './views/paddler-competition/paddler-competition.component';
+
+/* MODALS */
+import { LeadEventModalComponent } from './components/lead-event-modal/lead-event-modal.component';
+
+/* COMPONENTS */
 import { EventAgeHistogramComponent } from './components/event-age-histogram/event-age-histogram.component';
 import { EventExpensesTableComponent } from './components/event-expenses-table/event-expenses-table.component';
 import { EventBirthdayListComponent } from './components/event-birthday-list/event-birthday-list.component';
-import { MyAccountAppComponent } from './views/my-account/my-account-app/my-account-app.component';
 import { EventAttendeesListComponent } from './components/event-attendees-list/event-attendees-list.component';
-import { PaddlerCompetitionComponent } from './views/paddler-competition/paddler-competition.component';
 
 @NgModule({
   imports: [
@@ -41,8 +45,7 @@ import { PaddlerCompetitionComponent } from './views/paddler-competition/paddler
     PersonalAdminComponent,
     
     /* VIEWS */
-    MyDashboardComponent,
-    LeadEventComponent,
+    MyDashboardComponent,    
     MyEventsComponent, MyEventComponent,
     MyGroupComponent, MyGroupMembersComponent,
     MyAccountComponent, MyAccountInfoComponent, MyAccountCredentialsComponent, MyAccountNotificationsComponent,
@@ -50,9 +53,15 @@ import { PaddlerCompetitionComponent } from './views/paddler-competition/paddler
     
     CanalRegistrationComponent,
     DocumentsViewComponent,
+
+    /* MODALS */
+    LeadEventModalComponent,
     
     /* COMPONENTS */
     EventAgeHistogramComponent, EventExpensesTableComponent, EventBirthdayListComponent, MyAccountAppComponent, EventAttendeesListComponent
+  ],
+  entryComponents:[
+    LeadEventModalComponent
   ]
 })
 export class PersonalAdminModule { }

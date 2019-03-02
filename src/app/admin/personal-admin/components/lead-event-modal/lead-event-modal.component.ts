@@ -4,17 +4,18 @@ import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 
 import { Event } from "app/shared/schema/event";
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
-  selector: 'lead-event',
-  templateUrl: './lead-event.component.html',
-  styleUrls: ['./lead-event.component.scss']
+  selector: 'lead-event-modal',
+  templateUrl: './lead-event-modal.component.html',
+  styleUrls: ['./lead-event-modal.component.scss']
 })
-export class LeadEventComponent implements OnInit {
+export class LeadEventModalComponent implements OnInit {
 
   events:Event[];
   
-  constructor(private api:ApiService, private toastService:ToastService) { }
+  constructor(private api:ApiService, private toastService:ToastService, public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
     this.loadEvents();

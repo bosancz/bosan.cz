@@ -7,7 +7,6 @@ import { PersonalAdminComponent } from "./personal-admin.component";
 import { MyDashboardComponent } from "./views/my-dashboard/my-dashboard.component";
 import { CanalRegistrationComponent } from "./views/canal-registration/canal-registration.component";
 import { DocumentsViewComponent } from "./views/documents-view/documents-view.component";
-import { LeadEventComponent } from "./views/lead-event/lead-event.component";
 
 import { MyAccountComponent } from "./views/my-account/my-account.component";
 import { MyAccountInfoComponent } from "./views/my-account/my-account-info/my-account-info.component";
@@ -35,8 +34,6 @@ const routes:Routes = [
 
       { path: 'prehled', component: MyDashboardComponent, data: { permission: "my:dashboard" } },
 
-      { path: 'ved-akci', component: LeadEventComponent, data: { permission: "my:events" } },
-      
       { path: 'akce/:akce', component: MyEventComponent, data: { permission: "my:events" } },
       { path: 'akce', component: MyEventsComponent, data: { permission: "my:events" } },
       
