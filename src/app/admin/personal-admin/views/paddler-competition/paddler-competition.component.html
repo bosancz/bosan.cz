@@ -13,7 +13,7 @@
               <tr>
                 <th>Umístění</th>
                 <th>Přezdívka</th>
-                <th>Počet kilometrů</th>
+                <th>Kilometry</th>
                 <th>Akce</th>
               </tr>
             </thead>
@@ -22,10 +22,10 @@
                 <td>{{ranking.rank}}. <ng-container *ngIf="ranking.rankTo !== ranking.rank"> - {{ranking.rankTo}}.</ng-container>
                 </td>
                 <td>{{ranking.member?.nickname}} ({{ranking.member?.group | group:"name"}})</td>
-                <td>{{ranking.water_km}} km</td>
+                <td>{{ranking.water_km}}&nbsp;km</td>
                 <td class="events">
                   <ul>
-                    <li *ngFor="let event of ranking.events">{{event.name}} ({{event.competition.water_km}} km)</li>
+                    <li *ngFor="let event of ranking.events">{{event.name}} ({{event.competition.water_km}}&nbsp;km)</li>
                   </ul>
                 </td>
             </tbody>
@@ -40,7 +40,7 @@
             <tr>
               <th>Umístění</th>
               <th>Oddíl</th>
-              <th>Počet kilometrů</th>
+              <th>Kilometry</th>
             </tr>
           </thead>
           <tbody>
@@ -48,7 +48,7 @@
               <td>{{ranking.rank}}. <ng-container *ngIf="ranking.rankTo !== ranking.rank"> - {{ranking.rankTo}}.</ng-container>
               </td>
               <td>{{ranking.group | group:"name"}}</td>
-              <td>{{ranking.water_km}} km</td>
+              <td>{{ranking.water_km}}&nbsp;km</td>
           </tbody>
         </table>
       </div>
