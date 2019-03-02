@@ -11,6 +11,8 @@ routes.child("/albums", require("./albums"));
 
 routes.child("/config", require("./config"));
 
+routes.child("/competition", require("./competition"));
+
 routes.child("/cpv", require("./cpv"));
 
 routes.child("/errors", require("./errors"));

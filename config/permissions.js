@@ -22,6 +22,8 @@ module.exports = {
   "albums:edit": { spravce, vedouci },
   "albums:delete": { spravce, vedouci },
   
+  "competition:read": { clen },
+  
   "config:read": { spravce, guest },
   "config:edit": { spravce },
   

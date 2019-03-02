@@ -56,7 +56,12 @@ var eventSchema = mongoose.Schema({
     "description": String
   }],
   
-  "etl":String
+  "competition":{
+    "water_km": Number,
+    "river": String
+  },
+  
+  "etl": String
   
 }, { toObject: { virtuals: true } });
 
