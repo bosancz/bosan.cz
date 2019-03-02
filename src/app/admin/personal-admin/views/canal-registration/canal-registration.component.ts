@@ -7,7 +7,7 @@ import { ConfigService } from "app/core/services/config.service";
 @Component({
   selector: 'canal-registration',
   templateUrl: './canal-registration.component.html',
-  styleUrls: ['./canal-registration.component.css']
+  styleUrls: ['./canal-registration.component.scss']
 })
 export class CanalRegistrationComponent implements OnInit, OnDestroy {
 

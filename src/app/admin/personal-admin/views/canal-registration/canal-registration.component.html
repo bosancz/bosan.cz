@@ -7,10 +7,10 @@
 
       <div class="col-lg-2">
 
-        <ul class="nav nav-pills flex-column">
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'form'}]" [class.active]="view === 'future'">Přihláška</a></li>
-          <li class="nav-item"><a class="nav-link" [routerLink]="['./',{view:'attendees'}]" [class.active]="view === 'past'">Obsazenost</a></li>   
-        </ul>
+        <nav class="nav nav-pills flex-column">
+          <a class="nav-link" [routerLink]="['./',{view:'form'}]" [class.active]="view === 'form'">Přihláška</a>
+          <a class="nav-link" [routerLink]="['./',{view:'attendees'}]" [class.active]="view === 'attendees'">Obsazenost</a>
+        </nav>
 
       </div>
 
