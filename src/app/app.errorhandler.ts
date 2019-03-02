@@ -36,6 +36,7 @@ export class AppErrorHandler implements ErrorHandler {
       description: err.description,
       stack: err.stack,
       url: window.location.href,
+      navigator: navigator.userAgent,
       ng: {
         component: err.ngDebugContext && err.ngDebugContext.component ? err.ngDebugContext.component.constructor.name : undefined,
         environment: environment.production ? "production" : "development"
