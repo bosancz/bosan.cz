@@ -13,7 +13,7 @@ var reportedErrorSchema = mongoose.Schema({
   "instances": [{
     "timestamp": Date,
     "url": String,
-
+    "navigator": String,
     "status": Number,
     "description": String,
     "stack": String,
