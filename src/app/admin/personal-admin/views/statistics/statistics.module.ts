@@ -12,7 +12,6 @@ import { StatisticsRoutingModule } from './statistics-routing.module';
 import { StatisticsComponent } from './statistics.component';
 
 import { EventsDashboardComponent } from './events-dashboard/events-dashboard.component';
-import { EventsCompetitionComponent } from './events-competition/events-competition.component';
 
 import { MembersDashboardComponent } from './members-dashboard/members-dashboard.component';
 
@@ -20,7 +19,6 @@ import { MembersDashboardComponent } from './members-dashboard/members-dashboard
   declarations: [
     StatisticsComponent,
     EventsDashboardComponent,
-    EventsCompetitionComponent,
     MembersDashboardComponent
   ],
   imports: [
