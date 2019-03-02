@@ -21,7 +21,10 @@ import { MyEventComponent } from "./views/my-event/my-event.component";
 import { MyGroupComponent } from './views/my-group/my-group.component';
 import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
 
+import { PaddlerCompetitionComponent } from './views/paddler-competition/paddler-competition.component';
+
 import { AclGuard } from "lib/acl";
+
 
 const routes:Routes = [
   {
@@ -46,6 +49,8 @@ const routes:Routes = [
       },
 
       { path: 'program', loadChildren: './views/program/program-admin.module#ProgramAdminModule' },
+      
+      { path: 'vodak-roku', component: PaddlerCompetitionComponent },
       
       { path: 'statistiky', loadChildren: './views/statistics/statistics.module#StatisticsModule' },
 

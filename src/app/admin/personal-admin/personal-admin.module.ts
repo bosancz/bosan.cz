@@ -27,6 +27,7 @@ import { EventExpensesTableComponent } from './components/event-expenses-table/e
 import { EventBirthdayListComponent } from './components/event-birthday-list/event-birthday-list.component';
 import { MyAccountAppComponent } from './views/my-account/my-account-app/my-account-app.component';
 import { EventAttendeesListComponent } from './components/event-attendees-list/event-attendees-list.component';
+import { PaddlerCompetitionComponent } from './views/paddler-competition/paddler-competition.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { EventAttendeesListComponent } from './components/event-attendees-list/e
     MyEventsComponent, MyEventComponent,
     MyGroupComponent, MyGroupMembersComponent,
     MyAccountComponent, MyAccountInfoComponent, MyAccountCredentialsComponent, MyAccountNotificationsComponent,
+    PaddlerCompetitionComponent,
     
     CanalRegistrationComponent,
     DocumentsViewComponent,

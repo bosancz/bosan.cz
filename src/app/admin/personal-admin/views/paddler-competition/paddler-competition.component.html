@@ -1,0 +1,57 @@
+<section>
+  <div class="container">
+
+    <list-slider [items]="years" [ngModel]="year | async" (ngModelChange)="setYear($event)" itemWidth="60"></list-slider>
+
+    <div class="row mt-3">
+      <div class="col-lg-8">
+        <h3>Pořadí</h3>
+
+        <div class="table-responsive">
+          <table class="table table-sm table-striped">
+            <thead>
+              <tr>
+                <th>Umístění</th>
+                <th>Přezdívka</th>
+                <th>Počet kilometrů</th>
+                <th>Akce</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ranking of rankings">
+                <td>{{ranking.rank}}. <ng-container *ngIf="ranking.rankTo !== ranking.rank"> - {{ranking.rankTo}}.</ng-container>
+                </td>
+                <td>{{ranking.member?.nickname}} ({{ranking.member?.group | group:"name"}})</td>
+                <td>{{ranking.water_km}} km</td>
+                <td class="events">
+                  <ul>
+                    <li *ngFor="let event of ranking.events">{{event.name}} ({{event.competition.water_km}} km)</li>
+                  </ul>
+                </td>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <h3>Oddíly</h3>
+        <table class="table table-sm table-striped">
+          <thead>
+            <tr>
+              <th>Umístění</th>
+              <th>Oddíl</th>
+              <th>Počet kilometrů</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ranking of groups; let i = index;">
+              <td>{{ranking.rank}}. <ng-container *ngIf="ranking.rankTo !== ranking.rank"> - {{ranking.rankTo}}.</ng-container>
+              </td>
+              <td>{{ranking.group | group:"name"}}</td>
+              <td>{{ranking.water_km}} km</td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
