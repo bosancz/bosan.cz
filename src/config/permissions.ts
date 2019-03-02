@@ -18,6 +18,7 @@ export const permissions = {
   "my:events": { roles: ["vedouci"] },
   "my:group": { roles: ["spravce"] },
   "my:program": { roles: ["program","spravce"] },
+  "my:competition": { roles: ["clen"] },
   "my:statistics": { roles: ["vedouci"] },
   "my:canal": { roles: ["clen"] },
   "my:account": { roles: ["user"] }
