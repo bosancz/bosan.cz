@@ -13,7 +13,7 @@ const colorPattern = "^([rR][gG][bB][aA]\\([\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\
 @Component({
   selector: 'web-admin',
   templateUrl: './web-admin.component.html',
-  styleUrls: ['./web-admin.component.css']
+  styleUrls: ['./web-admin.component.scss']
 })
 export class WebAdminComponent implements OnInit, OnDestroy {
 
