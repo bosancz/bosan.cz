@@ -36,8 +36,6 @@ import { MemberAdminAchievementsComponent } from './views/member-admin/member-ad
 
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
 
-import { ServerAdminComponent } from './views/server-admin/server-admin.component';
-
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
 
@@ -67,7 +65,6 @@ import { PhotoTagsEditorComponent } from './components/photo-tags-editor/photo-t
     AlbumsAdminComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
     MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent, MemberAdminAchievementsComponent, 
     WebAdminComponent,
-    ServerAdminComponent,
     CampsAdminComponent, CampAdminComponent, CampAdminDashboardComponent, CampAdminBasicComponent,
     UsersAdminComponent, UserAdminComponent,
     

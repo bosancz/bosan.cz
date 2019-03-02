@@ -25,8 +25,6 @@ import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.co
 
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
 
-import { ServerAdminComponent } from './views/server-admin/server-admin.component';
-
 
 /* SERVICES */
 
@@ -61,9 +59,6 @@ const routes:Routes = [
       {path: 'nastaveni-webu/:cat', component: WebAdminComponent},
       {path: 'nastaveni-webu', redirectTo: "nastaveni-webu/obecne", pathMatch: "full"},
 
-      {path: 'nastaveni-serveru/:cat', component: ServerAdminComponent},
-      {path: 'nastaveni-serveru', redirectTo: "nastaveni-serveru/obecne", pathMatch: "full"},
-      
       {path: 'chyby/:chyba', component: ErrorAdminComponent},   
       {path: 'chyby', component: ErrorsAdminComponent},   
   
