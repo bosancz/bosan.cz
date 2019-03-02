@@ -22,30 +22,24 @@
               <p class="multiline">{{eventData.description || 'Nevyplněno'}}</p>
 
               <div class="row">
-                <div class="col-6 col-md-4">
-                  <h6>Datum a místo</h6>
+                <div class="col-md-8">
                   <p>
+                    <strong>Datum:</strong>
                     {{[eventData.dateFrom,eventData.dateTill] | dateRange}}
                     <ng-container *ngIf="eventData.timeFrom || eventData.timeTill">{{eventData.timeFrom || "0:00"}} -
                       {{eventData.timeTill || "0:00"}}</ng-container>
                     <br>
-                    {{eventData.place || "Nevyplněno"}}
-                  </p>
-                </div>
-
-                <div class="col-6 col-md-4">
-                  <h6>Typ akce</h6>
-                  <p>
-                    <strong>Typ:</strong> {{eventData.type || "Nevyplněno"}}<br>
-                    <strong>Charakter:</strong> {{eventData.subtype || "Nevyplněno"}}
-                  </p>
-                </div>
-
-                <div class="col-6 col-md-4">
-                  <h6>Sraz a konec</h6>
-                  <p>
+                    <strong>Místo:</strong> {{eventData.place || "Nevyplněno"}}<br>
                     <strong>Sraz:</strong> {{eventData.meeting?.start || "Nevyplněno"}}<br>
                     <strong>Konec:</strong> {{eventData.meeting?.end || "Nevyplněno"}}
+
+                  </p>
+                </div>
+
+                <div class="col-md-4">
+                  <p>
+                    <strong>Typ:</strong> {{eventData.type || "Nevyplněno"}}<br>
+                    <strong>Charakter:</strong> {{eventData.subtype || "Nevyplněno"}}<br>
                   </p>
                 </div>
               </div>
@@ -113,8 +107,7 @@
 
         <div class="block accounting">
 
-          <h4>Účetnictví <a class="text-warning edit" (click)="openModal(expensesModal)"><i
-                 class="fas fa-pen-square"></i></a></h4>
+          <h4>Účetnictví <a class="text-warning edit" (click)="openModal(expensesModal)"><i class="fas fa-pen-square"></i></a></h4>
 
           <div class="row">
 
@@ -137,6 +130,22 @@
               </div>-->
             </div>
           </div>
+        </div>
+
+
+        <div class="block attendees">
+          <h4>Vodák roku <a class="text-warning edit" (click)="openModal(competitionModal)"><i class="fas fa-pen-square"></i></a></h4>
+          <div class="row">
+            <div class="col-6">
+              <h6>Řeka</h6>
+              {{eventData.competition?.river}}
+            </div>
+            <div class="col-6">
+              <h6>Kilometry po vodě</h6>
+              {{eventData.competition?.water_km}} km
+            </div>
+          </div>
+
         </div>
 
         <!--
@@ -214,13 +223,13 @@
     </div>
     <div class="form-row">
       <div class="form-group col-6">
-        <label>Typ akce</label>
+        <label>Typ</label>
         <select name="type" [(ngModel)]="eventData.type" class="form-control">
           <option *ngFor="let type of eventTypes" [value]="type">{{type}}</option>
         </select>
       </div>
       <div class="form-group col-6">
-        <label>Charakter akce</label>
+        <label>Charakter</label>
         <select name="subtype" [(ngModel)]="eventData.subtype" class="form-control">
           <option *ngFor="let type of eventSubTypes" [value]="type">{{type}}</option>
         </select>
@@ -235,13 +244,11 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label>Sraz</label>
-        <input type="text" name="start" [(ngModel)]="eventData.meeting.start" class="form-control"
-               placeholder="17:00, u Bilba doma">
+        <input type="text" name="start" [(ngModel)]="eventData.meeting.start" class="form-control" placeholder="17:00, u Bilba doma">
       </div>
       <div class="form-group col-md-6">
         <label>Konec</label>
-        <input type="text" name="end" [(ngModel)]="eventData.meeting.end" class="form-control"
-               placeholder="3:00, tamtéž">
+        <input type="text" name="end" [(ngModel)]="eventData.meeting.end" class="form-control" placeholder="3:00, tamtéž">
       </div>
     </div>
   </div>
@@ -299,6 +306,26 @@
     </table>
     <a (click)="addExpense()">přidat výdaj</a>
   </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>
+  </div>
+</ng-template>
+
+<ng-template #competitionModal>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label>Řeka</label>
+        <input type="text" name="river" [(ngModel)]="eventData.competition.river" class="form-control">
+      </div>
+      <div class="form-group col-6">
+        <label>Km po vodě</label>
+        <input type="number" name="water_km" [(ngModel)]="eventData.competition.water_km" class="form-control">
+      </div>
+    </div>
+  </div>
+
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
     <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>

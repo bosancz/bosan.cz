@@ -209,6 +209,7 @@ export class MyEventComponent implements OnInit, OnDestroy {
     eventData.attendees.sort((a,b) => a.nickname.localeCompare(b.nickname));
     
     if(!eventData.meeting) eventData.meeting = { start: undefined, end: undefined };
+    if(!eventData.competition) eventData.competition = { river: undefined, water_km:undefined }
     if(!eventData.expenses) eventData.expenses = [];
     
     eventData.dateFrom = DateTime.fromISO(eventData.dateFrom).toISODate();
