@@ -45,7 +45,11 @@ Popis toho, jak web interně funguje, jak co nastavit a jak co naprogramovat naj
 
 ## Spuštění pro testovací provoz na localhostu
 
-```ng serve --configuration=local``` - spustí [angular-cli](https://github.com/angular/angular-cli) v režimu automatické rekompilace v případě změn v adresáři ```src``` a nastaví jako testovací server test.bosan.cz s podporou CORS.
+Nainstalujte si @angular/cli globálně:
+```sudo npm install @angular/cli -g```
+
+Spusťte si vývojový server, který se sám překompiluje v případě změny kódu:
+```ng serve --configuration=local```
 
 ## Přispívání
 
