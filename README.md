@@ -46,10 +46,14 @@ Popis toho, jak web interně funguje, jak co nastavit a jak co naprogramovat naj
 ## Spuštění pro testovací provoz na localhostu
 
 Nainstalujte si @angular/cli globálně:
-```sudo npm install @angular/cli -g```
+```
+sudo npm install @angular/cli -g
+```
 
-Spusťte si vývojový server, který se sám překompiluje v případě změny kódu:
-```ng serve --configuration=local```
+Spusťte si vývojový server, který se sám překompiluje v případě změny kódu. jako backend jsou použita testovací data z test.bosan.cz.
+```
+ng serve --configuration=local
+```
 
 ## Přispívání
 
