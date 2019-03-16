@@ -83,6 +83,7 @@ export class UsersAdminComponent implements OnInit, OnDestroy {
     this.createUserModalRef.hide();
     // show the confrmation
     this.toastService.toast("Uživatel vytvořen.");
+    console.log(response.headers)
     // get the new user
     const user = await this.api.get<User>(response.headers.get("location"));
     // open the user

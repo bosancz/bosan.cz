@@ -3,29 +3,37 @@
 
     <h2>
       <a routerLink="/interni/uzivatele" class="back"><i class="fas fa-arrow-left"></i></a>
-      {{user._id}}
-      <ng-container *ngIf="user.member"> - {{user.member.nickname}} ({{user.member.name?.first}}
-        {{user.member.name?.last}})</ng-container>
+      <ng-container *ngIf="user.login">
+        {{user.login}}
+        <ng-container *ngIf="user.member">&nbsp;({{user.member.nickname}}, {{user.member.group | group:"name"}})</ng-container>
+        <ng-container *ngIf="!user.member && user.email">&nbsp;({{user.email}})</ng-container>
+      </ng-container>
+      <ng-container *ngIf="!user.login && user.email">{{user.email}}</ng-container>
+      <ng-container *ngIf="!user.login && !user.email">{{user._id}}</ng-container>
     </h2>
 
     <div class="row">
 
-      <div class="col-3">
+      <div class="col-lg-2">
 
-        <ul class="nav flex-column">
-          <li class="nav-item"><a class="nav-link" routerLink="../ucet" routerLinkActive="active">Účet</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="../heslo" routerLinkActive="active">Změnit heslo</a></li>
-          <li class="nav-item"><a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat
-              uživatele</a></li>
-        </ul>
+        <nav class="nav nav-pills flex-column">
+          <a class="nav-link" routerLink="../ucet" routerLinkActive="active">Účet</a>
+          <a class="nav-link" routerLink="../heslo" routerLinkActive="active">Změnit heslo</a>
+          <a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat</a>
+        </nav>
 
       </div>
 
-      <div class="col-9" [ngSwitch]="category">
+      <div class="col-lg-10" [ngSwitch]="category">
 
         <div *ngSwitchCase="'ucet'">
           <form #editUserForm="ngForm" (ngSubmit)="saveUser(editUserForm)">
             <div class="modal-body">
+
+              <div class="form-group">
+                <label for="editUserInput-login">ID</label>
+                <input type="text" [ngModel]="user._id" [ngModelOptions]="{standalone:true}" class="form-control" id="editUserInput-login" readonly>
+              </div>
 
               <div class="form-group">
                 <label for="editUserInput-login">Login</label>
@@ -50,7 +58,7 @@
                 <label>Role</label>
                 <div class="form-check" *ngFor="let role of roles">
                   <input type="checkbox" [(ngModel)]="role.active" [ngModelOptions]="{standalone:true}" class="form-check-input"
-                    [id]="'editUserInput-role-' + role.name">
+                         [id]="'editUserInput-role-' + role.name">
                   <label class="form-check-label" [for]="'editUserInput-role-' + role.name">{{role.title}}</label>
                 </div>
               </div>
