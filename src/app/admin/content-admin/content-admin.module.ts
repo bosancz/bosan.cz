@@ -9,11 +9,6 @@ import { ContentAdminComponent } from './content-admin.component';
 import { ContentAdminRoutingModule } from './content-admin-routing.module';
 
 /* VIEWS */
-import { CampsAdminComponent } from './views/camps-admin/camps-admin.component';
-import { CampAdminComponent } from './views/camps-admin/camp-admin/camp-admin.component';
-import { CampAdminDashboardComponent } from './views/camps-admin/camp-admin/camp-admin-dashboard/camp-admin-dashboard.component';
-import { CampAdminBasicComponent } from './views/camps-admin/camp-admin/camp-admin-basic/camp-admin-basic.component';
-
 import { EventsAdminComponent } from './views/events-admin/events-admin.component';
 
 import { EventAdminComponent } from './views/event-admin/event-admin.component';
@@ -40,7 +35,7 @@ import { UsersAdminComponent } from './views/users-admin/users-admin.component';
 import { UserAdminComponent } from './views/user-admin/user-admin.component';
 
 import { ErrorsAdminComponent } from './views/errors-admin/errors-admin.component';
-import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admin.component';
+import { ErrorAdminComponent } from './views/error-admin/error-admin.component';
 
 /* COMMON COMPONENTS */
 
@@ -65,7 +60,7 @@ import { PhotoTagsEditorComponent } from './components/photo-tags-editor/photo-t
     AlbumsAdminComponent, AlbumAdminComponent, AlbumAdminMetadataComponent, AlbumAdminUploadComponent, AlbumAdminPhotosComponent,
     MembersAdminComponent, MemberAdminComponent, MemberAdminInfoComponent, MemberAdminAchievementsComponent, 
     WebAdminComponent,
-    CampsAdminComponent, CampAdminComponent, CampAdminDashboardComponent, CampAdminBasicComponent,
+
     UsersAdminComponent, UserAdminComponent,
     
     /* SHARED */
