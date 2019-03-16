@@ -85,7 +85,7 @@ routes.get("events","/", { permission: "events:list" }).handle(validate({query:g
     query.where(route.query || {});
   }
 
-  const events = await query;
+  const events = await query.toObject();
 
   req.routes.links(events,"event");
 
