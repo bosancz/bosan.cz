@@ -3,7 +3,7 @@
   <p *ngIf="!events || !events.length">Žádné akce.</p>
   
   <div *ngFor="let event of events" class="event mb-5">
-    <h3>{{event.name}}</h3>
+    <h3>{{event.name}}&nbsp;<sup><event-status-badge [event]="event"></event-status-badge></sup></h3>
     <p>{{[event.dateFrom,event.dateTill] | dateRange}}</p>
     <p>{{event.description}}</p>
     <p>Vede {{(event.leaders | joinLeaders) || "pan NIKDO"}}</p>      
