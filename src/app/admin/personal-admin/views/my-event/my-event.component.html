@@ -160,6 +160,8 @@
         <button *ngIf="event._actions?.publish" [disabled]="!event._actions?.publish.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('publish')">Do programu</button>
         <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Poslat ohlášku</button>
         <button *ngIf="event._actions?.finalize" [disabled]="!event._actions?.finalize.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Uzavřít</button>
+        
+        <button *ngIf="event._actions?.reject" [disabled]="!event._actions.reject.allowed" class="btn btn-secondary btn-sm mr-3" (click)="rejectEvent()">Zpět k úpravám</button>
 
         <button *ngIf="event._actions?.unpublish" [disabled]="!event._actions?.unpublish.allowed" class="btn btn-secondary btn-sm" type="button" (click)="eventAction('unpublish')">Z programu</button>
 

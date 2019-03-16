@@ -105,6 +105,18 @@ export class MyEventComponent implements OnInit, OnDestroy {
       this.toastService.toast("Akce smazána");
     }
   }
+
+  async rejectEvent():Promise<void>{
+    const note = window.prompt("Poznámka k vrácení akce:")
+    
+    // hit cancel in the prompt cancels the action
+    if(note === null) return;
+
+    await this.api.post(this.event._actions.reject, { note: note || undefined } );
+    await this.loadEvent(this.event._id);
+    
+    this.toastService.toast("Vráceno k úpravám.");
+  }
   
   async eventAction(action:string){
     await this.api.post(this.event._actions[action]);
