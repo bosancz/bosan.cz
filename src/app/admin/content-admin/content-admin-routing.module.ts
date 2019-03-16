@@ -21,7 +21,7 @@ import { MembersAdminComponent } from './views/members-admin/members-admin.compo
 import { MemberAdminComponent } from './views/member-admin/member-admin.component';
 
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
-import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
+import { UserAdminComponent } from './views/user-admin/user-admin.component';
 
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
 

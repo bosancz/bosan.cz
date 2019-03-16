@@ -37,7 +37,7 @@ import { MemberAdminAchievementsComponent } from './views/member-admin/member-ad
 import { WebAdminComponent } from './views/web-admin/web-admin.component';
 
 import { UsersAdminComponent } from './views/users-admin/users-admin.component';
-import { UserAdminComponent } from './views/users-admin/user-admin/user-admin.component';
+import { UserAdminComponent } from './views/user-admin/user-admin.component';
 
 import { ErrorsAdminComponent } from './views/errors-admin/errors-admin.component';
 import { ErrorAdminComponent } from './views/errors-admin/error-admin/error-admin.component';
