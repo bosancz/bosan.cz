@@ -65,12 +65,10 @@
           <div class="row">
             <div class="col-md-8">
               <h6>Vedoucí</h6>
-              <event-attendees-list [(ngModel)]="eventData.leaders" (ngModelChange)="saveEvent()">
-              </event-attendees-list>
+              <event-attendees-list [(ngModel)]="eventData.leaders" (ngModelChange)="saveEvent()"></event-attendees-list>
 
               <h6>Účastníci</h6>
-              <event-attendees-list [(ngModel)]="eventData.attendees" (ngModelChange)="saveEvent()">
-              </event-attendees-list>
+              <event-attendees-list [(ngModel)]="eventData.attendees" (ngModelChange)="saveEvent()"></event-attendees-list>
 
 
               <div class="row">
@@ -158,24 +156,16 @@
       </div>
 
       <div class="col-md-2 buttons right">
-        <button *ngIf="event._actions?.submit" [disabled]="!event._actions?.submit.allowed"
-                class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Ke schválení</button>
-        <button *ngIf="event._actions?.publish" [disabled]="!event._actions?.publish.allowed"
-                class="btn btn-primary btn-sm" type="button" (click)="eventAction('publish')">Do programu</button>
-        <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce.allowed"
-                class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Poslat ohlášku</button>
-        <button *ngIf="event._actions?.finalize" [disabled]="!event._actions?.finalize.allowed"
-                class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Uzavřít</button>
+        <button *ngIf="event._actions?.submit" [disabled]="!event._actions?.submit.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Ke schválení</button>
+        <button *ngIf="event._actions?.publish" [disabled]="!event._actions?.publish.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('publish')">Do programu</button>
+        <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Poslat ohlášku</button>
+        <button *ngIf="event._actions?.finalize" [disabled]="!event._actions?.finalize.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Uzavřít</button>
 
-        <button *ngIf="event._actions?.unpublish" [disabled]="!event._actions?.unpublish.allowed"
-                class="btn btn-secondary btn-sm" type="button" (click)="eventAction('unpublish')">Z programu</button>
+        <button *ngIf="event._actions?.unpublish" [disabled]="!event._actions?.unpublish.allowed" class="btn btn-secondary btn-sm" type="button" (click)="eventAction('unpublish')">Z programu</button>
 
-        <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel.allowed"
-                class="btn btn-danger btn-sm" type="button" (click)="eventAction('cancel')">Zrušit</button>
-        <button *ngIf="event._actions?.uncancel" [disabled]="!event._actions?.uncancel.allowed"
-                class="btn btn-danger btn-sm" type="button" (click)="eventAction('uncancel')">Odzrušit</button>
-        <button [disabled]="!event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button"
-                (click)="deleteEvent()">Smazat</button>
+        <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('cancel')">Zrušit</button>
+        <button *ngIf="event._actions?.uncancel" [disabled]="!event._actions?.uncancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('uncancel')">Odzrušit</button>
+        <button [disabled]="!event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button" (click)="deleteEvent()">Smazat</button>
       </div>
     </div>
   </div>
@@ -255,18 +245,7 @@
 
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
-    <button type="button" class="btn btn-primary" data-dismiss="modal"
-            (click)="saveEvent();modalRef.hide()">Uložit</button>
-  </div>
-</ng-template>
-
-<ng-template #leadersModal>
-  <div class="modal-body members-select">
-    <members-select [role]="['vedoucí','instruktor']" [(ngModel)]="eventData.leaders"></members-select>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
-    <button type="button" class="btn btn-primary" (click)="saveEvent();modalRef.hide()">Uložit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>
   </div>
 </ng-template>
 

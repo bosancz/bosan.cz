@@ -21,6 +21,7 @@ import { Member } from 'app/shared/schema/member';
 export class EventAttendeesListComponent implements ControlValueAccessor {
 
   members:Member[] = [];
+  previousMembers:Member[] = [];
 
   onChange:any = () => {};
   onTouched:any = () => {};
@@ -33,6 +34,11 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
 
   removeMember(member:Member):void{
     this.members.splice(this.members.indexOf(member),1);
+    this.publishValue();
+  }
+
+  setMembers(members){
+    this.members = members;
     this.publishValue();
   }
 
@@ -56,7 +62,14 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
     this.router.navigate(['./',{modal:"open"}], { relativeTo: this.route });
     const modalOptions:ModalOptions = { animated: false };
     this.modalRef = this.modalService.show(modal, modalOptions);
+
+    this.previousMembers = this.members.slice();
   } 
+
+  reset(){
+    this.members = this.previousMembers;
+    this.publishValue();
+  }
 
   /* ControlValueAccessor */
   writeValue(value:Member[]){
