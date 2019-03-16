@@ -19,7 +19,7 @@
       <button *ngIf="event._actions?.cancel" class="btn btn-danger btn-sm mr-3" [disabled]="!event._actions.cancel.allowed" (click)="cancelEvent(event)">Zrušit akci</button>
       <button *ngIf="event._actions?.uncancel" class="btn btn-secondary btn-sm mr-3" [disabled]="!event._actions.uncancel.allowed" (click)="uncancelEvent(event)">Vrátit zrušení</button>
 
-      <a [routerLink]="'/interni/moje/akce/' + event._id" class="btn btn-light btn-sm">Upravit info</a>
+      <a [routerLink]="'/interni/moje/program/detail/' + event._id" class="btn btn-light btn-sm">Upravit info</a>
     </div>
   </div>
 
