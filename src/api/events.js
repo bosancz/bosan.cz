@@ -118,6 +118,8 @@ routes.get("events:noleader","/noleader",{permission:"events:noleader:list"}).ha
   query.select("_id name dateFrom dateTill description leaders status statusNote");
   query.filterByPermission("events:noleader:list",req);
 
+  if(req.query.sort) query.sort(req.query.sort);
+  
   const events = await query.toObject();
 
   req.routes.links(events,"event");
