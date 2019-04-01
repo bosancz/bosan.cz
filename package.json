@@ -1,0 +1,16 @@
+{
+  "name": "bosan.cz",
+  "version": "2.0.0",
+  "description": "Bosan.cz website",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bosancz/bosan.cz.git"
+  },
+  "author": "Martin Kopeček <martin.kopecek@smallhill.cz>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/bosancz/bosan.cz/issues"
+  },
+  "homepage": "https://github.com/bosancz/bosan.cz#readme"
+}
