@@ -44,13 +44,29 @@ mongoose.plugin(RoutesPluginsMongoose);
 
 mongoose.Promise = global.Promise;
 
+var retries = 0;
 
-mongoose.connect(config.database.uri,config.database.options)
-  .then(() => console.log("Connected to " + config.database.uri))
-  .then(() => mongoose)
-  .catch(err => {
-    throw new Error("Error when connectiong to " + config.database.uri + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
-  });
+function connect(){
+  
+  console.log("[DB] Connecting to DB...");
+  
+  mongoose.connect(config.database.uri,config.database.options)
+    .then(() => console.log("[DB] Connected to " + config.database.uri))  
+    .catch(err => {
+      console.error("[DB] Error when connectiong to " + config.database.uri + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
+      
+      retries++;
+      if(retries <= 10){
+        console.error("[DB] Retrying in 10s...");
+        setTimeout(() => connect(), 10000);  
+      }
+      else{
+         throw new Error("DB connection failed.");
+      }
+    });
+}
+
+connect();
 
 require("./models"); // just load, so that we dont have to worry about missing schemas for references
 

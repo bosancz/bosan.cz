@@ -60,9 +60,12 @@ var router = require("./router");
 app.use(router);
 
 if(config.mongoExpress.enabled){
-  var mongoExpress = require('mongo-express/lib/middleware')
-  var mongoExpressConfig = require("../config/mongo_express_config");
-  app.use(config.mongoExpress.url, mongoExpress(mongoExpressConfig))
+  try{
+    var mongoExpress = require('mongo-express/lib/middleware')
+    var mongoExpressConfig = require("../config/mongo_express_config");
+    app.use(config.mongoExpress.url, mongoExpress(mongoExpressConfig))
+  }
+  catch(e){ console.error("MongoExpress Error:",e); }
 }
 
 var errorHandler = require("./error-handler");
