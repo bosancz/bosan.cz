@@ -58,7 +58,6 @@ routes.post("albums","/", {permission: "albums:create"}).handle(async (req,res,n
   await fs.mkdir(config.photos.storageDir(album._id));
   await fs.mkdir(config.photos.thumbsDir(album._id));
   
-  console.log(`/albums/${album._id}`);
   res.location(`/albums/${album._id}`);
   res.status(201).json(album);
 });
