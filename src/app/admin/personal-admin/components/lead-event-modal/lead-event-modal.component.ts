@@ -22,7 +22,7 @@ export class LeadEventModalComponent implements OnInit {
   }
 
   async loadEvents(){
-    this.events = await this.api.get<Event[]>("events:noleader");
+    this.events = await this.api.get<Event[]>("events:noleader",{sort:"dateFrom"});
   }
   
   async leadEvent(event:Event){
