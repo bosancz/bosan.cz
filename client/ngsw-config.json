@@ -42,17 +42,18 @@
       "urls": [
         "/api",
         "/api/config",
+        "/api/me/user",
         "/api/events/program",
         "/api/albums/recent?limit=3"
       ],
       "cacheConfig": {
         "strategy": "freshness",
-        "maxSize": 10,
+        "maxSize": 100,
         "maxAge": "7d"
       },
       "navigationUrls": [
         "/**", 
-        "!/events/**/accounting/template"
+        "!/api/events/**/accounting/template"
       ]
     }
   ]
