@@ -31,7 +31,7 @@ const mongoose = require("./db");
 
 /* AUTHENTICATION */
 var jwt = require('express-jwt');
-app.use(jwt(config.jwt));
+app.use(jwt(config.jwt), (err, req, res, next) => (err.code === 'invalid_token') ? next() : next(err));
 
 /* ACL */
 const { Routes } = require("@smallhillcz/routesjs");
