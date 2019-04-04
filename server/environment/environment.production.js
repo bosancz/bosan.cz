@@ -25,11 +25,11 @@ module.exports = {
   
   google: {
     impersonate: "info@bosan.cz",
-    appId: ""
+    appId: "249555539983-j8rvff7bovgnecsmjffe0a3dj55j33hh.apps.googleusercontent.com"
   },
 
   facebook: {
-    appId: ""
+    appId: "284020775534023"
   },
   
   cookieSecure: true,

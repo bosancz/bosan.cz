@@ -29,7 +29,7 @@ module.exports = {
   },
 
   facebook: {
-    appId: ""
+    appId: "284020775534023"
   },
   
   cookieSecure: false,

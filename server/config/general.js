@@ -79,8 +79,9 @@ module.exports = {
   },
 
   google: {
-    impersonate: "info@bosan.cz",
-    clientAppId: "249555539983-j8rvff7bovgnecsmjffe0a3dj55j33hh.apps.googleusercontent.com",
+    clientAppId: environment.google.appId,
+    impersonate: environment.google.impersonate,
+    
     serviceMail: environment.keys.google.client_email,
     serviceClient : environment.keys.google.client_id,
     privateKey: environment.keys.google.private_key
