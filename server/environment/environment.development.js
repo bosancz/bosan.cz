@@ -3,7 +3,7 @@ var path = require("path");
 module.exports = {
   
   server: {
-    port: 80,
+    port: 3023,
     host: "127.0.0.1"
   },
   
