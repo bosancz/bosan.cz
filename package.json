@@ -11,7 +11,7 @@
     "start": "cd server && npm start",
     "build": "cd client && npm run build",
     "install": "cd client && npm install && cd ../server && npm install",    
-    "create-admin": "cd server && npm run create-admin"
+    "create-admin": "cd server && npm run create-admin"    
   },
   "author": "Martin Kopeček <martin.kopecek@smallhill.cz>",
   "license": "GPL-3.0",
