@@ -9,13 +9,13 @@ module.exports = {
   },
   
   data: {
-    root: "/var/www/bosan/data"
+    root: "../../../bosan.cz-data"
   },
 
   keys: {
-    google: require("../../../keys/google"),
-    vapid: require("../../../keys/vapid"),
-    jwt: require("../../../keys/jwt")
+    google: require("../../../bosan.cz-keys/google"),
+    vapid: require("../../../bosan.cz-keys/vapid"),
+    jwt: require("../../../bosan.cz-keys/jwt")
   },
   
   apiRoot: "/api",
@@ -25,11 +25,11 @@ module.exports = {
   
   google: {
     impersonate: "info@bosan.cz",
-    appId: ""
+    appId: "249555539983-j8rvff7bovgnecsmjffe0a3dj55j33hh.apps.googleusercontent.com"
   },
 
   facebook: {
-    appId: ""
+    appId: "284020775534023"
   },
   
   cookieSecure: true,

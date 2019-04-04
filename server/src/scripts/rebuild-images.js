@@ -46,7 +46,7 @@ async function resizePhoto(photo){
   const name = String(photo._id);
   const ext = path.extname(photo.name);
 
-  const storageDir = config.photos.storageDir(photo.album._id);
+  const storageDir = config.photos.albumStorageDirFn(photo.album._id);
   const storagePath = path.join(storageDir,name + ext);
 
   console.log("Storage path: ",storagePath);

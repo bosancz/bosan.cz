@@ -49,10 +49,14 @@ module.exports = {
   },
 
   photos: {
-    storageDir: albumId => path.join(environment.data.root, "photos_original", String(albumId)),
+    storageDir: path.join(environment.data.root, "photos_original"),
     storageUrl: environment.url + "/data/photos_original",
-    thumbsDir: albumId => path.join(environment.data.root, "photos", String(albumId)),
+    albumStorageDirFn: albumId => path.join(environment.data.root, "photos_original", String(albumId)),
+    
+    thumbsDir: path.join(environment.data.root, "photos"),
     thumbsUrl: environment.url + "/data/photos",
+    albumThumbsDirFn: albumId => path.join(environment.data.root, "photos", String(albumId)),
+
     allowedTypes: ["jpg", "jpeg", "png", "gif"],
     sizes: {
       "big": [1280, 1024],
@@ -79,8 +83,9 @@ module.exports = {
   },
 
   google: {
-    impersonate: "info@bosan.cz",
-    clientAppId: "249555539983-j8rvff7bovgnecsmjffe0a3dj55j33hh.apps.googleusercontent.com",
+    clientAppId: environment.google.appId,
+    impersonate: environment.google.impersonate,
+    
     serviceMail: environment.keys.google.client_email,
     serviceClient : environment.keys.google.client_id,
     privateKey: environment.keys.google.private_key

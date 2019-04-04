@@ -103,11 +103,11 @@ async function importAlbum(dir){
     if(!dry){
       album = await Album.create(albumData);
 
-      var albumStorageDir = path.join(storageDir,String(album._id));
-      var albumThumbsDir = path.join(thumbsDir,String(album._id));
+      var albumStorageDirFn = path.join(storageDir,String(album._id));
+      var albumThumbsDirFn = path.join(thumbsDir,String(album._id));
 
-      await fs.ensureDir(albumStorageDir);
-      await fs.ensureDir(albumThumbsDir);
+      await fs.ensureDir(albumStorageDirFn);
+      await fs.ensureDir(albumThumbsDirFn);
 
       console.log("Album record created");
     }
