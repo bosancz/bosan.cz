@@ -1,34 +1,58 @@
 # bosan.cz
 Frontend webových stránek Dětské vodácké skupiny ŠÁN.
 
-# Instalace
+ - [Spuštění na serveru](#spuštění-na-serveru) 
+ - [Lokální vývoj](#lokální-vývoj)
 
-1, 2, 3, jako v Horstovi Fuchsovi:
+## Spuštění na serveru
 
-### 0. Prerekvizity
+### Prerekvizity
 
- - Node Package Manager
- - Webový server
+ - [NodeJS](https://nodejs.org)
+ - [MongoDB](https://www.mongodb.com/download-center/community)
 
-### 1. Instalace
+### Instalace
 
-```
-npm install
-```
-
-### 2. Kompilace
-
-```
-npm run build
+```sh
+npm install # instalace balíčků
+npm run build # kompilace kódu
+npm start # spuštění serveru
 ```
 
-### 3. Publikace
+### Nastavení
 
-Použijte svůj oblíbený webový server pro vystavení složky ```dist```.
+#### Vytvoření admin přístupu
 
-# Nastavení
+```
+npm run create-admin
+```
 
-## Sdílení na sociálních sítích
+#### Konfigurace serveru
+
+##### Prostředí
+
+Konfigurační soubory `server/environment.<prostředí>`
+
+Prostředí nastavíme pomocí globální proměnné `NODE_ENV`:
+
+```
+NODE_ENV=production npm start
+```
+
+##### Obecná nastavení
+
+Soubor `server/config/general.js`.
+
+##### Řízení přístupů
+Soubor `server/config/permissions.js`.
+
+#### Konfigurace klienta
+
+##### Řízení přístupů
+
+Soubor `client/src/config/permissions.ts`
+
+#### Sdílení na sociálních sítích
 
 Facebook a další nečtou obsah stránky vygenerovaný dynamicky. Je proto potřeba jim dodat obsah jinak, prostřednictvím OpenGraph tagů. Odchycení těchto dotazů docílíte např. metodou rewrite v Nginx:
 ```nginx
@@ -37,27 +61,26 @@ if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)|(Slackbo
 }
 ```
 
-# Vývoj
+## Lokální vývoj
 
-## Jak na to?
+### Jak na to?
 
 Popis toho, jak web interně funguje, jak co nastavit a jak co naprogramovat najdete ve [wiki](https://github.com/bosancz/bosan.cz/wiki). Obecné věci najdete samozřejmě v dokumentaci k příslušným technologiím.
 
-## Spuštění pro testovací provoz na localhostu
+### Spuštění pouze pro vývoj frontendu (bez instalace serveru a databáze)
 
 Nainstalujte si @angular/cli globálně:
 ```
 sudo npm install @angular/cli -g
 ```
 
-Spusťte si vývojový server, který se sám překompiluje v případě změny kódu. jako backend jsou použita testovací data z test.bosan.cz.
+Spusťte si vývojový server, který se sám překompiluje v případě změny kódu. Jako backend jsou použita testovací data z test.bosan.cz.
 ```
+cd client
 ng serve --configuration=local
 ```
 
-## Přispívání
+### Pravidla přispívání
 
-- názvy souborů, proměnných a dalších názvů v angličtině
-- popisky commitů a PR v angličtině
-- struktura souborů dle projektu a dle [angular-cli](https://github.com/angular/angular-cli)
-- http://nvie.com/posts/a-successful-git-branching-model/
+- kód **v angličtině**, commity **v angličtině**, pull requesty **v angličtině**, issues **v češtině**
+- struktura souborů na klientu dle [Angular Style Guide](https://angular.io/guide/styleguide)
