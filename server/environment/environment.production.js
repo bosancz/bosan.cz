@@ -9,13 +9,13 @@ module.exports = {
   },
   
   data: {
-    root: "/var/www/bosan/data"
+    root: "../../../bosan.cz-data"
   },
 
   keys: {
-    google: require("../../../keys/google"),
-    vapid: require("../../../keys/vapid"),
-    jwt: require("../../../keys/jwt")
+    google: require("../../../bosan.cz-keys/google"),
+    vapid: require("../../../bosan.cz-keys/vapid"),
+    jwt: require("../../../bosan.cz-keys/jwt")
   },
   
   apiRoot: "/api",

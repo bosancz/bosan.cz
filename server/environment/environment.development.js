@@ -2,20 +2,19 @@ var path = require("path");
 
 module.exports = {
   
-  
   server: {
     port: 80,
     host: "127.0.0.1"
   },
   
   data: {
-    root: "/var/www/bosan/data-test"
+    root: "../../../test.bosan.cz-data"
   },
 
   keys: {
-    google: require("../../../keys/google"),
-    vapid: require("../../../keys/vapid"),
-    jwt: require("../../../keys/jwt")
+    google: require("../../../test.bosan.cz-keys/google"),
+    vapid: require("../../../test.bosan.cz-keys/vapid"),
+    jwt: require("../../../test.bosan.cz-keys/jwt")
   },
   
   apiRoot: "/api",
