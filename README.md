@@ -7,8 +7,8 @@ Frontend webových stránek Dětské vodácké skupiny ŠÁN.
 
 ### 0. Prerekvizity
 
- - Node Package Manager
- - Webový server
+ - NodeJS
+ - MongoDB
 
 ### 1. Instalace
 
@@ -22,11 +22,44 @@ npm install
 npm run build
 ```
 
-### 3. Publikace
+### 3. Start
 
-Použijte svůj oblíbený webový server pro vystavení složky ```dist```.
+```
+npm start
+```
 
 # Nastavení
+
+## Vytvoření admin přístupu
+
+```
+npm run create-admin
+```
+
+## Konfigurace serveru
+
+### Prostředí
+
+Konfigurační soubory `server/environment.<prostředí>`
+
+Prostředí nastavíme pomocí globální proměnné `NODE_ENV`:
+
+```
+NODE_ENV=production npm start
+```
+
+### Obecná nastavení
+
+Soubor `server/config/general.js`.
+
+### Řízení přístupů
+Soubor `server/config/permissions.js`.
+
+## Konfigurace klienta
+
+### Řízení přístupů
+
+Soubor `client/src/config/permissions.ts`
 
 ## Sdílení na sociálních sítích
 
@@ -52,6 +85,7 @@ sudo npm install @angular/cli -g
 
 Spusťte si vývojový server, který se sám překompiluje v případě změny kódu. jako backend jsou použita testovací data z test.bosan.cz.
 ```
+cd client
 ng serve --configuration=local
 ```
 
