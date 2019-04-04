@@ -1,5 +1,4 @@
-# bosan.cz
-Frontend webových stránek Dětské vodácké skupiny ŠÁN.
+# Frontend webových stránek Dětské vodácké skupiny ŠÁN.
 
  - [Spuštění na serveru](#spuštění-na-serveru) 
  - [Lokální vývoj](#lokální-vývoj)
