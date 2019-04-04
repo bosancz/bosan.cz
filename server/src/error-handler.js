@@ -1,8 +1,12 @@
 var { Validator, ValidationError } = require('express-json-validator-middleware');
 
 module.exports = function(err, req, res, next){
-  
-  
+
+  // if headers already sent return to default error handler
+  if (res.headersSent) {
+    return next(err)
+  }
+    
   if(err instanceof ValidationError){
     console.error("JSON Schema Validation Error");
     console.error("Url: " + req.url);
