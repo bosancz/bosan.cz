@@ -5,12 +5,14 @@
 
 ## Spuštění na serveru
 
-### Prerekvizity
+### Instalace
+
+#### Potřebné aplikace
 
  - [NodeJS](https://nodejs.org)
  - [MongoDB](https://www.mongodb.com/download-center/community)
-
-### Instalace
+ 
+#### Instalace webu
 
 ```sh
 npm install # instalace balíčků
@@ -62,22 +64,32 @@ if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)|(Slackbo
 
 ## Lokální vývoj
 
-### Jak na to?
-
-Popis toho, jak web interně funguje, jak co nastavit a jak co naprogramovat najdete ve [wiki](https://github.com/bosancz/bosan.cz/wiki). Obecné věci najdete samozřejmě v dokumentaci k příslušným technologiím.
-
 ### Spuštění pouze pro vývoj frontendu (bez instalace serveru a databáze)
 
-Nainstalujte si @angular/cli globálně:
+1) Nejdřív si nainstalujte následující aplikace:
+
+ - [NodeJS](https://nodejs.org) (při instalaci na Windows nezapomeňte zaškrtnout zahrnutí v cestě PATH)
+ - Versovací nástroj s podporou gitu ([Sourcetree](https://www.sourcetreeapp.com/), [Git](https://git-scm.com/))
+ - Editor kódu (doporučujeme [VSCode](https://code.visualstudio.com/), nebo [WebStorm](https://www.jetbrains.com/webstorm/))
+
+
+2) Potém si nainstalujte @angular/cli globálně. To uděláte v příkazovém řádku následovně:
 ```
-sudo npm install @angular/cli -g
+npm install @angular/cli -g
 ```
 
-Spusťte si vývojový server, který se sám překompiluje v případě změny kódu. Jako backend jsou použita testovací data z test.bosan.cz.
+3) A web pro vývoj následně spustíte tamtéž:
 ```
 cd client
 ng serve --configuration=local
 ```
+### Spuštění pro vývoj frontendu i backendu
+
+TODO
+
+### Jak na to?
+
+Popis toho, jak web interně funguje, jak co nastavit a jak co naprogramovat najdete ve [wiki](https://github.com/bosancz/bosan.cz/wiki). Obecné věci najdete samozřejmě v dokumentaci k příslušným technologiím.
 
 ### Pravidla přispívání
 
