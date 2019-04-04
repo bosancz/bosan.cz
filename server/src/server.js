@@ -5,25 +5,13 @@ var app = express();
 app.set('json spaces', 2);
 
 /* POLYFILLS */
-
-// polyfill before express allows for async middleware
-require('express-async-errors');
+require('express-async-errors'); // polyfill before express allows for async middleware
 
 /* CONFIG */
 var config = require("../config");
-
-/* CORS for development */
-if(config.server.cors){
-  app.use(require("cors")({
-    origin: /localhost/,
-    credentials: true,
-    methods: "GET,PUT,POST,PATCH,DELETE",
-    allowedHeaders: ["Content-type","Set-Cookie"]
-  }));
-}
+var environment = require("../environment");
 
 /* REQUEST PARSING */
-
 const bodyParser = require("body-parser");
 app.use(bodyParser.json({ limit:'10mb' })); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true,  limit:'10mb' })); // support urlencoded bodies
@@ -34,52 +22,38 @@ app.use(cookieParser());
 // guess types like numbers, nulls and booleans
 app.use(require("./middleware/query-guess-types.js"));
 
-
 /* LOCALE */
-
 const { DateTime } = require("luxon");
 DateTime.defaultLocale = "cs-CZ";
 
-
-/* AUTHENTICATION AND ACL */
-
-// setup jwt token parsing and validation
-var jwt = require('express-jwt');
-app.use(jwt(config.auth.jwt));
-
-// connect to database
+/* DATABASE */
 const mongoose = require("./db");
 
+/* AUTHENTICATION */
+var jwt = require('express-jwt');
+app.use(jwt(config.jwt));
+
+/* ACL */
 const { Routes } = require("@smallhillcz/routesjs");
 Routes.setACL(config.acl);
 
 /* ROUTING */
-
-// router
 var router = require("./router");
 app.use(router);
 
-if(config.mongoExpress.enabled){
-  try{
-    var mongoExpress = require('mongo-express/lib/middleware')
-    var mongoExpressConfig = require("../config/mongo_express_config");
-    app.use(config.mongoExpress.url, mongoExpress(mongoExpressConfig))
-  }
-  catch(e){ console.error("MongoExpress Error:",e); }
-}
-
+/* ERROR HANDLER */
 var errorHandler = require("./error-handler");
 app.use(errorHandler);
 
-/* SET UP SERVER */
-let host = config.server.host;
-let port = config.server.port;
+/* SERVER */
+let host = environment.server.host;
+let port = environment.server.port;
 
 var http = require("http");
 
 http.createServer(app).listen(port, host, function () {
-  console.log('Listening on ' + host + ':' + port + '!');
-  process.send('ready');
+  console.log('Listening on http://' + host + ':' + port + ' !');
+  if(process.send) process.send('ready');
 });
 
 /* GRACEFUL RELOAD */

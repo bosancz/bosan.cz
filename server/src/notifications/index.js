@@ -1,6 +1,6 @@
 const webpush = require('web-push');
 
-const vapidKeys = require("../../config").notifications.vapidKeys;
+const environment = require("../../environment");
 
 require("../db");
 
@@ -10,8 +10,8 @@ const notificationTemplates = require("./notifications");
 
 webpush.setVapidDetails(
   'mailto:info@bosan.cz',
-  vapidKeys.publicKey,
-  vapidKeys.privateKey
+  environment.keys.vapid.publicKey,
+  environment.keys.vapid.privateKey
 );
 
 function createNotification(name,data){

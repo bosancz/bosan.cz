@@ -1,72 +1,46 @@
+var environment = require("../environment");
 var config = require("../config");
 
 var mongoose = require('mongoose');
 
-const mongooseAutopopulate = require("mongoose-autopopulate");
-mongoose.plugin(mongooseAutopopulate);
+/* PLUGINS */
+mongoose.plugin(require("mongoose-autopopulate"));
 
-mongoose.plugin(function(schema){
-  schema.query.toObject = function(){
+mongoose.plugin(require("./plugins/mongoose-to-object"));
 
-    return this.then(docs => {
-      if(!docs) return docs;
+mongoose.plugin(require("./plugins/mongoose-paginate"));
 
-      if(Array.isArray(docs)) return docs.map(doc => doc.toObject ? doc.toObject() : doc);
-      else return docs.toObject ? docs.toObject() : docs;
-    });
-  }
-});
+mongoose.plugin(require("@smallhillcz/routesjs/lib/plugins/mongoose").RoutesPluginsMongoose);
 
-mongoose.plugin(function(schema){
-  schema.query.paginate = function(limit,skip){
-
-    this.limit(limit);
-    this.skip(skip || 0);
-
-    return this.then(docs => {
-
-      const count = this.model.find().where(this._conditions).count();
-
-      return count.then(count => ({
-        docs: docs.map(doc => doc.toObject ? doc.toObject() : doc),
-        total: count,
-        limit: limit,
-        skip: skip || 0
-      }));
-
-    });
-
-  }
-});
-
-const { RoutesPluginsMongoose } = require("@smallhillcz/routesjs/lib/plugins/mongoose");
-mongoose.plugin(RoutesPluginsMongoose);
-
+/* SETTINGS */
 mongoose.Promise = global.Promise;
 
+/* CONNECTION */
 var retries = 0;
 
-function connect(){
-  
+function connect() {
+
   console.log("[DB] Connecting to DB...");
-  
-  mongoose.connect(config.database.uri,config.database.options)
-    .then(() => console.log("[DB] Connected to " + config.database.uri))  
+
+  mongoose.connect(environment.databaseUri, config.database)
+    .then(() => console.log("[DB] Connected to " + environment.databaseUri))
     .catch(err => {
-      console.error("[DB] Error when connectiong to " + config.database.uri + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
-      
+      console.error("[DB] Error when connectiong to " + environment.databaseUri + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
+
       retries++;
-      if(retries <= 10){
+      if (retries <= 10) {
         console.error("[DB] Retrying in 10s...");
-        setTimeout(() => connect(), 10000);  
+        setTimeout(() => connect(), 10000);
       }
-      else{
-         throw new Error("DB connection failed.");
+      else {
+        throw new Error("DB connection failed.");
       }
     });
 }
 
 connect();
+
+/* MODELS */
 
 require("./models"); // just load, so that we dont have to worry about missing schemas for references
 

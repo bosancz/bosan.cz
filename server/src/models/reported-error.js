@@ -27,11 +27,4 @@ var reportedErrorSchema = mongoose.Schema({
 
 }, { toObject: { virtuals: true } });
 
-reportedErrorSchema.plugin(actions, {
-  root: config.api.root,
-  links: {
-    "self": error => `/errors/${error._id}`,
-  }
-});
-
 module.exports = mongoose.model("ReportedError", reportedErrorSchema);

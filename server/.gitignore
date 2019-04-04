@@ -1,11 +1,8 @@
 # dependencies
 /node_modules
 
-# config files
-config/environment.*.js
-!config/environment.example.js
-config/google.json
-config/vapid.json
+# password files
+keys
 
 # internal assets
 assets/uctovani-v6-web.xlsx
