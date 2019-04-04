@@ -92,8 +92,8 @@ routes.delete("photo", "/:photo",{permission:"photos:delete"}).handle(async (req
     await album.save();
   }
   
-  const storageDir = config.photos.storageDir(photo.album);
-  const thumbsDir = config.photos.thumbsDir(photo.album);
+  const storageDir = config.photos.albumStorageDir(photo.album);
+  const thumbsDir = config.photos.albumThumbsDir(photo.album);
   
   await fs.remove(path.join(storageDir,photo.sizes.original.file))
   await fs.remove(path.join(thumbsDir,photo.sizes.big.file))

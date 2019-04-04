@@ -54,8 +54,8 @@ routes.get("albums","/", {permission: "albums:list"}).handle(validate({query: ge
 routes.post("albums","/", {permission: "albums:create"}).handle(async (req,res,next) => {
   const album = await Album.create(req.body);
 
-  await fs.mkdir(config.photos.storageDir(album._id));
-  await fs.mkdir(config.photos.thumbsDir(album._id));
+  await fs.mkdir(config.photos.albumStorageDir(album._id));
+  await fs.mkdir(config.photos.albumThumbsDir(album._id));
   
   res.location(`/albums/${album._id}`);
   res.status(201).json(album);
@@ -135,8 +135,8 @@ routes.delete("album","/:id", {permission: "albums:delete"}).handle(async (req,r
 
   const album = await Album.findOne({_id:req.params.id});
 
-  await fs.remove(config.photos.storageDir(album._id));
-  await fs.remove(config.photos.thumbsDir(album._id));
+  await fs.remove(config.photos.albumStorageDir(album._id));
+  await fs.remove(config.photos.albumThumbsDir(album._id));
   
   await Album.deleteOne({_id: req.params.id});
   

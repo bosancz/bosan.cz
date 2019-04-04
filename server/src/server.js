@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+var fs = require("fs-extra");
 
 /* EXPRESS CONFIG */
 app.set('json spaces', 2);
@@ -28,6 +29,9 @@ DateTime.defaultLocale = "cs-CZ";
 
 /* DATABASE */
 const mongoose = require("./db");
+
+/* FILE DATA */
+require("./file-storage");
 
 /* AUTHENTICATION */
 var jwt = require('express-jwt');

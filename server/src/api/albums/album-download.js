@@ -12,7 +12,7 @@ module.exports = function(albumId,res){
     res.on('close', () => resolve());
     res.on('error', err => reject(err));
 
-    const albumDir = config.photos.storageDir(albumId);
+    const albumDir = config.photos.albumStorageDir(albumId);
 
     zip.pipe(res);
 

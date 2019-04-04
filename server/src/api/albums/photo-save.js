@@ -25,9 +25,9 @@ module.exports = async function(options){
   var name = String(photoId);
   var ext = path.extname(originalName);
   
-  var storageDir = config.photos.storageDir(albumId);
+  var storageDir = config.photos.albumStorageDir(albumId);
   var storagePath = path.join(storageDir,name + ext);
-  var thumbsDir = config.photos.thumbsDir(albumId);
+  var thumbsDir = config.photos.albumThumbsDir(albumId);
 
   // define sizes before try..catch block to have it defined for cleaning up in catch
   var sizes = Object.entries(config.photos.sizes).map(size => ({

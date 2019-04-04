@@ -49,10 +49,14 @@ module.exports = {
   },
 
   photos: {
-    storageDir: albumId => path.join(environment.data.root, "photos_original", String(albumId)),
+    storageDir: path.join(environment.data.root, "photos_original"),
     storageUrl: environment.url + "/data/photos_original",
-    thumbsDir: albumId => path.join(environment.data.root, "photos", String(albumId)),
+    albumStorageDir: albumId => path.join(environment.data.root, "photos_original", String(albumId)),
+    
+    storageDir: path.join(environment.data.root, "photos"),
     thumbsUrl: environment.url + "/data/photos",
+    albumThumbsDir: albumId => path.join(environment.data.root, "photos", String(albumId)),
+
     allowedTypes: ["jpg", "jpeg", "png", "gif"],
     sizes: {
       "big": [1280, 1024],
