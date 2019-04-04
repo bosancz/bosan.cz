@@ -6,7 +6,7 @@ try {
   module.exports = require("./environment." + environmentName + ".js");
 }
 catch (e) {  
-  console.error(`Could not load environment file server/config/environment.${environmentName}.js. File is either missing or invalid.`);
+  console.error(`Could not load environment file server/environment/environment.${environmentName}.js. File is either missing or invalid.`);
   console.error(e.message);
   process.exit(1);
 }

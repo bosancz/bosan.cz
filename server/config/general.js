@@ -49,9 +49,9 @@ module.exports = {
   },
 
   photos: {
-    storageDir: albumId => path.join(__dirname, "../data/photos_original", String(albumId)),
+    storageDir: albumId => path.join(environment.data.root, "photos_original", String(albumId)),
     storageUrl: environment.url + "/data/photos_original",
-    thumbsDir: albumId => path.join(__dirname, "../data/photos", String(albumId)),
+    thumbsDir: albumId => path.join(environment.data.root, "photos", String(albumId)),
     thumbsUrl: environment.url + "/data/photos",
     allowedTypes: ["jpg", "jpeg", "png", "gif"],
     sizes: {
@@ -61,8 +61,8 @@ module.exports = {
   },
 
   events: {
-    storageDir: path.join(__dirname, "../data/events"),
-    eventDir: (eventId) => path.join(__dirname, "../data/events", String(eventId)),
+    storageDir: path.join(environment.data.root, "events"),
+    eventDir: (eventId) => path.join(environment.data.root, "events", String(eventId)),
     storageUrl: environment.url + "/data/events",
 
     accounting: {

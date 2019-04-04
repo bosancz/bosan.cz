@@ -7,6 +7,10 @@ module.exports = {
     port: 80,
     host: "127.0.0.1"
   },
+  
+  data: {
+    root: "/var/www/bosan/data-test"
+  },
 
   keys: {
     google: require("../../../keys/google"),
