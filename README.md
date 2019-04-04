@@ -6,12 +6,10 @@ Frontend webových stránek Dětské vodácké skupiny ŠÁN.
 
 ## Spuštění na serveru
 
-## Instalace
-
 ### Prerekvizity
 
- - NodeJS
- - MongoDB
+ - [NodeJS](https://nodejs.org)
+ - [MongoDB](https://www.mongodb.com/download-center/community)
 
 ### Instalace
 
