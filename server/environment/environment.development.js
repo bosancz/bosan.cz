@@ -4,14 +4,14 @@ module.exports = {
   
   
   server: {
-    port: 80,
+    port: 3023,
     host: "127.0.0.1"
   },
 
   keys: {
-    google: require("../../../keys/google"),
-    vapid: require("../../../keys/vapid"),
-    jwt: require("../../../keys/jwt")
+    google: require("../../../keys-test/google"),
+    vapid: require("../../../keys-test/vapid"),
+    jwt: require("../../../keys-test/jwt")
   },
   
   apiRoot: "/api",
