@@ -2,7 +2,7 @@ const fs = require("fs-extra");
 const config = require("../config");
 const environment = require("../environment");
 
-async function ensureDirs() {
+async function ensureDirs() {  
   await fs.ensureDir(config.events.storageDir);
   await fs.ensureDir(config.photos.storageDir);
   await fs.ensureDir(config.photos.thumbsDir);
