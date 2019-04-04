@@ -1,0 +1,314 @@
+<section>
+  <div *ngIf="eventData" class="container">
+    <h2>
+      {{eventData.name}}
+      <sup>
+        <event-status-badge [event]="eventData"></event-status-badge>
+      </sup>
+    </h2>
+
+    <div class="row">
+      <div class="col-md-10">
+
+        <groups-select [(ngModel)]="eventData.groups" (ngModelChange)="saveEvent()" name="groups"></groups-select>
+
+        <div class="block">
+          <h4>Základní info <a (click)="openModal(basicInfoModal)" class="text-warning edit"><i
+                 class="fas fa-pen-square"></i></a></h4>
+          <div class="row">
+
+            <div class="col-md-8">
+              <h6>Popisek</h6>
+              <p class="multiline">{{eventData.description || 'Nevyplněno'}}</p>
+
+              <div class="row">
+                <div class="col-md-8">
+                  <p>
+                    <strong>Datum:</strong>
+                    {{[eventData.dateFrom,eventData.dateTill] | dateRange}}
+                    <ng-container *ngIf="eventData.timeFrom || eventData.timeTill">{{eventData.timeFrom || "0:00"}} -
+                      {{eventData.timeTill || "0:00"}}</ng-container>
+                    <br>
+                    <strong>Místo:</strong> {{eventData.place || "Nevyplněno"}}<br>
+                    <strong>Sraz:</strong> {{eventData.meeting?.start || "Nevyplněno"}}<br>
+                    <strong>Konec:</strong> {{eventData.meeting?.end || "Nevyplněno"}}
+
+                  </p>
+                </div>
+
+                <div class="col-md-4">
+                  <p>
+                    <strong>Typ:</strong> {{eventData.type || "Nevyplněno"}}<br>
+                    <strong>Charakter:</strong> {{eventData.subtype || "Nevyplněno"}}<br>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-4">
+              <h6>Přihláška</h6>
+              <p *ngIf="uploadingRegistration">Nahrávám&hellip;</p>
+              <p *ngIf="eventData.registration && !uploadingRegistration">
+                <a class="btn btn-sm btn-secondary" [href]="getRegistrationUrl()">Stáhnout přihlášku</a>
+                <br><br>
+                <a class="btn btn-sm btn-danger text-light delete" (click)="deleteRegistration()">Smazat přihlášku</a>
+              </p>
+              <div *ngIf="!eventData.registration && !uploadingRegistration" class="form-group">
+                <input type="file" name="file" accept="application/pdf" #registrationInput ngModel (ngModelChange)="uploadRegistration(registrationInput)" required>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="block attendees">
+          <h4>Účastníci</h4>
+          <div class="row">
+            <div class="col-md-8">
+              <h6>Vedoucí</h6>
+              <event-attendees-list [(ngModel)]="eventData.leaders" (ngModelChange)="saveEvent()"></event-attendees-list>
+
+              <h6>Účastníci</h6>
+              <event-attendees-list [(ngModel)]="eventData.attendees" (ngModelChange)="saveEvent()"></event-attendees-list>
+
+
+              <div class="row">
+                <div class="col-6">
+                  <h6>Věk účastníků</h6>
+                  <event-age-histogram [event]="eventData"></event-age-histogram>
+                </div>
+                <div class="col-6">
+                  <h6>Narozeniny</h6>
+                  <event-birthday-list [event]="eventData"></event-birthday-list>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <h6>Ohláška</h6>
+
+              <p><a class="btn btn-sm btn-secondary" [href]="getAnnouncementTemplateUrl()">Stáhnout předvyplněnou ohlášku</a></p>
+
+              <!--
+              <p *ngIf="uploadingAccounting">Nahrávám&hellip;</p>
+              <p *ngIf="eventData.accounting && !uploadingAccounting">
+                <a [href]="getAccountingUrl()">Stáhnout účetnictví</a><br>
+                <a class="text-danger delete" (click)="deleteAccounting()">Smazat účetnictví</a>
+              </p>
+              <div *ngIf="!eventData.accounting && !uploadingAccounting" class="form-group">
+                <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" #accountingInput ngModel (ngModelChange)="uploadAccounting(accountingInput)" required>
+              </div>-->
+            </div>
+          </div>
+
+        </div>
+
+        <div class="block accounting">
+
+          <h4>Účetnictví <a class="text-warning edit" (click)="openModal(expensesModal)"><i class="fas fa-pen-square"></i></a></h4>
+
+          <div class="row">
+
+            <div class="col-md-8">
+              <h6>Výdaje</h6>
+              <event-expenses-table [event]="eventData" [types]="expenseTypes"></event-expenses-table>
+            </div>
+
+            <div class="col-md-4">
+              <h6>Účetnictví</h6>
+              <p><a class="btn btn-sm btn-secondary" [href]="getAccountingTemplateUrl()">Stáhnout předvyplněné účetnictví</a></p>
+
+              <!--<p *ngIf="uploadingAccounting">Nahrávám&hellip;</p>
+              <p *ngIf="eventData.accounting && !uploadingAccounting">
+                <a [href]="getAccountingUrl()">Stáhnout účetnictví</a><br>
+                <a class="text-danger delete" (click)="deleteAccounting()">Smazat účetnictví</a>
+              </p>
+              <div *ngIf="!eventData.accounting && !uploadingAccounting" class="form-group">
+                <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" #accountingInput ngModel (ngModelChange)="uploadAccounting(accountingInput)" required>
+              </div>-->
+            </div>
+          </div>
+        </div>
+
+
+        <div class="block attendees">
+          <h4>Vodák roku <a class="text-warning edit" (click)="openModal(competitionModal)"><i class="fas fa-pen-square"></i></a></h4>
+          <div class="row">
+            <div class="col-6">
+              <h6>Řeka</h6>
+              {{eventData.competition?.river}}
+            </div>
+            <div class="col-6">
+              <h6>Kilometry po vodě</h6>
+              {{eventData.competition?.water_km}} km
+            </div>
+          </div>
+
+        </div>
+
+        <!--
+        <div class="block">
+          <h4>Report <a (click)="openModal(reportModal)" class="text-warning edit"><i class="fas fa-pen-square"></i></a></h4>
+          <div [innerHTML]="eventDatareport || '<p>Report je prázdný.</p>'"></div>
+        </div>
+      -->
+
+      </div>
+
+      <div class="col-md-2 buttons right">
+        <button *ngIf="event._actions?.submit" [disabled]="!event._actions?.submit.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Ke schválení</button>
+        <button *ngIf="event._actions?.publish" [disabled]="!event._actions?.publish.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('publish')">Do programu</button>
+        <button *ngIf="event._actions?.announce" [disabled]="!event._actions?.announce.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Poslat ohlášku</button>
+        <button *ngIf="event._actions?.finalize" [disabled]="!event._actions?.finalize.allowed" class="btn btn-primary btn-sm" type="button" (click)="eventAction('submit')">Uzavřít</button>
+        
+        <button *ngIf="event._actions?.reject" [disabled]="!event._actions.reject.allowed" class="btn btn-secondary btn-sm mr-3" (click)="rejectEvent()">Zpět k úpravám</button>
+
+        <button *ngIf="event._actions?.unpublish" [disabled]="!event._actions?.unpublish.allowed" class="btn btn-secondary btn-sm" type="button" (click)="eventAction('unpublish')">Z programu</button>
+
+        <button *ngIf="event._actions?.cancel" [disabled]="!event._actions?.cancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('cancel')">Zrušit</button>
+        <button *ngIf="event._actions?.uncancel" [disabled]="!event._actions?.uncancel.allowed" class="btn btn-danger btn-sm" type="button" (click)="eventAction('uncancel')">Odzrušit</button>
+        <button [disabled]="!event._links?.self?.allowed.DELETE" class="btn btn-danger btn-sm" type="button" (click)="deleteEvent()">Smazat</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #basicInfoModal>
+  <div class="modal-body members-select">
+
+
+
+    <div class="form-group">
+      <label>Název</label>
+      <input type="text" class="form-control" [(ngModel)]="eventData.name" placeholder="Neočekávaný dýchánek">
+    </div>
+
+    <div class="form-group">
+      <label>Popisek</label>
+      <textarea class="form-control" rows="3" [(ngModel)]="eventData.description"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-8">
+        <label>Od</label>
+        <input type="date" name="dateFrom" [(ngModel)]="eventData.dateFrom" class="form-control" required>
+      </div>
+      <div class="form-group col-4">
+        <label>&nbsp;</label>
+        <input type="time" name="timeFrom" [(ngModel)]="eventData.timeFrom" class="form-control" [disabled]="allDay">
+      </div>
+      <div class="form-group col-8">
+        <label>Do</label>
+        <input type="date" name="dateTill" [(ngModel)]="eventData.dateTill" class="form-control" required>
+      </div>
+      <div class="form-group col-4">
+        <label>&nbsp;</label>
+        <input type="time" name="timeTill" [(ngModel)]="eventData.timeTill" class="form-control" [disabled]="allDay">
+      </div>
+
+      <div class="form-group offset-8 col-4">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" name="allDay" class="custom-control-input" id="allDayCheck" [(ngModel)]="allDay">
+          <label class="custom-control-label" for="allDayCheck">Celý den</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label>Typ</label>
+        <select name="type" [(ngModel)]="eventData.type" class="form-control">
+          <option *ngFor="let type of eventTypes" [value]="type">{{type}}</option>
+        </select>
+      </div>
+      <div class="form-group col-6">
+        <label>Charakter</label>
+        <select name="subtype" [(ngModel)]="eventData.subtype" class="form-control">
+          <option *ngFor="let type of eventSubTypes" [value]="type">{{type}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Místo</label>
+      <input type="text" class="form-control" [(ngModel)]="eventData.place" placeholder="Dno pytle">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Sraz</label>
+        <input type="text" name="start" [(ngModel)]="eventData.meeting.start" class="form-control" placeholder="17:00, u Bilba doma">
+      </div>
+      <div class="form-group col-md-6">
+        <label>Konec</label>
+        <input type="text" name="end" [(ngModel)]="eventData.meeting.end" class="form-control" placeholder="3:00, tamtéž">
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>
+  </div>
+</ng-template>
+
+<ng-template #expensesModal>
+  <div class="modal-body expensesForm">
+    <table>
+      <thead>
+        <tr>
+          <th class="id">Číslo</th>
+          <th>Popis</th>
+          <th class="amount">Částka</th>
+          <th>Typ</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of eventData.expenses">
+          <td>
+            <input type="text" [(ngModel)]="expense.id" class="form-control" required placeholder="V1">
+          </td>
+          <td>
+            <input type="text" [(ngModel)]="expense.description" class="form-control" required placeholder="Špičatý klobouk">
+          </td>
+          <td>
+            <input type="number" step=".01" [(ngModel)]="expense.amount" class="form-control" required placeholder="1234">
+          </td>
+          <td>
+            <select [(ngModel)]="expense.type" class="form-control" required>
+              <option *ngFor="let type of expenseTypes" [value]="type">{{type}}</option>
+            </select>
+          </td>
+          <td class="px-1">
+            <a (click)="removeExpense(expense)" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <a (click)="addExpense()">přidat výdaj</a>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>
+  </div>
+</ng-template>
+
+<ng-template #competitionModal>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label>Řeka</label>
+        <input type="text" name="river" [(ngModel)]="eventData.competition.river" class="form-control">
+      </div>
+      <div class="form-group col-6">
+        <label>Km po vodě</label>
+        <input type="number" name="water_km" [(ngModel)]="eventData.competition.water_km" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveEvent();modalRef.hide()">Uložit</button>
+  </div>
+</ng-template>
