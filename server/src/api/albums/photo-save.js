@@ -1,14 +1,10 @@
-var rmfr = require("rmfr");
-var mv = require("mv");
-var cp = require("cp");
 var path = require("path");
-var fs = require("fs");
+var fs = require("fs-extra");
 
 var mongoose = require("mongoose");
 
 var config = require("../../../config");
 
-var Album = require("../../models/album");
 var Photo = require("../../models/photo");
 
 var resizePhoto = require("./photo-resize");
@@ -33,28 +29,28 @@ module.exports = async function(options){
   var storagePath = path.join(storageDir,name + ext);
   var thumbsDir = config.photos.thumbsDir(albumId);
 
+  // define sizes before try..catch block to have it defined for cleaning up in catch
+  var sizes = Object.entries(config.photos.sizes).map(size => ({
+    width: size[1][0],
+    height: size[1][1],
+    name: size[0],
+    path: path.join(thumbsDir,name + "_" + size[0] + ext)
+  }));
+
   try{
 
     /* CREATE DIRS */
-    await new Promise((resolve,reject) => fs.mkdir(thumbsDir, err => (!err || err.code == 'EEXIST') ? resolve() : reject(err)));
-    await new Promise((resolve,reject) => fs.mkdir(storageDir, err => (!err || err.code == 'EEXIST') ? resolve() : reject(err)));
+    await fs.ensureDir(thumbsDir);
+    await fs.ensureDir(storageDir);
     
     /* RESIZE */
-    
-    var sizes = Object.entries(config.photos.sizes).map(size => ({
-      width: size[1][0],
-      height: size[1][1],
-      name: size[0],
-      path: path.join(thumbsDir,name + "_" + size[0] + ext)
-    }));
-
     var info = await resizePhoto(currentPath,sizes,{stats: true});
 
     
     /* MOVE THE PHOTO TO STORAGE */
     
-    if(copy) await new Promise((resolve,reject) => cp(currentPath,storagePath,err => err ? reject(err) : resolve()));    
-    else await new Promise((resolve,reject) => mv(currentPath,storagePath,err => err ? reject(err) : resolve()));   
+    if(copy) await fs.copy(currentPath,storagePath);
+    else await fs.move(currentPath,storagePath);
     
     
     /* SAVE METADATA */
@@ -92,8 +88,8 @@ module.exports = async function(options){
     return photo;
   }
   catch(err) {    
-    await rmfr(storagePath).catch(err => {});
-    for(var size of Object.entries(sizes)) await rmfr(size[1].path).catch(err => {});
+    await fs.remove(storagePath).catch(err => {});
+    for(var size of Object.entries(sizes)) await fs.remove(size[1].path).catch(err => {});
     throw err;
   }
 }

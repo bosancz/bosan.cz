@@ -1,4 +1,4 @@
-var fs = require("fs");
+var fs = require("fs-extra");
 var path = require("path");
 var mongoose = require("mongoose");
 var iconv = require("iconv-lite");
@@ -16,7 +16,7 @@ var sourceDir = "/root/albums";
 var encoding = "ISO-8859-2";
 
 async function openSerialized(file){
-  var buffer = await new Promise((resolve,reject) => fs.readFile(file, (err, data) => err ? reject(err) : resolve(data)));
+  var buffer = await fs.readFile(file);
   
   var string = iconv.decode(buffer,encoding);
   

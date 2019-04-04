@@ -1,4 +1,4 @@
-var fs = require("fs");
+var fs = require("fs-extra");
 var path = require("path");
 var mongoose = require("mongoose");
 var iconv = require("iconv-lite");
@@ -24,7 +24,7 @@ var albumIndex = {};
 var encoding = "ISO-8859-2";
 
 async function openSerialized(file){
-  var buffer = await new Promise((resolve,reject) => fs.readFile(file, (err, data) => err ? reject(err) : resolve(data)));
+  var buffer = await fs.readFile(file);
   
   var string = iconv.decode(buffer,encoding);
   
@@ -103,8 +103,8 @@ async function importAlbum(dir){
     var albumStorageDir = path.join(storageDir,String(album._id));
     var albumThumbsDir = path.join(thumbsDir,String(album._id));
 
-    await new Promise((resolve,reject) => fs.mkdir(albumStorageDir,err => err ? reject(err) : resolve()));
-    await new Promise((resolve,reject) => fs.mkdir(albumThumbsDir,err => err ? reject(err) : resolve()));
+    await fs.ensureDir(albumStorageDir);
+    await fs.ensureDir(albumThumbsDir);
 
     console.log("Album record created");
   }

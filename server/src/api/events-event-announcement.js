@@ -5,7 +5,6 @@ const routes = module.exports = new Routes();
 
 const fs = require("fs-extra");
 const path = require("path");
-const rmfr = require("rmfr");
 const xlsxPopulate = require("xlsx-populate");
 const { DateTime } = require("luxon");
 
@@ -35,7 +34,7 @@ routes.post("event:announcement","/",{permission:"events:edit"}).handle(upload.s
 
     await fs.ensureDir(eventDir);
     
-    await rmfr(storagePath);
+    await fs.remove(storagePath);
     
     await fs.move(originalPath,storagePath);
   }
@@ -56,7 +55,7 @@ routes.delete("event:announcement","/",{permission:"events:edit"}).handle(async 
   if(!event.announcement) return res.sendStatus(404);
   
   var announcementFile = path.join(config.events.storageDir,String(event._id),event.announcement);
-  await rmfr(announcementFile);
+  await fs.remove(announcementFile);
   
   event.announcement = null;
   await event.save();

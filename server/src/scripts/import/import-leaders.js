@@ -1,8 +1,6 @@
 var mongoose = require("mongoose");
 var mysql = require("mysql");
 
-var moment = require('moment-timezone');
-
 var Member = require("../models/member");
 
 var connectionMongo = require("../db");

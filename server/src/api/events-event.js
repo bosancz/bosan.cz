@@ -5,16 +5,8 @@ const routes = module.exports = new Routes();
 
 const { sendNotifications } = require("../notifications");
 
-var fs = require("fs-extra");
-var path = require("path");
-var rmfr = require("rmfr");
-
-var multer = require("multer");
-var upload = multer({ dest: config.uploads.dir })
-
 var validate = require("../validator");
 
-var createEvent = require("./events/create-event");
 var deleteEvent = require("./events/delete-event");
 
 var Event = require("../models/event");

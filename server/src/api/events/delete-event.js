@@ -1,6 +1,4 @@
 var fs = require("fs-extra");
-var path = require("path");
-var rmfr = require("rmfr");
 
 var config = require("../../../config");
 
@@ -25,7 +23,7 @@ module.exports = async function(eventId){
    
   // delete the event's file data
   var eventDir = config.events.eventDir(eventId);
-  await rmfr(eventDir);
+  await fs.remove(eventDir);
 
   // remove the event from database
   await Event.deleteOne({_id:eventId})

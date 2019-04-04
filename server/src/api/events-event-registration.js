@@ -5,7 +5,6 @@ const routes = module.exports = new Routes();
 
 var fs = require("fs-extra");
 var path = require("path");
-var rmfr = require("rmfr");
 
 var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
@@ -35,7 +34,7 @@ routes.post("event:registration","/",{permission:"events:registration:edit"}).ha
 
     await fs.ensureDir(eventDir);
     
-    await rmfr(storagePath);
+    await fs.remove(storagePath);
     
     await fs.move(originalPath,storagePath);
   }
@@ -56,7 +55,7 @@ routes.delete("event:registration","/",{permission:"events:registration:delete"}
   if(!event.registration) return res.sendStatus(404);
   
   var registrationFile = path.join(config.events.storageDir,String(event._id),event.registration);
-  await rmfr(registrationFile);
+  await fs.remove(registrationFile);
   
   event.registration = null;
   await event.save();

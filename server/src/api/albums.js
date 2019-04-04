@@ -5,7 +5,6 @@ const routes = module.exports = new Routes();
 
 const fs = require("fs-extra");
 const path = require("path");
-const rmfr = require("rmfr");
 
 const mongoose = require("mongoose");
 
@@ -136,8 +135,8 @@ routes.delete("album","/:id", {permission: "albums:delete"}).handle(async (req,r
 
   const album = await Album.findOne({_id:req.params.id});
 
-  await rmfr(config.photos.storageDir(album._id));
-  await rmfr(config.photos.thumbsDir(album._id));
+  await fs.remove(config.photos.storageDir(album._id));
+  await fs.remove(config.photos.thumbsDir(album._id));
   
   await Album.deleteOne({_id: req.params.id});
   

@@ -1,6 +1,5 @@
-var fs = require("fs");
+var fs = require("fs-extra");
 var path = require("path");
-var rmfr = require("rmfr");
 var mongoose = require("mongoose");
 
 var config = require("../../config");
@@ -53,7 +52,7 @@ async function resizePhoto(photo){
   console.log("Storage path: ",storagePath);
 
   const thumbsDir = config.photos.thumbsDir(photo.album._id);
-  await new Promise((resolve,reject) => fs.mkdir(thumbsDir, err => (!err || err.code == 'EEXIST') ? resolve() : reject(err)));
+  await fs.ensureDir(thumbsDir);
 
   const sizes = Object.entries(config.photos.sizes).map(size => ({
     width: size[1][0],
@@ -64,7 +63,7 @@ async function resizePhoto(photo){
 
 
   process.stdout.write((dry ? "(DRY) " : "") + "Deleting old sizes...\r");
-  if(!dry) for(var size of sizes) await rmfr(size.path).catch(err => {});      
+  if(!dry) for(var size of sizes) await fs.remove(size.path).catch(err => {});      
   process.stdout.write((dry ? "(DRY) " : "") + "Deleting old sizes... OK\r\n");
   
   process.stdout.write((dry ? "(DRY) " : "") + "Creating new sizes...\r");

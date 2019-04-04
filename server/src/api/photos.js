@@ -6,7 +6,6 @@ const config = require("../../config");
 var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
 
-var rmfr = require("rmfr");
 var path = require("path");
 
 var Album = require("../models/album");
@@ -96,9 +95,9 @@ routes.delete("photo", "/:photo",{permission:"photos:delete"}).handle(async (req
   const storageDir = config.photos.storageDir(photo.album);
   const thumbsDir = config.photos.thumbsDir(photo.album);
   
-  await rmfr(path.join(storageDir,photo.sizes.original.file))
-  await rmfr(path.join(thumbsDir,photo.sizes.big.file))
-  await rmfr(path.join(thumbsDir,photo.sizes.small.file))
+  await fs.remove(path.join(storageDir,photo.sizes.original.file))
+  await fs.remove(path.join(thumbsDir,photo.sizes.big.file))
+  await fs.remove(path.join(thumbsDir,photo.sizes.small.file))
   
   await Photo.deleteOne({_id:req.params.photo});
   
