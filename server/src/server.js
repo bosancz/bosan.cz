@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+var fs = require("fs-extra");
 
 /* EXPRESS CONFIG */
 app.set('json spaces', 2);
@@ -29,9 +30,12 @@ DateTime.defaultLocale = "cs-CZ";
 /* DATABASE */
 const mongoose = require("./db");
 
+/* FILE DATA */
+require("./file-storage");
+
 /* AUTHENTICATION */
 var jwt = require('express-jwt');
-app.use(jwt(config.jwt));
+app.use(jwt(config.jwt), (err, req, res, next) => (err.code === 'invalid_token') ? next() : next(err));
 
 /* ACL */
 const { Routes } = require("@smallhillcz/routesjs");
