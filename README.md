@@ -8,29 +8,17 @@ Frontend webových stránek Dětské vodácké skupiny ŠÁN.
 
 ## Instalace
 
-1, 2, 3, jako v Horstovi Fuchsovi:
-
-#### 0. Prerekvizity
+### Prerekvizity
 
  - NodeJS
  - MongoDB
 
-#### 1. Instalace
+### Instalace
 
-```
-npm install
-```
-
-#### 2. Kompilace
-
-```
-npm run build
-```
-
-#### 3. Start
-
-```
-npm start
+```sh
+npm install # instalace balíčků
+npm run build # kompilace kódu
+npm start # spuštění serveru
 ```
 
 ### Nastavení
@@ -94,9 +82,7 @@ cd client
 ng serve --configuration=local
 ```
 
-### Přispívání
+### Pravidla přispívání
 
-- názvy souborů, proměnných a dalších názvů v angličtině
-- popisky commitů a PR v angličtině
-- struktura souborů dle projektu a dle [angular-cli](https://github.com/angular/angular-cli)
-- http://nvie.com/posts/a-successful-git-branching-model/
+- kód **v angličtině**, commity **v angličtině**, pull requesty **v angličtině**, issues **v češtině**
+- struktura souborů na klientu dle [Angular Style Guide](https://angular.io/guide/styleguide)
