@@ -14,7 +14,7 @@ google.options({
   auth: jwtClient
 });
 
-console.log("Google API set up.");
+console.log("[GOOGLE] Google API set up.");
 
 module.exports = {
   jwtClient: jwtClient,

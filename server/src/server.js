@@ -56,7 +56,7 @@ let port = environment.server.port;
 var http = require("http");
 
 http.createServer(app).listen(port, host, function () {
-  console.log('Listening on http://' + host + ':' + port + ' !');
+  console.log('[SERVER] Listening on http://' + host + ':' + port + ' !');
   if(process.send) process.send('ready');
 });
 
