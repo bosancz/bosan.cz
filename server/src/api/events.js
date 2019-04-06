@@ -1,24 +1,11 @@
 const { Routes } = require("@smallhillcz/routesjs");
 const routes = module.exports = new Routes();
 
-const { DateTime } = require("luxon");
-
-const config = require("../../config");
-
-
-var fs = require("fs-extra");
-
-var multer = require("multer");
-var upload = multer({ dest: config.uploads.dir })
-
 var validate = require("../validator");
 
 var createEvent = require("./events/create-event");
-var deleteEvent = require("./events/delete-event");
 
 var Event = require("../models/event");
-var Member = require("../models/member");
-var EventRecurring = require("../models/event-recurring");
 
 var getEventsSchema = {
   type: 'object',
@@ -133,5 +120,5 @@ routes.get("events:years","/years", {permission:"events:list"}).handle(async (re
     { $project: { year: { $year: "$dateFrom" } } },
     { $group: { _id: null, years: { $addToSet: "$year" } } }
   ])
-  res.json(years[0].years);
+  res.json(years[0] ? years[0].years || [] : []);
 });
