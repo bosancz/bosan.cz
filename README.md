@@ -98,6 +98,10 @@ ng serve --configuration=local-server
 
 A v druhém:
 ```sh
+$env:NODE_ENV="local" # ve Windows v PowerShellu
+set NODE_ENV=local    # ve Windows v příkazovém řádku
+NODE_ENV=local        # v Linuxu v terminálu
+
 cd server
 npm run dev
 ```
