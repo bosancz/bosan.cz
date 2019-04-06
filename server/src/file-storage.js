@@ -4,7 +4,7 @@ const config = require("../config");
 const environment = require("../environment");
 
 async function ensureDirs() {  
-  await fs.ensureDir(environment.data.root);
+  await fs.ensureDir(config.config.storageDir);
   await fs.ensureDir(config.events.storageDir);
   await fs.ensureDir(config.photos.storageDir);
   await fs.ensureDir(config.photos.thumbsDir);

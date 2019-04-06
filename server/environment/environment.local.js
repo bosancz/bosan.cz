@@ -8,7 +8,7 @@ module.exports = {
   },
   
   data: {
-    root: "../../data"
+    root: "../data"
   },
 
   keys: {

@@ -7,7 +7,7 @@ var mongoose = require("../db");
 var User = require("../models/user");
 
 bcrypt.hash("admin", config.bcrypt.rounds)
-  .then(hash => User.findOneAndUpdate({_id: "admin"}, { password: hash, roles: ["spravce"] }, {upsert: true, new:true}))
+  .then(hash => User.findOneAndUpdate({ login: "admin" }, { login: "admin", password: hash, roles: ["spravce"] }, {upsert: true, new:true}))
   .then(user => {
     console.log("Created user: ", user);
     process.exit();
