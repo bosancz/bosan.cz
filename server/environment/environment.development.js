@@ -10,7 +10,7 @@ module.exports = {
   cors: true,
   
   data: {
-    root: "../../../test.bosan.cz-data"
+    root: path.resolve(__dirname,"../../../test.bosan.cz-data")
   },
 
   keys: {
