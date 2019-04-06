@@ -3,9 +3,11 @@ var path = require("path");
 module.exports = {
   
   server: {
-    port: 4200,
+    port: 4300,
     host: "127.0.0.1"
   },
+
+  cors: true,
   
   data: {
     root: "../data"

@@ -32,6 +32,7 @@ import { TooltipConfig } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ShareModule } from '@ngx-share/core';
 import { ScrollToModule } from "@nicky-lenaers/ngx-scroll-to";
+import { TextcheckDirective } from './directives/textcheck.directive';
 
 export function getTooltipConfig():TooltipConfig {
   return Object.assign(new TooltipConfig(), {    
@@ -59,7 +60,7 @@ export function getTooltipConfig():TooltipConfig {
   ],
   declarations: [
     /* COMPONENTS */ SharingModalComponent, LoginFormComponent,
-    /* DIRECTIVES */ ShareUrlDirective, AdminLinkDirective,
+    /* DIRECTIVES */ ShareUrlDirective, AdminLinkDirective, TextcheckDirective,
     /* PIPES */ SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe, FormatPhonePipe,
   ],
   exports: [
@@ -72,7 +73,7 @@ export function getTooltipConfig():TooltipConfig {
     /* COMPONENTS */
     SharingModalComponent, LoginFormComponent,
     /* DIRECTIVES */
-    ShareUrlDirective, AdminLinkDirective,
+    ShareUrlDirective, AdminLinkDirective, TextcheckDirective,
 
     /* PIPES */
     SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe, FormatPhonePipe,
