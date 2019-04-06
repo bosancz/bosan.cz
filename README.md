@@ -17,7 +17,6 @@
 ```sh
 npm install     # instalace balíčků
 npm run build   # kompilace kódu
-npm start       # spuštění serveru
 ```
 
 ### Nastavení
@@ -45,6 +44,7 @@ NODE_ENV=production npm start
 Soubor `server/config/general.js`.
 
 ##### Řízení přístupů
+
 Soubor `server/config/permissions.js`.
 
 #### Konfigurace klienta
@@ -60,6 +60,13 @@ Facebook a další nečtou obsah stránky vygenerovaný dynamicky. Je proto pot�
 if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)|(Slackbot)") {
   rewrite ^/(\/(?!data).*)$ /api/share/$1;#only when doesnt start with /data because there are the pictures shared
 }
+```
+
+#### Spuštění
+
+```sh
+NODE_ENV=production
+npm start
 ```
 
 ## Lokální vývoj
@@ -100,7 +107,7 @@ A v druhém:
 ```sh
 $env:NODE_ENV="local" # ve Windows v PowerShellu
 set NODE_ENV=local    # ve Windows v příkazovém řádku
-NODE_ENV=local        # v Linuxu v terminálu
+NODE_ENV=local        # v Linuxu nebo na Macu v terminálu
 
 cd server
 npm run dev
