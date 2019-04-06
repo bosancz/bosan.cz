@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
     "create-admin": "node src/scripts/create-admin.js"
   },
   "repository": {
@@ -50,6 +51,7 @@
   "devDependencies": {
     "cors": "^2.8.5",
     "mysql": "^2.16.0",
+    "nodemon": "^1.18.10",
     "phpunserialize": "^1.0.1"
   }
 }

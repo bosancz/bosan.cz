@@ -5,7 +5,7 @@ module.exports = {
 
   database: { useNewUrlParser: true },
 
-  staticFiles: path.join(__dirname, "../../client/dist"),
+  staticFiles: path.resolve(__dirname, "../../client/dist"),
 
   acl: {
     permissions: require("./permissions"),
@@ -49,11 +49,11 @@ module.exports = {
   },
 
   photos: {
-    storageDir: path.join(environment.data.root, "photos_original"),
+    storageDir: path.resolve(environment.data.root, "photos_original"),
     storageUrl: environment.url + "/data/photos_original",
     albumStorageDirFn: albumId => path.join(environment.data.root, "photos_original", String(albumId)),
     
-    thumbsDir: path.join(environment.data.root, "photos"),
+    thumbsDir: path.resolve(environment.data.root, "photos"),
     thumbsUrl: environment.url + "/data/photos",
     albumThumbsDirFn: albumId => path.join(environment.data.root, "photos", String(albumId)),
 
@@ -65,16 +65,16 @@ module.exports = {
   },
 
   events: {
-    storageDir: path.join(environment.data.root, "events"),
-    eventDir: (eventId) => path.join(environment.data.root, "events", String(eventId)),
+    storageDir: path.resolve(environment.data.root, "events"),
+    eventDir: (eventId) => path.resolve(environment.data.root, "events", String(eventId)),
     storageUrl: environment.url + "/data/events",
 
     accounting: {
-      xlsx: path.join(__dirname, "../assets/uctovani-v6.xlsx")
+      xlsx: path.resolve(__dirname, "../assets/uctovani-v6.xlsx")
     },
 
     announcement: {
-      xlsx: path.join(__dirname, "../assets/ohlaska_pan_hlavni.xlsx")
+      xlsx: path.resolve(__dirname, "../assets/ohlaska_pan_hlavni.xlsx")
     }
   },
 
@@ -95,5 +95,9 @@ module.exports = {
     domain: "bosan.cz",
     timezone: "Europe/Prague",
     organizer: "Bošán Info <info@bosan.cz>"
+  },
+
+  config: {
+    storageDir: path.resolve(environment.data.root, "config")
   }
 }

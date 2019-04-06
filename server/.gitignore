@@ -1,12 +1,2 @@
 # dependencies
 /node_modules
-
-# password files
-keys
-
-# internal assets
-assets/uctovani-v6-web.xlsx
-
-# data
-data/
-!.gitkeep

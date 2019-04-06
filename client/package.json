@@ -2,13 +2,6 @@
   "name": "bosan.cz",
   "version": "2.0.0",
   "license": "GPL-3.0",
-  "scripts": {
-    "build": "ng build --prod",
-    "build-quiet": "ng build --prod --progress false",
-    "build-dev": "ng build",
-    "build-dev-quiet": "ng build --progress false"
-    
-  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^7.2.12",
