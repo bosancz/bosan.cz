@@ -6,7 +6,7 @@ const routes = module.exports = new Routes();
 var fs = require("fs-extra");
 var path = require("path");
 
-var configFile = path.join(__dirname, "../../data/web-config.json");
+var configFile = path.resolve(config.config.storageDir, "web-config.json");
 
 routes.get("config", "/", { permission: "config:read" }).handle((req, res, next) => res.sendFile(configFile));
 

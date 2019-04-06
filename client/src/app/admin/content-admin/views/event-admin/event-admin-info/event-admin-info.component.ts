@@ -51,17 +51,6 @@ export class EventAdminInfoComponent implements OnInit, OnChanges {
     this.eventTypes = config.events.types.map(type => type.name);
     this.eventSubTypes = config.events.subtypes.map(type => type.name);
 
-    this.descriptionWarningDefs = config.events.descriptionWarnings.map(warning => {
-      try{
-        return {regexp:new RegExp(warning.regexp,warning.regexpModifiers),text:warning.text};
-      }
-      catch(err){
-        return undefined; 
-      }
-    }).filter(item => item !== undefined);
-    
-    this.checkDescription(this.event.description);
-
   }
 
   async saveEvent(eventForm:NgForm){
@@ -77,9 +66,5 @@ export class EventAdminInfoComponent implements OnInit, OnChanges {
     this.toastService.toast("Uloženo.");
     this.saved.emit();
   }
-
-  checkDescription(description:string):void{
-    this.descriptionWarnings = this.descriptionWarningDefs.filter(warning => warning.regexp.test(description)).map(warning => warning.text);
-  }  
   
 }
