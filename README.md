@@ -64,6 +64,8 @@ if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)|(Slackbo
 
 ## Lokální vývoj
 
+### Instalace nástrojů
+
 **NodeJS**
  - https://nodejs.org
  - (při instalaci na Windows nezapomeňte zaškrtnout zahrnutí v cestě PATH)
