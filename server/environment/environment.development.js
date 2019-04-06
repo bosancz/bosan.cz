@@ -6,6 +6,8 @@ module.exports = {
     port: 3023,
     host: "127.0.0.1"
   },
+
+  cors: true,
   
   data: {
     root: "../../../test.bosan.cz-data"

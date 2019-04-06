@@ -7,6 +7,12 @@ module.exports = {
 
   staticFiles: path.resolve(__dirname, "../../client/dist"),
 
+  cors: {
+    origin: "http://localhost:4200",
+    methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true
+  },
+
   acl: {
     permissions: require("./permissions"),
     userRoles: req => req.user ? req.user.roles || [] : [],
@@ -28,7 +34,7 @@ module.exports = {
     dir: "/tmp/uploads"
   },
 
-  jwt: {    
+  jwt: {
     secret: environment.keys.jwt.secret,
     expiration: "30d",
     credentialsRequired: false,
@@ -52,7 +58,7 @@ module.exports = {
     storageDir: path.resolve(environment.data.root, "photos_original"),
     storageUrl: environment.url + "/data/photos_original",
     albumStorageDirFn: albumId => path.join(environment.data.root, "photos_original", String(albumId)),
-    
+
     thumbsDir: path.resolve(environment.data.root, "photos"),
     thumbsUrl: environment.url + "/data/photos",
     albumThumbsDirFn: albumId => path.join(environment.data.root, "photos", String(albumId)),
@@ -85,9 +91,9 @@ module.exports = {
   google: {
     clientAppId: environment.google.appId,
     impersonate: environment.google.impersonate,
-    
+
     serviceMail: environment.keys.google.client_email,
-    serviceClient : environment.keys.google.client_id,
+    serviceClient: environment.keys.google.client_id,
     privateKey: environment.keys.google.private_key
   },
 

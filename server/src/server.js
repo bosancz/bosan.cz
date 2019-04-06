@@ -12,6 +12,13 @@ require('express-async-errors'); // polyfill before express allows for async mid
 var config = require("../config");
 var environment = require("../environment");
 
+/* CORS FOR DEVELOPMENT */
+if(environment.cors){
+  const cors = require("cors");
+  app.use(cors(config.cors));  
+  console.log("[SERVER] CORS enabled");
+}
+
 /* REQUEST PARSING */
 const bodyParser = require("body-parser");
 app.use(bodyParser.json({ limit:'10mb' })); // support json encoded bodies
