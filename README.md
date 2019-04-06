@@ -64,28 +64,41 @@ if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)|(Slackbo
 
 ## Lokální vývoj
 
+**NodeJS**
+ - https://nodejs.org
+ - (při instalaci na Windows nezapomeňte zaškrtnout zahrnutí v cestě PATH)
+
+**Verzovací nástroj s podporou gitu**
+ - ([Sourcetree](https://www.sourcetreeapp.com/) nebo [Git](https://git-scm.com/))
+
+**Editor kódu**
+ - doporučujeme [VSCode](https://code.visualstudio.com/), nebo [WebStorm](https://www.jetbrains.com/webstorm/)
+
+**Angular CLI**
+ - `npm install @angular/cli -g`
+ 
+**MongoDB** (pokud chcete vyvíjet backend)
+ - https://www.mongodb.com/download-center/community
+
 ### Spuštění pouze pro vývoj frontendu (bez instalace serveru a databáze)
-
-1) Nejdřív si nainstalujte následující aplikace:
-
- - [NodeJS](https://nodejs.org) (při instalaci na Windows nezapomeňte zaškrtnout zahrnutí v cestě PATH)
- - Versovací nástroj s podporou gitu ([Sourcetree](https://www.sourcetreeapp.com/), [Git](https://git-scm.com/))
- - Editor kódu (doporučujeme [VSCode](https://code.visualstudio.com/), nebo [WebStorm](https://www.jetbrains.com/webstorm/))
-
-
-2) Potém si nainstalujte @angular/cli globálně. To uděláte v příkazovém řádku následovně:
-```
-npm install @angular/cli -g
-```
-
-3) A web pro vývoj následně spustíte tamtéž:
-```
+```sh
 cd client
 ng serve --configuration=local
 ```
 ### Spuštění pro vývoj frontendu i backendu
+Otevřete si dva terminály (příkazové řádky).
 
-TODO
+V prvním spusťte:
+```sh
+cd client
+ng serve --configuration=local-server
+```
+
+A v druhém:
+```sh
+cd server
+npm run dev
+```
 
 ### Jak na to?
 
