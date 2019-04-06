@@ -11,6 +11,7 @@ require('express-async-errors'); // polyfill before express allows for async mid
 /* CONFIG */
 var config = require("../config");
 var environment = require("../environment");
+console.log(environment.data.root, config.config.storageDir);
 
 /* CORS FOR DEVELOPMENT */
 if(environment.cors){
