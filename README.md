@@ -15,9 +15,9 @@
 #### Instalace webu
 
 ```sh
-npm install # instalace balíčků
-npm run build # kompilace kódu
-npm start # spuštění serveru
+npm install     # instalace balíčků
+npm run build   # kompilace kódu
+npm start       # spuštění serveru
 ```
 
 ### Nastavení
