@@ -3,7 +3,7 @@
 
 #admin {
 
-  #adminPage{margin-top:94px;}
+  #adminPage{padding-top:34px;}
   
   > nav{
     position:fixed;top:60px;left:0;right:0;background-color:#666;padding:0;z-index:800;
@@ -91,6 +91,9 @@
     }
     
     
-    #adminPage{margin-top:114px;margin-bottom:65px;}
+    #adminPage{padding-top:54px;margin-bottom:65px;}
   }
 }
+
+#layout.offline #admin > nav{top:84px;}
+#layout.update #admin > nav{top:84px;}

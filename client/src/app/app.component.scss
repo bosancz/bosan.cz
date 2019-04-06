@@ -9,9 +9,24 @@
 #layout #page{margin-top:60px;}
 #layout.menu-transparent #page{margin-top:0;}
 #layout.menu-hidden #page{margin-top:0;}
-#layout.offline page-menu{top:24px;}
-#layout.update page-menu{top:24px;}
 
 page-menu{position:fixed;left:0;top:0;right:0;height:60px;z-index:1000;}
 
 #page{position:relative;margin:0;padding:0;background-color:#fff;}
+
+/* OFFLINE/UPDATE notification */
+#layout.offline{
+  page-menu{top:24px;}
+  #page{margin-top:84px;}
+}
+#layout.update{
+  page-menu{top:24px;}
+  #page{margin-top:84px;}
+}
+
+#layout.menu-transparent.offline #page{margin-top:24px;}
+#layout.menu-transparent.update #page{margin-top:24px;}
+
+#offline,#update{position:fixed;left:0;top:0;right:0;}
+
+
