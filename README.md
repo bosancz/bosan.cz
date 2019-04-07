@@ -75,10 +75,10 @@ npm start
 
 **NodeJS**
  - https://nodejs.org
- - (při instalaci na Windows nezapomeňte zaškrtnout zahrnutí v cestě PATH)
+ - při instalaci na Windows nezapomeňte zaškrtnout zahrnutí v cestě PATH
 
 **Verzovací nástroj s podporou gitu**
- - ([Sourcetree](https://www.sourcetreeapp.com/) nebo [Git](https://git-scm.com/))
+ - [Sourcetree](https://www.sourcetreeapp.com/) nebo [Git](https://git-scm.com/)
 
 **Editor kódu**
  - doporučujeme [VSCode](https://code.visualstudio.com/), nebo [WebStorm](https://www.jetbrains.com/webstorm/)
@@ -112,6 +112,10 @@ NODE_ENV=local        # v Linuxu nebo na Macu v terminálu
 cd server
 npm run dev
 ```
+
+### Continuous Deployment - automatické nasazení
+
+Na branch master a development je nastaveno automatické nasazení na bosan.cz (test.bosan.cz pro branch development) po každém pushnutém commitu. Nasazení trvá cca tři minuty. V případě chyby zůstává nasazená poslední verze.
 
 ### Jak na to?
 
