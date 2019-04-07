@@ -37,4 +37,8 @@ export class AppComponent implements OnInit {
   clearToasts(){
     this.toasts = [];
   }
+
+  reload(){
+    window.location.reload();
+  }
 }
