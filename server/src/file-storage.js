@@ -3,17 +3,26 @@ const path = require("path");
 const config = require("../config");
 const environment = require("../environment");
 
-async function ensureDirs() {  
-  await fs.ensureDir(config.config.storageDir);
-  await fs.ensureDir(config.events.storageDir);
-  await fs.ensureDir(config.photos.storageDir);
-  await fs.ensureDir(config.photos.thumbsDir);
+const dirs = [
+  config.config.storageDir,
+  config.events.storageDir,
+  config.photos.storageDir,
+  config.photos.thumbsDir,
+  config.uploads.dir
+];
+
+async function clearTemp() {
+  await fs.remove(config.uploads.dir)
 }
 
-ensureDirs()
-  .then(() => console.log("[FS] File storage initialized to " + path.resolve(environment.data.root)))
-  .catch(err => {
-    console.error(`[FS] Failed to initialize file storage to ${environment.data.root}. Error: ${err.message}`);
-    process.exit(1);
-  })
+async function ensureDirs() {
+  for (let dir of dirs) {
+    await fs.ensureDir(dir)
+      .then(() => console.log("[FS] Initialized dir: " + dir))
+      .catch(() => console.error("[FS] Failed to initialize dir: " + dir));
+  }
+}
 
+Promise.resolve()
+  .then(() => clearTemp())
+  .then(() => ensureDirs());

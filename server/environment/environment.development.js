@@ -9,8 +9,9 @@ module.exports = {
 
   cors: true,
   
-  data: {
-    root: path.resolve(__dirname,"../../../test.bosan.cz-data")
+  storage: {
+    data: path.resolve(__dirname,"../../../test.bosan.cz-data"),
+    tmp: "/tmp"
   },
 
   keys: {
