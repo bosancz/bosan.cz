@@ -29,4 +29,9 @@ page-menu{position:fixed;left:0;top:0;right:0;height:60px;z-index:1000;}
 
 #offline,#update{position:fixed;left:0;top:0;right:0;z-index:1000;}
 
+#update{
+  a{text-decoration:underline;}
+  a:hover{color:$white !important;}
+}
+
 
