@@ -5,6 +5,7 @@ const config = require("../../config");
 
 var multer = require("multer");
 var upload = multer({ dest: config.uploads.dir })
+var fs = require("fs-extra");
 
 var path = require("path");
 
@@ -61,7 +62,7 @@ routes.post("photos","/",{permission:"photos:create"}).handle(upload.single("pho
   album.photos.push(photo._id);
 
   // if album has no titlephoto, then set it to this picture
-  if(album.titlePhotos && !album.titlePhotos.length < 3) album.titlePhotos.push(photo._id);
+  if(album.titlePhotos && album.titlePhotos.length < 3) album.titlePhotos.push(photo._id);
   if(!album.titlePhotos) album.titlePhotos = [photo._id];
   
   // save the album
