@@ -1,6 +1,10 @@
 
-<div *ngIf="currentPhoto" class="image" [style.background-image]="'url(' + currentPhoto.sizes.big.url + ')'"></div>
-<div *ngIf="transition && previousPhoto" class="image previous" [style.background-image]="'url(' + previousPhoto.sizes.big.url + ')'" @photoSwitch></div>
+<div class="images" [style.left]="swipeStartLeft + 'px'">
+  <div *ngIf="currentPhoto" class="image" [style.background-image]="'url(' + currentPhoto.sizes.big.url + ')'"></div>
+  <div *ngIf="nextPhoto" class="image next" [style.background-image]="'url(' + nextPhoto.sizes.big.url + ')'"></div>
+  <div *ngIf="prevPhoto" class="image prev" [style.background-image]="'url(' + prevPhoto.sizes.big.url + ')'"></div>
+  <div *ngIf="transition && lastPhoto" class="image last" [style.background-image]="'url(' + lastPhoto.sizes.big.url + ')'" @photoSwitch></div>
+</div>
 
 <div class="menu" [@controlsHide]="controlsState">
   <div class="row">
@@ -22,8 +26,8 @@
   </div>
 </div>
 
-<a class="arrow left" (click)="openPreviousPhoto()"><i class="fas fa-chevron-circle-left fa-3x"></i></a>
-<a class="arrow right" (click)="openNextPhoto()"><i class="fas fa-chevron-circle-right fa-3x"></i></a>
+<a class="arrow left" (click)="onClickLeft()"><i class="fas fa-chevron-circle-left fa-3x"></i></a>
+<a class="arrow right" (click)="onClickRight()"><i class="fas fa-chevron-circle-right fa-3x"></i></a>
 
 <div class="footer" [@controlsHide]="controlsState">
   <div *ngIf="currentPhoto?.caption" class="caption text-light text-center">
