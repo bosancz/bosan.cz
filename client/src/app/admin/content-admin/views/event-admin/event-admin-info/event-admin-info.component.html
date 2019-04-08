@@ -43,8 +43,10 @@
 
   <div class="form-group">
     <label>Popis</label>
-    <textarea name="description" [ngModel]="event.description" (ngModelChange)="checkDescription($event)" class="form-control"></textarea>
-    <small *ngFor="let warning of descriptionWarnings" class="text-danger">{{warning}} </small>
+    <textarea name="description" [ngModel]="event.description" textcheck #descriptionCheck="textcheck" class="form-control"></textarea>
+    <p class="text-danger">
+      <small class="text-danger mr-1" *ngFor="let warning of descriptionCheck.warnings">{{warning}}</small>
+    </p>
   </div>
 
 

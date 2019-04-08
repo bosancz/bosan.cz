@@ -1,8 +1,9 @@
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
-var config = require("../../../config");
+const config = require("../../../config");
+const environment = require("../../../environment");
 
-var Member = require("../../models/member");
+const Member = require("../../models/member");
 
 module.exports = async function createToken(user, impersonatedBy){
 
@@ -24,6 +25,6 @@ module.exports = async function createToken(user, impersonatedBy){
     group: member ? member.group : undefined,
   };
 
-  return jwt.sign(accessTokenData, config.auth.jwt.secret, { expiresIn: config.auth.jwt.expiration });
+  return jwt.sign(accessTokenData, environment.keys.jwt.secret, { expiresIn: config.jwt.expiration });
 
 }

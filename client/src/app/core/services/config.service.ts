@@ -24,8 +24,22 @@ export class ConfigService {
   }
   
   /* CONFIG */
-  getConfig():Promise<WebConfig>{
-    return this.config.pipe(first()).toPromise();
+  getConfig(path?:string):Promise<WebConfig>{
+    const config = this.config.pipe(first()).toPromise();
+    
+    if(path) config.then(config => this.getPathValue(config,path));
+
+    return config;
+  }
+
+  private getPathValue(config:WebConfig,path:string):any{
+    const parts = path.split(".");
+    var value = config;
+    var part;
+    while(part = parts.shift()){
+      value = value && value[part] || undefined;
+    }
+    return value;
   }
   
   async updateConfig():Promise<void>{

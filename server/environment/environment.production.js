@@ -9,7 +9,7 @@ module.exports = {
   },
   
   data: {
-    root: "../../../bosan.cz-data"
+    root: path.resolve(__dirname,"../../../bosan.cz-data")
   },
 
   keys: {

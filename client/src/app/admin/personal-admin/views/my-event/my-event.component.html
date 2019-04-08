@@ -185,7 +185,10 @@
 
     <div class="form-group">
       <label>Popisek</label>
-      <textarea class="form-control" rows="3" [(ngModel)]="eventData.description"></textarea>
+      <textarea class="form-control" rows="3" [(ngModel)]="eventData.description" textcheck #descriptionCheck="textcheck"></textarea>
+      <p class="text-danger">
+        <ng-container *ngFor="let warning of descriptionCheck.warnings">{{warning}}</ng-container>
+      </p>
     </div>
 
     <div class="form-row">
