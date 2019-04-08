@@ -13,6 +13,7 @@ import { Album, Photo } from "app/shared/schema/album";
 interface PanEvent {
   pointerType: string;
   overallVelocityX: number;
+  velocityX: number;
   srcEvent: PointerEvent;
 }
 
@@ -195,24 +196,24 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
 
   @HostListener('panend', ['$event'])
   onPanEnd(event: PanEvent) {
-    
+
     event.srcEvent.preventDefault();
 
-    if ((-1) * this.swipeStartLeft > window.innerWidth / 2 || event.overallVelocityX < -0.3) this.openNextPhoto();
+    if ((-1) * this.swipeStartLeft > window.innerWidth / 2 || event.velocityX < -0.3) this.openNextPhoto();
 
-    if (this.swipeStartLeft > window.innerWidth / 2 || event.overallVelocityX > 0.3) this.openPreviousPhoto();
+    if (this.swipeStartLeft > window.innerWidth / 2 || event.velocityX > 0.3) this.openPreviousPhoto();
 
     this.swipeStartLeft = 0;
   }
 
-  onClickLeft(){
+  onClickLeft() {
     this.lastPhoto = this.currentPhoto;
     this.transition = true;
     this.openPreviousPhoto();
     setTimeout(() => this.transition = false, 0);
   }
 
-  onClickRight(){
+  onClickRight() {
     this.lastPhoto = this.currentPhoto;
     this.transition = true;
     this.openNextPhoto();
