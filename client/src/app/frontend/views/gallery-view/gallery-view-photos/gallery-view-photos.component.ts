@@ -199,9 +199,9 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
 
     event.srcEvent.preventDefault();
 
-    if ((-1) * this.swipeStartLeft > window.innerWidth / 2 || (event.overallVelocityX < -0.3 && event.velocityX < 0)) this.openNextPhoto();
+    if ((-1) * this.swipeStartLeft > window.innerWidth / 2 || event.velocityX < -0.3) this.openNextPhoto();
 
-    if (this.swipeStartLeft > window.innerWidth / 2 || (event.overallVelocityX > 0.3 && event.velocityX > 0)) this.openPreviousPhoto();
+    if (this.swipeStartLeft > window.innerWidth / 2 || event.velocityX > 0.3) this.openPreviousPhoto();
 
     this.swipeStartLeft = 0;
   }
