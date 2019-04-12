@@ -67,7 +67,7 @@ export class MembersAdminComponent implements OnInit, OnDestroy {
   }
   
   async loadMembers(view:string){
-    const options = Object.assign({ sort: "inactive group nickname" },this.views[view] || {});
+    const options = Object.assign({ sort: "inactive group -role nickname" },this.views[view] || {});
     this.members = await this.api.get<Member[]>("members",options);
   }
   
