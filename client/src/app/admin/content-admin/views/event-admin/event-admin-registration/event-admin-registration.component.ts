@@ -38,7 +38,7 @@ export class EventAdminRegistrationComponent {
 
     formData.set("file",file,file.name);
 
-    await this.api.post(this.event._links.registration,formData);
+    await this.api.put(this.event._links.registration,formData);
     
     this.saved.emit();
     
