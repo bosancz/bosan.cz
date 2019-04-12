@@ -8,7 +8,7 @@
 
 <div class="menu" [@controlsHide]="controlsState">
   <div class="row">
-    <div class="col-md-4 text-light">
+    <div class="col-10 col-md-4 text-light">
       <a (click)="close()" class="back"><i class="fas fa-arrow-left"></i></a>
       <a routerLink="../">{{album?.name}}</a>
     </div>
@@ -19,9 +19,9 @@
         {{currentI + 1}}/{{album?.photos?.length}}
       </ng-container>
     </div>
-    <div class="d-md-block col-md-4 text-right text-light">
+    <div class="d-md-block col-2 col-md-4 text-right text-light">
       <a *ngIf="currentPhoto" shareUrl [shareData]="{title:album.name,text:album.description}"><i class="fas fa-share-alt"></i></a>
-      <a *ngIf="currentPhoto" [href]="currentPhoto.sizes.original.url" class="d-none download font-light" download title="Stáhnout fotku v originální kvalitě"><i class="fas fa-download"></i></a>
+      <a *ngIf="currentPhoto" [href]="currentPhoto.sizes.original.url" class="d-none d-md-inline download font-light" download title="Stáhnout fotku v originální kvalitě"><i class="fas fa-download"></i></a>
     </div>
   </div>
 </div>

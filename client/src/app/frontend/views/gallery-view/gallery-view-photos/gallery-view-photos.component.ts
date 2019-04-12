@@ -17,6 +17,9 @@ interface PanEvent {
   srcEvent: PointerEvent;
 }
 
+const swipeSpeed = 50; // ms to animate to next or return
+const swipeFactor = 0.2; // velocityX above which swipe detected
+
 @Component({
   selector: 'gallery-view-photos',
   templateUrl: './gallery-view-photos.component.html',
@@ -27,9 +30,11 @@ interface PanEvent {
       state('current', style({ left: 0 })),
       state('prev', style({ left: "100%" })),
       state('next', style({ left: "-100%" })),
-      transition('current => prev', [animate("100ms")]),
-      transition('current => next', [animate("100ms")]),
-      transition('pan => current', [animate("100ms")])
+      transition('current => prev', [animate(swipeSpeed + "ms")]),
+      transition('current => next', [animate(swipeSpeed + "ms")]),
+      transition('pan => current', [animate(swipeSpeed + "ms")]),
+      transition('pan => next', [animate(swipeSpeed + "ms")]),
+      transition('pan => prev', [animate(swipeSpeed + "ms")])
     ]),
     trigger('photoSwitch', [
       transition(':leave', [
@@ -71,8 +76,6 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
 
   public imagesLeft: number = 0;
   public imagesPosition: "pan" | "prev" | "current" | "next";
-
-  private swipeFactor = 0.2;
 
   paramsSubscription: Subscription;
 
@@ -215,14 +218,14 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
 
     event.srcEvent.preventDefault();
 
-    if ((-1) * this.imagesLeft > window.innerWidth / 2 || event.velocityX < (-1) * this.swipeFactor) {
+    if ((-1) * this.imagesLeft > window.innerWidth / 2 || event.velocityX < (-1) * swipeFactor) {
       this.imagesPosition = "next";
-      this.openNextPhoto();
+      setTimeout(() => this.openNextPhoto(), swipeSpeed); // wait for animation to finish
     }
 
-    else if (this.imagesLeft > window.innerWidth / 2 || event.velocityX > this.swipeFactor) {
+    else if (this.imagesLeft > window.innerWidth / 2 || event.velocityX > swipeFactor) {
       this.imagesPosition = "prev";
-      this.openPreviousPhoto();
+      setTimeout(() => this.openPreviousPhoto(), swipeSpeed); // wait for animation to finish
     }
 
     else this.imagesPosition = "current";
