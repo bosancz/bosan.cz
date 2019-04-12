@@ -22,6 +22,15 @@ interface PanEvent {
   templateUrl: './gallery-view-photos.component.html',
   styleUrls: ['./gallery-view-photos.component.scss'],
   animations: [
+    trigger('imagesPan', [
+      state('pan', style({})),
+      state('current', style({ left: 0 })),
+      state('prev', style({ left: "100%" })),
+      state('next', style({ left: "-100%" })),
+      transition('current => prev', [animate("100ms")]),
+      transition('current => next', [animate("100ms")]),
+      transition('pan => current', [animate("100ms")])
+    ]),
     trigger('photoSwitch', [
       transition(':leave', [
         animate('250ms', style({ opacity: 0 })),
@@ -59,7 +68,11 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   preloading: HTMLImageElement[] = [];
 
   private swipeStartX: number;
-  public swipeStartLeft: number = 0;
+
+  public imagesLeft: number = 0;
+  public imagesPosition: "pan" | "prev" | "current" | "next";
+
+  private swipeFactor = 0.2;
 
   paramsSubscription: Subscription;
 
@@ -116,7 +129,6 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
 
     this.updatePhoto(this.currentId);
 
-
   }
 
   findPhotoById(photoId: string) {
@@ -142,6 +154,9 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
     this.currentPhoto = this.album.photos[this.currentI];
     this.prevPhoto = this.currentI > 0 ? this.album.photos[this.currentI - 1] : this.album.photos[this.album.photos.length - 1];
     this.nextPhoto = this.currentI < this.album.photos.length - 1 ? this.album.photos[this.currentI + 1] : this.album.photos[0];
+
+    this.imagesLeft = 0;
+    this.imagesPosition = "current";
 
     this.preloadPhotos();
   }
@@ -185,12 +200,13 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   @HostListener('panstart', ['$event'])
   onPanStart(event: PanEvent) {
     this.swipeStartX = event.srcEvent.clientX;
+    this.imagesPosition = "pan";
   }
 
   @HostListener('pan', ['$event'])
   onPan(event: PanEvent) {
     if (event.pointerType === "touch") {
-      this.swipeStartLeft = event.srcEvent.clientX - this.swipeStartX;
+      this.imagesLeft = event.srcEvent.clientX - this.swipeStartX;
     }
   }
 
@@ -199,11 +215,18 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
 
     event.srcEvent.preventDefault();
 
-    if ((-1) * this.swipeStartLeft > window.innerWidth / 2 || event.velocityX < -0.3) this.openNextPhoto();
+    if ((-1) * this.imagesLeft > window.innerWidth / 2 || event.velocityX < (-1) * this.swipeFactor) {
+      this.imagesPosition = "next";
+      this.openNextPhoto();
+    }
 
-    if (this.swipeStartLeft > window.innerWidth / 2 || event.velocityX > 0.3) this.openPreviousPhoto();
+    else if (this.imagesLeft > window.innerWidth / 2 || event.velocityX > this.swipeFactor) {
+      this.imagesPosition = "prev";
+      this.openPreviousPhoto();
+    }
 
-    this.swipeStartLeft = 0;
+    else this.imagesPosition = "current";
+
   }
 
   onClickLeft() {
