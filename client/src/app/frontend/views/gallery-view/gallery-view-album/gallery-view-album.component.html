@@ -7,7 +7,7 @@
           <a class="back" routerLink="../" tooltip="Zpět na přehled alb" placement="right"><i class="fas fa-arrow-left"></i></a>
         </h2>
       </div>
-      <div class="col-12 col-sm-8 order-3 order-sm-2 album-name">
+      <div class="col-12 col-sm-8 order-3 order-sm-2 text-center">
         <h2>
           {{album.name}}
           <ng-container *ngIf="(album.dateFrom | date:'d. M.') !== (album.dateTill | date:'d. M.'); else oneDate">({{album.dateFrom | date:"d. M."}} - {{album.dateTill | date:"d. M. y"}})</ng-container>
