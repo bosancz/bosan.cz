@@ -58,7 +58,7 @@ routes.delete("event", "/", { permission: "events:delete", query: { status: "dra
   sendNotifications({ all: ["eventDeleted"], except: req.user._id });
 });
 
-routes.action("event:submit", "/actions/submit", { permission: "events:submit", hideRoot: true, query: { status: ["draft","rejected"] } }).handle(async (req, res, next) => {
+routes.action("event:submit", "/actions/submit", { permission: "events:submit", hideRoot: true, query: { status: { $in : ["draft","rejected"] } } }).handle(async (req, res, next) => {
   const event = await Event.findOne({ _id: req.params.id }, "name status statusHistory leader", { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
