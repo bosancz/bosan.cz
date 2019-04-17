@@ -1,0 +1,63 @@
+<table class="table table-md-sm">
+  <tbody>
+
+    <ng-container *ngFor="let type of types">
+      <tr>
+        <th colspan="2">{{type}}</th>
+        <th class="text-right">{{sumExpenses(getExpensesByType(type))}} Kč</th>
+        <th class="text-right">{{perPerson(sumExpenses(getExpensesByType(type)))}} Kč/os</th>
+        <th class="text-right"><a (click)="addExpense(type)" class="text-success"><i class="fas fa-plus-circle align-middle"></i></a></th>
+      </tr>
+      <ng-container *ngFor="let row of getExpensesByType(type)">
+        <ng-container *ngTemplateOutlet="expense; context: { row: row }"></ng-container>
+      </ng-container>
+    </ng-container>
+
+    <tr *ngIf="getExpensesOther().length">
+      <th colspan="2">Nezařazené</th>
+      <td class="text-right">{{sumExpenses(getExpensesOther())}} Kč</td>
+      <td class="text-right">{{perPerson(sumExpenses(getExpensesOther()))}} Kč/os</td>
+    </tr>
+    <ng-container *ngFor="let row of getExpensesOther()">
+      <ng-container *ngTemplateOutlet="expense; context: { row: row }"></ng-container>
+    </ng-container>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="2">Celkem</th>
+      <th class="text-right">{{sumExpenses(this.expenses)}} Kč</th>
+      <th class="text-right">{{perPerson(sumExpenses(this.expenses))}} Kč/os</th>
+      <th *ngIf="!disabled && !readonly"></th>
+    </tr>
+  </tfoot>
+</table>
+
+<ng-template #expense let-row="row">
+  <tr class="text-muted">
+    <ng-container *ngIf="!row.editing">
+      <th class="text-right pl-1 pl-md-3">{{row.expense.id}}</th>
+      <td>{{row.expense.description}}</td>
+      <td class="text-right">{{row.expense.amount}} Kč</td>
+      <td class="text-right">{{perPerson(row.expense.amount)}} Kč/os</td>
+      <td *ngIf="!disabled && !readonly" class="text-right text-nowrap">
+        <a class="text-warning mr-1" (click)="editExpense(row)"><i class="fas fa-pen-square"></i></a>
+        <a class="text-danger" (click)="removeExpense(expense)"><i class="fas fa-minus-square"></i></a>
+      </td>
+    </ng-container>
+    <ng-container *ngIf="row.editing">
+      <th>
+        <input type="text" [(ngModel)]="row.expense.id" class="form-control" size="2">
+      </th>
+      <td colspan="2">
+        <input type="text" [(ngModel)]="row.expense.description" class="form-control" placeholder="Špičatý klobouk">
+      </td>
+      <td class="text-right">
+        <input type="number" [(ngModel)]="row.expense.amount" class="form-control" placeholder="123">
+      </td>
+      <td class="text-right text-nowrap">
+        <a class="text-primary" (click)="saveExpense(row)" tooltip="Uložit" placement="bottom"><i class="fas fa-save fa-2x"></i></a>
+        <a class="d-none d-md-inline text-danger ml-3" (click)="resetExpense(row)" tooltip="Zrušit úpravu" placement="bottom"><i class="fas fa-times fa-2x"></i></a>
+      </td>
+    </ng-container>
+  </tr>
+</ng-template>

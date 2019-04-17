@@ -1,0 +1,141 @@
+<div class="row">
+  <div class="col-12 col-md-8 col-lg-9">
+    <h2>
+      {{event?.name}}
+      <sup>
+        <event-status-badge [event]="event"></event-status-badge>
+      </sup>
+    </h2>
+
+    <h4>{{[event?.dateFrom,event?.dateTill] | dateRange}}</h4>
+
+  </div>
+  <div class="col-12 col-md-4 col-lg-3 buttons my-3 my-md-0">
+
+    <div class="row no-gutters">
+      <div class="col-6 pr-1">
+        <button class="btn btn-secondary w-100" (click)="editInfo()">Upravit</button>
+      </div>
+      <div class="col-6">
+        <div *ngIf="event" class="dropdown text-right actions" dropdown>
+          <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle w-100">Akce<span class="caret"></span></button>
+
+          <div class="dropdown-menu" *dropdownMenu>
+            <a *ngIf="event._actions?.submit" [class.disabled]="!event._actions?.submit.allowed" class="dropdown-item" (click)="eventAction('submit')">Ke schválení</a>
+            <a *ngIf="event._actions?.publish" [class.disabled]="!event._actions?.publish.allowed" class="dropdown-item" (click)="eventAction('publish')">Do programu</a>
+            <a *ngIf="event._actions?.announce" [class.disabled]="!event._actions?.announce.allowed" class="dropdown-item" (click)="eventAction('submit')">Poslat ohlášku</a>
+            <a *ngIf="event._actions?.finalize" [class.disabled]="!event._actions?.finalize.allowed" class="dropdown-item" (click)="eventAction('submit')">Uzavřít</a>
+            <a *ngIf="event._actions?.reject" [class.disabled]="!event._actions?.reject.allowed" class="dropdown-item" (click)="eventAction('reject')">Vrátit vedoucím k úpravám</a>
+            <a *ngIf="event._actions?.unpublish" [class.disabled]="!event._actions?.unpublish.allowed" class="dropdown-item" (click)="eventAction('unpublish')">Odebrat z programu</a>
+            <a *ngIf="event._actions?.cancel" [class.disabled]="!event._actions?.cancel.allowed" class="dropdown-item text-danger" (click)="eventAction('cancel')">Zrušit</a>
+            <a *ngIf="event._actions?.uncancel" [class.disabled]="!event._actions?.uncancel.allowed" class="dropdown-item" (click)="eventAction('uncancel')">Odzrušit</a>
+            <a [class.disabled]="!event._links?.self?.allowed.DELETE" class="dropdown-item text-danger" (click)="deleteEvent()">Smazat</a>
+
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" [href]="getAnnouncementTemplateUrl()">Stáhnout ohlášku</a>
+            <a class="dropdown-item" [href]="getAccountingTemplateUrl()">Stáhnout účtování</a>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<div class="mt-3">
+  <p class="description multiline">{{event?.description || 'Popisek akce nevyplněn.'}}</p>
+</div>
+
+<div class="mt-4">
+  <div class="d-inline-block mr-3">
+    <event-subtype-selector [ngModel]="event?.subtype" (ngModelChange)="saveEvent({subtype:$event})" [readonly]="!editable"></event-subtype-selector>
+  </div>
+  <!--<event-type-selector [ngModel]="event?.type" (ngModelChange)="saveEvent({type:$event})" [readonly]="!editable"></event-type-selector>-->
+</div>
+
+<h4 class="mt-5">Přihláška</h4>
+<event-registration [event]="event" (change)="loadEvent(event._id)" [readonly]="!editable"></event-registration>
+
+<h4 class="mt-5">Vedoucí</h4>
+<event-attendees-list *ngIf="event" [ngModel]="event.leaders" (ngModelChange)="saveEvent({leader:$event})" [readonly]="!editable"></event-attendees-list>
+
+<h4 class="mt-5">Účastníci</h4>
+
+<div class="row">
+  <div class="col-12 col-md-8">
+    <event-attendees-list *ngIf="event" [ngModel]="event.attendees" (ngModelChange)="saveEvent({attendees:$event})" [readonly]="!editable"></event-attendees-list>
+  </div>
+  <div class="col-12 col-md-4">
+    <event-birthday-list *ngIf="event" [event]="event"></event-birthday-list>
+    <event-age-histogram *ngIf="event" [event]="event"></event-age-histogram>
+  </div>
+</div>
+
+<h4 class="mt-5">Účtování</h4>
+<event-expenses-table [ngModel]="event?.expenses" (ngModelChange)="saveEvent({expenses:$event})" [persons]="(event?.attendees?.length || 0) + (event?.leaders?.length || 0)" [readonly]="!editable"></event-expenses-table>
+
+<!--
+<h4 class="mt-5">Report</h4>
+<div [innerHTML]="event?.report || '<p>Report je prázdný.</p>'"></div>
+-->
+
+<ng-template #basicInfoModal>
+  <form #infoForm="ngForm" (ngSubmit)="saveEvent(infoForm.value);modalRef.hide();">
+    <div class="modal-body members-select">
+      <div class="form-group">
+        <label>Název</label>
+        <input type="text" name="name" class="form-control" [ngModel]="event?.name" placeholder="Neočekávaný dýchánek">
+      </div>
+
+      <div class="form-group">
+        <label>Popisek</label>
+        <textarea class="form-control" name="description" rows="3" [ngModel]="event?.description" textcheck #descriptionCheck="textcheck"></textarea>
+        <p class="text-danger">
+          <ng-container *ngFor="let warning of descriptionCheck.warnings">{{warning}}</ng-container>
+        </p>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label>Od</label>
+          <input type="date" name="dateFrom" [ngModel]="event?.dateFrom" class="form-control" required>
+        </div>
+        <div class="form-group col-6">
+          <label>Do</label>
+          <input type="date" name="dateTill" [ngModel]="event?.dateTill" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Místo</label>
+        <input type="text" name="place" [ngModel]="event?.place" class="form-control" placeholder="Dno pytle">
+      </div>
+
+      <div class="form-row" ngModelGroup="meeting">
+        <div class="form-group col-md-6">
+          <label>Sraz</label>
+          <input type="text" name="start" [ngModel]="event?.meeting.start" class="form-control" placeholder="17:00, u Bilba doma">
+        </div>
+        <div class="form-group col-md-6">
+          <label>Konec</label>
+          <input type="text" name="end" [(ngModel)]="event?.meeting.end" class="form-control" placeholder="3:00, tamtéž">
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label>Oddíly</label>
+        <groups-select [ngModel]="event?.groups" name="groups" [readonly]="!editable"></groups-select>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Zrušit</button>
+      <button type="submit" class="btn btn-primary">Uložit</button>
+    </div>
+  </form>
+</ng-template>

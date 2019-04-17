@@ -57,7 +57,7 @@ export class AppErrorHandler implements ErrorHandler {
         else toastService.toast("K této akci musíte být přihlášeni.", "error");
       }
       else if (err.status === 403) {
-        toastService.toast("K této akci nemáte oprávnění.", "error");
+        toastService.toast("K této akci nemáš oprávnění.", "error");
         reportError = false;
       }
 
