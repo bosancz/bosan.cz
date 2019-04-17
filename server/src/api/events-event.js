@@ -93,6 +93,21 @@ routes.action("event:publish","/actions/publish", { permission:"events:publish",
   sendNotifications({all: ["eventPublished"], members: { "myEventPublished": event.leaders }, except: req.user._id},event);
 });
 
+routes.action("event:unpublish","/actions/unpublish", { permission:"events:unpublish", hideRoot: true, query: { status: "public" } }).handle(async (req,res,next) => {
+  const event = await Event.findOne({_id:req.params.id}, "name status leaders", {autopopulate:false}).filterByPermission("events:unpublish", req);
+  if(!event) return req.sendStatus(401);
+  
+  event.status = "draft";
+  event.statusNote = req.body.note || null;
+  
+  await event.save()
+  
+  res.sendStatus(200);
+  
+  sendNotifications({all: ["eventUnpublished"], members: { "myEventUnpublished": event.leaders }, except: req.user._id},event);
+});
+
+
 routes.action("event:cancel","/actions/cancel", {permission:"events:cancel", hideRoot: true, query: {status: "public"}}).handle(async (req,res,next) => {
   const event = await Event.findOne({_id:req.params.id},"name status leaders",{autopopulate:false}).filterByPermission("events:cancel", req);
   if(!event) return req.sendStatus(401);

@@ -30,7 +30,7 @@ export class WebConfigEventType {
 
 export class WebConfigEventSubType{
   name:string;
-  class:string;
+  color:string;
   image?:string;
 }
 

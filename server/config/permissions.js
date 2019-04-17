@@ -45,6 +45,7 @@ module.exports = {
   "events:submit": { spravce, ...vedouciAkce },
   "events:reject": { spravce, program },
   "events:publish": { spravce, program },
+  "events:unpublish": { spravce, program },
   "events:cancel": { spravce, program },
   "events:finalize": { spravce, ...vedouciAkce },
   

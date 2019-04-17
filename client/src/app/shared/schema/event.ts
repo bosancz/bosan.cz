@@ -52,4 +52,6 @@ export class Event extends Document {
   competition: { river: string, water_km: number };
 
   expenses: EventExpense[] = [];
+  
+  report: string;
 }

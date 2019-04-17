@@ -2,9 +2,13 @@
 
 .right{border-left:1px solid #ccc;}
 
-.buttons .btn{width:100%;margin-bottom:20px;}
-
 .block{padding:30px 0;}
+.actions{width:100%;}
+
+@media (max-width: 767.98px) {
+  .actions .dropdown-toggle{width:100%;}
+  .actions .dropdown-menu{width:100%;}
+}
 
 .attendees .list{font-size:$font-medium;color:#fff;}
 .attendees .add{font-size:.8em;cursor:pointer;}
