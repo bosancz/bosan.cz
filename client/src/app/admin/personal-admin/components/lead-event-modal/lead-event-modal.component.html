@@ -13,10 +13,7 @@
         </div>
       </div>
       <div class="card-body">
-        <p *ngIf="event.description else noDescription" class="multiline">event.description</p>
-        <ng-template #noDescription>
-          <p>Akce nemá žádný popis</p>
-        </ng-template>
+        <p class="multiline">{{event.description || "Akce nemá žádný popis"}}</p>
       </div>
     </div>
 
