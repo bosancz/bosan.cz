@@ -6,7 +6,7 @@
         <th colspan="2">{{type}}</th>
         <th class="text-right">{{sumExpenses(getExpensesByType(type))}} Kč</th>
         <th class="text-right">{{perPerson(sumExpenses(getExpensesByType(type)))}} Kč/os</th>
-        <th class="text-right"><a (click)="addExpense(type)" class="text-success"><i class="fas fa-plus-circle align-middle"></i></a></th>
+        <th *ngIf="!disabled && !readonly" class="text-right"><a (click)="addExpense(type)" class="text-success"><i class="fas fa-plus-circle align-middle fa-2x"></i></a></th>
       </tr>
       <ng-container *ngFor="let row of getExpensesByType(type)">
         <ng-container *ngTemplateOutlet="expense; context: { row: row }"></ng-container>
@@ -40,8 +40,8 @@
       <td class="text-right">{{row.expense.amount}} Kč</td>
       <td class="text-right">{{perPerson(row.expense.amount)}} Kč/os</td>
       <td *ngIf="!disabled && !readonly" class="text-right text-nowrap">
-        <a class="text-warning mr-1" (click)="editExpense(row)"><i class="fas fa-pen-square"></i></a>
-        <a class="text-danger" (click)="removeExpense(expense)"><i class="fas fa-minus-square"></i></a>
+        <a class="text-warning mr-1" (click)="editExpense(row)"><i class="fas fa-pen-square fa-2x"></i></a>
+        <a class="text-danger" (click)="removeExpense(expense)"><i class="fas fa-minus-square fa-2x"></i></a>
       </td>
     </ng-container>
     <ng-container *ngIf="row.editing">
