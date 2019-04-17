@@ -1,4 +1,4 @@
-<table class="table table-sm">
+<table class="table table-md-sm">
   <tbody>
 
     <ng-container *ngFor="let type of types">
@@ -48,21 +48,15 @@
       <th>
         <input type="text" [(ngModel)]="row.expense.id" class="form-control" size="2">
       </th>
-      <td>
+      <td colspan="2">
         <input type="text" [(ngModel)]="row.expense.description" class="form-control" placeholder="Popis výdaje">
       </td>
       <td class="text-right">
-        <div class="input-group">
-          <input type="number" [(ngModel)]="row.expense.amount" class="form-control" placeholder="123">
-          <div class="input-group-append">
-            <span class="input-group-text">Kč</span>
-          </div>
-        </div>
+        <input type="number" [(ngModel)]="row.expense.amount" class="form-control" placeholder="123">
       </td>
-      <td class="text-right">{{perPerson(row.expense.amount)}} Kč/os</td>
       <td class="text-right text-nowrap">
-        <a class="text-primary mr-1" (click)="saveExpense(row)" tooltip="Uložit" placement="bottom"><i class="fas fa-save"></i></a>
-        <a class="text-danger" (click)="resetExpense(row)" tooltip="Zrušit úpravu" placement="bottom"><i class="fas fa-times"></i></a>
+        <a class="text-primary" (click)="saveExpense(row)" tooltip="Uložit" placement="bottom"><i class="fas fa-save fa-2x"></i></a>
+        <a class="d-none d-md-inline text-danger ml-3" (click)="resetExpense(row)" tooltip="Zrušit úpravu" placement="bottom"><i class="fas fa-times fa-2x"></i></a>
       </td>
     </ng-container>
   </tr>

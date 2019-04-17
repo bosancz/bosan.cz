@@ -1,24 +1,29 @@
 @import "~styles/variables";
 
-.right{border-left:1px solid #ccc;}
-
-.block{padding:30px 0;}
-.actions{width:100%;}
-
-.dropdown-item.disabled{opacity:.3} // https://github.com/twbs/bootstrap/issues/28666 
-
-@media (max-width: 767.98px) {
-  .actions .dropdown-toggle{width:100%;}
-  .actions .dropdown-menu{width:100%;}
+.right {
+  border-left: 1px solid #ccc;
 }
 
-.attendees .list{font-size:$font-medium;color:#fff;}
-.attendees .add{font-size:.8em;cursor:pointer;}
-a.delete{cursor:pointer;}
+.block {
+  padding: 30px 0;
+}
+.actions {
+  width: 100%;
+}
 
-a.edit{cursor:pointer;}
+p.description {
+  max-width: 700px;
+}
 
-.leadersOnly{display:inline-block;margin-left:20px;}
+.dropdown-item.disabled {
+  opacity: 0.3;
+} // https://github.com/twbs/bootstrap/issues/28666
 
-.expensesForm th.id{width:60px;}
-.expensesForm th.amount{width:100px;}
+@media (max-width: 767.98px) {
+  .actions .dropdown-toggle {
+    width: 100%;
+  }
+  .actions .dropdown-menu {
+    width: 100%;
+  }
+}

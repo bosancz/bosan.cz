@@ -25,8 +25,17 @@ export class EventComponent implements OnInit, OnDestroy {
 
   event: Event;
 
-  editable:boolean = false;
+  editable: boolean = false;
 
+  editing: string;
+
+  @ViewChild("basicInfoModal") basicInfoModal: TemplateRef<any>;
+
+  modalState: string;
+
+  modalRef: BsModalRef;
+
+  modalSubscription: Subscription;
   paramsSubscription: Subscription;
 
   constructor(
@@ -43,10 +52,17 @@ export class EventComponent implements OnInit, OnDestroy {
 
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
       if (!this.event || params.akce !== this.event._id) this.loadEvent(params.akce);
+      if(params.modal !== "open" && this.modalRef) this.modalRef.hide();
+      this.modalState = params.modal;
+    });
+
+    this.modalSubscription = this.modalService.onHide.subscribe(() => {
+      if (this.modalState) this.location.back();
     });
   }
 
   ngOnDestroy() {
+    this.modalSubscription.unsubscribe();
     this.paramsSubscription.unsubscribe();
   }
 
@@ -76,7 +92,9 @@ export class EventComponent implements OnInit, OnDestroy {
 
     await this.api.patch(this.event._links.self, eventData);
     await this.loadEvent(this.event._id);
+
     this.toastService.toast("Uloženo.");
+    this.editing = null;
   }
 
   async deleteEvent() {
@@ -101,6 +119,12 @@ export class EventComponent implements OnInit, OnDestroy {
 
     await this.loadEvent(this.event._id);
     this.toastService.toast("Uloženo");
+  }
+
+  editInfo() {
+    this.router.navigate(['./', { modal: "open" }], { relativeTo: this.route });
+    const modalOptions: ModalOptions = { animated: false };
+    this.modalRef = this.modalService.show(this.basicInfoModal, modalOptions);
   }
 
   getAccountingTemplateUrl(): string {
