@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef } from '@angular/core';
+import { Component, OnInit, forwardRef, Input, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { ConfigService } from "app/core/services/config.service";
@@ -9,7 +9,7 @@ import { WebConfigGroup } from 'app/shared/schema/webconfig';
   templateUrl: './groups-select.component.html',
   styleUrls: ['./groups-select.component.scss'],
   providers: [
-    { 
+    {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
       useExisting: forwardRef(() => GroupsSelectComponent),
@@ -18,56 +18,61 @@ import { WebConfigGroup } from 'app/shared/schema/webconfig';
 })
 export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
 
-  groups:WebConfigGroup[] = [];
-  selectedGroups:string[] = [];
-  
-  disabled:boolean = false;
-  
-  onChange:any = () => {};
-  onTouched:any = () => {};
-  
-  writeValue(groups:any):void{ this.selectedGroups = groups || []; }
-  registerOnChange(fn:any):void{ this.onChange = fn; }
-  registerOnTouched(fn:any):void{ this.onTouched = fn; }
-  setDisabledState(isDisabled:boolean):void{
+  groups: WebConfigGroup[] = [];
+  selectedGroups: string[] = [];
+
+  @HostBinding("class.disabled") disabled: boolean = false;
+  @HostBinding("class.readonly") @Input() readonly: boolean;
+
+  onChange: any = () => { };
+  onTouched: any = () => { };
+
+  writeValue(groups: any): void { this.selectedGroups = groups || []; }
+  registerOnChange(fn: any): void { this.onChange = fn; }
+  registerOnTouched(fn: any): void { this.onTouched = fn; }
+  setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
     this.selectedGroups = [];
   }
-  
-  constructor(private configService:ConfigService) { }
-  
-  ngOnInit(){
+
+  constructor(private configService: ConfigService) { }
+
+  ngOnInit() {
     this.loadGroups();
   }
-  
-  async loadGroups(){
+
+  async loadGroups() {
     const config = await this.configService.getConfig()
     this.groups = config.members.groups.filter(group => group.event);
   }
 
-  isSelected(group:WebConfigGroup){
+  isSelected(group: WebConfigGroup) {
     return this.selectedGroups.indexOf(group.id) !== -1;
   }
-  
-  selectAll(checked:boolean):void{
-    if(this.disabled) return;
-    if(checked) this.selectedGroups = this.groups.filter(group => group.children).map(group => group.id);
+
+  selectAll(checked: boolean): void {
+    
+    if (this.disabled || this.readonly) return;
+
+    if (checked) this.selectedGroups = this.groups.filter(group => group.children).map(group => group.id);
     else this.selectedGroups = [];
     this.onChange(this.selectedGroups);
   }
-  
-  isSelectedAll():boolean{
+
+  isSelectedAll(): boolean {
     return !this.groups.filter(group => group.children).some(group => this.selectedGroups.indexOf(group.id) === -1);
   }
-  
-  toggleGroup(group:WebConfigGroup, deselectOther = false){
-    if(this.disabled) return;
+
+  toggleGroup(group: WebConfigGroup, deselectOther = false) {
+    
+    if (this.disabled || this.readonly) return;
+
     let i = this.selectedGroups.indexOf(group.id);
-    if(i === -1) {
-      if(deselectOther) this.selectedGroups = [];
+    if (i === -1) {
+      if (deselectOther) this.selectedGroups = [];
       this.selectedGroups.push(group.id);
     }
-    else this.selectedGroups.splice(i,1);
+    else this.selectedGroups.splice(i, 1);
     this.onChange(this.selectedGroups);
   }
 

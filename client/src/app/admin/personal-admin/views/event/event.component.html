@@ -46,14 +46,14 @@
 </div>
 
 <div class="mt-5">
-  <groups-select [ngModel]="event?.groups" (ngModelChange)="saveEvent({groups:$event})"></groups-select>
+  <groups-select [ngModel]="event?.groups" (ngModelChange)="saveEvent({groups:$event})" [readonly]="!editable"></groups-select>
 </div>
 
 <div class="mt-3">
   <div class="d-inline-block mr-3">
-    <event-subtype-selector [ngModel]="event?.subtype" (ngModelChange)="saveEvent({subtype:$event})"></event-subtype-selector>
+    <event-subtype-selector [ngModel]="event?.subtype" (ngModelChange)="saveEvent({subtype:$event})" [readonly]="!editable"></event-subtype-selector>
   </div>
-  <event-type-selector [ngModel]="event?.type" (ngModelChange)="saveEvent({type:$event})"></event-type-selector>
+  <event-type-selector [ngModel]="event?.type" (ngModelChange)="saveEvent({type:$event})" [readonly]="!editable"></event-type-selector>
 </div>
 
 <!--<div class="row mt-3">
@@ -75,16 +75,16 @@
 
 
 <h4 class="mt-5">Přihláška</h4>
-<event-registration [event]="event"></event-registration>
+<event-registration [event]="event" (change)="loadEvent(event._id)" [readonly]="!editable"></event-registration>
 
 <h4 class="mt-5">Vedoucí</h4>
-<event-attendees-list *ngIf="event" [ngModel]="event.leaders" (ngModelChange)="saveEvent({leader:$event})"></event-attendees-list>
+<event-attendees-list *ngIf="event" [ngModel]="event.leaders" (ngModelChange)="saveEvent({leader:$event})" [readonly]="!editable"></event-attendees-list>
 
 <h4 class="mt-5">Účastníci</h4>
 
 <div class="row">
   <div class="col-12 col-md-8">
-    <event-attendees-list *ngIf="event" [ngModel]="event.attendees" (ngModelChange)="saveEvent({attendees:$event})"></event-attendees-list>
+    <event-attendees-list *ngIf="event" [ngModel]="event.attendees" (ngModelChange)="saveEvent({attendees:$event})" [readonly]="!editable"></event-attendees-list>
   </div>
   <div class="col-12 col-md-4">
     <event-birthday-list *ngIf="event" [event]="event"></event-birthday-list>
@@ -93,7 +93,7 @@
 </div>
 
 <h4 class="mt-5">Účtování</h4>
-<event-expenses-table [ngModel]="event?.expenses" (ngModelChange)="saveEvent({expenses:$event})" [persons]="(event?.attendees?.length || 0) + (event?.leaders?.length || 0)"></event-expenses-table>
+<event-expenses-table [ngModel]="event?.expenses" (ngModelChange)="saveEvent({expenses:$event})" [persons]="(event?.attendees?.length || 0) + (event?.leaders?.length || 0)" [readonly]="!editable"></event-expenses-table>
 
 <h4 class="mt-5">Report</h4>
 <div [innerHTML]="event?.report || '<p>Report je prázdný.</p>'"></div>

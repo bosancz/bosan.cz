@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, HostBinding, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -26,13 +26,15 @@ export class EventSubtypeSelectorComponent implements ControlValueAccessor {
   onChange: any = () => { };
   onTouched: any = () => { };
 
-  disabled: boolean = false;
+  @HostBinding('class.disabled') disabled: boolean = false;
+  @HostBinding('class.readonly') @Input() readonly: boolean;
 
   constructor(configService: ConfigService) {
     this.types = configService.config.pipe(map(config => config.events.subtypes))
   }
 
-  select(type:WebConfigEventSubType){
+  select(type: WebConfigEventSubType) {
+    if(this.disabled || this.readonly) return;
     this.value = type.name;
     this.onTouched();
     this.onChange(this.value);

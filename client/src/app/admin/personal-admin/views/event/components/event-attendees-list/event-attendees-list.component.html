@@ -1,8 +1,8 @@
 <p class="list">
   <span *ngFor="let member of members" class="badge badge-primary mr-2" [class.badge-danger]="isInvalid(member)" [tooltip]="getMemberTooltip(member,member.group | group:'name')">
     <span [routerLink]="'/interni/obsah/clenove/' + member._id">{{member.nickname}}</span>
-    <a (click)="removeMember(member)" class="ml-1">&times;</a></span>
-  <a class="text-success add" (click)="openModal(attendeesModal)"><i class="fas fa-plus-circle align-middle"></i></a>
+    <a *ngIf="!disabled && !readonly" (click)="removeMember(member)" class="ml-1">&times;</a></span>
+  <a *ngIf="!disabled && !readonly" class="text-success add" (click)="openModal(attendeesModal)"><i class="fas fa-plus-circle align-middle"></i></a>
 </p>
 
 <ng-template #attendeesModal>

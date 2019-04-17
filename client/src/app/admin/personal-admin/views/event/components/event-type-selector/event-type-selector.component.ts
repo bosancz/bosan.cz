@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -26,13 +26,17 @@ export class EventTypeSelectorComponent implements ControlValueAccessor {
   onChange: any = () => { };
   onTouched: any = () => { };
 
-  disabled: boolean = false;
+  @HostBinding('class.disabled') disabled: boolean = false;
+  @HostBinding('class.readonly') @Input() readonly: boolean;
+
+   class: string = "badge badge-secondary";
 
   constructor(configService: ConfigService) {
     this.types = configService.config.pipe(map(config => config.events.types))
   }
 
-  select(type:string){
+  select(type: string) {
+    if(this.disabled || this.readonly) return;
     this.value = type;
     this.onTouched();
     this.onChange(this.value);

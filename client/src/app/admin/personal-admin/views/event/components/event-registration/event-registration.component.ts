@@ -11,13 +11,14 @@ import { ApiService } from 'app/core/services/api.service';
 })
 export class EventRegistrationComponent {
 
-  @Input() event:Event;
+  @Input() event: Event;
+  @Input() readonly: boolean;
 
-  @Output() change:EventEmitter<void> = new EventEmitter<void>();
+  @Output() change: EventEmitter<void> = new EventEmitter<void>();
 
   uploadingRegistration: boolean = false;
 
-  constructor(private api:ApiService, private toastService:ToastService) { }
+  constructor(private api: ApiService, private toastService: ToastService) { }
 
   async uploadRegistration(input: HTMLInputElement) {
 

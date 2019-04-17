@@ -1,4 +1,4 @@
-<div class="group-badges mr-2" [class.disabled]="disabled">
+<div class="group-badges mr-2">
   <span *ngFor="let group of groups" (click)="toggleGroup(group)" [class.active]="isSelected(group)" [style.background-color]="group.id | group:'color'" [title]="group.id | group:'name'" class="group-badge mr-2">{{group.id}}</span>
 </div>
 <div class="selectAll custom-control custom-checkbox mr-2">

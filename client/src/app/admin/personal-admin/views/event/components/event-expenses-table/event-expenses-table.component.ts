@@ -34,6 +34,7 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
   onTouched: any = () => { };
 
   disabled: boolean = false;
+  @Input() readonly: boolean;
 
   constructor(configService: ConfigService) {
     configService.config.subscribe(config => this.types = config.events.expenseTypes.map(type => type.name));
@@ -56,29 +57,30 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
     return Math.round((amount || 0) / this.persons * 100) / 100;
   }
 
-  addExpense(type:string){
+  addExpense(type: string) {
     const row = new ExpenseRow(new EventExpense());
     row.expense.type = type;
     row.editing = true;
-    row.expense.id = "V" + (this.expenses.reduce((acc,cur) => Math.max(acc,Number(cur.expense.id.substr(1)) || 0),1) + 1);
+    row.expense.id = "V" + (this.expenses.reduce((acc, cur) => Math.max(acc, Number(cur.expense.id.substr(1)) || 0), 1) + 1);
     this.expenses.push(row);
+    this.onTouched();
   }
 
-  removeExpense(row:ExpenseRow){
-    this.expenses.splice(this.expenses.indexOf(row),1);
+  removeExpense(row: ExpenseRow) {
+    this.expenses.splice(this.expenses.indexOf(row), 1);
   }
 
-  editExpense(row:ExpenseRow){
+  editExpense(row: ExpenseRow) {
     row.editing = true;
     this.onTouched();
   }
 
-  saveExpense(row:ExpenseRow){
+  saveExpense(row: ExpenseRow) {
     row.editing = false;
     this.publishValue();
   }
 
-  publishValue(){
+  publishValue() {
     this.onChange(this.expenses.map(row => row.expense));
   }
 

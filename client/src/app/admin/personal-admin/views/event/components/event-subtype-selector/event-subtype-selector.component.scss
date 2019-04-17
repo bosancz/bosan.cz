@@ -21,3 +21,13 @@ span.type.selected {
 span.type:hover {
   opacity: 0.8;
 }
+
+:host.disabled,
+:host.readonly {
+  span.type {
+    cursor: default;
+  }
+  span.type:hover {
+    opacity: auto;
+  }
+}

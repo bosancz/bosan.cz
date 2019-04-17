@@ -63,6 +63,8 @@ export class EventComponent implements OnInit, OnDestroy {
     event.dateTill = DateTime.fromISO(event.dateTill).toISODate();
 
     this.event = event;
+
+    this.editable = this.event._links.self.allowed.PATCH;
   }
 
   async saveEvent(data?: Partial<Event>) {

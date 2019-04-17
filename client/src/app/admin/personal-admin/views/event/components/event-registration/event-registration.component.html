@@ -7,14 +7,15 @@
   </object>
 
   <a class="btn btn-sm btn-secondary mr-3" [href]="getRegistrationUrl()">Stáhnout přihlášku</a>
-  <a class="btn btn-sm btn-danger text-light delete" (click)="deleteRegistration()">Smazat přihlášku</a>
+  <a *ngIf="!readonly" class="btn btn-sm btn-danger text-light delete" (click)="deleteRegistration()">Smazat přihlášku</a>
 </div>
 
 <div *ngIf="event && !event.registration && !uploadingRegistration" class="row">
-  <div class="col-12 col-lg-6">
+  <div *ngIf="!readonly" class="col-12 col-lg-6">
     <div class="custom-file">
       <input class="custom-file-input" type="file" name="file" accept="application/pdf" #registrationInput ngModel (ngModelChange)="uploadRegistration(registrationInput)" required>
       <label class="custom-file-label" for="customFile">Přihláška není nahrána. Nahraj přihlášku v PDF</label>
     </div>
   </div>
+  <p *ngIf="readonly">Přihláška není nahrána.</p>
 </div>

@@ -8,52 +8,61 @@
         <th class="text-right">{{perPerson(sumExpenses(getExpensesByType(type)))}} Kč/os</th>
         <th class="text-right"><a (click)="addExpense(type)" class="text-success"><i class="fas fa-plus-circle align-middle"></i></a></th>
       </tr>
-      <tr *ngFor="let row of getExpensesByType(type)" class="text-muted">
-        <ng-container *ngIf="!row.editing">
-          <th class="text-right pl-1 pl-md-3">{{row.expense.id}}</th>
-          <td>{{row.expense.description}}</td>
-          <td class="text-right">{{row.expense.amount}} Kč</td>
-          <td class="text-right">{{perPerson(row.expense.amount)}} Kč/os</td>
-          <td class="text-right text-nowrap">
-            <a class="text-warning mr-1" (click)="editExpense(row)"><i class="fas fa-pen-square"></i></a>
-            <a class="text-danger" (click)="removeExpense(expense)"><i class="fas fa-minus-square"></i></a>
-          </td>
-        </ng-container>
-        <ng-container *ngIf="row.editing">
-          <th>
-            <input type="text" [(ngModel)]="row.expense.id" class="form-control" size="2">
-          </th>
-          <td>
-            <input type="text" [(ngModel)]="row.expense.description" class="form-control" placeholder="Popis výdaje">
-          </td>
-          <td class="text-right">
-            <div class="input-group">
-              <input type="number" [(ngModel)]="row.expense.amount" class="form-control" placeholder="123">
-              <div class="input-group-append">
-                <span class="input-group-text">Kč</span>
-              </div>
-            </div>
-          </td>
-          <td class="text-right">{{perPerson(row.expense.amount)}} Kč/os</td>
-          <td class="text-right text-nowrap">
-            <a class="text-primary" (click)="saveExpense(row)"><i class="fas fa-save"></i></a>
-          </td>
-        </ng-container>
-      </tr>
+      <ng-container *ngFor="let row of getExpensesByType(type)">
+        <ng-container *ngTemplateOutlet="expense; context: { row: row }"></ng-container>
+      </ng-container>
     </ng-container>
 
     <tr *ngIf="getExpensesOther().length">
-      <th>Nezařazené</th>
+      <th colspan="2">Nezařazené</th>
       <td class="text-right">{{sumExpenses(getExpensesOther())}} Kč</td>
       <td class="text-right">{{perPerson(sumExpenses(getExpensesOther()))}} Kč/os</td>
     </tr>
+    <ng-container *ngFor="let row of getExpensesOther()">
+      <ng-container *ngTemplateOutlet="expense; context: { row: row }"></ng-container>
+    </ng-container>
   </tbody>
   <tfoot>
     <tr>
       <th colspan="2">Celkem</th>
       <th class="text-right">{{sumExpenses(this.expenses)}} Kč</th>
       <th class="text-right">{{perPerson(sumExpenses(this.expenses))}} Kč/os</th>
-      <th></th>
+      <th *ngIf="!disabled && !readonly"></th>
     </tr>
   </tfoot>
 </table>
+
+<ng-template #expense let-row="row">
+  <tr class="text-muted">
+    <ng-container *ngIf="!row.editing">
+      <th class="text-right pl-1 pl-md-3">{{row.expense.id}}</th>
+      <td>{{row.expense.description}}</td>
+      <td class="text-right">{{row.expense.amount}} Kč</td>
+      <td class="text-right">{{perPerson(row.expense.amount)}} Kč/os</td>
+      <td *ngIf="!disabled && !readonly" class="text-right text-nowrap">
+        <a class="text-warning mr-1" (click)="editExpense(row)"><i class="fas fa-pen-square"></i></a>
+        <a class="text-danger" (click)="removeExpense(expense)"><i class="fas fa-minus-square"></i></a>
+      </td>
+    </ng-container>
+    <ng-container *ngIf="row.editing">
+      <th>
+        <input type="text" [(ngModel)]="row.expense.id" class="form-control" size="2">
+      </th>
+      <td>
+        <input type="text" [(ngModel)]="row.expense.description" class="form-control" placeholder="Popis výdaje">
+      </td>
+      <td class="text-right">
+        <div class="input-group">
+          <input type="number" [(ngModel)]="row.expense.amount" class="form-control" placeholder="123">
+          <div class="input-group-append">
+            <span class="input-group-text">Kč</span>
+          </div>
+        </div>
+      </td>
+      <td class="text-right">{{perPerson(row.expense.amount)}} Kč/os</td>
+      <td class="text-right text-nowrap">
+        <a class="text-primary" (click)="saveExpense(row)"><i class="fas fa-save"></i></a>
+      </td>
+    </ng-container>
+  </tr>
+</ng-template>
