@@ -30,8 +30,8 @@ routes.get("event", "/", { permission: "events:read" }).handle(validate({ query:
 
   var event = await query.toObject();
 
-  if (!RoutesACL.canDoc("events:read", event, req)) return res.sendStatus(403);
   if (!event) return res.sendStatus(404);
+  if (!RoutesACL.canDoc("events:read", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
 
   req.routes.links(event, "event");
   res.json(event);
@@ -40,10 +40,10 @@ routes.get("event", "/", { permission: "events:read" }).handle(validate({ query:
 // change part of the events
 routes.patch("event", "/", { permission: "events:edit" }).handle(async (req, res, next) => {
   // update event in the database with new data
-  const event = await Event.findOne({ _id: req.params.id }, { autopopulate: false }).lean();
+  const event = await Event.findOne({ _id: req.params.id }, {}, { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:edit", event, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:edit", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
 
   await event.update(req.body);
 
@@ -59,10 +59,10 @@ routes.delete("event", "/", { permission: "events:delete", query: { status: "dra
 });
 
 routes.action("event:submit", "/actions/submit", { permission: "events:submit", hideRoot: true, query: { status: "draft" } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status statusHistory leader", { autopopulate: false }).lean();
-  
+  const event = await Event.findOne({ _id: req.params.id }, "name status statusHistory leader", { autopopulate: false });
+
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:submit", event, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:submit", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
 
   event.status = "pending";
   event.statusNote = req.body.note || null;
@@ -75,10 +75,10 @@ routes.action("event:submit", "/actions/submit", { permission: "events:submit", 
 });
 
 routes.action("event:reject", "/actions/reject", { permission: "events:reject", hideRoot: true, query: { status: { $in: ["pending", "public"] } } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false }).lean();
-  
+  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
+
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:reject", event, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:reject", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
 
   event.status = "draft";
   event.statusNote = req.body.note || null;
@@ -91,10 +91,10 @@ routes.action("event:reject", "/actions/reject", { permission: "events:reject", 
 });
 
 routes.action("event:publish", "/actions/publish", { permission: "events:publish", hideRoot: true, query: { status: { $in: ["draft", "pending"] } } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false }).lean();
-  
+  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
+
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:publish", event, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:publish", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
 
   event.status = "public";
   event.statusNote = req.body.note || null;
@@ -107,12 +107,12 @@ routes.action("event:publish", "/actions/publish", { permission: "events:publish
 });
 
 routes.action("event:unpublish", "/actions/unpublish", { permission: "events:unpublish", hideRoot: true, query: { status: "public" } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false }).lean();
-  
-  if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:unpublish", event, req)) return res.sendStatus(403);
+  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
-    event.status = "draft";
+  if (!event) return res.sendStatus(404);
+  if (!RoutesACL.canDoc("events:unpublish", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
+
+  event.status = "draft";
   event.statusNote = req.body.note || null;
 
   await event.save()
@@ -124,10 +124,10 @@ routes.action("event:unpublish", "/actions/unpublish", { permission: "events:unp
 
 
 routes.action("event:cancel", "/actions/cancel", { permission: "events:cancel", hideRoot: true, query: { status: "public" } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false }).lean();
-  
+  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
+
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:cancel", event, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:cancel", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
 
   event.status = "cancelled";
   event.statusNote = req.body.note || null;
@@ -140,10 +140,10 @@ routes.action("event:cancel", "/actions/cancel", { permission: "events:cancel", 
 });
 
 routes.action("event:uncancel", "/actions/uncancel", { permission: "events:cancel", hideRoot: true, query: { status: "cancelled" } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false }).lean();
-  
+  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
+
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:cancel", event, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:cancel", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
 
   event.status = "public";
   event.statusNote = req.body.note || null;
@@ -163,18 +163,6 @@ routes.action("event:lead", "/actions/lead", { permission: "events:lead", hideRo
 
   res.sendStatus(200);
 });
-
-/*routes.action("event:finalize","/actions/finalize", {permission:"events:finalize", hideRoot: true, query: {status: "public"}}).handle(async (req,res,next) => {
-  const event = await Event.findOne({_id:req.params.id},"name status leaders",{autopopulate:false});
-  if(!event) return res.sendStatus(401);
-  
-  event.status = "finalized";
-  await event.save()
-  
-  res.sendStatus(200);
-  
-  sendNotifications({all: ["eventFinalized"], except: req.user._id}, event);
-});*/
 
 routes.get("event:leaders", "/leaders", { permission: "events:read" }).handle(async (req, res, next) => {
 
