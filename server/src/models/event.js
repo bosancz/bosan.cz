@@ -39,7 +39,7 @@ var eventSchema = mongoose.Schema({
   "groups": [String],
   "leadersEvent": Boolean,
 
-  "type": String,
+  "type": { type: String, default: "akce" },
   "subtype": String,
   "srcType": String,
 
