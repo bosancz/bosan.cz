@@ -61,7 +61,8 @@
       </td>
       <td class="text-right">{{perPerson(row.expense.amount)}} Kč/os</td>
       <td class="text-right text-nowrap">
-        <a class="text-primary" (click)="saveExpense(row)"><i class="fas fa-save"></i></a>
+        <a class="text-primary mr-1" (click)="saveExpense(row)" tooltip="Uložit" placement="bottom"><i class="fas fa-save"></i></a>
+        <a class="text-danger" (click)="resetExpense(row)" tooltip="Zrušit úpravu" placement="bottom"><i class="fas fa-times"></i></a>
       </td>
     </ng-container>
   </tr>

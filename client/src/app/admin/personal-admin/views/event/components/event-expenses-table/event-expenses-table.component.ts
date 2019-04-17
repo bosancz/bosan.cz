@@ -7,6 +7,7 @@ import { ConfigService } from 'app/core/services/config.service';
 
 class ExpenseRow {
   editing: boolean = false;
+  previousValue: EventExpense = null;
   constructor(public expense: EventExpense) { }
 }
 
@@ -68,11 +69,24 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
 
   removeExpense(row: ExpenseRow) {
     this.expenses.splice(this.expenses.indexOf(row), 1);
+    this.publishValue();
   }
 
   editExpense(row: ExpenseRow) {
     row.editing = true;
+    row.previousValue = JSON.parse(JSON.stringify(row.expense));
     this.onTouched();
+  }
+
+  resetExpense(row: ExpenseRow) {
+    if(row.previousValue) {
+      row.expense = row.previousValue;
+      row.previousValue = null;   
+      row.editing = false;   
+    }
+    else{
+      this.expenses.splice(this.expenses.indexOf(row), 1);
+    }
   }
 
   saveExpense(row: ExpenseRow) {
