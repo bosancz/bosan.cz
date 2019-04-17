@@ -31,7 +31,7 @@ routes.get("event", "/", { permission: "events:read" }).handle(validate({ query:
   var event = await query.toObject();
 
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:read", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:read", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
   req.routes.links(event, "event");
   res.json(event);
@@ -43,7 +43,7 @@ routes.patch("event", "/", { permission: "events:edit" }).handle(async (req, res
   const event = await Event.findOne({ _id: req.params.id }, {}, { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:edit", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:edit", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
   await event.update(req.body);
 
@@ -62,7 +62,7 @@ routes.action("event:submit", "/actions/submit", { permission: "events:submit", 
   const event = await Event.findOne({ _id: req.params.id }, "name status statusHistory leader", { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:submit", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:submit", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
   event.status = "pending";
   event.statusNote = req.body.note || null;
@@ -78,7 +78,7 @@ routes.action("event:reject", "/actions/reject", { permission: "events:reject", 
   const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:reject", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:reject", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
   event.status = "rejected";
   event.statusNote = req.body.note || null;
@@ -94,7 +94,7 @@ routes.action("event:publish", "/actions/publish", { permission: "events:publish
   const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:publish", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:publish", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
   event.status = "public";
   event.statusNote = req.body.note || null;
@@ -110,7 +110,7 @@ routes.action("event:unpublish", "/actions/unpublish", { permission: "events:unp
   const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:unpublish", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:unpublish", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
   event.status = "draft";
   event.statusNote = req.body.note || null;
@@ -127,7 +127,7 @@ routes.action("event:cancel", "/actions/cancel", { permission: "events:cancel", 
   const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:cancel", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:cancel", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
   event.status = "cancelled";
   event.statusNote = req.body.note || null;
@@ -143,7 +143,7 @@ routes.action("event:uncancel", "/actions/uncancel", { permission: "events:cance
   const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:cancel", { leaders: event.leaders.map(leader => String(leader)) }, req)) return res.sendStatus(403);
+  if (!RoutesACL.canDoc("events:cancel", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
   event.status = "public";
   event.statusNote = req.body.note || null;
