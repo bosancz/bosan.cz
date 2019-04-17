@@ -49,10 +49,10 @@
         <input type="text" [(ngModel)]="row.expense.id" class="form-control" size="2">
       </th>
       <td colspan="2">
-        <input type="text" [(ngModel)]="row.expense.description" class="form-control" placeholder="Špičatý klobouk">
+        <input type="text" [(ngModel)]="row.expense.description" class="form-control" placeholder="Špičatý klobouk" required>
       </td>
       <td class="text-right">
-        <input type="number" [(ngModel)]="row.expense.amount" class="form-control" placeholder="123">
+        <input type="number" step="0.01" min="0" [(ngModel)]="row.expense.amount" class="form-control" placeholder="123" required>
       </td>
       <td class="text-right text-nowrap">
         <a class="text-primary" (click)="saveExpense(row)" tooltip="Uložit" placement="bottom"><i class="fas fa-save fa-2x"></i></a>
