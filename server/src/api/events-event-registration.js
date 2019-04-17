@@ -19,7 +19,7 @@ routes.get("event:registration","/",{ permission:"events:registration:read", que
   else res.sendStatus(404);
 });
   
-routes.post("event:registration","/",{permission:"events:registration:edit"}).handle(upload.single("file"), async (req,res,next) => {
+routes.put("event:registration","/",{permission:"events:registration:edit"}).handle(upload.single("file"), async (req,res,next) => {
   
   var event = await Event.findOne({_id:req.params.id});
   

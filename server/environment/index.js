@@ -1,5 +1,5 @@
 /* LOAD ENVIRONMENT CONFIG */
-const environmentName = (process.env.NODE_ENV || "development");
+const environmentName = (process.env.NODE_ENV || "local");
 console.log("[CONFIG] Loading configuration for environment: " + environmentName);
 
 try {

@@ -10,7 +10,8 @@ module.exports = {
   cors: {
     origin: "http://localhost:4200",
     methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
-    credentials: true
+    credentials: true,
+    exposedHeaders: ["Location"]
   },
 
   acl: {
@@ -31,7 +32,7 @@ module.exports = {
   },
 
   uploads: {
-    dir: "/tmp/uploads"
+    dir: path.resolve(environment.storage.tmp,"uploads")
   },
 
   jwt: {
@@ -55,13 +56,13 @@ module.exports = {
   },
 
   photos: {
-    storageDir: path.resolve(environment.data.root, "photos_original"),
+    storageDir: path.resolve(environment.storage.data, "photos_original"),
     storageUrl: environment.url + "/data/photos_original",
-    albumStorageDirFn: albumId => path.join(environment.data.root, "photos_original", String(albumId)),
+    albumStorageDirFn: albumId => path.join(environment.storage.data, "photos_original", String(albumId)),
 
-    thumbsDir: path.resolve(environment.data.root, "photos"),
+    thumbsDir: path.resolve(environment.storage.data, "photos"),
     thumbsUrl: environment.url + "/data/photos",
-    albumThumbsDirFn: albumId => path.join(environment.data.root, "photos", String(albumId)),
+    albumThumbsDirFn: albumId => path.join(environment.storage.data, "photos", String(albumId)),
 
     allowedTypes: ["jpg", "jpeg", "png", "gif"],
     sizes: {
@@ -71,8 +72,8 @@ module.exports = {
   },
 
   events: {
-    storageDir: path.resolve(environment.data.root, "events"),
-    eventDir: (eventId) => path.resolve(environment.data.root, "events", String(eventId)),
+    storageDir: path.resolve(environment.storage.data, "events"),
+    eventDir: (eventId) => path.resolve(environment.storage.data, "events", String(eventId)),
     storageUrl: environment.url + "/data/events",
 
     accounting: {
@@ -104,6 +105,6 @@ module.exports = {
   },
 
   config: {
-    storageDir: path.resolve(environment.data.root, "config")
+    storageDir: path.resolve(environment.storage.data, "config")
   }
 }

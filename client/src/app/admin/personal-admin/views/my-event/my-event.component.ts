@@ -142,7 +142,7 @@ export class MyEventComponent implements OnInit, OnDestroy {
     this.uploadingRegistration = true;
 
     try{
-      await this.api.post(this.event._links.registration,formData);
+      await this.api.put(this.event._links.registration,formData);
     }
     catch(err){
       this.toastService.toast("Nastala chyba při nahrávání: " + err.message);

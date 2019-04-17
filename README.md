@@ -17,7 +17,6 @@
 ```sh
 npm install     # instalace balíčků
 npm run build   # kompilace kódu
-npm start       # spuštění serveru
 ```
 
 ### Nastavení
@@ -45,6 +44,7 @@ NODE_ENV=production npm start
 Soubor `server/config/general.js`.
 
 ##### Řízení přístupů
+
 Soubor `server/config/permissions.js`.
 
 #### Konfigurace klienta
@@ -62,16 +62,23 @@ if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)|(Slackbo
 }
 ```
 
+#### Spuštění
+
+```sh
+NODE_ENV=production
+npm start
+```
+
 ## Lokální vývoj
 
 ### Instalace nástrojů
 
 **NodeJS**
  - https://nodejs.org
- - (při instalaci na Windows nezapomeňte zaškrtnout zahrnutí v cestě PATH)
+ - při instalaci na Windows nezapomeňte zaškrtnout zahrnutí v cestě PATH
 
 **Verzovací nástroj s podporou gitu**
- - ([Sourcetree](https://www.sourcetreeapp.com/) nebo [Git](https://git-scm.com/))
+ - [Sourcetree](https://www.sourcetreeapp.com/) nebo [Git](https://git-scm.com/)
 
 **Editor kódu**
  - doporučujeme [VSCode](https://code.visualstudio.com/), nebo [WebStorm](https://www.jetbrains.com/webstorm/)
@@ -100,11 +107,15 @@ A v druhém:
 ```sh
 $env:NODE_ENV="local" # ve Windows v PowerShellu
 set NODE_ENV=local    # ve Windows v příkazovém řádku
-NODE_ENV=local        # v Linuxu v terminálu
+NODE_ENV=local        # v Linuxu nebo na Macu v terminálu
 
 cd server
 npm run dev
 ```
+
+### Continuous Deployment - automatické nasazení
+
+Na branch master a development je nastaveno automatické nasazení na bosan.cz (test.bosan.cz pro branch development) po každém pushnutém commitu. Nasazení trvá cca tři minuty. V případě chyby zůstává nasazená poslední verze.
 
 ### Jak na to?
 

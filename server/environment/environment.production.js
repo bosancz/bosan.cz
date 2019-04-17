@@ -8,8 +8,9 @@ module.exports = {
     host: "127.0.0.1"
   },
   
-  data: {
-    root: path.resolve(__dirname,"../../../bosan.cz-data")
+  storage: {
+    data: path.resolve(__dirname,"../../../bosan.cz-data"),
+    tmp: "/tmp"
   },
 
   keys: {

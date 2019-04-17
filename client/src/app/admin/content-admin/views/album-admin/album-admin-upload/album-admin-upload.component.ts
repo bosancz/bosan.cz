@@ -144,6 +144,7 @@ export class AlbumAdminUploadComponent implements OnChanges {
               break;
             
             case HttpEventType.Response:
+              uploadItem.progress = 100;
               resolve();
               break;
           }

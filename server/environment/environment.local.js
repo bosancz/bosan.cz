@@ -9,8 +9,9 @@ module.exports = {
 
   cors: true,
   
-  data: {
-    root: "../data"
+  storage: {
+    data: "../data",
+    tmp: "../tmp"
   },
 
   keys: {

@@ -1,6 +1,8 @@
 var sharp = require("sharp");
 var exif = require('exif-reader');
 
+sharp.cache(false);
+
 module.exports = async function (file, sizes, options) {
 
   var stats = options ? options.stats : false;
@@ -29,7 +31,8 @@ module.exports = async function (file, sizes, options) {
     // generate smaller versions of the file    
     var sizesMetadata = [];
     for (let size of sizes) {
-      await sharp(file).resize(size.width, size.height).max().withMetadata().toFile(size.path);
+      const meta = await sharp(file).rotate().resize(size.width, size.height).max().withMetadata().toFile(size.path);
+      sizesMetadata.push(meta);
     };
 
     result.sizes = sizes.map((size, i) => ({

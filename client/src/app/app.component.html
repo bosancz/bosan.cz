@@ -17,7 +17,7 @@
   </div>
 
   <div *ngIf="(onlineService.online | async) && (swUpdate.available | async)" id="update" class="text-center bg-warning text-light">
-    Je k dispozici nová verze bosan.cz. Obnovte stránku pro její načtení.
+    Je k dispozici nová verze bosan.cz. <a (click)="reload()">Načíst</a>
   </div>
 
   <!-- Navigation -->
