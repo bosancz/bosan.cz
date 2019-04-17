@@ -17,7 +17,6 @@ import { MyAccountComponent } from './views/my-account/my-account.component';
 
 import { MyGroupComponent } from './views/my-group/my-group.component';
 import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
-import { MyEventComponent } from './views/my-event/my-event.component';
 import { MyAccountInfoComponent } from './views/my-account/my-account-info/my-account-info.component';
 import { MyAccountCredentialsComponent } from './views/my-account/my-account-credentials/my-account-credentials.component';
 import { MyAccountNotificationsComponent } from './views/my-account/my-account-notifications/my-account-notifications.component';
@@ -27,28 +26,22 @@ import { PaddlerCompetitionComponent } from './views/paddler-competition/paddler
 /* MODALS */
 import { LeadEventModalComponent } from './components/lead-event-modal/lead-event-modal.component';
 
-/* COMPONENTS */
-import { EventAgeHistogramComponent } from './components/event-age-histogram/event-age-histogram.component';
-import { EventExpensesTableComponent } from './components/event-expenses-table/event-expenses-table.component';
-import { EventBirthdayListComponent } from './components/event-birthday-list/event-birthday-list.component';
-import { EventAttendeesListComponent } from './components/event-attendees-list/event-attendees-list.component';
-
 @NgModule({
   imports: [
     CommonModule,
     PersonalAdminRoutingModule,
     
     AppSharedModule,
-    AdminSharedModule
+    AdminSharedModule    
   ],
   declarations: [
     PersonalAdminComponent,
     
     /* VIEWS */
     MyDashboardComponent,    
-    MyEventsComponent, MyEventComponent,
+    MyEventsComponent,
     MyGroupComponent, MyGroupMembersComponent,
-    MyAccountComponent, MyAccountInfoComponent, MyAccountCredentialsComponent, MyAccountNotificationsComponent,
+    MyAccountComponent, MyAccountInfoComponent, MyAccountCredentialsComponent, MyAccountNotificationsComponent, MyAccountAppComponent,
     PaddlerCompetitionComponent,
     
     CanalRegistrationComponent,
@@ -58,7 +51,7 @@ import { EventAttendeesListComponent } from './components/event-attendees-list/e
     LeadEventModalComponent,
     
     /* COMPONENTS */
-    EventAgeHistogramComponent, EventExpensesTableComponent, EventBirthdayListComponent, MyAccountAppComponent, EventAttendeesListComponent
+  
   ],
   entryComponents:[
     LeadEventModalComponent

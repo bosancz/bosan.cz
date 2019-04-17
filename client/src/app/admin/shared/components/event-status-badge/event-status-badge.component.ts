@@ -1,35 +1,48 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, HostBinding } from '@angular/core';
 
 import { Event } from "app/shared/schema/event";
 import { ConfigService } from 'app/core/services/config.service';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, Subject, Observable } from 'rxjs';
+import { WebConfigEventStatus } from 'app/shared/schema/webconfig';
 
 interface StatusBadge {
-  id:string;
-  name:string;
-  class:string;
+  id: string;
+  name: string;
+  class: string;
 }
 
 @Component({
   selector: 'event-status-badge',
   templateUrl: './event-status-badge.component.html',
-  styleUrls: ['./event-status-badge.component.scss']
+  styleUrls: ['./event-status-badge.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EventStatusBadgeComponent {
 
-  badge:StatusBadge;
+  status: string;
+  note: string;
+  @HostBinding('class') class: string = "badge badge-secondary";
 
-  note:string;
+  event: Subject<Event> = new Subject();
 
-  @Input() set event(event: Event) {
-    this.note = event.statusNote;
-    this.updateBadge(event);
+  @Input("event")
+  set setEvent(event: Event) {
+    this.event.next(event);
   }
 
-  constructor(private configService: ConfigService) { }
+  constructor(configService: ConfigService, cdRef: ChangeDetectorRef) {
+    this.event
+      .pipe(withLatestFrom(configService.config.pipe(map(config => config.events.statuses))))
+      .subscribe(([event, statuses]) => {
+        const status = event ? statuses.find(status => status.id === event.status) : null;
+        
+        this.class = 'badge badge-' + (status ? status.class : 'secondary');
+        this.status = status ? status.name : "";
+        this.note = event ? event.statusNote : "";
 
-  async updateBadge(event: Event) {
-    const config = await this.configService.getConfig();
-    this.badge = config.events.statuses.find(status => status.id === event.status);
+        cdRef.markForCheck();
+      });
   }
 
 }

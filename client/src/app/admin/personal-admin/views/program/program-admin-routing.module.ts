@@ -7,7 +7,7 @@ import { ProgramDraftsComponent } from "./views/program-drafts/program-drafts.co
 import { EventApprovalComponent } from "./views/event-approval/event-approval.component";
 import { EventPlanningComponent } from "./views/event-planning/event-planning.component";
 import { EventProgramComponent } from "./views/event-program/event-program.component";
-import { MyEventComponent } from '../my-event/my-event.component';
+import { EventComponent } from '../event/event.component';
 
 const routes: Routes = [
 
@@ -15,7 +15,7 @@ const routes: Routes = [
     path: '', component: ProgramAdminComponent,
     children: [
 
-      { path: 'detail/:akce', component: MyEventComponent },
+      { path: 'detail/:akce', component: EventComponent },
 
       { path: 'v-priprave', component: ProgramDraftsComponent },
 

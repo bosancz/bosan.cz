@@ -1,0 +1,33 @@
+$size: 30px;
+
+span.type {
+  display: inline-block;
+  opacity: 0.1;
+  cursor: pointer;
+}
+span.type img {
+  height: $size;
+}
+span.type .circle {
+  display: inline-block;
+  width: $size;
+  height: $size;
+  border-radius: $size/2;
+}
+
+span.type.selected {
+  opacity: 1;
+}
+span.type:hover {
+  opacity: 0.8;
+}
+
+:host.disabled,
+:host.readonly {
+  span.type {
+    cursor: default;
+  }
+  span.type:hover {
+    opacity: auto;
+  }
+}

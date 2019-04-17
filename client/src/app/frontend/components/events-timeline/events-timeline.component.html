@@ -45,7 +45,7 @@
               <h4><span *ngIf="event.status === 'cancelled'" class="cancelled">Zrušeno: </span> {{event.name}}</h4>
             </div>
             <div class="col-auto justify-content-end group-badges">
-              <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [title]="group | group:'name'" class="group-badge">{{group}}</span>              
+              <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [title]="group | group:'name'" class="group-badge ml-2">{{group}}</span>              
             </div>
           </div>
           <div class="row">

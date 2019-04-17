@@ -18,11 +18,11 @@ import { ProgramDraftsComponent } from './views/program-drafts/program-drafts.co
 @NgModule({
   imports: [
     CommonModule,
+    ProgramAdminRoutingModule,
     
     AppSharedModule,
-    AdminSharedModule,
+    AdminSharedModule
     
-    ProgramAdminRoutingModule
   ],
   declarations: [
     ProgramAdminComponent,

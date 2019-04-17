@@ -15,7 +15,7 @@ import { MyAccountNotificationsComponent } from "./views/my-account/my-account-n
 import { MyAccountAppComponent } from "./views/my-account/my-account-app/my-account-app.component";
 
 import { MyEventsComponent } from "./views/my-events/my-events.component";
-import { MyEventComponent } from "./views/my-event/my-event.component";
+import { EventComponent } from "./views/event/event.component";
 
 import { MyGroupComponent } from './views/my-group/my-group.component';
 import { MyGroupMembersComponent } from './views/my-group/my-group-members/my-group-members.component';
@@ -34,7 +34,7 @@ const routes:Routes = [
 
       { path: 'prehled', component: MyDashboardComponent, data: { permission: "my:dashboard" } },
 
-      { path: 'akce/:akce', component: MyEventComponent, data: { permission: "my:events" } },
+      { path: 'akce/:akce', component: EventComponent, data: { permission: "my:events" } },
       { path: 'akce', component: MyEventsComponent, data: { permission: "my:events" } },
       
       {
