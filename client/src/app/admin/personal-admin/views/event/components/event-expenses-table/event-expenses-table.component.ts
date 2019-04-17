@@ -62,7 +62,7 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
     const row = new ExpenseRow(new EventExpense());
     row.expense.type = type;
     row.editing = true;
-    row.expense.id = "V" + (this.expenses.reduce((acc, cur) => Math.max(acc, Number(cur.expense.id.substr(1)) || 0), 1) + 1);
+    row.expense.id = "V" + (this.expenses.reduce((acc, cur) => Math.max(acc, Number(cur.expense.id.substr(1)) || 0), 0) + 1);
     this.expenses.push(row);
     this.onTouched();
   }
