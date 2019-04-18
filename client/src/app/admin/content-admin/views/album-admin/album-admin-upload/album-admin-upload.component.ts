@@ -1,75 +1,74 @@
-import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
-import { HttpEvent, HttpEventType } from "@angular/common/http";
+import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { HttpEvent, HttpEventType, HttpClient } from "@angular/common/http";
 
-import { DataService } from "app/core/services/data.service";
-import { ToastService } from "app/core/services/toast.service";
+import { ApiService } from 'app/core/services/api.service';
 
 import { Album, Photo } from "app/shared/schema/album";
 
 class PhotoUploadItem {
-  file:File;
-  progress:number;
-  status:string;
-  error?:Error;
+  file: File;
+  progress: number;
+  status: string;
+  error?: Error;
 }
 
 @Component({
   selector: 'album-admin-upload',
   templateUrl: './album-admin-upload.component.html',
-  styleUrls: ['./album-admin-upload.component.css']
+  styleUrls: ['./album-admin-upload.component.scss']
 })
 export class AlbumAdminUploadComponent implements OnChanges {
 
-  @Input() album:Album;
-  
-  @Output() saved:EventEmitter<void> = new EventEmitter();
-  
-  tags:string[] = [];
-  selectedTags:string[] = [];
-  
-  status:string = "notstarted";
+  @Input() album: Album;
 
-  photoUploadQueue:PhotoUploadItem[] = [];
+  @Output() saved: EventEmitter<void> = new EventEmitter();
 
-  allowedFiles = ["jpg","jpeg","png","gif"];
+  tags: string[] = [];
+  selectedTags: string[] = [];
 
-  constructor(private dataService:DataService, private toastService:ToastService) { }
+  status: string = "notstarted";
 
-  ngOnChanges(changes:SimpleChanges){
-    if(changes.album) this.updateTags();
+  photoUploadQueue: PhotoUploadItem[] = [];
+
+  allowedFiles = ["jpg", "jpeg", "png", "gif"];
+
+  constructor(private api: ApiService, private http: HttpClient, private cdRef: ChangeDetectorRef) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.album) this.updateTags();
   }
 
-  updateTags(){
+  updateTags() {
     this.tags = [];
     this.album.photos.forEach(photo => {
       photo.tags.filter(tag => this.tags.indexOf(tag) === -1).forEach(tag => this.tags.push(tag));
     });
   }
-  
-  addPhotosByInput(photoInput:HTMLInputElement){
 
-    if(!photoInput.files.length) return;
+  addPhotosByInput(photoInput: HTMLInputElement) {
 
-    for( let i = 0; i < photoInput.files.length; i++ ){
+    if (!photoInput.files.length) return;
+
+    for (let i = 0; i < photoInput.files.length; i++) {
       this.photoUploadQueue.push({
         file: photoInput.files[i],
         progress: 0,
         status: "pending"
       });
-    }    
+    }
 
   }
 
-  addPhotosByDropzone(e, dropzone:HTMLDivElement){
+  addPhotosByDropzone(e, dropzone: HTMLDivElement) {
     e.preventDefault();
 
-    for( let i = 0; i < e.dataTransfer.files.length; i++ ){
+    for (let i = 0; i < e.dataTransfer.files.length; i++) {
       this.photoUploadQueue.push({
         file: e.dataTransfer.files[i],
         progress: 0,
         status: "pending"
       });
-    }    
+    }
 
   }
 
@@ -77,32 +76,32 @@ export class AlbumAdminUploadComponent implements OnChanges {
     event.stopPropagation();
     event.preventDefault();
   }
-  
-  removeFromQueue(uploadItem:PhotoUploadItem){
+
+  removeFromQueue(uploadItem: PhotoUploadItem) {
     let i = this.photoUploadQueue.indexOf(uploadItem);
-    if(i !== -1) this.photoUploadQueue.splice(i,1);
+    if (i !== -1) this.photoUploadQueue.splice(i, 1);
   }
-  
-  clearQueue(){
+
+  clearQueue() {
     this.photoUploadQueue = [];
   }
 
-  async uploadPhotos(){
-    
-    this.status = "started";
-    
-    let uploadItem:PhotoUploadItem;
-    for(uploadItem of this.photoUploadQueue){
-      
-      if(uploadItem.status === "finished") continue;
+  async uploadPhotos() {
 
-      try{
+    this.status = "started";
+
+    let uploadItem: PhotoUploadItem;
+    for (uploadItem of this.photoUploadQueue) {
+
+      if (uploadItem.status === "finished") continue;
+
+      try {
         uploadItem.status = "uploading";
         await this.uploadPhoto(uploadItem);
         uploadItem.status = "finished";
       }
-      catch(err) {
-        uploadItem.status  = "error";
+      catch (err) {
+        uploadItem.status = "error";
         uploadItem.error = err;
       }
     }
@@ -112,46 +111,49 @@ export class AlbumAdminUploadComponent implements OnChanges {
 
   }
 
-  uploadPhoto(uploadItem:PhotoUploadItem):Promise<void>{
+  async uploadPhoto(uploadItem: PhotoUploadItem): Promise<void> {
 
-    return new Promise((resolve,reject) => {
-      
-      if(this.allowedFiles.indexOf(uploadItem.file.name.split(".").pop().toLowerCase()) === -1){
-        return reject(new Error("Unsupported file type."));
-      }
+    if (this.allowedFiles.indexOf(uploadItem.file.name.split(".").pop().toLowerCase()) === -1) {
+      throw new Error("Unsupported file type.");
+    }
 
-      let formData:FormData = new FormData();
+    let formData: FormData = new FormData();
 
-      let lastModified;
-      if(uploadItem.file.lastModified) lastModified = new Date(uploadItem.file.lastModified).toISOString();
-      // DEPRECATED else if(uploadItem.file.lastModifiedDate) lastModified = uploadItem.file.lastModifiedDate.toISOString();
-      
-      formData.set("album",this.album._id);
-      formData.set("tags",this.selectedTags.join(","));
-      formData.set("photo",uploadItem.file,uploadItem.file.name);
-      formData.set("lastModified",lastModified);
+    let lastModified;
+    if (uploadItem.file.lastModified) lastModified = new Date(uploadItem.file.lastModified).toISOString();
+    // DEPRECATED else if(uploadItem.file.lastModifiedDate) lastModified = uploadItem.file.lastModifiedDate.toISOString();
 
-      this.dataService.createPhoto(formData).subscribe(
-        (event:HttpEvent<any>) => {
-          switch(event.type){
-              
+    formData.set("album", this.album._id);
+    formData.set("tags", this.selectedTags.join(","));
+    formData.set("photo", uploadItem.file, uploadItem.file.name);
+    formData.set("lastModified", lastModified);
+
+    const uploadPath = await this.api.path2href("photos");
+
+    return new Promise<void>((resolve, reject) => {
+
+      this.http.post(uploadPath, formData, { withCredentials: true, observe: 'events', reportProgress: true, responseType: "text" }).subscribe(
+        (event: HttpEvent<any>) => {
+          switch (event.type) {
+
             case HttpEventType.Sent:
               break;
-            
+
             case HttpEventType.UploadProgress:
               uploadItem.progress = Math.round(event.loaded / event.total * 100);
-              if(event.loaded === event.total) uploadItem.status = "processing";
+              this.cdRef.markForCheck();
+              if (event.loaded === event.total) uploadItem.status = "processing";
               break;
-            
+
             case HttpEventType.Response:
               uploadItem.progress = 100;
               resolve();
               break;
           }
         }, err => reject(err));
-    });
 
+    });
   }
- 
+
 }
 
