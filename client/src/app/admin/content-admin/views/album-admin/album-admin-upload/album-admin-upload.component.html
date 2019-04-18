@@ -3,7 +3,7 @@
   <p>Přetáhnout fotografie sem, nebo kliknout pro výběr</p>
 </div>
 
-<input class="photoInput" type="file" name="photo" #photoInput (change)="addPhotosByInput(photoInput)" multiple>
+<input class="photoInput" type="file" accept="image/jpeg,image/png,image/gif" name="photo" #photoInput (change)="addPhotosByInput(photoInput)" multiple>
 
 <div class="queue">
   <table class="table table-striped table-hover table-sm uploadQueue">
