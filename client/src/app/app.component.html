@@ -11,7 +11,7 @@
      [class.menu-hidden]="!layoutService.menu.visible"
      [class.offline]="!(onlineService.online | async)"
      [class.update]="(onlineService.online | async) && (swUpdate.available | async)">
-  
+
   <div *ngIf="!(onlineService.online | async)" id="offline" class="text-center bg-danger text-light">
     Nejste připojeni k internetu. Zobrazené údaje mohou být zastaralé.
   </div>
@@ -21,12 +21,12 @@
   </div>
 
   <!-- Navigation -->
-  <page-menu *ngIf="layoutService.menu.visible"></page-menu>
+  <page-menu *ngIf="layoutService.menu.visible" class="d-print-none"></page-menu>
 
   <!-- MAIN CONTENT -->
   <div id="page">
     <router-outlet></router-outlet>
   </div>
 
-  <page-footer *ngIf="layoutService.footer.visible"></page-footer>
+  <page-footer *ngIf="layoutService.footer.visible" class="d-print-none"></page-footer>
 </div>
