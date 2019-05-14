@@ -53,6 +53,10 @@ a.flat{font-weight:bold;text-transform:uppercase;text-decoration:none;}
 .group-badges .group-badge:first-of-type{margin-left:0;}
 .group-badges .group-badge:last-of-type{margin-right:0;}
 
+@media print {
+  .group-badges .group-badge{border:1px solid #666;}
+}
+
 h2 .back{margin-right:10px;}
 
 a {color: $linkBlue;cursor:pointer;}
