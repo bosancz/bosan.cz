@@ -14,7 +14,9 @@ h5{margin-bottom: 0px !important;}
 .timeline{position:relative;min-height:200px;}
 .timeline .loading{position:absolute;top:50%;left:0;right:0;text-align:center;margin-top:-24px;}
 
-.timeline .event.cancelled *{ text-decoration: line-through; }
+.timeline .monthname{page-break-before:always;}
+
+.timeline .event.cancelled .event-details { text-decoration: line-through; }
 
 .timeline .line-container{
   position: relative;
