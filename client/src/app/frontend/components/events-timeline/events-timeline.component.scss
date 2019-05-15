@@ -26,7 +26,8 @@ h5 {
   margin-top: -24px;
 }
 
-.line-container .line {
+.timeline-container .line,
+.timeline2-container .line {
   position: absolute;
   left: 50%;
   height: 100%;
@@ -48,7 +49,7 @@ h5 {
     }
   }
 
-  .line-container {
+  .timeline-container {
     position: relative;
 
     .circle-container {
