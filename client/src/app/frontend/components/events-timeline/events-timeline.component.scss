@@ -6,9 +6,6 @@ $arrow-size: 1.5rem;
 $arrow-offset: 2px;
 $timeline-width: 0.2vh;
 
-h4 {
-  z-index: 10;
-}
 h5 {
   margin-bottom: 0px !important;
 }
@@ -102,6 +99,12 @@ h5 {
       background-color: #fff;
       display: inline-block;
     }
+  }
+
+  .event-header,
+  .description {
+    position:relative;
+    z-index: 10;
   }
 }
 
