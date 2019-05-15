@@ -16,7 +16,7 @@
 
     <div [class]="'row h-100 event ' + (event | event:'class')" [class.cancelled]="event.status === 'cancelled'">
 
-      <div class="date-container col-10 col-lg-2 order-2 order-lg-1 px-0 px-lg-3 py-3 py-lg-0">
+      <div class="date-container col-10 col-md-11 col-lg-2 order-2 order-lg-1 px-0 px-lg-3 py-3 py-lg-0">
         <h5 *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay">
           {{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}
           <div class="d-none d-lg-block"></div>
@@ -27,8 +27,8 @@
         </ng-template>
       </div>
 
-      <div class="line-container col-2 col-sm-1 col-lg-1 order-1 px-0 px-lg-3 order-lg-2 justify-content-center d-flex">
-        <div class="line d-none d-lg-block"></div>
+      <div class="timeline-container col-2 col-md-1 col-lg-1 order-1 px-0 px-lg-3 order-lg-2 justify-content-center d-flex">
+        <div class="line"></div>
         <div class="circle-container">
           <div class="circle mx-auto" [style.background-color]="(event | event:'image') ? 'transparent' : (event | event:'color') || '#ccc'">
             <img *ngIf="event | event:'image'" class="img-fluid" [src]="event | event:'image'">
@@ -37,45 +37,49 @@
         </div>
       </div>
 
-      <div class="event-container offset-2 col-10 offset-sm-1 col-sm-11 offset-lg-0 col-lg-9 order-3 mb-3 panel" [adminLink]="'/interni/obsah/akce/' + event._id + '/upravit'">
-        <div class="content">
-          <div class="row event-header">
-            <div class="col d-flex">
-              <h4><span *ngIf="event.status === 'cancelled'" class="cancelled">Zrušeno: </span> {{event.name}}</h4>
-            </div>
-            <div class="col-auto justify-content-end group-badges">
-              <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [title]="group | group:'name'" class="group-badge ml-2">{{group}}</span>
+      <div class="timeline2-container d-block d-lg-none col-2 col-md-1 order-3">
+        <div class="line"></div>
+      </div>
+
+      <div class="event-container col-10 col-md-11 col-lg-9 order-3 mb-3 panel" [adminLink]="'/interni/obsah/akce/' + event._id + '/upravit'">
+        <div class="row event-header">
+          <div class="col d-flex">
+            <h4><span *ngIf="event.status === 'cancelled'" class="cancelled">Zrušeno: </span> {{event.name}}</h4>
+          </div>
+          <div class="d-none d-md-block col-auto justify-content-end group-badges">
+            <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [title]="group | group:'name'" class="group-badge ml-2">{{group}}</span>
+          </div>
+        </div>
+        <div class="event-details">
+          <div class="row">
+            <div class="col">
+              <p *ngIf="event.description" class="description multiline">{{event.description}}</p>
             </div>
           </div>
-          <div class="event-details">
-            <div class="row">
-              <div class="col">
-                <p *ngIf="event.description" class="description multiline">{{event.description}}</p>
-              </div>
+          <div class="row">
+            <div class="col">
+              <p *ngIf="event.meeting?.start || event.meeting?.end">
+                <ng-container *ngIf="event.meeting?.start"><strong>Sraz: </strong>{{event.meeting.start}}</ng-container>
+                <ng-container *ngIf="event.meeting?.start && event.meeting?.end">, </ng-container>
+                <ng-container *ngIf="event.meeting?.end"><strong>Konec: </strong>{{event.meeting.end}}</ng-container>
+              </p>
             </div>
-            <div class="row">
-              <div class="col">
-                <p *ngIf="event.meeting?.start || event.meeting?.end">
-                  <ng-container *ngIf="event.meeting?.start"><strong>Sraz: </strong>{{event.meeting.start}}</ng-container>
-                  <ng-container *ngIf="event.meeting?.start && event.meeting?.end">, </ng-container>
-                  <ng-container *ngIf="event.meeting?.end"><strong>Konec: </strong>{{event.meeting.end}}</ng-container>
-                </p>
-              </div>
+          </div>
+          <div class="row footer">
+            <div class="col d-flex">
+              <p *ngIf="event.leaders?.length">
+                {{event.leadersLine}} {{event.leaders | joinLeaders}}
+              </p>
             </div>
-            <div class="row footer">
-              <div class="col d-flex">
-                <p *ngIf="event.leaders?.length">
-                  {{event.leadersLine}} {{event.leaders | joinLeaders}}
-                </p>
-              </div>
-              <div class="col-auto justify-content-end mb-3">
-                <a *ngIf="event._links?.registration?.allowed?.GET" [href]="getEventRegistrationUrl(event) | safeurl" download="registration.pdf" class="flat" target="_blank">Přihláška</a>
-              </div>
+            <div class="col-12 col-md-auto justify-content-end mb-3">
+              <a *ngIf="event._links?.registration?.allowed?.GET" [href]="getEventRegistrationUrl(event) | safeurl" download="registration.pdf" class="flat" target="_blank">Přihláška</a>
             </div>
           </div>
         </div>
       </div>
 
     </div>
+
+
   </ng-container>
 </div>

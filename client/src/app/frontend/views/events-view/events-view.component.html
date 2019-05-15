@@ -1,32 +1,11 @@
 <section>
-  <div class="container d-print-none">
-    <div class="row">
-      <div class="offset-md-8 col-md-4 col-12">
-        <div class="row text-center">
-          <div class="col-3">
-            <a class="scrollDown" [ngx-scroll-to]="timeline">Program <br><i class="fas fa-arrow-down"></i></a>
-          </div>
-          <div class="col-3">
-            <a class="scrollDown" [ngx-scroll-to]="bosan">Schůzky <br><i class="fas fa-arrow-down"></i></a>
-          </div>
-          <div class="col-3">
-            <a class="scrollDown" [ngx-scroll-to]="bazen">Bazén <br><i class="fas fa-arrow-down"></i></a>
-          </div>
-          <div class="col-3">
-            <a class="scrollDown" [ngx-scroll-to]="troja">Kanál <br><i class="fas fa-arrow-down"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="container" #timeline>
+   <div class="container" #timeline>
     <div class="row">
       <div class="col-12 text-center">
         <h1>Program činnosti</h1>
       </div>
       <div class="col-12 text-center">
-        <p>Kam se s námi vypravíš v příštích týdnech.</p>
+        <p>Kam se s námi vypravíš v příštích týdnech? Info o <a class="scrollDown" [ngx-scroll-to]="bosan">schůzkách</a>, <a class="scrollDown" [ngx-scroll-to]="bazen">bazénu</a> a <a class="scrollDown" [ngx-scroll-to]="troja">kanálu</a> najdete níže.</p>
       </div>
     </div>
 
