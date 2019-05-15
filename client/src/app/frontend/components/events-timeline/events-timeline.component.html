@@ -4,41 +4,40 @@
 
   <ng-container *ngFor="let event of events;let i = index">
 
-    <div *ngIf="i >= 1 && (event.dateFrom | date:'M') !== (events[i-1].dateFrom | date:'M')" class="monthname row">
+    <div *ngIf="i === 0 || (i > 0 && (event.dateFrom | date:'M') !== (events[i-1].dateFrom | date:'M'))" class="month row" [class.first]="i === 0">
       <div class="col-4 col-lg-2 py-lg-3 px-0 px-lg-3 pt-1">
         <h4>{{event.dateFrom | date:'M' | monthName}}</h4>
       </div>
-      <div class="col-lg-1 px-lg-3 d-none d-lg-flex justify-content-lg-end">
-        <div class="line-container">
-          <div class="line"></div>
-        </div>
+      <div *ngIf="i > 0" class="line-container col-lg-1 px-lg-3 d-none d-lg-block">
+        <div class="line"></div>
       </div>
       <div class="col-4 col-lg-9 d-none d-lg-block"></div>
     </div>
+
     <div [class]="'row h-100 event ' + (event | event:'class')" [class.cancelled]="event.status === 'cancelled'">
 
-      <div *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay" class="col-10 col-lg-2 order-2 order-lg-1 px-0 px-lg-3 d-flex align-items-center align-items-lg-start">
-        <h5>{{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}
+      <div class="date-container col-10 col-lg-2 order-2 order-lg-1 px-0 px-lg-3 py-3 py-lg-0">
+        <h5 *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay">
+          {{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}
           <div class="d-none d-lg-block"></div>
-          {{event.dateFrom | date:"d. M."}} - {{event.dateTill | date:"d. M."}}</h5>
-      </div>
-      <ng-template #onlyDay>
-        <div class="col-10 col-lg-2 order-2 order-lg-1 px-0 px-lg-3 d-flex align-items-center align-items-lg-start">
+          {{event.dateFrom | date:"d. M."}} - {{event.dateTill | date:"d. M."}}
+        </h5>
+        <ng-template #onlyDay>
           <h5>{{event.dateFrom | date:"EEEEEE d. M."}}</h5>
-        </div>
-      </ng-template>
+        </ng-template>
+      </div>
 
-      <div class="col-1 col-lg-1 order-1 px-0 py-3 px-lg-3  py-lg-0 order-lg-2 justify-content-start justify-content-lg-end d-flex">
+      <div class="line-container col-2 col-sm-1 col-lg-1 order-1 px-0 px-lg-3 order-lg-2 justify-content-center d-flex">
+        <div class="line d-none d-lg-block"></div>
         <div class="circle-container">
-          <div class="line d-none d-lg-block"></div>
-          <div class="circle pt-1 pr-2 pb-1 p-lg-0" [style.background-color]="(event | event:'image') ? 'transparent' : (event | event:'color') || '#ccc'">
+          <div class="circle mx-auto" [style.background-color]="(event | event:'image') ? 'transparent' : (event | event:'color') || '#ccc'">
             <img *ngIf="event | event:'image'" class="img-fluid" [src]="event | event:'image'">
           </div>
           <div class="arrow-horizontal d-none d-lg-block"></div>
         </div>
       </div>
 
-      <div class="offset-1 offset-lg-0 col-11 col-lg-9 order-3 panel" [adminLink]="'/interni/obsah/akce/' + event._id + '/upravit'">
+      <div class="event-container offset-2 col-10 offset-sm-1 col-sm-11 offset-lg-0 col-lg-9 order-3 mb-3 panel" [adminLink]="'/interni/obsah/akce/' + event._id + '/upravit'">
         <div class="content">
           <div class="row event-header">
             <div class="col d-flex">
