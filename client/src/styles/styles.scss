@@ -12,6 +12,7 @@ body{
   font-family:$font-family;
   color:$black;
   background-color:#fff;
+  font-size:$font-basic;
   //background-color:$black70;
 }
 
@@ -91,6 +92,11 @@ a.badge,.badge a{cursor:pointer;}
 .yellow{
   background-color:#FEC503;
 }
+
+@media (pointer: coarse) {
+  .responsive-font{font-size:1.8em;}
+}
+
 
 
 /* VALIDATION */
