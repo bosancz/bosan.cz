@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalService, ModalOptions, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { Member } from 'app/shared/schema/member';
+import { Event } from 'app/shared/schema/event';
 
 @Component({
   selector: 'event-attendees-list',
@@ -29,18 +30,20 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
   disabled: boolean = false;
   @Input() readonly: boolean;
 
+  @Input() event:Event;
+
   modalRef: BsModalRef;
 
   constructor(private router: Router, private route: ActivatedRoute, private modalService: BsModalService) { }
 
   removeMember(member: Member): void {
-    if(this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) return;
     this.members.splice(this.members.indexOf(member), 1);
     this.publishValue();
   }
 
   setMembers(members) {
-    if(this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) return;
     this.members = members;
     this.publishValue();
   }
@@ -49,17 +52,6 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
     this.onChange(this.members);
   }
 
-  isInvalid(member: Member): boolean {
-    return !(member.name && member.name.first && member.name.last && member.birthday);
-  }
-
-  getMemberTooltip(member: Member, groupName: string) {
-    const info = [groupName];
-    if (member.name) info.push(member.name.first + " " + member.name.last);
-    if (member.role) info.push(member.role);
-    if (this.isInvalid(member)) info.push("CHYBÍ DATA V DB");
-    return info.join(", ");
-  }
 
   openModal(modal: TemplateRef<any>) {
     this.router.navigate(['./', { modal: "open" }], { relativeTo: this.route });
@@ -70,7 +62,7 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
   }
 
   reset() {
-    if(this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) return;
     this.members = this.previousMembers;
     this.publishValue();
   }

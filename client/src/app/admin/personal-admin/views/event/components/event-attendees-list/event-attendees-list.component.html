@@ -1,13 +1,8 @@
-<p class="list">
-  <span *ngFor="let member of members" class="badge badge-primary mr-2 px-4 py-3 px-md-2 py-md-2" [class.badge-danger]="isInvalid(member)" [tooltip]="getMemberTooltip(member,member.group | group:'name')">
-    <span [routerLink]="'/interni/obsah/clenove/' + member._id">{{member.nickname}}</span>
-    <a *ngIf="!disabled && !readonly" (click)="removeMember(member)" class="ml-3 ml-md-2"><i class="fas fa-times"></i></a>
-  </span>
-  <a *ngIf="!disabled && !readonly" class="text-success add" (click)="openModal(attendeesModal)">
-    <i class="d-inline d-md-none fas fa-plus-circle fa-2x align-middle"></i>
-    <i class="d-none d-md-inline fas fa-plus-circle align-middle"></i>
-  </a>
-</p>
+<event-attendees-list-item *ngFor="let member of members" [member]="member" [event]="event" [editable]="!disabled && !readonly" (remove)="removeMember(member)"></event-attendees-list-item>
+
+<a *ngIf="!disabled && !readonly" class="text-success add pt-2 pt-md-0 responsive-font" (click)="openModal(attendeesModal)">
+  <i class="fas fa-plus-circle align-middle "></i>  
+</a>
 
 <ng-template #attendeesModal>
   <div class="modal-body members-select">

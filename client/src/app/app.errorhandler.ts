@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable, Injector, ChangeDetectorRef, ApplicationRef } from '@angular/core';
+import { ErrorHandler, Injectable, Injector, ApplicationRef } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { environment } from "environments/environment";

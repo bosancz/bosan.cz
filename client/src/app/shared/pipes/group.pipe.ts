@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 import { ConfigService } from "app/core/services/config.service";
 
-enum GroupProperty {
+export enum GroupPipeProperty {
   name = "name",
-    color = "color"
+  color = "color"
 }
 
 @Pipe({
@@ -12,32 +12,29 @@ enum GroupProperty {
 })
 export class GroupPipe implements PipeTransform {
 
-  groupIndex:any = {};
+  groupIndex: any = {};
 
-  defaultValues:{ [key:string]:any } = {
-    "color": "#000"    
+  defaultValues: { [key: string]: any } = {
+    "color": "#000"
   };
 
-  constructor(private configService:ConfigService, private changeDetectorRef:ChangeDetectorRef){    
+  constructor(private configService: ConfigService) {
     this.loadGroups();
   }
 
-  loadGroups(){
+  loadGroups() {
     this.configService.config.subscribe(config => {
 
       // create group index with properties
       this.groupIndex = {};
       config.members.groups.forEach(group => this.groupIndex[group.id] = group);
-
-      // inform Angular that refresh of the value is needed
-      this.changeDetectorRef.markForCheck();
     })
   }
 
-  transform(groupId:string,property:GroupProperty):string{
+  transform(groupId: string, property: GroupPipeProperty): string {
 
     // if group properties not loaded yet or not present for group, return default values
-    switch(property){
+    switch (property) {
       case "name":
         return this.groupIndex[groupId] && this.groupIndex[groupId][property] || groupId;
       default:
