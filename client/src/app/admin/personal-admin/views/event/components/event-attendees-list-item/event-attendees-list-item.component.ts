@@ -65,7 +65,7 @@ export class EventAttendeesListItemComponent implements OnChanges {
     }
 
     const invalidMessages = [];
-    if (!this.member.name || !this.member.name.first || !this.member.name.last || this.member.birthday || this.member.address) invalidMessages.push("Chybí údaje v členské databázi");
+    if (!this.member.name || !this.member.name.first || !this.member.name.last || !this.member.birthday) invalidMessages.push("Chybí údaje v členské databázi");
     this.isInvalid = !!invalidMessages.length;
     this.invalidString = invalidMessages.join(", ");
 
