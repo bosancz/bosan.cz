@@ -16,7 +16,12 @@ module.exports = async function (file, sizes, options) {
       sharp(file).stats()
     ]);
 
-    var origExif = metadata[0].exif ? exif(metadata[0].exif) : null;
+    try {
+      var origExif = metadata[0].exif ? exif(metadata[0].exif) : null;
+    }
+    catch (e) {
+      var origExif = null;
+    }
 
     result.stats = {
       date: (origExif && origExif.exif && origExif.exif.DateTimeOriginal) || (origExif && origExif.image && origExif.image.ModifyDate),
