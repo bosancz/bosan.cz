@@ -64,15 +64,13 @@ export class EventAttendeesListItemComponent implements OnChanges {
       this.ageStart = undefined;
     }
 
-    const missingFields = [];
-    if (!this.member.name || !this.member.name.first || !this.member.name.last) missingFields.push("chybí jméno");
-    if (!this.member.birthday) missingFields.push("chybí datum narození");
-
-    this.isInvalid = !!missingFields.length;
-    this.invalidString = "Chybí v DB: " + missingFields.join(", ");
+    const invalidMessages = [];
+    if (!this.member.name || !this.member.name.first || !this.member.name.last || this.member.birthday || this.member.address) invalidMessages.push("Chybí údaje v členské databázi");
+    this.isInvalid = !!invalidMessages.length;
+    this.invalidString = invalidMessages.join(", ");
 
     const infoString = [];
-    if (this.member.name) infoString.push(this.member.name.first + " " + this.member.name.last);
+    if (this.member.name && (this.member.name.first || this.member.name.last)) infoString.push((this.member.name.first || "") + " " + (this.member.name.last || ""));
     if (this.member.group) infoString.push(this.groupPipe.transform(this.member.group, "name" as GroupPipeProperty));
     //if (this.member.role) infoString.push(this.member.role);
     this.infoString = infoString.join(", ");
