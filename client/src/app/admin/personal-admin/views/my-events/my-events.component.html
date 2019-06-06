@@ -25,7 +25,7 @@
             <table>
               <tr>
                 <th>Vedoucí:</th>
-                <td>{{event.leaders | joinLeaders:false}}</td>
+                <td><span [innerHTML]="event.leaders | joinLeaders:false"></span></td>
               </tr>
               <tr>
                 <th>Účastníci ({{event.attendees.length || 0}}):</th>
