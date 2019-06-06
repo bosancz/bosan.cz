@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { BsModalRef, ModalOptions, BsModalService } from 'ngx-bootstrap/modal';
 
 import { Event } from "app/shared/schema/event";
 import { ToastService } from 'app/core/services/toast.service';
@@ -18,7 +19,9 @@ export class EventRegistrationComponent {
 
   uploadingRegistration: boolean = false;
 
-  constructor(private api: ApiService, private toastService: ToastService) { }
+  modalRef:BsModalRef;
+
+  constructor(private api: ApiService, private toastService: ToastService, private modalService:BsModalService) { }
 
   async uploadRegistration(input: HTMLInputElement) {
 
@@ -59,6 +62,11 @@ export class EventRegistrationComponent {
 
   getRegistrationUrl(): string {
     return this.api.link2href(this.event._links.registration);
+  }
+
+  openRegistration(registrationTemplate: TemplateRef<any>) {
+    const modalOptions: ModalOptions = { animated: false, class: 'modal-lg' };
+    this.modalRef = this.modalService.show(registrationTemplate, modalOptions);
   }
 
 }
