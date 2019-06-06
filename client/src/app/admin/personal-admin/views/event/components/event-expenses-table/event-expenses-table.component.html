@@ -6,7 +6,7 @@
         <th colspan="2">{{type}}</th>
         <th class="text-right">{{sumExpenses(getExpensesByType(type))}} Kč</th>
         <th class="text-right">{{perPerson(sumExpenses(getExpensesByType(type)))}} Kč/os</th>
-        <th *ngIf="!disabled && !readonly" class="text-right"><a (click)="addExpense(type)" class="text-success"><i class="fas fa-plus-circle align-middle fa-2x"></i></a></th>
+        <th *ngIf="!disabled && !readonly" class="text-right responsive-font"><a (click)="addExpense(type)" class="text-success"><i class="fas fa-plus-circle align-middle"></i></a></th>
       </tr>
       <ng-container *ngFor="let row of getExpensesByType(type)">
         <ng-container *ngTemplateOutlet="expense; context: { row: row }"></ng-container>
@@ -39,9 +39,9 @@
       <td>{{row.expense.description}}</td>
       <td class="text-right">{{row.expense.amount}} Kč</td>
       <td class="text-right">{{perPerson(row.expense.amount)}} Kč/os</td>
-      <td *ngIf="!disabled && !readonly" class="text-right text-nowrap">
-        <a class="text-warning mr-1" (click)="editExpense(row)"><i class="fas fa-pen-square fa-2x"></i></a>
-        <a class="text-danger" (click)="removeExpense(expense)"><i class="fas fa-minus-square fa-2x"></i></a>
+      <td *ngIf="!disabled && !readonly" class="text-right text-nowrap responsive-font">
+        <a class="text-warning mr-1" (click)="editExpense(row)"><i class="fas fa-edit"></i></a>
+        <a class="text-danger" (click)="removeExpense(expense)"><i class="fas fa-times"></i></a>
       </td>
     </ng-container>
     <ng-container *ngIf="row.editing">
@@ -54,9 +54,8 @@
       <td class="text-right">
         <input type="number" step="0.01" min="0" [(ngModel)]="row.expense.amount" class="form-control" placeholder="123" required>
       </td>
-      <td class="text-right text-nowrap">
-        <a class="text-primary" (click)="saveExpense(row)" tooltip="Uložit" placement="bottom"><i class="fas fa-save fa-2x"></i></a>
-        <a class="d-none d-md-inline text-danger ml-3" (click)="resetExpense(row)" tooltip="Zrušit úpravu" placement="bottom"><i class="fas fa-times fa-2x"></i></a>
+      <td class="text-right text-nowrap responsive-font">
+        <a class="text-primary" (click)="saveExpense(row)" tooltip="Uložit" placement="bottom"><i class="fas fa-save"></i></a>
       </td>
     </ng-container>
   </tr>

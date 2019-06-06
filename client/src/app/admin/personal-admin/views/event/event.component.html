@@ -59,20 +59,21 @@
 <h4 class="mt-5">Přihláška</h4>
 <event-registration [event]="event" (change)="loadEvent(event._id)" [readonly]="!editable"></event-registration>
 
-<h4 class="mt-5">Vedoucí</h4>
-<event-attendees-list *ngIf="event" [ngModel]="event.leaders" (ngModelChange)="saveEvent({leader:$event})" [readonly]="!editable"></event-attendees-list>
-
-<h4 class="mt-5">Účastníci</h4>
-
 <div class="row">
-  <div class="col-12 col-md-8">
-    <event-attendees-list *ngIf="event" [ngModel]="event.attendees" (ngModelChange)="saveEvent({attendees:$event})" [readonly]="!editable"></event-attendees-list>
+
+  <div class="col-md-6">
+    <h4 class="mt-5">Vedoucí</h4>
+    <event-attendees-list *ngIf="event" [ngModel]="event.leaders" (ngModelChange)="saveEvent({leaders:$event})" [event]="event" [readonly]="!editable"></event-attendees-list>
+
   </div>
-  <div class="col-12 col-md-4">
-    <event-birthday-list *ngIf="event" [event]="event"></event-birthday-list>
-    <event-age-histogram *ngIf="event" [event]="event"></event-age-histogram>
+  <div class="col-md-6">
+    <h4 class="mt-5">Účastníci</h4>
+    <event-attendees-list *ngIf="event" [ngModel]="event.attendees" (ngModelChange)="saveEvent({attendees:$event})" [event]="event" [readonly]="!editable"></event-attendees-list>
   </div>
 </div>
+
+<!--<event-age-histogram *ngIf="event" [event]="event"></event-age-histogram>-->
+
 
 <h4 class="mt-5">Účtování</h4>
 <event-expenses-table [ngModel]="event?.expenses" (ngModelChange)="saveEvent({expenses:$event})" [persons]="(event?.attendees?.length || 0) + (event?.leaders?.length || 0)" [readonly]="!editable"></event-expenses-table>

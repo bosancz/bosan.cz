@@ -15,6 +15,7 @@ import { EventExpensesTableComponent } from './components/event-expenses-table/e
 import { EventSubtypeSelectorComponent } from './components/event-subtype-selector/event-subtype-selector.component';
 import { EventTypeSelectorComponent } from './components/event-type-selector/event-type-selector.component';
 import { EventRegistrationComponent } from './components/event-registration/event-registration.component';
+import { EventAttendeesListItemComponent } from './components/event-attendees-list-item/event-attendees-list-item.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { EventRegistrationComponent } from './components/event-registration/even
     EventExpensesTableComponent,
     EventSubtypeSelectorComponent,
     EventTypeSelectorComponent,
-    EventRegistrationComponent
+    EventRegistrationComponent,
+    EventAttendeesListItemComponent
   ],
   imports: [
     CommonModule,
