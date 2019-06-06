@@ -79,6 +79,7 @@ export function getTooltipConfig():TooltipConfig {
     SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe, FormatPhonePipe,
   ],
   providers: [    
+    GroupPipe,
     { provide: TooltipConfig, useFactory: getTooltipConfig }
   ],
   entryComponents: [ LoginFormComponent, SharingModalComponent ]
