@@ -2,10 +2,11 @@
   {{member.nickname}}
   <a *ngIf="isInvalid" class="ml-2" [tooltip]="invalidString"><i class="fas fa-exclamation-triangle text-warning"></i></a>
 </td>
-<td class="text-right">
-  <ng-container *ngIf="ageStart">{{ageStart}} let</ng-container>
+<td class="d-none d-lg-table-cell text-right">
+  {{member.group | group:"name"}}
 </td>
-<td>
-  <a *ngIf="hasBirthday" class="ml-2" [tooltip]="member.nickname + ' bude mít ' + (member.birthday | date:'d. M.') + ' narozeniny (' + ageEnd + ' let)'"><i class="far fas fa-gift text-success"></i></a>
+<td class="text-right">
+  <a *ngIf="hasBirthday" class="mr-2" [tooltip]="member.nickname + ' bude mít ' + (member.birthday | date:'d. M.') + ' narozeniny (' + ageEnd + ' let)'"><i class="far fas fa-gift text-success"></i></a>
+  <ng-container *ngIf="ageStart">{{ageStart}} let</ng-container>
 </td>
 <ng-content></ng-content>
