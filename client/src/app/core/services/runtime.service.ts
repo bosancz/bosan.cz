@@ -11,7 +11,7 @@ import { ToastService } from "app/core/services/toast.service";
 
 import { AclService } from "lib/acl";
 
-import { LoginFormComponent } from "app/shared/components/login-form/login-form.component";
+import { LoginFormComponent } from "app/shared/modals/login-form/login-form.component";
 
 import { permissions } from "config/permissions";
 

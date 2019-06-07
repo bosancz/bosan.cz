@@ -8,9 +8,10 @@ import { GroupsSelectComponent } from './components/groups-select/groups-select.
 import { MembersSelectComponent } from './components/members-select/members-select.component';
 import { ListSliderComponent } from './components/list-slider/list-slider.component';
 import { EventStatusBadgeComponent } from './components/event-status-badge/event-status-badge.component';
+import { MemberInfoModalComponent } from '../../shared/modals/member-info-modal/member-info-modal.component';
 
 @NgModule({
-  imports: [
+  imports: [    
     AppSharedModule,
     TypeaheadModule.forRoot()
   ],
@@ -19,7 +20,8 @@ import { EventStatusBadgeComponent } from './components/event-status-badge/event
     GroupsSelectComponent,
     MembersSelectComponent,
     ListSliderComponent,
-    EventStatusBadgeComponent
+    EventStatusBadgeComponent,
+    //MemberInfoModalComponent
   ],
   exports: [
     TypeaheadModule,
@@ -27,7 +29,8 @@ import { EventStatusBadgeComponent } from './components/event-status-badge/event
     GroupsSelectComponent,
     MembersSelectComponent,
     ListSliderComponent,
-    EventStatusBadgeComponent
+    EventStatusBadgeComponent,
+    //MemberInfoModalComponent    
   ],
   providers: [ ]
   

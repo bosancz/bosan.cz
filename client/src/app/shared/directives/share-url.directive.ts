@@ -3,7 +3,7 @@ import { Directive, Input, HostListener, ElementRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { SharingModalComponent } from "app/shared/components/sharing-modal/sharing-modal.component";
+import { SharingModalComponent } from "app/shared/modals/sharing-modal/sharing-modal.component";
 
 declare const navigator:any;
 
