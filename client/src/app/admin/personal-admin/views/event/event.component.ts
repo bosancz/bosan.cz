@@ -18,7 +18,7 @@ import { Member } from "app/shared/schema/member";
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.scss'],
   host: {
-    "class": "d-block container mt-5"
+    "class": "d-block container mt-3 mt-lg-5"
   }
 })
 export class EventComponent implements OnInit, OnDestroy {
