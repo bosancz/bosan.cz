@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{member?.nickname}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <table class="table">
+
+    <tr>
+      <th>Jméno:</th>
+      <td>{{member?.name?.first}} {{member?.name?.last}}</td>
+    </tr>
+    <tr>
+      <th>Oddíl:</th>
+      <td>{{member?.group | group:"name"}}</td>
+    </tr>
+    <tr>
+      <th>Věk:</th>
+      <td>{{getAge(member?.birthday) || "?"}} let, narozen/a {{member?.birthday | date:"d. M. y"}}</td>
+    </tr>
+    <tr>
+      <th>Adresa:</th>
+      <td>
+        {{member?.address?.street}} {{member?.address?.streetNo}}, {{member?.address?.postalCode}} {{member?.address?.city}}{{member?.address?.country ? ", " + member.address.country : ""}}
+      </td>
+    </tr>
+    <tr>
+      <th>Mobil:</th>
+      <td>{{member?.contacts?.mobile}}</td>
+    </tr>
+    <tr>
+      <th>E-mail:</th>
+      <td>{{member?.contacts?.email}}</td>
+    </tr>
+    <tr>
+      <th>Matka:</th>
+      <td>{{member?.contacts?.mother}}</td>
+    </tr>
+    <tr>
+      <th>Otec:</th>
+      <td>{{member?.contacts?.father}}</td>
+    </tr>
+
+  </table>
+  Kartička pojištěnce
+
+</div>
