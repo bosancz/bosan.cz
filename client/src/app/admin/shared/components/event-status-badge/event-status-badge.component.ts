@@ -24,6 +24,8 @@ export class EventStatusBadgeComponent {
   note: string;
   @HostBinding('class') class: string = "badge badge-secondary";
 
+  defaultClasses:string = "badge align-top";
+
   event: Subject<Event> = new Subject();
 
   @Input("event")
@@ -37,7 +39,7 @@ export class EventStatusBadgeComponent {
       .subscribe(([event, statuses]) => {
         const status = event ? statuses.find(status => status.id === event.status) : null;
         
-        this.class = 'badge badge-' + (status ? status.class : 'secondary');
+        this.class = this.defaultClasses + ' badge-' + (status ? status.class : 'secondary');
         this.status = status ? status.name : "";
         this.note = event ? event.statusNote : "";
 
