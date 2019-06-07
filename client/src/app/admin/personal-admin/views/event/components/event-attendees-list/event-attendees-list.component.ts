@@ -2,10 +2,11 @@ import { Component, forwardRef, TemplateRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { BsModalService, ModalOptions, BsModalRef } from 'ngx-bootstrap/modal';
+import { MemberInfoModalComponent } from 'app/shared/modals/member-info-modal/member-info-modal.component';
 
 import { Member } from 'app/shared/schema/member';
 import { Event } from 'app/shared/schema/event';
+import { ModalService } from 'app/core/services/modal.service';
 
 @Component({
   selector: 'event-attendees-list',
@@ -30,11 +31,9 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
   disabled: boolean = false;
   @Input() readonly: boolean;
 
-  @Input() event:Event;
+  @Input() event: Event;
 
-  modalRef: BsModalRef;
-
-  constructor(private router: Router, private route: ActivatedRoute, private modalService: BsModalService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private modalService: ModalService) { }
 
   removeMember(member: Member): void {
     if (this.disabled || this.readonly) return;
@@ -53,12 +52,13 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
   }
 
 
-  openModal(modal: TemplateRef<any>) {
-    this.router.navigate(['./', { modal: "open" }], { relativeTo: this.route });
-    const modalOptions: ModalOptions = { animated: false };
-    this.modalRef = this.modalService.show(modal, modalOptions);
-
+  openSelectModal(modal: TemplateRef<any>) {
+    this.modalService.show(modal, this.route, { animated: false });
     this.previousMembers = this.members.slice();
+  }
+
+  openInfoModal(member: Member) {
+    this.modalService.show(MemberInfoModalComponent, this.route, { initialState: { memberId: member._id } });
   }
 
   reset() {

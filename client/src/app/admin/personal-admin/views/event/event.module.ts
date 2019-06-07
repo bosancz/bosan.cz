@@ -16,6 +16,7 @@ import { EventSubtypeSelectorComponent } from './components/event-subtype-select
 import { EventTypeSelectorComponent } from './components/event-type-selector/event-type-selector.component';
 import { EventRegistrationComponent } from './components/event-registration/event-registration.component';
 import { EventAttendeesListItemComponent } from './components/event-attendees-list-item/event-attendees-list-item.component';
+import { MemberInfoModalComponent } from 'app/shared/modals/member-info-modal/member-info-modal.component';
 
 @NgModule({
   declarations: [

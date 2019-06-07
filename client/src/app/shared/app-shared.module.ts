@@ -17,9 +17,9 @@ import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
 
 /* COMPONENTS */
-import { SharingModalComponent } from './components/sharing-modal/sharing-modal.component';
+import { SharingModalComponent } from './modals/sharing-modal/sharing-modal.component';
 import { ShareUrlDirective } from './directives/share-url.directive';
-import { LoginFormComponent } from "./components/login-form/login-form.component";
+import { LoginFormComponent } from "./modals/login-form/login-form.component";
 
 /* DIRECTIVES */
 import { AdminLinkDirective } from 'app/shared/directives/admin-link.directive';
@@ -33,6 +33,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ShareModule } from '@ngx-share/core';
 import { ScrollToModule } from "@nicky-lenaers/ngx-scroll-to";
 import { TextcheckDirective } from './directives/textcheck.directive';
+import { MemberInfoModalComponent } from "app/shared/modals/member-info-modal/member-info-modal.component";
 
 export function getTooltipConfig():TooltipConfig {
   return Object.assign(new TooltipConfig(), {    
@@ -59,7 +60,7 @@ export function getTooltipConfig():TooltipConfig {
     
   ],
   declarations: [
-    /* COMPONENTS */ SharingModalComponent, LoginFormComponent,
+    /* COMPONENTS */ SharingModalComponent, LoginFormComponent, MemberInfoModalComponent,
     /* DIRECTIVES */ ShareUrlDirective, AdminLinkDirective, TextcheckDirective,
     /* PIPES */ SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe, FormatPhonePipe,
   ],
@@ -71,7 +72,7 @@ export function getTooltipConfig():TooltipConfig {
     AclModule,
     
     /* COMPONENTS */
-    SharingModalComponent, LoginFormComponent,
+    SharingModalComponent, LoginFormComponent,MemberInfoModalComponent,
     /* DIRECTIVES */
     ShareUrlDirective, AdminLinkDirective, TextcheckDirective,
 
@@ -82,7 +83,7 @@ export function getTooltipConfig():TooltipConfig {
     GroupPipe,
     { provide: TooltipConfig, useFactory: getTooltipConfig }
   ],
-  entryComponents: [ LoginFormComponent, SharingModalComponent ]
+  entryComponents: [ LoginFormComponent, SharingModalComponent, MemberInfoModalComponent ]
   
 })
 export class AppSharedModule { }

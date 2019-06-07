@@ -15,7 +15,7 @@ import { ConfigService } from "app/core/services/config.service";
 import { ToastService } from "app/core/services/toast.service";
 import { TitleService } from 'app/core/services/title.service';
 
-import { LoginFormComponent } from "app/shared/components/login-form/login-form.component";
+import { LoginFormComponent } from "app/shared/modals/login-form/login-form.component";
 
 
 @Component({

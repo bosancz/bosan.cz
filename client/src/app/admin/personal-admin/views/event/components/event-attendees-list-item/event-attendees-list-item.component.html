@@ -1,15 +1,11 @@
-{{member.nickname}}
-<ng-container *ngIf="ageStart">&nbsp;({{ageStart}} let)</ng-container>
-
-<span class="align-middle responsive-font">&nbsp;</span>
-
-<span *ngIf="isInvalid || hasBirthday" class="info ml-3 align-middle responsive-font">
-  <a *ngIf="isInvalid" [tooltip]="invalidString"><i class="fas fa-exclamation-triangle text-warning"></i></a>
-  <a *ngIf="hasBirthday" [tooltip]="member.nickname + ' bude mít ' + (member.birthday | date:'d. M.') + ' narozeniny (' + ageEnd + ' let)'" [class.ml-md-3]="hasBirthday" [class.ml-2]="hasBirthday"><i class="far fas fa-gift text-success"></i></a>
-</span>
-
-<span class="actions ml-3 align-middle responsive-font">
-  <a [tooltip]="infoString"><i class="fas fa-info-circle text-secondary"></i></a>
-  <a [routerLink]="'/interni/obsah/clenove/' + member._id" tooltip="Upravit v členské databázi" class="ml-3"><i class="fas fa-edit text-warning"></i></a>
-  <a *ngIf="editable" (click)="remove.emit()" tooltip="Odebrat" class="ml-3"><i class="fas fa-times text-danger"></i></a>
-</span>
+<td>
+  {{member.nickname}}
+  <a *ngIf="isInvalid" class="ml-2" [tooltip]="invalidString"><i class="fas fa-exclamation-triangle text-warning"></i></a>
+</td>
+<td class="text-right">
+  <ng-container *ngIf="ageStart">{{ageStart}} let</ng-container>
+</td>
+<td>
+  <a *ngIf="hasBirthday" class="ml-2" [tooltip]="member.nickname + ' bude mít ' + (member.birthday | date:'d. M.') + ' narozeniny (' + ageEnd + ' let)'"><i class="far fas fa-gift text-success"></i></a>
+</td>
+<ng-content></ng-content>
