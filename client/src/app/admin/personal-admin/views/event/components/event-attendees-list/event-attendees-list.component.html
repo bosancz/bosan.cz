@@ -10,7 +10,7 @@
   </tbody>
 </table>
 
-<a *ngIf="!disabled && !readonly" class="text-success add pt-2 pt-md-0 responsive-font" (click)="modalopenModal(attendeesModal)">
+<a *ngIf="!disabled && !readonly" class="text-success add pt-2 pt-md-0 responsive-font" (click)="openSelectModal(attendeesModal)">
   <i class="fas fa-plus-circle align-middle "></i>
 </a>
 
@@ -19,7 +19,7 @@
     <members-select [(ngModel)]="members"></members-select>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="reset();modalRef.hide()">Zrušit</button>
-    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="publishValue();modalRef.hide()">Uložit</button>
+    <button type="button" class="btn btn-secondary" (click)="reset();selectModal.hide()">Zrušit</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="publishValue();selectModal.hide()">Uložit</button>
   </div>
 </ng-template>

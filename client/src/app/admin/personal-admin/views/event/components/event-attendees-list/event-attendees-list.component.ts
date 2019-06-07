@@ -7,6 +7,7 @@ import { MemberInfoModalComponent } from 'app/shared/modals/member-info-modal/me
 import { Member } from 'app/shared/schema/member';
 import { Event } from 'app/shared/schema/event';
 import { ModalService } from 'app/core/services/modal.service';
+import { BsModalRef } from 'ngx-bootstrap/modal/public_api';
 
 @Component({
   selector: 'event-attendees-list',
@@ -33,6 +34,8 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
 
   @Input() event: Event;
 
+  selectModal: BsModalRef;
+
   constructor(private router: Router, private route: ActivatedRoute, private modalService: ModalService) { }
 
   removeMember(member: Member): void {
@@ -51,9 +54,8 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
     this.onChange(this.members);
   }
 
-
   openSelectModal(modal: TemplateRef<any>) {
-    this.modalService.show(modal, this.route, { animated: false });
+    this.selectModal = this.modalService.show(modal, this.route, { animated: false });
     this.previousMembers = this.members.slice();
   }
 
