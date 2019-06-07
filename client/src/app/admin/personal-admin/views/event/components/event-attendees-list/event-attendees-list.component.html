@@ -1,7 +1,17 @@
-<event-attendees-list-item *ngFor="let member of members" [member]="member" [event]="event" [editable]="!disabled && !readonly" (remove)="removeMember(member)"></event-attendees-list-item>
+<table>
+  <tbody>
+    <tr event-attendees-list-item *ngFor="let member of members" [member]="member" [event]="event">
+      <td class="actions align-middle text-right responsive-font">
+        <a (click)="openInfoModal(member)"><i class="fas fa-info-circle text-secondary"></i></a>
+        <a [routerLink]="'/interni/obsah/clenove/' + member._id" tooltip="Upravit v členské databázi" class="ml-3"><i class="fas fa-edit text-warning"></i></a>
+        <a *ngIf="!disabled && !readonly" (click)="removeMember(member)" tooltip="Odebrat" class="ml-3"><i class="fas fa-times text-danger"></i></a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-<a *ngIf="!disabled && !readonly" class="text-success add pt-2 pt-md-0 responsive-font" (click)="openModal(attendeesModal)">
-  <i class="fas fa-plus-circle align-middle "></i>  
+<a *ngIf="!disabled && !readonly" class="text-success add pt-2 pt-md-0 responsive-font" (click)="modalopenModal(attendeesModal)">
+  <i class="fas fa-plus-circle align-middle "></i>
 </a>
 
 <ng-template #attendeesModal>

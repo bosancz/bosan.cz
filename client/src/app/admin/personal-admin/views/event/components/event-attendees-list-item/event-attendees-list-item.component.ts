@@ -5,7 +5,7 @@ import { Member } from 'app/shared/schema/member';
 import { GroupPipe, GroupPipeProperty } from 'app/shared/pipes/group.pipe';
 
 @Component({
-  selector: 'event-attendees-list-item',
+  selector: '[event-attendees-list-item]',
   templateUrl: './event-attendees-list-item.component.html',
   styleUrls: ['./event-attendees-list-item.component.scss'],
   host: {
@@ -16,7 +16,6 @@ export class EventAttendeesListItemComponent implements OnChanges {
 
   @Input() member: Member;
   @Input() event: Event;
-  @Input() editable: boolean = false;
 
   @Output() remove: EventEmitter<void> = new EventEmitter();
 
