@@ -20,7 +20,7 @@
         <h4 class="d-block d-md-none border-bottom border-secondary">Nejbližší akce</h4>
         <div *ngFor="let event of dashboard?.program" class="mb-4">
           <h5>{{[event.dateFrom,event.dateTill] | dateRange}} | {{event.name}}</h5>
-          <p>Vede <strong>{{(event.leaders | joinLeaders) || "pan NIKDO"}}</strong></p>
+          <p>Vede <strong [innerHTML]="(event.leaders | joinLeaders) || 'pan NIKDO'"></strong></p>
         </div>
       </div>
     </div>
