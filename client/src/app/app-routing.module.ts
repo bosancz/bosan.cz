@@ -9,9 +9,9 @@ import { AclGuard } from "lib/acl";
 
 const routes:Routes = [
 
-  {path: 'interni', loadChildren: './admin/admin.module#AdminModule', canLoad: [AclGuard] },
+  {path: 'interni', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canLoad: [AclGuard] },
 
-  {path: '', loadChildren: './frontend/frontend.module#FrontendModule' },
+  {path: '', loadChildren: () => import('./frontend/frontend.module').then(m => m.FrontendModule) },
     
   {path: '**', component: NotFoundComponent}
 

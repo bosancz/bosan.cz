@@ -29,7 +29,7 @@ export class EventComponent implements OnInit, OnDestroy {
 
   editing: string;
 
-  @ViewChild("basicInfoModal") basicInfoModal: TemplateRef<any>;
+  @ViewChild("basicInfoModal", { static: true }) basicInfoModal: TemplateRef<any>;
 
   modalState: string;
 
