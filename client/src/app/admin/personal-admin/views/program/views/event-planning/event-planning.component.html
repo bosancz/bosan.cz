@@ -31,7 +31,7 @@
     <div class="month">
 
       <div class="days clearfix">
-        <div *ngFor="let day of month.days" class="day" [style.left]="(day.date.day - 1) * (1/month.days.length) * 100 + '%'" [style.width]="(1/month.days.length)*100 + '%'" [class.weekend]="isWeekend(day)" [class.holiday]="isHoliday(day)" [class.selected]="isSelected(day)" (mousedown)="setEventStart(day)" (mouseover)="setEventEnd(day)" (mouseup)="createEvent()">
+        <div *ngFor="let day of month.days" class="day" [style.left]="(day.date.day - 1) * (1/month.days.length) * 100 + '%'" [style.width]="(1/month.days.length)*100 + '%'" [class.weekend]="isWeekend(day)" [class.holiday]="day.isHoliday" [class.selected]="isSelected(day)" (mousedown)="setEventStart(day)" (mouseover)="setEventEnd(day)" (mouseup)="createEvent()">
           <div class="date">
             {{day.date | date:"d."}}
           </div>
