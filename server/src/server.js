@@ -21,8 +21,8 @@ if(environment.cors){
 
 /* REQUEST PARSING */
 const bodyParser = require("body-parser");
-app.use(bodyParser.json({ limit:'10mb' })); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true,  limit:'10mb' })); // support urlencoded bodies
+app.use(bodyParser.json({ limit: config.uploads.limit })); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true,  limit: config.uploads.limit })); // support urlencoded bodies
 
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
