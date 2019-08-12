@@ -14,6 +14,11 @@ module.exports = {
     tmp: "../tmp"
   },
 
+  uploads: {
+    limit: '10mb',
+    dir: "../tmp"
+  },
+
   keys: {
     google: {
       "private_key": "",
