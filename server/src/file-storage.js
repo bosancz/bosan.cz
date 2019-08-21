@@ -11,10 +11,6 @@ const dirs = [
   config.uploads.dir
 ];
 
-async function clearTemp() {
-  await fs.remove(config.uploads.dir)
-}
-
 async function ensureDirs() {
   for (let dir of dirs) {
     await fs.ensureDir(dir)
@@ -23,6 +19,4 @@ async function ensureDirs() {
   }
 }
 
-Promise.resolve()
-  .then(() => clearTemp())
-  .then(() => ensureDirs());
+module.exports = ensureDirs();
