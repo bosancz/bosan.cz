@@ -33,7 +33,7 @@
     <div *ngIf="tags.length" class="tags">
       <a [routerLink]="['./',{}]" class="tag badge-pill" [class.badge-primary]="!tag" [class.badge-dark]="tag">Všechny fotky</a>
       <ng-container *ngFor="let tagItem of tags">
-        <a [routerLink]="['./',{tag:tagItem}]" class="tag badge-pill" [class.badge-primary]="tag === tagItem" [class.badge-light]="tag !== tagItem">#{{tagItem}}</a> 
+        <a [routerLink]="['./',{tag:tagItem}]" class="tag badge-pill" [class.badge-primary]="tag === tagItem" [class.badge-light]="tag !== tagItem">#{{tagItem}}</a>&#8201;
       </ng-container>
     </div>
 
