@@ -1,8 +1,11 @@
 @import "~styles/variables";
 
 .tags{
-  margin:10px 0;
+  margin:10px;
   line-height: 2.5;
+}
+.tags a {
+  white-space: nowrap;
 }
 .share{float:right;}
 .share a{color:$linkBlue;}
@@ -18,7 +21,7 @@
     font-size: 1.5rem;
   }
   .tags{
-    line-height: 1.9;
+    line-height: 2;
   }
   .badge-pill {
     padding: .4rem .4rem;
