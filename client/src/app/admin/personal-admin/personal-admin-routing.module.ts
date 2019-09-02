@@ -45,11 +45,11 @@ const routes:Routes = [
         ]
       },
 
-      { path: 'program', loadChildren: './views/program/program-admin.module#ProgramAdminModule' },
+      { path: 'program', loadChildren: () => import('./views/program/program-admin.module').then(m => m.ProgramAdminModule) },
       
       { path: 'vodak-roku', component: PaddlerCompetitionComponent },
       
-      { path: 'statistiky', loadChildren: './views/statistics/statistics.module#StatisticsModule' },
+      { path: 'statistiky', loadChildren: () => import('./views/statistics/statistics.module').then(m => m.StatisticsModule) },
 
       { path: 'kanal', component: CanalRegistrationComponent },
 

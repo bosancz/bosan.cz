@@ -32,7 +32,7 @@ class TimelineAlbumContainer implements TimelinePoint{
 })
 export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
-  @ViewChild('gallery') container:ElementRef<HTMLElement>;
+  @ViewChild('gallery', { static: true }) container:ElementRef<HTMLElement>;
   
   timeline:TimelineAlbumContainer[] = [];
   timelineLabels:TimelineLabel[] = [];

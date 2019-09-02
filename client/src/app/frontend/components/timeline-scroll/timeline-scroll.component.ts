@@ -36,7 +36,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   @Output() load:EventEmitter<TimelinePoint> = new EventEmitter<TimelinePoint>();
 
-  @ViewChild('contents') container:ElementRef<HTMLElement>;
+  @ViewChild('contents', { static: true }) container:ElementRef<HTMLElement>;
 
   containerTop:number;
   containerLeft:number;

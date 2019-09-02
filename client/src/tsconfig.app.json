@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
-    "module": "es2015",
     "types": []
   },
   "exclude": [
@@ -11,6 +10,7 @@
     "**/*.spec.ts"
   ],
   "angularCompilerOptions": {
-    "preserveWhitespaces": false
+    "preserveWhitespaces": false,
+    "enableIvy": false
   }
 }

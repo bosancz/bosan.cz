@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { AdminSharedModule } from 'app/admin/shared/admin-shared.module';
 
-import "assets/lib/Chart.min.js";
-
 import { ChartsModule } from 'ng2-charts';
 
 import { StatisticsRoutingModule } from './statistics-routing.module';
