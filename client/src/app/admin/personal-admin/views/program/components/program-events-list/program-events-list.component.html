@@ -6,7 +6,7 @@
     <h3>{{event.name}}&nbsp;<sup><event-status-badge [event]="event"></event-status-badge></sup></h3>
     <p>{{[event.dateFrom,event.dateTill] | dateRange}}</p>
     <p>{{event.description}}</p>
-    <p>Vede {{(event.leaders | joinLeaders) || "pan NIKDO"}}</p>      
+    <p>Vede <span [innerHTML]="(event.leaders | joinLeaders) || 'pan NIKDO'"></span></p>      
 
     <div class="buttons">
       <button *ngIf="event._actions?.submit" class="btn btn-primary btn-sm mr-3" [disabled]="!event._actions.submit.allowed" (click)="submitEvent(event)">Ke schválení</button>

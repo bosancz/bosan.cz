@@ -1,9 +1,14 @@
 @import "~styles/variables";
 
-.tags{margin:10px 0;}
-.tags .tag{margin:0 5px 0 0;}
+.tags{
+  margin:10px;
+  line-height: 2.5;
+}
+.tags a {
+  white-space: nowrap;
+}
 .share{float:right;}
-.share a{color:$linkBlue}
+.share a{color:$linkBlue;}
 
 .container {
   padding: 15px 0 15px 0;
@@ -14,6 +19,13 @@
 @media (max-width: 768px) {
   h2 {
     font-size: 1.5rem;
+  }
+  .tags{
+    line-height: 2;
+  }
+  .badge-pill {
+    padding: .4rem .4rem;
+    font-size: .8rem;
   }
 }
 

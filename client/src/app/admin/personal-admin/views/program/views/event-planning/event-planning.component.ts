@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import { DateTime } from "luxon";
+import { CzechHolidays, HolidayDate } from "czech-holidays";
 
 import { Subscription } from "rxjs";
 
@@ -33,7 +34,7 @@ class CalendarMonthBlock {
 
 class CalendarDay {
   eventCount: number = 0;
-  constructor(public date: DateTime) { }
+  constructor(public date: DateTime, public isHoliday: boolean) { }
 }
 
 class CalendarEvent {
@@ -42,7 +43,7 @@ class CalendarEvent {
   dateFrom: DateTime;
   dateTill: DateTime;
 
-  constructor(public event: CPVEvent|Event) {
+  constructor(public event: CPVEvent | Event) {
     this.dateFrom = DateTime.fromISO(event.dateFrom).set({ hour: 0, minute: 0 });
     this.dateTill = DateTime.fromISO(event.dateTill).set({ hour: 0, minute: 0 });
   }
@@ -63,8 +64,6 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
   calendar: CalendarMonth[];
 
-  holidays: any = ["1-1", "5-1", "5-8"];
-
   selection: [DateTime, DateTime];
 
   trimesterMonths = [[1, 4], [5, 8], [9, 12]]; // trimster months (jan-may, ...)
@@ -76,6 +75,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
   paramsSubscription: Subscription;
 
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private configService: ConfigService, private toastService: ToastService) {
+
   }
 
   ngOnInit() {
@@ -139,6 +139,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
     let currentDate = this.dateFrom;
     let month = new CalendarMonth(currentDate.month, currentDate.year)
+    let holidays = CzechHolidays(currentDate.year);
 
     const calendar = [month];
 
@@ -149,7 +150,11 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
         calendar.push(month);
       }
 
-      month.days.push(new CalendarDay(currentDate));
+      if (currentDate.year !== month.year) holidays = CzechHolidays(currentDate.year);
+
+      const isHoliday = holidays.some(date => date.m === currentDate.month && date.d === currentDate.day);
+
+      month.days.push(new CalendarDay(currentDate, isHoliday));
 
       currentDate = currentDate.plus({ days: 1 });
     }
@@ -189,7 +194,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
         return event;
       }))
       .then(events => {
-        this.eventsCPV.push(...events);        
+        this.eventsCPV.push(...events);
         this.assignEvents(this.eventsCPV, "cpv");
       });
 
@@ -204,7 +209,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
       });
   }
 
-  assignEvents(events:Array<CPVEvent|Event>, type) {
+  assignEvents(events: Array<CPVEvent | Event>, type) {
     this.calendar.forEach(month => {
 
       // get the monthBlock to which we assign
@@ -244,9 +249,8 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
     return day.date.weekday >= 6;
   }
 
-  isHoliday(day: CalendarDay): boolean {
-    const dateString = (day.date.month + 1) + "-" + day.date.day;
-    return this.holidays.indexOf(dateString) !== -1;
+  isHoliday(year: number, day: CalendarDay): boolean {
+    return CzechHolidays(year).some(date => date.m === day.date.month && date.d === day.date.day);
   }
 
   isSelected(day: CalendarDay) {
@@ -287,7 +291,7 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
 
     var name = window.prompt("Bude vytvořena akce v termínu " + this.selection[0].toLocaleString() + " - " + this.selection[1].toLocaleString() + ". Zadejte její název:");
 
-    if(!name){
+    if (!name) {
       this.selection = undefined;
       return;
     }

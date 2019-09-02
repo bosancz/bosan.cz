@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable, Injector, ApplicationRef } from '@angular/core';
+import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { environment } from "environments/environment";
@@ -25,8 +25,6 @@ export class AppErrorHandler implements ErrorHandler {
     const runtimeService = this.injector.get(RuntimeService);
     const userService = this.injector.get(UserService);
     const api = this.injector.get(ApiService);
-
-    const appRef = this.injector.get(ApplicationRef)
 
     if (err.promise && err.rejection) err = err.rejection;
 
@@ -78,8 +76,6 @@ export class AppErrorHandler implements ErrorHandler {
     if(reportError){
       api.post("errors", errorData).catch(err => console.error(err));
     }
-
-    appRef.tick();
   }
 
 }

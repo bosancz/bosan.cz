@@ -32,7 +32,8 @@ module.exports = {
   },
 
   uploads: {
-    dir: path.resolve(environment.storage.tmp,"uploads")
+    dir: environment.uploads.dir,
+    limit: environment.uploads.limit
   },
 
   jwt: {
