@@ -8,7 +8,7 @@ import { ApiService } from "app/core/services/api.service";
 import { ProgramStats } from "app/shared/schema/program-stats";
 
 @Injectable({
-  providedIn: ProgramAdminModule
+  providedIn: "root"
 })
 export class ProgramAdminService {
   
