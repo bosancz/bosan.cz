@@ -36,8 +36,6 @@
     "@angular/cli": "^8.0.2",
     "@angular/compiler-cli": "^8.0.0",
     "@types/luxon": "^1.15.2",
-    "codelyzer": "^5.1.0",
-    "tslint": "^5.19.0",
     "typescript": "^3.4.5"
   }
 }
