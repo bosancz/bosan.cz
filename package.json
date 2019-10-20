@@ -3,6 +3,12 @@
   "version": "2.0.0",
   "description": "Bosan.cz website",
   "private": true,
+  "scripts": {
+    "install": "cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "create-admin": "cd server && npm run create-admin"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bosancz/bosan.cz.git"

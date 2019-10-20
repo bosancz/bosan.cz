@@ -1,3 +1,4 @@
-# local environment runtime folders
+# data storage
 data
+db
 tmp

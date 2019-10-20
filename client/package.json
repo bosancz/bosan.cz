@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "license": "GPL-3.0",
   "private": true,
+  "scripts": {
+    "build": "ng build --prod"
+  },
   "dependencies": {
     "@angular/animations": "^8.0.0",
     "@angular/cdk": "^8.0.1",
