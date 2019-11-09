@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  bosan-server:
+    image: bosan.cz
+    build: .         
+    environment:
+      NODE_ENV: local-docker
+    ports:
+      - 3000:3000
+    volumes: 
+      - ./server/environment/environment.local-docker.js:/home/node/app/server/environment/environment.local-docker.js:ro
+      - ./data:/home/node/app/data
+    depends_on: 
+      - bosan-db
+
+  bosan-db:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bosan
+      MONGO_INITDB_ROOT_PASSWORD: bosan
+    # Uncomment following on linux production. ongo on Docker on Windows cant use filesystem data volumes, for db persistence on Windows use docker volume instead.
+    # volumes:
+      # - ./db:/data/db  
