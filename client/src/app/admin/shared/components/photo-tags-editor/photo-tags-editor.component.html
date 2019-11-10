@@ -1,0 +1,2 @@
+<span *ngFor="let tag of tags" class="tag badge badge-warning" [class.active]="hasTag(tag)" (click)="toggleTag(tag)">#{{tag}}</span>
+<span class="tag badge badge-warning" (click)="newTag()">+</span>

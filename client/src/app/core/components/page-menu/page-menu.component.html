@@ -28,8 +28,7 @@
           </ng-container>
 
           <ng-container *ngIf="userService.user | async as user">
-            <a class="nav-item nav-link pl-lg-3" routerLink="/interni/moje" routerLinkActive="active"><i class="fas fa-user pr-2"></i><span class="d-inline d-lg-none">Můj Bošán: </span>{{user.login}}</a>
-            <a class="nav-item nav-link pl-lg-3" *aclCan="'admin'" routerLink="/interni/obsah" routerLinkActive="active" tooltip="Správa obsahu" placement="bottom"><i _ngcontent-c1="" class="fas fa-th pr-2"></i><span class="d-inline d-lg-none">Správa obsahu</span></a>
+            <a class="nav-item nav-link pl-lg-3" *aclCan="'admin'" routerLink="/interni" routerLinkActive="active"><i class="fas fa-user pr-2"></i><span class="d-inline d-lg-none">Interní sekce: </span>{{user.login}}</a>
             <a class="nav-item nav-link pl-lg-3" *aclCan="'logout'" (click)="logout()" tooltip="Odhásit se" placement="bottom"><i class="fas fa-sign-out-alt pr-2"></i><span class="d-inline d-lg-none">Odhlásit se</span></a>
           </ng-container>
         </ng-container>

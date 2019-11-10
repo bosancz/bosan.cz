@@ -1,0 +1,74 @@
+<list-slider [items]="years" [ngModel]="year | async" (ngModelChange)="setYear($event)" itemWidth="60"></list-slider>
+
+<div class="row numbers text-center my-5">
+  <div class="col-4">
+    <span class="number">{{report?.events?.count || "-"}}</span>
+    akcí
+  </div>
+  <div class="col-4">
+    <span class="number">{{report?.events?.days || "-"}}</span>
+    dní
+  </div>
+  <div class="col-4">
+    <span class="number">{{report?.events?.mandays || "-"}}</span>
+    člověkodnů
+  </div>
+</div>
+<div class="row numbers text-center my-5">
+  <div class="col-6">
+    <span class="number">{{report?.leaders?.count || "-"}}</span>
+    vedoucích
+  </div>
+  <div class="col-6">
+    <span class="number">{{report?.attendees?.count || "-"}}</span>
+    účastníků
+  </div>
+</div>
+
+<div class="row my-5 charts">
+
+  <div class="col-md-6">
+    <h4>Věk vedoucích</h4>
+
+    <canvas *ngIf="report" baseChart chartType="bar" width="400" height="200" [datasets]="chartData.leaders.data"
+      [labels]="chartData.leaders.labels" [legend]="false"></canvas>
+  </div>
+
+  <div class="col-md-6">
+    <h4>Věk účastníků</h4>
+
+    <canvas *ngIf="report" baseChart chartType="bar" width="400" height="200" [datasets]="chartData.attendees.data"
+      [labels]="chartData.attendees.labels" [legend]="false"></canvas>
+  </div>
+</div>
+
+<div class="row mt-5 top">
+
+  <div class="col-md-6">
+    <h3>Top 10 vedoucích</h3>
+    <table class="table">
+      <tbody>
+        <tr *ngFor="let leader of report?.leaders.top">
+          <td>{{leader.member.nickname}}</td>
+          <td>
+            <ul>
+              <li *ngFor="let event of leader.events">{{event.name}}</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <h3>Top 10 akcí</h3>
+    <table class="table">
+      <tbody>
+        <tr *ngFor="let event of report?.events.top">
+          <td>{{event.name}}</td>
+          <td>{{event.count}}</td>
+          <td>{{joinMembers(event.leaders)}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

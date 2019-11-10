@@ -1,0 +1,50 @@
+<form class="form" #albumForm="ngForm" (ngSubmit)="saveAlbum(albumForm)">
+
+  <div class="form-group">
+    <label>Název alba</label>
+    <input type="text" name="name" [ngModel]="album.name" class="form-control" placeholder="Neočekávaný dýchánek" required>    
+  </div>
+  
+  <div class="form-group">
+    <label>Akce v programu</label>
+    <typeahead-field [ngModel]="album.event" (ngModelChange)="eventSelected($event)" name="event" [matched]="eventsMatched" (search)="loadTypeaheadEvents($event)" [delay]="500" [toStringFn]="getEventString"></typeahead-field>
+  </div>
+  
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label>Datum od</label>
+      <input type="date" name="dateFrom" [ngModel]="dateFrom | date: 'y-MM-dd'" class="form-control" required>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Datum do</label>
+      <input type="date" name="dateTill" [ngModel]="dateTill | date: 'y-MM-dd'" class="form-control" required>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-md-4">
+      <label>Rok</label>
+      <input type="number" name="year" [ngModel]="year" class="form-control" required>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Stav</label>
+      <select [ngModel]="album.status" name="status" #formInputStatus class="form-control">
+        <option value="draft">v přípravě</option>
+        <option value="public">zveřejněná</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Datum zveřejnění</label>
+      <input type="date" name="datePublished" [ngModel]="album.datePublished | date: 'y-MM-dd'" [disabled]="formInputStatus.value !== 'public'" class="form-control" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Popis</label>
+    <textarea name="description" [ngModel]="album.description" class="form-control"></textarea>
+  </div>
+
+  <div class="buttons text-right">
+    <button type="submit" class="btn btn-primary" [disabled]="!albumForm.valid">Uložit</button>
+  </div>
+</form>

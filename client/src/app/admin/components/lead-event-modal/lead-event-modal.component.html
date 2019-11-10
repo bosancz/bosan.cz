@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Vyber si jednu z volných akcí:</h4>
+</div>
+<div class="modal-body">
+
+  <div class="events">
+
+    <div *ngFor="let event of events" class="event card">
+      <div class="card-header">
+        <div class="card-title">
+          <button *ngIf="event._actions?.lead" class="btn btn-primary btn-sm float-right" (click)="leadEvent(event)">Vést akci</button>
+          <h5>{{[event.dateFrom,event.dateTill] | dateRange:"EEEEEE d. M.":"EEEEEE d. M.":"EEEEEE d."}} | {{event.name}}</h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="multiline">{{event.description || "Akce nemá žádný popis"}}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Zrušit</button>
+</div>

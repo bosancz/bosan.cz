@@ -1,0 +1,6 @@
+<div class="text-center text-md-left">
+  <span *ngFor="let type of types | async" (click)="select(type)" [class.selected]="type.name === value" [tooltip]="type.name" placement="bottom" class="type mx-1 ml-md-0 mr-md-2 mb-2">
+    <img *ngIf="type.image" [src]="type.image" class="align-middle">
+    <span *ngIf="!type.image" class="circle align-middle" [style.background-color]="type.color || '#ccc'"></span>
+  </span>
+</div>
