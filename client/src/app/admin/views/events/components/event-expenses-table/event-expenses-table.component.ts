@@ -26,6 +26,7 @@ class ExpenseRow {
 export class EventExpensesTableComponent implements ControlValueAccessor {
 
   @Input() persons: number;
+  @Input() days: number;
 
   expenses: ExpenseRow[] = [];
 
@@ -54,6 +55,8 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
     return expenses.reduce((acc, cur) => acc + (cur.expense.amount || 0), 0)
   }
 
+  perDayPerson(amount: number) {
+    return Math.round((amount || 0) / this.days / this.persons * 100) / 100;
   }
 
   addExpense(type: string) {
