@@ -34,6 +34,7 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
 
   selectModal: BsModalRef;
 
+  constructor(private route: ActivatedRoute, private modalService: ModalService) { }
 
   removeMember(member: Member): void {
     if (this.disabled || this.readonly) return;

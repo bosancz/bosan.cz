@@ -2,6 +2,12 @@
   {{member.nickname}}
   <a *ngIf="isInvalid" class="ml-2" [tooltip]="invalidString"><i class="fas fa-exclamation-triangle text-warning"></i></a>
 </td>
+<td class="d-none d-lg-table-cell">
+  {{member.name?.first}} {{member.name?.last}}
+</td>
+<td class="d-none d-lg-table-cell">
+  {{member.role}}
+</td>
 <td class="d-none d-lg-table-cell text-right">
   {{member.group | group:"name"}}
 </td>

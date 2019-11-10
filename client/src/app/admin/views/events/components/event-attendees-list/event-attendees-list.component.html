@@ -2,6 +2,7 @@
   <tbody>
     <tr event-attendees-list-item *ngFor="let member of members" [member]="member" [event]="event">
       <td class="actions align-middle text-right responsive-font">
+        <a [routerLink]="['/interni/databaze', member._id]" tooltip="Zobrazit v členské databázi"><i class="fas fa-info-circle text-secondary"></i></a>
         <a *ngIf="!disabled && !readonly" (click)="removeMember(member)" tooltip="Odebrat" class="ml-3"><i class="fas fa-times text-danger"></i></a>
       </td>
     </tr>
