@@ -25,7 +25,9 @@ export class EventsViewComponent implements OnInit, OnDestroy {
 
   editable: boolean = false;
 
+  editing: boolean = false;
   
+  days:number;
 
   paramsSubscription: Subscription;
 
@@ -41,6 +43,7 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
+      if (!this.event || params.event !== this.event._id) this.loadEvent(params.event);
     });
 
   }
@@ -61,9 +64,16 @@ export class EventsViewComponent implements OnInit, OnDestroy {
     event.dateFrom = DateTime.fromISO(event.dateFrom).toISODate();
     event.dateTill = DateTime.fromISO(event.dateTill).toISODate();
 
+    this.days = DateTime.fromISO(event.dateTill).diff(DateTime.fromISO(event.dateFrom),"days").days + 1;
+    
     this.event = event;
 
     this.editable = this.event._links.self.allowed.PATCH;
+  }
+
+  cancelEdit(){
+    this.editing = false;
+    return this.loadEvent(this.event._id);
   }
 
   async saveEvent(data?: Partial<Event>) {
