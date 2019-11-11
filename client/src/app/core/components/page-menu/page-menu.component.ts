@@ -6,7 +6,6 @@ import { debounceTime } from 'rxjs/operators';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { LayoutService } from "app/core/services/layout.service";
 import { LoginService } from "app/core/services/login.service";
 import { OnlineService } from "app/core/services/online.service";
 import { UserService } from "app/core/services/user.service";
@@ -16,6 +15,7 @@ import { ToastService } from "app/core/services/toast.service";
 import { TitleService } from 'app/core/services/title.service';
 
 import { LoginFormComponent } from "app/shared/modals/login-form/login-form.component";
+import { MenuService } from 'app/core/services/menu.service';
 
 
 @Component({
@@ -25,30 +25,32 @@ import { LoginFormComponent } from "app/shared/modals/login-form/login-form.comp
 })
 export class PageMenuComponent implements AfterViewInit, OnInit {
 
-  loginModal:BsModalRef;
-  
-  isTop:boolean = true;
+  loginModal: BsModalRef;
 
-  environment:string;
-  
-  userLogin:string;
+  isTop: boolean = true;
 
-  subTitle:Observable<string>;
+  environment: string;
+
+  userLogin: string;
+
+  subTitle: Observable<string>;
+
+  collapsed: boolean = true;
 
   constructor(
-    public aclService:AclService,
-    public userService:UserService,
-    public layoutService:LayoutService,
-    public onlineService:OnlineService,
-    public titleService:TitleService,
-    private loginService:LoginService,
-    private configService:ConfigService,
-    private modalService:BsModalService,
-    private toastService:ToastService,
-    private router:Router,
+    public aclService: AclService,
+    public userService: UserService,
+    public menuService: MenuService,
+    public onlineService: OnlineService,
+    public titleService: TitleService,
+    private loginService: LoginService,
+    private configService: ConfigService,
+    private modalService: BsModalService,
+    private toastService: ToastService,
+    private router: Router,
   ) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.configService.config.subscribe(config => {
       this.environment = config.general.environment;
     });
@@ -58,26 +60,22 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
     this.userService.user.subscribe(user => this.userLogin = user ? user.login : "");
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.updateTop();
   }
 
   @HostListener('window:scroll', [])
-  updateTop(){
+  updateTop() {
     const doc = document.documentElement;
-    const top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+    const top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
     this.isTop = (top === 0);
   }
 
   openLogin() {
     this.loginModal = this.modalService.show(LoginFormComponent);
   }
-  
-  updateAccountDropdown(dropdown){
-    dropdown.isOpen = !this.layoutService.menu.collapsed;
-  }
 
-  logout(){
+  logout() {
     this.loginService.logout();
     this.router.navigate(["/"]);
   }

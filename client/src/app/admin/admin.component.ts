@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
 
 import { TitleService } from "app/core/services/title.service";
-import { LayoutService } from "app/core/services/layout.service";  
-import { ToastService } from "app/core/services/toast.service";
+import { FooterService } from 'app/core/services/footer.service';
+import { MenuService } from 'app/core/services/menu.service';
+import { AclService } from 'lib/acl';
+import { combineAll } from 'rxjs/operators';
+import { combineLatest, Subscription } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'admin',
@@ -12,15 +15,58 @@ import { ToastService } from "app/core/services/toast.service";
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private titleService:TitleService, private layoutService:LayoutService, private toastService:ToastService, private router:Router) { }
+
+  private menuSubscription: Subscription;
+
+  constructor(
+    private titleService: TitleService,
+    private footerService: FooterService,
+    private menuService: MenuService,
+    private aclService: AclService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     this.titleService.setTitle("Můj Bošán");
-    this.layoutService.hideFooter(true);
+    this.footerService.visible.next(true);
+
+    this.setMenu();
   }
-  
-  ngOnDestroy(){
-    this.layoutService.hideFooter(false);
+
+  ngOnDestroy() {
+    this.footerService.visible.next(false);
+    this.menuService.reset();
+  }
+
+  setMenu() {
+
+    const menu = [
+      { permission: this.aclService.can("admin:dashboard"), path: ["prehled"], label: "Přehled" },
+      { permission: this.aclService.can("admin:events"), path: ["akce"], label: "Akce" },
+      { permission: this.aclService.can("admin:albums"), path: ["galerie"], label: "Galerie" },
+      { permission: this.aclService.can("admin:members"), path: ["databaze"], label: "Databáze" },
+      { permission: this.aclService.can("admin:program"), path: ["program"], label: "Správa programu" },
+      { permission: this.aclService.can("admin:statistics"), path: ["statistiky"], label: "Statistiky" },
+      { permission: this.aclService.can("admin:canal"), path: ["kanal"], label: "Troja" },
+      { permission: this.aclService.can("admin:account"), path: ["ucet"], label: "Nastavení účtu" },
+      { permission: this.aclService.can("admin:users"), path: ["uzivatele"], label: "Uživatelé" },
+      { permission: this.aclService.can("admin:web-settings"), path: ["nastaveni-webu"], label: "Nastavení webu" }
+    ];
+
+
+    this.menuSubscription = combineLatest(menu.map(item => item.permission)).subscribe(permissions => {
+      const filteredMenu = menu
+        .filter((item, i) => permissions[i])
+        .map(item => ({
+          path: this.router.serializeUrl(this.router.createUrlTree(item.path, { relativeTo: this.route })),
+          label: item.label
+        }));
+
+      console.log(filteredMenu);
+      this.menuService.setSecondaryMenu(filteredMenu);
+    });
+
   }
 
 }

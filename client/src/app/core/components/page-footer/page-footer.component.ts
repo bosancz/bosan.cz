@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LayoutService } from "app/core/services/layout.service";
-
 @Component({
   selector: 'page-footer',
   templateUrl: './page-footer.component.html',
@@ -9,7 +7,7 @@ import { LayoutService } from "app/core/services/layout.service";
 })
 export class PageFooterComponent implements OnInit {
 
-  constructor(public layoutService:LayoutService) { }
+  constructor() { }
 
   ngOnInit() {
   }

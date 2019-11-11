@@ -6,7 +6,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { Subscription } from "rxjs";
 
 import { ApiService } from "app/core/services/api.service";
-import { LayoutService } from "app/core/services/layout.service";
+import { MenuService } from 'app/core/services/menu.service';
+import { FooterService } from 'app/core/services/footer.service';
 
 import { Album, Photo } from "app/shared/schema/album";
 
@@ -79,13 +80,19 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
 
   paramsSubscription: Subscription;
 
-  constructor(private api: ApiService, private layoutService: LayoutService, private router: Router, private route: ActivatedRoute, private location: Location) {
-  }
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
+    private menuService: MenuService,
+    private footerService: FooterService,
+  ) { }
 
   ngOnInit() {
 
-    this.layoutService.hideMenu(true);
-    this.layoutService.hideFooter(true);
+    this.menuService.hide();
+    this.footerService.hide();
 
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
 
@@ -103,8 +110,8 @@ export class GalleryViewPhotosComponent implements OnInit, AfterViewInit, OnDest
   }
 
   ngOnDestroy() {
-    this.layoutService.hideMenu(false);
-    this.layoutService.hideFooter(false);
+    this.menuService.reset();
+    this.footerService.reset();
     this.paramsSubscription.unsubscribe();
   }
 

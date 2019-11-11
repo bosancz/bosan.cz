@@ -3,10 +3,10 @@ import { Router } from "@angular/router";
 
 import { ConfigService } from "app/core/services/config.service";
 import { ToastService } from "app/core/services/toast.service";
-import { LayoutService } from "app/core/services/layout.service";
 import { TitleService } from "app/core/services/title.service";
 
 import { Contact } from "app/shared/schema/contact";
+import { MenuService } from 'app/core/services/menu.service';
 
 @Component({
   selector: 'about-view',
@@ -14,34 +14,38 @@ import { Contact } from "app/shared/schema/contact";
   styleUrls: ["about-view.component.scss"]
 })
 export class AboutViewComponent implements OnInit, OnDestroy {
-  
-  contacts:Contact[] = [];
-  
-  mapUrl:string;
 
-  constructor(private configService:ConfigService, private toastService:ToastService, private layoutService:LayoutService, private router:Router, private titleService:TitleService) {
-    this.layoutService.menu.transparent = true;
+  contacts: Contact[] = [];
+
+  mapUrl: string;
+
+  constructor(
+    private configService: ConfigService,
+    private menuService: MenuService,
+    private titleService: TitleService
+  ) {
+    this.menuService.setTransparent(true);
   }
 
   ngOnInit() {
-    
+
     this.titleService.setTitle("O nás");
-    
+
     this.loadConfig();
   }
-  
-  loadConfig(){
+
+  loadConfig() {
     this.configService.getConfig().then(config => {
       this.contacts = config.contacts.leaders;
       this.mapUrl = config.general.homeMapUrl;
     });
   }
 
-  ngOnDestroy(){
-    this.layoutService.menu.transparent = false;
+  ngOnDestroy() {
+    this.menuService.reset();
   }
-  
-  slideDown(){
+
+  slideDown() {
     console.log("test");
   }
 

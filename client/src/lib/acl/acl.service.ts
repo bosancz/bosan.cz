@@ -1,6 +1,6 @@
 import { Injectable, ApplicationRef, EventEmitter } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { ReplaySubject, Observable, combineLatest } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 export interface AclPermissions {
   [name: string]: {
@@ -14,7 +14,7 @@ export interface AclPermissions {
 })
 export class AclService {
 
-  permissions: AclPermissions = {};
+  permissions: ReplaySubject<AclPermissions> = new ReplaySubject(1);
 
   roles: ReplaySubject<string[]> = new ReplaySubject(1);
 
@@ -22,25 +22,25 @@ export class AclService {
 
   constructor(private appRef: ApplicationRef) { }
 
-  can(permissions: string | string[], data?: any): Promise<boolean> {
-    return this.checkCan(permissions, data);
+  can(canPermissions: string | string[], data?: any): Observable<boolean> {
+    return combineLatest(this.roles, this.permissions).pipe(map(([roles, permissions]) => this.checkCan(roles, permissions, canPermissions, data)));
   }
 
-  async checkCan(permissions: string | string[], data?: any): Promise<boolean> {
-    if (typeof permissions === "string" && permissions) permissions = [permissions];
+  private checkCan(userRoles: string[], permissions: AclPermissions, canPermissions: string | string[], data?: any): boolean {
+    if (typeof canPermissions === "string" && canPermissions) canPermissions = [canPermissions];
 
-    if (!permissions || !permissions.length) return true;
+    if (!canPermissions || !canPermissions.length) return true;
 
-    for (let checkedPermission of permissions) {
+    for (let checkedPermission of canPermissions) {
 
-      let permission = this.permissions[checkedPermission];
+      let permission = permissions[checkedPermission];
 
       if (!permission) throw new Error("Permission " + checkedPermission + " is not defined!");
 
-      if (permission.roles && await this.hasRole(permission.roles)) return true;
+      if (permission.roles && this.hasRole(userRoles, permission.roles)) return true;
 
       if (typeof permission.validate === "function") {
-        let result = await Promise.resolve(permission.validate(checkedPermission, data));
+        let result = permission.validate(checkedPermission, data);
         if (result) return true;
       }
     }
@@ -48,9 +48,7 @@ export class AclService {
     return false;
   }
 
-  async hasRole(allowedRoles: string | string[]): Promise<boolean> {
-    // TODO: isnt there a better way to await ReplaySubject?
-    const userRoles = await new Promise<string[]>((resolve,reject) => this.roles.pipe(first()).subscribe(roles => resolve(roles)));
+  private hasRole(userRoles: string[], allowedRoles: string | string[]): boolean {
 
     // normalize input to array
     if (typeof allowedRoles === "string") allowedRoles = [allowedRoles];
@@ -60,7 +58,7 @@ export class AclService {
   }
 
   setPermissions(permissions: AclPermissions): void {
-    this.permissions = permissions;
+    this.permissions.next(permissions);
     this.onUpdate.emit();
   }
 

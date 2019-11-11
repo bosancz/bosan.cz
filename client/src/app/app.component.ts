@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { SwUpdate } from "@angular/service-worker";
-import { Observable } from 'rxjs';
 
 import { RuntimeService } from "app/core/services/runtime.service";
-import { LayoutService } from "app/core/services/layout.service";
 import { OnlineService } from "app/core/services/online.service";
 import { ToastService, Toast } from "app/core/services/toast.service";
+import { MenuService } from './core/services/menu.service';
+import { FooterService } from './core/services/footer.service';
 
 
 @Component({
@@ -15,30 +15,33 @@ import { ToastService, Toast } from "app/core/services/toast.service";
 })
 export class AppComponent implements OnInit {
 
-  toasts:Toast[] = [];
-  
+  toasts: Toast[] = [];
+
+  isScrollTop: boolean;
+
   constructor(
-    runtime:RuntimeService,
-    private toastService:ToastService,
-    public onlineService:OnlineService,
-    public layoutService:LayoutService,
-    public swUpdate:SwUpdate
-  ){
+    runtime: RuntimeService,
+    private toastService: ToastService,
+    public menuService: MenuService,
+    public footerService: FooterService,
+    public onlineService: OnlineService,
+    public swUpdate: SwUpdate
+  ) {
     runtime.init();
   }
 
-  ngOnInit(){
-    this.toastService.toasts.subscribe((toast:Toast) => {
+  ngOnInit() {
+    this.toastService.toasts.subscribe((toast: Toast) => {
       this.toasts.push(toast);
-      setTimeout(() => this.toasts.shift(),2000);
+      setTimeout(() => this.toasts.shift(), 2000);
     });
   }
 
-  clearToasts(){
+  clearToasts() {
     this.toasts = [];
   }
 
-  reload(){
+  reload() {
     window.location.reload();
   }
 }

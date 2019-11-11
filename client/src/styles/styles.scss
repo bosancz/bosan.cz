@@ -4,16 +4,11 @@
 @import './bootstrap-overrides';
 
 /* LAYOUT */
-html {
-    overflow-y:scroll;
-}
-
 body{
   font-family:$font-family;
   color:$black;
   background-color:#fff;
-  font-size:$font-basic;
-  //background-color:$black70;
+  font-size:$font-basic;  
 }
 
 h1, h2, h3, h4, h5, h6{

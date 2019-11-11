@@ -1,28 +1,41 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
 import { AclService } from "./acl.service";
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[aclCan]'
 })
 export class AclCanDirective {
 
-  permission:string|string[];
-  
   private hasView = false;
 
-  @Input() set aclCan(permission:string|string[]){
-    this.permission = permission;
-    this.updateView();
+
+  permission: string | string[];
+
+
+  private subscription: Subscription;
+
+  @Input() set aclCan(permission: string | string[]) {
+
+    if (this.permission !== permission) {
+
+      if (this.subscription) this.subscription.unsubscribe();
+
+      this.subscription = this.aclService.can(permission).subscribe(can => this.updateView(can));
+
+      this.permission = permission;
+    }
+
   }
 
-  constructor(private templateRef: TemplateRef<any>,private viewContainer: ViewContainerRef, private aclService:AclService) {
-    aclService.onUpdate.subscribe(() => this.updateView());
-  }
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef,
+    private aclService: AclService
+  ) { }
 
-  async updateView():Promise<void>{
-
-    const can = await this.aclService.can(this.permission);
+  updateView(can: boolean): void {
 
     if (can && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);
@@ -32,7 +45,7 @@ export class AclCanDirective {
       this.viewContainer.clear();
       this.hasView = false;
     }
-    
+
   }
 
 }

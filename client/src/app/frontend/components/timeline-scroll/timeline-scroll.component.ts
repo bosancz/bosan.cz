@@ -2,15 +2,19 @@ import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, Chang
 import { Subscription } from "rxjs";
 
 export interface TimelinePoint {
-  y:number;
-  title:string;
+  y: number;
+  title: string;
 
-  visible?:boolean;
+  visible?: boolean;
 }
 
 export interface TimelineLabel {
-  y:number;
-  label:string;
+  y: number;
+  label: string;
+}
+
+interface DOMScrollEvent extends Event {
+  target: HTMLElement;
 }
 
 @Component({
@@ -22,105 +26,80 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   timelineMargin = 10;
 
-  @Input() points:TimelinePoint[] = [];
-  @Input() labels:TimelineLabel[] = [];
+  @Input() points: TimelinePoint[] = [];
+  @Input() labels: TimelineLabel[] = [];
 
-  @Input() showPoints:boolean = true;
-  @Input() showLabels:boolean = true;
-  @Input() bsContainer:boolean = false;
+  @Input() showPoints: boolean = true;
+  @Input() showLabels: boolean = true;
+  @Input() bsContainer: boolean = false;
 
-  @Output() appeared:EventEmitter<TimelinePoint> = new EventEmitter<TimelinePoint>();
-  @Output() appearedMany:EventEmitter<TimelinePoint[]> = new EventEmitter<TimelinePoint[]>();
-  @Output() disappeared:EventEmitter<TimelinePoint> = new EventEmitter<TimelinePoint>();
-  @Output() disappearedMany:EventEmitter<TimelinePoint[]> = new EventEmitter<TimelinePoint[]>();
+  @Output() appeared: EventEmitter<TimelinePoint> = new EventEmitter<TimelinePoint>();
+  @Output() appearedMany: EventEmitter<TimelinePoint[]> = new EventEmitter<TimelinePoint[]>();
+  @Output() disappeared: EventEmitter<TimelinePoint> = new EventEmitter<TimelinePoint>();
+  @Output() disappearedMany: EventEmitter<TimelinePoint[]> = new EventEmitter<TimelinePoint[]>();
 
-  @Output() load:EventEmitter<TimelinePoint> = new EventEmitter<TimelinePoint>();
+  @Output() load: EventEmitter<TimelinePoint> = new EventEmitter<TimelinePoint>();
 
-  @ViewChild('contents', { static: true }) container:ElementRef<HTMLElement>;
+  @ViewChild('contents', { static: true }) container: ElementRef<HTMLElement>;
+  @ViewChild('timeline', { static: true }) timeline: ElementRef<HTMLElement>;
 
-  containerTop:number;
-  containerLeft:number;
-  containerHeight:number;
-  containerWidth:number;
+  containerTop: number;
+  containerLeft: number;
+  containerHeight: number;
+  containerWidth: number;
 
-  containerDim:ClientRect;
-  timelineDim = {top:0,right:0,bottom:0,height:0, visible: {top:0,bottom:0,mid:0} };
-  visibleDim = {from:0,to:0};
+  containerDim: ClientRect & { scrollHeight: number };
+  timelineDim = { top: 0, right: 0, bottom: 0, height: 0 };
+  visibleDim = { from: 0, to: 0, mid: 0 };
 
   visiblePoints = [];
 
-  resizeCheckInterval:number;
+  resizeCheckInterval: number;
 
-  timelineMouseMoveHandler:any;
+  timelineMouseMoveHandler: any;
 
-  constructor(private cdRef:ChangeDetectorRef,private ngZone:NgZone) {
-    this.timelineMouseMoveHandler = function(event){this.timelineMouseMove(event);}.bind(this);
+  constructor(private cdRef: ChangeDetectorRef, private ngZone: NgZone) {
+    this.timelineMouseMoveHandler = function (event) { this.timelineMouseMove(event); }.bind(this);
   }
 
-  ngAfterViewInit(){
-
-    this.ngZone.runOutsideAngular(() => { // setInterval in NgZone blocks loading of Service Worker
-      
-      // update dimensions right after init, needs to trigger manual changeDetection round
-      this.updateDimensions();
-      this.cdRef.detectChanges();
-      
-      // there is no event to check for div resize, we have to poll :(
-      this.resizeCheckInterval = window.setInterval(() => {
-        this.ngZone.run(() => this.updateDimensions());
-      },500);
-    });
-    
+  ngAfterViewInit() {
+    this.updateDimensions();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     window.clearInterval(this.resizeCheckInterval);
   }
 
-  @HostListener('window:scroll', [])
-  updateScroll():void{
-    this.updateVisible();
-    this.cdRef.detectChanges();
+  updateScroll(event: DOMScrollEvent): void {
+    this.updateVisible(event.target.scrollTop, event.target.scrollTop + event.target.offsetHeight, event.target.scrollHeight);
   }
 
-  @HostListener('window:resize', [])
-  updateDimensions(){
+  updateDimensions() {
 
-    const doc = document.documentElement;
-    const top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+    this.containerDim = {
+      ...this.container.nativeElement.getBoundingClientRect(),
+      scrollHeight: this.container.nativeElement.scrollHeight
+    };
+    this.timelineDim = this.container.nativeElement.getBoundingClientRect();
 
-    this.containerDim = this.container.nativeElement.getBoundingClientRect();
-
-    this.timelineDim.top = this.containerDim.top + top + this.timelineMargin;
-    this.timelineDim.right = this.containerDim.right - this.containerDim.width;
-    this.timelineDim.bottom = this.timelineMargin;
-    this.timelineDim.height = window.innerHeight - this.timelineDim.top - this.timelineDim.bottom;
-
-    this.updateScroll();
   }
 
-  updateVisible(){
+  updateVisible(from: number, to: number, total: number) {
 
-    const doc = document.documentElement;
-    const top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-
-    this.visibleDim.from = top / doc.offsetHeight;
-    this.visibleDim.to = (top + window.innerHeight) / doc.offsetHeight;
-
-    this.timelineDim.visible.top = this.timelineDim.height * this.visibleDim.from;
-    this.timelineDim.visible.bottom = this.timelineDim.height * (1 - this.visibleDim.to);
-    this.timelineDim.visible.mid = this.timelineDim.height * (this.visibleDim.from + this.visibleDim.to) / 2;
+    this.visibleDim.from = from / total;
+    this.visibleDim.to = to / total;
+    this.visibleDim.mid = (this.visibleDim.from + this.visibleDim.to) / 2;
 
     this.updateVisiblePoints();
   }
 
-  updateVisiblePoints(){
+  updateVisiblePoints() {
 
     const count = this.points.length;
 
     // get the changes
-    const visible = this.points.slice(Math.floor(this.visibleDim.from * count),Math.ceil(this.visibleDim.to * count));    
-    
+    const visible = this.points.slice(Math.floor(this.visibleDim.from * count), Math.ceil(this.visibleDim.to * count));
+
     const disappeared = this.visiblePoints.filter(point => visible.indexOf(point) === -1);
 
     const appeared = visible.filter(point => !point.visible);
@@ -137,29 +116,29 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     appeared.forEach(point => {
       point.visible = true;
       this.appeared.emit(point);
-      setTimeout(() => point.visible ? this.load.emit(point) : null,500);
+      setTimeout(() => point.visible ? this.load.emit(point) : null, 500);
     });
     this.appearedMany.emit(appeared);
 
   }
 
-  timelineMouseDown(event){
-    window.addEventListener("mousemove",this.timelineMouseMoveHandler);
+  timelineMouseDown(event) {
+    window.addEventListener("mousemove", this.timelineMouseMoveHandler);
     this.timelineMouseMove(event);
   }
 
-  timelineMouseMove(event){  
-    
-    let top = event.clientY - this.timelineDim.top;
-    let height = this.timelineDim.height;
-    let percentage = Math.min(1,top/height);
+  timelineMouseMove(event: MouseEvent) {
 
-    window.scrollTo(0,document.documentElement.offsetHeight * percentage - window.innerHeight / 2);
+    const timelinePct = (event.clientY - this.timelineDim.top - this.timeline.nativeElement.offsetTop) / (this.timeline.nativeElement.offsetHeight)
+
+    const containerTop = timelinePct * this.container.nativeElement.scrollHeight;
+    
+    this.container.nativeElement.scrollTo(0, containerTop);
   }
 
   @HostListener('window:mouseup', [])
-  timelineMouseUp(){
-    window.removeEventListener("mousemove",this.timelineMouseMoveHandler);
+  timelineMouseUp() {
+    window.removeEventListener("mousemove", this.timelineMouseMoveHandler);
   }
 
 }

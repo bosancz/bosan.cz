@@ -6,11 +6,17 @@
   </ul>
 </div>
 
-<div id="layout"
-     [class.menu-transparent]="layoutService.menu.transparent"
-     [class.menu-hidden]="!layoutService.menu.visible"
-     [class.offline]="!(onlineService.online | async)"
-     [class.update]="(onlineService.online | async) && (swUpdate.available | async)">
+<div id="layout" [class.menu-transparent]="menuService.transparent | async">
+
+  <!-- Navigation -->
+  <page-menu *ngIf="menuService.visible | async" class="d-print-none"></page-menu>
+
+  <!-- MAIN CONTENT -->
+  <div id="content">
+    <router-outlet></router-outlet>
+
+    <page-footer *ngIf="footerService.visible | async" class="d-print-none"></page-footer>
+  </div>
 
   <div *ngIf="!(onlineService.online | async)" id="offline" class="text-center bg-danger text-light">
     Nejste připojeni k internetu. Zobrazené údaje mohou být zastaralé.
@@ -20,13 +26,4 @@
     Je k dispozici nová verze bosan.cz. <a (click)="reload()">Načíst</a>
   </div>
 
-  <!-- Navigation -->
-  <page-menu *ngIf="layoutService.menu.visible" class="d-print-none"></page-menu>
-
-  <!-- MAIN CONTENT -->
-  <div id="page">
-    <router-outlet></router-outlet>
-  </div>
-
-  <page-footer *ngIf="layoutService.footer.visible" class="d-print-none"></page-footer>
 </div>

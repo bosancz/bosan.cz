@@ -1,18 +1,4 @@
 <div id="admin">
-  <nav>
-    <div class="container">
-      <a *aclCan="'admin:dashboard'" routerLink="prehled" routerLinkActive="active">Přehled</a>
-      <a *aclCan="'admin:events'" routerLink="akce" routerLinkActive="active">Akce</a>
-      <a *aclCan="'admin:albums'" routerLink="galerie" routerLinkActive="active">Galerie</a>
-      <a *aclCan="'admin:members'" routerLink="databaze" routerLinkActive="active">Databáze</a>
-      <a *aclCan="'admin:program'" routerLink="program" routerLinkActive="active">Správa programu</a>      
-      <a *aclCan="'admin:statistics'" routerLink="statistiky" routerLinkActive="active">Statistiky</a>
-      <a *aclCan="'admin:canal'" routerLink="kanal" routerLinkActive="active">Troja</a>
-      <a *aclCan="'admin:account'" routerLink="ucet" routerLinkActive="active">Nastavení účtu</a>
-      <a *aclCan="'admin:users'" routerLink="uzivatele" routerLinkActive="active">Uživatelé</a>
-      <a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" routerLinkActive="active">Nastavení webu</a>
-    </div>
-  </nav>
 
   <div id="adminPage">
     <router-outlet></router-outlet>

@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from "@angular/router";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ConfigService } from "app/core/services/config.service";
-import { LayoutService } from "app/core/services/layout.service";
 import { TitleService } from "app/core/services/title.service";
+import { MenuService } from 'app/core/services/menu.service';
 
 @Component({
   selector: 'camp-view',
@@ -12,26 +11,30 @@ import { TitleService } from "app/core/services/title.service";
 })
 export class CampViewComponent implements OnInit, OnDestroy {
 
-  mapUrl:string;
-  
-  constructor(private layoutService:LayoutService, private titleService:TitleService, private configService:ConfigService, private router:Router) {
-    this.layoutService.menu.transparent = true;
+  mapUrl: string;
+
+  constructor(
+    private menuService: MenuService,
+    private titleService: TitleService,
+    private configService: ConfigService
+  ) {
+    this.menuService.setTransparent(true);
   }
 
   ngOnInit() {
     this.titleService.setTitle("Tábor");
-    
+
     this.loadMapUrl();
   }
 
-  ngOnDestroy(){
-    this.layoutService.menu.transparent = false;
+  ngOnDestroy() {
+    this.menuService.reset();
   }
-  
-  loadMapUrl(){
+
+  loadMapUrl() {
     this.configService.getConfig().then(config => {
       this.mapUrl = config.general.campMapUrl;
     });
   }
-  
+
 }

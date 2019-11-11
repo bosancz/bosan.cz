@@ -1,8 +1,8 @@
-:host{position:relative;display:block;}
+:host{position:relative;display:block;overflow:hidden;}
 
-.contents{padding-right:70px;}
+.contents{height:100%;overflow:auto;}
 
-.timeline{position:fixed;top:0;right:0;bottom:0;width:50px;margin:0 0 0 -50px;cursor:row-resize;user-select: none;}
+.timeline{position:absolute;top:20px;bottom:20px;right:50px;width:50px;margin:0 0 0 -50px;cursor:row-resize;user-select: none;}
 
 .timeline .point{position:absolute;left:0;right:10px;text-align:center;color:#999;height:16px;margin-top:-8px;}
 .timeline .point::after{content:" ";display:block;position:absolute;top:50%;right:-10px;width:10px;height:1px;background-color:#ccc;}
