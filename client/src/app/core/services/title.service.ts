@@ -9,22 +9,27 @@ import { ConfigService } from "app/core/services/config.service";
 })
 export class TitleService {
 
-  subTitle:BehaviorSubject<string> = new BehaviorSubject(null);
-  mainTitle:string;
+  pageTitle:BehaviorSubject<string> = new BehaviorSubject(null);
+  
+  private mainTitle:string;
 
   constructor(private title:Title,private configService:ConfigService) {    
-    this.subTitle.subscribe(() => this.updateWindowTitle());
+    this.pageTitle.subscribe(() => this.updateWindowTitle());
     this.configService.getConfig().then(config => this.mainTitle = config.general.title);
   }
 
-  setTitle(title:string){
-    this.subTitle.next(title || null);
+  setPageTitle(title:string){
+    this.pageTitle.next(title || null);
   }
 
-  updateWindowTitle(){
+  private updateWindowTitle(){
     const titleParts = [];
-    if(this.subTitle.value) titleParts.push(this.subTitle.value);
+    if(this.pageTitle.value) titleParts.push(this.pageTitle.value);
     if(this.mainTitle) titleParts.push(this.mainTitle);
     return this.title.setTitle(titleParts.join(" :: "));
+  }
+
+  reset(){
+    this.pageTitle.next(null);
   }
 }

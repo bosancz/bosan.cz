@@ -19,23 +19,23 @@ export class AdminComponent implements OnInit {
   private menuSubscription: Subscription;
 
   constructor(
-    private titleService: TitleService,
+    public titleService: TitleService,
     private footerService: FooterService,
-    private menuService: MenuService,
+    public menuService: MenuService,
     private aclService: AclService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.titleService.setTitle("Můj Bošán");
-    this.footerService.visible.next(true);
+    this.titleService.setPageTitle("Můj Bošán");
+    this.footerService.hide();
 
     this.setMenu();
   }
 
   ngOnDestroy() {
-    this.footerService.visible.next(false);
+    this.footerService.reset();
     this.menuService.reset();
   }
 

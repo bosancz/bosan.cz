@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgForm } from "@angular/forms";
 
@@ -13,6 +13,8 @@ import { ToastService } from "app/core/services/toast.service";
 
 import { Event } from "app/shared/schema/event";
 import { DateTime } from 'luxon';
+import { TitleService } from 'app/core/services/title.service';
+import { MenuService } from 'app/core/services/menu.service';
 
 @Component({
   selector: 'bo-events-list',
@@ -31,12 +33,22 @@ export class EventsListComponent implements OnInit, OnDestroy {
   years: number[] = [];
   year: number;
 
+  @ViewChild('createEventModal', { static: true }) createEventModal: TemplateRef<any>;
+
   createEventModalRef: BsModalRef;
 
   paramsSubscription: Subscription;
 
-  constructor(private api: ApiService, private configService: ConfigService, private toastService: ToastService, private router: Router, private route: ActivatedRoute, private modalService: BsModalService) {
-  }
+  constructor(
+    private api: ApiService,
+    private configService: ConfigService,
+    private toastService: ToastService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private modalService: BsModalService,
+    private titleService: TitleService,
+    private menuService: MenuService
+  ) { }
 
   ngOnInit() {
 
@@ -47,10 +59,20 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
     this.loadYears();
 
+    //
+
+    this.titleService.setPageTitle("Přehled akcí");
+
+    this.menuService.setActions([
+      { type: "action" as "action", label: "Vytvořit akci", callback: () => this.openCreateEventModal() }
+    ])
+
   }
 
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
+    this.titleService.reset();
+    this.menuService.reset();
   }
 
   async loadYears() {
@@ -80,8 +102,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
     this.router.navigate([event._id], { relativeTo: this.route });
   }
 
-  openCreateEventModal(template: TemplateRef<any>) {
-    this.createEventModalRef = this.modalService.show(template);
+  openCreateEventModal() {
+    this.createEventModalRef = this.modalService.show(this.createEventModal);
   }
 
   async createEvent(form: NgForm) {

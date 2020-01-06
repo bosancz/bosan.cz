@@ -10,6 +10,8 @@ import { ConfigService } from "app/core/services/config.service";
 
 import { Event, EventExpense } from "app/shared/schema/event";
 import { Member } from "app/shared/schema/member";
+import { TitleService } from 'app/core/services/title.service';
+import { MenuService } from 'app/core/services/menu.service';
 
 @Component({
   selector: 'bo-events-view',
@@ -26,8 +28,8 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   editable: boolean = false;
 
   editing: boolean = false;
-  
-  days:number;
+
+  days: number;
 
   paramsSubscription: Subscription;
 
@@ -37,7 +39,9 @@ export class EventsViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private toastService: ToastService,
     private location: Location,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private titleService: TitleService,
+    private menuService: MenuService
   ) { }
 
   ngOnInit() {
@@ -50,6 +54,8 @@ export class EventsViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
+    this.titleService.reset();
+    this.menuService.reset();
   }
 
   async loadEvent(eventId: string) {
@@ -64,16 +70,57 @@ export class EventsViewComponent implements OnInit, OnDestroy {
     event.dateFrom = DateTime.fromISO(event.dateFrom).toISODate();
     event.dateTill = DateTime.fromISO(event.dateTill).toISODate();
 
-    this.days = DateTime.fromISO(event.dateTill).diff(DateTime.fromISO(event.dateFrom),"days").days + 1;
-    
+    this.days = DateTime.fromISO(event.dateTill).diff(DateTime.fromISO(event.dateFrom), "days").days + 1;
+
     this.event = event;
 
+    this.titleService.setPageTitle(event.name);
+
     this.editable = this.event._links.self.allowed.PATCH;
+
+    this.setMenu();
   }
 
-  cancelEdit(){
+  setMenu() {
+    const actions = [];
+
+    if (!this.editing) actions.push({ type: "action", "label": "Upravit", disabled: this.editable, callback: () => { this.editing = true; this.setMenu() } })
+
+    if (this.editing) actions.push(...[
+      { type: "action", "label": "Zrušit úpravy", disabled: this.editable, callback: () => this.cancelEdit() },
+      { type: "action", "label": "Uložit", disabled: this.editable, callback: () => this.saveEvent() }
+    ])
+
+    const event = this.event;
+
+    if (!this.editing && event && event._actions) {
+      actions.push({ type: "divider" });
+
+      if (event._actions.submit) actions.push({ type: "action", disabled: !event._actions.submit.allowed, callback: () => this.eventAction('submit'), label: "Ke schválení" });
+      if (event._actions.publish) actions.push({ type: "action", disabled: !event._actions.publish.allowed, callback: () => this.eventAction('publish'), label: "Do programu" });
+      if (event._actions.announce) actions.push({ type: "action", disabled: !event._actions.announce.allowed, callback: () => this.eventAction('submit'), label: "Poslat ohlášku" });
+      if (event._actions.finalize) actions.push({ type: "action", disabled: !event._actions.finalize.allowed, callback: () => this.eventAction('submit'), label: "Uzavřít" });
+      if (event._actions.reject) actions.push({ type: "action", disabled: !event._actions.reject.allowed, callback: () => this.eventAction('reject'), label: "Vrátit vedoucím k úpravám" });
+      if (event._actions.unpublish) actions.push({ type: "action", disabled: !event._actions.unpublish.allowed, callback: () => this.eventAction('unpublish'), label: "Odebrat z programu" });
+      if (event._actions.cancel) actions.push({ type: "action", disabled: !event._actions.cancel.allowed, callback: () => this.eventAction('cancel'), label: "Zrušit", class: "text-danger" });
+      if (event._actions.uncancel) actions.push({ type: "action", disabled: !event._actions.uncancel.allowed, callback: () => this.eventAction('uncancel'), label: "Odzrušit" });
+    }
+    /*
+        <a [class.disabled]="!event._links?.self?.allowed.DELETE" class="dropdown-item text-danger" (click)="deleteEvent()">Smazat</a>
+
+        <div class="dropdown-divider"></div>
+
+        <a class="dropdown-item" [href]="getAnnouncementTemplateUrl()">Stáhnout ohlášku</a>
+        <a class="dropdown-item" [href]="getAccountingTemplateUrl()">Stáhnout účtování</a>
+        */
+
+    this.menuService.setActions(actions);
+  }
+
+  async cancelEdit() {
     this.editing = false;
-    return this.loadEvent(this.event._id);
+    this.setMenu();
+    await this.loadEvent(this.event._id);
   }
 
   async saveEvent(data?: Partial<Event>) {
@@ -88,6 +135,8 @@ export class EventsViewComponent implements OnInit, OnDestroy {
 
     this.toastService.toast("Uloženo.");
     this.editing = null;
+
+    this.setMenu();
   }
 
   async deleteEvent() {

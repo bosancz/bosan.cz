@@ -7,6 +7,14 @@ export interface SecondaryMenuItem {
   label: string
 }
 
+export interface ActionItem {
+  type: "action" | "divider";
+  label?: string;
+  callback?: () => any;
+  disabled?: boolean;
+  class?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +24,8 @@ export class MenuService {
   transparent = new BehaviorSubject(false);
 
   secondaryMenu = new Subject<SecondaryMenuItem[] | null>();
+
+  actions = new Subject<ActionItem[]>();
 
   constructor() { }
 
@@ -32,9 +42,14 @@ export class MenuService {
     this.transparent.next(false);
 
     this.secondaryMenu.next(null);
+    this.actions.next(null);
   }
 
-  setSecondaryMenu(menu: SecondaryMenuItem[]) {    
-    setTimeout(() => this.secondaryMenu.next(menu),0);
+  setSecondaryMenu(menu: SecondaryMenuItem[]) {
+    setTimeout(() => this.secondaryMenu.next(menu), 0);
+  }
+
+  setActions(actions: ActionItem[]) {
+    setTimeout(() => this.actions.next(actions), 0);
   }
 }

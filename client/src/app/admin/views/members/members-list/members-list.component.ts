@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NgForm } from "@angular/forms";
 
@@ -13,6 +13,8 @@ import { ToastService } from "app/core/services/toast.service";
 
 import { Member } from "app/shared/schema/member";
 import { WebConfigGroup } from "app/shared/schema/webconfig";
+import { TitleService } from 'app/core/services/title.service';
+import { MenuService } from 'app/core/services/menu.service';
 
 @Component({
   selector: 'members-list',
@@ -21,71 +23,86 @@ import { WebConfigGroup } from "app/shared/schema/webconfig";
 })
 export class MembersListComponent implements OnInit, OnDestroy {
 
-  members:Member[] = [];
-  
-  groups:WebConfigGroup[] = [];
-  roles:string[] = [];
-  
-  view:string;
-  currentGroup:string;
-  
-  views:any = {
+  members: Member[] = [];
+
+  groups: WebConfigGroup[] = [];
+  roles: string[] = [];
+
+  view: string;
+  currentGroup: string;
+
+  views: any = {
     "all": {},
-    "group": {group:null}
+    "group": { group: null }
   };
-  
-  createMemberModalRef:BsModalRef;
-  
-  paramsSubscription:Subscription;
-  
-  constructor(private api:ApiService, private configService:ConfigService, private toastService:ToastService, private router:Router, private route:ActivatedRoute, private modalService:BsModalService) { }
+
+  @ViewChild("createMemberModal", { static: true }) createMemberModal: TemplateRef<any>;
+  createMemberModalRef: BsModalRef;
+
+  paramsSubscription: Subscription;
+
+  constructor(
+    private api: ApiService,
+    private configService: ConfigService,
+    private toastService: ToastService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private modalService: BsModalService,
+    private titleService: TitleService,
+    private menuService: MenuService
+  ) { }
 
   ngOnInit() {
     this.loadConfig();
-    
-    this.paramsSubscription = this.route.params.subscribe((params:Params) => {
-      
+
+    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
+
       this.view = params.view || "all";
       this.currentGroup = params.group;
       this.views.group.group = params.group;
-      
+
       this.loadMembers(params.view);
     });
+
+    this.titleService.setPageTitle("Členská databáze");
+    this.menuService.setActions([{
+      type: "action", "label": "Přidat nového člena", callback: () => this.openCreateMemberModal()
+    }])
   }
-  
-  ngOnDestroy(){
+
+  ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
   }
-  
-  loadConfig(){
+
+  loadConfig() {
     this.configService.getConfig().then(config => {
       this.groups = config.members.groups.filter(group => group.real);
       this.roles = config.members.roles.map(item => item.id);
     })
   }
-  
-  async loadMembers(view:string){
-    const options = Object.assign({ sort: "inactive group -role nickname" },this.views[view] || {});
-    this.members = await this.api.get<Member[]>("members",options);
+
+  async loadMembers(view: string) {
+    const options = Object.assign({ sort: "inactive group -role nickname" }, this.views[view] || {});
+    this.members = await this.api.get<Member[]>("members", options);
   }
-  
-  openCreateMemberModal(template:TemplateRef<any>){
-    this.createMemberModalRef = this.modalService.show(template);
+
+  openCreateMemberModal() {
+    this.createMemberModalRef = this.modalService.show(this.createMemberModal);
   }
-  
-  async createMember(form:NgForm){
+
+  async createMember(form: NgForm) {
     // get data from form
     const eventData = form.value;
     // create the event and wait for confirmation
-    const response = await this.api.post("members",eventData);
+    const response = await this.api.post("members", eventData);
     // get new member _id
-    let member = await this.api.get<Member>(response.headers.get("location"),{ select: "_id"});
+    let member = await this.api.get<Member>(response.headers.get("location"), { select: "_id" });
     // close the modal
     this.createMemberModalRef.hide();
     // show the confrmation
     this.toastService.toast("Člen uložen.");
     // open the event
-    this.router.navigate(["./",{},member._id], {relativeTo: this.route});
+    this.router.navigate(["./", {}, member._id], { relativeTo: this.route });
   }
-  
+
 }

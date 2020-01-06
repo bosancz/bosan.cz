@@ -1,48 +1,66 @@
-<div id="primaryNav">
-  <nav class="navbar navbar-expand-lg navbar-dark" [class.transparent]="isTop && (menuService.transparent | async) && collapsed">
-    <div class="container">
+<nav class="navbar primary navbar-expand-lg navbar-dark" [class.transparent]="isTop && (menuService.transparent | async) && collapsed">
+  <div class="container">
 
-      <a class="navbar-brand text-uppercase" routerLink="/o-nas" routerLinkActive="active">
-        <img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small mr-3" />
+    <a class="navbar-brand text-uppercase">
 
-        <span class="d-none d-lg-inline">Bosan.cz</span>
-        <span class="d-inline d-lg-none">{{subTitle | async}}</span>
+      <img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small" />
 
-        <span *ngIf="environment" class="environment">&nbsp;{{environment}}</span>
-      </a>
-
-      <button class="navbar-toggler" (click)="collapsed = false" type="button">
+      <button class="navbar-toggler" (click)="collapsed = !collapsed" type="button">
         <i class="fa fa-bars"></i>
       </button>
-      <div class="collapse navbar-collapse" id="collapsibleNavbar" [collapse]="collapsed">
-        <div class="navbar-nav text-uppercase ml-auto" (click)="collapsed = true">
-          <a class="nav-item nav-link px-lg-3" routerLink="/o-nas" routerLinkActive="active">O nás</a>
-          <a class="nav-item nav-link px-lg-3" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
-          <a class="nav-item nav-link px-lg-3" routerLink="/program" routerLinkActive="active">Program</a>
-          <a class="nav-item nav-link px-lg-3" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
-          <a class="nav-item nav-link px-lg-3" routerLink="/tabor" routerLinkActive="active">Tábor</a>
-          <a class="nav-item nav-link px-lg-3" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
 
-          <ng-container *ngIf="onlineService.online | async">
-            <ng-container *ngIf="!(userService.user | async)">
-              <a *aclCan="'login'" class="nav-item nav-link px-lg-3" (click)="openLogin(); menuCollapsed=true" tooltip="Přihlásit se do interní sekce" placement="bottom"><i class="fa fa-lock"></i></a>
-            </ng-container>
+      <span class="d-none d-lg-inline">Bosan.cz<span *ngIf="environment" class="environment">&nbsp;{{environment}}</span></span>
 
-            <ng-container *ngIf="userService.user | async as user">
-              <a class="nav-item nav-link pl-lg-3" *aclCan="'admin'" routerLink="/interni" routerLinkActive="active"><i class="fas fa-user pr-2"></i><span class="d-inline d-lg-none">Interní sekce: </span>{{user.login}}</a>
-              <a class="nav-item nav-link pl-lg-3" *aclCan="'logout'" (click)="logout()" tooltip="Odhásit se" placement="bottom"><i class="fas fa-sign-out-alt pr-2"></i><span class="d-inline d-lg-none">Odhlásit se</span></a>
-            </ng-container>
-          </ng-container>
-        </div>
+      <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Bosan.cz"}}</span>
+
+    </a>
+
+    <div *ngIf="menuService.actions | async as actionItems" class="dropdown text-right actions" dropdown>
+      <button dropdownToggle type="button" class="navbar-toggler"><i class="fas fa-ellipsis-v"></i></button>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+        <ng-container *ngFor="let actionItem of actionItems" [ngSwitch]="actionItem.type">
+          
+          <a *ngSwitchCase="'action'" [class]="'dropdown-item ' + (actionItem.class || '')" [class.disabled]="actionItem.disabled" (click)="actionItem.callback()">{{actionItem.label}}</a>
+          
+          <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
+        
+        </ng-container>
       </div>
     </div>
-  </nav>
-</div>
 
-<div id="secondaryNav">
-  <nav *ngIf="menuService.secondaryMenu | async as menuItems">
-    <div class="container">
-      <a *ngFor="let menuItem of menuItems" [routerLink]="menuItem.path" routerLinkActive="active">{{menuItem.label}}</a>
+
+    <div class="collapse navbar-collapse" [collapse]="collapsed">
+      <div class="navbar-nav text-uppercase ml-auto" (click)="collapsed = true">
+        <a class="nav-item nav-link px-lg-3" routerLink="/o-nas" routerLinkActive="active">O nás</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/program" routerLinkActive="active">Program</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/tabor" routerLinkActive="active">Tábor</a>
+        <a class="nav-item nav-link px-lg-3" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
+
+        <ng-container *ngIf="onlineService.online | async">
+          <ng-container *ngIf="!(userService.user | async)">
+            <a *aclCan="'login'" class="nav-item nav-link px-lg-3" (click)="openLogin(); menuCollapsed=true" tooltip="Přihlásit se do interní sekce" placement="bottom"><i class="fa fa-lock"></i></a>
+          </ng-container>
+
+          <ng-container *ngIf="userService.user | async as user">
+            <a class="nav-item nav-link pl-lg-3" *aclCan="'admin'" routerLink="/interni" routerLinkActive="active"><i class="fas fa-user pr-2"></i>{{user.login}}</a>
+            <a class="nav-item nav-link pl-lg-3" *aclCan="'logout'" (click)="logout()" tooltip="Odhásit se" placement="bottom"><i class="fas fa-sign-out-alt pr-2"></i><span class="d-inline d-lg-none">Odhlásit se</span></a>
+          </ng-container>
+        </ng-container>
+      </div>
     </div>
-  </nav>
-</div>
+
+
+  </div>
+</nav>
+
+<nav *ngIf="menuService.secondaryMenu | async as menuItems" class="navbar secondary navbar-expand-lg navbar-dark">
+  <div class="container">
+    <div class="secondary-navbar collapse navbar-collapse" [collapse]="collapsed">
+      <div class="navbar-nav" (click)="collapsed = true">
+        <a *ngFor="let menuItem of menuItems" class="nav-item nav-link" [routerLink]="menuItem.path" routerLinkActive="active">{{menuItem.label}}</a>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -33,8 +33,6 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
 
   userLogin: string;
 
-  subTitle: Observable<string>;
-
   collapsed: boolean = true;
 
   constructor(
@@ -54,8 +52,6 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
     this.configService.config.subscribe(config => {
       this.environment = config.general.environment;
     });
-
-    this.subTitle = this.titleService.subTitle.pipe(debounceTime(0));
 
     this.userService.user.subscribe(user => this.userLogin = user ? user.login : "");
   }
