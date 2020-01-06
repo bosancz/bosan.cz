@@ -12,7 +12,7 @@ export class NewsViewComponent implements OnInit {
   constructor(private titleService:TitleService) { }
 
   ngOnInit() {
-    this.titleService.setTitle("Aktuálně");
+    this.titleService.setPageTitle("Aktuálně");
   }
 
 }

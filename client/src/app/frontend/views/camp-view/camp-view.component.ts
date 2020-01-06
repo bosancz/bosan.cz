@@ -22,7 +22,7 @@ export class CampViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.titleService.setTitle("Tábor");
+    this.titleService.setPageTitle("Tábor");
 
     this.loadMapUrl();
   }

@@ -19,7 +19,7 @@ export class ContactsViewComponent implements OnInit {
   constructor(private titleService:TitleService, private configService:ConfigService) { }
 
   ngOnInit() {
-    this.titleService.setTitle("Kontakty");
+    this.titleService.setPageTitle("Kontakty");
     this.loadConfig();
   }
 

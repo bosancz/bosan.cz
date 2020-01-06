@@ -22,7 +22,7 @@ export class NotFoundComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.titleService.setTitle("404 Nenalezeno");
+    this.titleService.setPageTitle("404 Nenalezeno");
     this.setNoIndex();
     
     this.url = (location.pathname || location.href);

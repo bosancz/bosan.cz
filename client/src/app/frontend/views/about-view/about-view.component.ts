@@ -29,7 +29,7 @@ export class AboutViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.titleService.setTitle("O nás");
+    this.titleService.setPageTitle("O nás");
 
     this.loadConfig();
   }

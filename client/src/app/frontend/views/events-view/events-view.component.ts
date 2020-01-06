@@ -18,6 +18,6 @@ export class EventsViewComponent implements OnInit {
   constructor(private titleService:TitleService,private configService:ConfigService) { }
 
   ngOnInit() {
-    this.titleService.setTitle("Program");
+    this.titleService.setPageTitle("Program");
   }
 }

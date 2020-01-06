@@ -12,7 +12,7 @@ export class GalleryViewComponent implements OnInit {
   constructor(private titleService:TitleService) { }
 
   ngOnInit() {
-    this.titleService.setTitle("Fotogalerie");
+    this.titleService.setPageTitle("Fotogalerie");
   }
 
 }
