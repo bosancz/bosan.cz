@@ -37,6 +37,8 @@ export class EventsTimelineComponent implements OnInit {
     
     this.events = await this.api.get<Event[]>("program", { limit: this.limit || undefined });
 
+    this.events.forEach(event => event.groups.sort());
+
     this.loading = false;
     
   }
