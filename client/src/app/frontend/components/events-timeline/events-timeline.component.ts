@@ -15,35 +15,35 @@ import { WebConfigEventType, WebConfigEventSubType } from "app/shared/schema/web
 })
 export class EventsTimelineComponent implements OnInit {
 
-  @Input() limit:number;  
+  @Input() limit: number;
 
-  @Input() groupsFilter:boolean;
+  @Input() groupsFilter: boolean;
 
-  @Input() full:boolean = false;
+  @Input() full: boolean = false;
 
-  events:Event[]= [];
-  
-  loading:boolean = false;
+  events: Event[] = [];
 
-  constructor(private api:ApiService, private configService:ConfigService, private toastService:ToastService) { }
+  loading: boolean = false;
+
+  constructor(private api: ApiService, private configService: ConfigService, private toastService: ToastService) { }
 
   ngOnInit() {
     this.loadEvents();
   }
 
-  async loadEvents(){
-    
+  async loadEvents() {
+
     this.loading = true;
-    
+
     this.events = await this.api.get<Event[]>("program", { limit: this.limit || undefined });
 
-    this.events.forEach(event => event.groups.sort());
+    this.events.forEach(event => event.groups.sort((a, b) => a.localeCompare(b, undefined, { numeric: true })));
 
     this.loading = false;
-    
+
   }
 
-  getEventRegistrationUrl(event:Event):string{
+  getEventRegistrationUrl(event: Event): string {
     return this.api.link2href(event._links.registration);
   }
 }
