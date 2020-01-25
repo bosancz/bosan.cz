@@ -10,13 +10,13 @@ module.exports = {
   cors: false,
   
   storage: {
-    data: "../data",
-    tmp: "../tmp"
+    data: "./data",
+    tmp: "./tmp"
   },
 
   uploads: {
     limit: '10mb',
-    dir: "../tmp"
+    dir: "./tmp"
   },
 
   keys: {
@@ -34,7 +34,7 @@ module.exports = {
   apiRoot: "/api",
   shareRoot: "/api/share",
   
-  url: "http://localhost:3000",  
+  url: "",
   
   google: {
     impersonate: "info@bosan.cz",
@@ -47,5 +47,5 @@ module.exports = {
   
   cookieSecure: false,
   
-  databaseUri: "mongodb://bosan:bosan@bosan-db/bosan?authSource=admin"
+  databaseUri: "mongodb://bosan:bosan@db.bosan/bosan?authSource=admin"
 }

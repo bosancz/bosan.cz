@@ -1,0 +1,10 @@
+FROM node:12 as build
+
+WORKDIR /home/node/app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+
+CMD npx ng serve --port 80 --host 0.0.0.0 --poll 100 --disable-host-check
