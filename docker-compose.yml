@@ -1,0 +1,43 @@
+version: '3.1'
+
+volumes:
+  bosan-data:
+  bosan-db:
+
+services:
+
+  proxy:
+    image: nginx:1.17.8-alpine
+    container_name: proxy.bosan
+    ports:
+      - "3000:80"
+    volumes:
+      - ./proxy:/etc/nginx:ro
+
+  bosan-server:
+    image: bosancz-server
+    build: ./server  
+    container_name: server.bosan
+    environment:
+      NODE_ENV: local-docker
+    volumes: 
+      - bosan-data:/home/node/app/data
+    depends_on: 
+      - mongodb
+      - proxy
+
+  bosan-client:
+    image: bosancz-client
+    build: ./client
+    container_name: client.bosan
+    depends_on:
+      - proxy
+
+  mongodb:
+    image: mongo
+    container_name: db.bosan
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: bosan
+      MONGO_INITDB_ROOT_PASSWORD: bosan
+    volumes:
+      - bosan-db:/data/db  
