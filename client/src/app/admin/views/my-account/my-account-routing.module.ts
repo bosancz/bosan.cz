@@ -9,7 +9,7 @@ import { MyAccountAppComponent } from './my-account-app/my-account-app.component
 
 const routes: Routes = [
   {
-    path: '', component: MyAccountComponent, data: { permission: "admin:account" },
+    path: '', component: MyAccountComponent,
     children: [
       { path: 'info', component: MyAccountInfoComponent },
       { path: 'notifikace', component: MyAccountNotificationsComponent },
