@@ -15,6 +15,7 @@ import { DocumentsViewComponent } from './views/documents-view/documents-view.co
 import { MyAccountComponent } from './views/my-account/my-account.component';
 import { MyAccountAppComponent } from './views/my-account/my-account-app/my-account-app.component';
 import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
+import { LoginComponent } from './views/login/login.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { AdminMenuComponent } from './components/admin-menu/admin-menu.component
     /* VIEWS */
     CanalRegistrationComponent,
     DocumentsViewComponent,
-    AdminMenuComponent    
+    AdminMenuComponent,
+    LoginComponent    
   
   ],
   entryComponents:[

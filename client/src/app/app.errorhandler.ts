@@ -49,8 +49,7 @@ export class AppErrorHandler implements ErrorHandler {
 
       if (!onlineService.online.value) return; // dont report errors due to conenction loss
 
-      if (err.status === 401) {
-        runtimeService.login(userService.userSnapshot);
+      if (err.status === 401) {        
         if(userService.userSnapshot) toastService.toast("Přihlášení vypršelo, přihlaste se znovu.", "error");
         else toastService.toast("K této akci musíte být přihlášeni.", "error");
       }

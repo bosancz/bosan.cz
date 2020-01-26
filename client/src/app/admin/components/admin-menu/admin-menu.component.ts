@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { TitleService } from 'app/core/services/title.service';
 import { MenuService } from 'app/core/services/menu.service';
+import { UserService } from 'app/core/services/user.service';
+import { Router } from '@angular/router';
+import { LoginService } from 'app/core/services/login.service';
 
 @Component({
   selector: 'admin-menu',
@@ -13,10 +16,19 @@ export class AdminMenuComponent implements OnInit {
 
   constructor(
     public titleService: TitleService,
-    public menuService: MenuService
+    public menuService: MenuService,
+    public userService: UserService,
+    private loginService: LoginService,
+    private router: Router
   ) { }
 
   ngOnInit() {
+  }
+
+
+  logout() {
+    this.loginService.logout();
+    this.router.navigate(["/"]);
   }
 
 }

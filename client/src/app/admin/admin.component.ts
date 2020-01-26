@@ -10,6 +10,7 @@ import { combineAll } from 'rxjs/operators';
 import { combineLatest, Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
+import { UserService } from 'app/core/services/user.service';
 
 @Component({
   selector: 'admin',
@@ -28,6 +29,7 @@ export class AdminComponent implements OnInit {
     public swUpdate: SwUpdate,
     private footerService: FooterService,
     private aclService: AclService,
+    private userService: UserService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -35,6 +37,17 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
     this.titleService.setPageTitle("Můj Bošán");
     this.footerService.hide();
+
+    this.userService.user.toPromise().then(user => {
+      if (!user) {
+        this.router.navigate(["login"])
+      }
+      else {
+        this.aclService.can("admin").toPromise().then(can => {
+          if(!can) this.router.navigate(["/"])
+        })
+      }
+    })
 
     this.setMenu();
   }
@@ -47,7 +60,7 @@ export class AdminComponent implements OnInit {
   setMenu() {
 
     const menu = [
-      
+
     ];
 
 

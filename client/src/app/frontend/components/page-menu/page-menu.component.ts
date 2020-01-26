@@ -25,13 +25,9 @@ import { MenuService } from 'app/core/services/menu.service';
 })
 export class PageMenuComponent implements AfterViewInit, OnInit {
 
-  loginModal: BsModalRef;
-
   isTop: boolean = true;
 
   environment: string;
-
-  userLogin: string;
 
   collapsed: boolean = true;
 
@@ -41,19 +37,13 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
     public menuService: MenuService,
     public onlineService: OnlineService,
     public titleService: TitleService,
-    private loginService: LoginService,
     private configService: ConfigService,
-    private modalService: BsModalService,
-    private toastService: ToastService,
-    private router: Router,
   ) { }
 
   ngOnInit() {
     this.configService.config.subscribe(config => {
       this.environment = config.general.environment;
     });
-
-    this.userService.user.subscribe(user => this.userLogin = user ? user.login : "");
   }
 
   ngAfterViewInit() {
@@ -65,15 +55,6 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
     const doc = document.documentElement;
     const top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
     this.isTop = (top === 0);
-  }
-
-  openLogin() {
-    this.loginModal = this.modalService.show(LoginFormComponent);
-  }
-
-  logout() {
-    this.loginService.logout();
-    this.router.navigate(["/"]);
   }
 
 }

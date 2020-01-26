@@ -1,12 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { SwUpdate } from "@angular/service-worker";
+import { Component, OnInit } from '@angular/core';
 
-import { RuntimeService } from "app/core/services/runtime.service";
-import { OnlineService } from "app/core/services/online.service";
 import { ToastService, Toast } from "app/core/services/toast.service";
-import { MenuService } from './core/services/menu.service';
-import { FooterService } from './core/services/footer.service';
 
+import { permissions } from "config/permissions";
+import { UserService } from './core/services/user.service';
+import { AclService } from 'lib/acl';
+import { LoginService } from './core/services/login.service';
 
 @Component({
   selector: 'bosan-app',
@@ -19,15 +18,18 @@ export class AppComponent implements OnInit {
 
   isScrollTop: boolean;
 
-  constructor(
-    runtime: RuntimeService,
+  constructor(    
     private toastService: ToastService,
-    public menuService: MenuService,
-    public footerService: FooterService,
-    public onlineService: OnlineService,
-    public swUpdate: SwUpdate
+
+    private userService: UserService,
+    private aclService: AclService,
+    private loginService: LoginService
   ) {
-    runtime.init();
+    this.loadPermissions();
+
+    this.initUserService();
+
+    this.initLoginService();
   }
 
   ngOnInit() {
@@ -35,10 +37,37 @@ export class AppComponent implements OnInit {
       this.toasts.push(toast);
       setTimeout(() => this.toasts.shift(), 2000);
     });
+
+  }
+
+  loadPermissions() {
+    this.aclService.setPermissions(permissions);
+  }
+
+  initUserService() {
+
+    this.userService.loadUser();
+
+    // update roles
+    this.userService.user.subscribe(user => {
+      if (user) this.aclService.setRoles(["guest", "user", ...user.roles]);
+      else this.aclService.setRoles(["guest"]);
+    });
+  }
+
+  initLoginService() {
+    this.loginService.onLogin.subscribe(() => {
+      this.userService.loadUser();
+      this.toastService.toast("Přihlášeno.")
+    });
+    this.loginService.onLogout.subscribe(() => {
+      this.userService.loadUser();
+      this.toastService.toast("Odhlášeno.")
+    });
   }
 
   clearToasts() {
     this.toasts = [];
   }
-    
+
 }

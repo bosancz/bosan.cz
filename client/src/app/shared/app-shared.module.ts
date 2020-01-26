@@ -19,7 +19,6 @@ import { FormatPhonePipe } from './pipes/format-phone.pipe';
 /* COMPONENTS */
 import { SharingModalComponent } from './modals/sharing-modal/sharing-modal.component';
 import { ShareUrlDirective } from './directives/share-url.directive';
-import { LoginFormComponent } from "./modals/login-form/login-form.component";
 
 /* DIRECTIVES */
 import { AdminLinkDirective } from 'app/shared/directives/admin-link.directive';
@@ -60,7 +59,7 @@ export function getTooltipConfig():TooltipConfig {
     
   ],
   declarations: [
-    /* COMPONENTS */ SharingModalComponent, LoginFormComponent, MemberInfoModalComponent,
+    /* COMPONENTS */ SharingModalComponent, MemberInfoModalComponent,
     /* DIRECTIVES */ ShareUrlDirective, AdminLinkDirective, TextcheckDirective,
     /* PIPES */ SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe, FormatPhonePipe,
   ],
@@ -72,7 +71,7 @@ export function getTooltipConfig():TooltipConfig {
     AclModule,
     
     /* COMPONENTS */
-    SharingModalComponent, LoginFormComponent,MemberInfoModalComponent,
+    SharingModalComponent, MemberInfoModalComponent,
     /* DIRECTIVES */
     ShareUrlDirective, AdminLinkDirective, TextcheckDirective,
 
@@ -83,7 +82,7 @@ export function getTooltipConfig():TooltipConfig {
     GroupPipe,
     { provide: TooltipConfig, useFactory: getTooltipConfig }
   ],
-  entryComponents: [ LoginFormComponent, SharingModalComponent, MemberInfoModalComponent ]
+  entryComponents: [ SharingModalComponent, MemberInfoModalComponent ]
   
 })
 export class AppSharedModule { }
