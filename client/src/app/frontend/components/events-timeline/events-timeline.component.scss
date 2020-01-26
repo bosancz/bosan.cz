@@ -113,36 +113,12 @@ h5 {
   text-decoration: line-through;
 }
 
-.timeline .event.event-big .event-header {
+.timeline .event .event-header {
   padding-top: 1rem;
 }
-.timeline .event.event-big .panel {
+.timeline .event .panel {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   background-color: #fff;
-}
-
-.timeline .event.event-small .event-header {
-  padding-top: 0rem;
-}
-.timeline .event.event-small .footer {
-  display: none;
-}
-.timeline .event.event-small .meeting {
-  display: none;
-}
-.timeline .event.event-small .panel {
-  padding-left: 0;
-}
-.timeline .event.event-small h4,
-h5 {
-  font-weight: normal;
-}
-
-.timeline .event.event-small .arrow-vertical {
-  display: none;
-}
-.timeline .event.event-small .arrow-horizontal {
-  display: none;
 }
 
 /* Large devices (large desktops, 1200px and up) */
