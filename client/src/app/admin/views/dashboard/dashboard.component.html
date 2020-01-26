@@ -6,7 +6,7 @@
       <div class="col-md-8">
 
         <div *ngIf="dashboard?.noLeaderEventsCount > 0" class="alert alert-warning">
-          <a (click)="openLeadEventModal()" class="float-right ml-2">Otevřít</a>
+          <a routerLink="/interni/akce/vest-akci" class="float-right ml-2">Otevřít</a>
           Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí!
         </div>
 

@@ -36,8 +36,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dashboard = await this.api.get<Dashboard>("me:dashboard");
   }
 
-  openLeadEventModal() {
-    this.router.navigate(["akce/vest-akci"], { relativeTo: this.route });
-  }
-
 }
