@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApiService } from "app/core/services/api.service";
-
 import { Dashboard } from "app/shared/schema/dashboard";
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { LeadEventModalComponent } from '../../components/lead-event-modal/lead-event-modal.component';
 import { TitleService } from 'app/core/services/title.service';
+
 
 @Component({
   selector: 'dashboard',
@@ -16,16 +15,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   dashboard: Dashboard;
 
-  leadEventModalRef: BsModalRef;
-
-  constructor(private api: ApiService, private modalService: BsModalService, private titleService: TitleService) { }
+  constructor(
+    private api: ApiService,
+    private titleService: TitleService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     this.loadNoLeaderEvents();
     this.titleService.setPageTitle("Přehled");
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.titleService.reset();
   }
 
@@ -35,7 +37,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openLeadEventModal() {
-    this.leadEventModalRef = this.modalService.show(LeadEventModalComponent, { class: 'modal-lg' });
+    this.router.navigate(["akce/vest-akci"], { relativeTo: this.route });
   }
 
 }

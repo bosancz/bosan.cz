@@ -84,14 +84,20 @@ export class EventsViewComponent implements OnInit, OnDestroy {
   setMenu() {
     const actions = [];
 
-    if (!this.editing) actions.push({ type: "action", "label": "Upravit", disabled: this.editable, callback: () => { this.editing = true; this.setMenu() } })
+    const event = this.event;
+
+    if (!this.editing) {
+      if (event._actions.lead) {
+        actions.push({ type: "action", disabled: !event._actions.lead.allowed, calback: () => this.eventAction('lead'), label: "Vést akci" });
+        actions.push({ type: "divider" });
+      }
+      actions.push({ type: "action", "label": "Upravit", disabled: this.editable, callback: () => { this.editing = true; this.setMenu() } })
+    }
 
     if (this.editing) actions.push(...[
       { type: "action", "label": "Zrušit úpravy", disabled: this.editable, callback: () => this.cancelEdit() },
       { type: "action", "label": "Uložit", disabled: this.editable, callback: () => this.saveEvent() }
     ])
-
-    const event = this.event;
 
     if (!this.editing && event && event._actions) {
       actions.push({ type: "divider" });

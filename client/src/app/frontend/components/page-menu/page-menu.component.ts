@@ -1,21 +1,13 @@
 import { Component, HostListener, AfterViewInit, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
-import { Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-
-import { LoginService } from "app/core/services/login.service";
 import { OnlineService } from "app/core/services/online.service";
 import { UserService } from "app/core/services/user.service";
 import { AclService } from "lib/acl";
 import { ConfigService } from "app/core/services/config.service";
-import { ToastService } from "app/core/services/toast.service";
 import { TitleService } from 'app/core/services/title.service';
 
-import { LoginFormComponent } from "app/shared/modals/login-form/login-form.component";
 import { MenuService } from 'app/core/services/menu.service';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -27,7 +19,7 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
 
   isTop: boolean = true;
 
-  environment: string;
+  environment$ = this.configService.config.pipe(map(config => config.general.environment));
 
   collapsed: boolean = true;
 
@@ -41,9 +33,7 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
   ) { }
 
   ngOnInit() {
-    this.configService.config.subscribe(config => {
-      this.environment = config.general.environment;
-    });
+
   }
 
   ngAfterViewInit() {

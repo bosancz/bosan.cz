@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from "rxjs";
-
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApiService } from "app/core/services/api.service";
 
 import { Event } from "app/shared/schema/event";
-import { LeadEventModalComponent } from 'app/admin/components/lead-event-modal/lead-event-modal.component';
 
 @Component({
   selector: 'my-events',
   templateUrl: './my-events.component.html',
-  styleUrls: ['./my-events.component.scss']
+  styleUrls: ['./my-events.component.scss'],    
 })
 export class MyEventsComponent implements OnInit {
 
+  title = "Moje akce";
+
   events: Event[] = [];
 
-  leadEventModalRef: BsModalRef;
-
-  constructor(private api: ApiService, private modalService: BsModalService) {
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
   }
 
   ngOnInit() {
@@ -35,7 +36,7 @@ export class MyEventsComponent implements OnInit {
   }
 
   openLeadEventModal() {
-    this.leadEventModalRef = this.modalService.show(LeadEventModalComponent, { class: 'modal-lg' });
+    this.router.navigate(["akce/vest-akci"], { relativeTo: this.route });
   }
 
 

@@ -8,7 +8,7 @@ import { OnlineService } from 'app/core/services/online.service';
 import { AclService } from 'lib/acl';
 import { combineAll } from 'rxjs/operators';
 import { combineLatest, Subscription } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { UserService } from 'app/core/services/user.service';
 
@@ -35,51 +35,32 @@ export class AdminComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.titleService.setPageTitle("Můj Bošán");
-    this.footerService.hide();
 
-    this.userService.user.toPromise().then(user => {
-      if (!user) {
-        this.router.navigate(["login"])
-      }
-      else {
-        this.aclService.can("admin").toPromise().then(can => {
-          if(!can) this.router.navigate(["/"])
-        })
-      }
-    })
+    const user = this.userService.userSnapshot;
 
-    this.setMenu();
-  }
-
-  ngOnDestroy() {
-    this.footerService.reset();
-    this.menuService.reset();
-  }
-
-  setMenu() {
-
-    const menu = [
-
-    ];
-
-
-    this.menuSubscription = combineLatest(menu.map(item => item.permission)).subscribe(permissions => {
-      const filteredMenu = menu
-        .filter((item, i) => permissions[i])
-        .map(item => ({
-          path: this.router.serializeUrl(this.router.createUrlTree(item.path, { relativeTo: this.route })),
-          label: item.label
-        }));
-
-      console.log(filteredMenu);
-      this.menuService.setSecondaryMenu(filteredMenu);
-    });
+    if (!user) {
+      this.router.navigate(["login"], { relativeTo: this.route })
+    }
+    else {
+      this.aclService.can("admin").toPromise().then(can => {
+        if (!can) this.router.navigate(["/"])
+      })
+    }
 
   }
 
   reload() {
     window.location.reload();
+  }
+
+  onActivate(component: Component & { title?: string }) {
+
+    this.titleService.reset();
+    this.menuService.reset();
+
+    this.titleService.setPageTitle(component.title || null);
+  }
+  onDeactivate() {
   }
 
 }

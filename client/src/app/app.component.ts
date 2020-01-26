@@ -45,24 +45,23 @@ export class AppComponent implements OnInit {
   }
 
   initUserService() {
-
-    this.userService.loadUser();
-
+    
     // update roles
     this.userService.user.subscribe(user => {
       if (user) this.aclService.setRoles(["guest", "user", ...user.roles]);
       else this.aclService.setRoles(["guest"]);
     });
+    
+    this.userService.loadUser();
+
   }
 
   initLoginService() {
     this.loginService.onLogin.subscribe(() => {
-      this.userService.loadUser();
-      this.toastService.toast("Přihlášeno.")
+      this.userService.loadUser();      
     });
     this.loginService.onLogout.subscribe(() => {
-      this.userService.loadUser();
-      this.toastService.toast("Odhlášeno.")
+      this.userService.loadUser();      
     });
   }
 

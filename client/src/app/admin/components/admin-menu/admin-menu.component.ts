@@ -4,6 +4,8 @@ import { MenuService } from 'app/core/services/menu.service';
 import { UserService } from 'app/core/services/user.service';
 import { Router } from '@angular/router';
 import { LoginService } from 'app/core/services/login.service';
+import { ConfigService } from 'app/core/services/config.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'admin-menu',
@@ -14,11 +16,14 @@ export class AdminMenuComponent implements OnInit {
 
   collapsed: boolean = true;
 
+  environment$ = this.configService.config.pipe(map(config => config.general.environment));
+
   constructor(
     public titleService: TitleService,
     public menuService: MenuService,
     public userService: UserService,
     private loginService: LoginService,
+    private configService: ConfigService,
     private router: Router
   ) { }
 
@@ -28,7 +33,7 @@ export class AdminMenuComponent implements OnInit {
 
   logout() {
     this.loginService.logout();
-    this.router.navigate(["/"]);
+    this.router.navigate(["/interni/login"]);
   }
 
 }

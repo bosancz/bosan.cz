@@ -9,7 +9,7 @@
         <i class="fa fa-bars"></i>
       </button>
 
-      <span class="d-none d-lg-inline">Bosan.cz<span *ngIf="environment" class="environment">&nbsp;{{environment}}</span></span>
+      <span class="d-none d-lg-inline">Bosan.cz<span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{environment}}</span></span>
 
       <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Bosan.cz"}}</span>
 

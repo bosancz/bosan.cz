@@ -291,3 +291,18 @@ textarea:invalid:not(.novalidate) {
     flex: 0 0 auto;
   }
 }
+
+/* EVENTS */
+
+.event {
+  .circle {
+    position: relative;
+    top: 50%;
+    margin-top: -$circle-size/2;
+    width: $circle-size;
+    height: $circle-size;
+    border-radius: 50%;
+    background-color: #ccc;
+    z-index: 5;
+  }
+}

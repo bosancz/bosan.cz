@@ -6,10 +6,8 @@ import { environment } from "environments/environment";
 import { ToastService } from "app/core/services/toast.service";
 import { OnlineService } from "app/core/services/online.service";
 import { ApiService } from "app/core/services/api.service";
-import { RuntimeService } from "app/core/services/runtime.service";
 import { UserService } from "app/core/services/user.service";
-
-import { GoogleError } from "app/core/services/google.service";
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
@@ -21,10 +19,10 @@ export class AppErrorHandler implements ErrorHandler {
   handleError(err: any) {
 
     const toastService = this.injector.get(ToastService);
-    const onlineService = this.injector.get(OnlineService);
-    const runtimeService = this.injector.get(RuntimeService);
+    const onlineService = this.injector.get(OnlineService);    
     const userService = this.injector.get(UserService);
     const api = this.injector.get(ApiService);
+    const router = this.injector.get(Router);
 
     if (err.promise && err.rejection) err = err.rejection;
 
@@ -51,7 +49,7 @@ export class AppErrorHandler implements ErrorHandler {
 
       if (err.status === 401) {        
         if(userService.userSnapshot) toastService.toast("Přihlášení vypršelo, přihlaste se znovu.", "error");
-        else toastService.toast("K této akci musíte být přihlášeni.", "error");
+        else router.navigate(["/interni/login"]);
       }
       else if (err.status === 403) {
         toastService.toast("K této akci nemáš oprávnění.", "error");

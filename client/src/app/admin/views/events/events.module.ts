@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { AppSharedModule } from 'app/shared/app-shared.module';
+import { AdminSharedModule } from 'app/admin/shared/admin-shared.module';
+
 import { EventsRoutingModule } from './events-routing.module';
 
 import { EventAgeHistogramComponent } from './components/event-age-histogram/event-age-histogram.component';
@@ -14,14 +17,16 @@ import { EventAttendeesListItemComponent } from './components/event-attendees-li
 
 import { EventsViewComponent } from './views/events-view/events-view.component';
 import { EventsListComponent } from './views/events-list/events-list.component';
-import { AppSharedModule } from 'app/shared/app-shared.module';
-import { AdminSharedModule } from 'app/admin/shared/admin-shared.module';
+import { EventsLeadComponent } from './views/events-lead/events-lead.component';
+import { MyEventsComponent } from './views/my-events/my-events.component';
 
 @NgModule({
   declarations: [
     EventsListComponent,
     EventsViewComponent,
-    
+    EventsLeadComponent,
+    MyEventsComponent,
+
     EventAgeHistogramComponent,
     EventAttendeesListComponent,
     EventBirthdayListComponent,

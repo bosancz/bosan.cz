@@ -4,8 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from "./admin.component";
 
 import { AclGuard } from "lib/acl";
+
 import { CanalRegistrationComponent } from './views/canal-registration/canal-registration.component';
 import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
+import { LoginComponent } from './views/login/login.component';
 
 
 const routes:Routes = [
@@ -14,6 +16,8 @@ const routes:Routes = [
     component: AdminComponent,
     canActivateChild: [AclGuard],
     children: [
+
+      { path: 'login', component: LoginComponent },
 
       { path: 'prehled', loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule) },
 

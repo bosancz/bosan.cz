@@ -10,7 +10,7 @@
         <i class="fa fa-bars"></i>
       </button>
 
-      <span class="d-none d-lg-inline ml-3">Interní sekce</span>
+      <span class="d-none d-lg-inline ml-3">Interní sekce<span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{environment}}</span></span>
       <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Interní sekce"}}</span>
     </div>
 
@@ -35,8 +35,8 @@
           <a dropdownToggle class="nav-link dropdown-toggle" (click)="$event.stopPropagation()">Akce</a>
           <div *dropdownMenu class="dropdown-menu ml-3 ml-lg-0">
             <a *aclCan="'admin:events'" routerLink="akce" class="nav-link">Přehled akcí</a>
-            <a *aclCan="'admin:events'" routerLink="akce" class="nav-link">Moje akce</a>
-            <a *aclCan="'admin:events'" routerLink="akce" class="nav-link">Vést akci</a>
+            <a *aclCan="'admin:events'" routerLink="akce/moje" class="nav-link">Moje akce</a>
+            <a *aclCan="'admin:events'" routerLink="akce/vest-akci" class="nav-link">Vést akci</a>
             <div class="dropdown-divider"></div>
             <a *aclCan="'admin:program'" routerLink="program" class="nav-link">Správa programu</a>
           </div>
@@ -54,12 +54,12 @@
           <a dropdownToggle class="nav-link dropdown-toggle" (click)="$event.stopPropagation()">Web</a>
           <div *dropdownMenu class="dropdown-menu ml-3 ml-lg-0">
             <a *aclCan="'admin:users'" routerLink="uzivatele" class="nav-link">Uživatelé</a>
-            <a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-link">Nastavení webu</a>
+            <a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-link">Nastavení</a>
           </div>
         </li>
 
-        <ng-container class="navbar-nav " *ngIf="userService.user | async as user">
-          <li *aclCan="'admin'" routerLinkActive="active" class="nav-item"><a class="nav-link pl-lg-3" routerLink="ucet" routerLinkActive="active"><i class="fas fa-user pr-2"></i>{{user.login}}</a></li>
+        <ng-container *ngIf="userService.user | async as user">
+          <li *aclCan="'admin'" routerLinkActive="active" class="nav-item ml-lg-3"><a class="nav-link pl-lg-3" routerLink="ucet" routerLinkActive="active"><i class="fas fa-user pr-2"></i>{{user.login}}</a></li>
           <li *aclCan="'logout'" routerLinkActive="active" class="nav-item"><a class="nav-link pl-lg-3" (click)="logout()" tooltip="Odhásit se" placement="bottom"><i class="fas fa-sign-out-alt pr-2"></i><span class="d-inline d-lg-none">Odhlásit se</span></a></li>
         </ng-container>
 
