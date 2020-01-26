@@ -14,6 +14,7 @@ import { CanalRegistrationComponent } from './views/canal-registration/canal-reg
 import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
 import { MyAccountComponent } from './views/my-account/my-account.component';
 import { MyAccountAppComponent } from './views/my-account/my-account-app/my-account-app.component';
+import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { MyAccountAppComponent } from './views/my-account/my-account-app/my-acco
     
     /* VIEWS */
     CanalRegistrationComponent,
-    DocumentsViewComponent    
+    DocumentsViewComponent,
+    AdminMenuComponent    
   
   ],
   entryComponents:[

@@ -15,20 +15,6 @@
 
     </a>
 
-    <div *ngIf="menuService.actions | async as actionItems" class="dropdown text-right actions" dropdown>
-      <button dropdownToggle type="button" class="navbar-toggler"><i class="fas fa-ellipsis-v"></i></button>
-      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-        <ng-container *ngFor="let actionItem of actionItems" [ngSwitch]="actionItem.type">
-          
-          <a *ngSwitchCase="'action'" [class]="'dropdown-item ' + (actionItem.class || '')" [class.disabled]="actionItem.disabled" (click)="actionItem.callback()">{{actionItem.label}}</a>
-          
-          <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
-        
-        </ng-container>
-      </div>
-    </div>
-
-
     <div class="collapse navbar-collapse" [collapse]="collapsed">
       <div class="navbar-nav text-uppercase ml-auto" (click)="collapsed = true">
         <a class="nav-item nav-link px-lg-3" routerLink="/o-nas" routerLinkActive="active">O nás</a>
@@ -52,15 +38,5 @@
     </div>
 
 
-  </div>
-</nav>
-
-<nav *ngIf="menuService.secondaryMenu | async as menuItems" class="navbar secondary navbar-expand-lg navbar-dark">
-  <div class="container">
-    <div class="secondary-navbar collapse navbar-collapse" [collapse]="collapsed">
-      <div class="navbar-nav" (click)="collapsed = true">
-        <a *ngFor="let menuItem of menuItems" class="nav-item nav-link" [routerLink]="menuItem.path" routerLinkActive="active">{{menuItem.label}}</a>
-      </div>
-    </div>
   </div>
 </nav>

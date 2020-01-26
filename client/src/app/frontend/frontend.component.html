@@ -1,0 +1,13 @@
+<div id="layout" [class.menu-transparent]="menuService.transparent | async">
+
+  <!-- Navigation -->
+  <page-menu *ngIf="menuService.visible | async" class="d-print-none"></page-menu>
+
+  <!-- MAIN CONTENT -->
+  <div id="content">
+    <router-outlet></router-outlet>
+
+    <page-footer *ngIf="footerService.visible | async" class="d-print-none"></page-footer>
+  </div>
+
+</div>

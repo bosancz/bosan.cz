@@ -13,29 +13,38 @@ import { NewsViewComponent } from 'app/frontend/views/news-view/news-view.compon
 import { GalleryViewAlbumComponent } from 'app/frontend/views/gallery-view/gallery-view-album/gallery-view-album.component';
 import { GalleryViewTimelineComponent } from 'app/frontend/views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
 import { GalleryViewPhotosComponent } from 'app/frontend/views/gallery-view/gallery-view-photos/gallery-view-photos.component';
+import { FrontendComponent } from './frontend.component';
 
 
 const routes: Routes = [
-  {path: 'aktualne', component: NewsViewComponent},
+  {
+    path: '',
+    component: FrontendComponent,
+    children: [
 
-  {path: 'fotogalerie', component: GalleryViewComponent,
-   children: [
-     {path: ':album/:photo', component: GalleryViewPhotosComponent},
-     {path: ':album', component: GalleryViewAlbumComponent},
-     {path: '', component: GalleryViewTimelineComponent}
-   ]
-  },
+      { path: 'aktualne', component: NewsViewComponent },
 
-  {path: 'kontakty', component: ContactsViewComponent},
+      {
+        path: 'fotogalerie', component: GalleryViewComponent,
+        children: [
+          { path: ':album/:photo', component: GalleryViewPhotosComponent },
+          { path: ':album', component: GalleryViewAlbumComponent },
+          { path: '', component: GalleryViewTimelineComponent }
+        ]
+      },
 
-  {path: 'o-nas', component: AboutViewComponent},
+      { path: 'kontakty', component: ContactsViewComponent },
 
-  {path: 'program', component: EventsViewComponent},  
+      { path: 'o-nas', component: AboutViewComponent },
 
-  {path: 'tabor', component: CampViewComponent},  
+      { path: 'program', component: EventsViewComponent },
 
-  {path: '', redirectTo: "o-nas", pathMatch: "full"}
+      { path: 'tabor', component: CampViewComponent },
 
+      { path: '', redirectTo: "o-nas", pathMatch: "full" }
+      
+    ]
+  }
 ];
 
 @NgModule({

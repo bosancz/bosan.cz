@@ -1,0 +1,44 @@
+<nav class="navbar secondary navbar-expand-lg navbar-dark">
+  <div class="container">
+
+    <a class="navbar-brand text-uppercase">
+
+      <img src="/assets/img/san_logo_barva.png" class="d-inline logo-small" />
+
+      <button class="navbar-toggler" (click)="collapsed = !collapsed" type="button">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Bosan.cz"}}</span>
+
+    </a>
+
+    <div *ngIf="menuService.actions | async as actionItems" class="dropdown text-right actions" dropdown>
+      <button dropdownToggle type="button" class="navbar-toggler"><i class="fas fa-ellipsis-v"></i></button>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+        <ng-container *ngFor="let actionItem of actionItems" [ngSwitch]="actionItem.type">
+
+          <a *ngSwitchCase="'action'" [class]="'dropdown-item ' + (actionItem.class || '')" [class.disabled]="actionItem.disabled" (click)="actionItem.callback()">{{actionItem.label}}</a>
+
+          <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
+
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="collapse navbar-collapse" [collapse]="collapsed">
+      <div class="navbar-nav  text-uppercase" (click)="collapsed = true">
+        <a *aclCan="'admin:dashboard'" routerLink="prehled"  routerLinkActive="active" class="nav-item nav-link px-lg-3">Přehled</a>
+        <a *aclCan="'admin:events'" routerLink="akce"  routerLinkActive="active" class="nav-item nav-link px-lg-3">Akce</a>
+        <a *aclCan="'admin:albums'" routerLink="galerie"  routerLinkActive="active" class="nav-item nav-link px-lg-3">Galerie</a>
+        <a *aclCan="'admin:members'" routerLink="databaze"  routerLinkActive="active" class="nav-item nav-link px-lg-3">Databáze</a>
+        <a *aclCan="'admin:program'" routerLink="program"  routerLinkActive="active" class="nav-item nav-link px-lg-3">Programu</a>
+        <a *aclCan="'admin:statistics'" routerLink="statistiky"  routerLinkActive="active" class="nav-item nav-link px-lg-3">Statistiky</a>
+        <a *aclCan="'admin:canal'" routerLink="kanal"  routerLinkActive="active" class="nav-item nav-link px-lg-3">Troja</a>
+        <a *aclCan="'admin:account'" routerLink="ucet"  routerLinkActive="active" class="nav-item nav-link px-lg-3">Nastavení účtu</a>
+        <a *aclCan="'admin:users'" routerLink="uzivatele"  routerLinkActive="active" class="nav-item nav-link px-lg-3">Uživatelé</a>
+        <a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-item nav-link">Nastavení webu</a>
+      </div>
+    </div>
+  </div>
+</nav>

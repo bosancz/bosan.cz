@@ -5,6 +5,9 @@ import { CommonModule } from '@angular/common';
 import { FrontendRoutingModule } from './frontend-routing.module';
 import { AppSharedModule } from 'app/shared/app-shared.module';
 
+/* MAIN COMPONENT */
+import { FrontendComponent } from './frontend.component';
+
 /* VIEWS */
 import { AboutViewComponent } from 'app/frontend/views/about-view/about-view.component';
 import { CampViewComponent } from 'app/frontend/views/camp-view/camp-view.component';
@@ -29,6 +32,8 @@ import { PhotoGalleryComponent } from "./components/photo-gallery/photo-gallery.
 
 /* THIRD PARTY */
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { PageMenuComponent } from './components/page-menu/page-menu.component';
+import { PageFooterComponent } from './components/page-footer/page-footer.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +51,11 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
     GalleryViewPhotosComponent,
 
     /* COMPONENTS */
+    FrontendComponent,
+
+    PageMenuComponent,
+    PageFooterComponent,
+
     TimelineScrollComponent,
     PhotoGalleryComponent,
     ContactCardComponent,

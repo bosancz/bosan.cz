@@ -14,10 +14,6 @@ import { AppSharedModule } from "app/shared/app-shared.module";
 // VIEWS
 import { NotFoundComponent } from 'app/core/views/not-found/not-found.component';
 
-/* COMPONENTS */
-import { PageMenuComponent } from 'app/core/components/page-menu/page-menu.component';
-import { PageFooterComponent } from 'app/core/components/page-footer/page-footer.component';
-
 // App Config
 import { environment } from "environments/environment";
 
@@ -30,9 +26,6 @@ console.log("Angular is running in " + (environment.production ? "production" : 
     /* VIEWS */
     NotFoundComponent,
 
-    /* COMPONENTS */
-    PageMenuComponent,
-    PageFooterComponent
   ],
   imports: [
     BrowserAnimationsModule,    
