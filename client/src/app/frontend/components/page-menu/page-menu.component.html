@@ -1,9 +1,9 @@
 <nav class="navbar primary navbar-expand-lg navbar-dark" [class.transparent]="isTop && (menuService.transparent | async) && collapsed">
   <div class="container">
 
-    <a class="navbar-brand text-uppercase">
+    <div class="navbar-brand text-uppercase">
 
-      <img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small" />
+      <a routerLink="/"><img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small"></a>
 
       <button class="navbar-toggler" (click)="collapsed = !collapsed" type="button">
         <i class="fa fa-bars"></i>
@@ -13,27 +13,18 @@
 
       <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Bosan.cz"}}</span>
 
-    </a>
+    </div>
 
     <div class="collapse navbar-collapse" [collapse]="collapsed">
       <div class="navbar-nav text-uppercase ml-auto" (click)="collapsed = true">
-        <a class="nav-item nav-link px-lg-3" routerLink="/o-nas" routerLinkActive="active">O nás</a>
-        <a class="nav-item nav-link px-lg-3" routerLink="/aktualne" routerLinkActive="active">Aktuálně</a>
-        <a class="nav-item nav-link px-lg-3" routerLink="/program" routerLinkActive="active">Program</a>
-        <a class="nav-item nav-link px-lg-3" routerLink="/fotogalerie" routerLinkActive="active">Fotogalerie</a>
-        <a class="nav-item nav-link px-lg-3" routerLink="/tabor" routerLinkActive="active">Tábor</a>
-        <a class="nav-item nav-link px-lg-3" routerLink="/kontakty" routerLinkActive="active">Kontakty</a>
-
-        <ng-container *ngIf="onlineService.online | async">
-          <ng-container *ngIf="!(userService.user | async)">
-            <a *aclCan="'login'" class="nav-item nav-link px-lg-3" (click)="openLogin(); menuCollapsed=true" tooltip="Přihlásit se do interní sekce" placement="bottom"><i class="fa fa-lock"></i></a>
-          </ng-container>
-
-          <ng-container *ngIf="userService.user | async as user">
-            <a class="nav-item nav-link pl-lg-3" *aclCan="'admin'" routerLink="/interni" routerLinkActive="active"><i class="fas fa-user pr-2"></i>{{user.login}}</a>
-            <a class="nav-item nav-link pl-lg-3" *aclCan="'logout'" (click)="logout()" tooltip="Odhásit se" placement="bottom"><i class="fas fa-sign-out-alt pr-2"></i><span class="d-inline d-lg-none">Odhlásit se</span></a>
-          </ng-container>
-        </ng-container>
+        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/o-nas">O nás</a></li>
+        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/aktualne">Aktuálně</a></li>
+        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/program">Program</a></li>
+        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/fotogalerie">Fotogalerie</a></li>
+        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/tabor">Tábor</a></li>
+        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/kontakty">Kontakty</a></li>
+        
+        <li class="nav-item"><a class="nav-link px-lg-3" routerLink="/interni" tooltip="Interní sekce" placement="bottom"><i class="fa fa-lock"></i></a></li>
       </div>
     </div>
 
