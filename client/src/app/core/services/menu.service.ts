@@ -30,23 +30,19 @@ export class MenuService {
   constructor() { }
 
   hide() {
-    this.visible.next(false);
+    setTimeout(() => this.visible.next(false), 0);
   }
 
   setTransparent(status: boolean) {
-    this.transparent.next(status);
+    setTimeout(() => this.transparent.next(status), 0);
   }
 
   reset() {
     this.visible.next(true);
-    this.transparent.next(false);
+    this.setTransparent(false);
 
     this.secondaryMenu.next(null);
     this.actions.next(null);
-  }
-
-  setSecondaryMenu(menu: SecondaryMenuItem[]) {
-    setTimeout(() => this.secondaryMenu.next(menu), 0);
   }
 
   setActions(actions: ActionItem[]) {

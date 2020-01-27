@@ -18,13 +18,12 @@ export class FrontendComponent implements AfterViewInit {
   constructor(public menuService: MenuService, public footerService: FooterService) { }
 
   ngAfterViewInit() {
-    this.updateTop();
+    setTimeout(() => this.updateTop(), 0);
     this.scrollbarWidth = this.contentEl.nativeElement.offsetWidth - this.contentEl.nativeElement.clientWidth;
   }
 
   updateTop() {
     this.isTop = (this.contentEl.nativeElement.scrollTop === 0);
-    console.log(this.isTop)
   }
 
 }
