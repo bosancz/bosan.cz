@@ -1,9 +1,9 @@
 <div id="layout">
 
   <!-- Navigation -->
-  <header [class.transparent]="menuService.transparent | async" [class.top]="isTop" [style.margin-right]="(menuService.transparent | async) ? (scrollbarWidth || 0) + 'px' : 0">
-    <div class="container">
-      <page-menu *ngIf="menuService.visible | async" class="d-print-none"></page-menu>
+  <header [class.transparent]="menuCollapsed && (menuService.transparent | async)" [class.top]="isTop" [style.margin-right]="(menuService.transparent | async) ? (scrollbarWidth || 0) + 'px' : 0">
+    <div class="container px-0">
+      <page-menu *ngIf="menuService.visible | async" class="d-print-none" (collapse)="menuCollapsed = $event"></page-menu>
     </div>
   </header>
 

@@ -4,7 +4,7 @@
 
     <a routerLink="/"><img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small"></a>
 
-    <button class="navbar-toggler" (click)="collapsed = !collapsed" type="button">
+    <button class="navbar-toggler" (click)="setCollapsed(!collapsed)" type="button">
       <i class="fa fa-bars"></i>
     </button>
 
@@ -14,7 +14,7 @@
   </div>
 
   <div class="collapse navbar-collapse" [collapse]="collapsed">
-    <div class="navbar-nav text-uppercase ml-auto" (click)="collapsed = true">
+    <div class="navbar-nav text-uppercase ml-auto" (click)="setCollapsed(true)">
       <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/o-nas">O nás</a></li>
       <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/aktualne">Aktuálně</a></li>
       <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/program">Program</a></li>

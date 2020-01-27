@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 import { OnlineService } from "app/core/services/online.service";
 import { UserService } from "app/core/services/user.service";
@@ -23,6 +23,9 @@ export class PageMenuComponent {
 
   collapsed: boolean = true;
 
+  @Output()
+  collapse = new EventEmitter<boolean>();
+
   constructor(
     public aclService: AclService,
     public userService: UserService,
@@ -32,4 +35,8 @@ export class PageMenuComponent {
     private configService: ConfigService,
   ) { }
 
+  setCollapsed(collapsed: boolean) {
+    this.collapsed = collapsed
+    this.collapse.emit(collapsed);
+  }
 }

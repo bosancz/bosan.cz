@@ -11,6 +11,7 @@ export class FrontendComponent implements AfterViewInit {
 
   isTop: boolean;
   scrollbarWidth: number;
+  menuCollapsed: boolean = true;
 
   @ViewChild("content", { static: true }) contentEl: ElementRef<HTMLDivElement>;
 
