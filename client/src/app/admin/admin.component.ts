@@ -53,12 +53,9 @@ export class AdminComponent implements OnInit {
     window.location.reload();
   }
 
-  onActivate(component: Component & { title?: string }) {
-
+  onActivate() {
     this.titleService.reset();
     this.menuService.reset();
-
-    this.titleService.setPageTitle(component.title || null);
   }
   onDeactivate() {
   }
