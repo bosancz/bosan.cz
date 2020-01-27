@@ -7,9 +7,3 @@
 #content{
     overflow:auto;
 }
-
-#layout.menu-transparent{
-  display:block;
-  #content{overflow:visible;}
-  page-menu{position:fixed;left:0;top:0;right:0;z-index:1000;}
-}

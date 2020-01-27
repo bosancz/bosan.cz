@@ -1,10 +1,14 @@
-<div id="layout" [class.menu-transparent]="menuService.transparent | async">
+<div id="layout">
 
   <!-- Navigation -->
-  <page-menu *ngIf="menuService.visible | async" class="d-print-none"></page-menu>
+  <header [class.transparent]="menuService.transparent | async" [class.top]="isTop" [style.margin-right]="(menuService.transparent | async) ? (scrollbarWidth || 0) + 'px' : 0">
+    <div class="container">
+      <page-menu *ngIf="menuService.visible | async" class="d-print-none"></page-menu>
+    </div>
+  </header>
 
   <!-- MAIN CONTENT -->
-  <div id="content">
+  <div id="content" #content (scroll)="updateTop()">
     <router-outlet></router-outlet>
 
     <page-footer *ngIf="footerService.visible | async" class="d-print-none"></page-footer>

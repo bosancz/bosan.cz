@@ -1,69 +1,67 @@
-<nav class="navbar secondary navbar-expand-lg navbar-dark">
-  <div class="container">
+<nav class="navbar secondary navbar-expand-lg navbar-dark" [class.open]="!collapsed">
 
-    <div class="navbar-brand navbar-brand">
-      <a routerLink="/">
-        <img src="/assets/img/san_logo_barva.png" class="d-inline logo-small" />
-      </a>
+  <div class="navbar-brand">
+    <a routerLink="/">
+      <img src="/assets/img/san_logo_barva.png" class="d-inline logo-small" />
+    </a>
 
-      <button class="navbar-toggler" (click)="collapsed = !collapsed" type="button">
-        <i class="fa fa-bars"></i>
-      </button>
+    <button class="navbar-toggler" (click)="collapsed = !collapsed" type="button">
+      <i class="fa fa-bars"></i>
+    </button>
 
-      <span class="d-none d-lg-inline ml-3">Interní sekce<span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{environment}}</span></span>
-      <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Interní sekce"}}</span>
+    <span class="d-none d-lg-inline ml-3">Interní sekce<span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{environment}}</span></span>
+    <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Interní sekce"}}</span>
+  </div>
+
+  <div *ngIf="menuService.actions | async as actionItems" class="dropdown text-right actions" [class.d-none]="!collapsed" dropdown>
+    <button dropdownToggle type="button" class="navbar-toggler"><i class="fas fa-ellipsis-v"></i></button>
+    <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+      <ng-container *ngFor="let actionItem of actionItems" [ngSwitch]="actionItem.type">
+
+        <a *ngSwitchCase="'action'" [class]="'dropdown-item ' + (actionItem.class || '')" [class.disabled]="actionItem.disabled" (click)="actionItem.callback()">{{actionItem.label}}</a>
+
+        <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
+
+      </ng-container>
     </div>
+  </div>
 
-    <div *ngIf="menuService.actions | async as actionItems" class="dropdown text-right actions" dropdown>
-      <button dropdownToggle type="button" class="navbar-toggler"><i class="fas fa-ellipsis-v"></i></button>
-      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-        <ng-container *ngFor="let actionItem of actionItems" [ngSwitch]="actionItem.type">
+  <div class="collapse navbar-collapse" [collapse]="collapsed">
+    <ul class="navbar-nav text-uppercase ml-auto" (click)="collapsed = true">
+      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:dashboard'" routerLink="prehled" class="nav-link px-lg-3">Přehled</a></li>
 
-          <a *ngSwitchCase="'action'" [class]="'dropdown-item ' + (actionItem.class || '')" [class.disabled]="actionItem.disabled" (click)="actionItem.callback()">{{actionItem.label}}</a>
+      <li dropdown routerLinkActive="active" class="nav-item dropdown">
+        <a dropdownToggle class="nav-link dropdown-toggle" (click)="$event.stopPropagation()">Akce</a>
+        <div *dropdownMenu class="dropdown-menu ml-3 ml-lg-0">
+          <a *aclCan="'admin:events'" routerLink="akce" class="nav-link">Přehled akcí</a>
+          <a *aclCan="'admin:events'" routerLink="akce/moje" class="nav-link">Moje akce</a>
+          <a *aclCan="'admin:events'" routerLink="akce/vest-akci" class="nav-link">Vést akci</a>
+          <div class="dropdown-divider"></div>
+          <a *aclCan="'admin:program'" routerLink="program" class="nav-link">Správa programu</a>
+        </div>
+      </li>
 
-          <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
+      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:albums'" routerLink="galerie" class="nav-link px-lg-3">Galerie</a></li>
 
-        </ng-container>
-      </div>
-    </div>
+      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:members'" routerLink="databaze" class="nav-link px-lg-3">Databáze</a></li>
 
-    <div class="collapse navbar-collapse" [collapse]="collapsed">
-      <ul class="navbar-nav text-uppercase ml-auto" (click)="collapsed = true">
-        <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:dashboard'" routerLink="prehled" class="nav-link px-lg-3">Přehled</a></li>
+      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:statistics'" routerLink="statistiky" class="nav-link px-lg-3">Statistiky</a></li>
 
-        <li dropdown routerLinkActive="active" class="nav-item dropdown">
-          <a dropdownToggle class="nav-link dropdown-toggle" (click)="$event.stopPropagation()">Akce</a>
-          <div *dropdownMenu class="dropdown-menu ml-3 ml-lg-0">
-            <a *aclCan="'admin:events'" routerLink="akce" class="nav-link">Přehled akcí</a>
-            <a *aclCan="'admin:events'" routerLink="akce/moje" class="nav-link">Moje akce</a>
-            <a *aclCan="'admin:events'" routerLink="akce/vest-akci" class="nav-link">Vést akci</a>
-            <div class="dropdown-divider"></div>
-            <a *aclCan="'admin:program'" routerLink="program" class="nav-link">Správa programu</a>
-          </div>
-        </li>
+      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:canal'" routerLink="kanal" class="nav-link px-lg-3">Troja</a></li>
 
-        <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:albums'" routerLink="galerie" class="nav-link px-lg-3">Galerie</a></li>
+      <li dropdown routerLinkActive="active" class="nav-item dropdown">
+        <a dropdownToggle class="nav-link dropdown-toggle" (click)="$event.stopPropagation()">Web</a>
+        <div *dropdownMenu class="dropdown-menu ml-3 ml-lg-0">
+          <a *aclCan="'admin:users'" routerLink="uzivatele" class="nav-link">Uživatelé</a>
+          <a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-link">Nastavení</a>
+        </div>
+      </li>
 
-        <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:members'" routerLink="databaze" class="nav-link px-lg-3">Databáze</a></li>
+      <ng-container *ngIf="userService.user | async as user">
+        <li *aclCan="'admin'" routerLinkActive="active" class="nav-item ml-lg-3"><a class="nav-link pl-lg-3" routerLink="ucet" routerLinkActive="active"><i class="fas fa-user pr-2"></i>{{user.login}}</a></li>
+        <li *aclCan="'logout'" routerLinkActive="active" class="nav-item"><a class="nav-link pl-lg-3" (click)="logout()" tooltip="Odhásit se" placement="bottom"><i class="fas fa-sign-out-alt pr-2"></i><span class="d-inline d-lg-none">Odhlásit se</span></a></li>
+      </ng-container>
 
-        <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:statistics'" routerLink="statistiky" class="nav-link px-lg-3">Statistiky</a></li>
-
-        <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:canal'" routerLink="kanal" class="nav-link px-lg-3">Troja</a></li>
-
-        <li dropdown routerLinkActive="active" class="nav-item dropdown">
-          <a dropdownToggle class="nav-link dropdown-toggle" (click)="$event.stopPropagation()">Web</a>
-          <div *dropdownMenu class="dropdown-menu ml-3 ml-lg-0">
-            <a *aclCan="'admin:users'" routerLink="uzivatele" class="nav-link">Uživatelé</a>
-            <a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-link">Nastavení</a>
-          </div>
-        </li>
-
-        <ng-container *ngIf="userService.user | async as user">
-          <li *aclCan="'admin'" routerLinkActive="active" class="nav-item ml-lg-3"><a class="nav-link pl-lg-3" routerLink="ucet" routerLinkActive="active"><i class="fas fa-user pr-2"></i>{{user.login}}</a></li>
-          <li *aclCan="'logout'" routerLinkActive="active" class="nav-item"><a class="nav-link pl-lg-3" (click)="logout()" tooltip="Odhásit se" placement="bottom"><i class="fas fa-sign-out-alt pr-2"></i><span class="d-inline d-lg-none">Odhlásit se</span></a></li>
-        </ng-container>
-
-      </ul>
-    </div>
+    </ul>
   </div>
 </nav>

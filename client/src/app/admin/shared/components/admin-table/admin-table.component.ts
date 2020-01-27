@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class AdminTableComponent {
 
-  defaultTableClass = "table table-striped table-hover table-sm";
+  defaultTableClass = "table table-hover";
   tableClass:string;
   
   @Input() set class(classNames:string){

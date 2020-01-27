@@ -1,4 +1,4 @@
-import { Component, HostListener, AfterViewInit, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { OnlineService } from "app/core/services/online.service";
 import { UserService } from "app/core/services/user.service";
@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './page-menu.component.html',
   styleUrls: ['./page-menu.component.scss']
 })
-export class PageMenuComponent implements AfterViewInit, OnInit {
+export class PageMenuComponent {
 
   isTop: boolean = true;
 
@@ -31,20 +31,5 @@ export class PageMenuComponent implements AfterViewInit, OnInit {
     public titleService: TitleService,
     private configService: ConfigService,
   ) { }
-
-  ngOnInit() {
-
-  }
-
-  ngAfterViewInit() {
-    this.updateTop();
-  }
-
-  @HostListener('window:scroll', [])
-  updateTop() {
-    const doc = document.documentElement;
-    const top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-    this.isTop = (top === 0);
-  }
 
 }

@@ -153,11 +153,22 @@ a.badge,
 }
 
 /* === NAVBAR === */
-
-nav {
+header {
   background-color: $black70;
-  min-height: 60px;
+}
 
+header.transparent {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+}
+header.transparent.top {
+  background-color: transparent;
+}
+
+header nav.navbar {
   .navbar-toggler {
     border: none;
     outline: none;
@@ -168,6 +179,9 @@ nav {
     color: $white;
     font-weight: bold;
     z-index: 9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .navbar-brand:hover {
@@ -227,8 +241,8 @@ nav {
   }
 }
 
-nav.transparent {
-  background-color: transparent;
+header nav.navbar:not(.open) {
+  flex-wrap: nowrap !important;
 }
 
 /* VALIDATION */

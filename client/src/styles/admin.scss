@@ -1,34 +1,67 @@
+@import "~styles/variables";
 
-@import '~styles/variables';
-
-#admin {
-
-  h2{margin-bottom:20px;}
-  h2 .back{position:absolute;top:0;bottom:0;right:100%;margin-right:10px;}
-  
-  .btn {font-size:$font-basic;}
-  
-  table .actions a{margin: 0 5px;cursor:pointer;color:$linkBlue;}
-  
-  
-  ul.nav a.active{color:$hover-yellow;}
-  .btn{line-height: 24px;}
-  section{padding:20px 0;background-color:transparent;}
-
-  .modal .btn{line-height: 24px;}
-  
-  .card {
-    margin-bottom:20px;
-    
-    .card-title,.card-title h5{margin:0;}
-    .card-title .btn{float:right;}
-
-    .buttons .btn{display:block;width:100%;margin-bottom:10px;}
+admin {
+  h2 {
+    margin-bottom: 20px;
   }
-  
-  @media (max-width: 992px) { 
-    
-    #adminPage nav{
+  h2 .back {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    margin-right: 10px;
+  }
+
+  .btn {
+    font-size: $font-basic;
+  }
+
+  table .actions a {
+    margin: 0 5px;
+    cursor: pointer;
+    color: $linkBlue;
+  }
+
+  ul.nav a.active {
+    color: $hover-yellow;
+  }
+  .btn {
+    line-height: 24px;
+  }
+  section {
+    padding: 20px 0;
+    background-color: transparent;
+  }
+
+  .modal .btn {
+    line-height: 24px;
+  }
+
+  .card {
+    margin-bottom: 20px;
+
+    .card-title,
+    .card-title h5 {
+      margin: 0;
+    }
+    .card-title .btn {
+      float: right;
+    }
+
+    .buttons .btn {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  #admin {
+    padding-top: 54px;
+    margin-bottom: 65px;
+
+    nav {
       position: fixed;
       left: 0;
       right: 0;
@@ -40,19 +73,21 @@
       z-index: 10;
       border-top: 1px solid #ccc;
       overflow: auto;
-      
-      .nav-link{display:inline-block;}
+
+      .nav-link {
+        display: inline-block;
+      }
     }
-    
-    > nav{
-      a { padding:15px 20px; margin: 0 6px;}
-      .buttons{float:none;display:inline-block;}
+
+    > nav {
+      a {
+        padding: 15px 20px;
+        margin: 0 6px;
+      }
+      .buttons {
+        float: none;
+        display: inline-block;
+      }
     }
-    
-    
-    #adminPage{padding-top:54px;margin-bottom:65px;}
   }
 }
-
-#layout.offline #admin > nav{top:84px;}
-#layout.update #admin > nav{top:84px;}

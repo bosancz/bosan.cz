@@ -1,15 +1,18 @@
-<div id="admin" class="layout" [class.menu-transparent]="menuService.transparent | async">
+<div id="layout">
+  <header>
+    <div *ngIf="!(onlineService.online | async)" id="offline" class="text-center bg-danger text-light">
+      Nejste připojeni k internetu. Zobrazené údaje mohou být zastaralé.
+    </div>
 
-  <div *ngIf="!(onlineService.online | async)" id="offline" class="text-center bg-danger text-light">
-    Nejste připojeni k internetu. Zobrazené údaje mohou být zastaralé.
-  </div>
+    <div *ngIf="(onlineService.online | async) && (swUpdate.available | async)" id="update" class="text-center bg-warning text-light">
+      Je k dispozici nová verze bosan.cz. <a (click)="reload()">Načíst</a>
+    </div>
 
-  <div *ngIf="(onlineService.online | async) && (swUpdate.available | async)" id="update" class="text-center bg-warning text-light">
-    Je k dispozici nová verze bosan.cz. <a (click)="reload()">Načíst</a>
-  </div>
-
-  <!-- Navigation -->
-  <admin-menu *ngIf="menuService.visible | async" class="d-print-none"></admin-menu>
+    <!-- Navigation -->
+    <div class="container">
+      <admin-menu *ngIf="menuService.visible | async" class="d-print-none"></admin-menu>
+    </div>
+  </header>
 
   <!-- MAIN CONTENT -->
   <div id="content">
@@ -36,6 +39,6 @@
       </div>
     </div>
 
-    <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
-
+    <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate()"></router-outlet>
   </div>
+</div>

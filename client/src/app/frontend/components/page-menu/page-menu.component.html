@@ -1,33 +1,30 @@
-<nav class="navbar primary navbar-expand-lg navbar-dark" [class.transparent]="isTop && (menuService.transparent | async) && collapsed">
-  <div class="container">
+<nav class="navbar primary navbar-expand-lg navbar-dark" [class.open]="!collapsed">
 
-    <div class="navbar-brand text-uppercase">
+  <div class="navbar-brand text-uppercase">
 
-      <a routerLink="/"><img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small"></a>
+    <a routerLink="/"><img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small"></a>
 
-      <button class="navbar-toggler" (click)="collapsed = !collapsed" type="button">
-        <i class="fa fa-bars"></i>
-      </button>
+    <button class="navbar-toggler" (click)="collapsed = !collapsed" type="button">
+      <i class="fa fa-bars"></i>
+    </button>
 
-      <span class="d-none d-lg-inline">Bosan.cz<span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{environment}}</span></span>
-
-      <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Bosan.cz"}}</span>
-
-    </div>
-
-    <div class="collapse navbar-collapse" [collapse]="collapsed">
-      <div class="navbar-nav text-uppercase ml-auto" (click)="collapsed = true">
-        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/o-nas">O nás</a></li>
-        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/aktualne">Aktuálně</a></li>
-        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/program">Program</a></li>
-        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/fotogalerie">Fotogalerie</a></li>
-        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/tabor">Tábor</a></li>
-        <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/kontakty">Kontakty</a></li>
-        
-        <li class="nav-item"><a class="nav-link px-lg-3" routerLink="/interni" tooltip="Interní sekce" placement="bottom"><i class="fa fa-lock"></i></a></li>
-      </div>
-    </div>
-
+    <span class="d-none d-lg-inline">Bosan.cz<span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{environment}}</span></span>
+    <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Bosan.cz"}}</span>
 
   </div>
+
+  <div class="collapse navbar-collapse" [collapse]="collapsed">
+    <div class="navbar-nav text-uppercase ml-auto" (click)="collapsed = true">
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/o-nas">O nás</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/aktualne">Aktuálně</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/program">Program</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/fotogalerie">Fotogalerie</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/tabor">Tábor</a></li>
+      <li class="nav-item" routerLinkActive="active"><a class="nav-link px-lg-3" routerLink="/kontakty">Kontakty</a></li>
+
+      <li class="nav-item"><a class="nav-link px-lg-3" routerLink="/interni" tooltip="Interní sekce" placement="bottom"><i class="fa fa-lock"></i></a></li>
+    </div>
+  </div>
+
+
 </nav>
