@@ -1,26 +1,23 @@
-<section class="padding">
+<div class="container">
 
-  <div class="container">
+  <div class="row">
+    <div class="col-md-8">
 
-    <div class="row">
-      <div class="col-md-8">
-
-        <div *ngIf="dashboard?.noLeaderEventsCount > 0" class="alert alert-warning">
-          <a routerLink="/interni/akce/vest-akci" class="float-right ml-2">Otevřít</a>
-          Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí!
-        </div>
-
-        <p>Zde brzy uvidíte nové galerie, nové akce a vůbec co se kde přihodilo.</p>
-
+      <div *ngIf="dashboard?.noLeaderEventsCount > 0" class="alert alert-warning">
+        <a routerLink="/interni/akce/vest-akci" class="float-right ml-2">Otevřít</a>
+        Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí!
       </div>
 
-      <div class="col-md-4 right">
-        <h4 class="d-block d-md-none border-bottom border-secondary">Nejbližší akce</h4>
-        <div *ngFor="let event of dashboard?.program" class="mb-4">
-          <h5>{{[event.dateFrom,event.dateTill] | dateRange}} | {{event.name}}</h5>
-          <p>Vede <strong [innerHTML]="(event.leaders | joinLeaders) || 'pan NIKDO'"></strong></p>
-        </div>
+      <p>Zde brzy uvidíte nové galerie, nové akce a vůbec co se kde přihodilo.</p>
+
+    </div>
+
+    <div class="col-md-4 right">
+      <h4 class="d-block d-md-none border-bottom border-secondary">Nejbližší akce</h4>
+      <div *ngFor="let event of dashboard?.program" class="mb-4">
+        <h5>{{[event.dateFrom,event.dateTill] | dateRange}} | {{event.name}}</h5>
+        <p>Vede <strong [innerHTML]="(event.leaders | joinLeaders) || 'pan NIKDO'"></strong></p>
       </div>
     </div>
   </div>
-</section>
+</div>

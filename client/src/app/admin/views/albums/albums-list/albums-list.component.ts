@@ -11,6 +11,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
 import { ToastService } from 'app/core/services/toast.service';
 import { ApiService } from 'app/core/services/api.service';
+import { TitleService } from 'app/core/services/title.service';
 
 @Component({
   selector: 'albums-list',
@@ -40,7 +41,14 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
 
   paramsSubscription: Subscription;
 
-  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private modalService: BsModalService, private toastService: ToastService) { }
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private modalService: BsModalService,
+    private toastService: ToastService,
+    private titleService: TitleService
+  ) { }
 
   ngOnInit() {
     this.loadYears();
@@ -50,6 +58,9 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
       this.page = params.page;
       this.loadAlbums();
     });
+
+    this.titleService.setPageTitle("Galerie");
+
   }
 
   ngOnDestroy() {

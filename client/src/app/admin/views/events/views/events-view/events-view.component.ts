@@ -49,13 +49,13 @@ export class EventsViewComponent implements OnInit, OnDestroy {
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
       if (!this.event || params.event !== this.event._id) this.loadEvent(params.event);
     });
+    
+    this.titleService.setPageTitle("Načítám…");
 
   }
 
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
-    this.titleService.reset();
-    this.menuService.reset();
   }
 
   async loadEvent(eventId: string) {
