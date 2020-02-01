@@ -3,5 +3,9 @@
   overflow: auto;
 }
 .dashboard {
-  min-width: 1100px;
+  min-width: 1200px;
+  .column {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+  } 
 }

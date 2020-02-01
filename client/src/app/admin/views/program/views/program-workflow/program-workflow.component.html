@@ -1,24 +1,32 @@
-<div class="dashboard container-fluid px-3 px-lg-5">
-  
-  <button mat-raised-button color="primary" routerLink="./planovani">Plánování akcí</button>
-  
-  <div class="row">
+<div class="container-fluid">
+  <div class="dashboard px-0 px-xl-5">
 
-    <div class="col-4">
-      <h2 class="mb-3">V přípravě</h2>
-      <program-events-list [status]="['draft']"></program-events-list>
+    <button mat-raised-button color="primary" routerLink="./planovani">Plánování akcí</button>
+
+    <div class="row">
+
+      <div class="col-4">
+        <h2 class="mb-3">V přípravě</h2>
+        <div class="column p-3">
+          <program-events-list [status]="['draft']"></program-events-list>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <h2 class="mb-3">Ke schválení</h2>
+        <div class="column p-3">
+          <program-events-list [status]="['pending']"></program-events-list>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <h2 class="mb-3">V programu</h2>
+        <div class="column p-3">
+          <program-events-list [status]="['public','cancelled']"></program-events-list>
+        </div>
+      </div>
+
+
     </div>
-
-    <div class="col-4">
-      <h2 class="mb-3">Ke schválení</h2>
-      <program-events-list [status]="['pending']"></program-events-list>
-    </div>
-
-    <div class="col-4">
-      <h2 class="mb-3">V programu</h2>
-      <program-events-list [status]="['public','cancelled']"></program-events-list>
-    </div>
-
-
   </div>
 </div>
