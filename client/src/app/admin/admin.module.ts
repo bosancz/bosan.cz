@@ -1,12 +1,20 @@
+import 'hammerjs';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AppSharedModule } from "app/shared/app-shared.module";
 import { AdminSharedModule } from "app/admin/shared/admin-shared.module";
 
+/* Angular Material */
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 /* MAIN */
 import { AdminComponent } from './admin.component';
 import { AdminRoutingModule } from './admin-routing.module';
+
+/* SERVICES */
+import { ToastService } from './services/toast.service';
 
 /* MODALS */
 import { CanalRegistrationComponent } from './views/canal-registration/canal-registration.component';
@@ -20,7 +28,10 @@ import { LoginComponent } from './views/login/login.component';
     AdminRoutingModule,
 
     AppSharedModule,
-    AdminSharedModule
+    AdminSharedModule,
+
+    /* Angular Material */
+    MatSnackBarModule
   ],
   declarations: [
     AdminComponent,
@@ -34,6 +45,7 @@ import { LoginComponent } from './views/login/login.component';
     LoginComponent
 
   ],
-  entryComponents: []
+  entryComponents: [],
+  providers: [ToastService]
 })
 export class AdminModule { }

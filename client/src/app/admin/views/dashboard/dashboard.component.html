@@ -1,14 +1,29 @@
-<div class="container">
+<div class="container-fluid">
 
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
 
-      <div *ngIf="dashboard?.noLeaderEventsCount > 0" class="alert alert-warning">
-        <a routerLink="/interni/akce/vest-akci" class="float-right ml-2">Otevřít</a>
-        Mezi akcemi jsou nějaké nerozebrané. Vyber si a přihlaš se jako vedoucí!
-      </div>
-
-      <p>Zde brzy uvidíte nové galerie, nové akce a vůbec co se kde přihodilo.</p>
+      <mat-card *ngIf="dashboard?.noLeaderEventsCount > 0">
+        <mat-card-title>Volné akce!</mat-card-title>
+        <mat-card-content>
+          <mat-nav-list>
+            <mat-list-item>
+              <a matLine routerLink="/interni/akce/5d61ae487ad3da238fb9d5b9">Řekni STOP a zachraň svou generaci!</a>
+              <button mat-flat-button color="primary">Vést</button>
+            </mat-list-item>
+            <mat-list-item>
+              <a matLine routerLink="/interni/akce/5d61ae487ad3da238fb9d5b9">Řekni STOP a zachraň svou generaci!</a>
+              <button mat-flat-button color="primary">Vést</button>
+            </mat-list-item>
+            <mat-list-item>
+              <a matLine routerLink="/interni/akce/5d61ae487ad3da238fb9d5b9">Řekni STOP a zachraň svou generaci!</a>
+              <button mat-flat-button color="primary">Vést</button>
+            </mat-list-item>
+          </mat-nav-list>
+        </mat-card-content>
+      </mat-card>
 
     </div>
 

@@ -9,7 +9,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { ConfigService } from "app/core/services/config.service";
 import { ApiService } from "app/core/services/api.service";
-import { ToastService } from "app/core/services/toast.service";
+import { ToastService } from "app/admin/services/toast.service";
 
 import { Event } from "app/shared/schema/event";
 import { DateTime } from 'luxon';

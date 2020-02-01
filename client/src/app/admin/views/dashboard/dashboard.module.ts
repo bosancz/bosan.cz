@@ -8,9 +8,10 @@ import { DashboardComponent } from './dashboard.component';
 import { AppSharedModule } from 'app/shared/app-shared.module';
 import { AdminSharedModule } from 'app/admin/shared/admin-shared.module';
 
+
 @NgModule({
   declarations: [
-    DashboardComponent    
+    DashboardComponent,
   ],
   imports: [
     CommonModule,

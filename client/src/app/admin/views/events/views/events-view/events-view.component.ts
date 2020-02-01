@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
 import { DateTime } from "luxon";
 
 import { ApiService } from "app/core/services/api.service";
-import { ToastService } from "app/core/services/toast.service";
+import { ToastService } from "app/admin/services/toast.service";
 import { ConfigService } from "app/core/services/config.service";
 
 import { Event, EventExpense } from "app/shared/schema/event";

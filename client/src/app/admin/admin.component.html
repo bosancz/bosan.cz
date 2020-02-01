@@ -9,9 +9,7 @@
     </div>
 
     <!-- Navigation -->
-    <div class="container px-0">
-      <admin-menu *ngIf="menuService.visible | async" class="d-print-none"></admin-menu>
-    </div>
+    <admin-menu *ngIf="menuService.visible | async" class="d-print-none"></admin-menu>
   </header>
 
   <!-- MAIN CONTENT -->
@@ -20,13 +18,11 @@
     <div class="d-none d-lg-block container mt-5">
       <div class="row">
 
-        <div class="col-12 col-md-10">
-          <h2 *ngIf="titleService.pageTitle | async as title">{{title}}</h2>
-        </div>
-
         <div class="col-12 col-md-2 buttons my-3 my-md-0">
           <div *ngIf="menuService.actions | async as actionItems" class="dropdown text-right actions" dropdown>
-            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle w-100">Akce</button>
+            <button dropdownToggle type="button" class="btn btn-primary ml-auto">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
             <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
               <ng-container *ngFor="let actionItem of actionItems" [ngSwitch]="actionItem.type">
                 <a *ngSwitchCase="'action'" [class]="'dropdown-item ' + (actionItem.class || '')" [class.disabled]="actionItem.disabled" (click)="actionItem.callback()">{{actionItem.label}}</a>

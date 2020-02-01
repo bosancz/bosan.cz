@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
 import { ApiService } from "app/core/services/api.service";
-import { ToastService } from "app/core/services/toast.service";
+import { ToastService } from "app/admin/services/toast.service";
 
 import { User } from "app/shared/schema/user";
 

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ToastService, Toast } from "app/core/services/toast.service";
-
 import { permissions } from "config/permissions";
 import { UserService } from './core/services/user.service';
 import { AclService } from 'lib/acl';
@@ -9,18 +7,11 @@ import { LoginService } from './core/services/login.service';
 
 @Component({
   selector: 'bosan-app',
-  templateUrl: "app.component.html",
-  styleUrls: ["app.component.scss"]
+  template: `<router-outlet></router-outlet>`
 })
 export class AppComponent implements OnInit {
 
-  toasts: Toast[] = [];
-
-  isScrollTop: boolean;
-
   constructor(    
-    private toastService: ToastService,
-
     private userService: UserService,
     private aclService: AclService,
     private loginService: LoginService
@@ -33,10 +24,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.toastService.toasts.subscribe((toast: Toast) => {
-      this.toasts.push(toast);
-      setTimeout(() => this.toasts.shift(), 2000);
-    });
 
   }
 
@@ -65,8 +52,5 @@ export class AppComponent implements OnInit {
     });
   }
 
-  clearToasts() {
-    this.toasts = [];
-  }
 
 }

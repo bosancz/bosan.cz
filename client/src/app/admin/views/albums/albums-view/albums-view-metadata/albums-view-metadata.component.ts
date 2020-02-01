@@ -3,7 +3,7 @@ import { formatDate } from "@angular/common";
 import { NgForm } from "@angular/forms";
 
 import { ApiService } from "app/core/services/api.service";
-import { ToastService } from "app/core/services/toast.service";
+import { ToastService } from "app/admin/services/toast.service";
 
 import { Album } from "app/shared/schema/album";
 import { Event } from "app/shared/schema/event";

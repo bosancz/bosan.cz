@@ -7,9 +7,8 @@ import { CzechHolidays, HolidayDate } from "czech-holidays";
 import { Subscription } from "rxjs";
 
 import { ApiService } from "app/core/services/api.service";
-import { ToastService } from "app/core/services/toast.service";
+import { ToastService } from "app/admin/services/toast.service";
 
-import { Paginated } from "app/shared/schema/paginated";
 import { Event } from "app/shared/schema/event";
 import { CPVEvent } from "app/shared/schema/cpv-event";
 import { ConfigService } from 'app/core/services/config.service';
@@ -20,15 +19,15 @@ class CalendarMonth {
   days: CalendarDay[] = [];
 
   blocks = {
-    own: new CalendarMonthBlock(),
-    cpv: new CalendarMonthBlock()
+    own: new CalendarMonthBlock<Event>(),
+    cpv: new CalendarMonthBlock<CPVEvent>()
   };
 
   constructor(public number: number, public year: number) { }
 }
 
-class CalendarMonthBlock {
-  events: CalendarEvent[] = [];
+class CalendarMonthBlock<T extends (CPVEvent | Event)> {
+  events: CalendarEvent<T>[] = [];
   levels: number = 1;
 }
 
@@ -37,24 +36,24 @@ class CalendarDay {
   constructor(public date: DateTime, public isHoliday: boolean) { }
 }
 
-class CalendarEvent {
+class CalendarEvent<T extends (CPVEvent | Event)> {
   level?: number = 0;
 
   dateFrom: DateTime;
   dateTill: DateTime;
 
-  constructor(public event: CPVEvent | Event) {
+  constructor(public event: T) {
     this.dateFrom = DateTime.fromISO(event.dateFrom).set({ hour: 0, minute: 0 });
     this.dateTill = DateTime.fromISO(event.dateTill).set({ hour: 0, minute: 0 });
   }
 }
 
 @Component({
-  selector: 'event-planning',
-  templateUrl: './event-planning.component.html',
-  styleUrls: ['./event-planning.component.scss']
+  selector: 'program-planning',
+  templateUrl: './program-planning.component.html',
+  styleUrls: ['./program-planning.component.scss']
 })
-export class EventPlanningComponent implements OnInit, OnDestroy {
+export class ProgramPlanningComponent implements OnInit, OnDestroy {
 
   trimester: number;
   year: number;
@@ -265,11 +264,11 @@ export class EventPlanningComponent implements OnInit, OnDestroy {
     if (this.selection) this.selection[1] = day.date;
   }
 
-  getEventLeft(event: CalendarEvent, month: CalendarMonth) {
+  getEventLeft(event: CalendarEvent<CPVEvent | Event>, month: CalendarMonth) {
     return event.dateFrom.diff(month.days[0].date, "days").days / month.days.length;
   }
 
-  getEventWidth(event: CalendarEvent, month: CalendarMonth) {
+  getEventWidth(event: CalendarEvent<CPVEvent | Event>, month: CalendarMonth) {
     return (event.dateTill.diff(event.dateFrom, "days").days + 1) / month.days.length;
   }
 

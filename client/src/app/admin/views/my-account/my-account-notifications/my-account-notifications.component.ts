@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SwPush } from "@angular/service-worker";
 
 import { ApiService } from "app/core/services/api.service";
-import { ToastService } from "app/core/services/toast.service";
+import { ToastService } from "app/admin/services/toast.service";
 
 import { User, UserNotification } from "app/shared/schema/user";
 

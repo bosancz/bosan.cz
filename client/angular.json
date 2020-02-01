@@ -22,7 +22,6 @@
               "src/manifest.json"
             ],
             "styles": [
-              "./node_modules/bootstrap/scss/bootstrap.scss",
               "src/styles/styles.scss"
             ],
             "scripts": [

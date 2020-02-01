@@ -9,7 +9,7 @@ import { Album } from "app/shared/schema/album";
 import { Paginated } from "app/shared/schema/paginated";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
-import { ToastService } from 'app/core/services/toast.service';
+import { ToastService } from 'app/admin/services/toast.service';
 import { ApiService } from 'app/core/services/api.service';
 import { TitleService } from 'app/core/services/title.service';
 
@@ -36,6 +36,8 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
   openFilter: boolean = false;
 
   loading: boolean = false;
+
+  currentYear = (new Date()).getFullYear();
 
   createAlbumModalRef: BsModalRef;
 

@@ -1,6 +1,14 @@
 @import "~styles/variables";
+@import '~@angular/material/theming';
 
 admin {
+  display: block;
+  background-color: #fafafa;
+
+  header{
+    @include mat-elevation(2);
+  }
+
   h2 {
     margin-bottom: 20px;
   }

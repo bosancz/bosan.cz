@@ -1,0 +1,53 @@
+<div class="container">
+
+  <form #trimesterForm="ngForm" class="mb-5">
+    <div class="row">
+      <div class="col-md-3 col-6">
+        <a [routerLink]="['./',getPreviousTrimester()]" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
+      </div>
+      <div class="col-md-3 d-none d-md-block">
+        <input type="number" name="year" class="form-control" [ngModel]="year" (ngModelChange)="setTrimester(trimesterForm)">
+      </div>
+      <div class="col-md-3 d-none d-md-block">
+        <select name="trimester" [ngModel]="trimester" (ngModelChange)="setTrimester(trimesterForm)" class="form-control">
+          <option value="0">leden - duben</option>
+          <option value="1">květen - srpen</option>
+          <option value="2">září - prosinec</option>
+        </select>
+      </div>
+      <div class="col-md-3 col-6 text-right">
+        <a [routerLink]="['./',getNextTrimester()]" class="btn btn-light"><i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </form>
+
+  <div class="legend row my-5">
+    <span *ngFor="let status of statuses" [class]="'col text-center text-' + status.class"><i class="fas fa-circle"></i> {{status.name || status.id}}</span>
+    <span class="col text-center text-dark"><i class="fas fa-circle"></i> CPV</span>
+  </div>
+
+  <div class="calendar">
+    <ng-container *ngFor="let month of calendar">
+      <h3 class="text-center mb-3">{{month.number | monthName}} {{month.year}}</h3>
+
+      <div class="month">
+
+        <div class="days clearfix">
+          <div *ngFor="let day of month.days" class="day" [style.left]="(day.date.day - 1) * (1/month.days.length) * 100 + '%'" [style.width]="(1/month.days.length)*100 + '%'" [class.weekend]="isWeekend(day)" [class.holiday]="day.isHoliday" [class.selected]="isSelected(day)" (mousedown)="setEventStart(day)" (mouseover)="setEventEnd(day)" (mouseup)="createEvent()">
+            <div class="date">
+              {{day.date | date:"d."}}
+            </div>
+          </div>
+        </div>
+
+
+        <div class="events own" [style.height]="(month.blocks.own.levels + 1) * 18 + 'px'">
+          <div *ngFor="let calEvent of month.blocks.own.events" [class]="'event ' + getEventClass(calEvent.event)" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="18 * calEvent.level + 'px'" [tooltip]="getEventTooltip(calEvent.event)" placement="bottom" [routerLink]="['/interni/akce',calEvent.event._id]"></div>
+        </div>
+
+        <div class="events cpv" [style.height]="month.blocks.cpv.levels * 18 + 'px'">
+          <a *ngFor="let calEvent of month.blocks.cpv.events" class="event" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="18 * calEvent.level + 'px'" [tooltip]="calEvent.event.name" [attr.href]="calEvent.event.link || null" target="_blank" placement="bottom"></a>
+        </div>
+      </div>
+    </ng-container>
+  </div>

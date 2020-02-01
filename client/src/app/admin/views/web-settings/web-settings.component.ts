@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
 import { ConfigService } from "app/core/services/config.service";
-import { ToastService } from "app/core/services/toast.service";
+import { ToastService } from "app/admin/services/toast.service";
 
 import { WebConfig } from "app/shared/schema/webconfig";
 import { CodelistField } from "app/admin/shared/components/codelist-editor/codelist-editor.component";

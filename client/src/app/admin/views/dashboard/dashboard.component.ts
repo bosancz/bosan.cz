@@ -32,8 +32,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async loadNoLeaderEvents() {
-
     this.dashboard = await this.api.get<Dashboard>("me:dashboard");
+    console.log(this.dashboard);
   }
 
 }

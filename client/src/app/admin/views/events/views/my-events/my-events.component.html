@@ -5,7 +5,7 @@
 
       <div *ngFor="let event of events" class="event card">
         <div class="card-header">
-          <a [routerLink]="['./',event._id]" class="btn btn-primary btn-sm float-right">Otevřít</a>
+          <a [routerLink]="['../',event._id]" class="btn btn-primary btn-sm float-right">Otevřít</a>
           <div class="card-title">
             <h5>
               {{event.name}}

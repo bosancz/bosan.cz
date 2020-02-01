@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs";
 
 import { DataService } from "app/core/services/data.service";
-import { ToastService } from "app/core/services/toast.service";
+import { ToastService } from "app/admin/services/toast.service";
 
 import { Member } from "app/shared/schema/member";
 

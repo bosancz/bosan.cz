@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from "@angular/router";
 
 import { ConfigService } from "app/core/services/config.service";
-import { ToastService } from "app/core/services/toast.service";
 import { TitleService } from "app/core/services/title.service";
 
 import { Contact } from "app/shared/schema/contact";

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/co
 import { BsModalRef, ModalOptions, BsModalService } from 'ngx-bootstrap/modal';
 
 import { Event } from "app/shared/schema/event";
-import { ToastService } from 'app/core/services/toast.service';
+import { ToastService } from 'app/admin/services/toast.service';
 import { ApiService } from 'app/core/services/api.service';
 
 @Component({

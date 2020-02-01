@@ -2,11 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { ConfigService } from "app/core/services/config.service";
 import { ApiService } from "app/core/services/api.service";
-import { ToastService } from "app/core/services/toast.service";
 
 import { Event } from "app/shared/schema/event";
-import { Member } from "app/shared/schema/member";
-import { WebConfigEventType, WebConfigEventSubType } from "app/shared/schema/webconfig";
 
 @Component({
   selector: 'events-timeline',
@@ -25,7 +22,7 @@ export class EventsTimelineComponent implements OnInit {
 
   loading: boolean = false;
 
-  constructor(private api: ApiService, private configService: ConfigService, private toastService: ToastService) { }
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
     this.loadEvents();

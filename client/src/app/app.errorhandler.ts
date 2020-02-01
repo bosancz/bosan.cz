@@ -3,7 +3,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { environment } from "environments/environment";
 
-import { ToastService } from "app/core/services/toast.service";
 import { OnlineService } from "app/core/services/online.service";
 import { ApiService } from "app/core/services/api.service";
 import { UserService } from "app/core/services/user.service";
@@ -18,7 +17,6 @@ export class AppErrorHandler implements ErrorHandler {
 
   handleError(err: any) {
 
-    const toastService = this.injector.get(ToastService);
     const onlineService = this.injector.get(OnlineService);    
     const userService = this.injector.get(UserService);
     const api = this.injector.get(ApiService);
@@ -48,11 +46,9 @@ export class AppErrorHandler implements ErrorHandler {
       if (!onlineService.online.value) return; // dont report errors due to conenction loss
 
       if (err.status === 401) {        
-        if(userService.userSnapshot) toastService.toast("Přihlášení vypršelo, přihlaste se znovu.", "error");
-        else router.navigate(["/interni/login"]);
+        router.navigate(["/interni/login"]);
       }
       else if (err.status === 403) {
-        toastService.toast("K této akci nemáš oprávnění.", "error");
         reportError = false;
       }
 

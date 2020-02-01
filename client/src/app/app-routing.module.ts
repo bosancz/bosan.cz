@@ -13,6 +13,7 @@ const routes:Routes = [
 
   {path: '', loadChildren: () => import('./frontend/frontend.module').then(m => m.FrontendModule) },
     
+  {path: 'nenalezeno', component: NotFoundComponent},
   {path: '**', component: NotFoundComponent}
 
 ];
