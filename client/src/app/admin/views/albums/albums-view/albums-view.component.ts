@@ -58,6 +58,10 @@ export class AlbumsViewComponent implements OnInit, OnDestroy {
 
   async deleteAlbum() {
     let name = this.album.name;
+    const confirmation = window.confirm(`Opravdu smazat album ${name}?`);
+
+    if (!confirmation) return;
+
     await this.dataService.deleteAlbum(this.album._id);
     this.toastService.toast("Album " + name + " bylo smazáno.");
     this.router.navigate(["../../"], { relativeTo: this.route });

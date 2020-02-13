@@ -11,6 +11,7 @@ import { MyAccountInfoComponent } from './my-account-info/my-account-info.compon
 import { MyAccountNotificationsComponent } from './my-account-notifications/my-account-notifications.component';
 import { MyAccountAppComponent } from './my-account-app/my-account-app.component';
 import { AppSharedModule } from 'app/shared/app-shared.module';
+import { AdminSharedModule } from 'app/admin/shared/admin-shared.module';
 
 @NgModule({
   declarations: [
@@ -22,9 +23,12 @@ import { AppSharedModule } from 'app/shared/app-shared.module';
   ],
   imports: [
     CommonModule,
-    MyAccountRoutingModule,
+    FormsModule,
+    
     AppSharedModule,
-    FormsModule
+    AdminSharedModule,
+    
+    MyAccountRoutingModule,
   ]
 })
 export class MyAccountModule { }
