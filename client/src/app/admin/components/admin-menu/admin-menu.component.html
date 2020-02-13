@@ -13,17 +13,11 @@
     <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Interní sekce"}}</span>
   </div>
 
-  <div *ngIf="menuService.actions | async as actionItems" class="dropdown text-right actions" [class.d-none]="!collapsed" dropdown>
-    <button dropdownToggle type="button" class="navbar-toggler"><i class="fas fa-ellipsis-v"></i></button>
-    <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-      <ng-container *ngFor="let actionItem of actionItems" [ngSwitch]="actionItem.type">
-
-        <a *ngSwitchCase="'action'" [class]="'dropdown-item ' + (actionItem.class || '')" [class.disabled]="actionItem.disabled" (click)="actionItem.callback()">{{actionItem.label}}</a>
-
-        <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
-
-      </ng-container>
-    </div>
+  <div *ngIf="menuService.actionMenu" class="dropdown text-right actions" [class.d-none]="!collapsed">
+    <button [matMenuTriggerFor]="actionsMenu" type="button" class="navbar-toggler"><i class="fas fa-ellipsis-v"></i></button>
+    <mat-menu #actionsMenu>
+      <ng-container *ngTemplateOutlet="menuService.actionMenu"></ng-container>
+    </mat-menu>
   </div>
 
   <div class="collapse navbar-collapse" [collapse]="collapsed">
@@ -32,7 +26,15 @@
 
       <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:events'" routerLink="akce" class="nav-link px-lg-3">Akce</a></li>
 
-      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:program'" routerLink="program" class="nav-link px-lg-3">Program</a></li>
+      <li *aclCan="'admin:program'" dropdown routerLinkActive="active" class="nav-item dropdown">
+        <a dropdownToggle class="nav-link dropdown-toggle" (click)="$event.stopPropagation()">Program</a>
+        <div *dropdownMenu class="dropdown-menu ml-3 ml-lg-0">
+          <a routerLink="program" class="nav-link px-lg-3">Schvalování</a>
+          <a routerLink="program/planovani" class="nav-link px-lg-3">Plánování akcí</a>
+        </div>
+      </li>
+
+
 
       <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:albums'" routerLink="galerie" class="nav-link px-lg-3">Galerie</a></li>
 

@@ -14,6 +14,8 @@ import { CPVEvent } from "app/shared/schema/cpv-event";
 import { ConfigService } from 'app/core/services/config.service';
 import { WebConfigEventStatus } from 'app/shared/schema/webconfig';
 
+const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
+
 class CalendarMonth {
 
   days: CalendarDay[] = [];
@@ -23,7 +25,12 @@ class CalendarMonth {
     cpv: new CalendarMonthBlock<CPVEvent>()
   };
 
-  constructor(public number: number, public year: number) { }
+  name: string;
+
+  constructor(public number: number, public year: number) {
+    this.name = months[number - 1];
+
+  }
 }
 
 class CalendarMonthBlock<T extends (CPVEvent | Event)> {

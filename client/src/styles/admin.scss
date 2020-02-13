@@ -1,6 +1,11 @@
 @import "~styles/variables";
 @import '~@angular/material/theming';
 
+  
+.mat-menu-panel button {
+  display: block;
+}
+
 admin {
   display: block;
   background-color: #fafafa;

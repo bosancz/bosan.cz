@@ -8,13 +8,11 @@ import { AclModule } from "lib/acl";
  
 /* PIPES */
 import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
-import { JoinAttendeesPipe } from './pipes/join-attendees.pipe';
 import { GroupPipe } from "./pipes/group.pipe";
 import { DateRangePipe } from "./pipes/date-range.pipe";
 import { EventPipe } from "./pipes/event.pipe";
-import { MonthNamePipe } from './pipes/month-name.pipe';
-import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
+import { SafeurlPipe } from "./pipes/safeurl.pipe";
 
 /* COMPONENTS */
 import { SharingModalComponent } from './modals/sharing-modal/sharing-modal.component';
@@ -61,7 +59,7 @@ export function getTooltipConfig():TooltipConfig {
   declarations: [
     /* COMPONENTS */ SharingModalComponent, MemberInfoModalComponent,
     /* DIRECTIVES */ ShareUrlDirective, AdminLinkDirective, TextcheckDirective,
-    /* PIPES */ SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe, FormatPhonePipe,
+    /* PIPES */ SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, EventPipe, FormatPhonePipe,
   ],
   exports: [
     /* MODULES */ CommonModule, FormsModule, HttpClientModule,
@@ -76,7 +74,7 @@ export function getTooltipConfig():TooltipConfig {
     ShareUrlDirective, AdminLinkDirective, TextcheckDirective,
 
     /* PIPES */
-    SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, JoinAttendeesPipe, EventPipe, MonthNamePipe, FormatPhonePipe,
+    SafeurlPipe, GroupPipe, DateRangePipe, JoinLeadersPipe, EventPipe, FormatPhonePipe,
   ],
   providers: [    
     GroupPipe,

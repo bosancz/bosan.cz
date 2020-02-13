@@ -39,6 +39,8 @@ export class EventsListComponent implements OnInit, OnDestroy {
 
   paramsSubscription: Subscription;
 
+  canCreate: boolean;
+
   constructor(
     private api: ApiService,
     private configService: ConfigService,
@@ -47,8 +49,13 @@ export class EventsListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private modalService: BsModalService,
     private titleService: TitleService,
-    private menuService: MenuService
-  ) { }
+    public menuService: MenuService
+  ) {
+    
+    api.resources
+      .then(resources => resources.events.allowed.POST)
+      .then(canCreate => this.canCreate = canCreate);
+  }
 
   ngOnInit() {
 
@@ -62,10 +69,6 @@ export class EventsListComponent implements OnInit, OnDestroy {
     //
 
     this.titleService.setPageTitle("Přehled akcí");
-
-    this.menuService.setActions([
-      { type: "action" as "action", label: "Vytvořit akci", callback: () => this.openCreateEventModal() }
-    ])
 
   }
 

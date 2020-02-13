@@ -4,8 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Member } from 'app/shared/schema/member';
 import { Event } from 'app/shared/schema/event';
-import { ModalService } from 'app/core/services/modal.service';
-import { BsModalRef } from 'ngx-bootstrap/modal/public_api';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'event-attendees-list',
@@ -34,7 +33,7 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
 
   selectModal: BsModalRef;
 
-  constructor(private route: ActivatedRoute, private modalService: ModalService) { }
+  constructor(private route: ActivatedRoute, private modalService: BsModalService) { }
 
   removeMember(member: Member): void {
     if (this.disabled || this.readonly) return;
@@ -53,7 +52,7 @@ export class EventAttendeesListComponent implements ControlValueAccessor {
   }
 
   openSelectModal(modal: TemplateRef<any>) {
-    this.selectModal = this.modalService.show(modal, this.route, { animated: false });
+    this.selectModal = this.modalService.show(modal, { animated: false });
     this.previousMembers = this.members.slice();
   }
 

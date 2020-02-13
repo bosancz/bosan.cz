@@ -3,9 +3,14 @@
   overflow: auto;
 }
 .dashboard {
-  min-width: 1200px;
+  // min-width: 1200px;
   .column {
-    background-color: rgba(0, 0, 0, 0.05);
+    // background-color: rgba(0, 0, 0, 0.05);
     border-radius: 4px;
-  } 
+  }
+
+  .noevents {
+    margin: 10vh 0;
+    vertical-align: middle;
+  }
 }

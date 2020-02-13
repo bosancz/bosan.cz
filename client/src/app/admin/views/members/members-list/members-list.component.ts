@@ -48,8 +48,6 @@ export class MembersListComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private modalService: BsModalService,
-    private titleService: TitleService,
-    private menuService: MenuService
   ) { }
 
   ngOnInit() {
@@ -64,10 +62,6 @@ export class MembersListComponent implements OnInit, OnDestroy {
       this.loadMembers(params.view);
     });
 
-    this.titleService.setPageTitle("Členská databáze");
-    this.menuService.setActions([{
-      type: "action", "label": "Přidat nového člena", callback: () => this.openCreateMemberModal()
-    }])
   }
 
   ngOnDestroy() {

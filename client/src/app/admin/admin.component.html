@@ -15,26 +15,8 @@
   <!-- MAIN CONTENT -->
   <div id="content">
 
-    <div class="d-none d-lg-block container mt-5">
-      <div class="row">
-
-        <div class="col-12 col-md-2 buttons my-3 my-md-0">
-          <div *ngIf="menuService.actions | async as actionItems" class="dropdown text-right actions" dropdown>
-            <button dropdownToggle type="button" class="btn btn-primary ml-auto">
-              <i class="fas fa-ellipsis-v"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <ng-container *ngFor="let actionItem of actionItems" [ngSwitch]="actionItem.type">
-                <a *ngSwitchCase="'action'" [class]="'dropdown-item ' + (actionItem.class || '')" [class.disabled]="actionItem.disabled" (click)="actionItem.callback()">{{actionItem.label}}</a>
-                <div *ngSwitchCase="'divider'" class="dropdown-divider"></div>
-              </ng-container>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
     <router-outlet (activate)="onActivate()"></router-outlet>
+
   </div>
+
 </div>

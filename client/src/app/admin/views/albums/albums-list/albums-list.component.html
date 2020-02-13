@@ -1,11 +1,15 @@
-<div class="container">
+<div class="container-fluid">
+  <page-header>
 
-  <button type="button" class="btn btn-primary float-right" (click)="openCreateAlbumModal(createAlbumModal)">Nové album</button>
+    <div class="actions" *actionMenu>
+      <button mat-button color="primary" (click)="openCreateAlbumModal(createAlbumModal)">Nové album</button>
+    </div>
 
-  <h2 class="d-none d-lg-block">Galerie</h2>
+    <h2 pageTitle>Galerie</h2>
+  </page-header>
 </div>
 
-<div class="container px-0 px-lg-3">
+<div class="container-fluid px-0 px-lg-3">
 
   <admin-table>
     <thead>

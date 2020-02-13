@@ -22,6 +22,8 @@ export class EventsTimelineComponent implements OnInit {
 
   loading: boolean = false;
 
+  months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
+
   constructor(private api: ApiService) { }
 
   ngOnInit() {
