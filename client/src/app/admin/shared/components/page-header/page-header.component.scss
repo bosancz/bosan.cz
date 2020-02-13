@@ -1,0 +1,23 @@
+.header-container {
+  display: table;
+  width: 100%;
+}
+
+.header-row {
+  display: table-row;
+}
+
+.header-row > * {
+  display: table-cell;
+  vertical-align: bottom;
+}
+
+.header-actions {
+  text-align: right;
+}
+
+::ng-deep {
+  h2 {
+    margin: 0 !important;
+  }
+}

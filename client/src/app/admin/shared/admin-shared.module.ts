@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 
 import { AppSharedModule } from "app/shared/app-shared.module";
 import { TypeaheadModule } from "ngx-bootstrap/typeahead";
@@ -8,6 +9,8 @@ import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list'
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 /* COMPONENTS */
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
@@ -19,17 +22,24 @@ import { CodelistEditorComponent } from "./components/codelist-editor/codelist-e
 import { ContactsEditorComponent } from "./components/contacts-editor/contacts-editor.component";
 import { PhotoTagsEditorComponent } from "./components/photo-tags-editor/photo-tags-editor.component";
 import { TypeaheadFieldComponent } from "./components/typeahead-field/typeahead-field.component";
+import { EventCardComponent } from './components/event-card/event-card.component';
+import { ActionMenuDirective } from './directives/action-menu.directive';
+import { PageTitleDirective } from './directives/page-title.directive';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
 
 @NgModule({
   imports: [
     AppSharedModule,
     TypeaheadModule.forRoot(),
     FormsModule,
+    RouterModule,
 
     /* Angular Material */
     MatCardModule,
     MatButtonModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule,
+    MatDividerModule,
 
   ],
   declarations: [
@@ -42,7 +52,13 @@ import { TypeaheadFieldComponent } from "./components/typeahead-field/typeahead-
     CodelistEditorComponent,
     ContactsEditorComponent,
     PhotoTagsEditorComponent,
-    TypeaheadFieldComponent
+    TypeaheadFieldComponent,
+    EventCardComponent,
+    PageHeaderComponent,
+
+    /* DIRECTIVES */
+    ActionMenuDirective,
+    PageTitleDirective,
   ],
   exports: [
     FormsModule,
@@ -51,6 +67,8 @@ import { TypeaheadFieldComponent } from "./components/typeahead-field/typeahead-
     MatCardModule,
     MatButtonModule,
     MatListModule,
+    MatMenuModule,
+    MatDividerModule,
 
     TypeaheadModule,
 
@@ -64,7 +82,13 @@ import { TypeaheadFieldComponent } from "./components/typeahead-field/typeahead-
     CodelistEditorComponent,
     ContactsEditorComponent,
     PhotoTagsEditorComponent,
-    TypeaheadFieldComponent
+    TypeaheadFieldComponent,
+    EventCardComponent,
+    PageHeaderComponent,
+
+    /* DIRECTIVES */
+    ActionMenuDirective,
+    PageTitleDirective,
   ],
   providers: []
 

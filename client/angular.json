@@ -54,7 +54,7 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.local.ts"
                 }
-              ]              
+              ]
             },
             "local-server": {
               "fileReplacements": [
@@ -62,7 +62,7 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.local-server.ts"
                 }
-              ]              
+              ]
             }
           }
         },
@@ -117,5 +117,8 @@
     "@schematics/angular:service": {
       "spec": false
     }
+  },
+  "cli": {
+    "analytics": "9e9753af-063c-44ed-8c07-43e0b8b2542b"
   }
 }

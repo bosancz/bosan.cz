@@ -1,35 +1,43 @@
-<section>
-  <div class="container">
+<div class="container-fluid px-5">
+  <page-header>
+    <h2 pageTitle>Členská databáze</h2>
 
-    <admin-table class="table table-striped table-hover table-sm">
-      <thead>
-        <tr>
-          <th>Přezdívka</th>
-          <th>Oddíl</th>
-          <th>Role</th>
-          <th>Jméno</th>
-          <th>Příjmení</th>
-          <th>Datum narození</th>
-          <th>Adresa</th>
+    <div *actionMenu class="actions">
+      <button mat-button color="primary" (click)="openCreateMemberModal()">Nový člen</button>
+    </div>
+  </page-header>
+</div>
 
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let member of members" [routerLink]="member._id" [class.inactive]="member.inactive">
-          <td>{{member.nickname}}</td>
-          <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
-          <td>{{member.role}}</td>
-          <td>{{member.name?.first}}</td>
-          <td>{{member.name?.last}}</td>
-          <td>{{member.birthday | date:"d. M. y"}}</td>
-          <td>{{member.address?.street}} {{member.address?.streetNo}}, {{member.address?.city}}</td>
-          <td class="text-right"><a [routerLink]="member._id"><i class="fas fa-pencil-alt"></i></a></td>
-        </tr>
-      </tbody>
-    </admin-table>
-  </div>
-</section>
+<div class="container-fluid px-0 px-sm-5">
+
+  <admin-table class="table table-striped table-hover table-sm">
+    <thead>
+      <tr>
+        <th>Přezdívka</th>
+        <th>Oddíl</th>
+        <th>Role</th>
+        <th>Jméno</th>
+        <th>Příjmení</th>
+        <th>Datum narození</th>
+        <th>Adresa</th>
+
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let member of members" [routerLink]="member._id" [class.inactive]="member.inactive">
+        <td>{{member.nickname}}</td>
+        <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
+        <td>{{member.role}}</td>
+        <td>{{member.name?.first}}</td>
+        <td>{{member.name?.last}}</td>
+        <td>{{member.birthday | date:"d. M. y"}}</td>
+        <td>{{member.address?.street}} {{member.address?.streetNo}}, {{member.address?.city}}</td>
+        <td class="text-right"><a [routerLink]="member._id"><i class="fas fa-pencil-alt"></i></a></td>
+      </tr>
+    </tbody>
+  </admin-table>
+</div>
 
 <ng-template #createMemberModal>
   <div class="modal-header">

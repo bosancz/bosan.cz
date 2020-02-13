@@ -21,6 +21,7 @@ import { CanalRegistrationComponent } from './views/canal-registration/canal-reg
 import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
 import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
 import { LoginComponent } from './views/login/login.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [

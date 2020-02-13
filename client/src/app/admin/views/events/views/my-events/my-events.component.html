@@ -24,7 +24,7 @@
               </tr>
               <tr>
                 <th>Účastníci ({{event.attendees.length || 0}}):</th>
-                <td>{{(event.attendees | joinAttendees) || "-"}}</td>
+                <td>{{event.attendees ? event.attendees.join(", ") : "-"}}</td>
               </tr>
               <tr>
                 <th>Ujetých km po vodě:</th>

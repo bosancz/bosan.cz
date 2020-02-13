@@ -11,8 +11,6 @@ import { ProgramComponent } from './program.component';
 import { ProgramPlanningComponent } from './views/program-planning/program-planning.component';
 import { ProgramWorkflowComponent } from './views/program-workflow/program-workflow.component';
 
-import { ProgramEventsListComponent } from './components/program-events-list/program-events-list.component';
-
 
 @NgModule({
   imports: [
@@ -30,8 +28,6 @@ import { ProgramEventsListComponent } from './components/program-events-list/pro
     ProgramPlanningComponent,
     ProgramWorkflowComponent,
 
-    /* COMPONENTS */
-    ProgramEventsListComponent,
   ]
 })
 export class ProgramModule { }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { UrlTree } from '@angular/router';
 
@@ -12,7 +12,7 @@ export interface ActionItem {
   label?: string;
   callback?: () => any;
   disabled?: boolean;
-  class?: string;
+  color?: string;
 }
 
 @Injectable({
@@ -26,6 +26,8 @@ export class MenuService {
   secondaryMenu = new Subject<SecondaryMenuItem[] | null>();
 
   actions = new Subject<ActionItem[]>();
+
+  actionMenu: TemplateRef<any>;
 
   constructor() { }
 
