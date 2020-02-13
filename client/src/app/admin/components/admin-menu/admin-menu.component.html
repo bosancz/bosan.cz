@@ -44,13 +44,9 @@
 
       <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:canal'" routerLink="kanal" class="nav-link px-lg-3">Troja</a></li>
 
-      <li dropdown routerLinkActive="active" class="nav-item dropdown">
-        <a dropdownToggle class="nav-link dropdown-toggle" (click)="$event.stopPropagation()">Správa webu</a>
-        <div *dropdownMenu class="dropdown-menu ml-3 ml-lg-0">
-          <a *aclCan="'admin:users'" routerLink="uzivatele" class="nav-link">Uživatelé</a>
-          <a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-link">Nastavení</a>
-        </div>
-      </li>
+      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:users'" routerLink="uzivatele" class="nav-link px-lg-3">Uživatelé</a></li>
+      
+      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-link px-lg-3">Web</a></li>
     </ul>
     <ul class="navbar-nav text-uppercase ml-lg-auto" (click)="collapsed = true">
 

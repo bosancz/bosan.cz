@@ -69,8 +69,4 @@ export class LoginComponent implements OnInit {
     else this.status = result.error;
   }
 
-  close() {
-    this.router.navigate(["/"]);
-  }
-
 }
