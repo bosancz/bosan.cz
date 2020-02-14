@@ -1,0 +1,25 @@
+{
+  "name": "bosan.cz-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Martin Kopeček <martin.kopecek@smallhill.cz>",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "@types/mongoose": "^5.7.1",
+    "@types/node": "^13.7.1",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^1.5.2",
+    "@types/fs-extra": "^8.0.1",
+    "canvas": "^2.6.1",
+    "face-api.js": "^0.22.1",
+    "fs-extra": "^8.1.0",
+    "mongoose": "^5.8.12"
+  }
+}
