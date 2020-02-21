@@ -1,0 +1,7 @@
+<albums-edit-photo [photoId]="currentPhotoId" (next)="selectPhoto(nextPhotoId)" (prev)="selectPhoto(previousPhotoId)"></albums-edit-photo>
+
+<div class="image-strip d-none d-md-block">
+  <a *ngFor="let photo of (album$ | async)?.photos" [routerLink]="'../' + photo._id" replaceUrl="true" [class.active]="currentPhotoId === photo._id">
+    <img [src]="photo.sizes.small.url">
+  </a>
+</div>

@@ -248,14 +248,14 @@ header nav.navbar:not(.open) {
 
 /* VALIDATION */
 
-input:valid:not(.novalidate),
-select:valid:not(.novalidate),
-textarea:valid:not(.novalidate) {
+input:valid:not(.novalidate, [matInput]),
+select:valid:not(.novalidate, [matInput]),
+textarea:valid:not(.novalidate, [matInput]) {
   border-left: 5px solid #42a948 !important; /* green */
 }
-input:invalid:not(.novalidate),
-select:invalid:not(.novalidate),
-textarea:invalid:not(.novalidate) {
+input:invalid:not(.novalidate, [matInput]),
+select:invalid:not(.novalidate, [matInput]),
+textarea:invalid:not(.novalidate, [matInput]) {
   border-left: 5px solid #a94442 !important; /* red */
 }
 

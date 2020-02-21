@@ -1,0 +1,27 @@
+<div *ngIf="face$ | async as face" class="photo float-left mr-3" [title]="face.expression" [matBadge]="!(memberId$ | async) ? '?' : undefined" matBadgeOverlap="true">
+  <photo-face [src]="photo.sizes.big.url" [rectangle]="face.rectangle" [size]="size"></photo-face>
+</div>
+
+<div *ngIf="member$ | async as member" class="name" [style.line-height]="size + 'px'">
+  <strong>{{member.nickname}} ({{member.group}})</strong>
+  <a (click)="memberSelected(null)">smazat</a>
+</div>
+
+<div *ngIf="!(memberId$ | async)" class="name-select">
+
+  <mat-form-field>
+    <mat-label>Vybrat člena</mat-label>
+    <input type="text" matInput #autocomplete [placeholder]="((topMembers$ | async) && (topMembers$ | async)[0]) ? (topMembers$ | async)[0].nickname : 'Gandalf Šedý'" required [matAutocomplete]="autocompleteValues" (keyup)="search$.next(autocomplete.value)">
+    <mat-autocomplete #autocompleteValues="matAutocomplete" [displayWith]="displayMember" (optionSelected)="memberSelected($event.option.value)">
+      <mat-optgroup *ngIf="(topMembers$ | async)?.length > 0" label="Nejlepší shoda">
+        <mat-option *ngFor="let member of topMembers$ | async" [value]="member">
+          {{member.nickname}} ({{member.group}})
+        </mat-option>
+      </mat-optgroup>
+      <mat-option *ngFor="let member of filteredMembers$ | async" [value]="member">
+        {{member.nickname}} ({{member.group}})
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+</div>

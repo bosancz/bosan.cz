@@ -13,11 +13,11 @@ class PhotoUploadItem {
 }
 
 @Component({
-  selector: 'albums-view-upload',
-  templateUrl: './albums-view-upload.component.html',
-  styleUrls: ['./albums-view-upload.component.scss']
+  selector: 'albums-edit-upload',
+  templateUrl: './albums-edit-upload.component.html',
+  styleUrls: ['./albums-edit-upload.component.scss']
 })
-export class AlbumsViewUploadComponent implements OnChanges {
+export class AlbumsEditUploadComponent implements OnChanges {
 
   @Input() album: Album;
 

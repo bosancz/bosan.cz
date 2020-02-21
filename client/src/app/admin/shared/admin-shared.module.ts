@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
 import { AppSharedModule } from "app/shared/app-shared.module";
@@ -11,6 +11,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list'
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatSelectModule } from '@angular/material/select';
 
 /* COMPONENTS */
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
@@ -26,12 +33,14 @@ import { EventCardComponent } from './components/event-card/event-card.component
 import { ActionMenuDirective } from './directives/action-menu.directive';
 import { PageTitleDirective } from './directives/page-title.directive';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { PhotoFaceComponent } from './components/photo-face/photo-face.component';
 
 @NgModule({
   imports: [
     AppSharedModule,
     TypeaheadModule.forRoot(),
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
 
     /* Angular Material */
@@ -40,6 +49,12 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     MatListModule,
     MatMenuModule,
     MatDividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatBadgeModule,
+    MatSelectModule,
 
   ],
   declarations: [
@@ -55,6 +70,7 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     TypeaheadFieldComponent,
     EventCardComponent,
     PageHeaderComponent,
+    PhotoFaceComponent,
 
     /* DIRECTIVES */
     ActionMenuDirective,
@@ -62,6 +78,7 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
   ],
   exports: [
     FormsModule,
+    ReactiveFormsModule,
 
     /* Angular Material */
     MatCardModule,
@@ -69,6 +86,13 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     MatListModule,
     MatMenuModule,
     MatDividerModule,
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatBadgeModule,
+    MatSelectModule,
 
     TypeaheadModule,
 
@@ -85,6 +109,7 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     TypeaheadFieldComponent,
     EventCardComponent,
     PageHeaderComponent,
+    PhotoFaceComponent,
 
     /* DIRECTIVES */
     ActionMenuDirective,

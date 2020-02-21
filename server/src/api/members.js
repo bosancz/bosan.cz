@@ -13,6 +13,7 @@ routes.get("members","/",{permission:"members:list"}).handle(async (req,res,next
   if(req.query.role) query.where({"role": Array.isArray(req.query.role) ? { $in: req.query.role } : req.query.role});
   if(req.query.group) query.where({"group": req.query.group});
   if(req.query.sort) query.sort(req.query.sort);
+  if(req.query.select) query.select(req.query.select);
   
   const members = await query.toObject();
   
