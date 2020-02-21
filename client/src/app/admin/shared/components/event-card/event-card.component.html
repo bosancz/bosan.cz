@@ -1,7 +1,6 @@
 <mat-card class="event mb-3">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image">
-      {{event.subtype}}.{{event | event:'image'}}.
       <div class="circle mx-auto" [style.background-color]="(event | event:'image') ? 'transparent' : (event | event:'color') || '#ccc'">
         <img *ngIf="event | event:'image'" class="img-fluid" [src]="event | event:'image'">
       </div>

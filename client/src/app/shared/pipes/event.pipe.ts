@@ -10,7 +10,8 @@ enum EventPipeProperty {
 }
 
 @Pipe({
-  name: 'event'
+  name: 'event',
+  pure: false
 })
 export class EventPipe implements PipeTransform {
 
@@ -22,19 +23,23 @@ export class EventPipe implements PipeTransform {
     [name: string]: WebConfigEventSubType
   } = {};
 
-  constructor(private configService: ConfigService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(
+    private configService: ConfigService,
+    private cdRef: ChangeDetectorRef
+  ) {
     this.loadEvents();
   }
 
   loadEvents() {
-    this.configService.getConfig().then(config => {      
+    this.configService.getConfig().then(config => {
       this.eventTypes = config.events.types.reduce((acc, cur) => ({ ...acc, [cur.name]: cur }), {});
       this.eventSubTypes = config.events.subtypes.reduce((acc, cur) => ({ ...acc, [cur.name]: cur }), {});
+      this.cdRef.markForCheck();
     });
+
   }
 
   transform(event: Event, property: EventPipeProperty): string {
-    console.log(this.eventSubTypes);
     if (!event) return;
 
     switch (property) {
@@ -47,8 +52,7 @@ export class EventPipe implements PipeTransform {
         return this.eventSubTypes[event.subtype] && this.eventSubTypes[event.subtype][property] || "";
 
       default:
-        console.error("Invalid event pipe property: " + property);
-        return undefined;
+        return "?";
     }
   }
 
