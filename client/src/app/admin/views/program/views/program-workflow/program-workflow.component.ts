@@ -18,7 +18,8 @@ export class ProgramWorkflowComponent implements OnInit {
 
   events = new BehaviorSubject<Event[]>([]);
 
-  draftEvents = this.events.pipe(map(events => events.filter(event => ['draft', 'rejected'].indexOf(event.status) !== -1)));
+  noLeaderEvents = this.events.pipe(map(events => events.filter(event => ['draft', 'rejected'].indexOf(event.status) !== -1 && (!event.leaders || !event.leaders.length))));
+  draftEvents = this.events.pipe(map(events => events.filter(event => ['draft', 'rejected'].indexOf(event.status) !== -1 && event.leaders && event.leaders.length)));
   pendingEvents = this.events.pipe(map(events => events.filter(event => event.status === "pending")));
   publicEvents = this.events.pipe(map(events => events.filter(event => ['public', 'cancelled'].indexOf(event.status) !== -1)));
 
