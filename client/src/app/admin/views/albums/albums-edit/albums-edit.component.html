@@ -1,7 +1,7 @@
 <div class="container-fluid px-md-3 px-lg-5">
   <div class="row">
     <page-header>
-      <h2 pageTitle>Upravit: {{(albumsService.album$ | async)?.name}}</h2>
+      <h2 [pageTitle]="'Upravit: ' + (albumsService.album$ | async)?.name">Upravit: {{(albumsService.album$ | async)?.name}}</h2>
 
       <div class="actions" *actionMenu>
         <button mat-button routerLink="../">Zavřít úpravy</button>
@@ -15,9 +15,10 @@
     <div class="col-lg-2">
 
       <nav class="nav nav-pills flex-column">
-        <a class="nav-link" routerLink="info" replaceUrl="true" routerLinkActive="active">Info</a>
-        <a class="nav-link" routerLink="fotky" replaceUrl="true" routerLinkActive="active">Fotografie ({{(albumsService.album$ | async)?.photos?.length || 0}})</a>
-        <a class="nav-link" routerLink="nahrat" replaceUrl="true" routerLinkActive="active">Nahrát</a>
+        <a class="nav-link" routerLink="info" replaceUrl="true" routerLinkActive="active">Popis alba</a>
+        <a class="nav-link" routerLink="fotky" replaceUrl="true" routerLinkActive="active">Upravit fotky</a>
+        <a class="nav-link" routerLink="razeni" replaceUrl="true" routerLinkActive="active">Pořadí fotek</a>
+        <a class="nav-link" routerLink="nahrat" replaceUrl="true" routerLinkActive="active">Nahrát fotky ({{(albumsService.album$ | async)?.photos?.length || 0}})</a>
       </nav>
 
     </div>

@@ -4,7 +4,8 @@
 
 <div *ngIf="member$ | async as member" class="name" [style.line-height]="size + 'px'">
   <strong>{{member.nickname}} ({{member.group}})</strong>
-  <a (click)="memberSelected(null)">smazat</a>
+  &nbsp;
+  <a (click)="memberSelected(null)"><i class="fas fa-trash-alt text-danger"></i></a>
 </div>
 
 <div *ngIf="!(memberId$ | async)" class="name-select">

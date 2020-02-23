@@ -5,10 +5,12 @@ import { Member } from 'app/shared/schema/member';
 import { ToastService } from 'app/admin/services/toast.service';
 
 const placeHolders = [
-  "„Výborně!“ pochválil ho Gandalf. „Jenomže já dnes ráno na vyfukování kroužků nemám čas. Hledám někoho, kdo by se zúčastnil jistého dobrodružství.",
-  "Pověsil si plášť s kapucí na nejbližší věšák a s hlubokou poklonou se představil: „Dvalin, k vašim službám!“ „Bilbo Pytlík, k vašim!“ odpověděl hobit.",
-  "Nic netušící Bilbo uviděl před sebou jenom nějakého starce s holí. Stařec měl vysoký špičatý modrý klobouk, dlouhý šedivý plášť, stříbrnou šálu, přes kterou mu až pod pás splýval bílý plnovous, a obrovské černé boty.",
-  "Bilbo Pytlík stál po snídani ve svých dveřích a kouřil z dlouhatánské dřevěné fajfky, která mu sahala skoro až k srstnatým prstům na nohou (pečlivě vykartáčovaným)."
+  "„Já dnes na vyfukování kroužků nemám čas. Hledám někoho, kdo by se zúčastnil jistého dobrodružství,“ řekl Gandalf",
+  "Pověsil si plášť s kapucí na nejbližší věšák a s hlubokou poklonou se představil: „Dvalin, k vašim službám!“",
+  "„Bilbo Pytlík, k vašim službám!“ odpověděl hobit.",
+  "Nic netušící Bilbo uviděl před sebou jenom nějakého starce s holí.",
+  "Stařec měl vysoký špičatý modrý klobouk, dlouhý šedivý plášť a stříbrnou šálu, přes kterou mu splýval bílý plnovous.",
+  "Stál ve dveřích a kouřil z dlouhé fajfky, která mu sahala až k srstnatým, pečlivě vykartáčovaným prstům na nohou."
 ];
 
 @Component({
@@ -43,13 +45,16 @@ export class AlbumsEditPhotoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.randomPlaceholder = placeHolders[Math.floor(Math.random() * placeHolders.length)];
-
     this.loadMembers();
+    this.selectRandomPlaceholder()
   }
 
   async loadPhoto(photoId: string) {
     this.photo = photoId ? await this.api.get<Photo>(["photo", photoId]) : undefined;
+  }
+
+  selectRandomPlaceholder() {
+    this.randomPlaceholder = placeHolders[Math.floor(Math.random() * placeHolders.length)];
   }
 
   async loadMembers() {

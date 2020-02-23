@@ -8,8 +8,8 @@
     </div>
 
     <mat-form-field class="px-3 px-md-0 mt-3 w-100">
-      <mat-label>Popisek fotky</mat-label>
-      <textarea matInput rows="2" [placeholder]="randomPlaceholder"></textarea>
+      <mat-label>Popisek</mat-label>
+      <input matInput (click)="selectRandomPlaceholder()" [placeholder]="randomPlaceholder">
     </mat-form-field>
   </div>
 
