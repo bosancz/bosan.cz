@@ -9,7 +9,7 @@ import { WebConfigGroup } from "app/shared/schema/webconfig";
 @Component({
   selector: 'members-view-info',
   templateUrl: './members-view-info.component.html',
-  styleUrls: ['./members-view-info.component.css']
+  styleUrls: ['./members-view-info.component.scss']
 })
 export class MembersViewInfoComponent implements OnInit {
 

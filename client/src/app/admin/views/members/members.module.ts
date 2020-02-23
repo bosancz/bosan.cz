@@ -11,6 +11,7 @@ import { MembersViewComponent } from './members-view/members-view.component';
 
 import { MembersViewAchievementsComponent } from './members-view/members-view-achievements/members-view-achievements.component';
 import { MembersViewInfoComponent } from './members-view/members-view-info/members-view-info.component';
+import { MembersEditComponent } from './members-edit/members-edit.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { MembersViewInfoComponent } from './members-view/members-view-info/membe
     MembersViewComponent,
 
     MembersViewAchievementsComponent,
-    MembersViewInfoComponent
+    MembersViewInfoComponent,
+    MembersEditComponent
   ],
   imports: [
     CommonModule,

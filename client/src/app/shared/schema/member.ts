@@ -1,4 +1,6 @@
-export class Member {
+import { Document } from "./api";
+
+export class Member extends Document {
   _id: string;
 
   group: string;
@@ -35,6 +37,9 @@ export class Member {
     dateFrom: Date,
     dateTill: Date
   }];
+
+  allergies?: string[];
+  allergiesDate: string | Date;
 
   faceDescriptor?: number[];
 }

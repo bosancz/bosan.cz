@@ -1,61 +1,50 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { Subscription } from "rxjs";
+import { from, Observable } from "rxjs";
 
-import { DataService } from "app/core/services/data.service";
 import { ToastService } from "app/admin/services/toast.service";
 
 import { Member } from "app/shared/schema/member";
+import { ApiService } from 'app/core/services/api.service';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'members-view',
   templateUrl: './members-view.component.html',
   styleUrls: ['./members-view.component.scss']
 })
-export class MembersViewComponent implements OnInit, OnDestroy {
-  
-  member:Member;
-  
-  category:string;
-  
-  deleteConfirmation:boolean = false;
-  
-  paramsSubscription:Subscription;
+export class MembersViewComponent implements OnInit {
 
-  constructor(private dataService:DataService, private toastService:ToastService, private route:ActivatedRoute, private router:Router) { }
-  
+  member$: Observable<Member> = this.route.params
+    .pipe(map((params: Params) => params.member))
+    .pipe(mergeMap(memberId => from(this.loadMember(memberId))));
+
+
+  constructor(
+    private api: ApiService,
+    private toastService: ToastService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
+
   ngOnInit() {
-
-    this.paramsSubscription = this.route.params.subscribe((params:Params) => {
-
-      if(params.member && (!this.member || this.member._id !== params.member)) this.loadMember(params.member);
-      
-      this.category = params.cat;
-
-    });
   }
-  
-  ngOnDestroy(){
-    this.paramsSubscription.unsubscribe();
-  }
-  
+
   // DB interaction
-  async loadMember(memberId:string){
-    this.member = await this.dataService.getMember(memberId);
+  async loadMember(memberId: string) {
+    return this.api.get<Member>(["member", memberId]);
   }
-  
-  async saveMember(member:any){
-    // send the list of changes or current state of member to the server
-    await this.dataService.updateMember(this.member._id,member || this.member);
+
+  async deleteMember(member: Member) {
+
+    const confirmation = window.confirm(member.nickname ? `Opravdu smazat člena ${member.nickname}?` : `Opravdu smazat tohoto člena?`);
+
+    if (!confirmation) return;
+
+    await this.api.delete(["member", member._id]);
     
-    // send a toast with OK message
-    this.toastService.toast("Uloženo.");
-  }
-  
-  async deleteMember(){
-    await this.dataService.deleteMember(this.member._id);
     this.toastService.toast("Člen smazán.");
-    this.router.navigate(["../../"], {relativeTo:this.route});
+    this.router.navigate(["../../"], { relativeTo: this.route });
   }
-  
+
 }

@@ -1,36 +1,107 @@
-<section *ngIf="member">
-  <div class="container">
+<div class="container" *ngIf="member$ | async as member">
 
-    <h2>
-      <a routerLink="/interni/clenove" class="back"><i class="fas fa-arrow-left"></i></a>
-      <ng-container *ngIf="member.nickname">{{member.nickname}} ({{member.name?.first}} {{member.name?.last}})</ng-container>
-      <ng-container *ngIf="!member.nickname">{{member.name?.first}} {{member.name?.last}}</ng-container>
+  <page-header>
+    <h2 pageTitle>
+      <ng-container *ngIf="member?.nickname">{{member.nickname}} ({{member.name?.first}} {{member.name?.last}})</ng-container>
+      <ng-container *ngIf="!member?.nickname">{{member.name?.first}} {{member.name?.last}}</ng-container>
     </h2>
 
+    <div class="actions" *actionMenu>
+      <button mat-button color="primary" [disabled]="!member?._links?.self.allowed.PATCH" routerLink="upravit">Upravit</button>
+      <button mat-button color="warn" [disabled]="!member?._links?.self.allowed.DELETE" (click)="deleteMember(member)">Smazat</button>
+    </div>
+  </page-header>
+
+  <div class="mt-3 mt-lg-0">
     <div class="row">
 
-      <div class="col-lg-2">
+      <div class="col-md-8 col-lg-9 order-12 order-lg-1">
+        <h3>Kvalifikace</h3>
+        <h3>Akce</h3>
+      </div>
 
-        <nav class="nav nav-pills flex-column">
-          <a class="nav-link" routerLink="../osobni" routerLinkActive="active">Osobní údaje</a>
-          <a class="nav-link" routerLink="../expy" routerLinkActive="active">Expy</a>
-          <a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat člena</a>
-        </nav>
+      <div class="col-md-4 col-lg-3 order-1 order-lg-12">
+
+
+        <mat-card class="mb-3">
+          <mat-card-title>Osobní údaje</mat-card-title>
+          <mat-card-content>
+            <table class="table table-sm table-borderless">
+              <tbody>
+                <tr>
+                  <th>Jméno:</th>
+                  <td>{{member.name?.first}}</td>
+                </tr>
+                <tr>
+                  <th>Příjmení:</th>
+                  <td>{{member.name?.last}}</td>
+                </tr>
+                <tr>
+                  <th>Datum narození:</th>
+                  <td>{{member.birthday | date:"d. M. y"}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="mb-3">
+          <mat-card-title>Alergie</mat-card-title>
+          <mat-card-subtitle *ngIf="!member.allergiesDate">{{member.allergiesDate | date:"d. M. y"}}</mat-card-subtitle>
+          <mat-card-content>
+            <ul *ngIf="member.allergies && member.allergies.length">
+              <li *ngFor="let allergy of member.allergies">{{allergy}}</li>
+            </ul>
+            <p *ngIf="member.allergies && !member.allergies.length"><i>Žádné alergie</i></p>
+            <p *ngIf="!member.allergies"><i>Nevyplněno</i></p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="mb-3">
+          <mat-card-title>Kontakty</mat-card-title>
+          <mat-card-content>
+            <table class="table table-sm table-borderless">
+              <tbody>
+                <tr *ngIf="member.contacts?.mobile">
+                  <th>Mobil:</th>
+                  <td>{{member.contacts.mobile}}</td>
+                </tr>
+                <tr *ngIf="member.contacts?.email">
+                  <th>E-mail:</th>
+                  <td>{{member.contacts.email}}</td>
+                </tr>
+                <tr *ngIf="member.contacts?.mother">
+                  <th>Matka:</th>
+                  <td>{{member.contacts.mother}}</td>
+                </tr>
+                <tr *ngIf="member.contacts?.father">
+                  <th>Otec:</th>
+                  <td>{{member.contacts.father}}</td>
+                </tr>
+                <tr *ngIf="member.address">
+                  <th>Adresa:</th>
+                  <td>
+                    {{member.address.street}} {{member.address.streetNo}}<br>
+                    {{member.address.city}}<br>
+                    {{member.address.postalCode}}
+                    <ng-container *ngIf="member.address.country"><br>
+                      {{member.address.country}}
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="mb-3">
+          <mat-card-title>Kartička pojištěnce</mat-card-title>
+          <mat-card-content>
+          </mat-card-content>
+        </mat-card>
 
       </div>
 
-      <div class="col-lg-10" [ngSwitch]="category">
-
-        <members-view-info *ngSwitchCase="'osobni'" [member]="member" (save)="saveMember($event)"></members-view-info>
-        <members-view-achievements *ngSwitchCase="'expy'" [member]="member" (save)="saveMember($event)"></members-view-achievements>
-
-        <div *ngSwitchCase="'smazat'">
-          <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput"> <label for="deleteConfirmationInput">Opravdu chci smazat tohoto člena</label>
-          <br>
-          <button type="button" [disabled]="!deleteConfirmation" (click)="deleteMember()" class="btn btn-danger">Smazat akci</button>
-        </div>
-
-      </div>
     </div>
   </div>
-</section>
+</div>
