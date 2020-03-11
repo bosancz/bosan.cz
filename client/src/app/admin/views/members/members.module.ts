@@ -8,9 +8,6 @@ import { MembersRoutingModule } from './members-routing.module';
 
 import { MembersListComponent } from './members-list/members-list.component';
 import { MembersViewComponent } from './members-view/members-view.component';
-
-import { MembersViewAchievementsComponent } from './members-view/members-view-achievements/members-view-achievements.component';
-import { MembersViewInfoComponent } from './members-view/members-view-info/members-view-info.component';
 import { MembersEditComponent } from './members-edit/members-edit.component';
 
 
@@ -19,8 +16,6 @@ import { MembersEditComponent } from './members-edit/members-edit.component';
     MembersListComponent,
     MembersViewComponent,
 
-    MembersViewAchievementsComponent,
-    MembersViewInfoComponent,
     MembersEditComponent
   ],
   imports: [

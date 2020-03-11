@@ -19,6 +19,9 @@ export class EventCardComponent implements OnInit {
     this.loadEvent(eventId);
   }
 
+  @Input()
+  actions: boolean = true;
+
   @Output()
   change = new EventEmitter<Event>();
 

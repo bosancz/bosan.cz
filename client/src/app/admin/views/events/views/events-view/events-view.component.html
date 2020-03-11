@@ -1,109 +1,39 @@
-<div class="d-none d-lg-block container mt-3 mt-lg-5">
+<div *ngIf="event$ | async as event">
+  <div class="d-none d-lg-block container mt-3 mt-lg-5">
 
-  <div class="float-right">
-    <div *actionMenu>
-      <ng-container *ngIf="!editing">
-        <button mat-button *ngIf="event._actions.lead" [disabled]="!event._actions.lead.allowed" (click)="eventAction('lead')">Vést akci</button>
-        <button mat-button [disabled]="!this.editable" (click)="this.editing = true">Upravit</button>
-      </ng-container>
+    <div class="float-right">
+      <div *actionMenu>
 
-      <ng-container *ngIf="editing">
-        <button mat-button [disabled]="!this.editable" (click)="cancelEdit()">Zrušit úpravy</button>
-        <button mat-button color="primary" [disabled]="!this.editable" (click)="saveEvent()">Uložit</button>
-      </ng-container>
-      <ng-container *ngIf="!editing && event && event._actions">
-        <button mat-button *ngIf="event._actions.submit" [disabled]="!event._actions.submit.allowed" (click)="eventAction('submit')">Ke schválení</button>
-        <button mat-button *ngIf="event._actions.publish" [disabled]="!event._actions.publish.allowed" (click)="eventAction('publish')">Do programu</button>
-        <button mat-button *ngIf="event._actions.announce" [disabled]="!event._actions.announce.allowed" (click)="eventAction('announce')">Poslat ohlášku</button>
-        <button mat-button *ngIf="event._actions.finalize" [disabled]="!event._actions.finalize.allowed" (click)="eventAction('finalize')">Uzavřít</button>
-        <button mat-button *ngIf="event._actions.reject" [disabled]="!event._actions.reject.allowed" (click)="eventAction('reject')">Vrátit vedoucím k úpravám</button>
-        <button mat-button *ngIf="event._actions.unpublish" [disabled]="!event._actions.unpublish.allowed" (click)="eventAction('unpublish')">Odebrat z programu</button>
-        <button mat-button color="warn" *ngIf="event._actions.cancel" [disabled]="!event._actions.cancel.allowed" (click)="eventAction('cancel')">Zrušit</button>
-        <button mat-button *ngIf="event._actions.uncancel" [disabled]="!event._actions.uncancel.allowed" (click)="eventAction('uncancel')">Odzrušit</button>
-      </ng-container>
+        <button mat-button color="primary" *ngIf="event._actions.lead" [disabled]="!event._actions.lead.allowed" (click)="eventAction(event,'lead')">Vést akci</button>
+        <button mat-button color="primary" [disabled]="!event._links.self.allowed.PATCH" routerLink="upravit">Upravit</button>
+
+        <ng-container *ngIf="event && event._actions">
+          <button mat-button *ngIf="event._actions.submit" [disabled]="!event._actions.submit.allowed" (click)="eventAction(event,'submit')">Ke schválení</button>
+          <button mat-button *ngIf="event._actions.publish" [disabled]="!event._actions.publish.allowed" (click)="eventAction(event,'publish')">Do programu</button>
+          <button mat-button *ngIf="event._actions.announce" [disabled]="!event._actions.announce.allowed" (click)="eventAction(event,'announce')">Poslat ohlášku</button>
+          <button mat-button *ngIf="event._actions.finalize" [disabled]="!event._actions.finalize.allowed" (click)="eventAction(event,'finalize')">Uzavřít</button>
+          <button mat-button *ngIf="event._actions.reject" [disabled]="!event._actions.reject.allowed" (click)="eventAction(event,'reject')">Vrátit vedoucím k úpravám</button>
+          <button mat-button *ngIf="event._actions.unpublish" [disabled]="!event._actions.unpublish.allowed" (click)="eventAction(event,'unpublish')">Odebrat z programu</button>
+          <button mat-button color="warn" *ngIf="event._actions.cancel" [disabled]="!event._actions.cancel.allowed" (click)="eventAction(event,'cancel')">Zrušit</button>
+          <button mat-button *ngIf="event._actions.uncancel" [disabled]="!event._actions.uncancel.allowed" (click)="eventAction(event,'uncancel')">Odzrušit</button>
+        </ng-container>
+
+        <button mat-button color="warn" [disabled]="!event._links.self.allowed.DELETE" (click)="deleteEvent(event)">Smazat</button>
+
+      </div>
     </div>
+
+    <h2 pageTitle>{{event?.name}}</h2>
   </div>
 
-  <h2 pageTitle>{{event?.name}}</h2>
-</div>
-
-<div class="d-block container mt-3 mt-lg-5">
-  <ng-container *ngIf="!editing">
-    <h4>{{[event?.dateFrom,event?.dateTill] | dateRange}}</h4>
-
-    <p class="description multiline">{{event?.description || 'Popisek akce nevyplněn.'}}</p>
-  </ng-container>
-
-  <form *ngIf="event && editing">
-
-    <div class="form-group">
-      <label>Název akce</label>
-      <input type="text" name="name" [(ngModel)]="event.name" class="form-control">
-    </div>
+  <div class="d-block container mt-3 mt-lg-5">
+    <event-card [event]="event" [actions]="false"></event-card>
 
     <div class="row">
-      <div class="col-6 col-md-3">
-        <input type="date" ame="dateFrom" [(ngModel)]="event.dateFrom" class="form-control" required>
-      </div>
-      <div class="col-6 col-md-3">
-        <input type="date" ame="dateTill" [(ngModel)]="event.dateTill" class="form-control" required>
+      <div class="col-md-6">
+        <event-age-histogram *ngIf="event" [event]="event"></event-age-histogram>
       </div>
     </div>
 
-    <div class="mt-3">
-      <textarea class="form-control" name="description" rows="3" [(ngModel)]="event.description" textcheck #descriptionCheck="textcheck"></textarea>
-      <p class="text-danger">{{ descriptionCheck.warnings ? descriptionCheck.warnings.join(" ") : ""}}</p>
-    </div>
-
-
-
-    <div class="form-group">
-      <label>Místo</label>
-      <input type="text" name="place" [(ngModel)]="event.place" class="form-control" placeholder="Dno pytle">
-    </div>
-
-    <div class="form-row" ngModelGroup="meeting">
-      <div class="form-group col-md-6">
-        <label>Sraz</label>
-        <input type="text" name="start" [(ngModel)]="event.meeting.start" class="form-control" placeholder="17:00, u Bilba doma">
-      </div>
-      <div class="form-group col-md-6">
-        <label>Konec</label>
-        <input type="text" name="end" [(ngModel)]="event.meeting.end" class="form-control" placeholder="3:00, tamtéž">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Oddíly</label>
-      <groups-select [ngModel]="event.groups" name="groups" [readonly]="!editable"></groups-select>
-    </div>
-
-    <div class="mt-4">
-      <div class="d-inline-block mr-3">
-        <event-subtype-selector [ngModel]="event?.subtype" (ngModelChange)="saveEvent({subtype:$event})" [readonly]="!editable"></event-subtype-selector>
-      </div>
-      <!--<event-type-selector [ngModel]="event?.type" (ngModelChange)="saveEvent({type:$event})" [readonly]="!editable"></event-type-selector>-->
-    </div>
-  </form>
-
-  <h4 class="mt-5">Přihláška</h4>
-  <event-registration [event]="event" (change)="loadEvent(event._id)" [readonly]="!editable"></event-registration>
-
-  <h4 class="mt-5">Vedoucí akce</h4>
-  <event-attendees-list *ngIf="event" [ngModel]="event.leaders" (ngModelChange)="saveEvent({leaders:$event})" [event]="event" [readonly]="!editable"></event-attendees-list>
-
-  <h4 class="mt-5">Účastníci</h4>
-  <event-attendees-list *ngIf="event" [ngModel]="event.attendees" (ngModelChange)="saveEvent({attendees:$event})" [event]="event" [readonly]="!editable"></event-attendees-list>
-
-
-  <!--<event-age-histogram *ngIf="event" [event]="event"></event-age-histogram>-->
-
-
-  <h4 class="mt-5">Účtování</h4>
-  <event-expenses-table [ngModel]="event?.expenses" (ngModelChange)="saveEvent({expenses:$event})" [days]="days - 1" [persons]="(event?.attendees?.length || 0) + (event?.leaders?.length || 0)" [readonly]="!editable"></event-expenses-table>
-
-  <!--
-<h4 class="mt-5">Report</h4>
-<div [innerHTML]="event?.report || '<p>Report je prázdný.</p>'"></div>
--->
+  </div>
 </div>

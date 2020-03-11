@@ -19,6 +19,7 @@ import { EventsViewComponent } from './views/events-view/events-view.component';
 import { EventsListComponent } from './views/events-list/events-list.component';
 import { EventsLeadComponent } from './views/events-lead/events-lead.component';
 import { MyEventsComponent } from './views/my-events/my-events.component';
+import { EventsEditComponent } from './views/events-edit/events-edit.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MyEventsComponent } from './views/my-events/my-events.component';
     EventSubtypeSelectorComponent,
     EventTypeSelectorComponent,
     EventRegistrationComponent,
-    EventAttendeesListItemComponent
+    EventAttendeesListItemComponent,
+    EventsEditComponent
   ],
   imports: [
     CommonModule,
