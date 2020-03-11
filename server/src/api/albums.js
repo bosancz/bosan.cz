@@ -113,9 +113,9 @@ routes.get("album","/:id", {permission: "albums:read"}).handle(async (req,res,ne
   var query = Album.findOne({_id: req.params.id})
   
   if(req.query.event) query.populate("event","_id name dateFrom dateTill");
-  if(req.query.photos) query.populate("photos","_id sizes.small caption");
-  if(req.query.titlePhoto) query.populate("titlePhoto","_id sizes caption");
-  if(req.query.titlePhotos) query.populate("titlePhotos","_id sizes caption");
+  if(req.query.photos) query.populate("photos","_id sizes.small caption album");
+  if(req.query.titlePhoto) query.populate("titlePhoto","_id sizes caption album");
+  if(req.query.titlePhotos) query.populate("titlePhotos","_id sizes caption album");
   
   const album = await query.toObject();
   
