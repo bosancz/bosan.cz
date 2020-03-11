@@ -36,7 +36,7 @@ var photoSchema = mongoose.Schema({
       y: Number,
       width: Number,
       height: Number,
-    };
+    },
 
     descriptor: [Number],
 
