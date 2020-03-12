@@ -17,6 +17,7 @@ import { NotFoundComponent } from 'app/core/views/not-found/not-found.component'
 /* COMPONENTS */
 import { PageMenuComponent } from 'app/core/components/page-menu/page-menu.component';
 import { PageFooterComponent } from 'app/core/components/page-footer/page-footer.component';
+import { CovidWarningComponent } from './core/components/covid-warning/covid-warning.component';
 
 // App Config
 import { environment } from "environments/environment";
@@ -32,20 +33,24 @@ console.log("Angular is running in " + (environment.production ? "production" : 
 
     /* COMPONENTS */
     PageMenuComponent,
-    PageFooterComponent
+    PageFooterComponent,
+    CovidWarningComponent
   ],
   imports: [
-    BrowserAnimationsModule,    
+    BrowserAnimationsModule,
     AppRoutingModule,
 
     AppSharedModule,
-    
+
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler },
     httpInterceptorProviders
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    CovidWarningComponent
+  ]
 })
 export class AppModule { }
