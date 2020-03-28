@@ -11,6 +11,5 @@
   ],
   "angularCompilerOptions": {
     "preserveWhitespaces": false,
-    "enableIvy": false
   }
 }
