@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DateTime } from 'luxon';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, from } from 'rxjs';
 import { ApiService } from 'app/core/services/api.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastService } from 'app/admin/services/toast.service';
 import { Event } from 'app/shared/schema/event';
+import { distinctUntilChanged, map, mergeMap } from 'rxjs/operators';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'events-edit',
@@ -13,7 +15,12 @@ import { Event } from 'app/shared/schema/event';
 })
 export class EventsEditComponent implements OnInit {
 
-  event: Event;
+  eventId$: Observable<string> = this.route.params
+    .pipe(map((params: Params) => params.event));
+
+  event$: Observable<Event> = this.eventId$
+    .pipe(distinctUntilChanged())
+    .pipe(mergeMap(eventId => from(this.loadEvent(eventId))));
 
   editable: boolean = false;
 
@@ -32,9 +39,10 @@ export class EventsEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
   }
 
-  async loadEvent(eventId: string) {
+  async loadEvent(eventId: string): Promise<Event> {
     const event = await this.api.get<Event>(["event", eventId], { populate: ["leaders"] });
 
     event.attendees.sort((a, b) => a.nickname.localeCompare(b.nickname));
@@ -48,7 +56,11 @@ export class EventsEditComponent implements OnInit {
 
     this.days = DateTime.fromISO(event.dateTill).diff(DateTime.fromISO(event.dateFrom), "days").days + 1;
 
-    this.event = event;
+    return event;
+
+  }
+
+  async saveEvent(form: NgForm): Promise<void> {
 
   }
 

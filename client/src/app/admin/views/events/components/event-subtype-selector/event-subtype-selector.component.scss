@@ -23,7 +23,9 @@ span.type:hover {
 }
 
 :host.disabled,
-:host.readonly {
+:host.readonly,
+:host[disabled],
+:host[readonly] {
   span.type {
     cursor: default;
   }
