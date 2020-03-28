@@ -5,9 +5,7 @@ import { ConfigService } from "app/core/services/config.service";
 import { Event } from "app/shared/schema/event";
 import { WebConfigEventType, WebConfigEventSubType } from "app/shared/schema/webconfig";
 
-enum EventPipeProperty {
-  image = "image", color = "color", class = "class"
-}
+type EventPipeProperty = "image" | "color" | "class";
 
 @Pipe({
   name: 'event',

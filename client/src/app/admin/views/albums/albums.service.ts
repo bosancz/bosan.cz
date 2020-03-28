@@ -6,7 +6,7 @@ import { from, Subject, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, mergeMap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: AlbumsModule
+  providedIn: 'root'
 })
 export class AlbumsService {
 
