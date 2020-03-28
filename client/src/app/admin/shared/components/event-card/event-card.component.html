@@ -11,7 +11,7 @@
   </mat-card-header>
 
   <mat-card-content>
-    <p *ngIf="event?.description" class="description">{{event.description.length > 100 ? event.description.substr(0,100) + "…" : event.description}}</p>
+    <p *ngIf="event?.description" class="description">{{event.description}}</p>
     <p>Vede <strong [innerHTML]="(event?.leaders | joinLeaders) || 'pan NIKDO'"></strong></p>
   </mat-card-content>
 
