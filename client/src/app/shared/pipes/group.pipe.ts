@@ -2,10 +2,7 @@ import { Pipe, PipeTransform, Injectable } from '@angular/core';
 
 import { ConfigService } from "app/core/services/config.service";
 
-export enum GroupPipeProperty {
-  name = "name",
-  color = "color"
-}
+export type GroupPipeProperty = "name" | "color";
 
 @Injectable()
 @Pipe({

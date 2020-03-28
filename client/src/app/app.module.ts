@@ -14,10 +14,16 @@ import { AppSharedModule } from "app/shared/app-shared.module";
 // VIEWS
 import { NotFoundComponent } from 'app/core/views/not-found/not-found.component';
 
+// Locale
+import { registerLocaleData } from '@angular/common';
+import localeCs from '@angular/common/locales/cs';
+
 // App Config
 import { environment } from "environments/environment";
 
 console.log("Angular is running in " + (environment.production ? "production" : "development") + " environment");
+
+registerLocaleData(localeCs, 'cs');
 
 @NgModule({
   declarations: [

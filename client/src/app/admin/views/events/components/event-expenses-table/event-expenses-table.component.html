@@ -9,7 +9,7 @@
         <th *ngIf="!disabled && !readonly" class="text-right responsive-font"><a (click)="addExpense(type)" class="text-success"><i class="fas fa-plus-circle align-middle"></i></a></th>
       </tr>
       <ng-container *ngFor="let row of getExpensesByType(type)">
-        <ng-container *ngTemplateOutlet="expense; context: { row: row }"></ng-container>
+        <ng-container *ngTemplateOutlet="expenseTemplate; context: { row: row }"></ng-container>
       </ng-container>
     </ng-container>
 
@@ -19,7 +19,7 @@
       <td class="text-right">{{perDayPerson(sumExpenses(getExpensesOther()))}} Kč/os/den</td>
     </tr>
     <ng-container *ngFor="let row of getExpensesOther()">
-      <ng-container *ngTemplateOutlet="expense; context: { row: row }"></ng-container>
+      <ng-container *ngTemplateOutlet="expenseTemplate; context: { row: row }"></ng-container>
     </ng-container>
   </tbody>
   <tfoot>
@@ -32,7 +32,7 @@
   </tfoot>
 </table>
 
-<ng-template #expense let-row="row">
+<ng-template #expenseTemplate let-row="row">
   <tr class="text-muted">
     <ng-container *ngIf="!row.editing">
       <th class="text-right pl-1 pl-md-3">{{row.expense.id}}</th>
@@ -41,7 +41,7 @@
       <td class="text-right">{{perDayPerson(row.expense.amount)}} Kč/os/den</td>
       <td *ngIf="!disabled && !readonly" class="text-right text-nowrap responsive-font">
         <a class="text-warning mr-1" (click)="editExpense(row)"><i class="fas fa-edit"></i></a>
-        <a class="text-danger" (click)="removeExpense(expense)"><i class="fas fa-times"></i></a>
+        <a class="text-danger" (click)="removeExpense(row)"><i class="fas fa-times"></i></a>
       </td>
     </ng-container>
     <ng-container *ngIf="row.editing">

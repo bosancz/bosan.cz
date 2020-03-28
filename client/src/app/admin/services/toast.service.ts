@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { AdminModule } from 'app/admin/admin.module';
 
 export interface Toast {
   text: string;
@@ -14,7 +13,7 @@ export interface Toast {
 	* toast() - create new toast
 	*/
 @Injectable({
-  providedIn: AdminModule
+  providedIn: 'root'
 })
 export class ToastService {
 
