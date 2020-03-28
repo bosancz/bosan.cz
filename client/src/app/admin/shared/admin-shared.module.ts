@@ -18,6 +18,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 
 /* COMPONENTS */
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
@@ -55,6 +57,8 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     MatChipsModule,
     MatBadgeModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
 
   ],
   declarations: [
@@ -93,6 +97,8 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     MatChipsModule,
     MatBadgeModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
 
     TypeaheadModule,
 
