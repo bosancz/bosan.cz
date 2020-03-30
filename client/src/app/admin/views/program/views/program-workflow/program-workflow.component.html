@@ -1,29 +1,48 @@
-<div class="container-fluid px-0 mt-3 mt-lg-5">
-  
-  <h2 pageTitle class="d-none">Schvalování akcí</h2>
-  
-  <div class="dashboard px-0 px-xl-5">
+<div class="container-fluid px-md-3 px-lg-5">
+
+  <page-header>
+    <h2 pageTitle>Schvalování akcí</h2>
+  </page-header>
+
+  <div class="dashboard">
+
+    <mat-form-field class="d-lg-none w-100 my-3">
+      <mat-select [(ngModel)]="selectedColumn">
+        <mat-option value="noLeader">Pan NIKDO ({{(noLeaderEvents | async)?.length || 0}})</mat-option>
+        <mat-option value="draft">V přípravě ({{(draftEvents | async)?.length || 0}})</mat-option>
+        <mat-option value="pending">Ke schválení ({{(pendingEvents | async)?.length || 0}})</mat-option>
+        <mat-option value="public">V programu ({{(publicEvents | async)?.length || 0}})</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <div class="row">
 
-      <div class="col-12 col-md-3 d-md-block" [class.d-none]="selectedColumn !== 'Pan NIKDO'">
-        <h3 class="mb-3 d-none d-md-block ml-3">Pan NIKDO</h3>
-        <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: noLeaderEvents | async}"></ng-container>
+      <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'noLeader'">
+        <h3 class="mb-3 d-none d-lg-block ml-3">Pan NIKDO</h3>
+        <div class="column bg-light px-2 py-2 mb-3">
+          <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: noLeaderEvents | async}"></ng-container>
+        </div>
       </div>
 
-      <div class="col-12 col-md-3 d-md-block" [class.d-none]="selectedColumn !== 'V přípravě'">
-        <h3 class="mb-3 d-none d-md-block ml-3">V přípravě</h3>
-        <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: draftEvents | async}"></ng-container>
+      <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'draft'">
+        <h3 class="mb-3 d-none d-lg-block ml-3">V přípravě</h3>
+        <div class="column bg-light px-2 py-2 mb-3">
+          <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: draftEvents | async}"></ng-container>
+        </div>
       </div>
 
-      <div class="col-12 col-md-3 d-md-block" [class.d-none]="selectedColumn !== 'Ke schválení'">
-        <h3 class="mb-3 d-none d-md-block ml-3">Ke schválení</h3>
-        <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: pendingEvents | async}"></ng-container>
+      <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'pending'">
+        <h3 class="mb-3 d-none d-lg-block ml-3">Ke schválení</h3>
+        <div class="column bg-light px-2 py-2 mb-3" [class.bg-light]="!(pendingEvents | async)?.length" [class.bg-primary]="(pendingEvents | async)?.length">
+          <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: pendingEvents | async}"></ng-container>
+        </div>
       </div>
 
-      <div class="col-12 col-md-3 d-md-block" [class.d-none]="selectedColumn !== 'V programu'">
-        <h3 class="mb-3 d-none d-md-block ml-3">V programu</h3>
-        <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: publicEvents | async}"></ng-container>
+      <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'public'">
+        <h3 class="mb-3 d-none d-lg-block ml-3">V programu</h3>
+        <div class="column bg-light px-2 py-2 mb-3">
+          <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: publicEvents | async}"></ng-container>
+        </div>
       </div>
 
 
@@ -32,8 +51,6 @@
 </div>
 
 <ng-template #eventsColumn let-events>
-  <div class="column bg-light px-2 py-2 mb-3">
-    <event-card *ngFor="let event of events" [event]="event" (change)="eventChanged($event)"></event-card>
-    <p *ngIf="!loading && events?.length === 0" class="text-center noevents">Žádné akce</p>
-  </div>
+  <event-card *ngFor="let event of events" [event]="event" (change)="eventChanged($event)"></event-card>
+  <p *ngIf="!loading && events?.length === 0" class="text-center noevents">Žádné akce</p>
 </ng-template>

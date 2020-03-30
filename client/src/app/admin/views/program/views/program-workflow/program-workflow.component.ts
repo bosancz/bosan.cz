@@ -14,7 +14,7 @@ import { Event } from 'app/shared/schema/event';
 })
 export class ProgramWorkflowComponent implements OnInit {
 
-  selectedColumn = "V přípravě";
+  selectedColumn = "pending";
 
   events = new BehaviorSubject<Event[]>([]);
 
