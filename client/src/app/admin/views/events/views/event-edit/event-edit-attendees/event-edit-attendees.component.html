@@ -1,0 +1,7 @@
+<h2>Vedoucí</h2>
+
+<event-attendees-list [ngModel]="(event$ | async)?.leaders"></event-attendees-list>
+
+<h2>Účastníci</h2>
+
+<event-attendees-list [ngModel]="(event$ | async)?.attendees"></event-attendees-list>

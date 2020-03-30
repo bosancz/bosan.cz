@@ -7,12 +7,26 @@
       </div>
     </div>
     <mat-card-title>{{event?.name}}</mat-card-title>
-    <mat-card-subtitle *ngIf="event?.dateFrom">{{[event.dateFrom,event.dateTill] | dateRange}}</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="event?.dateFrom || event?.place">
+      <ng-container *ngIf="event?.dateFrom">{{[event.dateFrom,event.dateTill] | dateRange}}</ng-container>
+      <ng-container *ngIf="event?.dateFrom && event?.place">, </ng-container>
+      <ng-container *ngIf="event?.place">{{event.place}}</ng-container>
+    </mat-card-subtitle>
   </mat-card-header>
 
+
   <mat-card-content>
+
     <p *ngIf="event?.description" class="description">{{event.description}}</p>
+
+    <p *ngIf="event.meeting?.start || event.meeting?.end">
+      <ng-container *ngIf="event.meeting?.start"><strong>Sraz: </strong>{{event.meeting.start}}</ng-container>
+      <ng-container *ngIf="event.meeting?.start && event.meeting?.end">, </ng-container>
+      <ng-container *ngIf="event.meeting?.end"><strong>Konec: </strong>{{event.meeting.end}}</ng-container>
+    </p>
+
     <p>Vede <strong [innerHTML]="(event?.leaders | joinLeaders) || 'pan NIKDO'"></strong></p>
+
   </mat-card-content>
 
   <mat-card-actions *ngIf="actions && event?._actions" align="right">
@@ -24,5 +38,5 @@
     <button *ngIf="event._actions?.uncancel" mat-flat-button class="ml-1" [disabled]="!event._actions.uncancel.allowed" (click)="eventAction(event._actions?.uncancel)">Vrátit zrušení</button>
     <button mat-flat-button color="secondary" [routerLink]="'/interni/akce/' + event._id">Otevřít</button>
   </mat-card-actions>
-  
+
 </mat-card>

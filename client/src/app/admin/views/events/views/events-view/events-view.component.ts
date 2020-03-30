@@ -13,6 +13,7 @@ import { Member } from "app/shared/schema/member";
 import { TitleService } from 'app/core/services/title.service';
 import { MenuService, ActionItem } from 'app/core/services/menu.service';
 import { map, mergeMap } from 'rxjs/operators';
+import { EventsService } from '../../services/events.service';
 
 @Component({
   selector: 'bo-events-view',
@@ -21,49 +22,32 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 export class EventsViewComponent implements OnInit {
 
-  event$ = new ReplaySubject<Event>(1);
+  event$ = this.eventsService.event$;
 
+  days$ = this.event$.pipe(map(event => event ? DateTime.fromISO(event.dateTill).diff(DateTime.fromISO(event.dateFrom), "days").days + 1 : 0));
 
-  days: number;
+  paramsSubscription = this.route.params
+    .pipe(map((params: Params) => params.event))
+    .subscribe(eventId => this.eventsService.loadEvent(eventId));
 
   constructor(
     private api: ApiService,
     private router: Router,
     private route: ActivatedRoute,
     private toastService: ToastService,
-    private location: Location,
-    private configService: ConfigService,
-    private titleService: TitleService,
-    private menuService: MenuService
+    private eventsService: EventsService
   ) { }
 
   ngOnInit() {
-
-    this.route.params
-      .pipe(map((params: Params) => params.event))
-      .pipe(mergeMap(eventId => from(this.loadEvent(eventId))))
-      .subscribe(this.event$);
-
   }
 
-  async loadEvent(eventId: string) {
-    const event = await this.api.get<Event>(["event", eventId], { populate: ["leaders"] });
-
-    event.attendees.sort((a, b) => a.nickname.localeCompare(b.nickname));
-
-    if (!event.meeting) event.meeting = { start: undefined, end: undefined };
-    if (!event.competition) event.competition = { river: undefined, water_km: undefined }
-    if (!event.expenses) event.expenses = [];
-
-    event.dateFrom = DateTime.fromISO(event.dateFrom).toISODate();
-    event.dateTill = DateTime.fromISO(event.dateTill).toISODate();
-
-    return event;
-
+  ngOnDestroy() {
+    this.paramsSubscription.unsubscribe();
   }
 
   async deleteEvent(event: Event) {
     if (window.confirm("Opravdu chcete smazat tuto akci?")) {
+
       await this.api.delete(event._links.self);
       this.router.navigate(["../"], { relativeTo: this.route });
       this.toastService.toast("Akce smazána");
@@ -82,7 +66,7 @@ export class EventsViewComponent implements OnInit {
 
     await this.api.post(event._actions[action], { note: note || undefined });
 
-    this.event$.next(await this.loadEvent(event._id));
+    this.eventsService.loadEvent(event._id);
 
     this.toastService.toast("Uloženo");
   }

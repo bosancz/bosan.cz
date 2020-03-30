@@ -1,19 +1,13 @@
-.header-container {
-  display: table;
+@import "~styles/variables";
+
+:host {
   width: 100%;
+  flex-direction: row;
+  border-bottom: 1px solid $darkGrey;
 }
 
-.header-row {
-  display: table-row;
-}
-
-.header-row > * {
-  display: table-cell;
-  vertical-align: bottom;
-}
-
-.header-actions {
-  text-align: right;
+.heading {
+  flex-grow: 1;
 }
 
 ::ng-deep {

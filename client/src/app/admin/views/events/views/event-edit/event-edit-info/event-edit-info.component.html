@@ -1,16 +1,10 @@
-<div class="container">
-  <page-header>
-    <div class="actions" *actionMenu>
-      <button mat-button routerLink="../">Zavřít úpravy</button>
-    </div>
+<div *ngIf="event$ | async as event">
 
-    <h2 [pageTitle]="'Upravit: ' + (event$ | async)?.name">Upravit: {{(event$ | async)?.name}}</h2>
-  </page-header>
-</div>
+  <div class="mb-5">
+    <event-card [event]="eventForm.value"></event-card>
+  </div>
 
-<div *ngIf="event$ | async as event" class="container">
-
-  <form #eventForm (ngSubmit)="saveEvent(eventForm)">
+  <form #eventForm="ngForm" (ngSubmit)="saveEvent(event,eventForm)">
 
     <mat-form-field class="w-100">
       <mat-label>Název akce</mat-label>
@@ -74,6 +68,10 @@
         <event-subtype-selector [(ngModel)]="event.subtype" name="subtype"></event-subtype-selector>
       </div>
       <!--<event-type-selector [ngModel]="event?.type" (ngModelChange)="saveEvent({type:$event})" ></event-type-selector>-->
+    </div>
+
+    <div class="mt-5 text-right">
+      <button mat-button mat-flat-button color="primary" type="submit" class="w-100">Uložit</button>
     </div>
 
   </form>

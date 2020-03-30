@@ -1,13 +1,7 @@
-<div class="header-container d-none d-lg-table mt-5 mb-3">
+<div class="heading">
+  <ng-content select="h2"></ng-content>
+</div>
 
-  <div class="header-row">
-    <div class="header-heading">
-      <ng-content select="h2"></ng-content>
-    </div>
-
-    <div class="header-actions">
-      <ng-content select=".actions,actionMenu"></ng-content>
-    </div>
-  </div>
-
+<div class="actions">
+  <ng-content select=".actions,actionMenu"></ng-content>
 </div>

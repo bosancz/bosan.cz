@@ -6,20 +6,32 @@ import { AdminSharedModule } from 'app/admin/shared/admin-shared.module';
 
 import { EventsRoutingModule } from './events-routing.module';
 
+/* SERVICES */
+import { EventsService } from './services/events.service';
+
+/* VIEWS */
+import { EventsViewComponent } from './views/events-view/events-view.component';
+import { EventsListComponent } from './views/events-list/events-list.component';
+import { EventsLeadComponent } from './views/events-lead/events-lead.component';
+import { MyEventsComponent } from './views/my-events/my-events.component';
+
+import { EventEditComponent } from './views/event-edit/event-edit.component';
+import { EventEditInfoComponent } from './views/event-edit/event-edit-info/event-edit-info.component';
+import { EventEditRegistrationComponent } from './views/event-edit/event-edit-registration/event-edit-registration.component';
+
+
+/* COMPONENTS */
 import { EventAgeHistogramComponent } from './components/event-age-histogram/event-age-histogram.component';
 import { EventAttendeesListComponent } from './components/event-attendees-list/event-attendees-list.component';
 import { EventBirthdayListComponent } from './components/event-birthday-list/event-birthday-list.component';
 import { EventExpensesTableComponent } from './components/event-expenses-table/event-expenses-table.component';
 import { EventSubtypeSelectorComponent } from './components/event-subtype-selector/event-subtype-selector.component';
 import { EventTypeSelectorComponent } from './components/event-type-selector/event-type-selector.component';
-import { EventRegistrationComponent } from './components/event-registration/event-registration.component';
 import { EventAttendeesListItemComponent } from './components/event-attendees-list-item/event-attendees-list-item.component';
-
-import { EventsViewComponent } from './views/events-view/events-view.component';
-import { EventsListComponent } from './views/events-list/events-list.component';
-import { EventsLeadComponent } from './views/events-lead/events-lead.component';
-import { MyEventsComponent } from './views/my-events/my-events.component';
-import { EventsEditComponent } from './views/events-edit/events-edit.component';
+import { EventEditAttendeesComponent } from './views/event-edit/event-edit-attendees/event-edit-attendees.component';
+import { EventEditAccountingComponent } from './views/event-edit/event-edit-accounting/event-edit-accounting.component';
+import { EventEditReportComponent } from './views/event-edit/event-edit-report/event-edit-report.component';
+import { EventExpensesChartComponent } from './components/event-expenses-chart/event-expenses-chart.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +39,9 @@ import { EventsEditComponent } from './views/events-edit/events-edit.component';
     EventsViewComponent,
     EventsLeadComponent,
     MyEventsComponent,
+    EventEditComponent,
+    EventEditInfoComponent,
+    EventEditRegistrationComponent,
 
     EventAgeHistogramComponent,
     EventAttendeesListComponent,
@@ -34,9 +49,11 @@ import { EventsEditComponent } from './views/events-edit/events-edit.component';
     EventExpensesTableComponent,
     EventSubtypeSelectorComponent,
     EventTypeSelectorComponent,
-    EventRegistrationComponent,
     EventAttendeesListItemComponent,
-    EventsEditComponent
+    EventEditAttendeesComponent,
+    EventEditAccountingComponent,
+    EventEditReportComponent,
+    EventExpensesChartComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +61,9 @@ import { EventsEditComponent } from './views/events-edit/events-edit.component';
 
     AppSharedModule,
     AdminSharedModule
+  ],
+  providers: [
+    EventsService
   ]
 })
 export class EventsModule { }
