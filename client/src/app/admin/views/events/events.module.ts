@@ -32,6 +32,7 @@ import { EventEditAttendeesComponent } from './views/event-edit/event-edit-atten
 import { EventEditAccountingComponent } from './views/event-edit/event-edit-accounting/event-edit-accounting.component';
 import { EventEditReportComponent } from './views/event-edit/event-edit-report/event-edit-report.component';
 import { EventExpensesChartComponent } from './components/event-expenses-chart/event-expenses-chart.component';
+import { EventsCreateComponent } from './events-create/events-create.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { EventExpensesChartComponent } from './components/event-expenses-chart/e
     EventEditAccountingComponent,
     EventEditReportComponent,
     EventExpensesChartComponent,
+    EventsCreateComponent,
   ],
   imports: [
     CommonModule,

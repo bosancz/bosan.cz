@@ -82,11 +82,11 @@ export class MembersListComponent implements OnInit {
   }
 
   filterMembers(filter: any, members: MemberWithSearchString[]) {
+
+    const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
+
     return members.filter(member => {
-      if (filter.search) {
-        const search_re = new RegExp("(^| )" + filter.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i")
-        if (!search_re.test(member.searchString)) return false;
-      }
+      if (filter.search && !search_re.test(member.searchString)) return false;
       if (filter.role && filter.role.length && filter.role.indexOf(member.role) === -1) return false;
       if (filter.group && filter.group.length && filter.group.indexOf(member.group) === -1) return false;
       if (filter.activity && filter.activity.length && filter.activity.indexOf(member.inactive ? "inactive" : "active") === -1) return false;

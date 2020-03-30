@@ -1,127 +1,115 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
-import { Subscription } from "rxjs";
-
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-
-import { ConfigService } from "app/core/services/config.service";
 import { ApiService } from "app/core/services/api.service";
-import { ToastService } from "app/admin/services/toast.service";
 
 import { Event } from "app/shared/schema/event";
 import { DateTime } from 'luxon';
 import { TitleService } from 'app/core/services/title.service';
-import { MenuService } from 'app/core/services/menu.service';
+import { WebConfigEventStatus } from 'app/shared/schema/webconfig';
+import { ConfigService } from 'app/core/services/config.service';
+import { Subject, Observable, combineLatest, BehaviorSubject } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
+
+type EventWithSearchString = Event & { searchString?: string };
 
 @Component({
   selector: 'bo-events-list',
   templateUrl: './events-list.component.html',
   styleUrls: ['./events-list.component.scss']
 })
-export class EventsListComponent implements OnInit, OnDestroy {
+export class EventsListComponent implements OnInit {
 
-  statuses: any = {
-    "public": "zveřejněná",
-    "draft": "v přípravě"
-  };
-
-  events: Event[] = [];
+  events$ = new Subject<EventWithSearchString[]>();
+  filteredEvents$: Observable<EventWithSearchString[]>;
 
   years: number[] = [];
-  year: number;
+  currentYear: number;
 
-  @ViewChild('createEventModal', { static: true }) createEventModal: TemplateRef<any>;
-
-  createEventModalRef: BsModalRef;
-
-  paramsSubscription: Subscription;
+  statuses: WebConfigEventStatus[];
 
   canCreate: boolean;
 
+  @ViewChild('filterForm', { static: true }) filterForm: NgForm;
+
+  showFilter: boolean = false;
+
+  search$ = new BehaviorSubject<string>("");
+
   constructor(
     private api: ApiService,
-    private configService: ConfigService,
-    private toastService: ToastService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private modalService: BsModalService,
-    private titleService: TitleService,
-    public menuService: MenuService
+    private configService: ConfigService
   ) {
-    
+
     api.resources
       .then(resources => resources.events.allowed.POST)
       .then(canCreate => this.canCreate = canCreate);
+
+    this.filteredEvents$ = combineLatest(this.events$, this.search$.pipe(debounceTime(250)))
+      .pipe(map(([events, search]) => this.filterEvents(events, search)));
+
   }
 
   ngOnInit() {
 
-    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
-      this.year = Number(params.year);
-      this.loadEvents();
-    });
-
     this.loadYears();
-
-    //
-
-    this.titleService.setPageTitle("Přehled akcí");
+    this.loadConfig();
 
   }
 
-  ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
-    this.titleService.reset();
-    this.menuService.reset();
+  ngAfterViewInit() {
+    this.filterForm.valueChanges.subscribe(filter => {
+      this.loadEvents(filter);
+    });
+  }
+
+  async loadConfig() {
+    const config = await this.configService.getConfig();
+    this.statuses = config.events.statuses;
   }
 
   async loadYears() {
     this.years = await this.api.get<number[]>("events:years");
     this.years.sort((a, b) => b - a);
+    this.currentYear = this.years[0];
   }
 
-  async loadEvents() {
+  async loadEvents(filter: any) {
+
+    if (!filter.year) return;
 
     const options: any = {
       sort: "dateFrom",
     };
 
-    if (this.year) {
-      options.filter = {
-        dateTill: { $gte: DateTime.local().set({ year: this.year, month: 1, day: 1 }).toISODate() },
-        dateFrom: { $lte: DateTime.local().set({ year: this.year, month: 12, day: 31 }).toISODate() }
-      }
+    options.filter = {
+      dateTill: { $gte: DateTime.local().set({ year: filter.year, month: 1, day: 1 }).toISODate() },
+      dateFrom: { $lte: DateTime.local().set({ year: filter.year, month: 12, day: 31 }).toISODate() }
     }
-    else options.filter = { dateTill: !this.year ? { $gte: DateTime.local().toISODate() } : undefined };
 
-    this.events = await this.api.get<Event[]>("events", options);
+    if (filter.status) options.filter.status = filter.status;
+
+    const events: EventWithSearchString[] = await this.api.get<Event[]>("events", options);
+
+    events.forEach(event => {
+      event.searchString = [
+        event.name,
+        event.place,
+        event.leaders.map(member => member.nickname).join(" ")
+      ].filter(item => !!item).join(" ")
+    })
+
+    this.events$.next(events);
 
   }
 
-  openEvent(event: Event): void {
-    this.router.navigate([event._id], { relativeTo: this.route });
-  }
-
-  openCreateEventModal() {
-    this.createEventModalRef = this.modalService.show(this.createEventModal);
-  }
-
-  async createEvent(form: NgForm) {
-    // get data from form
-    let eventData = form.value;
-    // create the event and wait for confirmation
-    let response = await this.api.post("events", eventData);
-    // get the event id
-    let event = await this.api.get<Event>(response.headers.get("location"), { select: "_id" });
-    // close the modal
-    this.createEventModalRef.hide();
-    // show the confrmation
-    this.toastService.toast("Akce vytvořena a uložena.");
-    // open the event
-    this.router.navigate(["/interni/obsah/akce/" + event._id + "/upravit"]);
+  filterEvents(events: EventWithSearchString[], search: string) {
+    
+    if(!search) return events;
+    
+    const search_re = new RegExp("(^| )" + search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i")
+    
+    return events.filter(event => search_re.test(event.searchString))
   }
 
   getLeadersString(event: Event) {
