@@ -5,16 +5,24 @@
       <img src="/assets/img/san_logo_barva.png" class="d-inline logo-small" />
     </a>
 
-    <button class="navbar-toggler" (click)="collapsed = !collapsed" type="button">
-      <i class="fa fa-bars"></i>
+    <button mat-icon-button (click)="collapsed = !collapsed" type="button" class="d-lg-none">
+      <mat-icon>menu</mat-icon>
     </button>
 
     <span class="d-none d-lg-inline ml-3">Interní sekce<span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{environment}}</span></span>
-    <span class="d-inline d-lg-none">{{(titleService.pageTitle | async) || "Interní sekce"}}</span>
+    <span class="mobile-title d-inline d-lg-none">{{(titleService.pageTitle | async) || "Interní sekce"}}</span>
   </div>
 
-  <div *ngIf="menuService.actionMenu" class="dropdown text-right actions" [class.d-none]="!collapsed">
-    <button [matMenuTriggerFor]="actionsMenu" type="button" class="navbar-toggler"><i class="fas fa-ellipsis-v"></i></button>
+  <div class="buttons d-block d-lg-none">
+    <ng-container *ngFor="let button of menuService.menuButtons">
+      <ng-container *ngTemplateOutlet="button"></ng-container>
+    </ng-container>
+  </div>
+
+  <div *ngIf="menuService.actionMenu" class="dropdown text-right actions d-lg-none" [class.d-none]="!collapsed">
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" type="button">
+      <mat-icon>more_vert</mat-icon>
+    </button>
     <mat-menu #actionsMenu>
       <ng-container *ngTemplateOutlet="menuService.actionMenu"></ng-container>
     </mat-menu>
@@ -45,7 +53,7 @@
       <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:canal'" routerLink="kanal" class="nav-link px-lg-3">Troja</a></li>
 
       <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:users'" routerLink="uzivatele" class="nav-link px-lg-3">Uživatelé</a></li>
-      
+
       <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-link px-lg-3">Web</a></li>
     </ul>
     <ul class="navbar-nav text-uppercase ml-lg-auto" (click)="collapsed = true">

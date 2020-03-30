@@ -1,44 +1,45 @@
-<div class="container-fluid px-5">
+<div class="container-fluid px-md-3 px-lg-5">
   <page-header>
     <h2 pageTitle>Členská databáze</h2>
 
+    <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+
     <div *actionMenu class="actions">
-      <button mat-button color="primary">Nový člen</button>
+      <button mat-button routerLink="novy-clen" color="primary">Nový člen</button>
     </div>
   </page-header>
-</div>
 
-<div class="container-fluid px-0 px-sm-5">
+  <form #filterForm="ngForm" class="filter d-md-block" [class.d-none]="!showFilter">
+    <div class="row">
+      <mat-form-field class="col-12 col-md-12 col-lg-4 col-xl-3">
+        <mat-label>Hledat</mat-label>
+        <input matInput type="text" ngModel (ngModelChange)="search$.next($event)" name="search">
+      </mat-form-field>
 
-  <form #filterForm="ngForm" class="filter">
+      <mat-form-field class="col-12 col-md col-xl-2">
+        <mat-label>Oddíl</mat-label>
+        <mat-select multiple class="groups" name="group" ngModel>
+          <mat-option *ngFor="let group of groups" [value]="group.id">{{group.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field class="mr-3">
-      <mat-label>Hledat</mat-label>
-      <input matInput type="text" ngModel (ngModelChange)="search$.next($event)" name="search">
-    </mat-form-field>
+      <mat-form-field class="col-12 col-md col-xl-2">
+        <mat-label>Role</mat-label>
+        <mat-select multiple class="groups" name="role" ngModel>
+          <mat-option *ngFor="let role of roles" [value]="role.id">{{role.id}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field class="mr-3">
-      <mat-label>Oddíl</mat-label>
-      <mat-select multiple class="groups" name="group" ngModel>
-        <mat-option *ngFor="let group of groups" [value]="group.id">{{group.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="mr-3">
-      <mat-label>Role</mat-label>
-      <mat-select multiple class="groups" name="role" ngModel>
-        <mat-option *ngFor="let role of roles" [value]="role.id">{{role.id}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    
-    <mat-form-field>
-      <mat-label>Aktivní</mat-label>
-      <mat-select multiple class="groups" name="activity" [ngModel]="['active']">        
-        <mat-option value="active">Aktivní</mat-option>
-        <mat-option value="inactive">Neaktivní</mat-option>
-      </mat-select>
-    </mat-form-field>
-
+      <mat-form-field class="col-12 col-md col-xl-2">
+        <mat-label>Aktivní člen</mat-label>
+        <mat-select multiple class="groups" name="activity" [ngModel]="['active']">
+          <mat-option value="active">Aktivní</mat-option>
+          <mat-option value="inactive">Neaktivní</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </form>
 
   <admin-table class="table table-striped table-hover table-sm">
@@ -69,47 +70,3 @@
     </tbody>
   </admin-table>
 </div>
-
-<ng-template #createMemberModal>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Zapsat nového člena</h4>
-    <button type="button" class="close pull-right" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <form #createMemberForm="ngForm" (ngSubmit)="createMember(createMemberForm)">
-    <div class="modal-body">
-      <div class="form-group">
-        <label>Přezdívka</label>
-        <input type="text" name="nickname" ngModel class="form-control" placeholder="Nositel prstenu">
-      </div>
-      <div class="row" ngModelGroup="name">
-        <div class="form-group col-md-6">
-          <label>Jméno</label>
-          <input type="text" ngModel name="first" class="form-control" placeholder="Bilbo" required>
-        </div>
-        <div class="form-group col-md-6">
-          <label>Příjmení</label>
-          <input type="text" ngModel name="last" class="form-control" placeholder="Pytlík" required>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-6">
-          <label>Oddíl</label>
-          <select name="group" ngModel class="form-control" required>
-            <option *ngFor="let group of groups" [value]="group.id">{{group.name}}</option>
-          </select>
-        </div>
-        <div class="form-group col-6">
-          <label>Role</label>
-          <select name="role" ngModel class="form-control" required>
-            <option *ngFor="let role of roles">{{role}}</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer text-right">
-      <button class="btn btn-primary" type="submit" [disabled]="!createMemberForm.valid">Vytvořit</button>
-    </div>
-  </form>
-</ng-template>

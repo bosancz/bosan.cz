@@ -1,11 +1,9 @@
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from "@angular/forms";
 
-import { Subscription, Subject, Observable, combineLatest } from "rxjs";
-
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Subject, Observable, combineLatest } from "rxjs";
+import { map, debounceTime } from 'rxjs/operators';
 
 import { ConfigService } from "app/core/services/config.service";
 import { ApiService } from "app/core/services/api.service";
@@ -13,9 +11,6 @@ import { ToastService } from "app/admin/services/toast.service";
 
 import { Member } from "app/shared/schema/member";
 import { WebConfigGroup, WebConfigMemberRole } from "app/shared/schema/webconfig";
-import { TitleService } from 'app/core/services/title.service';
-import { MenuService } from 'app/core/services/menu.service';
-import { map, debounceTime, tap } from 'rxjs/operators';
 
 type MemberWithSearchString = Member & { searchString?: string };
 
@@ -30,6 +25,8 @@ export class MembersListComponent implements OnInit {
   filteredMembers$: Observable<Member[]>;
 
   filter$ = new Subject<any>();
+
+  showFilter: boolean;
 
   groups: WebConfigGroup[] = [];
   roles: WebConfigMemberRole[] = [];
@@ -77,7 +74,7 @@ export class MembersListComponent implements OnInit {
       ].filter(item => !!item).join(" ")
     })
 
-    console.log(members.filter(member => member.nickname==="Sam"));
+    console.log(members.filter(member => member.nickname === "Sam"));
 
     this.sortMembers(members);
 
@@ -88,7 +85,7 @@ export class MembersListComponent implements OnInit {
     return members.filter(member => {
       if (filter.search) {
         const search_re = new RegExp("(^| )" + filter.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i")
-        if(!search_re.test(member.searchString)) return false;
+        if (!search_re.test(member.searchString)) return false;
       }
       if (filter.role && filter.role.length && filter.role.indexOf(member.role) === -1) return false;
       if (filter.group && filter.group.length && filter.group.indexOf(member.group) === -1) return false;
@@ -108,19 +105,6 @@ export class MembersListComponent implements OnInit {
       || (a.role && b.role && roleIndex.indexOf(a.role) - roleIndex.indexOf(b.role))
       || (a.nickname && b.nickname && a.nickname.localeCompare(b.nickname))
     ));
-  }
-
-  async createMember(form: NgForm) {
-    // get data from form
-    const eventData = form.value;
-    // create the event and wait for confirmation
-    const response = await this.api.post("members", eventData);
-    // get new member _id
-    let member = await this.api.get<Member>(response.headers.get("location"), { select: "_id" });
-    // close the modal
-    this.toastService.toast("Člen uložen.");
-    // open the event
-    this.router.navigate(["./", {}, member._id], { relativeTo: this.route });
   }
 
 }
