@@ -166,6 +166,7 @@ export class EventCalendarComponent implements OnInit, OnChanges {
   assignEvents(events: Array<CPVEvent | Event>, type: "own" | "cpv"): void {
 
     if (!this.calendar) return;
+    if (!events) return;
 
     this.calendar.forEach(month => {
 

@@ -8,9 +8,9 @@
   <a (click)="memberSelected(null)"><i class="fas fa-trash-alt text-danger"></i></a>
 </div>
 
-<div *ngIf="!(memberId$ | async)" class="name-select">
+<div *ngIf="!(memberId$ | async)" class="name-select" [style.margin-left]="size + 16 + 'px'">
 
-  <mat-form-field>
+  <mat-form-field class="w-100">
     <mat-label>Vybrat člena</mat-label>
     <input type="text" matInput #autocomplete [placeholder]="((topMembers$ | async) && (topMembers$ | async)[0]) ? (topMembers$ | async)[0].nickname : 'Gandalf Šedý'" required [matAutocomplete]="autocompleteValues" (keyup)="search$.next(autocomplete.value)">
     <mat-autocomplete #autocompleteValues="matAutocomplete" [displayWith]="displayMember" (optionSelected)="memberSelected($event.option.value)">

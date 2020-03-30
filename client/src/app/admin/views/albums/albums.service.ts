@@ -20,7 +20,7 @@ export class AlbumsService {
     this.album$.next(album);
   }
 
-  async saveAlbum(albumId: Album["_id"], data: Partial<Album>) {
+  async saveAlbum(albumId: Album["_id"], data: Partial<Album<any>>) {
     await this.api.patch(["album", albumId], data);
     await this.loadAlbum(albumId);
   }

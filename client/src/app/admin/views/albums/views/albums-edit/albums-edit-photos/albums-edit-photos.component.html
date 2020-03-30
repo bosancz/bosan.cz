@@ -1,0 +1,31 @@
+<div class="row" *ngIf="album$ | async as album">
+
+  <div *ngFor="let photo of (album$ | async)?.photos" class="col-12 col-md-6 col-lg-4 col-xl-3  mb-3">
+    <mat-card class="photo w-100">
+
+      <div mat-card-image class="image" [style.background-image]="'url(' + photo.sizes.small.url + ')'" [routerLink]="'./' + photo._id"></div>
+
+      <mat-card-content>
+        <p>{{photo.caption}}</p>
+        <p>{{photo.date | date: 'd. M. Y H:s'}}</p>        
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-icon-button (click)="movePhotoBack(album, photo)">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <button mat-icon-button (click)="movePhotoforward(album, photo)">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <div class="float-right">
+          <button mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button [routerLink]="'./' + photo._id">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

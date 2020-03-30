@@ -1,13 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { ToastService } from "app/admin/services/toast.service";
-
-import { Album, Photo } from "app/shared/schema/album";
-import { AlbumsService } from '../albums.service';
-import { mergeMap, map, distinctUntilChanged, filter } from 'rxjs/operators';
-import { from, combineLatest, BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ApiService } from 'app/core/services/api.service';
+import { AlbumsService } from '../../../albums.service';
+import { Photo } from 'app/shared/schema/photo';
+import { Album } from 'app/shared/schema/album';
 
 @Component({
   selector: 'albums-edit-photos',
@@ -18,51 +14,27 @@ export class AlbumsEditPhotosComponent {
 
   album$ = this.albumsService.album$;
 
-  // tags$ = this.album$.pipe(map(album => this.getTags(album)));
-
-  currentPhotoId: string;
-  previousPhotoId: string;
-  nextPhotoId: string;
-
-  paramsSubscription: Subscription;
-
   constructor(
-    private albumsService: AlbumsService,
-    private toastService: ToastService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private api: ApiService
+    private albumsService: AlbumsService
   ) {
-
 
   }
 
   ngOnInit() {
-
-    this.paramsSubscription = combineLatest(this.album$, this.route.params.pipe(map((params: Params) => params.photo)))
-      .subscribe(([album, photoId]) => {
-        const i = album.photos.findIndex(photo => photo._id === photoId);
-        if (i === -1) this.selectPhoto(album.photos[0]._id);
-        else {
-          this.currentPhotoId = album.photos[i]._id;
-          this.previousPhotoId = i > 0 ? album.photos[i - 1]._id : album.photos[album.photos.length - 1]._id;
-          this.nextPhotoId = i < album.photos.length - 1 ? album.photos[i + 1]._id : album.photos[0]._id;
-        }
-      });
-
+    this.album$
   }
 
-  ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+  async movePhotoBack(album: Album, photo: Photo) {
+    const photos = album.photos;
+    const i = photos.findIndex(item => item._id === photo._id);
+    photos.splice(i - 1, 0, album.photos.splice(i, 1)[0]);
+    await this.albumsService.saveAlbum(album._id, { photos: photos.map(photo => photo._id) });
   }
 
-  selectPhoto(photoId: string | null) {
-    if (photoId) {
-      this.router.navigate(["../", photoId], { replaceUrl: true, relativeTo: this.route });
-    }
-    else {
-      this.router.navigate(["../"], { replaceUrl: true, relativeTo: this.route });
-    }
+  async movePhotoforward(album: Album, photo: Photo) {
+    const photos = album.photos;
+    const i = photos.findIndex(item => item._id === photo._id);
+    photos.splice(i + 1, 0, album.photos.splice(i, 1)[0]); 
   }
 
   /* isTitlePhoto(photo) {

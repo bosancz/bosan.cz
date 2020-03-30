@@ -1,18 +1,13 @@
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute, Params } from "@angular/router";
-
-import { Subscription, Observable, BehaviorSubject, combineLatest, Subject } from "rxjs";
-
-import { DataService } from "app/core/services/data.service";
-
-import { Album, Photo } from "app/shared/schema/album";
-import { Paginated } from "app/shared/schema/paginated";
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
 import { NgForm } from '@angular/forms';
+import { Observable, BehaviorSubject, combineLatest, Subject } from "rxjs";
+import { debounceTime, map } from 'rxjs/operators';
+
 import { ToastService } from 'app/admin/services/toast.service';
 import { ApiService } from 'app/core/services/api.service';
-import { TitleService } from 'app/core/services/title.service';
-import { debounceTime, map } from 'rxjs/operators';
+
+import { Album, Photo } from "app/shared/schema/album";
 
 type AlbumWithSearchString<T = Photo> = Album<T> & { searchString?: string };
 
@@ -44,11 +39,6 @@ export class AlbumsListComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private modalService: BsModalService,
-    private toastService: ToastService,
-    private titleService: TitleService
   ) {
 
     this.filteredAlbums$ = combineLatest(this.albums$, this.search$.pipe(debounceTime(250)))

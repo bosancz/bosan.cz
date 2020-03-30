@@ -1,21 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { DataService } from "app/core/services/data.service";
-import { ToastService } from "app/admin/services/toast.service";
+import { AlbumsService } from '../../albums.service';
 
 import { Album } from "app/shared/schema/album";
 import { Member } from "app/shared/schema/member";
-import { TitleService } from 'app/core/services/title.service';
-import { AlbumsService } from '../albums.service';
 
 @Component({
   selector: 'albums-view',
   templateUrl: './albums-view.component.html',
   styleUrls: ['./albums-view.component.scss']
 })
-export class AlbumsViewComponent {
+export class AlbumsViewComponent implements OnInit, OnDestroy {
 
   album$ = this.albumsService.album$;
 
@@ -28,9 +25,20 @@ export class AlbumsViewComponent {
   paramsSubscription: Subscription;
 
   constructor(
-    private albumsService: AlbumsService
+    private albumsService: AlbumsService,
+    private route: ActivatedRoute
   ) {
     albumsService.album$.subscribe(console.log);
+  }
+
+  ngOnInit() {
+    this.paramsSubscription = this.route.params.subscribe(params => {
+      this.albumsService.loadAlbum(params.album);
+    });
+  }
+
+  ngOnDestroy() {
+    this.paramsSubscription.unsubscribe();
   }
 
   async deleteAlbum(album: Album) {

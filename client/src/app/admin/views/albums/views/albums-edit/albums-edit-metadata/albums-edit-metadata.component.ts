@@ -1,15 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { formatDate } from "@angular/common";
 import { NgForm, FormControl } from "@angular/forms";
+import { from } from 'rxjs';
+import { debounceTime, mergeMap } from 'rxjs/operators';
 
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/admin/services/toast.service";
+import { AlbumsService } from '../../../albums.service';
 
 import { Album } from "app/shared/schema/album";
 import { Event } from "app/shared/schema/event";
-import { AlbumsService } from '../albums.service';
-import { debounceTime, map, mergeMap } from 'rxjs/operators';
-import { from, Observable } from 'rxjs';
 
 @Component({
   selector: 'albums-edit-metadata',
