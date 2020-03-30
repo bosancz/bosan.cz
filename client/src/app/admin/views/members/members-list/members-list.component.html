@@ -8,6 +8,7 @@
 
     <div *actionMenu class="actions">
       <button mat-button routerLink="novy-clen" color="primary">Nový člen</button>
+      <!-- <button mat-button color="secondary">Stáhnout v CSV</button> -->
     </div>
   </page-header>
 
@@ -45,31 +46,34 @@
     </div>
   </form>
 
-  <admin-table class="table table-striped table-hover table-sm">
+  <admin-table class="table table-hover table-sm">
     <thead>
       <tr>
         <th>Přezdívka</th>
         <th>Oddíl</th>
         <th>Role</th>
         <th>Jméno</th>
-        <th>Příjmení</th>
         <th>Datum narození</th>
-        <th>Adresa</th>
-
+        <th>Email</th>
+        <th>Mobil</th>
+        <th>Kontakt rodiče</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let member of filteredMembers$ | async" [routerLink]="member._id" [class.inactive]="member.inactive">
-        <td>{{member.nickname}}</td>
-        <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
-        <td>{{member.role}}</td>
-        <td>{{member.name?.first}}</td>
-        <td>{{member.name?.last}}</td>
-        <td>{{member.birthday | date:"d. M. y"}}</td>
-        <td>{{member.address?.street}} {{member.address?.streetNo}}, {{member.address?.city}}</td>
-        <td class="text-right"><a [routerLink]="member._id"><i class="fas fa-pencil-alt"></i></a></td>
-      </tr>
+      <ng-container *ngFor="let member of filteredMembers$ | async">
+        <tr [routerLink]="member._id" [class.inactive]="member.inactive" [class.bg-light]="member.role === 'instruktor' || member.role === 'vedoucí'">
+          <th>{{member.nickname}}</th>
+          <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
+          <td>{{member.role}}</td>
+          <td>{{member.name?.first}} {{member.name?.last}}</td>
+          <td>{{member.birthday | date:"d. M. y"}}</td>
+          <td>{{member.contacts?.email}}</td>
+          <td>{{member.contacts?.mobile || (member.contacts?.mother ? member.contacts?.mother + " (matka)" : undefined) || (member.contacts?.father ? member.contacts?.father + " (otec)" : undefined || "")}}</td>
+          <td class="text-right"><a [routerLink]="member._id"><i class="fas fa-pencil-alt"></i></a></td>
+
+        </tr>
+      </ng-container>
     </tbody>
   </admin-table>
 </div>

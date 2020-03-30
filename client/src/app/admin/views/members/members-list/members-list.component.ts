@@ -11,6 +11,7 @@ import { ToastService } from "app/admin/services/toast.service";
 
 import { Member } from "app/shared/schema/member";
 import { WebConfigGroup, WebConfigMemberRole } from "app/shared/schema/webconfig";
+import { DateTime } from 'luxon';
 
 type MemberWithSearchString = Member & { searchString?: string };
 
@@ -69,8 +70,11 @@ export class MembersListComponent implements OnInit {
     members.forEach(member => {
       member.searchString = [
         member.nickname,
-        member.name ? Object.values(member.name).join(" ") : "",
-        member.address ? Object.values(member.address).join(" ") : ""
+        member.name && member.name.first,
+        member.name && member.name.last,
+        DateTime.fromISO(member.birthday).year,
+        member.contacts && member.contacts.email,
+        member.contacts && member.contacts.mobile && member.contacts.mobile.replace(/[^0-9]/g, "").replace("+420","")
       ].filter(item => !!item).join(" ")
     })
 
@@ -83,7 +87,7 @@ export class MembersListComponent implements OnInit {
 
   filterMembers(filter: any, members: MemberWithSearchString[]) {
 
-    const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
+    const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/ /g,"").replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
 
     return members.filter(member => {
       if (filter.search && !search_re.test(member.searchString)) return false;
