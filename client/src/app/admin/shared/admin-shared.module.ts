@@ -19,6 +19,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 
 /* COMPONENTS */
@@ -59,6 +61,7 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     MatSelectModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatCheckboxModule,
 
   ],
   declarations: [
@@ -75,6 +78,7 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     EventCardComponent,
     PageHeaderComponent,
     PhotoFaceComponent,
+    
 
     /* DIRECTIVES */
     ActionMenuDirective,
@@ -99,6 +103,7 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     MatSelectModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatCheckboxModule,
 
     TypeaheadModule,
 
