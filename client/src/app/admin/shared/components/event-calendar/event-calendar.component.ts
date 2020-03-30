@@ -68,6 +68,7 @@ export class EventCalendarComponent implements OnInit, OnChanges {
 
   @Input() cpv: boolean;
   @Input() selection: boolean;
+  @Input() headingLevel: number = 3;
 
   @Output() select = new EventEmitter<[DateTime, DateTime]>();
 
@@ -88,8 +89,8 @@ export class EventCalendarComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
 
-    if(changes.cpv){
-      if(this.cpv) this.loadEventsCPV();
+    if (changes.cpv) {
+      if (this.cpv) this.loadEventsCPV();
       else this.eventsCPV = [];
     }
 

@@ -1,7 +1,14 @@
 <div class="calendar-container">
   <div class="calendar">
     <ng-container *ngFor="let month of calendar">
-      <h3 class="mb-3">{{month.name}} {{month.year}}</h3>
+      <ng-container [ngSwitch]="headingLevel">
+        <h1 *ngSwitchCase="1" class="mb-3">{{month.name}} {{month.year}}</h1>
+        <h2 *ngSwitchCase="2" class="mb-3">{{month.name}} {{month.year}}</h2>
+        <h3 *ngSwitchCase="3" class="mb-3">{{month.name}} {{month.year}}</h3>
+        <h4 *ngSwitchCase="4" class="mb-3">{{month.name}} {{month.year}}</h4>
+        <h5 *ngSwitchCase="5" class="mb-3">{{month.name}} {{month.year}}</h5>
+        <h6 *ngSwitchCase="6" class="mb-3">{{month.name}} {{month.year}}</h6>
+      </ng-container>
 
       <div class="month">
 
