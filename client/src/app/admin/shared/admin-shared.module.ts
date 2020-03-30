@@ -42,6 +42,7 @@ import { TypeaheadFieldComponent } from "./components/typeahead-field/typeahead-
 import { EventCardComponent } from './components/event-card/event-card.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { PhotoFaceComponent } from './components/photo-face/photo-face.component';
+import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
 
 @NgModule({
   imports: [
@@ -83,12 +84,13 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     EventCardComponent,
     PageHeaderComponent,
     PhotoFaceComponent,
-    
+    EventCalendarComponent,
 
     /* DIRECTIVES */
     ActionMenuDirective,
     PageTitleDirective,
     MenuButtonDirective,
+    
   ],
   exports: [
     FormsModule,
@@ -119,8 +121,7 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     GroupsSelectComponent,
     MembersSelectComponent,
     ListSliderComponent,
-    EventStatusBadgeComponent,
-
+    
     CodelistEditorComponent,
     ContactsEditorComponent,
     PhotoTagsEditorComponent,
@@ -128,6 +129,9 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     EventCardComponent,
     PageHeaderComponent,
     PhotoFaceComponent,
+    
+    EventStatusBadgeComponent,
+    EventCalendarComponent,
 
     /* DIRECTIVES */
     ActionMenuDirective,
