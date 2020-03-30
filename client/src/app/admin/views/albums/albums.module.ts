@@ -15,6 +15,7 @@ import { AlbumsService } from './albums.service';
 import { AlbumsComponent } from './albums.component';
 import { AlbumsEditPhotoComponent } from './albums-edit-photo/albums-edit-photo.component';
 import { PhotoFaceEditComponent } from './albums-edit-photo/photo-face-edit/photo-face-edit.component';
+import { AlbumsCreateComponent } from './albums-create/albums-create.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { PhotoFaceEditComponent } from './albums-edit-photo/photo-face-edit/phot
     AlbumsComponent,
     AlbumsEditPhotoComponent,
     PhotoFaceEditComponent,
+    AlbumsCreateComponent,
   ],
   imports: [
     CommonModule,

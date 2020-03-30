@@ -1,0 +1,15 @@
+<form #createAlbumForm="ngForm" (ngSubmit)="createAlbum(createAlbumForm)">
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Název alba</label>
+      <input type="text" name="name" ngModel class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label>Rok</label>
+      <input type="number" name="year" [ngModel]="currentYear" class="form-control" required>
+    </div>
+  </div>
+  <div class="modal-footer text-right">
+    <button class="btn btn-primary" type="submit" [disabled]="!createAlbumForm.valid">Vytvořit</button>
+  </div>
+</form>

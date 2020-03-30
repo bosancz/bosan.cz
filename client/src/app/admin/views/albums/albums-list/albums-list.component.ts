@@ -1,47 +1,46 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
-import { Subscription } from "rxjs";
+import { Subscription, Observable, BehaviorSubject, combineLatest, Subject } from "rxjs";
 
 import { DataService } from "app/core/services/data.service";
 
-import { Album } from "app/shared/schema/album";
+import { Album, Photo } from "app/shared/schema/album";
 import { Paginated } from "app/shared/schema/paginated";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
 import { ToastService } from 'app/admin/services/toast.service';
 import { ApiService } from 'app/core/services/api.service';
 import { TitleService } from 'app/core/services/title.service';
+import { debounceTime, map } from 'rxjs/operators';
+
+type AlbumWithSearchString<T = Photo> = Album<T> & { searchString?: string };
 
 @Component({
   selector: 'albums-list',
   templateUrl: './albums-list.component.html',
   styleUrls: ['./albums-list.component.scss']
 })
-export class AlbumsListComponent implements OnInit, OnDestroy {
+export class AlbumsListComponent implements OnInit {
 
   years: number[] = [];
-  year: number;
+  currentYear: number;
 
-  albums: Album[] = [];
+  albums$ = new Subject<AlbumWithSearchString[]>();
+  filteredAlbums$: Observable<Album[]>;
 
-  page: number = 1;
-  pages: number;
+  statuses = [
+    { id: "public", name: "zveřejněná" },
+    { id: "draft", name: "v přípravě" },
+  ];
 
-  statuses: any = {
-    "public": "zveřejněná",
-    "draft": "v přípravě"
-  };
-
-  openFilter: boolean = false;
+  showFilter = false;
 
   loading: boolean = false;
 
-  currentYear = (new Date()).getFullYear();
+  @ViewChild('filterForm', { static: true }) filterForm: NgForm;
 
-  createAlbumModalRef: BsModalRef;
-
-  paramsSubscription: Subscription;
+  search$ = new BehaviorSubject<string>("");
 
   constructor(
     private api: ApiService,
@@ -50,63 +49,63 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private toastService: ToastService,
     private titleService: TitleService
-  ) { }
+  ) {
 
-  ngOnInit() {
-    this.loadYears();
-
-    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
-      this.year = params.year;
-      this.page = params.page;
-      this.loadAlbums();
-    });
-
-    this.titleService.setPageTitle("Galerie");
+    this.filteredAlbums$ = combineLatest(this.albums$, this.search$.pipe(debounceTime(250)))
+      .pipe(map(([events, search]) => this.filterAlbums(events, search)));
 
   }
 
-  ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+  ngOnInit() {
+    this.loadYears();
+  }
+
+  ngAfterViewInit() {
+    this.filterForm.valueChanges.subscribe(filter => {
+      this.loadAlbums(filter);
+    });
   }
 
   async loadYears() {
     this.years = await this.api.get<number[]>("albums:years");
     this.years.sort((a, b) => b - a);
+    this.currentYear = this.years[0];
   }
 
-  async loadAlbums() {
+  async loadAlbums(filter: any) {
+
+    if (!filter.year) return;
 
     this.loading = true;
 
     const options: any = {
-      sort: "dateFrom"
+      sort: "dateFrom",
+      filter: {
+        year: filter.year
+      }
     }
 
-    if (this.year) options.filter = { year: this.year };
-    else options.filter = { status: "draft" };
+    if (filter.status) options.filter.status = "draft";
 
-    this.albums = await this.api.get<Album[]>("albums", options);
+    const albums:AlbumWithSearchString[] = await this.api.get<Album[]>("albums", options);
 
+    albums.forEach(album => {
+      album.searchString = [
+        album.name        
+      ].filter(item => !!item).join(" ")
+    })
+
+    this.albums$.next(albums)
     this.loading = false;
   }
 
-  openCreateAlbumModal(template: TemplateRef<any>): void {
-    this.createAlbumModalRef = this.modalService.show(template);
-  }
+  filterAlbums(events: AlbumWithSearchString[], search: string) {
 
-  async createAlbum(form: NgForm) {
-    // get data from form
-    const albumData = form.value;
-    // create the event and wait for confirmation
-    const response = await this.api.post("albums", albumData);
-    // get the newly created album    
-    const album = await this.api.get<Album>(response.headers.get("location"));
-    // close the modal
-    this.createAlbumModalRef.hide();
-    // show the confrmation
-    this.toastService.toast("Album vytvořeno a uloženo.");
-    // open the album
-    this.router.navigate(["./", {}, album._id], { relativeTo: this.route });
+    if (!search) return events;
+
+    const search_re = new RegExp("(^| )" + search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i")
+
+    return events.filter(event => search_re.test(event.searchString))
   }
 
 }
