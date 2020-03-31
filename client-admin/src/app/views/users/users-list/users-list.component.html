@@ -1,11 +1,36 @@
-<div class="container">
+<div class="container-fluid px-3 px-sm-5">
 
   <page-header>
     <h2 pageTitle>Uživatelské účty</h2>
+
+    <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+
     <div *actionMenu class="actions">
       <button mat-button color="primary" routerLink="vytvorit">Nový uživatel</button>
     </div>
+
   </page-header>
+
+  <form #filterForm="ngForm" class="filter d-md-block" [class.d-none]="!showFilter">
+    <div class="row">
+      <mat-form-field class="col">
+        <mat-label>Hledat</mat-label>
+        <input matInput type="text" [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" name="search">
+        <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field class="col-12 col-md col-xl-2">
+        <mat-label>Role</mat-label>
+        <mat-select multiple name="role" ngModel>
+          <mat-option *ngFor="let role of roles" [value]="role.name">{{role.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
 
   <admin-table>
     <thead>
@@ -18,7 +43,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users" [routerLink]="user._id">
+      <tr *ngFor="let user of filteredUsers$ | async" [routerLink]="user._id">
         <td>{{user.login}}</td>
         <td>{{user.email || "-"}}</td>
         <td>
@@ -28,9 +53,13 @@
         <td>
           <span *ngFor="let role of user.roles" class="role badge badge-dark">{{roleNames[role] || role}}</span>
         </td>
-        <td class="text-right actions">
-          <a [routerLink]="user._id" tooltip="Upravit" placement="bottom"><i class="fas fa-pencil-alt"></i></a>
-          <a (click)="impersonateUser($event,user)" [matTooltip]="'Přihlásit jako ' + user.login" placement="bottom"><i class="fas fa-sign-in-alt"></i></a>
+        <td class="text-right">
+          <button mat-icon-button [routerLink]="user._id">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="impersonateUser($event,user)" [matTooltip]="'Přihlásit jako ' + user.login">
+            <mat-icon>face</mat-icon>
+          </button>
         </td>
       </tr>
     </tbody>
