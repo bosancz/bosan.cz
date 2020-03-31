@@ -5,6 +5,8 @@ export class Member extends Document {
 
   group: string;
   role: string;
+  function: string;
+  rank: string;
   membership: string;
   inactive: boolean;
 

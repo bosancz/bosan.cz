@@ -52,6 +52,8 @@
         <th>Přezdívka</th>
         <th>Oddíl</th>
         <th>Role</th>
+        <th>Funkce</th>
+        <th>Hodnost</th>
         <th>Jméno</th>
         <th>Datum narození</th>
         <th>Email</th>
@@ -64,6 +66,8 @@
           <th>{{member.nickname}}</th>
           <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
           <td>{{member.role}}</td>
+          <td>{{member.function}}</td>
+          <td>{{member.rank}}</td>
           <td>{{member.name?.first}} {{member.name?.last}}</td>
           <td>{{member.birthday | date:"d. M. y"}}</td>
           <td>{{member.contacts?.email}}</td>

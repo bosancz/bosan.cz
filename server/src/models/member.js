@@ -7,6 +7,8 @@ var memberSchema = mongoose.Schema({
   "nickname": String,
   "group": String,
   "role": String,
+  "function": String,
+  "rank": String,
   "inactive": { type: Boolean, default: false },
   "membership": String,
 

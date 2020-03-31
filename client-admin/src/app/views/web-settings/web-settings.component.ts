@@ -73,6 +73,13 @@ export class WebSettingsComponent implements OnInit, OnDestroy {
     { "name": "id", "title": "ID", "type": "text" },
     { "name": "genitiv", "title": "2. pád", "type": "text" }
   ];
+  memberPostsFields: CodelistField[] = [
+    { "name": "id", "title": "ID", "type": "text" },
+  ];
+
+  memberRanksFields: CodelistField[] = [
+    { "name": "id", "title": "ID", "type": "text" },
+  ];
 
   membershipTypesFields: CodelistField[] = [
     { "name": "id", "title": "Typ", "type": "text" }

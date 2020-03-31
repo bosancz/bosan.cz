@@ -53,6 +53,16 @@ export class WebConfigMemberRole {
   id: string;
   genitiv: string;
 }
+
+export interface WebConfigMemberPost {
+  id: string;
+}
+
+export interface WebConfigMemberRank {
+  id: string;
+}
+
+
 export class WebConfigMembershipType {
   id: string;
 }
@@ -85,6 +95,8 @@ export interface WebConfig {
 
   members: {
     roles: WebConfigMemberRole[],
+    posts: WebConfigMemberPost[],
+    ranks: WebConfigMemberRank[],
     groups: WebConfigGroup[],
     membershipTypes: WebConfigMembershipType[],
     achievements: WebConfigAchievement[]
