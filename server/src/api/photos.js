@@ -76,7 +76,7 @@ routes.post("photos", "/", { permission: "photos:create" }).handle(upload.single
 });
 
 routes.get("photo", "/:photo", { permission: "photos:read" }).handle(async (req, res) => {
-  const photo = await Photo.findOne({ _id: req.params.photo }).populate("faces.member", "_id name group");
+  const photo = await Photo.findOne({ _id: req.params.photo }).populate("faces.member", "_id nickname name group");
   res.json(photo)
 });
 
