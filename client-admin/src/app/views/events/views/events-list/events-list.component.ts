@@ -70,7 +70,10 @@ export class EventsListComponent implements OnInit {
   async loadYears() {
     this.years = await this.api.get<number[]>("events:years");
     this.years.sort((a, b) => b - a);
-    this.currentYear = this.years[0];
+    
+    const thisYear = DateTime.local().year;
+    if(this.years.indexOf(thisYear) !== -1) this.currentYear = thisYear;
+    else this.currentYear = this.years[0];
   }
 
   async loadEvents(filter: any) {
