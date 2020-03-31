@@ -28,7 +28,7 @@
     </mat-menu>
   </div>
 
-  <div class="collapse navbar-collapse" [class.d-none]="collapsed">
+  <div class="collapse navbar-collapse" [class.show]="!collapsed">
     <ul class="navbar-nav text-uppercase ml-lg-5" (click)="collapsed = true">
       <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:dashboard'" routerLink="prehled" class="nav-link px-lg-3">Přehled</a></li>
 
