@@ -46,7 +46,6 @@
         <th>Datum</th>
         <th>Stav</th>
         <th>Publikováno</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -55,15 +54,6 @@
         <td class="d-none d-lg-table-cell date">{{album.dateFrom | date:"d. M. y"}} - {{album.dateTill | date:"d. M. y"}}</td>
         <td class="d-none d-lg-table-cell">{{statusesIndex[album.status] || "N/A"}}</td>
         <td class="d-none d-lg-table-cell">{{album.datePublished | date:"d. M. y"}}</td>
-        <td class="d-none d-lg-table-cell actions text-right">
-          <ng-container *ngIf="album.event">
-            <a [routerLink]="['/akce',album.event]" title="Otevřít akci"><i class="far fa-calendar-alt"></i></a>
-            &nbsp;
-          </ng-container>
-          <a [routerLink]="album._id"><i class="fas fa-pencil-alt"></i></a>
-          &nbsp;
-          <a [routerLink]="['/fotogalerie', album._id]"><i class="fas fa-external-link-alt"></i></a>
-        </td>
       </tr>
     </tbody>
   </admin-table>

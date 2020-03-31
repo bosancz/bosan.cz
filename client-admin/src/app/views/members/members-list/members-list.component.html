@@ -56,7 +56,6 @@
         <th>Datum narození</th>
         <th>Email</th>
         <th>Mobil</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -69,8 +68,6 @@
           <td>{{member.birthday | date:"d. M. y"}}</td>
           <td>{{member.contacts?.email}}</td>
           <td>{{member.contacts?.mobile || (member.contacts?.mother ? member.contacts?.mother + " (matka)" : undefined) || (member.contacts?.father ? member.contacts?.father + " (otec)" : undefined || "")}}</td>
-          <td class="text-right"><a [routerLink]="member._id"><i class="fas fa-pencil-alt"></i></a></td>
-
         </tr>
       </ng-container>
     </tbody>

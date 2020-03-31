@@ -6,7 +6,7 @@
     <div class="actions" *actionMenu>
       <ng-container *ngIf="album$ | async as album">
         <button mat-button [disabled]="!album._links.self.allowed.PATCH" routerLink="upravit">Upravit</button>
-        <a mat-button *ngIf="album.status === 'public'" [href]="'/fotogalerie/' + album._id">Otevřít na webu<i class="ml-2 fas fa-external-link-alt"></i></a>
+        <a mat-button *ngIf="album.status === 'public'" [href]="'/fotogalerie/' + album._id">Otevřít na webu</a>
         <button mat-button color="warn" [disabled]="!album._links.self.allowed.DELETE" [disabled]="!deleteConfirmation" (click)="deleteAlbum(album)">Smazat</button>
       </ng-container>
     </div>
