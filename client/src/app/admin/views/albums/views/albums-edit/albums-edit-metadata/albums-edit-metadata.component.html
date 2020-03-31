@@ -1,0 +1,46 @@
+<div *ngIf="album$ | async as album">
+
+  <form #albumForm="ngForm" (ngSubmit)="saveAlbum(album._id,albumForm)">
+
+    <mat-form-field class="w-100">
+      <mat-label>Název alba</mat-label>
+      <input matInput type="text" name="name" [ngModel]="album.name" placeholder="Neočekávaný dýchánek" required>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Akce v programu</mat-label>
+      <input matInput type="text" [formControl]="eventsControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="getEventString" (optionSelected)="eventSelected($event)">
+        <mat-option *ngFor="let event of eventsMatched$ | async" [value]="event">{{event.name}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field class="w-100">
+          <mat-label>Datum od</mat-label>
+          <input matInput [matDatepicker]="datepickerFrom" type="text" name="dateFrom" [ngModel]="album.dateFrom" required>
+          <mat-datepicker-toggle matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
+          <mat-datepicker #datepickerFrom></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="w-100">
+          <mat-label>Datum od</mat-label>
+          <input matInput [matDatepicker]="datepickerTill" type="text" name="dateTill" [ngModel]="album.dateTill" required>
+          <mat-datepicker-toggle matSuffix [for]="datepickerTill"></mat-datepicker-toggle>
+          <mat-datepicker #datepickerTill></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-form-field class="w-100">
+      <mat-label>Popis</mat-label>
+      <textarea matInput name="description" [ngModel]="album.description"></textarea>
+    </mat-form-field>
+
+    <div class="buttons text-right">
+      <button mat-flat-button color="primary" type="submit" [disabled]="!albumForm.valid">Uložit</button>
+    </div>
+  </form>
+</div>

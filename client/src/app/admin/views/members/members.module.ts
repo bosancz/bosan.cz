@@ -9,14 +9,15 @@ import { MembersRoutingModule } from './members-routing.module';
 import { MembersListComponent } from './members-list/members-list.component';
 import { MembersViewComponent } from './members-view/members-view.component';
 import { MembersEditComponent } from './members-edit/members-edit.component';
+import { MembersCreateComponent } from './members-create/members-create.component';
 
 
 @NgModule({
   declarations: [
     MembersListComponent,
     MembersViewComponent,
-
-    MembersEditComponent
+    MembersEditComponent,
+    MembersCreateComponent
   ],
   imports: [
     CommonModule,

@@ -25,7 +25,7 @@
           <div class="form-group">
             <label for="inputLogin">Heslo</label>
             <input [type]="'password'" class="form-control" name="password" ngModel required>
-            <small><a (click)="sendLink = true" class="forgotPassword">Heslo nemám, nebo jsem ho zapomněl</a></small>
+            <small><a (click)="view = 'link'" class="forgotPassword">Heslo nemám, nebo jsem ho zapomněl</a></small>
           </div>
           <div class="buttons text-right">
             <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button>

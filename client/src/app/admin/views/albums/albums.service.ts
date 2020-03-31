@@ -6,23 +6,22 @@ import { from, Subject, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, mergeMap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: AlbumsModule
+  providedIn: 'root'
 })
 export class AlbumsService {
 
-  album$ = new ReplaySubject<Album<Photo>>(1);
+  album$ = new ReplaySubject<Album<Photo, string>>(1);
 
   constructor(private api: ApiService) {
   }
 
   async loadAlbum(albumId: Album["_id"]) {
-    const album = await this.api.get<Album<Photo>>(["album", albumId], { photos: 1 });
+    const album = await this.api.get<Album<Photo, string>>(["album", albumId], { photos: 1 });
     this.album$.next(album);
   }
 
-  async saveAlbum(albumId: Album["_id"], data: Partial<Album>) {
-    await this.api.patch(["album", albumId], data);
-    await this.loadAlbum(albumId);
+  async saveAlbum(albumId: Album["_id"], data: Partial<Album<any>>) {
+    await this.api.patch(["album", albumId], data);    
   }
 
   async deleteAlbum(albumId: Album["_id"]) {

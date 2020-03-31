@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { DateTime } from "luxon";
 
 import { ApiService } from "app/core/services/api.service";
+
 import { Dashboard } from "app/shared/schema/dashboard";
-import { TitleService } from 'app/core/services/title.service';
+import { Event } from 'app/shared/schema/event';
 
 
 @Component({
@@ -11,24 +12,36 @@ import { TitleService } from 'app/core/services/title.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
 
   dashboard: Dashboard;
 
+  events: Event[];
+
+  eventsDateFrom = DateTime.local().set({ day: 1, hour: 0, minute: 0, second: 0, millisecond: 0 });
+  eventsDateTill = this.eventsDateFrom.plus({ months: 3, days: -1 });
+
   constructor(
-    private api: ApiService,
-    private titleService: TitleService,
-    private router: Router,
-    private route: ActivatedRoute
+    private api: ApiService
   ) { }
 
   ngOnInit() {
     this.loadNoLeaderEvents();
-    this.titleService.setPageTitle("Přehled");
+
+    this.loadEvents();
   }
 
-  ngOnDestroy() {
-    this.titleService.reset();
+  async loadEvents() {
+    const options: any = {
+      sort: "dateFrom",
+    };
+
+    options.filter = {
+      dateTill: { $gte: this.eventsDateFrom.toISODate() },
+      dateFrom: { $lte: this.eventsDateTill.toISODate() }
+    }
+
+    this.events = await this.api.get<Event[]>("events", options);
   }
 
   async loadNoLeaderEvents() {

@@ -29,6 +29,8 @@ export class MenuService {
 
   actionMenu: TemplateRef<any>;
 
+  menuButtons: TemplateRef<any>[] = [];
+
   constructor() { }
 
   hide() {

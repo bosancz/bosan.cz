@@ -18,6 +18,16 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
+
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+
+/* DIRECTIVES */
+import { ActionMenuDirective } from './directives/action-menu.directive';
+import { PageTitleDirective } from './directives/page-title.directive';
+import { MenuButtonDirective } from './directives/menu-button.directive';
 
 /* COMPONENTS */
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
@@ -30,10 +40,9 @@ import { ContactsEditorComponent } from "./components/contacts-editor/contacts-e
 import { PhotoTagsEditorComponent } from "./components/photo-tags-editor/photo-tags-editor.component";
 import { TypeaheadFieldComponent } from "./components/typeahead-field/typeahead-field.component";
 import { EventCardComponent } from './components/event-card/event-card.component';
-import { ActionMenuDirective } from './directives/action-menu.directive';
-import { PageTitleDirective } from './directives/page-title.directive';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { PhotoFaceComponent } from './components/photo-face/photo-face.component';
+import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
 
 @NgModule({
   imports: [
@@ -55,6 +64,10 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     MatChipsModule,
     MatBadgeModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatCheckboxModule,
+    MatIconModule,
 
   ],
   declarations: [
@@ -71,10 +84,13 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     EventCardComponent,
     PageHeaderComponent,
     PhotoFaceComponent,
+    EventCalendarComponent,
 
     /* DIRECTIVES */
     ActionMenuDirective,
     PageTitleDirective,
+    MenuButtonDirective,
+    
   ],
   exports: [
     FormsModule,
@@ -93,6 +109,10 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     MatChipsModule,
     MatBadgeModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatCheckboxModule,
+    MatIconModule,
 
     TypeaheadModule,
 
@@ -101,8 +121,7 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     GroupsSelectComponent,
     MembersSelectComponent,
     ListSliderComponent,
-    EventStatusBadgeComponent,
-
+    
     CodelistEditorComponent,
     ContactsEditorComponent,
     PhotoTagsEditorComponent,
@@ -110,10 +129,14 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
     EventCardComponent,
     PageHeaderComponent,
     PhotoFaceComponent,
+    
+    EventStatusBadgeComponent,
+    EventCalendarComponent,
 
     /* DIRECTIVES */
     ActionMenuDirective,
     PageTitleDirective,
+    MenuButtonDirective,
   ],
   providers: []
 

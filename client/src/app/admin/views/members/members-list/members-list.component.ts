@@ -1,45 +1,40 @@
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from "@angular/forms";
 
-import { Subscription } from "rxjs";
-
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Subject, Observable, combineLatest } from "rxjs";
+import { map, debounceTime } from 'rxjs/operators';
 
 import { ConfigService } from "app/core/services/config.service";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/admin/services/toast.service";
 
 import { Member } from "app/shared/schema/member";
-import { WebConfigGroup } from "app/shared/schema/webconfig";
-import { TitleService } from 'app/core/services/title.service';
-import { MenuService } from 'app/core/services/menu.service';
+import { WebConfigGroup, WebConfigMemberRole } from "app/shared/schema/webconfig";
+import { DateTime } from 'luxon';
+
+type MemberWithSearchString = Member & { searchString?: string };
 
 @Component({
   selector: 'members-list',
   templateUrl: './members-list.component.html',
   styleUrls: ['./members-list.component.scss']
 })
-export class MembersListComponent implements OnInit, OnDestroy {
+export class MembersListComponent implements OnInit {
 
-  members: Member[] = [];
+  members$ = new Subject<(MemberWithSearchString)[]>();
+  filteredMembers$: Observable<Member[]>;
+
+  filter$ = new Subject<any>();
+
+  showFilter: boolean;
 
   groups: WebConfigGroup[] = [];
-  roles: string[] = [];
+  roles: WebConfigMemberRole[] = [];
 
-  view: string;
-  currentGroup: string;
+  @ViewChild('filterForm', { static: true }) filterForm: NgForm;
 
-  views: any = {
-    "all": {},
-    "group": { group: null }
-  };
-
-  @ViewChild("createMemberModal", { static: true }) createMemberModal: TemplateRef<any>;
-  createMemberModalRef: BsModalRef;
-
-  paramsSubscription: Subscription;
+  search$ = new Subject<string>();
 
   constructor(
     private api: ApiService,
@@ -47,56 +42,73 @@ export class MembersListComponent implements OnInit, OnDestroy {
     private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute,
-    private modalService: BsModalService,
-  ) { }
+  ) {
 
-  ngOnInit() {
-    this.loadConfig();
-
-    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
-
-      this.view = params.view || "all";
-      this.currentGroup = params.group;
-      this.views.group.group = params.group;
-
-      this.loadMembers(params.view);
-    });
+    this.filteredMembers$ = combineLatest([this.members$, this.filter$])
+      .pipe(map(([members, filter]) => this.filterMembers(filter, members)));
 
   }
 
-  ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+  async ngOnInit() {
+    await this.loadConfig();
+    this.loadMembers();
   }
 
-  loadConfig() {
-    this.configService.getConfig().then(config => {
-      this.groups = config.members.groups.filter(group => group.real);
-      this.roles = config.members.roles.map(item => item.id);
+  ngAfterViewInit() {
+    this.filterForm.valueChanges.pipe(debounceTime(250)).subscribe(this.filter$);
+  }
+
+  async loadConfig() {
+    const config = await this.configService.getConfig();
+    this.groups = config.members.groups.filter(group => group.real);
+    this.roles = config.members.roles;
+  }
+
+  async loadMembers() {
+    const members: MemberWithSearchString[] = (await this.api.get<Member[]>("members"))
+
+    members.forEach(member => {
+      member.searchString = [
+        member.nickname,
+        member.name && member.name.first,
+        member.name && member.name.last,
+        DateTime.fromISO(member.birthday).year,
+        member.contacts && member.contacts.email,
+        member.contacts && member.contacts.mobile && member.contacts.mobile.replace(/[^0-9]/g, "").replace("+420","")
+      ].filter(item => !!item).join(" ")
     })
+
+    console.log(members.filter(member => member.nickname === "Sam"));
+
+    this.sortMembers(members);
+
+    this.members$.next(members);
   }
 
-  async loadMembers(view: string) {
-    const options = Object.assign({ sort: "inactive group -role nickname" }, this.views[view] || {});
-    this.members = await this.api.get<Member[]>("members", options);
+  filterMembers(filter: any, members: MemberWithSearchString[]) {
+
+    const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/ /g,"").replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
+
+    return members.filter(member => {
+      if (filter.search && !search_re.test(member.searchString)) return false;
+      if (filter.role && filter.role.length && filter.role.indexOf(member.role) === -1) return false;
+      if (filter.group && filter.group.length && filter.group.indexOf(member.group) === -1) return false;
+      if (filter.activity && filter.activity.length && filter.activity.indexOf(member.inactive ? "inactive" : "active") === -1) return false;
+
+      return true;
+    });
   }
 
-  openCreateMemberModal() {
-    this.createMemberModalRef = this.modalService.show(this.createMemberModal);
-  }
+  sortMembers(members: Member[]): void {
+    const groupIndex = this.groups.map(group => group.id);
+    const roleIndex = this.roles.map(role => role.id);
 
-  async createMember(form: NgForm) {
-    // get data from form
-    const eventData = form.value;
-    // create the event and wait for confirmation
-    const response = await this.api.post("members", eventData);
-    // get new member _id
-    let member = await this.api.get<Member>(response.headers.get("location"), { select: "_id" });
-    // close the modal
-    this.createMemberModalRef.hide();
-    // show the confrmation
-    this.toastService.toast("Člen uložen.");
-    // open the event
-    this.router.navigate(["./", {}, member._id], { relativeTo: this.route });
+    members.sort((a, b) => (
+      (Number(a.inactive) - Number(b.inactive))
+      || (a.group && b.group && groupIndex.indexOf(a.group) - groupIndex.indexOf(b.group))
+      || (a.role && b.role && roleIndex.indexOf(a.role) - roleIndex.indexOf(b.role))
+      || (a.nickname && b.nickname && a.nickname.localeCompare(b.nickname))
+    ));
   }
 
 }

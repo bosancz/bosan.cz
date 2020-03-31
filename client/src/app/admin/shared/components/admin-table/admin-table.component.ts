@@ -8,12 +8,12 @@ import { Component, Input } from '@angular/core';
 export class AdminTableComponent {
 
   defaultTableClass = "table table-hover";
-  tableClass:string;
-  
-  @Input() set class(classNames:string){
+  tableClass: string;
+
+  @Input() set class(classNames: string) {
     this.tableClass = this.defaultTableClass + (classNames ? " " + classNames : "");
   }
-  
+
   constructor() {
     this.tableClass = this.defaultTableClass;
   }

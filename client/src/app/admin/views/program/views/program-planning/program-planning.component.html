@@ -36,7 +36,7 @@
             <span [ngClass]="'text-' + status.class"><i class="fas fa-circle mr-2"></i>{{status.name || status.id}}</span>
           </mat-list-item>
           <mat-list-item class="text-dark">
-            <span class="text-dark"><i class="fas fa-circle mr-2"></i>CPV</span>
+            <span class="text-dark"><i class="fas fa-circle mr-2"></i>ČPV</span>
           </mat-list-item>
         </mat-list>
       </div>
@@ -45,33 +45,7 @@
 
     <div class="col-lg-9 col-xl-10 px-lg-5">
 
-      <div class="calendar-container">
-        <div class="calendar">
-          <ng-container *ngFor="let month of calendar">
-            <h3 class="mb-3">{{month.name}} {{month.year}}</h3>
-
-            <div class="month">
-
-              <div class="days clearfix">
-                <div *ngFor="let day of month.days" class="day" [style.left]="(day.date.day - 1) * (1/month.days.length) * 100 + '%'" [style.width]="(1/month.days.length)*100 + '%'" [class.weekend]="isWeekend(day)" [class.holiday]="day.isHoliday" [class.selected]="isSelected(day)" (mousedown)="setEventStart(day)" (mouseover)="setEventEnd(day)" (mouseup)="createEvent()">
-                  <div class="date">
-                    {{day.date | date:"d."}}
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="events own" [style.height]="(month.blocks.own.levels + 1) * 18 + 'px'">
-                <div *ngFor="let calEvent of month.blocks.own.events" [class]="'event ' + getEventClass(calEvent.event)" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="18 * calEvent.level + 'px'" [tooltip]="getEventTooltip(calEvent.event)" placement="bottom" [routerLink]="['/interni/akce',calEvent.event._id]"></div>
-              </div>
-
-              <div class="events cpv" [style.height]="month.blocks.cpv.levels * 18 + 'px'">
-                <a *ngFor="let calEvent of month.blocks.cpv.events" class="event" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="18 * calEvent.level + 'px'" [tooltip]="calEvent.event.name" [attr.href]="calEvent.event.link || null" target="_blank" placement="bottom"></a>
-              </div>
-            </div>
-          </ng-container>
-        </div>
-      </div>
+      <event-calendar (select)="createEvent($event)" [dateFrom]="dateFrom" [dateTill]="dateTill" [events]="events" cpv="true" selection="true"></event-calendar>
     </div>
   </div>
 </div>

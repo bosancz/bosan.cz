@@ -169,19 +169,24 @@ header.transparent.top {
 }
 
 header nav.navbar {
+  color: $white;
+
   .navbar-toggler {
     border: none;
     outline: none;
-    color: $white;
   }
 
   .navbar-brand {
-    color: $white;
     font-weight: bold;
     z-index: 9;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 0;
+
+    .mobile-title {
+      vertical-align: text-top;
+    }
   }
 
   .navbar-brand:hover {
@@ -304,6 +309,10 @@ textarea:invalid:not(.novalidate, [matInput]) {
   .modal-footer,
   .modal-header {
     flex: 0 0 auto;
+  }
+
+  .navbar-brand {
+    flex-grow: 1;
   }
 }
 

@@ -6,7 +6,7 @@
 
     <div *ngIf="i === 0 || (i > 0 && (event.dateFrom | date:'M') !== (events[i-1].dateFrom | date:'M'))" class="month row" [class.first]="i === 0">
       <div class="col-4 col-lg-2 py-lg-3 px-0 px-lg-3 pt-1">
-        <h4>{{months[(event.dateFrom | date:'M') - 1]}}</h4>
+        <h4>{{event.dateFrom | date:'MMMM'}}</h4>
       </div>
       <div *ngIf="i > 0" class="timeline-container col-lg-1 px-lg-3 d-none d-lg-block">
         <div class="line"></div>

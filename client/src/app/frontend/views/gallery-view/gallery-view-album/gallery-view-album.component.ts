@@ -60,9 +60,12 @@ export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
   }
 
   async loadAlbum(id: string) {
-    this.album = await this.api.get<Album>(["galleryalbum", id]);
-
-    this.router.navigate(["/nenalezeno"]);
+    try {
+      this.album = await this.api.get<Album>(["galleryalbum", id]);
+    }
+    catch (err) {
+      this.router.navigate(["/nenalezeno"]);
+    }
 
     this.updateTags();
     this.updateGalleryPhotos();

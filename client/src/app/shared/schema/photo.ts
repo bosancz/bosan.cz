@@ -25,7 +25,7 @@ export class Photo {
 
   faces: Face[];
 
-  date: Date;
+  date: Date | string;
 
   shareUrl?: string;
 

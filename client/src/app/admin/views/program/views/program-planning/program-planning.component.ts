@@ -14,47 +14,6 @@ import { CPVEvent } from "app/shared/schema/cpv-event";
 import { ConfigService } from 'app/core/services/config.service';
 import { WebConfigEventStatus } from 'app/shared/schema/webconfig';
 
-const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
-
-class CalendarMonth {
-
-  days: CalendarDay[] = [];
-
-  blocks = {
-    own: new CalendarMonthBlock<Event>(),
-    cpv: new CalendarMonthBlock<CPVEvent>()
-  };
-
-  name: string;
-
-  constructor(public number: number, public year: number) {
-    this.name = months[number - 1];
-
-  }
-}
-
-class CalendarMonthBlock<T extends (CPVEvent | Event)> {
-  events: CalendarEvent<T>[] = [];
-  levels: number = 1;
-}
-
-class CalendarDay {
-  eventCount: number = 0;
-  constructor(public date: DateTime, public isHoliday: boolean) { }
-}
-
-class CalendarEvent<T extends (CPVEvent | Event)> {
-  level?: number = 0;
-
-  dateFrom: DateTime;
-  dateTill: DateTime;
-
-  constructor(public event: T) {
-    this.dateFrom = DateTime.fromISO(event.dateFrom).set({ hour: 0, minute: 0 });
-    this.dateTill = DateTime.fromISO(event.dateTill).set({ hour: 0, minute: 0 });
-  }
-}
-
 @Component({
   selector: 'program-planning',
   templateUrl: './program-planning.component.html',
@@ -68,13 +27,9 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
   dateFrom: DateTime;
   dateTill: DateTime;
 
-  calendar: CalendarMonth[];
-
-  selection: [DateTime, DateTime];
-
   trimesterMonths = [[1, 4], [5, 8], [9, 12]]; // trimster months (jan-may, ...)
 
-  eventsCPV: CPVEvent[];
+  events: Event[] = [];
 
   statuses: WebConfigEventStatus[];
 
@@ -88,8 +43,6 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
 
     this.loadStatuses();
 
-    this.loadEventsCPV();
-
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
 
       if (params.rok === undefined) return this.router.navigate(["./", this.getUpcomingTrimester()], { relativeTo: this.route, replaceUrl: true });
@@ -101,16 +54,18 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
       this.dateFrom = DateTime.fromObject({ year: this.year, month: this.trimesterMonths[Number(this.trimester)][0], day: 1 });
       this.dateTill = DateTime.fromObject({ year: this.year, month: this.trimesterMonths[Number(this.trimester)][1], day: 1 }).endOf("month");
 
-      this.createCalendar();
       this.loadEvents();
-
-      if (this.eventsCPV) this.assignEvents(this.eventsCPV, "cpv");
 
     });
   }
 
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
+  }
+
+  async loadStatuses() {
+    const config = await this.configService.getConfig();
+    this.statuses = config.events.statuses;
   }
 
   setTrimester(trimesterForm: NgForm) {
@@ -141,32 +96,7 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
     return { rok: currentYear, trimestr: i };
   }
 
-  createCalendar() {
 
-    let currentDate = this.dateFrom;
-    let month = new CalendarMonth(currentDate.month, currentDate.year)
-    let holidays = CzechHolidays(currentDate.year);
-
-    const calendar = [month];
-
-    while (currentDate <= this.dateTill) {
-
-      if (currentDate.month !== month.number) {
-        month = new CalendarMonth(currentDate.month, currentDate.year);
-        calendar.push(month);
-      }
-
-      if (currentDate.year !== month.year) holidays = CzechHolidays(currentDate.year);
-
-      const isHoliday = holidays.some(date => date.m === currentDate.month && date.d === currentDate.day);
-
-      month.days.push(new CalendarDay(currentDate, isHoliday));
-
-      currentDate = currentDate.plus({ days: 1 });
-    }
-
-    this.calendar = calendar;
-  }
 
   async loadEvents() {
 
@@ -180,132 +110,22 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
       select: "_id name status type dateFrom dateTill timeFrom timeTill"
     };
 
-    const events = await this.api.get<Event[]>("events", requestOptions);
-
-    this.assignEvents(events, "own");
+    this.events = await this.api.get<Event[]>("events", requestOptions);
 
   }
 
-  async loadStatuses() {
-    const config = await this.configService.getConfig();
-    this.statuses = config.events.statuses;
-  }
-
-  async loadEventsCPV() {
-    this.eventsCPV = [];
-
-    this.api.get<CPVEvent[]>("cpv:kanoe")
-      .then(events => events.map(event => {
-        event.name = "Kanoe.cz: " + event.name;
-        return event;
-      }))
-      .then(events => {
-        this.eventsCPV.push(...events);
-        this.assignEvents(this.eventsCPV, "cpv");
-      });
-
-    this.api.get<CPVEvent[]>("cpv:raft")
-      .then(events => events.map(event => {
-        event.name = "Raft.cz: " + event.name;
-        return event;
-      }))
-      .then(events => {
-        this.eventsCPV.push(...events);
-        this.assignEvents(this.eventsCPV, "cpv");
-      });
-  }
-
-  assignEvents(events: Array<CPVEvent | Event>, type) {
-    this.calendar.forEach(month => {
-
-      // get the monthBlock to which we assign
-      const monthBlock = month.blocks[type];
-
-      // assign events based on first and last day, convert to CalendarEvent
-      const monthStart = month.days[0].date;
-      const monthEnd = month.days[month.days.length - 1].date;
-      monthBlock.events = events
-        .map(event => new CalendarEvent(event))
-        .filter(event => event.dateTill >= monthStart && event.dateFrom <= monthEnd);
-
-      monthBlock.events.sort((a, b) => a.dateFrom.diff(b.dateFrom).valueOf());
-
-      const eventCounts = month.days.map(() => 0);
-
-      monthBlock.events.forEach(event => {
-
-        for (let date = event.dateFrom; date <= event.dateTill; date = date.plus({ days: 1 })) {
-
-          if (date.month === month.number) {
-            event.level = Math.max(event.level || 0, eventCounts[date.day - 1]);
-            eventCounts[date.day - 1] = event.level + 1;
-          }
-        }
-
-      });
-
-      monthBlock.levels = Math.max(...eventCounts);
-    });
 
 
+  async createEvent([dateFrom, dateTill]: [DateTime, DateTime]) {
 
-  }
+    var name = window.prompt("Bude vytvořena akce v termínu " + dateFrom.toLocaleString() + " - " + dateTill.toLocaleString() + ". Zadejte její název:");
 
-  isWeekend(day: CalendarDay): boolean {
-    return day.date.weekday >= 6;
-  }
-
-  isHoliday(year: number, day: CalendarDay): boolean {
-    return CzechHolidays(year).some(date => date.m === day.date.month && date.d === day.date.day);
-  }
-
-  isSelected(day: CalendarDay) {
-    return this.selection && (day.date >= this.selection[0] && day.date <= this.selection[1]);
-  }
-
-  setEventStart(day: CalendarDay) {
-    this.selection = [day.date, day.date];
-  }
-
-  setEventEnd(day: CalendarDay) {
-    if (this.selection) this.selection[1] = day.date;
-  }
-
-  getEventLeft(event: CalendarEvent<CPVEvent | Event>, month: CalendarMonth) {
-    return event.dateFrom.diff(month.days[0].date, "days").days / month.days.length;
-  }
-
-  getEventWidth(event: CalendarEvent<CPVEvent | Event>, month: CalendarMonth) {
-    return (event.dateTill.diff(event.dateFrom, "days").days + 1) / month.days.length;
-  }
-
-  getEventClass(event: Event): string {
-    const status = this.statuses.find(status => status.id === event.status);
-    return status ? "bg-" + status.class : "bg-secondary";
-  }
-
-  getEventTooltip(event: Event): string {
-    return event.name;
-  }
-
-  async createEvent() {
-
-    // date select was not started - drag not started on a date or started on event
-    if (!this.selection) return;
-
-    this.selection.sort();
-
-    var name = window.prompt("Bude vytvořena akce v termínu " + this.selection[0].toLocaleString() + " - " + this.selection[1].toLocaleString() + ". Zadejte její název:");
-
-    if (!name) {
-      this.selection = undefined;
-      return;
-    }
+    if (!name) return;
 
     const eventData = {
       name,
-      dateFrom: this.selection[0].toISODate(),
-      dateTill: this.selection[1].toISODate()
+      dateFrom: dateFrom.toISODate(),
+      dateTill: dateTill.toISODate()
     };
 
     await this.api.post("events", eventData)
@@ -314,6 +134,5 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
 
     this.toastService.toast("Akce vytvořena.")
 
-    this.selection = undefined;
   }
 } 
