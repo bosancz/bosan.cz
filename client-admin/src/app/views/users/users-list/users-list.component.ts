@@ -41,10 +41,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private api: ApiService,
-    private loginService: LoginService,
     private configService: ConfigService,
-    private toastService: ToastService,
-    private router: Router,
     private route: ActivatedRoute,
   ) {
 
@@ -102,14 +99,5 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.roles = config.users.roles;
     this.roleNames = this.roles.reduce((acc, cur) => (acc[cur.name] = cur.title, acc), {} as { [name: string]: string });
   }
-
-  async impersonateUser(event: Event, user: User): Promise<void> {
-
-    event.stopPropagation();
-
-    await this.loginService.loginImpersonate(user._id);
-
-    this.toastService.toast("Přihlášen jako " + user.login);
-    this.router.navigate(["/"]);
-  }
+  
 }

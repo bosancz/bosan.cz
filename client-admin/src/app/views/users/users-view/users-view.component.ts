@@ -10,6 +10,7 @@ import { ToastService } from "app/services/toast.service";
 import { User } from "app/shared/schema/user";
 import { Member } from "app/shared/schema/member";
 import { ApiService } from 'app/services/api.service';
+import { LoginService } from 'app/services/login.service';
 
 @Component({
   selector: 'users-view',
@@ -34,6 +35,7 @@ export class UsersViewComponent implements OnInit, OnDestroy {
     private api: ApiService,
     private configService: ConfigService,
     private toastService: ToastService,
+    private loginService: LoginService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
@@ -101,6 +103,16 @@ export class UsersViewComponent implements OnInit, OnDestroy {
     this.toastService.toast("Uživatel " + name + " byl smazán.");
 
     this.router.navigate(["../../"], { relativeTo: this.route });
+  }
+
+  async impersonateUser(event: Event, user: User): Promise<void> {
+
+    event.stopPropagation();
+
+    await this.loginService.loginImpersonate(user._id);
+
+    this.toastService.toast("Přihlášen jako " + user.login);
+    this.router.navigate(["/"]);
   }
 
   hasRole(name: string) {

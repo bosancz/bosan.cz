@@ -39,7 +39,6 @@
         <th>Bošánovský mail</th>
         <th>Propojený člen</th>
         <th>Role</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -53,14 +52,7 @@
         <td>
           <span *ngFor="let role of user.roles" class="role badge badge-dark">{{roleNames[role] || role}}</span>
         </td>
-        <td class="text-right">
-          <button mat-icon-button [routerLink]="user._id">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="impersonateUser($event,user)" [matTooltip]="'Přihlásit jako ' + user.login">
-            <mat-icon>face</mat-icon>
-          </button>
-        </td>
+        
       </tr>
     </tbody>
   </admin-table>
