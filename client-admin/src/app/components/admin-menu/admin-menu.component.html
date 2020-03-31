@@ -34,9 +34,9 @@
 
       <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:events'" routerLink="akce" class="nav-link px-lg-3">Akce</a></li>
 
-      <li *aclCan="'admin:program'" dropdown routerLinkActive="active" class="nav-item dropdown px-lg-3">
-        <a dropdownToggle class="nav-link dropdown-toggle" (click)="$event.stopPropagation()">Program</a>
-        <div *dropdownMenu class="dropdown-menu ml-3 ml-lg-0">
+      <li *aclCan="'admin:program'" routerLinkActive="active" class="nav-item dropdown px-lg-3">
+        <a class="nav-link dropdown-toggle" (click)="dropdownsCollapsed.program = !dropdownsCollapsed.program; $event.stopPropagation()">Program</a>
+        <div class="dropdown-menu ml-3 ml-lg-0" [class.d-block]="!dropdownsCollapsed.program" (click)="dropdownsCollapsed.program = true">
           <a routerLink="program" class="nav-link px-lg-3">Schvalování</a>
           <a routerLink="program/planovani" class="nav-link px-lg-3">Plánování akcí</a>
         </div>

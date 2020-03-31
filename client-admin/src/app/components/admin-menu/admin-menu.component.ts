@@ -16,6 +16,10 @@ export class AdminMenuComponent implements OnInit {
 
   collapsed: boolean = true;
 
+  dropdownsCollapsed = {
+    program: true
+  }
+
   environment$ = this.configService.config.pipe(map(config => config.general.environment));
 
   constructor(
