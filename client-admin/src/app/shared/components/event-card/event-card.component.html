@@ -31,7 +31,7 @@
 
   <mat-card-actions *ngIf="actions && event?._actions" align="right">
     <button *ngIf="event._actions?.submit" mat-flat-button class="ml-1" [disabled]="!event._actions.submit.allowed" (click)="eventAction(event._actions?.submit)">Ke schválení</button>
-    <button *ngIf="event._actions?.reject" mat-flat-button class="ml-1" [disabled]="!event._actions.reject.allowed" (click)="eventAction(event._actions?.reject, true)">Zpět k úpravám</button>
+    <button *ngIf="event._actions?.reject" mat-flat-button class="ml-1" [disabled]="!event._actions.reject.allowed" (click)="eventAction(event._actions?.reject, true)">K úpravám</button>
     <button *ngIf="event._actions?.publish" mat-flat-button class="ml-1" [disabled]="!event._actions.publish.allowed" (click)="eventAction(event._actions?.publish)">Do programu</button>
     <button *ngIf="event._actions?.unpublish" mat-flat-button class="ml-1" [disabled]="!event._actions.unpublish.allowed" (click)="eventAction(event._actions?.unpublish)">Z programu</button>
     <button *ngIf="event._actions?.cancel" mat-flat-button class="ml-1" [disabled]="!event._actions.cancel.allowed" (click)="eventAction(event._actions?.cancel)">Zrušit akci</button>
