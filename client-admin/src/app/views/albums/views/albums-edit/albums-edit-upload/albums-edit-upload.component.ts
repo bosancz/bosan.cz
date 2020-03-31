@@ -59,12 +59,12 @@ export class AlbumsEditUploadComponent implements OnChanges {
 
   }
 
-  addPhotosByDropzone(e: DragEvent) {
-    e.preventDefault();
+  addPhotosByDropzone(event: DragEvent, dropZone: HTMLDivElement) {
+    event.preventDefault();
 
-    for (let i = 0; i < e.dataTransfer.files.length; i++) {
+    for (let i = 0; i < event.dataTransfer.files.length; i++) {
       this.photoUploadQueue.push({
-        file: e.dataTransfer.files[i],
+        file: event.dataTransfer.files[i],
         progress: 0,
         status: "pending"
       });
@@ -72,7 +72,7 @@ export class AlbumsEditUploadComponent implements OnChanges {
 
   }
 
-  onDragOver(event) {
+  onDragOver(event: DragEvent) {
     event.stopPropagation();
     event.preventDefault();
   }
