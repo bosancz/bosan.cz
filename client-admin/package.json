@@ -24,6 +24,7 @@
     "ajv": "^6.11.0",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
+    "chartjs-adapter-luxon": "^0.2.1",
     "classlist.js": "^1.1.20150312",
     "czech-holidays": "^1.0.2",
     "luxon": "^1.21.3",

@@ -19,7 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -41,7 +41,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     MatSnackBarModule,
     MatTooltipModule,
 
-    MatMomentDateModule,
+    MatNativeDateModule,
 
   ],
   declarations: [],
@@ -64,7 +64,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     MatSnackBarModule,
     MatTooltipModule,
 
-    MatMomentDateModule,
+    MatNativeDateModule,
   ],
   providers: []
 
