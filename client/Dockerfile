@@ -1,13 +1,12 @@
 FROM node:12 as build
 
-WORKDIR /home/node/app
+WORKDIR /srv/app
 
 COPY package.json package-lock.json ./
 RUN npm ci
 
-COPY src angular.json browserslist ngsw-config.json tsconfig.json ./
+COPY . .
 RUN npm run build
-
 
 
 FROM nginx:1.17.8-alpine
@@ -18,4 +17,4 @@ RUN rm -f /etc/nginx/conf.d/*
 
 COPY nginx-server.conf /etc/nginx/conf.d/
 
-COPY --from=build /home/node/app/dist ./
+COPY --from=build /srv/app/dist ./

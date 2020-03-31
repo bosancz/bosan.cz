@@ -5,7 +5,7 @@ WORKDIR /home/node/app
 COPY package.json package-lock.json ./
 RUN npm ci
 
-COPY src angular.json browserslist ngsw-config.json tsconfig.json ./
+COPY . .
 RUN npm run build
 
 
