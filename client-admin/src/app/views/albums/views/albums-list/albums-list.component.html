@@ -1,0 +1,73 @@
+<div class="container-fluid px-3 px-sm-5">
+  <page-header>
+
+    <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+
+    <div class="actions" *actionMenu>
+      <button mat-button color="primary">Nové album</button>
+    </div>
+
+    <h2 pageTitle>Galerie</h2>
+  </page-header>
+
+  <form #filterForm="ngForm" class="filter d-md-block" [class.d-none]="!showFilter">
+    <div class="row">
+      <mat-form-field class="col">
+        <mat-label>Hledat</mat-label>
+        <input matInput type="text" [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" name="search">
+        <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-1">
+        <mat-label>Rok</mat-label>
+        <mat-select name="year" [ngModel]="currentYear">
+          <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-2">
+        <mat-label>Stav</mat-label>
+        <mat-select name="status" ngModel>
+          <mat-option>Všechny</mat-option>
+          <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <admin-table>
+    <thead>
+      <tr class="d-none d-lg-table-row">
+        <th>Název alba</th>
+        <th>Datum</th>
+        <th>Stav</th>
+        <th>Publikováno</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let album of filteredAlbums$ | async" [routerLink]="album._id">
+        <td>{{album.name}}</td>
+        <td class="d-none d-lg-table-cell date">{{album.dateFrom | date:"d. M. y"}} - {{album.dateTill | date:"d. M. y"}}</td>
+        <td class="d-none d-lg-table-cell">{{statusesIndex[album.status] || "N/A"}}</td>
+        <td class="d-none d-lg-table-cell">{{album.datePublished | date:"d. M. y"}}</td>
+        <td class="d-none d-lg-table-cell actions text-right">
+          <ng-container *ngIf="album.event">
+            <a [routerLink]="['/akce',album.event]" title="Otevřít akci"><i class="far fa-calendar-alt"></i></a>
+            &nbsp;
+          </ng-container>
+          <a [routerLink]="album._id"><i class="fas fa-pencil-alt"></i></a>
+          &nbsp;
+          <a [routerLink]="['/fotogalerie', album._id]"><i class="fas fa-external-link-alt"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </admin-table>
+
+  <p *ngIf="loading">Načítám...</p>
+
+</div>
