@@ -1,25 +1,42 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent } from 'app/app.component';
-import { AppRoutingModule } from 'app/app-routing.module';
-import { AppErrorHandler } from "app/app.errorhandler";
-import { httpInterceptorProviders } from "app/core/http-interceptors";
-
-import { ServiceWorkerModule } from '@angular/service-worker';
-
 /* MODULES */
-import { AppSharedModule } from "app/shared/app-shared.module";
-
-// VIEWS
-import { NotFoundComponent } from 'app/core/views/not-found/not-found.component';
+import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from "app/shared/shared.module";
 
 // Locale
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, CommonModule } from '@angular/common';
 import localeCs from '@angular/common/locales/cs';
+
 
 // App Config
 import { environment } from "environments/environment";
+
+/* ROOT COMPONENT */
+import { AppComponent } from './app.component';
+
+/* VIEWS */
+import { NotFoundComponent } from './views/not-found/not-found.component';
+import { AboutViewComponent } from './views/about-view/about-view.component';
+import { CampViewComponent } from './views/camp-view/camp-view.component';
+import { ContactsViewComponent } from './views/contacts-view/contacts-view.component';
+import { EventsViewComponent } from './views/events-view/events-view.component';
+import { GalleryViewComponent } from './views/gallery-view/gallery-view.component';
+import { NewsViewComponent } from './views/news-view/news-view.component';
+
+/* CHILD VIEWS */
+import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
+import { GalleryViewTimelineComponent } from './views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
+import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
+
+/* COMPONENTS */
+import { PageMenuComponent } from './components/page-menu/page-menu.component';
+import { PageFooterComponent } from './components/page-footer/page-footer.component';
+
+/* THIRD PARTY */
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+
 
 console.log("Angular is running in " + (environment.production ? "production" : "development") + " environment");
 
@@ -27,24 +44,38 @@ registerLocaleData(localeCs, 'cs');
 
 @NgModule({
   declarations: [
+
     AppComponent,
 
     /* VIEWS */
     NotFoundComponent,
+    AboutViewComponent,
+    ContactsViewComponent,
+    EventsViewComponent,
+    NewsViewComponent,
+    CampViewComponent,
+    GalleryViewComponent,
+
+    /* CHILD VIEWS */
+    GalleryViewTimelineComponent,
+    GalleryViewAlbumComponent,
+    GalleryViewPhotosComponent,
+
+    /* COMPONENTS */
+    PageMenuComponent,
+    PageFooterComponent,
 
   ],
   imports: [
-    BrowserAnimationsModule,    
+    CommonModule,
     AppRoutingModule,
+    SharedModule,
 
-    AppSharedModule,
-    
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ScrollToModule,
+
+    BrowserAnimationsModule,
+
   ],
-  providers: [
-    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler },
-    httpInterceptorProviders
-  ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
