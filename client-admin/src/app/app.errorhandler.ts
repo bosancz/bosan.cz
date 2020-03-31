@@ -5,7 +5,6 @@ import { environment } from "environments/environment";
 
 import { OnlineService } from "app/services/online.service";
 import { ApiService } from "app/services/api.service";
-import { UserService } from "app/services/user.service";
 import { Router } from '@angular/router';
 
 @Injectable()
