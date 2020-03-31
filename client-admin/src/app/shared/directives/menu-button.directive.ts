@@ -15,12 +15,8 @@ export class MenuButtonDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // render for large display
-    this.viewContainer.createEmbeddedView(this.templateRef);
-
     // display in menu for mobile
     this.menuService.menuButtons.push(this.templateRef);
-    console.log(this.menuService.menuButtons);
   }
 
   ngOnDestroy() {
