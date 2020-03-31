@@ -39,7 +39,7 @@
     </div>
   </form>
 
-  <admin-table class="table-sm">
+  <admin-table>
     <thead>
       <tr class="d-none d-lg-table-row">
         <th>Název alba</th>
@@ -53,7 +53,7 @@
       <tr *ngFor="let album of filteredAlbums$ | async" [routerLink]="album._id">
         <td>{{album.name}}</td>
         <td class="d-none d-lg-table-cell date">{{album.dateFrom | date:"d. M. y"}} - {{album.dateTill | date:"d. M. y"}}</td>
-        <td class="d-none d-lg-table-cell">{{statuses[album.status] || "N/A"}}</td>
+        <td class="d-none d-lg-table-cell">{{statusesIndex[album.status] || "N/A"}}</td>
         <td class="d-none d-lg-table-cell">{{album.datePublished | date:"d. M. y"}}</td>
         <td class="d-none d-lg-table-cell actions text-right">
           <ng-container *ngIf="album.event">

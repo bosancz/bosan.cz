@@ -1,14 +1,18 @@
-<div class="container" *ngIf="album$ | async as album">
+<div class="container-fluid px-3 px-sm-5">
 
   <page-header>
-    <h2 pageTitle>{{album.name}}</h2>
+    <h2 pageTitle>{{(album$ | async)?.name}}</h2>
 
     <div class="actions" *actionMenu>
-      <button mat-button [disabled]="!album._links.self.allowed.PATCH" routerLink="upravit">Upravit</button>
-      <button mat-button *ngIf="album.status === 'public'" [routerLink]="'/fotogalerie/' + album._id">Otevřít na webu<i class="ml-2 fas fa-external-link-alt"></i></button>
-      <button mat-button color="warn" [disabled]="!album._links.self.allowed.DELETE" [disabled]="!deleteConfirmation" (click)="deleteAlbum(album)">Smazat</button>
+      <ng-container *ngIf="album$ | async as album">
+        <button mat-button [disabled]="!album._links.self.allowed.PATCH" routerLink="upravit">Upravit</button>
+        <button mat-button *ngIf="album.status === 'public'" [routerLink]="'/fotogalerie/' + album._id">Otevřít na webu<i class="ml-2 fas fa-external-link-alt"></i></button>
+        <button mat-button color="warn" [disabled]="!album._links.self.allowed.DELETE" [disabled]="!deleteConfirmation" (click)="deleteAlbum(album)">Smazat</button>
+      </ng-container>
     </div>
   </page-header>
 
+  <div *ngIf="album$ | async as album">
 
+  </div>
 </div>

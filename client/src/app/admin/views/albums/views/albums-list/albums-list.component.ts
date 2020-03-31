@@ -29,6 +29,8 @@ export class AlbumsListComponent implements OnInit {
     { id: "draft", name: "v přípravě" },
   ];
 
+  statusesIndex = this.statuses.reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string });
+
   showFilter = false;
 
   loading: boolean = false;
@@ -77,11 +79,11 @@ export class AlbumsListComponent implements OnInit {
 
     if (filter.status) options.filter.status = "draft";
 
-    const albums:AlbumWithSearchString[] = await this.api.get<Album[]>("albums", options);
+    const albums: AlbumWithSearchString[] = await this.api.get<Album[]>("albums", options);
 
     albums.forEach(album => {
       album.searchString = [
-        album.name        
+        album.name
       ].filter(item => !!item).join(" ")
     })
 

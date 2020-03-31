@@ -75,7 +75,7 @@ export class AlbumsEditPhotoComponent implements OnInit {
   }
 
   async loadPhoto(photoId: string) {
-    this.photo = photoId ? await this.api.get<Photo>(["photo", photoId]) : undefined;
+    this.photo = photoId ? await this.api.get<Photo>(["photo", photoId], { members: 1 }) : undefined;
     this.photoDate = DateTime.fromISO(<string>this.photo.date).setZone(new LocalZone()).toISO({ includeOffset: false })
   }
 
@@ -85,7 +85,7 @@ export class AlbumsEditPhotoComponent implements OnInit {
 
   async savePhoto() {
     this.photo.date = DateTime.fromISO(this.photoDate).setZone(new LocalZone()).toISO();
-    
+
     await this.api.patch<Photo>(["photo", this.photo._id], this.photo);
     this.toastService.toast("Uloženo.");
   }

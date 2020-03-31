@@ -13,8 +13,8 @@
 
       <nav class="nav nav-pills flex-column">
         <a class="nav-link" routerLink="info" replaceUrl="true" routerLinkActive="active">Popis alba</a>
-        <a class="nav-link" routerLink="fotky" replaceUrl="true" routerLinkActive="active">Fotky</a>
-        <a class="nav-link" routerLink="nahrat" replaceUrl="true" routerLinkActive="active">Nahrát fotky ({{(albumsService.album$ | async)?.photos?.length || 0}})</a>
+        <a class="nav-link" routerLink="fotky" replaceUrl="true" routerLinkActive="active">Fotky ({{(albumsService.album$ | async)?.photos?.length || 0}})</a>
+        <a class="nav-link" routerLink="nahrat" replaceUrl="true" routerLinkActive="active">Nahrát fotky</a>
       </nav>
 
     </div>

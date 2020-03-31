@@ -37,6 +37,16 @@ export class PhotoFaceEditComponent implements ControlValueAccessor {
   }
   members$ = new ReplaySubject<Member[]>(1);
 
+  expressionBadges = {
+    "neutral": "😐",
+    "happy": "🙂",
+    "sad": "🙁",
+    "angry": "😡",
+    "fearful": "😨",
+    "disgusted": "🤢",
+    "surprised": "😲",
+  };
+
   // Compute closest faces
   topMembers$: Observable<Member[]> = combineLatest(this.face$, this.members$)
     .pipe(map(([face, members]) => this.getTopMembers(face, members)));

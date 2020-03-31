@@ -23,6 +23,8 @@ routes.get("photos", "/", { permission: "photos:list" }).handle(async (req, res,
   if (req.query.albums) query.populate("album", "_id name");
   if (req.query.sort) query.sort(req.query.sort);
 
+  if(req.query.members) query.populate("faces.member");
+
   query.limit(req.query.limit ? Math.min(req.query.limit, 100) : 100);
 
   res.json(await query);

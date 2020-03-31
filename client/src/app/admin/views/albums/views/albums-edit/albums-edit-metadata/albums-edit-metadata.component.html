@@ -16,31 +16,28 @@
     </mat-form-field>
 
     <div class="row">
-      <div class="form-group col-md-6">
-        <label>Datum od</label>
-        <input type="date" name="dateFrom" [ngModel]="dateFrom | date: 'y-MM-dd'" class="form-control" required>
+      <div class="col-6">
+        <mat-form-field class="w-100">
+          <mat-label>Datum od</mat-label>
+          <input matInput [matDatepicker]="datepickerFrom" type="text" name="dateFrom" [ngModel]="album.dateFrom" required>
+          <mat-datepicker-toggle matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
+          <mat-datepicker #datepickerFrom></mat-datepicker>
+        </mat-form-field>
       </div>
-      <div class="form-group col-md-6">
-        <label>Datum do</label>
-        <input type="date" name="dateTill" [ngModel]="dateTill | date: 'y-MM-dd'" class="form-control" required>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label>Rok</label>
-        <input type="number" name="year" [ngModel]="year" class="form-control" required>
-      </div>
-      <div class="form-group col-md-6">
-        <label>Datum zveřejnění</label>
-        <input type="date" name="datePublished" [ngModel]="album.datePublished | date: 'y-MM-dd'" [disabled]="album.status !== 'public'" class="form-control" required>
+      <div class="col-6">
+        <mat-form-field class="w-100">
+          <mat-label>Datum od</mat-label>
+          <input matInput [matDatepicker]="datepickerTill" type="text" name="dateTill" [ngModel]="album.dateTill" required>
+          <mat-datepicker-toggle matSuffix [for]="datepickerTill"></mat-datepicker-toggle>
+          <mat-datepicker #datepickerTill></mat-datepicker>
+        </mat-form-field>
       </div>
     </div>
 
-    <div class="form-group">
-      <label>Popis</label>
-      <textarea name="description" [ngModel]="album.description" class="form-control"></textarea>
-    </div>
+    <mat-form-field class="w-100">
+      <mat-label>Popis</mat-label>
+      <textarea matInput name="description" [ngModel]="album.description"></textarea>
+    </mat-form-field>
 
     <div class="buttons text-right">
       <button mat-flat-button color="primary" type="submit" [disabled]="!albumForm.valid">Uložit</button>

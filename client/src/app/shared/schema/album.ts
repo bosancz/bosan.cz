@@ -2,7 +2,7 @@ export { Photo } from "./photo";
 import { Photo } from "./photo";
 import { Document } from "./api";
 
-export class Album<P = Photo> extends Document {
+export class Album<P = Photo, TP = P> extends Document {
   _id: string;
   year: number;
   status: string;
@@ -14,9 +14,8 @@ export class Album<P = Photo> extends Document {
   dateTill: string;
 
   event: any;
-
-  titlePhoto: P;
-  titlePhotos: P[];
+  
+  titlePhotos: TP[];
   photos: P[];
 
   shareUrl?: string;

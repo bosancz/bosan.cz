@@ -1,120 +1,122 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AlbumsService } from '../../../albums.service';
 import { Photo } from 'app/shared/schema/photo';
 import { Album } from 'app/shared/schema/album';
+import { Subscription } from 'rxjs';
+import { ToastService } from 'app/admin/services/toast.service';
 
 @Component({
   selector: 'albums-edit-photos',
   templateUrl: './albums-edit-photos.component.html',
   styleUrls: ['./albums-edit-photos.component.scss']
 })
-export class AlbumsEditPhotosComponent {
+export class AlbumsEditPhotosComponent implements OnInit, OnDestroy {
 
-  album$ = this.albumsService.album$;
+  album: Album<Photo, string>;
+
+  photos: Photo[] = [];
+  titlePhotos: string[] = [];
+
+  albumSubscription: Subscription;
 
   constructor(
-    private albumsService: AlbumsService
+    private albumsService: AlbumsService,
+    private toastService: ToastService
   ) {
 
   }
 
   ngOnInit() {
-    this.album$
+    this.albumSubscription = this.albumsService.album$.subscribe(album => {
+      this.album = album;
+      this.photos = album.photos.slice()
+      this.titlePhotos = album.titlePhotos.slice();
+    });
   }
 
-  async movePhotoBack(album: Album, photo: Photo) {
-    const photos = album.photos;
-    const i = photos.findIndex(item => item._id === photo._id);
-    photos.splice(i - 1, 0, album.photos.splice(i, 1)[0]);
-    await this.albumsService.saveAlbum(album._id, { photos: photos.map(photo => photo._id) });
+  ngOnDestroy() {
+    this.albumSubscription.unsubscribe();
   }
 
-  async movePhotoforward(album: Album, photo: Photo) {
-    const photos = album.photos;
-    const i = photos.findIndex(item => item._id === photo._id);
-    photos.splice(i + 1, 0, album.photos.splice(i, 1)[0]); 
+  async savePhotos() {
+    await this.albumsService.saveAlbum(this.album._id, { photos: this.photos.map(photo => photo._id) });
+    this.album.photos = this.photos;
+    this.toastService.toast("Uloženo.");
   }
 
-  /* isTitlePhoto(photo) {
-    return this.album.titlePhotos && this.album.titlePhotos.some(titlePhoto => titlePhoto._id === photo._id);
-  }
- 
-  async setTitlePhoto(photo) {
- 
-    let titlePhotos = this.album.titlePhotos ? this.album.titlePhotos.map(item => item._id) : [];
-    titlePhotos.push(photo._id);
- 
-    await this.dataService.updateAlbum(this.album._id, { titlePhotos: titlePhotos });
- 
-    this.album.titlePhotos.push(photo);
- 
+  async saveTitlePhotos() {
+    await this.albumsService.saveAlbum(this.album._id, { titlePhotos: this.titlePhotos });
+    this.album.titlePhotos = this.titlePhotos;
     this.toastService.toast("Uloženo.");
   }
- 
-  async moveTitlePhoto(from: number, to: number) {
- 
-    if (to < 0 || to >= this.album.titlePhotos.length) return;
- 
-    let titlePhotos = this.album.titlePhotos ? this.album.titlePhotos.map(photo => photo._id) : [];
-    titlePhotos.splice(to, 0, titlePhotos.splice(from, 1)[0]);
- 
-    await this.dataService.updateAlbum(this.album._id, { titlePhotos: titlePhotos });
- 
-    this.album.titlePhotos.splice(to, 0, this.album.titlePhotos.splice(from, 1)[0]);
- 
-    this.toastService.toast("Uloženo.");
- 
-    this.saved.emit();
+
+
+  async movePhotoBack(photo: Photo) {
+    const i = this.photos.findIndex(item => item._id === photo._id);
+    this.photos.splice(i - 1, 0, this.photos.splice(i, 1)[0]);
+    this.savePhotos();
   }
- 
-  async removeTitlePhoto(photo) {
- 
-    if (!this.album.titlePhotos) return;
- 
-    let titlePhotos = this.album.titlePhotos.filter(item => item._id !== photo._id).map(item => item._id);
- 
-    await this.dataService.updateAlbum(this.album._id, { titlePhotos: titlePhotos });
- 
-    this.album.titlePhotos = this.album.titlePhotos.filter(item => item._id !== photo._id);
- 
-    this.toastService.toast("Uloženo.");
- 
-    this.saved.emit();
- 
+
+  async movePhotoforward(photo: Photo) {
+    const i = this.photos.findIndex(item => item._id === photo._id);
+    this.photos.splice(i + 1, 0, this.photos.splice(i, 1)[0]);
+    this.savePhotos();
   }
- 
-  async saveTags(photo: Photo, tags: string[]) {
-    await this.dataService.updatePhoto(photo._id, photo);
-    photo.tags = tags;
-    this.updateTags();
-    this.toastService.toast("Uloženo.");
+
+  titlePhotoIndex(photo: Photo): number {
+    if (!this.titlePhotos) return 0;
+    return this.titlePhotos.indexOf(photo._id) + 1;
   }
- 
-  async editCaption(photo: Photo) {
- 
-    let caption = window.prompt("Zadejte popisek fotky:", photo.caption || "");
- 
-    if (caption === null) return; // null means cancel
- 
-    await this.dataService.updatePhoto(photo._id, { caption: caption });
- 
-    photo.caption = caption;
- 
-    this.toastService.toast("Uloženo.");
+
+  async addTitlePhoto(photo: Photo) {
+
+    this.titlePhotos.push(photo._id);
+
+    this.saveTitlePhotos();
   }
- 
-  async deletePhoto(photo) {
- 
-    if (!window.confirm("Opravdu chcete smazat toho foto")) return;
- 
-    await this.dataService.deletePhoto(photo._id);
- 
-    this.toastService.toast("Foto smazáno.");
- 
-    this.saved.emit();
+
+  async removeTitlePhoto(photo: Photo) {
+
+    if (!this.titlePhotos) return;
+
+    this.titlePhotos = this.album.titlePhotos.filter(item => item !== photo._id && !!item);
+
+    this.saveTitlePhotos();
+
   }
-*/
+  /*
+    async saveTags(photo: Photo, tags: string[]) {
+      await this.dataService.updatePhoto(photo._id, photo);
+      photo.tags = tags;
+      this.updateTags();
+      this.toastService.toast("Uloženo.");
+    }
+  
+    async editCaption(photo: Photo) {
+  
+      let caption = window.prompt("Zadejte popisek fotky:", photo.caption || "");
+  
+      if (caption === null) return; // null means cancel
+  
+      await this.dataService.updatePhoto(photo._id, { caption: caption });
+  
+      photo.caption = caption;
+  
+      this.toastService.toast("Uloženo.");
+    }
+  
+    async deletePhoto(photo) {
+  
+      if (!window.confirm("Opravdu chcete smazat toho foto")) return;
+  
+      await this.dataService.deletePhoto(photo._id);
+  
+      this.toastService.toast("Foto smazáno.");
+  
+      this.saved.emit();
+    }
+    */
 
 }

@@ -1,4 +1,4 @@
-<div *ngIf="face$ | async as face" class="photo float-left mr-3" [title]="face.expression" [matBadge]="!(memberId$ | async) ? '?' : undefined" matBadgeOverlap="true">
+<div *ngIf="face$ | async as face" class="photo float-left mr-3" [title]="face.expression" [matBadge]="!(memberId$ | async) ? '?' : expressionBadges[face.expression]" matBadgeOverlap="true">
   <photo-face [src]="photo.sizes.big.url" [rectangle]="face.rectangle" [size]="size"></photo-face>
 </div>
 
