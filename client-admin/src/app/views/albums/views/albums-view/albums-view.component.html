@@ -6,13 +6,13 @@
     <div class="actions" *actionMenu>
       <ng-container *ngIf="album$ | async as album">
         <button mat-button [disabled]="!album._links.self.allowed.PATCH" routerLink="upravit">Upravit</button>
-        <button mat-button *ngIf="album.status === 'public'" [routerLink]="'/fotogalerie/' + album._id">Otevřít na webu<i class="ml-2 fas fa-external-link-alt"></i></button>
+        <a mat-button *ngIf="album.status === 'public'" [href]="'/fotogalerie/' + album._id">Otevřít na webu<i class="ml-2 fas fa-external-link-alt"></i></a>
         <button mat-button color="warn" [disabled]="!album._links.self.allowed.DELETE" [disabled]="!deleteConfirmation" (click)="deleteAlbum(album)">Smazat</button>
       </ng-container>
     </div>
   </page-header>
 
   <div *ngIf="album$ | async as album">
-
+    <p>Tady ještě nevim, co bude :) Asi nějaké informace o albu. Možná fotky. Ale ty jsou na webu a je na ně vpravo nahoře odkaz. Koukněte hlavně na editaci!</p>
   </div>
 </div>
