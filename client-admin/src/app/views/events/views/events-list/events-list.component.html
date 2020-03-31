@@ -1,4 +1,4 @@
-<div class="container-fluid px-3 px-sm-5">
+<div class="container-fluid px-0 px-md-3 px-sm-5">
   <page-header>
     <h2 pageTitle>Přehled akcí</h2>
 
@@ -12,7 +12,7 @@
 
   </page-header>
 
-  <form #filterForm="ngForm" class="filter d-md-block" [class.d-none]="!showFilter">
+  <form #filterForm="ngForm" class="filter d-md-block" [class.d-none]="!showFilter" class="px-3 px-md-0">
     <div class="row">
       <mat-form-field class="col">
         <mat-label>Hledat</mat-label>
@@ -41,7 +41,7 @@
 
   <admin-table>
     <thead>
-      <tr class="d-none d-lg-table-row">
+      <tr>
         <th>Název akce</th>
         <th>Místo</th>
         <th>Datum</th>
