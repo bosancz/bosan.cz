@@ -75,7 +75,7 @@ export class AlbumsListComponent implements OnInit {
       }
     }
 
-    if (filter.status) options.filter.status = "draft";
+    if (filter.status) options.filter.status = filter.status;
 
     const albums: AlbumWithSearchString[] = await this.api.get<Album[]>("albums", options);
 
