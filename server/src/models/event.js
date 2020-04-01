@@ -60,6 +60,11 @@ var eventSchema = mongoose.Schema({
     "water_km": Number,
     "river": String
   },
+
+  "car": [{
+    "type": String,
+    "distance": Number
+  }],
   
   "etl": String
   
