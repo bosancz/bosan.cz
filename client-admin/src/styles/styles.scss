@@ -1,0 +1,21 @@
+/* IMPORTS */
+
+@import "~bootstrap/scss/bootstrap.scss";
+
+@import "~styles/material";
+
+@import "~styles/general";
+
+@import "~styles/admin";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0; /*font-family: Roboto, "Helvetica Neue", sans-serif; */
+}
+
+button:focus {
+  outline: 0 !important;
+}

@@ -1,29 +1,50 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, ExtraOptions } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
-/* VIEWS */
-import { NotFoundComponent } from 'app/core/views/not-found/not-found.component';
+/* ROOT VIEW */
+import { AppComponent } from './app.component';
 
-/* SERVICES */
-import { AclGuard } from "lib/acl";
+/* MAIN VIEWS */
+import { AboutViewComponent } from './views/about-view/about-view.component';
+import { CampViewComponent } from './views/camp-view/camp-view.component';
+import { ContactsViewComponent } from './views/contacts-view/contacts-view.component';
+import { EventsViewComponent } from './views/events-view/events-view.component';
+import { GalleryViewComponent } from './views/gallery-view/gallery-view.component';
+import { NewsViewComponent } from './views/news-view/news-view.component';
 
-const routes:Routes = [
+/* CHILD VIEWS */
+import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
+import { GalleryViewTimelineComponent } from './views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
+import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
 
-  {path: 'interni', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canLoad: [AclGuard] },
 
-  {path: '', loadChildren: () => import('./frontend/frontend.module').then(m => m.FrontendModule) },
-    
-  {path: '**', component: NotFoundComponent}
+const routes: Routes = [
+
+  { path: 'aktualne', component: NewsViewComponent },
+
+  {
+    path: 'fotogalerie', component: GalleryViewComponent,
+    children: [
+      { path: ':album/:photo', component: GalleryViewPhotosComponent },
+      { path: ':album', component: GalleryViewAlbumComponent },
+      { path: '', component: GalleryViewTimelineComponent }
+    ]
+  },
+
+  { path: 'kontakty', component: ContactsViewComponent },
+
+  { path: 'o-nas', component: AboutViewComponent },
+
+  { path: 'program', component: EventsViewComponent },
+
+  { path: 'tabor', component: CampViewComponent },
+
+  { path: '', redirectTo: "o-nas", pathMatch: "full" }
 
 ];
 
-const extraOptions:ExtraOptions = {
-  scrollPositionRestoration: "enabled",
-  anchorScrolling: "enabled"
-};
-
 @NgModule({
-  imports: [RouterModule.forRoot(routes, extraOptions)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

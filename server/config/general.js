@@ -49,7 +49,9 @@ module.exports = {
       return null;
     },
     cookieName: "access_token",
-    cookieMaxAge: 1000 * 60 * 60 * 24 * 30
+    cookieMaxAge: 1000 * 60 * 60 * 24 * 30,
+    cookieSecure: environment.cookieSecure,
+    cookieSameSite: environment.cookieSameSite
   },
 
   bcrypt: {

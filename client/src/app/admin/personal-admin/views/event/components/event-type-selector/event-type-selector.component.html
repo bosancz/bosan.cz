@@ -1,5 +1,0 @@
-<div class="btn-group btn-group-toggle" data-toggle="buttons">
-  <label *ngFor="let type of types | async" class="btn btn-light btn-sm" [class.active]="type.name === value">
-    <input type="radio" name="event_type" [ngModel]="value" (ngModelChange)="select($event)" [value]="type.name"> {{type.name}}
-  </label>
-</div>

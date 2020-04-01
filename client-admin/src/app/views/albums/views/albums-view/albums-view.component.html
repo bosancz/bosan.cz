@@ -1,0 +1,18 @@
+<div class="container-fluid px-3 px-sm-5">
+
+  <page-header>
+    <h2 pageTitle>{{(album$ | async)?.name}}</h2>
+
+    <div class="actions" *actionMenu>
+      <ng-container *ngIf="album$ | async as album">
+        <button mat-button [disabled]="!album._links.self.allowed.PATCH" routerLink="upravit">Upravit</button>
+        <a mat-button *ngIf="album.status === 'public'" [href]="'/fotogalerie/' + album._id">Otevřít na webu</a>
+        <button mat-button color="warn" [disabled]="!album._links.self.allowed.DELETE" [disabled]="!deleteConfirmation" (click)="deleteAlbum(album)">Smazat</button>
+      </ng-container>
+    </div>
+  </page-header>
+
+  <div *ngIf="album$ | async as album">
+    <p>Tady ještě nevim, co bude :) Asi nějaké informace o albu. Možná fotky. Ale ty jsou na webu a je na ně vpravo nahoře odkaz. Koukněte hlavně na editaci!</p>
+  </div>
+</div>

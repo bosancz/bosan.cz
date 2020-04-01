@@ -1,0 +1,11 @@
+<div class="row text-center">
+  <div *ngFor="let contact of contacts" class="col-6 col-lg-3 mx-auto contact pb-3">
+    <img *ngIf="contact.avatar" [src]="contact.avatar" class="img-fluid">
+    <img *ngIf="!contact.avatar" src="/assets/img/boy.png" class="img-fluid">
+
+    <h4>{{contact.nickname}}<br/>{{contact.name}}</h4>
+    <p class="badge badge-pill mb-1">{{contact.role}}</p><br/>
+    <a [href]="'mailto:' + contact.email">{{contact.email}}</a><br/>
+    <a [href]="'tel:' + contact.mobile">{{contact.mobile}}</a><br/>
+  </div>
+</div>

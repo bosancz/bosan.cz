@@ -1,32 +1,17 @@
-<div id="toasts">
-  <ul class="text-center" (click)="clearToasts()">
-    <li *ngFor="let toast of toasts" [class]="toast.status">
-      <p class="multiline">{{toast.text}}</p>
-    </li>
-  </ul>
-</div>
-
-<div id="layout"
-     [class.menu-transparent]="layoutService.menu.transparent"
-     [class.menu-hidden]="!layoutService.menu.visible"
-     [class.offline]="!(onlineService.online | async)"
-     [class.update]="(onlineService.online | async) && (swUpdate.available | async)">
-
-  <div *ngIf="!(onlineService.online | async)" id="offline" class="text-center bg-danger text-light">
-    Nejste připojeni k internetu. Zobrazené údaje mohou být zastaralé.
-  </div>
-
-  <div *ngIf="(onlineService.online | async) && (swUpdate.available | async)" id="update" class="text-center bg-warning text-light">
-    Je k dispozici nová verze bosan.cz. <a (click)="reload()">Načíst</a>
-  </div>
+<div id="layout">
 
   <!-- Navigation -->
-  <page-menu *ngIf="layoutService.menu.visible" class="d-print-none"></page-menu>
+  <header [class.transparent]="menuCollapsed && (menuService.transparent | async)" [class.top]="isTop" [style.margin-right]="(menuService.transparent | async) ? (scrollbarWidth || 0) + 'px' : 0">
+    <div class="container px-0">
+      <page-menu *ngIf="menuService.visible | async" class="d-print-none" (collapse)="menuCollapsed = $event"></page-menu>
+    </div>
+  </header>
 
   <!-- MAIN CONTENT -->
-  <div id="page">
+  <div id="content" #content (scroll)="updateTop()">
     <router-outlet></router-outlet>
+
+    <page-footer *ngIf="footerService.visible | async" class="d-print-none"></page-footer>
   </div>
 
-  <page-footer *ngIf="layoutService.footer.visible" class="d-print-none"></page-footer>
 </div>

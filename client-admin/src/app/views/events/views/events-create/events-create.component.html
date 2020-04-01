@@ -1,0 +1,22 @@
+<form #createEventForm="ngForm" (ngSubmit)="createEvent(createEventForm)">
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="createEventInput-name">Název</label>
+      <input type="text" name="name" ngModel class="form-control" id="createEventInput-name"
+             placeholder="Neočekávaný dýchánek" required>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="createEventInput-datefrom">Začátek</label>
+        <input type="date" ngModel name="dateFrom" class="form-control" id="createEventInput-datefrom" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="createEventInput-datetill">Konec</label>
+        <input type="date" ngModel name="dateTill" class="form-control" id="createEventInput-datetill" required>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer text-right">
+    <button class="btn btn-primary" type="submit" [disabled]="!createEventForm.valid">Vytvořit</button>
+  </div>
+</form>

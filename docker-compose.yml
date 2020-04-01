@@ -9,15 +9,16 @@ services:
   proxy:
     image: nginx:1.17.8-alpine
     container_name: proxy.bosan
+    restart: always
     ports:
       - "3000:80"
     volumes:
       - ./proxy:/etc/nginx:ro
 
   bosan-server:
-    image: bosancz-server
     build: ./server  
     container_name: server.bosan
+    restart: always
     environment:
       NODE_ENV: local-docker
     volumes: 
@@ -26,16 +27,24 @@ services:
       - mongodb
       - proxy
 
+  bosan-client-admin:
+    build: ./client-admin
+    container_name: client-admin.bosan
+    restart: always
+    depends_on:
+      - proxy
+  
   bosan-client:
-    image: bosancz-client
     build: ./client
     container_name: client.bosan
+    restart: always
     depends_on:
       - proxy
 
   mongodb:
     image: mongo
     container_name: db.bosan
+    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: bosan
       MONGO_INITDB_ROOT_PASSWORD: bosan

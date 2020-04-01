@@ -1,48 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { SwUpdate } from "@angular/service-worker";
-
-import { RuntimeService } from "app/core/services/runtime.service";
-import { LayoutService } from "app/core/services/layout.service";
-import { OnlineService } from "app/core/services/online.service";
-import { ToastService, Toast } from "app/core/services/toast.service";
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { CovidWarningComponent } from './core/components/covid-warning/covid-warning.component';
-
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { MenuService } from 'app/services/menu.service';
+import { FooterService } from 'app/services/footer.service';
 
 @Component({
-  selector: 'bosan-app',
-  templateUrl: "app.component.html",
-  styleUrls: ["app.component.scss"]
+  selector: 'bo-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit {
 
-  toasts: Toast[] = [];
+  isTop: boolean;
+  scrollbarWidth: number;
+  menuCollapsed: boolean = true;
 
-  constructor(
-    runtime: RuntimeService,
-    private toastService: ToastService,
-    public onlineService: OnlineService,
-    public layoutService: LayoutService,
-    public swUpdate: SwUpdate,
-    private modalService: BsModalService
-  ) {
-    runtime.init();
+  @ViewChild("content", { static: true }) contentEl: ElementRef<HTMLDivElement>;
+
+  constructor(public menuService: MenuService, public footerService: FooterService) { }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.updateTop(), 0);
+    this.scrollbarWidth = this.contentEl.nativeElement.offsetWidth - this.contentEl.nativeElement.clientWidth;
   }
 
-  ngOnInit() {
-    this.toastService.toasts.subscribe((toast: Toast) => {
-      this.toasts.push(toast);
-      setTimeout(() => this.toasts.shift(), 2000);
-    });
-
-    this.modalService.show(CovidWarningComponent);
+  updateTop() {
+    this.isTop = (this.contentEl.nativeElement.scrollTop === 0);
   }
 
-  clearToasts() {
-    this.toasts = [];
-  }
-
-  reload() {
-    window.location.reload();
-  }
 }

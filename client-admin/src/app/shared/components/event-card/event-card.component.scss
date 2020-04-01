@@ -1,0 +1,8 @@
+$circle-size: 2.5rem;
+
+.circle {
+  width: $circle-size;
+  height: $circle-size;
+  border-radius: 50%;
+  background-color: #ccc;
+}

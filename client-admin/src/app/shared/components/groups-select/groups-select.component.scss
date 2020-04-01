@@ -1,0 +1,46 @@
+:host {
+  display: inline-block;
+}
+
+.group-badge {
+  opacity: 0.1;
+  cursor: pointer;
+}
+.group-badge.active {
+  opacity: 1;
+}
+
+.group-badges {
+  display: inline-block;
+}
+
+.selectAll,
+.leadersOnly {
+  display: inline-block;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+:host.disabled,
+:host.readonly {
+  .group-badge {
+    cursor: default;
+  }
+  .group-badges .group-badge:hover {
+    opacity: auto;
+  }
+}
+:host.disabled {
+  .group-badges {
+    filter: grayscale(100%);
+  }
+  .group-badges .group-badge {
+    opacity: 1;
+  }
+  .group-badges .group-badge:hover {
+    opacity: 1;
+  }
+  .group-badges .group-badge {
+    background-color: #ccc !important;
+  }
+}

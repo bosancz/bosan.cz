@@ -1,0 +1,36 @@
+<form class="mb-3">
+  <div class="row">
+    <div class="col-8">
+      <input type="text" name="search" class="form-control" ngModel (ngModelChange)="setSearch($event)" placeholder="Vyhledat (s diakritikou)">
+    </div>
+    <div class="col-4">
+      <select name="group" class="form-control" [(ngModel)]="group">
+        <option value="">--vše--</option>
+        <option *ngFor="let group of groups" [value]="group.id">{{group.name}}</option>
+      </select>
+    </div>
+  </div>
+</form>
+
+<div class="list">
+  <table class="table table-striped table-hover table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th>Přezdívka</th>
+        <th>Jméno</th>
+        <th>Role</th>
+        <th>Oddíl</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let member of members;let i = index" [hidden]="isHidden(member,i)" (click)="toggleMember(member,!selectedMember(member))">
+        <td><input type="checkbox" [ngModel]="selectedMember(member)" (ngModelChange)="toggleMember(member,$event)"></td>
+        <td>{{member.nickname}}</td>
+        <td>{{member.name?.first}} {{member.name?.last}}</td>
+        <td>{{member.role}}</td>
+        <td [style.color]="member.group | group:'color'">{{member.group}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

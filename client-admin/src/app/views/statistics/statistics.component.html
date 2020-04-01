@@ -1,0 +1,20 @@
+<div class="container-fluid px-0 px-md-3 px-lg-5">
+  <page-header>
+    <h2 pageTitle>Statistiky</h2>
+  </page-header>
+
+  <div class="row">
+
+    <div class="col-lg-2">
+      <nav class="nav nav-pills flex-column">
+        <a class="nav-link" routerLink="./akce" routerLinkActive="active">Akce</a>
+        <a class="nav-link" routerLink="./clenove" routerLinkActive="active">Členové</a>
+        <a class="nav-link" routerLink="./kilometry" routerLinkActive="active">Ujeté kilometry</a>
+      </nav>
+    </div>
+
+    <div class="col-lg-10">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

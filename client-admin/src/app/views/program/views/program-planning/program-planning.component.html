@@ -1,0 +1,51 @@
+<div class="container-fluid px-lg-5 pt-3 pt-lg-5">
+
+  <h2 pageTitle class="d-none">Plánování akcí</h2>
+
+  <div class="row">
+    <div class="col-lg-3 col-xl-2">
+      <form #trimesterForm="ngForm" class="mb-5">
+        <div class="row d-none">
+          <div class="col-6">
+            <a [routerLink]="['./',getPreviousTrimester()]" class="btn btn-light"><i class="fas fa-arrow-left"></i></a>
+          </div>
+          <div class="col-6 text-right">
+            <a [routerLink]="['./',getNextTrimester()]" class="btn btn-light"><i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Rok</label>
+          <input type="number" name="year" class="form-control" [ngModel]="year" (ngModelChange)="setTrimester(trimesterForm)">
+        </div>
+
+        <div class="form-group">
+          <label>Trimestr</label>
+          <select name="trimester" [ngModel]="trimester" (ngModelChange)="setTrimester(trimesterForm)" class="form-control">
+            <option value="0">leden - duben</option>
+            <option value="1">květen - srpen</option>
+            <option value="2">září - prosinec</option>
+          </select>
+        </div>
+
+      </form>
+
+      <div class="legend d-none d-lg-block">
+        <mat-list>
+          <mat-list-item *ngFor="let status of statuses">
+            <span [ngClass]="'text-' + status.class"><i class="fas fa-circle mr-2"></i>{{status.name || status.id}}</span>
+          </mat-list-item>
+          <mat-list-item class="text-dark">
+            <span class="text-dark"><i class="fas fa-circle mr-2"></i>ČPV</span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+
+
+    <div class="col-lg-9 col-xl-10 px-lg-5">
+
+      <event-calendar (select)="createEvent($event)" [dateFrom]="dateFrom" [dateTill]="dateTill" [events]="events" cpv="true" selection="true"></event-calendar>
+    </div>
+  </div>
+</div>

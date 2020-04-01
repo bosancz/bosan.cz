@@ -1,23 +1,10 @@
 {
   "name": "bosan.cz-server",
-  "version": "2.0.0",
-  "description": "Server side part of bosan.cz website",
-  "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "create-admin": "node src/scripts/create-admin.js"
+    "create-admin": "node src/scripts/create-admin.js"    
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bosancz/bosan.cz-server.git"
-  },
-  "author": "Martin Kopeček <martin.kopecek@smallhill.cz>",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/bosancz/bosan.cz-server/issues"
-  },
-  "homepage": "https://github.com/bosancz/bosan.cz-server#readme",
   "dependencies": {
     "@smallhillcz/routesjs": "^1.4.3",
     "ajv": "^6.10.0",
@@ -26,7 +13,7 @@
     "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "^1.4.4",
     "exif-reader": "^1.0.2",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-json-validator-middleware": "^1.2.3",
     "express-jwt": "^5.3.1",
@@ -43,7 +30,7 @@
     "nodemailer": "^4.7.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
-    "sharp": "^0.20.8",
+    "sharp": "^0.25.1",
     "string-hash": "^1.1.3",
     "web-push": "^3.3.3",
     "xlsx-populate": "^1.19.1"
