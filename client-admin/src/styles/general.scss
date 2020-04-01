@@ -152,7 +152,7 @@ a.badge,
   }
 }
 
-/* === NAVBAR === */
+/* === HEADER === */
 header {
   background-color: $black70;
 }
@@ -168,102 +168,6 @@ header.transparent.top {
   background-color: transparent;
 }
 
-header nav.navbar {
-  color: $white;
-
-  .navbar-toggler {
-    border: none;
-    outline: none;
-  }
-
-  .navbar-brand {
-    font-weight: bold;
-    z-index: 9;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0;
-
-    .mobile-title {
-      vertical-align: text-top;
-    }
-  }
-
-  .navbar-brand:hover {
-    color: $hover-yellow;
-  }
-
-  .nav-link {
-    font-weight: bold;
-    color: $white !important;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-
-  .nav-item.active > a,
-  .nav-item:hover > a,
-  .nav-link.active {
-    color: $linkBlue !important;
-  }
-
-  .dropdown {
-    position: relative;
-
-    ul {
-      z-index: 900;
-      border-radius: 0;
-    }
-    .dropdown-item {
-      cursor: pointer;
-      color: $white !important;
-    }
-    .dropdown-item.active,
-    .dropdown-item:active {
-      background-color: transparent;
-      color: $linkBlue;
-    }
-    .dropdown-item:focus,
-    .dropdown-item:hover {
-      background-color: transparent;
-    }
-  }
-
-  .dropdown-menu {
-    background-color: $black70;
-    border: none;
-
-    .nav-link {
-      font-weight: normal;
-      text-transform: none;
-    }
-  }
-
-  .logo-small {
-    height: 2rem;
-  }
-
-  .environment {
-    color: #f00;
-  }
-}
-
-header nav.navbar:not(.open) {
-  flex-wrap: nowrap !important;
-}
-
-/* VALIDATION */
-
-input:valid:not(.novalidate, [matInput]),
-select:valid:not(.novalidate, [matInput]),
-textarea:valid:not(.novalidate, [matInput]) {
-  border-left: 5px solid #42a948 !important; /* green */
-}
-input:invalid:not(.novalidate, [matInput]),
-select:invalid:not(.novalidate, [matInput]),
-textarea:invalid:not(.novalidate, [matInput]) {
-  border-left: 5px solid #a94442 !important; /* red */
-}
-
 ::-moz-selection {
   background: #00bfff;
   text-shadow: none;
@@ -272,48 +176,6 @@ textarea:invalid:not(.novalidate, [matInput]) {
 ::selection {
   background: #00bfff;
   text-shadow: none;
-}
-
-/* SHADOW FOR IMAGES */
-.img-shadow {
-  box-shadow: $shadow;
-}
-
-.modal-content {
-  max-height: 90vh;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-body {
-  overflow: auto;
-  flex: 1 1 auto;
-}
-
-@media (max-width: 768px) {
-  .modal-dialog {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  .modal-content {
-    max-height: 100vh;
-    height: 100%;
-    border-radius: 0;
-    border: none;
-  }
-
-  .modal-footer,
-  .modal-header {
-    flex: 0 0 auto;
-  }
-
-  .navbar-brand {
-    flex-grow: 1;
-  }
 }
 
 /* EVENTS */
