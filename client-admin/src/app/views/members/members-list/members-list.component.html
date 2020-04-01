@@ -24,23 +24,30 @@
 
       <mat-form-field class="col-12 col-md col-xl-2">
         <mat-label>Oddíl</mat-label>
-        <mat-select multiple class="groups" name="group" ngModel>
+        <mat-select multiple name="groups" ngModel>
           <mat-option *ngFor="let group of groups" [value]="group.id">{{group.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="col-12 col-md col-xl-2">
         <mat-label>Role</mat-label>
-        <mat-select multiple class="groups" name="role" ngModel>
+        <mat-select multiple name="roles" ngModel>
           <mat-option *ngFor="let role of roles" [value]="role.id">{{role.id}}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="col-12 col-md col-xl-2">
         <mat-label>Aktivní člen</mat-label>
-        <mat-select multiple class="groups" name="activity" [ngModel]="['active']">
+        <mat-select multiple name="activity" [ngModel]="['active']">
           <mat-option value="active">Aktivní</mat-option>
           <mat-option value="inactive">Neaktivní</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-12 col-md col-xl-2">
+        <mat-label>Sloupce</mat-label>
+        <mat-select multiple name="fields" [ngModel]="defaultFields">
+          <mat-option *ngFor="let field of fields" [value]="field.id">{{field.name}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -49,29 +56,41 @@
   <admin-table class="table table-hover">
     <thead>
       <tr>
-        <th>Přezdívka</th>
-        <th>Oddíl</th>
-        <th>Role</th>
-        <th>Funkce</th>
-        <th>Hodnost</th>
-        <th>Jméno</th>
-        <th>Datum narození</th>
-        <th>Email</th>
-        <th>Mobil</th>
+        <ng-container *ngIf="visibleFields$ | async as visibleFields">
+          <th *ngIf="visibleFields.nickname">Přezdívka</th>
+          <th *ngIf="visibleFields.group">Oddíl</th>
+          <th *ngIf="visibleFields.role">Role</th>
+          <th *ngIf="visibleFields.post">Funkce</th>
+          <th *ngIf="visibleFields.rank">Hodnost</th>
+          <th *ngIf="visibleFields.stars">Hvězdy</th>
+          <th *ngIf="visibleFields.name">Jméno</th>
+          <th *ngIf="visibleFields.birthday">Datum narození</th>
+          <th *ngIf="visibleFields.age">Věk</th>
+          <th *ngIf="visibleFields.email">Email</th>
+          <th *ngIf="visibleFields.mobile">Mobil</th>
+          <th *ngIf="visibleFields.city">Město</th>
+        </ng-container>
       </tr>
     </thead>
     <tbody>
       <ng-container *ngFor="let member of filteredMembers$ | async">
         <tr [routerLink]="member._id" [class.inactive]="member.inactive" [class.bg-light]="member.role === 'instruktor' || member.role === 'vedoucí'">
-          <th>{{member.nickname}}</th>
-          <td [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
-          <td>{{member.role}}</td>
-          <td>{{member.function}}</td>
-          <td>{{member.rank}}</td>
-          <td>{{member.name?.first}} {{member.name?.last}}</td>
-          <td>{{member.birthday | date:"d. M. y"}}</td>
-          <td>{{member.contacts?.email}}</td>
-          <td>{{member.contacts?.mobile || (member.contacts?.mother ? member.contacts?.mother + " (matka)" : undefined) || (member.contacts?.father ? member.contacts?.father + " (otec)" : undefined || "")}}</td>
+
+          <ng-container *ngIf="visibleFields$ | async as visibleFields">
+            <th *ngIf="visibleFields.nickname">{{member.nickname}}</th>
+            <td *ngIf="visibleFields.group" [style.color]="member.group | group:'color'">{{member.group | group:'name'}}</td>
+            <td *ngIf="visibleFields.role">{{member.role}}</td>
+            <td *ngIf="visibleFields.post">{{member.post}}</td>
+            <td *ngIf="visibleFields.rank">{{member.rank}}</td>
+            <td *ngIf="visibleFields.stars">{{member.stars}}</td>
+            <td *ngIf="visibleFields.name">{{member.name?.first}} {{member.name?.last}}</td>
+            <td *ngIf="visibleFields.birthday">{{member.birthday | date:"d. M. y"}}</td>
+            <td *ngIf="visibleFields.age">{{member.birthday ? getAge(member.birthday) : ""}}</td>
+            <td *ngIf="visibleFields.email">{{member.contacts?.email}}</td>
+            <td *ngIf="visibleFields.mobile">{{member.contacts?.mobile || (member.contacts?.mother ? member.contacts?.mother + " (matka)" : undefined) || (member.contacts?.father ? member.contacts?.father + " (otec)" : undefined || "")}}</td>
+            <td *ngIf="visibleFields.city">{{member.address?.city}}</td>
+          </ng-container>
+
         </tr>
       </ng-container>
     </tbody>

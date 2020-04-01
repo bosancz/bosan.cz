@@ -5,10 +5,12 @@ export class Member extends Document {
 
   group: string;
   role: string;
-  function: string;
-  rank: string;
+  post: string;
   membership: string;
   inactive: boolean;
+  
+  rank: string;
+  stars:string;
 
   nickname: string;
 

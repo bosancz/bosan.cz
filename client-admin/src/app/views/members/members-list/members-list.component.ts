@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
-import { Subject, Observable, combineLatest } from "rxjs";
+import { Subject, Observable, combineLatest, ReplaySubject } from "rxjs";
 import { map, debounceTime } from 'rxjs/operators';
 
 import { ConfigService } from "app/services/config.service";
@@ -13,6 +13,14 @@ import { DateTime } from 'luxon';
 
 type MemberWithSearchString = Member & { searchString?: string };
 
+interface MemberFilter {
+  search: string;
+  groups: string[];
+  roles: string[];
+  activity: "active" | "inactive";
+  fields: string[];
+}
+
 @Component({
   selector: 'members-list',
   templateUrl: './members-list.component.html',
@@ -23,9 +31,28 @@ export class MembersListComponent implements OnInit {
   members$ = new Subject<(MemberWithSearchString)[]>();
   filteredMembers$: Observable<Member[]>;
 
-  filter$ = new Subject<any>();
+  filter$ = new Subject<MemberFilter>();
 
   showFilter: boolean;
+
+  fields = [
+    { id: "nickname", name: "Přezdívka" },
+    { id: "group", name: "Oddíl" },
+    { id: "role", name: "Role" },
+    { id: "post", name: "Funkce" },
+    { id: "rank", name: "Hodnost" },
+    { id: "stars", name: "Hvězdy" },
+    { id: "name", name: "Jméno" },
+    { id: "birthday", name: "Datum narození" },
+    { id: "age", name: "Věk" },
+    { id: "email", name: "Email" },
+    { id: "mobile", name: "Mobil" },
+    { id: "city", name: "Město" },
+  ];
+
+  visibleFields$ = new ReplaySubject<{ [field: string]: boolean }>();
+
+  defaultFields = ["nickname", "group", "role", "name", "birthday", "email", "mobile"];
 
   groups: WebConfigGroup[] = [];
   roles: WebConfigMemberRole[] = [];
@@ -41,6 +68,10 @@ export class MembersListComponent implements OnInit {
 
     this.filteredMembers$ = combineLatest([this.members$, this.filter$])
       .pipe(map(([members, filter]) => this.filterMembers(filter, members)));
+
+    this.filter$
+      .pipe(map(filter => filter.fields.reduce((acc, cur) => (acc[cur] = true, acc), {} as { [field: string]: boolean })))
+      .subscribe(this.visibleFields$);
 
   }
 
@@ -69,25 +100,24 @@ export class MembersListComponent implements OnInit {
         member.name && member.name.last,
         DateTime.fromISO(member.birthday).year,
         member.contacts && member.contacts.email,
-        member.contacts && member.contacts.mobile && member.contacts.mobile.replace(/[^0-9]/g, "").replace("+420","")
+        member.contacts && member.contacts.mobile && member.contacts.mobile.replace(/[^0-9]/g, "").replace("+420", ""),
+        member.address && member.address.city
       ].filter(item => !!item).join(" ")
     })
-
-    console.log(members.filter(member => member.nickname === "Sam"));
 
     this.sortMembers(members);
 
     this.members$.next(members);
   }
 
-  filterMembers(filter: any, members: MemberWithSearchString[]) {
+  filterMembers(filter: MemberFilter, members: MemberWithSearchString[]) {
 
-    const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/ /g,"").replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
+    const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/ /g, "").replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
 
     return members.filter(member => {
       if (filter.search && !search_re.test(member.searchString)) return false;
-      if (filter.role && filter.role.length && filter.role.indexOf(member.role) === -1) return false;
-      if (filter.group && filter.group.length && filter.group.indexOf(member.group) === -1) return false;
+      if (filter.roles && filter.roles.length && filter.roles.indexOf(member.role) === -1) return false;
+      if (filter.groups && filter.groups.length && filter.groups.indexOf(member.group) === -1) return false;
       if (filter.activity && filter.activity.length && filter.activity.indexOf(member.inactive ? "inactive" : "active") === -1) return false;
 
       return true;
@@ -104,6 +134,10 @@ export class MembersListComponent implements OnInit {
       || (a.role && b.role && roleIndex.indexOf(a.role) - roleIndex.indexOf(b.role))
       || (a.nickname && b.nickname && a.nickname.localeCompare(b.nickname))
     ));
+  }
+
+  getAge(birthday: string): number {
+    return Math.floor((-1) * DateTime.fromISO(birthday).diffNow("years").years);
   }
 
 }
