@@ -1,5 +1,9 @@
 $circle-size: 2.5rem;
 
+:host {
+  display: block;
+}
+
 .circle {
   width: $circle-size;
   height: $circle-size;
