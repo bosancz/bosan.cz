@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { AlbumsService } from '../../albums.service';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+
+import { Album } from 'app/shared/schema/album';
 
 @Component({
   selector: 'albums-edit',
@@ -10,6 +12,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./albums-edit.component.scss']
 })
 export class AlbumsEditComponent {
+
+  album$ = this.albumsService.album$;
+
+  deleteConfirmation: boolean = false;
 
   paramsSubscription: Subscription;
 
@@ -26,6 +32,15 @@ export class AlbumsEditComponent {
 
   ngOnDestroy() {
     this.paramsSubscription.unsubscribe();
+  }
+
+  async deleteAlbum(album: Album) {
+    let name = album.name;
+    const confirmation = window.confirm(`Opravdu smazat album ${name}?`);
+
+    if (!confirmation) return;
+
+    await this.albumsService.deleteAlbum(album._id);
   }
 
 }

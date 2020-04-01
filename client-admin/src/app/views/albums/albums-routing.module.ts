@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
 import { AlbumsListComponent } from './views/albums-list/albums-list.component';
 
 import { AlbumsEditComponent } from './views/albums-edit/albums-edit.component';
@@ -13,17 +12,15 @@ import { AlbumsEditUploadComponent } from './views/albums-edit/albums-edit-uploa
 const routes: Routes = [
 
   {
-    path: ':album/upravit', component: AlbumsEditComponent,
+    path: ':album', component: AlbumsEditComponent,
     children: [
-      { path: 'info', component: AlbumsEditMetadataComponent },
       { path: 'fotky/:photo', component: AlbumsEditPhotoComponent },
       { path: 'fotky', component: AlbumsEditPhotosComponent },
+      { path: 'info', component: AlbumsEditMetadataComponent },
       { path: 'nahrat', component: AlbumsEditUploadComponent },
-      { path: '', redirectTo: "info", pathMatch: "full" }
+      { path: '', redirectTo: "fotky", pathMatch: "full" }
     ]
   },
-
-  { path: ':album', component: AlbumsViewComponent },
 
   { path: '', component: AlbumsListComponent },
 

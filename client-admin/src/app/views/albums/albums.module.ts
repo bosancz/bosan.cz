@@ -9,7 +9,6 @@ import { AlbumsRoutingModule } from './albums-routing.module';
 import { AlbumsService } from './albums.service';
 
 /* VIEWS */
-import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
 import { AlbumsListComponent } from './views/albums-list/albums-list.component';
 import { AlbumsCreateComponent } from './views/albums-create/albums-create.component';
 
@@ -25,7 +24,6 @@ import { PhotoFaceEditComponent } from './components/photo-face-edit/photo-face-
 @NgModule({
   declarations: [
     AlbumsListComponent,
-    AlbumsViewComponent,
     AlbumsCreateComponent,
     
     AlbumsEditComponent,
