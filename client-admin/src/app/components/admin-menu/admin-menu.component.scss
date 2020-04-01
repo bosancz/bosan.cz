@@ -1,5 +1,4 @@
 @import "~styles/variables";
-@import "~styles/bootstrap";
 
 :host {
   display: block;
@@ -26,7 +25,7 @@ nav {
     }
   }
 
-  @include media-breakpoint-down(lg) {
+  @media (max-width: 991.98px) {
     .navbar-brand {
       flex-grow: 1;
     }
