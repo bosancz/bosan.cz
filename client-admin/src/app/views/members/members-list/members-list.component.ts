@@ -52,7 +52,7 @@ export class MembersListComponent implements OnInit {
 
   visibleFields$ = new ReplaySubject<{ [field: string]: boolean }>();
 
-  defaultFields = ["nickname", "group", "role", "name", "birthday", "email", "mobile"];
+  defaultFields = ["nickname", "group", "role", "name", "birthday"];
 
   groups: WebConfigGroup[] = [];
   roles: WebConfigMemberRole[] = [];
