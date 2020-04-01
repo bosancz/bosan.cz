@@ -1,23 +1,10 @@
 {
   "name": "bosan.cz-server",
-  "version": "2.0.0",
-  "description": "Server side part of bosan.cz website",
-  "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "create-admin": "node src/scripts/create-admin.js"
+    "create-admin": "node src/scripts/create-admin.js"    
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bosancz/bosan.cz-server.git"
-  },
-  "author": "Martin Kopeček <martin.kopecek@smallhill.cz>",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/bosancz/bosan.cz-server/issues"
-  },
-  "homepage": "https://github.com/bosancz/bosan.cz-server#readme",
   "dependencies": {
     "@smallhillcz/routesjs": "^1.4.3",
     "ajv": "^6.10.0",

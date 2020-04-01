@@ -1,14 +1,9 @@
 {
   "name": "bosan.cz-worker",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/main.js",
   "scripts": {
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Martin Kopeček <martin.kopecek@smallhill.cz>",
-  "license": "AGPL-3.0",
   "devDependencies": {
     "@types/mongoose": "^5.7.1",
     "@types/node": "^13.7.1",

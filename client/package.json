@@ -1,8 +1,5 @@
 {
-  "name": "bosan.cz",
-  "version": "2.0.0",
-  "license": "GPL-3.0",
-  "private": true,
+  "name": "bosan.cz-client",
   "scripts": {
     "build": "ng build --prod"
   },

@@ -1,22 +1,16 @@
 {
   "name": "bosan.cz",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Bosan.cz website",
+  "author": "Martin Kopeček <martin.kopecek@smallhill.cz>",
+  "license": "AGPL-3.0",
   "private": true,
-  "scripts": {
-    "install": "cd client && npm install && cd ../server && npm install",
-    "build": "cd client && npm run build",
-    "start": "cd server && npm start",
-    "create-admin": "cd server && npm run create-admin"
-  },
+  "homepage": "https://github.com/bosancz/bosan.cz#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bosancz/bosan.cz.git"
   },
-  "author": "Martin Kopeček <martin.kopecek@smallhill.cz>",
-  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/bosancz/bosan.cz/issues"
-  },
-  "homepage": "https://github.com/bosancz/bosan.cz#readme"
+  }
 }
