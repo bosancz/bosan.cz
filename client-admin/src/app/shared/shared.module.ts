@@ -5,7 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
 /* MODULES */
-import { MaterialModule } from './material.module';
+import { MaterialModule } from './material/material.module';
 
 /* DIRECTIVES */
 import { ActionMenuDirective } from './directives/action-menu.directive';
