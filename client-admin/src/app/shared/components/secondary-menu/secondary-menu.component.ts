@@ -6,7 +6,7 @@ import { MenuService } from 'app/services/menu.service';
   templateUrl: './secondary-menu.component.html',
   styleUrls: ['./secondary-menu.component.scss'],
   host: {
-    class: "p-3"
+    class: "p-3 d-none d-lg-block"
   }
 })
 export class SecondaryMenuComponent implements AfterViewInit, OnDestroy {
