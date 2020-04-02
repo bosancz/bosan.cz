@@ -3,7 +3,13 @@
 :host {
   display: block;
 }
-
+::ng-deep {
+  #actionsMenu {
+    a {
+      width: 100%;
+    }
+  }
+}
 nav {
   color: $white;
 

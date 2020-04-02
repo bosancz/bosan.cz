@@ -13,15 +13,18 @@
 
 #secondaryMenu {
   border-top: 1px solid $grey;
-  nav {
-    flex-wrap: nowrap;
-    overflow: auto;
-    width: 100%;
-  }
 }
 
 ::ng-deep {
-  #secondaryMenu nav a {
-    white-space: nowrap;
+  #secondaryMenu {
+    nav {
+      flex-direction: row !important;
+      flex-wrap: nowrap;
+      overflow: auto;
+      width: 100%;
+      a {
+        white-space: nowrap;
+      }
+    }
   }
 }

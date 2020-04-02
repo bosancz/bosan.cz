@@ -23,7 +23,7 @@
     <button mat-icon-button [matMenuTriggerFor]="actionsMenu" type="button">
       <mat-icon>more_vert</mat-icon>
     </button>
-    <mat-menu #actionsMenu>
+    <mat-menu #actionsMenu id="actionsMenu">
       <ng-container *ngTemplateOutlet="menuService.actionMenu"></ng-container>
     </mat-menu>
   </div>

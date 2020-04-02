@@ -12,6 +12,7 @@ import { ActionMenuDirective } from './directives/action-menu.directive';
 import { PageTitleDirective } from './directives/page-title.directive';
 import { MenuButtonDirective } from './directives/menu-button.directive';
 import { TextcheckDirective } from './directives/textcheck.directive';
+import { SecondaryMenuDirective } from './directives/secondary-menu.directive';
 
 /* COMPONENTS */
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
@@ -36,7 +37,6 @@ import { EventPipe } from "./pipes/event.pipe";
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { AclModule } from 'lib/acl';
-import { SecondaryMenuComponent } from './components/secondary-menu/secondary-menu.component';
 
 
 @NgModule({
@@ -50,7 +50,6 @@ import { SecondaryMenuComponent } from './components/secondary-menu/secondary-me
     AclModule,
   ],
   declarations: [
-    SecondaryMenuComponent,
     AdminTableComponent,
     GroupsSelectComponent,
     MembersSelectComponent,
@@ -71,6 +70,7 @@ import { SecondaryMenuComponent } from './components/secondary-menu/secondary-me
     PageTitleDirective,
     MenuButtonDirective,
     TextcheckDirective,
+    SecondaryMenuDirective,
 
     /* PIPES */
     JoinLeadersPipe,
@@ -91,7 +91,6 @@ import { SecondaryMenuComponent } from './components/secondary-menu/secondary-me
     AclModule,
 
     /* COMPONENTS */
-    SecondaryMenuComponent,
     AdminTableComponent,
     GroupsSelectComponent,
     MembersSelectComponent,
@@ -113,6 +112,7 @@ import { SecondaryMenuComponent } from './components/secondary-menu/secondary-me
     PageTitleDirective,
     MenuButtonDirective,
     TextcheckDirective,
+    SecondaryMenuDirective,
 
     /* PIPES */
     JoinLeadersPipe,
