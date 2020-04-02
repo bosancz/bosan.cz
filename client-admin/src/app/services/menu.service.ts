@@ -23,9 +23,7 @@ export class MenuService {
   visible = new BehaviorSubject(true);
   transparent = new BehaviorSubject(false);
 
-  secondaryMenu = new Subject<SecondaryMenuItem[] | null>();
-
-  actions = new Subject<ActionItem[]>();
+  secondaryMenu: TemplateRef<any>;
 
   actionMenu: TemplateRef<any>;
 
@@ -44,12 +42,5 @@ export class MenuService {
   reset() {
     this.visible.next(true);
     this.setTransparent(false);
-
-    this.secondaryMenu.next(null);
-    this.actions.next(null);
-  }
-
-  setActions(actions: ActionItem[]) {
-    setTimeout(() => this.actions.next(actions), 0);
   }
 }

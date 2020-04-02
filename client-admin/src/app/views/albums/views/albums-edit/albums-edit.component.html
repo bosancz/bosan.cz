@@ -14,11 +14,11 @@
 
     <div class="col-lg-2">
 
-      <nav class="nav nav-pills flex-column">
+      <secondary-menu>
         <a class="nav-link" routerLink="fotky" replaceUrl="true" routerLinkActive="active">Fotky ({{(album$ | async)?.photos?.length || 0}})</a>
         <a class="nav-link" routerLink="info" replaceUrl="true" routerLinkActive="active">Popis alba</a>
         <a class="nav-link" routerLink="nahrat" replaceUrl="true" routerLinkActive="active">Nahrát fotky</a>
-      </nav>
+      </secondary-menu>
 
     </div>
 
