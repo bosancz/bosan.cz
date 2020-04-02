@@ -4,9 +4,9 @@
 
   <div class="row">
 
-    <div class="col-lg-2">
+    <div class="col-lg-2 d-none d-lg-block">
 
-      <nav class="nav nav-pills flex-column">
+      <nav *secondaryMenu class="nav nav-pills flex-column">
         <a class="nav-link" [routerLink]="['./',{view:'form'}]" [class.active]="view === 'form'">Přihláška</a>
         <a class="nav-link" [routerLink]="['./',{view:'attendees'}]" [class.active]="view === 'attendees'">Obsazenost</a>
       </nav>

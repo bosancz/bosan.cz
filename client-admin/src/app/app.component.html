@@ -19,10 +19,8 @@
 
   </div>
 
-  <div *ngIf="menuService.secondaryMenu" id="secondaryMenu" class="d-block d-lg-none p-1">
-    <nav class="nav nav-pills p-3">
+  <div *ngIf="menuService.secondaryMenu" id="secondaryMenu" class="d-block d-lg-none p-2">
       <ng-container *ngTemplateOutlet="menuService.secondaryMenu"></ng-container>
-    </nav>
   </div>
 
 </div>
