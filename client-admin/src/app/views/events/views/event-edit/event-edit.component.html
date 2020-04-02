@@ -1,23 +1,23 @@
 <div class="container-fluid my-3 px-md-3 px-lg-5">
   <page-header>
+    <h2 [pageTitle]="'Upravit: ' + (event$ | async)?.name">Upravit: {{(event$ | async)?.name}}</h2>
+
     <div class="actions" *actionMenu>
       <button mat-button routerLink="../">Zavřít úpravy</button>
     </div>
-
-    <h2 [pageTitle]="'Upravit: ' + (event$ | async)?.name">Upravit: {{(event$ | async)?.name}}</h2>
   </page-header>
 
   <div class="row">
 
     <div class="col-lg-2">
 
-      <nav class="nav nav-pills flex-column">
+      <secondary-menu>
         <a class="nav-link" routerLink="info" replaceUrl="true" routerLinkActive="active">Info</a>
         <a class="nav-link" routerLink="prihlaska" replaceUrl="true" routerLinkActive="active">Přihláška</a>
         <a class="nav-link" routerLink="ucastnici" replaceUrl="true" routerLinkActive="active">Účastníci</a>
         <a class="nav-link" routerLink="uctovani" replaceUrl="true" routerLinkActive="active">Účtování</a>
         <a class="nav-link" routerLink="report" replaceUrl="true" routerLinkActive="active">Report</a>
-      </nav>
+      </secondary-menu>
 
     </div>
 

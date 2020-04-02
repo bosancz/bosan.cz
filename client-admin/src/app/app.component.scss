@@ -1,9 +1,27 @@
-#layout{
+@import "~styles/variables";
+
+#layout {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-#content{
-    overflow:auto;
+#content {
+  overflow: auto;
+  flex-grow: 1;
+}
+
+#secondaryMenu {
+  border-top: 1px solid $grey;
+  nav {
+    flex-wrap: nowrap;
+    overflow: auto;
+    width: 100%;
+  }
+}
+
+::ng-deep {
+  #secondaryMenu nav a {
+    white-space: nowrap;
+  }
 }

@@ -1,42 +1,23 @@
-<div class="container-fluid px-3 px-sm-5">
-
+<div class="container-fluid my-3 px-md-3 px-lg-5">
   <page-header>
     <h2 pageTitle>Přehled</h2>
   </page-header>
 
-  <div class="mt-3 mt-lg-0">
-    <div class="row">
-      <div class="col-md-8">
-        <mat-card class="mb-3">
-          <mat-card-content>
-            <event-calendar [dateFrom]="eventsDateFrom" [dateTill]="eventsDateTill" [events]="events" cpv="true" headingLevel="5"></event-calendar>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="col-md-4 order-first order-lg-last">
+  <div class="row">
 
-        <mat-card *ngIf="dashboard?.noLeaderEventsCount > 0" class="mb-3">
-          <mat-card-title>Volné akce!</mat-card-title>
-          <mat-card-content>
-            <p>Tady budou aktuálně volné akce. Možná.</p>
-            <mat-nav-list>
-              <mat-list-item>
-                <a matLine routerLink="/akce/5d61ae487ad3da238fb9d5b9">Řekni STOP a zachraň svou generaci!</a>
-                <button mat-flat-button color="primary">Vést</button>
-              </mat-list-item>
-              <mat-list-item>
-                <a matLine routerLink="/akce/5d61ae487ad3da238fb9d5b9">Řekni STOP a zachraň svou generaci!</a>
-                <button mat-flat-button color="primary">Vést</button>
-              </mat-list-item>
-              <mat-list-item>
-                <a matLine routerLink="/akce/5d61ae487ad3da238fb9d5b9">Řekni STOP a zachraň svou generaci!</a>
-                <button mat-flat-button color="primary">Vést</button>
-              </mat-list-item>
-            </mat-nav-list>
-          </mat-card-content>
-        </mat-card>
+    <div class="col-lg-2">
 
-      </div>
+      <secondary-menu>
+        <a class="nav-link" routerLink="novinky" replaceUrl="true" routerLinkActive="active">Novinky</a>
+        <a class="nav-link" routerLink="kalendar" replaceUrl="true" routerLinkActive="active">Kalendář</a>
+        <a class="nav-link" routerLink="vest-akci" replaceUrl="true" routerLinkActive="active">Volné akce</a>
+      </secondary-menu>
+
     </div>
+
+    <div class="col-lg-10">
+      <router-outlet></router-outlet>
+    </div>
+
   </div>
 </div>

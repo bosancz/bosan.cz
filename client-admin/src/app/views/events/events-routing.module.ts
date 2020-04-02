@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { EventsListComponent } from './views/events-list/events-list.component';
 import { EventsViewComponent } from './views/events-view/events-view.component';
-import { EventsLeadComponent } from './views/events-lead/events-lead.component';
 import { MyEventsComponent } from './views/my-events/my-events.component';
 
 import { EventEditComponent } from './views/event-edit/event-edit.component';
@@ -15,7 +14,6 @@ import { EventEditReportComponent } from './views/event-edit/event-edit-report/e
 
 const routes: Routes = [
   { path: '', component: EventsListComponent },
-  { path: 'vest-akci', component: EventsLeadComponent },
   { path: 'moje', component: MyEventsComponent },
   {
     path: ':event/upravit', component: EventEditComponent,
