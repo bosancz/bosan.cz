@@ -36,6 +36,8 @@ import { EventPipe } from "./pipes/event.pipe";
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { AclModule } from 'lib/acl';
+import { SecondaryMenuComponent } from './components/secondary-menu/secondary-menu.component';
+
 
 @NgModule({
   imports: [
@@ -48,6 +50,7 @@ import { AclModule } from 'lib/acl';
     AclModule,
   ],
   declarations: [
+    SecondaryMenuComponent,
     AdminTableComponent,
     GroupsSelectComponent,
     MembersSelectComponent,
@@ -76,6 +79,7 @@ import { AclModule } from 'lib/acl';
     EventPipe,
     FormatPhonePipe,
     SafeurlPipe,
+    
   ],
   exports: [
     CommonModule,
@@ -87,6 +91,7 @@ import { AclModule } from 'lib/acl';
     AclModule,
 
     /* COMPONENTS */
+    SecondaryMenuComponent,
     AdminTableComponent,
     GroupsSelectComponent,
     MembersSelectComponent,

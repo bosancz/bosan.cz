@@ -1,0 +1,7 @@
+<nav *ngIf="render" class="nav nav-pills flex-column d-none d-lg-block">
+  <ng-container *ngTemplateOutlet="menuContent"></ng-container>
+</nav>
+
+<ng-template #menuContent>
+  <ng-content select="a"></ng-content>
+</ng-template>
