@@ -5,11 +5,11 @@ import { Event } from 'app/shared/schema/event';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'events-lead',
-  templateUrl: './events-lead.component.html',
-  styleUrls: ['./events-lead.component.scss']
+  selector: 'dashboard-lead-event',
+  templateUrl: './dashboard-lead-event.component.html',
+  styleUrls: ['./dashboard-lead-event.component.scss']
 })
-export class EventsLeadComponent implements OnInit {
+export class DashboardLeadEventComponent implements OnInit {
 
   title = "Vést akci";
 
