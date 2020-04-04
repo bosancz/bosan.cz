@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { from, Observable } from "rxjs";
+import { from, Observable, Subject } from "rxjs";
 
 import { ToastService } from "app/services/toast.service";
 
 import { Member } from "app/shared/schema/member";
 import { ApiService } from 'app/services/api.service';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, distinctUntilChanged, tap, switchMap, flatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'members-view',
@@ -15,9 +15,7 @@ import { map, mergeMap } from 'rxjs/operators';
 })
 export class MembersViewComponent implements OnInit {
 
-  member$: Observable<Member> = this.route.params
-    .pipe(map((params: Params) => params.member))
-    .pipe(mergeMap(memberId => from(this.loadMember(memberId))));
+  member$ = new Subject();
 
 
   constructor(
@@ -25,7 +23,14 @@ export class MembersViewComponent implements OnInit {
     private toastService: ToastService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    this.route.params
+      .pipe(map((params: Params) => params.member))
+      .pipe(distinctUntilChanged())
+      .pipe(mergeMap(memberId => this.loadMember(memberId)))
+      .subscribe(this.member$)
+    
+  }
 
   ngOnInit() {
   }
@@ -42,7 +47,7 @@ export class MembersViewComponent implements OnInit {
     if (!confirmation) return;
 
     await this.api.delete(["member", member._id]);
-    
+
     this.toastService.toast("Člen smazán.");
     this.router.navigate(["../../"], { relativeTo: this.route });
   }
