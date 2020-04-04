@@ -1,11 +1,11 @@
-<div class="container-fluid my-3 px-md-3 px-lg-5">
-  <page-header>
+<bo-page>
+  <bo-page-header>
     <h2 [pageTitle]="'Upravit: ' + (event$ | async)?.name">Upravit: {{(event$ | async)?.name}}</h2>
 
     <div class="actions" *actionMenu>
       <button mat-button routerLink="../">Zavřít úpravy</button>
     </div>
-  </page-header>
+  </bo-page-header>
 
   <div class="row">
 
@@ -25,4 +25,4 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-</div>
+</bo-page>

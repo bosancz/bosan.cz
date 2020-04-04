@@ -1,6 +1,6 @@
 <div class="container" *ngIf="member$ | async as member">
 
-  <page-header>
+  <bo-page-header>
     <h2 [pageTitle]="'Upravit: ' + member.nickname">
       <ng-container *ngIf="member.nickname">{{member.nickname}} ({{member.name?.first}} {{member.name?.last}})</ng-container>
       <ng-container *ngIf="!member.nickname">{{member.name?.first}} {{member.name?.last}}</ng-container>
@@ -10,7 +10,7 @@
       <button mat-button routerLink="../" (click)="saveMember(memberInfoForm.value)">Zrušit úpravy</button>
       <button mat-button color="primary" [disabled]="!member._links?.self.allowed.PATCH" (click)="saveMember(memberInfoForm.value)">Uložit</button>
     </div>
-  </page-header>
+  </bo-page-header>
 
   <div>
     <form #memberInfoForm="ngForm">

@@ -1,5 +1,5 @@
-<div class="container-fluid px-3 px-sm-5">
-  <page-header>
+<bo-page>
+  <bo-page-header>
 
     <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
       <mat-icon>filter_list</mat-icon>
@@ -10,7 +10,7 @@
     </div>
 
     <h2 pageTitle>Galerie</h2>
-  </page-header>
+  </bo-page-header>
 
   <form #filterForm="ngForm" class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
     <div class="row">
@@ -60,4 +60,4 @@
 
   <p *ngIf="loading">Načítám...</p>
 
-</div>
+</bo-page>

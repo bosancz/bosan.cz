@@ -1,11 +1,11 @@
-<div class="container-fluid px-md-3 px-lg-5">
-  <page-header>
+<bo-page>
+  <bo-page-header>
     <h2 pageTitle>Přidat člena</h2>
 
     <div *actionMenu class="actions">
       <button mat-button routerLink="../">Zrušit</button>
     </div>
-  </page-header>
+  </bo-page-header>
 
   <form #createMemberForm="ngForm" (ngSubmit)="createMember(createMemberForm)">
     <div class="row">
@@ -49,4 +49,4 @@
     </div>
 
   </form>
-</div>
+</bo-page>

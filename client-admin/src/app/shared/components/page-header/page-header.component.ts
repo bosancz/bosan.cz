@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'page-header',
+  selector: 'bo-page-header',
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],
   host: {

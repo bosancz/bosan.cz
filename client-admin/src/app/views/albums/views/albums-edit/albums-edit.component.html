@@ -1,5 +1,5 @@
-<div class="container-fluid my-3 px-md-3 px-lg-5">
-  <page-header>
+<bo-page>
+  <bo-page-header>
     <h2 [pageTitle]="(album$ | async)?.name || 'Načítám...'">{{(album$ | async)?.name || 'Načítám...'}}</h2>
 
     <div class="actions" *actionMenu>
@@ -8,7 +8,7 @@
         <button mat-button color="warn" [disabled]="!album._links.self.allowed.DELETE" [disabled]="!deleteConfirmation" (click)="deleteAlbum(album)">Smazat</button>
       </ng-container>
     </div>
-  </page-header>
+  </bo-page-header>
 
   <div class="row">
 
@@ -26,4 +26,4 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-</div>
+</bo-page>

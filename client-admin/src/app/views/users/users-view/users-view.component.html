@@ -1,6 +1,6 @@
-<div class="container-fluid px-3 px-sm-5">
+<bo-page>
 
-  <page-header>
+  <bo-page-header>
 
     <h2 pageTitle>
       <a routerLink="/uzivatele" class="back"><i class="fas fa-arrow-left"></i></a>
@@ -17,7 +17,7 @@
       <button mat-button (click)="impersonateUser($event,user)">Přihlásit se jako {{user.login}}</button>
       <button mat-button color="warn" [disabled]="!user._links.self.allowed.DELETE" (click)="deleteUser()">Smazat uživatele</button>
     </div>
-  </page-header>
+  </bo-page-header>
 
   <div class="row">
 
@@ -93,4 +93,4 @@
       </div>
     </div>
   </div>
-</div>
+</bo-page>

@@ -5,6 +5,7 @@
   "projects": {
     "bosan.cz": {
       "root": "",
+      "prefix": "bo",
       "sourceRoot": "src",
       "projectType": "application",
       "architect": {

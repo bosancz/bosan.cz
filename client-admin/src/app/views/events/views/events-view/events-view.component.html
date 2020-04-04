@@ -1,5 +1,5 @@
-<div class="container-fluid my-3 px-md-3 px-lg-5">
-  <page-header>
+<bo-page>
+  <bo-page-header>
 
     <h2 [pageTitle]="(event$ | async)?.name">{{(event$ | async)?.name}}</h2>
 
@@ -24,7 +24,7 @@
 
       </ng-container>
     </div>
-  </page-header>
+  </bo-page-header>
 
 
 
@@ -67,3 +67,4 @@
     </div>
 
   </ng-container>
+</bo-page>

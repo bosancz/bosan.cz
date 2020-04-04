@@ -15,7 +15,12 @@ import { TextcheckDirective } from './directives/textcheck.directive';
 import { SecondaryMenuDirective } from './directives/secondary-menu.directive';
 
 /* COMPONENTS */
+import { PageComponent } from './components/page/page.component';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
+
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
+import { EventCardComponent } from './components/event-card/event-card.component';
+
 import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
 import { MembersSelectComponent } from './components/members-select/members-select.component';
 import { ListSliderComponent } from './components/list-slider/list-slider.component';
@@ -24,8 +29,6 @@ import { CodelistEditorComponent } from "./components/codelist-editor/codelist-e
 import { ContactsEditorComponent } from "./components/contacts-editor/contacts-editor.component";
 import { PhotoTagsEditorComponent } from "./components/photo-tags-editor/photo-tags-editor.component";
 import { TypeaheadFieldComponent } from "./components/typeahead-field/typeahead-field.component";
-import { EventCardComponent } from './components/event-card/event-card.component';
-import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { PhotoFaceComponent } from './components/photo-face/photo-face.component';
 import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
 
@@ -37,6 +40,7 @@ import { EventPipe } from "./pipes/event.pipe";
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { AclModule } from 'lib/acl';
+
 
 
 @NgModule({
@@ -79,6 +83,7 @@ import { AclModule } from 'lib/acl';
     EventPipe,
     FormatPhonePipe,
     SafeurlPipe,
+    PageComponent,
     
   ],
   exports: [
@@ -91,6 +96,7 @@ import { AclModule } from 'lib/acl';
     AclModule,
 
     /* COMPONENTS */
+    PageComponent,
     AdminTableComponent,
     GroupsSelectComponent,
     MembersSelectComponent,

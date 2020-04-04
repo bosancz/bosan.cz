@@ -1,8 +1,8 @@
-<div class="container-fluid px-md-3 px-lg-5">
+<bo-page>
 
-  <page-header>
+  <bo-page-header>
     <h2 pageTitle>Schvalování akcí</h2>
-  </page-header>
+  </bo-page-header>
 
   <div class="dashboard">
 
@@ -48,7 +48,7 @@
 
     </div>
   </div>
-</div>
+</bo-page>
 
 <ng-template #eventsColumn let-events>
   <event-card *ngFor="let event of events" [event]="event" (change)="eventChanged($event)"></event-card>

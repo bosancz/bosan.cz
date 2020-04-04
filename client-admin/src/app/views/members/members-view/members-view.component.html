@@ -1,6 +1,6 @@
-<div class="container-fluid px-md-3 px-lg-5">
+<bo-page>
 
-  <page-header>
+  <bo-page-header>
     <h2 [pageTitle]="(member$ | async)?.nickname + ' (' + (member$ | async)?.name?.first + ' ' + (member$ | async)?.name?.last + ')'">
       {{(member$ | async)?.nickname}} ({{(member$ | async)?.name?.first}} {{(member$ | async)?.name?.last}})
     </h2>
@@ -11,7 +11,7 @@
         <button mat-button color="warn" [disabled]="!member?._links?.self.allowed.DELETE" (click)="deleteMember(member)">Smazat</button>
       </ng-container>
     </div>
-  </page-header>
+  </bo-page-header>
 
   <div *ngIf="member$ | async as member">
     <div class="row">
@@ -111,4 +111,4 @@
 
     </div>
   </div>
-</div>
+</bo-page>

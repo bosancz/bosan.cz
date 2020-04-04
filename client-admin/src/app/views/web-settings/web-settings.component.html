@@ -1,11 +1,11 @@
-<div class="container-fluid px-3 px-lg-5">
+<bo-page>
 
-  <page-header>
+  <bo-page-header>
     <h2 pageTitle>Nastavení webu</h2>
     <div class="actions" *actionMenu>
       <button mat-button color="primary" (click)="saveConfig()">Uložit</button>
     </div>
-  </page-header>
+  </bo-page-header>
 
   <div class="row">
 
@@ -153,4 +153,4 @@
     <textarea [ngModel]="config | json" (ngModelChange)="editJson($event)"></textarea>
     <p>{{jsonError ? "chyba v JSONu" : "JSON OK"}}</p>
   </div>
-</div>
+</bo-page>

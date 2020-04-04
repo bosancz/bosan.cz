@@ -1,5 +1,5 @@
-<div class="container-fluid px-0 px-md-3 px-lg-5">
-  <page-header>
+<bo-page>
+  <bo-page-header>
     <h2 pageTitle>Členská databáze</h2>
 
     <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
@@ -10,7 +10,7 @@
       <button mat-button routerLink="novy-clen" color="primary">Nový člen</button>
       <!-- <button mat-button color="secondary">Stáhnout v CSV</button> -->
     </div>
-  </page-header>
+  </bo-page-header>
 
   <form #filterForm="ngForm" class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
     <div class="row">
@@ -95,4 +95,4 @@
       </ng-container>
     </tbody>
   </admin-table>
-</div>
+</bo-page>
