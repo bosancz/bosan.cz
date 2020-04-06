@@ -1,75 +1,70 @@
 var express = require("express");
 var app = express();
-var fs = require("fs-extra");
 
-/* EXPRESS CONFIG */
-app.set('json spaces', 2);
+async function init() {
 
-/* POLYFILLS */
-require('express-async-errors'); // polyfill before express allows for async middleware
+  /* EXPRESS CONFIG */
+  app.set('json spaces', 2);
 
-/* CONFIG */
-var config = require("../config");
-var environment = require("../environment");
+  /* POLYFILLS */
+  require('express-async-errors'); // polyfill before express allows for async middleware
 
-/* CORS FOR DEVELOPMENT */
-if(environment.cors){
-  const cors = require("cors");
-  app.use(cors(config.cors));  
-  console.log("[SERVER] CORS enabled");
+  /* CONFIG */
+  var config = require("./config");
+
+  /* REQUEST PARSING */
+  const bodyParser = require("body-parser");
+  app.use(bodyParser.json({ limit: config.uploads.limit })); // support json encoded bodies
+  app.use(bodyParser.urlencoded({ extended: true, limit: config.uploads.limit })); // support urlencoded bodies
+
+  const cookieParser = require("cookie-parser");
+  app.use(cookieParser());
+
+  // guess types like numbers, nulls and booleans
+  app.use(require("./middleware/query-guess-types.js"));
+
+  /* LOCALE */
+  const { DateTime } = require("luxon");
+  DateTime.defaultLocale = "cs-CZ";
+
+  /* DATABASE */
+  const { connectDB } = require("./db");
+  await connectDB();
+
+  /* FILE DATA */
+  const { ensureDirs } = require("./file-storage");
+  await ensureDirs();
+
+  /* AUTHENTICATION */
+  var jwt = require('express-jwt');
+  app.use(jwt(config.auth.jwt), (err, req, res, next) => (err.code === 'invalid_token') ? next() : next(err));
+
+  /* ACL */
+  const { Routes } = require("@smallhillcz/routesjs");
+  Routes.setACL(config.acl);
+
+  /* ROUTING */
+  var router = require("./router");
+  app.use(config.server.baseDir, router);
+
+  /* ERROR HANDLER */
+  var errorHandler = require("./error-handler");
+  app.use(errorHandler);
+
+  /* SERVER */
+  let host = config.server.host;
+  let port = config.server.port;
+
+  var http = require("http");
+
+  http.createServer(app).listen(port, host, function () {
+    console.log('[SERVER] Listening on http://' + host + ':' + port + ' !');
+  });
+
 }
 
-/* REQUEST PARSING */
-const bodyParser = require("body-parser");
-app.use(bodyParser.json({ limit: config.uploads.limit })); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true,  limit: config.uploads.limit })); // support urlencoded bodies
-
-const cookieParser = require("cookie-parser");
-app.use(cookieParser());
-
-// guess types like numbers, nulls and booleans
-app.use(require("./middleware/query-guess-types.js"));
-
-/* LOCALE */
-const { DateTime } = require("luxon");
-DateTime.defaultLocale = "cs-CZ";
-
-/* DATABASE */
-const mongoose = require("./db");
-
-/* FILE DATA */
-require("./file-storage");
-
-/* AUTHENTICATION */
-var jwt = require('express-jwt');
-app.use(jwt(config.jwt), (err, req, res, next) => (err.code === 'invalid_token') ? next() : next(err));
-
-/* ACL */
-const { Routes } = require("@smallhillcz/routesjs");
-Routes.setACL(config.acl);
-
-/* ROUTING */
-var router = require("./router");
-app.use(router);
-
-/* ERROR HANDLER */
-var errorHandler = require("./error-handler");
-app.use(errorHandler);
-
-/* SERVER */
-let host = environment.server.host;
-let port = environment.server.port;
-
-var http = require("http");
-
-http.createServer(app).listen(port, host, function () {
-  console.log('[SERVER] Listening on http://' + host + ':' + port + ' !');
-  if(process.send) process.send('ready');
-});
-
-/* GRACEFUL RELOAD */
-process.on('SIGINT', function() {
-   mongoose.disconnect(function(err) {
-     process.exit(err ? 1 : 0);
-   });
-});
+init()
+  .catch(err => {
+    console.error("Server start failed with error:", err.message);
+    throw err;
+  })

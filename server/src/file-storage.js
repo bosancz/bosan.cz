@@ -1,14 +1,13 @@
 const fs = require("fs-extra");
-const path = require("path");
-const config = require("../config");
-const environment = require("../environment");
+const config = require("./config");
+
 
 const dirs = [
-  config.config.storageDir,
-  config.events.storageDir,
-  config.photos.storageDir,
-  config.photos.thumbsDir,
-  config.uploads.dir
+  config.storage.config,
+  config.storage.events,
+  config.storage.photos,
+  config.storage.thumbs,
+  config.storage.uploads,
 ];
 
 async function ensureDirs() {
@@ -19,4 +18,6 @@ async function ensureDirs() {
   }
 }
 
-module.exports = ensureDirs();
+module.exports = {
+  ensureDirs
+}

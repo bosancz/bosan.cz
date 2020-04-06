@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const path = require("path");
-const config = require("../../config");
+const config = require("../config");
 
 const Member = require("./member"); // load because of reference
 const EventRecurring = require("./event-recurring"); // load because of reference
