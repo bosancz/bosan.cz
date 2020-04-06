@@ -1,15 +1,13 @@
 const webpush = require('web-push');
 
-const environment = require("../../environment");
-
 require("../db");
 
 const User = require("../models/user");
 
 const notificationTemplates = require("./notifications");
 
-if (!environment.keys.vapid) {
-  console.log("[NOTIFICATIONS] No vapid key set. Notifications are disabled.")
+if (!process.env.KEYS_VAPID_PUBLIC || !process.env.KEYS_VAPID_PRIVATE) {
+  console.log("[NOTIFICATIONS] Vapid keys not set. Notifications are disabled. Set KEYS_VAPID_PUBLIC and KEYS_VAPID_PRIVATE environment variables to enable.")
   module.exports = {
     sendNotifications: () => {},
     listNotifications
@@ -19,8 +17,8 @@ if (!environment.keys.vapid) {
 
 webpush.setVapidDetails(
   'mailto:info@bosan.cz',
-  environment.keys.vapid.publicKey,
-  environment.keys.vapid.privateKey
+  process.env.KEYS_VAPID_PUBLIC,
+  process.env.KEYS_VAPID_PRIVATE
 );
 
 function createNotification(name, data) {
@@ -29,7 +27,7 @@ function createNotification(name, data) {
     "notification": {
       "title": "Notifikace z Bošánovského webu",
       "body": "",
-      "icon": "https://test.bosan.cz/assets/img/logo.png",
+      "icon": "https://bosan.cz/assets/img/logo.png",
       "vibrate": [100, 50, 100],
       "data": {},
       "actions": [

@@ -2,7 +2,7 @@ var fs = require("fs-extra");
 var path = require("path");
 var mongoose = require("mongoose");
 
-var config = require("../../config");
+var config = require("../config");
 
 var connection = require("../db");
 
@@ -51,7 +51,7 @@ async function resizePhoto(photo){
 
   console.log("Storage path: ",storagePath);
 
-  const thumbsDir = config.photos.thumbsDir(photo.album._id);
+  const thumbsDir = config.photos.albumThumbsDirFn(photo.album._id);
   await fs.ensureDir(thumbsDir);
 
   const sizes = Object.entries(config.photos.sizes).map(size => ({

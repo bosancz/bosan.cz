@@ -1,21 +1,57 @@
-const express = require("express");
-const router = module.exports = express.Router();
-const path = require("path");
+const config = require("./config");
 
-const config = require("../config");
-const environment = require("../environment");
+const { Routes, RoutesLinks } = require("@smallhillcz/routesjs");
 
-var apiRouter = require("./api");
-router.use("/api", apiRouter);
+const routes = new Routes({ url: config.server.baseDir });
 
-router.get("/.well-known/security.txt",(req,res) => {
-  res.sendFile(path.join(__dirname,"../assets/security.txt"));
+module.exports = routes.router;
+
+routes.child("/albums", require("./controllers/albums"));
+
+routes.child("/config", require("./controllers/config"));
+
+routes.child("/competition", require("./controllers/competition"));
+
+routes.child("/cpv", require("./controllers/cpv"));
+
+routes.child("/errors", require("./controllers/errors"));
+
+routes.child("/events", require("./controllers/events"));
+routes.child("/events/:id/recurring", require("./controllers/events-event-recurring"));
+routes.child("/events/:id", require("./controllers/events-event"));
+
+routes.child("/gallery", require("./controllers/gallery"));
+
+routes.child("/groups", require("./controllers/groups"));
+
+routes.child("/login", require("./controllers/login"));
+
+routes.child("/me", require("./controllers/me"));
+
+routes.child("/members", require("./controllers/members"));
+
+routes.child("/notifications", require("./controllers/notifications"));
+
+routes.child("/payments", require("./controllers/payments"));
+
+routes.child("/photos", require("./controllers/photos"));
+
+routes.child("/program", require("./controllers/program"));
+
+routes.child("/reports", require("./controllers/reports"));
+
+routes.child("/share", require("./controllers/share"));
+
+routes.child("/users", require("./controllers/users"));
+
+routes.child("/test", require("./controllers/test"));
+
+routes.get(null, "/", { permission: "api:read" }).handle((req, res) => {
+
+  res.json({
+    name: "bosancz-api",
+    description: "API for bosan.cz",
+    _links: RoutesLinks.root(req)
+  });
+
 });
-
-router.use(express.static(config.staticFiles));
-
-router.use("/data",express.static(environment.storage.data));
-
-router.get("**",(req,res) => {
-  res.sendFile(path.join(config.staticFiles,"index.html"));
-})

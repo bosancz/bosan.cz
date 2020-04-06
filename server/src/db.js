@@ -1,5 +1,4 @@
-var environment = require("../environment");
-var config = require("../config");
+var config = require("./config");
 
 var mongoose = require('mongoose');
 
@@ -18,30 +17,23 @@ mongoose.Promise = global.Promise;
 /* CONNECTION */
 var retries = 0;
 
-function connect() {
+function connectDB() {
 
   console.log("[DB] Connecting to DB...");
 
-  mongoose.connect(environment.databaseUri, config.database)
-    .then(() => console.log("[DB] Connected to " + environment.databaseUri))
+  return mongoose.connect(config.database.uri, { useNewUrlParser: true })
+    .then(() => console.log("[DB] Connected to " + config.database.uri))
     .catch(err => {
-      console.error("[DB] Error when connectiong to " + environment.databaseUri + ": " + err.message); // if not connected the app will not throw any errors when accessing DB models, better to fail hard and fix
-
-      retries++;
-      if (retries <= 10) {
-        console.error("[DB] Retrying in 10s...");
-        setTimeout(() => connect(), 10000);
-      }
-      else {
-        throw new Error("DB connection failed.");
-      }
+      throw new Error("Error when connectiong to " + config.database.uri + ": " + err.message);      
     });
-}
 
-connect();
+}
 
 /* MODELS */
 
-require("./models"); // just load, so that we dont have to worry about missing schemas for references
+require("./models");
 
-module.exports = mongoose;
+module.exports = {
+  connectDB,
+  mongoose
+}

@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 
 const actions = require("../plugins/mongoose-actions");
 
-const config = require("../../config");
+const config = require("../config");
 
 var reportedErrorSchema = mongoose.Schema({
   
