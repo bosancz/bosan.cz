@@ -2,7 +2,7 @@ const config = require("./config");
 
 const { Routes, RoutesLinks } = require("@smallhillcz/routesjs");
 
-const routes = new Routes({ url: config.server.baseDir });
+const routes = new Routes({ url: "" });
 
 module.exports = routes.router;
 
