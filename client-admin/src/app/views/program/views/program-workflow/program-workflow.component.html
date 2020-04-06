@@ -18,28 +18,28 @@
     <div class="row">
 
       <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'noLeader'">
-        <h3 class="mb-3 d-none d-lg-block ml-3">Pan NIKDO</h3>
+        <h3 class="mb-3 d-none d-lg-block ml-3" [matBadge]="(noLeaderEvents | async)?.length" matBadgePosition="above after">Pan NIKDO</h3>
         <div class="column bg-light px-2 py-2 mb-3">
           <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: noLeaderEvents | async}"></ng-container>
         </div>
       </div>
 
       <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'draft'">
-        <h3 class="mb-3 d-none d-lg-block ml-3">V přípravě</h3>
+        <h3 class="mb-3 d-none d-lg-block ml-3" [matBadge]="(draftEvents | async)?.length" matBadgePosition="above after">V přípravě</h3>
         <div class="column bg-light px-2 py-2 mb-3">
           <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: draftEvents | async}"></ng-container>
         </div>
       </div>
 
       <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'pending'">
-        <h3 class="mb-3 d-none d-lg-block ml-3">Ke schválení</h3>
+        <h3 class="mb-3 d-none d-lg-block ml-3" [matBadge]="(pendingEvents | async)?.length" matBadgePosition="above after">Ke schválení</h3>
         <div class="column bg-light px-2 py-2 mb-3" [class.bg-light]="!(pendingEvents | async)?.length" [class.bg-primary]="(pendingEvents | async)?.length">
           <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: pendingEvents | async}"></ng-container>
         </div>
       </div>
 
       <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'public'">
-        <h3 class="mb-3 d-none d-lg-block ml-3">V programu</h3>
+        <h3 class="mb-3 d-none d-lg-block ml-3" [matBadge]="(publicEvents | async)?.length" matBadgePosition="above after">V programu</h3>
         <div class="column bg-light px-2 py-2 mb-3">
           <ng-container *ngTemplateOutlet="eventsColumn; context: {$implicit: publicEvents | async}"></ng-container>
         </div>
