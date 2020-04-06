@@ -1,0 +1,19 @@
+name: Test Master
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - client-admin/**
+      - '.github/workflows/master-test-client-admin.yml'
+
+jobs:
+  build-docker:
+    name: Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@master
+      - name: Build the Docker image
+        run: docker build ./client-admin --tag bosancz/bosan.cz-client-admin

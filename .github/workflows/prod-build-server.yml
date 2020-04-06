@@ -3,7 +3,7 @@ name: Build Master
 on:
   push:
     branches:
-      - master
+      - prod
     paths:
       - server/**
       - '.github/workflows/master-build-server.yml'
@@ -16,8 +16,8 @@ jobs:
       - name: Checkout current repository
         uses: actions/checkout@master
       - name: Build the Docker image
-        run: docker build ./server --tag bosancz/bosan.cz-server
+        run: docker build ./server --tag bosancz/bosan.cz-server:prod
       - name: Login to DockerHub
         run: docker login --username=${{secrets.DOCKER_USERNAME}} --password=${{secrets.DOCKER_PASSWORD}}
       - name: Push to DockerHub
-        run: docker push bosancz/bosan.cz-server
+        run: docker push bosancz/bosan.cz-server:prod
