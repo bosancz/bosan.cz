@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 
 var path = require("path");
 
-const config = require("../../config");
+const config = require("../config");
 
 require("./photo");
 require("./event");

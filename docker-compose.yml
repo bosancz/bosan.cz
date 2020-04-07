@@ -16,11 +16,11 @@ services:
       - ./proxy:/etc/nginx:ro
 
   bosan-server:
-    build: ./server  
+    image: bosancz/bosan.cz-server
     container_name: server.bosan
     restart: always
     environment:
-      NODE_ENV: local-docker
+      DATABASE_URI: mongodb://db.bosan/bosan
     volumes: 
       - bosan-data:/home/node/app/data
     depends_on: 
@@ -28,14 +28,14 @@ services:
       - proxy
 
   bosan-client-admin:
-    build: ./client-admin
+    image: bosancz/bosan.cz-client-admin
     container_name: client-admin.bosan
     restart: always
     depends_on:
       - proxy
   
   bosan-client:
-    build: ./client
+    image: bosancz/bosan.cz-client
     container_name: client.bosan
     restart: always
     depends_on:
@@ -46,7 +46,6 @@ services:
     container_name: db.bosan
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: bosan
-      MONGO_INITDB_ROOT_PASSWORD: bosan
+      MONGO_INITDB_DATABASE: bosan
     volumes:
       - bosan-db:/data/db  

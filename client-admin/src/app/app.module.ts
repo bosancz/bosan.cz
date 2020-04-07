@@ -1,4 +1,4 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -57,8 +57,9 @@ registerLocaleData(localeCs, 'cs');
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    /* Error Handlers */ { provide: ErrorHandler, useClass: AppErrorHandler },
-    httpInterceptorProviders
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    { provide: LOCALE_ID, useValue: 'cs' },
+    httpInterceptorProviders,
   ],
   bootstrap: [AppComponent]
 })

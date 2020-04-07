@@ -1,7 +1,7 @@
 const mustache = require("mustache");
 const fs = require("fs-extra");
 
-const config = require("../../../config");
+const config = require("../../config");
 
 module.exports = async function(params) {
 
@@ -10,6 +10,6 @@ module.exports = async function(params) {
   return {
     to: params.user.email,
     subject: 'Přihlašovací odkaz na bosan.cz',
-    message: mustache.render(template, {contact: config.contact, link: params.link})
+    message: mustache.render(template, {contact: config.general.mail, link: params.link})
   };
 }
