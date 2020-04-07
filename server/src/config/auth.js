@@ -1,8 +1,11 @@
+const { Duration } = require("luxon");
+
+const expiration = Duration.fromISO(process.env.AUTH_EXPIRATION || "P1D");
+
 module.exports = {
 
-  expiration: "30d",
-
   jwt: {
+    expiration: expiration.as("seconds"),
     secret: process.env.AUTH_SECRET || "secret",
     credentialsRequired: false,
 
@@ -17,7 +20,7 @@ module.exports = {
   },
 
   cookieName: "access_token",
-  cookieMaxAge: 1000 * 60 * 60 * 24 * 30,
+  cookieMaxAge: expiration.as("milliseconds"),
   cookieSecure: true,
   cookieSameSite: true,
 
