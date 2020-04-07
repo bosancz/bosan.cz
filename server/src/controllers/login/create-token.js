@@ -24,6 +24,6 @@ module.exports = async function createToken(user, impersonatedBy){
     group: member ? member.group : undefined,
   };
 
-  return jwt.sign(accessTokenData, config.auth.secret, { expiresIn: config.auth.expiration });
+  return jwt.sign(accessTokenData, config.auth.jwt.secret, { expiresIn: config.auth.jwt.expiration });
 
 }
