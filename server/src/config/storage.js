@@ -1,6 +1,6 @@
 const path = require("path");
 
-const dataDir = process.env.STORAGE || path.join(__dirname, "../../../", "data");
+const dataDir = process.env.STORAGE || path.join(__dirname, "../../", "data");
 
 module.exports = {
   config: process.env.STORAGE_CONFIG || path.resolve(dataDir, "config"),
