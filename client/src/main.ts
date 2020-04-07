@@ -8,6 +8,4 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule, {
-  providers: [{ provide: LOCALE_ID, useValue: 'cs' }]
-})
+platformBrowserDynamic().bootstrapModule(AppModule)

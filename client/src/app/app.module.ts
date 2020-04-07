@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /* MODULES */
@@ -76,6 +76,7 @@ registerLocaleData(localeCs, 'cs');
     BrowserAnimationsModule,
 
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [{ provide: LOCALE_ID, useValue: 'cs' }]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, LOCALE_ID, Inject } from '@angular/core';
 import { MenuService } from 'app/services/menu.service';
 import { FooterService } from 'app/services/footer.service';
 
@@ -15,7 +15,10 @@ export class AppComponent implements AfterViewInit {
 
   @ViewChild("content", { static: true }) contentEl: ElementRef<HTMLDivElement>;
 
-  constructor(public menuService: MenuService, public footerService: FooterService) { }
+  constructor(
+    public menuService: MenuService,
+    public footerService: FooterService
+  ) { }
 
   ngAfterViewInit() {
     setTimeout(() => this.updateTop(), 0);
