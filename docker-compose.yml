@@ -42,7 +42,7 @@ services:
       - proxy
 
   mongodb:
-    image: mongo
+    image: mongo:4.2
     container_name: db.bosan
     restart: always
     environment:
