@@ -1,31 +1,27 @@
-<section *ngIf="album">
+<section *ngIf="album" class="py-2">
   <div *ngIf="album" class="container">
     <div class="row">
-      <div class="col-6 col-sm-2 order-1 order-sm-1">
-
-        <h2 [adminLink]="'/interni/galerie/' + album._id">
-          <a class="back" routerLink="../" tooltip="Zpět na přehled alb" placement="right"><i class="fas fa-arrow-left"></i></a>
-        </h2>
+      <div class="col-8 col-md-10">
+        <h2 [adminLink]="'/interni/galerie/' + album._id">{{album.name}}</h2>
       </div>
-      <div class="col-12 col-sm-8 order-3 order-sm-2 text-center">
-        <h2>
-          {{album.name}}
-          <ng-container *ngIf="(album.dateFrom | date:'d. M.') !== (album.dateTill | date:'d. M.'); else oneDate">({{album.dateFrom | date:"d. M."}} - {{album.dateTill | date:"d. M. y"}})</ng-container>
-          <ng-template #oneDate>({{album.dateFrom | date:"d. M. y"}})</ng-template>
-        </h2>
-      </div>
-      <div class="col-6 col-sm-2 order-2 order-sm-3">
-        <h2>
-          <div class="share">
-            <a shareUrl [shareData]="{title:album.name,text:album.description}" tooltip="Sdílet" placement="bottom"><i class="fas fa-share-alt"></i></a>
-            &nbsp;
-            <a [href]="getAlbumDownloadLink(album)" class="download font-light" download tooltip="Stáhnout celé album v ZIP" placement="bottom"><i class="fas fa-download"></i></a>
-          </div>
-        </h2>
+      <div class="col gallery-icon text-right my-auto">
+          <a shareUrl [shareData]="{title:album.name,text:album.description}" tooltip="Sdílet" placement="bottom">
+            <i class="fas fa-share-alt"></i>
+          </a>
+          &nbsp;
+          <a [href]="getAlbumDownloadLink(album)" download tooltip="Stáhnout celé album v ZIP" placement="bottom">
+            <i class="fas fa-download"></i>
+          </a>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
+        <h5>
+          <ng-container *ngIf="(album.dateFrom | date:'d. M.') !== (album.dateTill | date:'d. M.'); else oneDate">
+            {{album.dateFrom | date:"d. M."}} - {{album.dateTill | date:"d. M. y"}}
+          </ng-container>
+          <ng-template #oneDate>{{album.dateFrom | date:"d. M. y"}}</ng-template>
+        </h5>
         <p>{{album.description}}</p>
       </div>
     </div>
