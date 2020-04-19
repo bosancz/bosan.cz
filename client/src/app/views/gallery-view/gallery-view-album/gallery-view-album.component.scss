@@ -15,40 +15,10 @@ a.link {
   cursor: pointer;
 }
 
-.btn {
+.btn-outline-primary {
   margin: 0.25rem;
   border-radius: 22.5px;
   font-size: 1rem;
   text-transform: none;
-}
-
-.red-button {
-  color: #bb0000;
-  border-color: #bb0000 !important;
-}
-
-.red-button:hover, .red-button.active {
-  color: $white !important;
-  background-color: #bb0000 !important;
-}
-
-.green-button{
-  color: #36802d;
-  border-color: #36802d !important;
-}
-
-.green-button:hover, .green-button.active {
-  color: $white !important;
-  background-color: #36802d !important;
-}
-
-.blue-button {
-  color: #012475;
-  border-color: #012475 !important;
-}
-
-.blue-button:hover, .blue-button.active {
-  color: $white !important;
-  background-color: #012475 !important;
 }
 
