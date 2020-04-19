@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
-import { Subscription } from "rxjs";
+import {Subscription} from "rxjs";
 
-import { ApiService } from "app/services/api.service";
+import {ApiService} from "app/services/api.service";
 
-import { Album, Photo } from "app/shared/schema/album";
+import {Album, Photo} from "app/shared/schema/album";
 
-import { GalleryPhoto } from "app/shared/components/photo-gallery/photo-gallery.component";
+import {GalleryPhoto} from "app/shared/components/photo-gallery/photo-gallery.component";
 
 class GalleryPhotoContainer implements GalleryPhoto {
 
@@ -33,6 +33,8 @@ export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
   tag: string;
 
   galleryPhotos: GalleryPhoto[] = [];
+
+  tagClasses = ["red-button", "green-button", "blue-button"]
 
   paramsSubscription: Subscription;
 
@@ -112,5 +114,16 @@ export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
     return this.api.link2href(album._links.download);
   }
 
+  tagClass(tag: string){
+    let hash = 0;
+    if (tag.length === 0) return hash;
+    for (let i = 0; i < tag.length; i++) {
+      hash = tag.charCodeAt(i) + ((hash << 5) - hash);
+      hash = hash & hash;
+    }
+    let length = this.tagClasses.length;
+    hash = ((hash % length) + length) % length;
 
+    return this.tagClasses[hash];
+  }
 }

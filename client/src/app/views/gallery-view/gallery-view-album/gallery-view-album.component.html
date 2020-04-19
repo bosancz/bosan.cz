@@ -26,10 +26,14 @@
       </div>
     </div>
 
-    <div *ngIf="tags.length" class="tags">
-      <a [routerLink]="['./',{}]" class="tag badge-pill" [class.badge-primary]="!tag" [class.badge-dark]="tag">Všechny fotky</a>&#160;
+    <div *ngIf="tags.length" class="tags btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-outline-primary" [class.active]="!tag">
+        <input type="checkbox" checked autocomplete="off" [routerLink]="['./',{}]">Všechny fotky
+      </label>
       <ng-container *ngFor="let tagItem of tags">
-        <a [routerLink]="['./',{tag:tagItem}]" class="tag badge-pill" [class.badge-primary]="tag === tagItem" [class.badge-light]="tag !== tagItem">#{{tagItem}}</a>&#160;
+        <label class="btn btn-outline-primary" [class.active]="tag === tagItem" [ngClass]="tagClass(tagItem)">
+          <input type="checkbox" checked autocomplete="off" [routerLink]="['./',{tag:tagItem}]" class="">#{{tagItem}}
+        </label>
       </ng-container>
     </div>
 
