@@ -80,7 +80,9 @@ export interface WebConfig {
     environment: string,
     homeMapUrl: string,
     campMapUrl: string,
-    documentsUrl: string,
+    canalFormUrl: string,
+    canalAttendeesUrl: string,
+    documentsUrl: string
   };
 
   users: {
@@ -102,11 +104,6 @@ export interface WebConfig {
     achievements: WebConfigAchievement[]
   };
 
-  canal: {
-    formUrl: string,
-    attendeesUrl: string
-  };
-
   events: {
     statuses: WebConfigEventStatus[],
     types: WebConfigEventType[],
@@ -116,7 +113,4 @@ export interface WebConfig {
     descriptionWarnings: WebConfigDescriptionWarning[]
   };
 
-  payments: {
-    types: Array<{ name: string }>
-  };
 }

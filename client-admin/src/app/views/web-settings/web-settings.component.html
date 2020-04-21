@@ -2,155 +2,53 @@
 
   <bo-page-header>
     <h2 pageTitle>Nastavení webu</h2>
-    <div class="actions" *actionMenu>
-      <button mat-button color="primary" (click)="saveConfig()">Uložit</button>
-    </div>
   </bo-page-header>
 
   <div class="row">
 
     <div class="col-md-3 col-xl-2">
+
       <nav *secondaryMenu class="nav nav-pills flex-column">
-        <a class="nav-link" replaceUrl="true" routerLink="../obecne" routerLinkActive="active">Obecné nastavení</a>
-        <a class="nav-link" replaceUrl="true" routerLink="../akce" routerLinkActive="active">Akce</a>
-        <a class="nav-link" replaceUrl="true" routerLink="../clenska-databaze" routerLinkActive="active">Členská databáze</a>
-        <a class="nav-link" replaceUrl="true" routerLink="../platby" routerLinkActive="active">Platby</a>
-        <a class="nav-link" replaceUrl="true" routerLink="../kontakty" routerLinkActive="active">Kontakty</a>
-        <a class="nav-link" replaceUrl="true" routerLink="../dokumenty" routerLinkActive="active">Dokumenty</a>
-        <a class="nav-link" replaceUrl="true" routerLink="../kanal" routerLinkActive="active">Kanál</a>
-        <a class="nav-link" replaceUrl="true" routerLink="../uzivatele" routerLinkActive="active">Uživatelé</a>
+        <a *ngFor="let cat of configStructure" class="nav-link" replaceUrl="true" [routerLink]="'../' + cat.name" routerLinkActive="active">{{cat.label}}</a>
       </nav>
 
     </div>
 
     <div class="col-md-9 col-xl-10">
-      <div *ngIf="config" [ngSwitch]="cat">
+      <form #configForm="ngForm" (ngSubmit)="saveConfig(configForm)">
 
-        <ng-container *ngSwitchCase="'obecne'">
-          <div class="form-group">
-            <label>Titulek webu</label>
-            <input type="string" class="form-control" [(ngModel)]="config.general.title">
-            <small class="form-text text-muted">Zobrazí se v záhlaví prohlížeče.</small>
+        <div *ngFor="let category of configStructure" [ngModelGroup]="category.name" [hidden]="(viewCategory$ | async) !== category.name">
+
+          <div *ngFor="let item of category.items" class="form-group">
+            <label>
+              <h5>{{item.label}}</h5>
+            </label>
+
+            <div [ngSwitch]="item.type" class="my-2">
+
+              <ng-container *ngSwitchCase="'string'">
+                <input type="string" class="form-control" [name]="item.name" [ngModel]="getConfigValue(category,item) | async" [placeholder]="item.placeholder || ''">
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'number'">
+                <input type="number" class="form-control" [name]="item.name" [ngModel]="getConfigValue(category,item) | async" [placeholder]="item.placeholder || ''">
+              </ng-container>
+
+              <ng-container *ngSwitchCase="'codelist'">
+                <codelist-editor [fields]="item.fields" [name]="item.name" [ngModel]="getConfigValue(category,item) | async"></codelist-editor>
+              </ng-container>
+
+            </div>
+
+            <small *ngIf="item.help" class="form-text text-muted">{{item.help}}</small>
           </div>
-          <div class="form-group">
-            <label>Poznámka k prostředí</label>
-            <input type="string" class="form-control" [(ngModel)]="config.general.environment">
-            <small class="form-text text-muted">Zobrazí se červeně u titulku Bosan.cz</small>
-          </div>
-          <div class="form-group">
-            <label>Adresa embed mapy Bošán</label>
-            <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.general.homeMapUrl">
-            <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
-          </div>
-          <div class="form-group">
-            <label>Adresa embed mapy Šán</label>
-            <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.general.campMapUrl">
-            <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
-          </div>
-        </ng-container>
+        </div>
 
-        <ng-container *ngSwitchCase="'dokumenty'">
-          <div class="form-group">
-            <label>Adresa složky ŠÁN Public Google dokumentů</label>
-            <input type="url" class="form-control" id="docmentsUrlInput" [(ngModel)]="config.general.documentsUrl">
-            <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
-          </div>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'kanal'">
-          <div class="form-group">
-            <label>Formulář "Přihlásit se na ježdění v Troji"</label>
-            <input type="url" class="form-control" [(ngModel)]="config.canal.formUrl">
-            <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
-          </div>
-          <div class="form-group">
-            <label>Obsazenost kanálu</label>
-            <input type="url" class="form-control" [(ngModel)]="config.canal.attendeesUrl">
-            <small class="form-text text-muted">Zobrazí se v IFRAME.</small>
-          </div>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'akce'">
-          <h4>Stavy akcí</h4>
-
-          <codelist-editor [fields]="eventStatusFields" [(ngModel)]="config.events.statuses"></codelist-editor>
-
-          <h4>Typy akcí</h4>
-
-          <codelist-editor [fields]="eventTypeFields" [(ngModel)]="config.events.types"></codelist-editor>
-
-          <h4>Charaktery akcí</h4>
-
-          <codelist-editor [fields]="eventSubTypeFields" [(ngModel)]="config.events.subtypes"></codelist-editor>
-
-          <h4>Typy výdajů</h4>
-
-          <codelist-editor [fields]="eventExpenseTypeFields" [(ngModel)]="config.events.expenseTypes"></codelist-editor>
-
-          <h4>Kontrola popisků</h4>
-
-          <codelist-editor [fields]="eventDescriptionWarningsFields" [(ngModel)]="config.events.descriptionWarnings"></codelist-editor>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'clenska-databaze'">
-          <h4>Oddíly</h4>
-
-          <codelist-editor [fields]="groupFields" [(ngModel)]="config.members.groups"></codelist-editor>
-
-          <h4>Role</h4>
-
-          <codelist-editor [fields]="memberRolesFields" [(ngModel)]="config.members.roles"></codelist-editor>
-
-          <h4>Funkce</h4>
-
-          <codelist-editor [fields]="memberPostsFields" [(ngModel)]="config.members.posts"></codelist-editor>
-
-          <h4>Hodnosti</h4>
-
-          <codelist-editor [fields]="memberRanksFields" [(ngModel)]="config.members.ranks"></codelist-editor>
-
-          <h4>Typy členství</h4>
-
-          <codelist-editor [fields]="membershipTypesFields" [(ngModel)]="config.members.membershipTypes"></codelist-editor>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'platby'">
-          <h4>Typy plateb</h4>
-          <codelist-editor [fields]="paymentTypeFields" [(ngModel)]="config.payments.types"></codelist-editor>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'kontakty'">
-          <h4>Vedení</h4>
-          <codelist-editor [fields]="contactFields" [(ngModel)]="config.contacts.leaders"></codelist-editor>
-          <h4>Schůzky v pondělí</h4>
-          <codelist-editor [fields]="contactFields" [(ngModel)]="config.contacts.monday"></codelist-editor>
-          <h4>Schůzky ve středu</h4>
-          <codelist-editor [fields]="contactFields" [(ngModel)]="config.contacts.wednesday"></codelist-editor>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'uzivatele'">
-          <h4>Uživatelské role</h4>
-
-          <codelist-editor [fields]="userRolesFields" [(ngModel)]="config.users.roles"></codelist-editor>
-        </ng-container>
-
-
-
-
-
-      </div>
+        <div class="text-right">
+          <button mat-flat-button color="primary" type="submit" class="w-100">Uložit</button>
+        </div>
+      </form>
 
     </div>
-  </div>
-
-  <hr>
-
-  <div class="form-check">
-    <input type="checkbox" id="check_viewjson" class="form-check-input" [(ngModel)]="viewJson">&nbsp;<label for="check_viewjson" class="form-check-label">Zobrazit JSON</label>
-  </div>
-
-  <div *ngIf="viewJson" class="json bg-light">
-    <textarea [ngModel]="config | json" (ngModelChange)="editJson($event)"></textarea>
-    <p>{{jsonError ? "chyba v JSONu" : "JSON OK"}}</p>
   </div>
 </bo-page>

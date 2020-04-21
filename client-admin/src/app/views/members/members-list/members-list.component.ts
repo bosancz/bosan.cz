@@ -8,7 +8,7 @@ import { ConfigService } from "app/services/config.service";
 import { ApiService } from "app/services/api.service";
 
 import { Member } from "app/shared/schema/member";
-import { WebConfigGroup, WebConfigMemberRole } from "app/shared/schema/webconfig";
+import { WebConfigGroup, WebConfigMemberRole } from "app/shared/schema/web-config";
 import { DateTime } from 'luxon';
 
 type MemberWithSearchString = Member & { searchString?: string };

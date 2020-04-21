@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 
 import { ApiService } from 'app/services/api.service';
 import { ToastService } from 'app/services/toast.service';
-import { WebConfigGroup, WebConfigMemberRole } from 'app/shared/schema/webconfig';
+import { WebConfigGroup, WebConfigMemberRole } from 'app/shared/schema/web-config';
 import { ConfigService } from 'app/services/config.service';
 
 import { Member } from 'app/shared/schema/member';

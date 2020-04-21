@@ -1,6 +1,7 @@
-import { Pipe, PipeTransform, Injectable } from '@angular/core';
+import { Pipe, PipeTransform, Injectable, ChangeDetectorRef } from '@angular/core';
 
 import { ConfigService } from "app/services/config.service";
+import { filter } from 'rxjs/operators';
 
 export type GroupPipeProperty = "name" | "color";
 
@@ -16,11 +17,20 @@ export class GroupPipe implements PipeTransform {
     "color": "#000"
   };
 
-  constructor(private configService: ConfigService) {
-    this.loadGroups();
+  constructor(
+    private configService: ConfigService,
+    private cdRef: ChangeDetectorRef
+  ) {
+
+    this.configService.config.subscribe(config => {
+      this.groupIndex = (config?.members?.groups || []).reduce((acc, cur) => ({ ...acc, [cur.name]: cur }), {});
+      this.cdRef.markForCheck();
+    });
   }
 
   loadGroups() {
+
+
     this.configService.config.subscribe(config => {
 
       // create group index with properties

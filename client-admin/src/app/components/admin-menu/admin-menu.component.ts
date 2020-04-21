@@ -20,7 +20,7 @@ export class AdminMenuComponent implements OnInit {
     program: true
   }
 
-  environment$ = this.configService.config.pipe(map(config => config.general.environment));
+  environment$ = this.configService.config.pipe(map(config => config.general && config.general.environment));
 
   constructor(
     public titleService: TitleService,
