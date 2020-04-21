@@ -1,31 +1,24 @@
 @import "~styles/variables";
 
-.tags{
-  margin:10px;
-  line-height: 2.5;
+.gallery-icon {
+  font-size: 1.5rem;
 }
-.tags a {
-  white-space: nowrap;
-}
-.share{float:right;}
-.share a{color:$linkBlue;}
 
-.container {
-  padding: 15px 0 15px 0;
+a {
+  color: $black;
+  text-decoration: none !important;
+  cursor: pointer;
 }
-.row {
-  padding: 10px;
+
+a.link {
+  color: $black !important;
+  cursor: pointer;
 }
-@media (max-width: 768px) {
-  h2 {
-    font-size: 1.5rem;
-  }
-  .tags{
-    line-height: 2;
-  }
-  .badge-pill {
-    padding: .4rem .4rem;
-    font-size: .8rem;
-  }
+
+.btn-outline-primary {
+  margin: 0.25rem;
+  border-radius: 22.5px;
+  font-size: 1rem;
+  text-transform: none;
 }
 

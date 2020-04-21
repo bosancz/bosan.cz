@@ -1,4 +1,12 @@
+@import "~styles/variables";
+
 :host{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10;background-color:#000;}
+
+a, a:active {
+  color: $white;
+  text-decoration: none !important;
+  cursor: pointer;
+}
 
 .images{position:fixed;top:0;left:0;width:100%;height:100%;}
 .image{position:absolute;top:0;left:0;width:100%;height:100%;background-position:center center; background-repeat:no-repeat; background-size:contain;background-color:#000;}
