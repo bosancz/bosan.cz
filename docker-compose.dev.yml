@@ -5,7 +5,6 @@ volumes:
   bosan-db:
 
 services:
-
   proxy:
     image: nginx:1.17.8-alpine
     container_name: proxy.bosan
@@ -16,28 +15,38 @@ services:
       - ./proxy:/etc/nginx:ro
 
   bosan-server:
-    image: bosancz/bosan.cz-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
     container_name: server.bosan
-    restart: always
     environment:
       DATABASE_URI: mongodb://db.bosan/bosan
+      AUTH_SAMESITE: 'false'
+      AUTH_SECURE: 'false'
     volumes:
+      - ./server/src:/srv/app/src
       - bosan-data:/srv/app/data
     depends_on:
       - mongodb
       - proxy
 
   bosan-client-admin:
-    image: bosancz/bosan.cz-client-admin
+    build:
+      context: ./client-admin
+      dockerfile: Dockerfile.dev
     container_name: client-admin.bosan
-    restart: always
+    volumes:
+      - ./client-admin/src:/srv/app/src
     depends_on:
       - proxy
 
   bosan-client:
-    image: bosancz/bosan.cz-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
     container_name: client.bosan
-    restart: always
+    volumes:
+      - ./client/src:/srv/app/src
     depends_on:
       - proxy
 

@@ -1,6 +1,6 @@
 FROM node:12 as build
 
-WORKDIR /home/node/app
+WORKDIR /srv/app
 
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -18,4 +18,4 @@ RUN rm -f /etc/nginx/conf.d/*
 
 COPY nginx-server.conf /etc/nginx/conf.d/
 
-COPY --from=build /home/node/app/dist ./
+COPY --from=build /srv/app/dist ./

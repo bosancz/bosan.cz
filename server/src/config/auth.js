@@ -21,7 +21,7 @@ module.exports = {
 
   cookieName: "access_token",
   cookieMaxAge: expiration.as("milliseconds"),
-  cookieSecure: true,
+  cookieSecure: !!JSON.parse(process.env.AUTH_SECURE || 'true'),
   cookieSameSite: !!JSON.parse(process.env.AUTH_SAMESITE || 'true'),
 
   bcrypt: {
