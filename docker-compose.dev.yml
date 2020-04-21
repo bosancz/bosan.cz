@@ -25,7 +25,7 @@ services:
       AUTH_SECURE: 'false'
     volumes:
       - ./server/src:/srv/app/src
-      - bosan-data:/srv/app/data
+      - bosan-data:/srv/data
     depends_on:
       - mongodb
       - proxy

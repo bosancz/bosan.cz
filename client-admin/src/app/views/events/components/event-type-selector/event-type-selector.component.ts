@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ConfigService } from 'app/services/config.service';
-import { WebConfigEventType } from 'app/shared/schema/webconfig';
+import { WebConfigEventType } from 'app/shared/schema/web-config';
 
 @Component({
   selector: 'event-type-selector',

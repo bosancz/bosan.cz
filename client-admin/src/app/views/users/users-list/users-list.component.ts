@@ -11,7 +11,7 @@ import { ToastService } from "app/services/toast.service";
 import { User } from "app/shared/schema/user";
 import { WithSearchString } from 'app/shared/schema/with-search-string';
 import { debounceTime, map } from 'rxjs/operators';
-import { WebConfigUserRole } from 'app/shared/schema/webconfig';
+import { WebConfigUserRole } from 'app/shared/schema/web-config';
 import { NgForm } from '@angular/forms';
 
 @Component({

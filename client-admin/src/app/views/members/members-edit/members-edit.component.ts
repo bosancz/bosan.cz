@@ -5,7 +5,7 @@ import { ApiService } from 'app/services/api.service';
 import { ToastService } from 'app/services/toast.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { map, mergeMap } from 'rxjs/operators';
-import { WebConfigGroup } from 'app/shared/schema/webconfig';
+import { WebConfigGroup } from 'app/shared/schema/web-config';
 import { ConfigService } from 'app/services/config.service';
 
 @Component({

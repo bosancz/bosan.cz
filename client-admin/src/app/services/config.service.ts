@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators';
 
 import { environment } from "environments/environment";
 
-import { WebConfig } from "app/shared/schema/webconfig";
+import { WebConfig } from "app/shared/schema/web-config";
 
 import { first } from "rxjs/operators";
 
@@ -14,40 +14,41 @@ import { first } from "rxjs/operators";
   providedIn: 'root'
 })
 export class ConfigService {
-  
-  root:string = environment.apiRoot;
-  
-  config:ReplaySubject<WebConfig> = new ReplaySubject(1);
 
-  constructor(private http:HttpClient) {
+  root: string = environment.apiRoot;
+
+  config: ReplaySubject<WebConfig> = new ReplaySubject(1);
+
+  constructor(private http: HttpClient) {
     this.updateConfig();
   }
-  
-  /* CONFIG */
-  getConfig(path?:string):Promise<WebConfig>{
-    const config = this.config.pipe(first()).toPromise();
-    
-    if(path) config.then(config => this.getPathValue(config,path));
 
-    return config;
+  /* CONFIG */
+  getConfig(): Promise<WebConfig>;
+  getConfig(path: string): Promise<any>;
+  getConfig(path?: string): Promise<WebConfig | any> {
+    const config = this.config.pipe(first()).toPromise();
+
+    if (path) return config.then(config => this.getPathValue(config, path));
+    else return config;
   }
 
-  private getPathValue(config:WebConfig,path:string):any{
+  private getPathValue(config: WebConfig, path: string): any {
     const parts = path.split(".");
     var value = config;
     var part;
-    while(part = parts.shift()){
+    while (part = parts.shift()) {
       value = value && value[part] || undefined;
     }
     return value;
   }
-  
-  async updateConfig():Promise<void>{
+
+  async updateConfig(): Promise<void> {
     const config = await this.http.get<WebConfig>(this.root + "/config").toPromise();
     this.config.next(config)
   }
 
-  saveConfig(config:WebConfig):Promise<string>{
+  saveConfig(config: WebConfig): Promise<string> {
     return this.http.put(this.root + "/config", config, { responseType: "text" })
       .pipe(tap(() => this.updateConfig()))
       .toPromise();

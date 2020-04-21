@@ -22,7 +22,7 @@ services:
     environment:
       DATABASE_URI: mongodb://db.bosan/bosan
     volumes:
-      - bosan-data:/srv/app/data
+      - bosan-data:/srv/data
     depends_on:
       - mongodb
       - proxy

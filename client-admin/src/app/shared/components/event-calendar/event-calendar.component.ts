@@ -7,7 +7,7 @@ import { ApiService } from 'app/services/api.service';
 
 import { CPVEvent } from 'app/shared/schema/cpv-event';
 import { Event } from 'app/shared/schema/event';
-import { WebConfigEventStatus } from 'app/shared/schema/webconfig';
+import { WebConfigEventStatus } from 'app/shared/schema/web-config';
 
 const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
 

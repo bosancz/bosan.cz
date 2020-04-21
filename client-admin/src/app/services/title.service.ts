@@ -15,7 +15,7 @@ export class TitleService {
 
   constructor(private title: Title, private configService: ConfigService) {
     this.pageTitle.subscribe(() => this.updateWindowTitle());
-    this.configService.getConfig().then(config => this.mainTitle = config.general.title);
+    this.configService.getConfig("config.general.title").then(title => this.mainTitle = title);
   }
 
   setPageTitle(title: string) {
