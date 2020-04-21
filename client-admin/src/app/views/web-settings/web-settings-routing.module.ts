@@ -4,7 +4,7 @@ import { WebSettingsComponent } from './web-settings.component';
 
 const routes: Routes = [
   { path: ':cat', component: WebSettingsComponent },
-  { path: '', redirectTo: "obecne", pathMatch: "full" },
+  { path: '', redirectTo: "general", pathMatch: "full" },
 ];
 
 @NgModule({

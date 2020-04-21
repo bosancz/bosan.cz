@@ -3,7 +3,8 @@ import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
 import { ConfigService } from "app/services/config.service";
 
 import { Event } from "app/shared/schema/event";
-import { WebConfigEventType, WebConfigEventSubType } from "app/shared/schema/webconfig";
+import { WebConfigEventType, WebConfigEventSubType } from "app/shared/schema/web-config";
+import { filter } from 'rxjs/operators';
 
 type EventPipeProperty = "image" | "color" | "class";
 
@@ -25,13 +26,10 @@ export class EventPipe implements PipeTransform {
     private configService: ConfigService,
     private cdRef: ChangeDetectorRef
   ) {
-    this.loadEvents();
-  }
 
-  loadEvents() {
-    this.configService.getConfig().then(config => {
-      this.eventTypes = config.events.types.reduce((acc, cur) => ({ ...acc, [cur.name]: cur }), {});
-      this.eventSubTypes = config.events.subtypes.reduce((acc, cur) => ({ ...acc, [cur.name]: cur }), {});
+    this.configService.config.subscribe(config => {
+      this.eventTypes = (config?.events?.types || []).reduce((acc, cur) => ({ ...acc, [cur.name]: cur }), {});
+      this.eventSubTypes = (config?.events?.subtypes || []).reduce((acc, cur) => ({ ...acc, [cur.name]: cur }), {});
       this.cdRef.markForCheck();
     });
 

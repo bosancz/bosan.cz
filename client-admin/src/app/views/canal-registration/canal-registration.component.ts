@@ -37,8 +37,8 @@ export class CanalRegistrationComponent implements OnInit, OnDestroy {
 
   loadUrls():void{
     this.configService.getConfig().then(config => {
-      this.formUrl = config.canal.formUrl;
-      this.attendeesUrl = config.canal.attendeesUrl;
+      this.formUrl = config.general.canalFormUrl;
+      this.attendeesUrl = config.general.canalAttendeesUrl;
     });
   }
 

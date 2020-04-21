@@ -5,7 +5,7 @@ import { ConfigService } from "app/services/config.service";
 import { ApiService } from "app/services/api.service";
 
 import { Member } from "app/shared/schema/member";
-import { WebConfigGroup } from "app/shared/schema/webconfig";
+import { WebConfigGroup } from "app/shared/schema/web-config";
 
 @Component({
   selector: 'members-select',

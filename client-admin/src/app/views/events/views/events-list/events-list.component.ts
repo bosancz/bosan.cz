@@ -5,7 +5,7 @@ import { ApiService } from "app/services/api.service";
 
 import { Event } from "app/shared/schema/event";
 import { DateTime } from 'luxon';
-import { WebConfigEventStatus } from 'app/shared/schema/webconfig';
+import { WebConfigEventStatus } from 'app/shared/schema/web-config';
 import { ConfigService } from 'app/services/config.service';
 import { Subject, Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';

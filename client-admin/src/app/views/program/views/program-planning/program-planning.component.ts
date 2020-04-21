@@ -10,7 +10,7 @@ import { ToastService } from "app/services/toast.service";
 
 import { Event } from "app/shared/schema/event";
 import { ConfigService } from 'app/services/config.service';
-import { WebConfigEventStatus } from 'app/shared/schema/webconfig';
+import { WebConfigEventStatus } from 'app/shared/schema/web-config';
 
 @Component({
   selector: 'program-planning',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'app/services/api.service';
 import { ConfigService } from 'app/services/config.service';
-import { WebConfigMemberRole } from 'app/shared/schema/webconfig';
+import { WebConfigMemberRole } from 'app/shared/schema/web-config';
 
 export interface MembersReport {
 
