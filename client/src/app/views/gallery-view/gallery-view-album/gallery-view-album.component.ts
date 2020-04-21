@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
-import { Subscription } from "rxjs";
+import {Subscription} from "rxjs";
 
-import { ApiService } from "app/services/api.service";
+import {ApiService} from "app/services/api.service";
 
-import { Album, Photo } from "app/shared/schema/album";
+import {Album, Photo} from "app/shared/schema/album";
 
-import { GalleryPhoto } from "app/shared/components/photo-gallery/photo-gallery.component";
+import {GalleryPhoto} from "app/shared/components/photo-gallery/photo-gallery.component";
 
 class GalleryPhotoContainer implements GalleryPhoto {
 
@@ -20,6 +20,7 @@ class GalleryPhotoContainer implements GalleryPhoto {
   caption: string;
   bg: string;
 }
+
 @Component({
   selector: 'gallery-view-album',
   templateUrl: './gallery-view-album.component.html',
@@ -31,16 +32,20 @@ export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
 
   tags: string[] = [];
   tag: string;
+  hover: string;
 
   galleryPhotos: GalleryPhoto[] = [];
+
+  possibleTagColors = ["#02486a", "#C2185B", "#7C4DFF", "#303F9F", "#4CAF50", "#F57C00", "#FF5722", "#FFA000", "#8BC34A"]
 
   paramsSubscription: Subscription;
 
   constructor(
-    private api: ApiService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) { }
+      private api: ApiService,
+      private router: Router,
+      private route: ActivatedRoute
+  ) {
+  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe((params: Params) => {
@@ -62,8 +67,7 @@ export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
   async loadAlbum(id: string) {
     try {
       this.album = await this.api.get<Album>(["galleryalbum", id]);
-    }
-    catch (err) {
+    } catch (err) {
       this.router.navigate(["/nenalezeno"]);
     }
 
@@ -105,12 +109,21 @@ export class GalleryViewAlbumComponent implements OnInit, OnDestroy {
   }
 
   openPhoto(container: GalleryPhotoContainer) {
-    this.router.navigate(['./' + container.photo._id], { relativeTo: this.route });
+    this.router.navigate(['./' + container.photo._id], {relativeTo: this.route});
   }
 
   getAlbumDownloadLink(album: Album): string {
     return this.api.link2href(album._links.download);
   }
 
+  styleByTag(index: number, selected: boolean, hovered: boolean) {
+    let color = this.possibleTagColors[index % this.possibleTagColors.length]
 
+    if (selected || hovered) {
+      return {borderColor: color, backgroundColor: color, color: "#FFFFFF"};
+    } else {
+      return {borderColor: color, color: color};
+    }
+
+  }
 }
