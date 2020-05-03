@@ -13,7 +13,7 @@ export class DashboardCalendarComponent implements OnInit {
   events: Event[];
 
   eventsDateFrom = DateTime.local().set({ day: 1, hour: 0, minute: 0, second: 0, millisecond: 0 });
-  eventsDateTill = this.eventsDateFrom.plus({ months: 3, days: -1 });
+  eventsDateTill = this.eventsDateFrom.plus({ months: 5, days: -1 });
 
   constructor(
     private api: ApiService
