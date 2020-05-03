@@ -23,20 +23,9 @@ export class GroupPipe implements PipeTransform {
   ) {
 
     this.configService.config.subscribe(config => {
-      this.groupIndex = (config?.members?.groups || []).reduce((acc, cur) => ({ ...acc, [cur.name]: cur }), {});
+      this.groupIndex = (config?.members?.groups || []).reduce((acc, cur) => ({ ...acc, [cur.id]: cur }), {});
       this.cdRef.markForCheck();
     });
-  }
-
-  loadGroups() {
-
-
-    this.configService.config.subscribe(config => {
-
-      // create group index with properties
-      this.groupIndex = {};
-      config.members.groups.forEach(group => this.groupIndex[group.id] = group);
-    })
   }
 
   transform(groupId: string, property: GroupPipeProperty): string {
