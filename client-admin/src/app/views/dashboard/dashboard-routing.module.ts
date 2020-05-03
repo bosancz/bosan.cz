@@ -15,7 +15,7 @@ const routes: Routes = [
       { path: "novinky", component: DashboardNewsComponent },
       { path: "kalendar", component: DashboardCalendarComponent },
       { path: "vest-akci", component: DashboardLeadEventComponent },
-      { path: "", redirectTo: "novinky", pathMatch: "full" }
+      { path: "", redirectTo: "kalendar", pathMatch: "full" }
     ]
   }
 ];
