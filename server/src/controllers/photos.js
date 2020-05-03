@@ -115,7 +115,7 @@ routes.get("photo", "/:photo/image/:size", { permission: "photos:read" }).handle
 
   const size = req.params.size;
 
-  const photo = await Photo.findOne({ _id: req.params.photo }).select("sizes");
+  const photo = await Photo.findOne({ _id: req.params.photo }).select("album sizes");
 
   switch (size) {
 
@@ -124,7 +124,7 @@ routes.get("photo", "/:photo/image/:size", { permission: "photos:read" }).handle
 
     case "small":
     case "big":
-      return res.sendFile(path.join(config.storage.thumbs, photo.sizes[size].file))
+      return res.sendFile(path.join(config.photos.albumThumbsDirFn(photo.album), photo.sizes[size].file))
 
   }
 
