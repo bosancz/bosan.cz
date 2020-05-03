@@ -59,7 +59,7 @@ routes.delete("event", "/", { permission: "events:delete", query: { status: "dra
 });
 
 routes.action("event:submit", "/actions/submit", { permission: "events:submit", hideRoot: true, query: { status: { $in : ["draft","rejected"] } } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status statusHistory leader", { autopopulate: false });
+  const event = await Event.findOne({ _id: req.params.id }, "name status statusHistory leaders", { autopopulate: false });
 
   if (!event) return res.sendStatus(404);
   if (!RoutesACL.canDoc("events:submit", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);

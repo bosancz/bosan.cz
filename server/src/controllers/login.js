@@ -51,7 +51,7 @@ routes.post("login","/",{permission:"login:credentials"}).handle(validate({body:
   res.send(tokens);
   
   // if hash using weak hashing strength, then update hash
-  if(bcrypt.getRounds(user.password) < config.bcrypt.rounds) {
+  if(bcrypt.getRounds(user.password) < config.auth.bcrypt.rounds) {
 
     // we dont need to wait for this, rather return token faster
     bcrypt.hash(req.body.password, config.bcrypt.rounds)
