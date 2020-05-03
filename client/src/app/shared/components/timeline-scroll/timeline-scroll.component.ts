@@ -64,6 +64,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.updateDimensions();
+    this.updateVisible(0, this.containerDim.height, this.containerDim.scrollHeight);
   }
 
   ngOnDestroy() {
@@ -132,7 +133,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     const timelinePct = (event.clientY - this.timelineDim.top - this.timeline.nativeElement.offsetTop) / (this.timeline.nativeElement.offsetHeight)
 
     const containerTop = timelinePct * this.container.nativeElement.scrollHeight;
-    
+
     this.container.nativeElement.scrollTo(0, containerTop);
   }
 
