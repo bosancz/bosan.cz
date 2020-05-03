@@ -120,7 +120,7 @@ routes.get("photo", "/:photo/image/:size", { permission: "photos:read" }).handle
   switch (size) {
 
     case "original":
-      return res.sendFile(path.join(config.storage.photos, photo.sizes[size].file))
+      return res.sendFile(path.join(config.photos.albumStorageDirFn(photo.album), photo.sizes[size].file))
 
     case "small":
     case "big":
