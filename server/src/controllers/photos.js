@@ -111,7 +111,7 @@ routes.delete("photo", "/:photo", { permission: "photos:delete" }).handle(async 
 
 });
 
-routes.get("photo", "/:photo/image/:size", { permission: "photos:read" }).handle(async (req, res) => {
+routes.get("photo", "/:photo/image/:size", { permission: "photos:readfile" }).handle(async (req, res) => {
 
   const size = req.params.size;
 
