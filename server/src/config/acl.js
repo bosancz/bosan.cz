@@ -107,6 +107,8 @@ const permissions = {
   "photos:edit": { spravce, vedouci },
   "photos:delete": { spravce, vedouci },
 
+  "photos:readfile": { guest },
+
   "reports:events:read": { vedouci },
   "reports:members:read": { vedouci },
 
