@@ -1,5 +1,6 @@
 <bo-page>
   <bo-page-header>
+    <h2 pageTitle>Galerie</h2>
 
     <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
       <mat-icon>filter_list</mat-icon>
@@ -9,7 +10,6 @@
       <button mat-button color="primary">Nové album</button>
     </div>
 
-    <h2 pageTitle>Galerie</h2>
   </bo-page-header>
 
   <form #filterForm="ngForm" class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter" (submit)="$event.preventDefault()">
@@ -41,7 +41,7 @@
 
   <admin-table>
     <thead>
-      <tr class="d-none d-lg-table-row">
+      <tr>
         <th>Název alba</th>
         <th>Datum</th>
         <th>Stav</th>
@@ -51,9 +51,9 @@
     <tbody>
       <tr *ngFor="let album of filteredAlbums$ | async" [routerLink]="album._id">
         <td>{{album.name}}</td>
-        <td class="d-none d-lg-table-cell date">{{album.dateFrom | date:"d. M. y"}} - {{album.dateTill | date:"d. M. y"}}</td>
-        <td class="d-none d-lg-table-cell">{{statusesIndex[album.status] || "N/A"}}</td>
-        <td class="d-none d-lg-table-cell">{{album.datePublished | date:"d. M. y"}}</td>
+        <td class="date">{{album.dateFrom | date:"d. M. y"}} - {{album.dateTill | date:"d. M. y"}}</td>
+        <td>{{statusesIndex[album.status] || "N/A"}}</td>
+        <td>{{album.datePublished | date:"d. M. y"}}</td>
       </tr>
     </tbody>
   </admin-table>
