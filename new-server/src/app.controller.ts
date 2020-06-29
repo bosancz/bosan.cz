@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 
 import AppService from './app.service';
+import TestDto from './testDto';
 
 @Controller()
 class AppController {
@@ -9,6 +10,11 @@ class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Post()
+  test(@Body() test: TestDto): boolean {
+    return true;
   }
 }
 
