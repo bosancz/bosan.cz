@@ -17,9 +17,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'simple-import-sort'],
   settings: {
     'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      },
+      typescript: {},
     },
   },
   rules: {
@@ -48,7 +46,7 @@ module.exports = {
         groups: [
           ['^@nestjs$'],
           ['^@?\\w'],
-          ['^lib'],
+          ['^controllers', '^models'],
           ['^\\u0000'],
           ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
           ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
@@ -73,7 +71,12 @@ module.exports = {
       {
         arrowParameter: false,
         parameter: true,
+        propertyDeclaration: true,
       },
+    ],
+    '@typescript-eslint/no-inferrable-types': [
+      'error',
+      { ignoreProperties: true },
     ],
     '@typescript-eslint/no-explicit-any': 'off',
   },
