@@ -27,9 +27,16 @@
   </bo-page-header>
 
 
-
-
   <ng-container *ngIf="event$ | async as event" class="container-fluid px-lg-5 mt-3">
+
+    <nav *secondaryMenu class="nav nav-pills flex-column d-lg-none">
+      <a class="nav-link" routerLink="info" replaceUrl="true" routerLinkActive="active">Info</a>
+      <a class="nav-link" routerLink="prihlaska" replaceUrl="true" routerLinkActive="active">Přihláška</a>
+      <a class="nav-link" routerLink="ucastnici" replaceUrl="true" routerLinkActive="active">Účastníci</a>
+      <a class="nav-link" routerLink="uctovani" replaceUrl="true" routerLinkActive="active">Účtování</a>
+      <a class="nav-link" routerLink="report" replaceUrl="true" routerLinkActive="active">Report</a>
+    </nav>
+
     <div class="row">
       <div class="col-xl-4 order-xl-last mb-3">
         <event-card [event]="event" [actions]="false"></event-card>
