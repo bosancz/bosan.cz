@@ -11,10 +11,12 @@ import { EventEditRegistrationComponent } from './views/event-edit/event-edit-re
 import { EventEditAttendeesComponent } from './views/event-edit/event-edit-attendees/event-edit-attendees.component';
 import { EventEditAccountingComponent } from './views/event-edit/event-edit-accounting/event-edit-accounting.component';
 import { EventEditReportComponent } from './views/event-edit/event-edit-report/event-edit-report.component';
+import { EventsCreateComponent } from './views/events-create/events-create.component';
 
 const routes: Routes = [
   { path: '', component: EventsListComponent },
   { path: 'moje', component: MyEventsComponent },
+  { path: 'vytvorit', component: EventsCreateComponent },
   {
     path: ':event/upravit', component: EventEditComponent,
     children: [
