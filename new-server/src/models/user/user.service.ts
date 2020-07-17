@@ -1,7 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import User from './user.schema';
+import User from './user.entity';
 
 class UserModelService {
   constructor(

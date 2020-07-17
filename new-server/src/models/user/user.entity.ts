@@ -33,4 +33,4 @@ class User extends mongoose.Document {
 
 export default User;
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const UserEntity = SchemaFactory.createForClass(User);

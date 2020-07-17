@@ -9,7 +9,7 @@ import AppService from './app.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(databaseConfig.uri),
+    MongooseModule.forRoot(databaseConfig.uri, { useCreateIndex: true }),
     ModelsModule,
     ControllersModule,
   ],
