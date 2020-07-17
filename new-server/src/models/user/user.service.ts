@@ -9,8 +9,6 @@ class UserModelService {
   ) {}
 
   async findAll(): Promise<User[]> {
-    console.log(User.name);
-
     return this.userModel.find();
   }
 }
