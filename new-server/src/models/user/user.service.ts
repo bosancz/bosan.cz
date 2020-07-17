@@ -3,14 +3,16 @@ import { Model } from 'mongoose';
 
 import User from './user.schema';
 
-class UserModule {
+class UserModelService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
   async findAll(): Promise<User[]> {
+    console.log(User.name);
+
     return this.userModel.find();
   }
 }
 
-export default UserModule;
+export default UserModelService;
