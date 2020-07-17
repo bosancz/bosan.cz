@@ -27,7 +27,7 @@ class User extends mongoose.Document {
   @Prop([String])
   notifications: string[];
 
-  @Prop()
+  @Prop({ select: false })
   pushSubscriptions: any;
 }
 
