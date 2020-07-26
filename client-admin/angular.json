@@ -25,8 +25,7 @@
             "styles": [
               "src/styles/styles.scss"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -118,15 +117,15 @@
   "defaultProject": "bosan.cz",
   "schematics": {
     "@schematics/angular:component": {
-      "spec": false,
-      "styleext": "scss"
+      "skipTests": true,
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "",
-      "spec": false
+      "skipTests": true
     },
     "@schematics/angular:service": {
-      "spec": false
+      "skipTests": true
     }
   },
   "cli": {
