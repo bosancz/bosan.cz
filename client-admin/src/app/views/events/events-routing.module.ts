@@ -5,11 +5,12 @@ import { EventsListComponent } from './views/events-list/events-list.component';
 import { EventsViewComponent } from './views/events-view/events-view.component';
 import { MyEventsComponent } from './views/my-events/my-events.component';
 
+import { EventEditAccountingComponent } from './views/event-edit/event-edit-accounting/event-edit-accounting.component';
+import { EventEditAttendeesComponent } from './views/event-edit/event-edit-attendees/event-edit-attendees.component';
 import { EventEditComponent } from './views/event-edit/event-edit.component';
 import { EventEditInfoComponent } from './views/event-edit/event-edit-info/event-edit-info.component';
+import { EventEditLeadersComponent } from './views/event-edit/event-edit-leaders/event-edit-leaders.component';
 import { EventEditRegistrationComponent } from './views/event-edit/event-edit-registration/event-edit-registration.component';
-import { EventEditAttendeesComponent } from './views/event-edit/event-edit-attendees/event-edit-attendees.component';
-import { EventEditAccountingComponent } from './views/event-edit/event-edit-accounting/event-edit-accounting.component';
 import { EventEditReportComponent } from './views/event-edit/event-edit-report/event-edit-report.component';
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
     children: [
       { path: "info", component: EventEditInfoComponent },
       { path: "prihlaska", component: EventEditRegistrationComponent },
+      { path: "vedouci", component: EventEditLeadersComponent },
       { path: "ucastnici", component: EventEditAttendeesComponent },
       { path: "uctovani", component: EventEditAccountingComponent },
       { path: "report", component: EventEditReportComponent },
