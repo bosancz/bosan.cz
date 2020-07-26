@@ -29,6 +29,7 @@ import { EventExpensesTableComponent } from './components/event-expenses-table/e
 import { EventSubtypeSelectorComponent } from './components/event-subtype-selector/event-subtype-selector.component';
 import { EventTypeSelectorComponent } from './components/event-type-selector/event-type-selector.component';
 import { EventExpensesChartComponent } from './components/event-expenses-chart/event-expenses-chart.component';
+import { EventEditLeadersComponent } from './views/event-edit/event-edit-leaders/event-edit-leaders.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { EventExpensesChartComponent } from './components/event-expenses-chart/e
     EventEditReportComponent,
     EventExpensesChartComponent,
     EventsCreateComponent,
+    EventEditLeadersComponent,
   ],
   imports: [
     CommonModule,    
