@@ -32,7 +32,7 @@ import { ModalModule } from "ngx-bootstrap/modal";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { TooltipConfig } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { ShareModule } from '@ngx-share/core';
+import { ShareModule } from 'ngx-sharebuttons';
 import { ScrollToModule } from "@nicky-lenaers/ngx-scroll-to";
 
 export function getTooltipConfig():TooltipConfig {
