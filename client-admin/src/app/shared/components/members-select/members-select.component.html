@@ -4,7 +4,7 @@
       {{member.nickname}} ({{member.group}})
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
-    <input placeholder="Přidat vedoucí" #memberInput [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" [matAutocomplete]="autocomplete" [matChipInputFor]="chipList">
+    <input placeholder="Vybrat z databáze" #memberInput [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" [matAutocomplete]="autocomplete" [matChipInputFor]="chipList">
   </mat-chip-list>
 
   <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="add($event)">
