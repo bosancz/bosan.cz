@@ -10,10 +10,6 @@ export class SharingModalComponent implements OnInit {
   title:string;
   url:string;
   
-  count = {
-    facebook: 0
-  };
-  
   copied:boolean = false;
   
   constructor() { }
