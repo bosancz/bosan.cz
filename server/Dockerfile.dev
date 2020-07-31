@@ -8,4 +8,4 @@ RUN npm ci
 COPY . . 
 # RUN npm run build
 
-CMD npx nodemon src/server.js
+CMD npx nodemon -L src/server.js   
