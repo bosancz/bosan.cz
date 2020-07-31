@@ -40,15 +40,15 @@ services:
     depends_on:
       - proxy
 
-  bosan-client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile.dev
-    container_name: client.bosan
-    volumes:
-      - ./client/src:/srv/app/src
-    depends_on:
-      - proxy
+  # bosan-client:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile.dev
+  #   container_name: client.bosan
+  #   volumes:
+  #     - ./client/src:/srv/app/src
+  #   depends_on:
+  #     - proxy
 
   mongodb:
     image: mongo:4.2
