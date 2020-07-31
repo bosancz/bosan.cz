@@ -7,7 +7,7 @@ var fs = require("fs-extra");
 var path = require("path");
 
 var multer = require("multer");
-var upload = multer({ dest: config.uploads.dir })
+var upload = multer({ dest: config.storage.uploads })
 
 var validate = require("../validator");
 
@@ -15,6 +15,8 @@ var Event = require("../models/event");
 
 routes.get("event:registration", "/", { permission: "events:registration:read", query: { registration: { $exists: true, $ne: null } } }).handle(async (req, res, next) => {
 
+  var event = await Event.findOne({ _id: req.params.id });
+  
   var eventDir = config.events.eventDir(event._id);
   var registrationFile = path.join(eventDir, event.registration);
 
@@ -35,6 +37,7 @@ routes.put("event:registration", "/", { permission: "events:registration:edit" }
     var originalPath = req.file.path;
     var storagePath = path.join(eventDir, "registration.pdf");
 
+    console.log(eventDir,storagePath,req.file)
     await fs.ensureDir(eventDir);
 
     await fs.remove(storagePath);

@@ -5,8 +5,8 @@
   <ng-container *ngIf="event.registration">
     <object *ngIf="event._links?.registration?.allowed.GET" [data]="event._links.registration.href | safeurl:'SafeResourceUrl'" type="application/pdf" style="width:100%;height:70vh"></object>
 
-    <a [disabled]="event._links?.registration?.allowed.GET" mat-button mat-flat-button color="primary" class="w-100" [href]="getRegistrationUrl(event)" download="registration.pdf">Stáhnout</a>
-    <a [disabled]="event._links?.registration?.allowed.DELETE" mat-button mat-flat-button color="warn" class="w-100" (click)="deleteRegistration(event)">Smazat</a>
+    <a [disabled]="!event._links?.registration?.allowed.GET" mat-button mat-flat-button color="primary" class="w-100" [href]="getRegistrationUrl(event)" download="registration.pdf">Stáhnout</a>
+    <a [disabled]="!event._links?.registration?.allowed.DELETE" mat-button mat-flat-button color="warn" class="w-100" (click)="deleteRegistration(event)">Smazat</a>
   </ng-container>
 
   <div *ngIf="!event.registration" class="p-md-5">
