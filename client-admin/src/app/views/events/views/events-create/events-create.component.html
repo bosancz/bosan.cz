@@ -1,22 +1,55 @@
-<form #createEventForm="ngForm" (ngSubmit)="createEvent(createEventForm)">
-  <div class="modal-body">
-    <div class="form-group">
-      <label for="createEventInput-name">Název</label>
-      <input type="text" name="name" ngModel class="form-control" id="createEventInput-name"
-             placeholder="Neočekávaný dýchánek" required>
+<bo-page>
+  <bo-page-header>
+
+    <h2>Vytvořit akci</h2>
+
+    <div class="actions" *actionMenu>
+
+      <button mat-button color="secondary" routerLink="/akce">Zrušit</button>
+
     </div>
+  </bo-page-header>
+
+  <form #createEventForm="ngForm" (ngSubmit)="createEvent(createEventForm)">
+
     <div class="row">
-      <div class="form-group col-md-6">
-        <label for="createEventInput-datefrom">Začátek</label>
-        <input type="date" ngModel name="dateFrom" class="form-control" id="createEventInput-datefrom" required>
+    
+      <div class="col-lg-6">
+        <mat-form-field class="w-100">
+          <mat-label>Název</mat-label>
+          <input matInput type="text" name="name" ngModel id="createEventInput-name" placeholder="Neočekávaný dýchánek" required>
+        </mat-form-field>
       </div>
-      <div class="form-group col-md-6">
-        <label for="createEventInput-datetill">Konec</label>
-        <input type="date" ngModel name="dateTill" class="form-control" id="createEventInput-datetill" required>
+    
+      <div class="col-lg-6">
+        <mat-form-field class="w-100">
+          <mat-label>Datum</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate ngModel name="dateFrom" placeholder="Začátek" required>
+            <input matEndDate ngModel name="dateFrom" placeholder="Konec" required>
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+    
+    </div>
+
+    <mat-form-field class="w-100">
+      <mat-label>Popis</mat-label>
+      <textarea matInput name="description" ngModel id="createEventInput-description"></textarea>
+    </mat-form-field>
+
+    <div class="mt-4">
+      <label class="w-100">Charakter akce</label>
+      <div class="d-inline-block mr-3">
+        <event-subtype-selector ngModel name="subtype"></event-subtype-selector>
       </div>
     </div>
-  </div>
-  <div class="modal-footer text-right">
-    <button class="btn btn-primary" type="submit" [disabled]="!createEventForm.valid">Vytvořit</button>
-  </div>
-</form>
+
+    <div>
+      <button class="btn btn-primary" type="submit" [disabled]="!createEventForm.valid">Vytvořit</button>
+    </div>
+  </form>
+
+</bo-page>
