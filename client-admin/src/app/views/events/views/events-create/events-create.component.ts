@@ -33,7 +33,7 @@ export class EventsCreateComponent implements OnInit {
     // show the confrmation
     this.toastService.toast("Akce vytvořena a uložena.");
     // open the event
-    this.router.navigate(["/obsah/akce/" + event._id + "/upravit"]);
+    this.router.navigate(["/akce/" + event._id + "/upravit"]);
   }
 
 }
