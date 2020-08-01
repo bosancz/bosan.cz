@@ -53,6 +53,8 @@ export class EventEditRegistrationComponent {
   async deleteRegistration(event: Event) {
     await this.api.delete(event._links.registration);
     this.toastService.toast("Přihláška smazána.");
+    
+    this.eventService.loadEvent(event._id);
   }
 
   getRegistrationUrl(event): string {
