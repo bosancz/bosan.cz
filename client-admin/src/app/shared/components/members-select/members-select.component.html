@@ -1,10 +1,11 @@
 <mat-form-field class="example-chip-list w-100">
+  <mat-label>{{label}}</mat-label>
   <mat-chip-list #chipList>
     <mat-chip *ngFor="let member of selectedMembers$ | async" [selectable]="false" [removable]="true" (removed)="remove(member)">
       {{member.nickname}} ({{member.group}})
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
-    <input placeholder="Vybrat z databáze" #memberInput [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" [matAutocomplete]="autocomplete" [matChipInputFor]="chipList">
+    <input [placeholder]="placeholder" #memberInput [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" [matAutocomplete]="autocomplete" [matChipInputFor]="chipList">
   </mat-chip-list>
 
   <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="add($event)">

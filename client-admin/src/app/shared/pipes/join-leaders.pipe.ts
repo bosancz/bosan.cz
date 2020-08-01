@@ -15,7 +15,7 @@ export class JoinLeadersPipe implements PipeTransform {
 
     const leadersStrings = value
       .map(leader => {
-        let leaderString = leader.nickname
+        let leaderString = leader.nickname || "???";
         if(showPhone && leader.contacts && leader.contacts.mobile) leaderString += " (" + formatPhonePipe.transform(leader.contacts.mobile, "short", true) + ")";
         return leaderString;
       })

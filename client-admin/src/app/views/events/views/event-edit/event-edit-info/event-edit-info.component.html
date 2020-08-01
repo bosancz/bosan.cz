@@ -8,7 +8,7 @@
 
     <mat-form-field class="w-100">
       <mat-label>Název akce</mat-label>
-      <input matInput name="name" [ngModel]="event.name" placeholder="Neočekávaný dýchánek" value="Sushi">
+      <input matInput name="name" [ngModel]="event.name" placeholder="Neočekávaný dýchánek">
     </mat-form-field>
 
     <div class="row">
@@ -36,6 +36,7 @@
       <mat-hint *ngIf="descriptionCheck.warnings">{{descriptionCheck.warnings.join(" ")}}</mat-hint>
     </mat-form-field>
 
+    <members-select name="leaders" [ngModel]="leaders$ | async" [members]="members" label="Vedoucí akce"></members-select>
 
     <mat-form-field class="w-100">
       <mat-label>Místo</mat-label>

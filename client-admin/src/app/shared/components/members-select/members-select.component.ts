@@ -28,6 +28,9 @@ type MemberWithSearchString = Member & { searchString: string };
 })
 export class MembersSelectComponent implements ControlValueAccessor {
 
+  @Input() label:string;
+  @Input() placeholder:string;
+
   value$ = new Subject<string[]>();
   members$ = new Subject<MemberWithSearchString[]>();
 
