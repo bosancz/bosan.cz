@@ -13,11 +13,11 @@
 
   </bo-page-header>
 
-  <form #filterForm="ngForm" class="filter d-md-block" [class.d-none]="!showFilter" class="px-3 px-md-0">
+  <form #filterForm="ngForm" class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
     <div class="row">
       <mat-form-field class="col">
         <mat-label>Hledat</mat-label>
-        <input matInput type="text" [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" name="search">
+        <input matInput type="text" [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" name="search" (keydown.enter)="$event.preventDefault()">
         <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
           <mat-icon>close</mat-icon>
         </button>
