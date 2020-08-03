@@ -140,21 +140,7 @@ export class EventCalendarComponent implements OnInit, OnChanges {
   async loadEventsCPV() {
     this.eventsCPV = [];
 
-    this.api.get<CPVEvent[]>("cpv:kanoe")
-      .then(events => events.map(event => {
-        event.name = `${event.name} (Kanoe.cz)`;
-        return event;
-      }))
-      .then(events => {
-        this.eventsCPV.push(...events);
-        this.assignEvents(this.eventsCPV, "cpv");
-      });
-
-    this.api.get<CPVEvent[]>("cpv:raft")
-      .then(events => events.map(event => {
-        event.name = `${event.name} (Raft.cz)`;
-        return event;
-      }))
+    this.api.get<CPVEvent[]>("cpv")
       .then(events => {
         this.eventsCPV.push(...events);
         this.assignEvents(this.eventsCPV, "cpv");
