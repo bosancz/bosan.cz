@@ -28,9 +28,9 @@
         </div>
 
         <div class="events cpv" [style.height]="month.blocks.cpv.levels * eventHeight + 'px'">
-          <div *ngFor="let calEvent of month.blocks.cpv.events" class="event" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="eventHeight * calEvent.level + 'px'" [matTooltip]="calEvent.event.name" [attr.href]="calEvent.event.link || null" target="_blank" placement="bottom">
+          <a *ngFor="let calEvent of month.blocks.cpv.events" class="event d-block" [style.left]="getEventLeft(calEvent,month) * 100 + '%'" [style.width]="getEventWidth(calEvent,month) * 100 + '%'" [style.top]="eventHeight * calEvent.level + 'px'" [matTooltip]="calEvent.event.name" [attr.href]="calEvent.event.link || null" target="_blank" placement="bottom">
             {{calEvent.event.name}}
-          </div>
+          </a>
         </div>
       </div>
     </ng-container>
