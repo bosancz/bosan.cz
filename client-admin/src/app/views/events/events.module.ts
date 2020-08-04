@@ -11,7 +11,6 @@ import { EventsService } from './services/events.service';
 /* VIEWS */
 import { EventsViewComponent } from './views/events-view/events-view.component';
 import { EventsListComponent } from './views/events-list/events-list.component';
-import { MyEventsComponent } from './views/my-events/my-events.component';
 import { EventsCreateComponent } from './views/events-create/events-create.component';
 
 import { EventEditComponent } from './views/event-edit/event-edit.component';
@@ -34,7 +33,6 @@ import { EventExpensesChartComponent } from './components/event-expenses-chart/e
   declarations: [
     EventsListComponent,
     EventsViewComponent,
-    MyEventsComponent,
     EventEditComponent,
     EventEditInfoComponent,
     EventEditRegistrationComponent,

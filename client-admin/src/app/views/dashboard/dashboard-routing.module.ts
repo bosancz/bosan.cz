@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardCalendarComponent } from './views/dashboard-calendar/dashboard-calendar.component';
 import { DashboardLeadEventComponent } from './views/dashboard-lead-event/dashboard-lead-event.component';
 import { DashboardNewsComponent } from './views/dashboard-news/dashboard-news.component';
+import { DashboardMyEventsComponent } from './views/dashboard-my-events/dashboard-my-events.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
     children: [
       { path: "novinky", component: DashboardNewsComponent },
       { path: "kalendar", component: DashboardCalendarComponent },
+      { path: "moje-akce", component: DashboardMyEventsComponent },
       { path: "vest-akci", component: DashboardLeadEventComponent },
       { path: "", redirectTo: "kalendar", pathMatch: "full" }
     ]
