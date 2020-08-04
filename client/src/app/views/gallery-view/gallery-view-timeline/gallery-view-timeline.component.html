@@ -1,4 +1,20 @@
 <timeline-scroll [points]="timeline" [labels]="timelineLabels" (load)="loadAlbum($event)" [showPoints]="false" [bsContainer]="true">
+
+  <div class="search mt-3">
+    <div class="form-row">
+      <div class="offset-3 col-6">
+
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Hledat album">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <div class="albums container pt-3">
 
     <div *ngFor="let point of timeline;let i = index" class="album">
