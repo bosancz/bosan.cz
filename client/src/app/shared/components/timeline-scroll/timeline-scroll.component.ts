@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, ElementRef, HostListener, ViewChild, NgZone } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, ElementRef, HostListener, ViewChild, NgZone, Directive } from '@angular/core';
 import { Subscription } from "rxjs";
 
 export interface TimelinePoint {
@@ -15,6 +15,13 @@ export interface TimelineLabel {
 
 interface DOMScrollEvent extends Event {
   target: HTMLElement;
+}
+
+@Directive({
+  selector: 'timeline-scroll-label'
+})
+export class TimelineScrollLabelDirective {
+
 }
 
 @Component({

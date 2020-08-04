@@ -1,7 +1,8 @@
 @import "~styles/variables";
 
-timeline-scroll {
+.content {
   height: 100%;
+  overflow:auto;
 }
 .loading {
   position: relative;

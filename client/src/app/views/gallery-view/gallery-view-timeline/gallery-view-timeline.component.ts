@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { ViewportScroller } from "@angular/common";
 import { Router, Scroll, RouterEvent } from "@angular/router";
 
-import { filter } from "rxjs/operators";
+import { filter, debounceTime } from "rxjs/operators";
 
 import { ApiService } from "app/services/api.service";
 
@@ -11,6 +11,8 @@ import { Album } from "app/shared/schema/album";
 
 import { TimelinePoint, TimelineLabel } from "app/shared/components/timeline-scroll/timeline-scroll.component";
 import { FooterService } from 'app/services/footer.service';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { ScrollToEvent } from '@nicky-lenaers/ngx-scroll-to/lib/scroll-to-event.interface';
 
 class TimelineAlbumContainer implements TimelinePoint {
   y: number;
@@ -46,16 +48,22 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
   search$ = new BehaviorSubject<string>("");
   searchResults: TimelineAlbumContainer[] = [];
 
+  scrollTop$ = new BehaviorSubject<number>(0);
+
+  @ViewChild("timelineContent") timelineContent: ElementRef<HTMLDivElement>;
+
   constructor(
     private api: ApiService,
     private footerService: FooterService,
     router: Router,
     private viewportScroller: ViewportScroller
   ) {
-    
+
     // router.events.pipe(filter<Scroll>(e => e instanceof Scroll)).subscribe(e => this.lastRouterScrollEvent = e);
 
     this.search$.pipe(debounceTime(250)).subscribe(search => this.updateSearch());
+
+    this.scrollTop$.pipe(debounceTime(250)).subscribe(scrollTop => this.updateScroll());
 
     footerService.hide();
   }
@@ -63,6 +71,10 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // this.loadAlbumsList().then(() => setTimeout(() => this.updateScroll(), 100));
     this.loadAlbumsList()
+  }
+
+  ngAfterViewInit() {
+    this.timelineContent.nativeElement.addEventListener("scroll", e => this.scrollTop$.next((<HTMLDivElement>e.target).scrollTop));
   }
 
   ngOnDestroy() {
@@ -78,24 +90,37 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
     let year: number;
 
     this.timeline = albums.map((album, i, filteredAlbums) => ({
-        _id: album._id,
-        name: album.name,
-        dateFrom: new Date(album.dateFrom),
-        dateTill: new Date(album.dateTill),
+      _id: album._id,
+      name: album.name,
+      dateFrom: new Date(album.dateFrom),
+      dateTill: new Date(album.dateTill),
       searchString: album.name,
-        album: null,
+      album: null,
     }) as TimelineAlbumContainer);
 
     this.updateSearch();
-
-      return point;
-    });
+    this.updateScroll();
 
     this.loading = false;
 
   }
 
   updateScroll() {
+    const scrollTop = this.scrollTop$.value;
+    const scrollBottom = scrollTop + window.innerHeight;
+
+    this.timeline.forEach((item, i) => {
+      const top = i * 320;
+      if (top + 320 >= scrollTop && top <= scrollBottom) {
+        this.loadAlbum(item);
+      }
+      else {
+        this.unloadAlbum(item);
+      }
+    })
+  }
+
+  restoreScrollAfterRouting() {
     if (this.lastRouterScrollEvent.position) this.viewportScroller.scrollToPosition(this.lastRouterScrollEvent.position);
     else this.viewportScroller.scrollToPosition([0, 0]);
   }
@@ -120,6 +145,10 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
     point.album = album;
     point.loading = false;
+  }
+
+  async unloadAlbum(point: TimelineAlbumContainer) {
+
   }
 
 
