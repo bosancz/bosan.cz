@@ -20,6 +20,8 @@ class TimelineAlbumContainer implements TimelinePoint {
   name: string;
   dateFrom: Date;
   dateTill: Date;
+  searchString: string;
+
   album: Album;
 
   loading?: boolean = false;
@@ -41,6 +43,9 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
   lastRouterScrollEvent: Scroll;
 
+  search$ = new BehaviorSubject<string>("");
+  searchResults: TimelineAlbumContainer[] = [];
+
   constructor(
     private api: ApiService,
     private footerService: FooterService,
@@ -48,13 +53,16 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
     private viewportScroller: ViewportScroller
   ) {
     
-    router.events.pipe(filter<Scroll>(e => e instanceof Scroll)).subscribe(e => this.lastRouterScrollEvent = e);
+    // router.events.pipe(filter<Scroll>(e => e instanceof Scroll)).subscribe(e => this.lastRouterScrollEvent = e);
+
+    this.search$.pipe(debounceTime(250)).subscribe(search => this.updateSearch());
 
     footerService.hide();
   }
 
   ngOnInit() {
-    this.loadAlbumsList().then(() => setTimeout(() => this.updateScroll(), 100));
+    // this.loadAlbumsList().then(() => setTimeout(() => this.updateScroll(), 100));
+    this.loadAlbumsList()
   }
 
   ngOnDestroy() {
@@ -69,25 +77,16 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
     let year: number;
 
-    this.timeline = albums.map((album, i, filteredAlbums) => {
-
-      let y = i / (filteredAlbums.length - 1);
-
-      let point: TimelineAlbumContainer = {
-        y: y,
-        title: null,
-
+    this.timeline = albums.map((album, i, filteredAlbums) => ({
         _id: album._id,
         name: album.name,
         dateFrom: new Date(album.dateFrom),
         dateTill: new Date(album.dateTill),
+      searchString: album.name,
         album: null,
-      };
+    }) as TimelineAlbumContainer);
 
-      if (point.dateFrom.getFullYear() !== year) {
-        year = point.dateFrom.getFullYear();
-        this.timelineLabels.push({ y: y, label: String(year) });
-      }
+    this.updateSearch();
 
       return point;
     });
@@ -100,6 +99,16 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
     if (this.lastRouterScrollEvent.position) this.viewportScroller.scrollToPosition(this.lastRouterScrollEvent.position);
     else this.viewportScroller.scrollToPosition([0, 0]);
   }
+
+  updateSearch() {
+    if (this.search$.value === "") {
+      this.searchResults = [];
+      return;
+    }
+    const search_re = new RegExp("(^| )" + this.search$.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
+    this.searchResults = this.timeline.filter(album => search_re.test(album.searchString)).slice(0, 5);
+  }
+
 
   async loadAlbum(point: TimelineAlbumContainer) {
 
