@@ -1,8 +1,21 @@
 @import "~styles/variables";
 
+:host {
+  display: block;
+  position: relative;
+}
+
+timeline-scroll {
+  position: fixed;
+  top: 66px;
+  right: 10px;
+  bottom: 10px;
+  width: 5vw;
+}
+
 .content {
   height: 100%;
-  overflow:auto;
+  overflow: auto;
 }
 .loading {
   position: relative;

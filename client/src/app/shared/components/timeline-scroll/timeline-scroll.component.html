@@ -1,16 +1,4 @@
-<div class="contents" #contents (scroll)="updateScroll($event)">
-  <ng-content></ng-content>
-</div>
+<div class="label" *ngFor="let label of labels" [style.top]="label.top/containerDim?.scrollHeight * 100 + '%'">{{label.label}}</div>
 
-<div class="timeline-panel">
-  <div class="timeline" #timeline (mousedown)="timelineMouseDown($event)">
-    <div class="visible" [style.top]="visibleDim.mid * 100 + '%'"></div>
-    <!--<div class="visible" [style.top]="visibleFrom * 100 + '%'" [style.bottom]="(1 - visibleTo) * 100 + '%'"></div>-->
-    <ng-container *ngIf="showLabels">
-      <div class="label" *ngFor="let label of labels" [style.top]="label.y * 100 + '%'">{{label.label}}</div>
-    </ng-container>
-    <ng-container *ngIf="showPoints">
-      <div class="point" *ngFor="let point of points" [style.top]="point.y * 100 + '%'">{{point.title}}</div>
-    </ng-container>
-  </div>
-</div>
+<div class="visibleArea" [style.top]="visibleDim.from * 100 + '%'" [style.bottom]="(1 - visibleDim.to) * 100 + '%'"></div>
+<div class="visibleMid" [style.top]="visibleDim.mid * 100 + '%'"></div>

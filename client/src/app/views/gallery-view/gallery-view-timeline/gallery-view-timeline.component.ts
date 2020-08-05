@@ -1,27 +1,22 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ViewportScroller } from "@angular/common";
-import { Router, Scroll, RouterEvent } from "@angular/router";
-
-import { filter, debounceTime } from "rxjs/operators";
+import { Router, Scroll } from "@angular/router";
+import { debounceTime } from "rxjs/operators";
+import { DateTime } from "luxon";
 
 import { ApiService } from "app/services/api.service";
 
-import { Paginated } from "app/shared/schema/paginated";
 import { Album } from "app/shared/schema/album";
 
-import { TimelinePoint, TimelineLabel } from "app/shared/components/timeline-scroll/timeline-scroll.component";
 import { FooterService } from 'app/services/footer.service';
-import { Subject, BehaviorSubject } from 'rxjs';
-import { ScrollToEvent } from '@nicky-lenaers/ngx-scroll-to/lib/scroll-to-event.interface';
+import { BehaviorSubject } from 'rxjs';
 
-class TimelineAlbumContainer implements TimelinePoint {
-  y: number;
-  title: string;
-
+class TimelineAlbumContainer {
   _id: string;
   name: string;
-  dateFrom: Date;
-  dateTill: Date;
+  year: number;
+  dateFrom: DateTime;
+  dateTill: DateTime;
   searchString: string;
 
   album: Album;
@@ -36,10 +31,7 @@ class TimelineAlbumContainer implements TimelinePoint {
 })
 export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
-  @ViewChild('gallery', { static: true }) container: ElementRef<HTMLElement>;
-
   timeline: TimelineAlbumContainer[] = [];
-  timelineLabels: TimelineLabel[] = [];
 
   loading: boolean = false;
 
@@ -50,13 +42,14 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
   scrollTop$ = new BehaviorSubject<number>(0);
 
-  @ViewChild("timelineContent") timelineContent: ElementRef<HTMLDivElement>;
+  @ViewChild("content") timelineContent: ElementRef<HTMLDivElement>;
 
   constructor(
     private api: ApiService,
     private footerService: FooterService,
     router: Router,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    public hostRef: ElementRef
   ) {
 
     // router.events.pipe(filter<Scroll>(e => e instanceof Scroll)).subscribe(e => this.lastRouterScrollEvent = e);
@@ -74,7 +67,9 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.timelineContent.nativeElement.addEventListener("scroll", e => this.scrollTop$.next((<HTMLDivElement>e.target).scrollTop));
+    window.addEventListener("scroll", e => {
+      window.requestAnimationFrame(() => this.scrollTop$.next(window.scrollY));
+    });
   }
 
   ngOnDestroy() {
@@ -89,14 +84,20 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
     let year: number;
 
-    this.timeline = albums.map((album, i, filteredAlbums) => ({
-      _id: album._id,
-      name: album.name,
-      dateFrom: new Date(album.dateFrom),
-      dateTill: new Date(album.dateTill),
-      searchString: album.name,
-      album: null,
-    }) as TimelineAlbumContainer);
+    this.timeline = albums.map(album => {
+      const dateFrom = DateTime.fromISO(album.dateFrom);
+      const dateTill = DateTime.fromISO(album.dateTill);
+      const searchString = [album.name, dateFrom.toFormat("d. L. y"), dateTill.toFormat("d. L. y")].join(" ");
+      return {
+        _id: album._id,
+        name: album.name,
+        year: dateFrom.get("year"),
+        dateFrom,
+        dateTill,
+        searchString,
+        album: null,
+      };
+    });
 
     this.updateSearch();
     this.updateScroll();
@@ -110,8 +111,9 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
     const scrollBottom = scrollTop + window.innerHeight;
 
     this.timeline.forEach((item, i) => {
-      const top = i * 320;
-      if (top + 320 >= scrollTop && top <= scrollBottom) {
+      const top = i * 320 + 190; // 320 is album height, 190 is height of elements before first album;
+      const bottom = top + 320;
+      if (bottom >= scrollTop && top <= scrollBottom) {
         this.loadAlbum(item);
       }
       else {
@@ -126,12 +128,16 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
   }
 
   updateSearch() {
+    const searchValue = this.search$.value;
     if (this.search$.value === "") {
       this.searchResults = [];
       return;
     }
-    const search_re = new RegExp("(^| )" + this.search$.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
-    this.searchResults = this.timeline.filter(album => search_re.test(album.searchString)).slice(0, 5);
+
+    const search_re = searchValue.split(/ /g,).map(string => new RegExp("(^| )" + string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i"));
+
+    this.searchResults = this.timeline.filter(album => search_re.every(re => re.test(album.searchString))).slice(0, 5);
+
   }
 
 

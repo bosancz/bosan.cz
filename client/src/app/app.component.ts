@@ -21,12 +21,12 @@ export class AppComponent implements AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-    setTimeout(() => this.updateTop(), 0);
-    this.scrollbarWidth = this.contentEl.nativeElement.offsetWidth - this.contentEl.nativeElement.clientWidth;
+    window.addEventListener("scroll", () => this.updateTop());
+    this.updateTop();
   }
 
   updateTop() {
-    this.isTop = (this.contentEl.nativeElement.scrollTop === 0);
+    this.isTop = (window.pageYOffset === 0);
   }
 
 }

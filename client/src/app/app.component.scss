@@ -1,9 +1,21 @@
-#layout{
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+@import "~styles/variables";
+
+header {
+  background-color: $black70;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 1000;
 }
 
-#content{
-    overflow:auto;
+#layout.transparentMenu header.top {
+  background-color: transparent;
+}
+
+#content {
+  padding-top: 56px;
+}
+#layout.transparentMenu #content {
+  padding-top: 0;
 }
