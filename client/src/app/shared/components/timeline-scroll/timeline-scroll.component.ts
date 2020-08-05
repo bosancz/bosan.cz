@@ -4,15 +4,17 @@ interface DOMScrollEvent extends Event {
   target: HTMLElement;
 }
 
-@Directive({
-  selector: '[scrollLabel]'
+@Component({
+  selector: 'timeline-scroll-label',
+  template: ''
 })
-export class TimelineScrollLabelDirective {
-  @Input("scrollLabel")
-  label: string;
+export class TimelineScrollLabelComponent {
 
   @Input()
   for: TimelineScrollComponent
+
+  @Input() label: string;
+  @Input() align: "left" | "center" | "right";
 
   top: number;
 
@@ -52,7 +54,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   @Input() showLabels: boolean = true;
   @Input() showPoints: boolean = true;
 
-  labels: TimelineScrollLabelDirective[] = [];
+  labels: TimelineScrollLabelComponent[] = [];
 
   containerDim: { top: number, height: number, scrollHeight: number };
   timelineDim: { top: number, height: number };
@@ -119,7 +121,6 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
     const containerTop = timelinePct * this.containerDim.scrollHeight - this.containerDim.height / 2;
 
-    console.log(this.timelineDim.top, event.clientY);
     if (this.scrollTarget) this.scrollTarget.scrollTo(0, containerTop);
     else window.scrollTo(0, containerTop);
   }
@@ -129,11 +130,11 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     window.removeEventListener("mousemove", this.timelineMouseMoveHandler);
   }
 
-  addLabel(label: TimelineScrollLabelDirective) {
+  addLabel(label: TimelineScrollLabelComponent) {
     this.labels.push(label);
   }
 
-  removeLabel(label: TimelineScrollLabelDirective) {
+  removeLabel(label: TimelineScrollLabelComponent) {
     this.labels.splice(this.labels.indexOf(label), 1);
   }
 

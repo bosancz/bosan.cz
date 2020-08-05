@@ -21,7 +21,7 @@ import { ContactCardComponent } from './components/contact-card/contact-card.com
 import { EventsTimelineComponent } from './components/events-timeline/events-timeline.component';
 import { GalleryAlbumComponent } from './components/gallery-album/gallery-album.component';
 import { GoogleMapComponent } from './components/google-map/google-map.component';
-import { TimelineScrollComponent, TimelineScrollLabelDirective } from './components/timeline-scroll/timeline-scroll.component';
+import { TimelineScrollComponent, TimelineScrollLabelComponent } from './components/timeline-scroll/timeline-scroll.component';
 import { PhotoGalleryComponent } from "./components/photo-gallery/photo-gallery.component";
 
 /* DIRECTIVES */
@@ -63,7 +63,7 @@ export function getTooltipConfig(): TooltipConfig {
   declarations: [
     /* COMPONENTS */
     SharingModalComponent,
-    TimelineScrollComponent, TimelineScrollLabelDirective,
+    TimelineScrollComponent, TimelineScrollLabelComponent,
     PhotoGalleryComponent,
     ContactCardComponent,
     GalleryAlbumComponent,
@@ -98,7 +98,7 @@ export function getTooltipConfig(): TooltipConfig {
 
     /* COMPONENTS */
     SharingModalComponent,
-    TimelineScrollComponent, TimelineScrollLabelDirective,
+    TimelineScrollComponent, TimelineScrollLabelComponent,
     PhotoGalleryComponent,
     ContactCardComponent,
     GalleryAlbumComponent,

@@ -27,7 +27,7 @@
 
     <div *ngFor="let point of timeline;let i = index" class="album">
 
-      <span *ngIf="!i || timeline[i-1].year !== point.year" [scrollLabel]="point.year" [for]="scroll"></span>
+      <timeline-scroll-label *ngIf="!i || timeline[i-1].year !== point.year" [label]="point.year" [for]="scroll" align="right"></timeline-scroll-label>
 
       <gallery-album *ngIf="point.album; else dummyAlbum" [album]="point.album"></gallery-album>
 
