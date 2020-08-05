@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
 
 /* PIPES */
 import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
@@ -20,7 +21,7 @@ import { ContactCardComponent } from './components/contact-card/contact-card.com
 import { EventsTimelineComponent } from './components/events-timeline/events-timeline.component';
 import { GalleryAlbumComponent } from './components/gallery-album/gallery-album.component';
 import { GoogleMapComponent } from './components/google-map/google-map.component';
-import { TimelineScrollComponent } from './components/timeline-scroll/timeline-scroll.component';
+import { TimelineScrollComponent, TimelineScrollLabelComponent } from './components/timeline-scroll/timeline-scroll.component';
 import { PhotoGalleryComponent } from "./components/photo-gallery/photo-gallery.component";
 
 /* DIRECTIVES */
@@ -35,33 +36,34 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ShareModule } from 'ngx-sharebuttons';
 import { ScrollToModule } from "@nicky-lenaers/ngx-scroll-to";
 
-export function getTooltipConfig():TooltipConfig {
-  return Object.assign(new TooltipConfig(), {    
+export function getTooltipConfig(): TooltipConfig {
+  return Object.assign(new TooltipConfig(), {
     container: 'body'
   });
 }
- 
+
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     RouterModule,
-    
+    FormsModule,
+
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
 
     ScrollToModule.forRoot(),
-    
+
     ShareModule
-    
+
   ],
   declarations: [
     /* COMPONENTS */
     SharingModalComponent,
-    TimelineScrollComponent,
+    TimelineScrollComponent, TimelineScrollLabelComponent,
     PhotoGalleryComponent,
     ContactCardComponent,
     GalleryAlbumComponent,
@@ -72,7 +74,7 @@ export function getTooltipConfig():TooltipConfig {
     /* DIRECTIVES */
     ShareUrlDirective,
     AdminLinkDirective,
-    
+
     /* PIPES */
     SafeurlPipe,
     GroupPipe,
@@ -85,6 +87,7 @@ export function getTooltipConfig():TooltipConfig {
     /* MODULES */
     CommonModule,
     HttpClientModule,
+    FormsModule,
 
     /* BOOTSTRAP */
     CollapseModule,
@@ -92,10 +95,10 @@ export function getTooltipConfig():TooltipConfig {
     TooltipModule,
     BsDropdownModule,
     ShareModule,
-    
+
     /* COMPONENTS */
     SharingModalComponent,
-    TimelineScrollComponent,
+    TimelineScrollComponent, TimelineScrollLabelComponent,
     PhotoGalleryComponent,
     ContactCardComponent,
     GalleryAlbumComponent,
@@ -117,7 +120,7 @@ export function getTooltipConfig():TooltipConfig {
   ],
   providers: [
     { provide: TooltipConfig, useFactory: getTooltipConfig }
-  ]  
-  
+  ]
+
 })
 export class SharedModule { }

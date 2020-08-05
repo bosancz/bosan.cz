@@ -1,17 +1,16 @@
-<div id="layout">
+<div id="layout" [class.transparentMenu]="menuCollapsed && (menuService.transparent | async)">
 
   <!-- Navigation -->
-  <header [class.transparent]="menuCollapsed && (menuService.transparent | async)" [class.top]="isTop" [style.margin-right]="(menuService.transparent | async) ? (scrollbarWidth || 0) + 'px' : 0">
+  <header [class.top]="isTop">
     <div class="container px-0">
       <page-menu *ngIf="menuService.visible | async" class="d-print-none" (collapse)="menuCollapsed = $event"></page-menu>
     </div>
   </header>
 
   <!-- MAIN CONTENT -->
-  <div id="content" #content (scroll)="updateTop()">
+  <div id="content" #content>
     <router-outlet></router-outlet>
 
     <page-footer *ngIf="footerService.visible | async" class="d-print-none"></page-footer>
   </div>
-
 </div>

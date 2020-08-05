@@ -1,11 +1,30 @@
 @import "~styles/variables";
 
-timeline-scroll {
-  height: 100%;
+:host {
+  display: block;
+  position: relative;
 }
+
+timeline-scroll {
+  position: fixed;
+  top: 66px;
+  right: 10px;
+  bottom: 10px;
+  width: 60px;
+}
+
+@media (max-width: 1199.98px) {
+  timeline-scroll {
+    width: 50px;
+  }
+  .content {
+    padding-right: 60px;
+  }
+}
+
 .loading {
   position: relative;
-  height: 300px;
+  height: calc(100vh - 190px);
 }
 .loading p {
   text-align: center;
@@ -16,21 +35,23 @@ timeline-scroll {
 }
 
 .album {
-  height: 320px; // was here originally because of years scroller which counts with 300px for each album, but occasionally it hidden the description and the "Otevřít album" link when album had long album name. With large amount of albums the auto high is just ok. */
+  height: 320px; // fixed height for faster loading and simple autoloading
   overflow: hidden;
-}
-.album h4 a {
-  color: $black;
-  text-decoration: none;
-}
-.album .photos {
-  height: $photo-height;
-  max-height: $photo-max-height;
-}
-.album .image {
-  display: block;
-  width: 100%;
-  height: $photo-height;
-  max-height: $photo-max-height;
-  background-color: #eee;
+
+  h4 a {
+    color: $black;
+    text-decoration: none;
+  }
+
+  .photos {
+    height: $photo-height;
+    max-height: $photo-max-height;
+  }
+  .image {
+    display: block;
+    width: 100%;
+    height: $photo-height;
+    max-height: $photo-max-height;
+    background-color: #eee;
+  }
 }

@@ -3,3 +3,86 @@
 :host {
   display: block;
 }
+
+nav.navbar {
+  color: $white;
+
+  .navbar-toggler {
+    border: none;
+    outline: none;
+  }
+
+  .navbar-brand {
+    font-weight: bold;
+    z-index: 9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0;
+
+    .mobile-title {
+      vertical-align: text-top;
+    }
+  }
+
+  .navbar-brand:hover {
+    color: $hover-yellow;
+  }
+
+  .nav-link {
+    font-weight: bold;
+    color: $white !important;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .nav-item.active > a,
+  .nav-item:hover > a,
+  .nav-link.active {
+    color: $linkBlue !important;
+  }
+
+  .dropdown {
+    position: relative;
+
+    ul {
+      z-index: 900;
+      border-radius: 0;
+    }
+    .dropdown-item {
+      cursor: pointer;
+      color: $white !important;
+    }
+    .dropdown-item.active,
+    .dropdown-item:active {
+      background-color: transparent;
+      color: $linkBlue;
+    }
+    .dropdown-item:focus,
+    .dropdown-item:hover {
+      background-color: transparent;
+    }
+  }
+
+  .dropdown-menu {
+    background-color: $black70;
+    border: none;
+
+    .nav-link {
+      font-weight: normal;
+      text-transform: none;
+    }
+  }
+
+  .logo-small {
+    height: 2rem;
+  }
+
+  .environment {
+    color: #f00;
+  }
+}
+
+nav.navbar:not(.open) {
+  flex-wrap: nowrap !important;
+}
