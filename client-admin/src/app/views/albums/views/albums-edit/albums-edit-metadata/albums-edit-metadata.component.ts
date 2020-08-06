@@ -60,15 +60,9 @@ export class AlbumsEditMetadataComponent {
 
   async saveAlbum(albumId: Album["_id"], albumForm: NgForm) {
 
-    
     let albumData = albumForm.value;
-    console.log(albumData)
     
     albumData.event = albumData.event ? albumData.event._id : null;
-    albumData.status = albumData.published ? 'public' : 'draft';
-    delete albumData.published;
-
-    console.log(albumData)
 
     await this.albumsService.saveAlbum(albumId, albumData);
 
