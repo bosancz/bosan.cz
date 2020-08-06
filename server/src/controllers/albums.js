@@ -15,24 +15,8 @@ const Photo = require("../models/photo");
 
 const albumDownload = require("./albums/album-download");
 
-var getAlbumsSchema = {
-  type: "object",
-  properties: {
-    "filter": {
-      type: "object",
-      properties: {
-        "year": { type: "number" },
-        "status": { type: "string" }
-      },
-      additionalProperties: false
-    },
-    "sort": { type: "string" }
-  },
-  additionalProperties: false
-};
-
 // LIST ALBUMS
-routes.get("albums", "/", { permission: "albums:list" }).handle(validate({ query: getAlbumsSchema }), async (req, res, next) => {
+routes.get("albums", "/", { permission: "albums:list" }).handle(async (req, res, next) => {
 
   const query = Album.find();
   query.filterByPermission("albums:drafts:list", req);
