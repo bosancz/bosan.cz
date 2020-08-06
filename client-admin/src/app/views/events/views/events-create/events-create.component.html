@@ -26,7 +26,7 @@
           <mat-label>Datum</mat-label>
           <mat-date-range-input [rangePicker]="picker">
             <input matStartDate ngModel name="dateFrom" placeholder="Začátek" required>
-            <input matEndDate ngModel name="dateFrom" placeholder="Konec" required>
+            <input matEndDate ngModel name="dateTill" placeholder="Konec" required>
           </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
