@@ -43,7 +43,12 @@ routes.get("galleryalbum", "/:id", { permission: "gallery:read" }).handle(async 
 
   // fill in missing titlePhotos
   if (!album.titlePhotos) album.titlePhotos = [];
-  if (album.titlePhotos.length < 3) album.titlePhotos.push(...album.photos.slice(0, 3 - album.titlePhotos.length));
+
+  let i = 0;
+  while (album.titlePhotos.length < 3 && album.photos[i]) {
+    if (!album.titlePhotos.some(item => item._id === album.photos[i]._id)) album.titlePhotos.push(album.photos[i]);
+    i++;
+  }
 
   req.routes.links(album, "galleryalbum");
 
