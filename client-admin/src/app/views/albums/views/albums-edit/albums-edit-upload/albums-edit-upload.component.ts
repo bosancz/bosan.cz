@@ -3,7 +3,8 @@ import { HttpEvent, HttpEventType, HttpClient } from "@angular/common/http";
 
 import { ApiService } from 'app/services/api.service';
 
-import { Album } from "app/shared/schema/album";
+import { Album, Photo } from "app/shared/schema/album";
+import { AlbumsService } from 'app/views/albums/albums.service';
 
 class PhotoUploadItem {
   file: File;
@@ -17,9 +18,9 @@ class PhotoUploadItem {
   templateUrl: './albums-edit-upload.component.html',
   styleUrls: ['./albums-edit-upload.component.scss']
 })
-export class AlbumsEditUploadComponent implements OnChanges {
+export class AlbumsEditUploadComponent {
 
-  @Input() album: Album;
+  album$ = this.albumsService.album$;
 
   @Output() saved: EventEmitter<void> = new EventEmitter();
 
@@ -30,17 +31,20 @@ export class AlbumsEditUploadComponent implements OnChanges {
 
   photoUploadQueue: PhotoUploadItem[] = [];
 
-  allowedFiles = ["jpg", "jpeg", "png", "gif"];
+  allowedFiles_re = /\.(jpg|jpeg|png|gif)$/i;
 
-  constructor(private api: ApiService, private http: HttpClient, private cdRef: ChangeDetectorRef) { }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.album) this.updateTags();
+  constructor(
+    private albumsService: AlbumsService,
+    private api: ApiService,
+    private http: HttpClient,
+    private cdRef: ChangeDetectorRef
+  ) {
+    this.album$.subscribe(album => this.updateTags(album));
   }
 
-  updateTags() {
+  updateTags(album: Album<Photo, string>) {
     this.tags = [];
-    this.album.photos.forEach(photo => {
+    album.photos.forEach(photo => {
       photo.tags.filter(tag => this.tags.indexOf(tag) === -1).forEach(tag => this.tags.push(tag));
     });
   }
@@ -86,7 +90,7 @@ export class AlbumsEditUploadComponent implements OnChanges {
     this.photoUploadQueue = [];
   }
 
-  async uploadPhotos() {
+  async uploadPhotos(album: Album) {
 
     this.status = "started";
 
@@ -97,7 +101,7 @@ export class AlbumsEditUploadComponent implements OnChanges {
 
       try {
         uploadItem.status = "uploading";
-        await this.uploadPhoto(uploadItem);
+        await this.uploadPhoto(album, uploadItem);
         uploadItem.status = "finished";
       }
       catch (err) {
@@ -111,9 +115,9 @@ export class AlbumsEditUploadComponent implements OnChanges {
 
   }
 
-  async uploadPhoto(uploadItem: PhotoUploadItem): Promise<void> {
+  async uploadPhoto(album: Album, uploadItem: PhotoUploadItem): Promise<void> {
 
-    if (this.allowedFiles.indexOf(uploadItem.file.name.split(".").pop().toLowerCase()) === -1) {
+    if (!this.allowedFiles_re.test(uploadItem.file.name)) {
       throw new Error("Unsupported file type.");
     }
 
@@ -123,7 +127,7 @@ export class AlbumsEditUploadComponent implements OnChanges {
     if (uploadItem.file.lastModified) lastModified = new Date(uploadItem.file.lastModified).toISOString();
     // DEPRECATED else if(uploadItem.file.lastModifiedDate) lastModified = uploadItem.file.lastModifiedDate.toISOString();
 
-    formData.set("album", this.album._id);
+    formData.set("album", album._id);
     formData.set("tags", this.selectedTags.join(","));
     formData.set("photo", uploadItem.file, uploadItem.file.name);
     formData.set("lastModified", lastModified);

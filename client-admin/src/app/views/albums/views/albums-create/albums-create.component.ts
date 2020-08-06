@@ -15,7 +15,7 @@ import { Album } from 'app/shared/schema/album';
 export class AlbumsCreateComponent implements OnInit {
 
   currentYear = (new Date()).getFullYear();
-  
+
   constructor(
     private api: ApiService,
     private toastService: ToastService,
@@ -36,7 +36,7 @@ export class AlbumsCreateComponent implements OnInit {
     // show the confrmation
     this.toastService.toast("Album vytvořeno a uloženo.");
     // open the album
-    this.router.navigate(["./", {}, album._id], { relativeTo: this.route });
+    this.router.navigate(["/galerie", album._id, "upravit"], { relativeTo: this.route });
   }
 
 }

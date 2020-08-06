@@ -1,15 +1,28 @@
-<form #createAlbumForm="ngForm" (ngSubmit)="createAlbum(createAlbumForm)">
-  <div class="modal-body">
-    <div class="form-group">
-      <label>Název alba</label>
-      <input type="text" name="name" ngModel class="form-control" required>
+<bo-page>
+  <bo-page-header>
+
+    <h2>Vytvořit album</h2>
+
+    <div class="actions" *actionMenu>
+
+      <button mat-button color="secondary" routerLink="/galerie">Zrušit</button>
+
     </div>
-    <div class="form-group">
+  </bo-page-header>
+
+
+  <form #createAlbumForm="ngForm" (ngSubmit)="createAlbum(createAlbumForm)">
+    <mat-form-field class="w-100">
+      <mat-label>Název alba</mat-label>
+      <input matInput type="text" name="name" ngModel required>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
       <label>Rok</label>
-      <input type="number" name="year" [ngModel]="currentYear" class="form-control" required>
+      <input matInput type="number" name="year" [ngModel]="currentYear" required>
+    </mat-form-field>
+
+    <div class="text-right">
+      <button class="btn btn-primary" type="submit" [disabled]="!createAlbumForm.valid">Vytvořit</button>
     </div>
-  </div>
-  <div class="modal-footer text-right">
-    <button class="btn btn-primary" type="submit" [disabled]="!createAlbumForm.valid">Vytvořit</button>
-  </div>
-</form>
+  </form>

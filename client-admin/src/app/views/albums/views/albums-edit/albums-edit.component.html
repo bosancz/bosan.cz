@@ -5,7 +5,7 @@
     <div class="actions" *actionMenu>
       <ng-container *ngIf="album$ | async as album">
         <a mat-button *ngIf="album.status === 'public'" [href]="'/fotogalerie/' + album._id">Otevřít na webu</a>
-        <button mat-button color="warn" [disabled]="!album._links.self.allowed.DELETE" [disabled]="!deleteConfirmation" (click)="deleteAlbum(album)">Smazat</button>
+        <button mat-button color="warn" [disabled]="!album._links.self.allowed.DELETE" (click)="deleteAlbum(album)">Smazat</button>
       </ng-container>
     </div>
   </bo-page-header>

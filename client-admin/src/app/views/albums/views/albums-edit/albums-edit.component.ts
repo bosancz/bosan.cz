@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AlbumsService } from '../../albums.service';
@@ -21,7 +21,8 @@ export class AlbumsEditComponent {
 
   constructor(
     public albumsService: AlbumsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -41,6 +42,8 @@ export class AlbumsEditComponent {
     if (!confirmation) return;
 
     await this.albumsService.deleteAlbum(album._id);
+
+    this.router.navigate(["/galerie"]);
   }
 
 }
