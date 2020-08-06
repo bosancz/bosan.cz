@@ -71,7 +71,7 @@ export class AlbumsListComponent implements OnInit {
     const options: any = {
       sort: "dateFrom",
       filter: {
-        year: filter.year
+        dateFrom: { $gte: filter.year + "-01-01", $lte: filter.year + "-12-31" }
       }
     }
 
