@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ViewportScroller } from "@angular/common";
 import { Router, Scroll } from "@angular/router";
-import { debounceTime } from "rxjs/operators";
+import { debounceTime, filter } from "rxjs/operators";
 import { DateTime } from "luxon";
 
 import { ApiService } from "app/services/api.service";
@@ -52,7 +52,7 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
     public hostRef: ElementRef
   ) {
 
-    // router.events.pipe(filter<Scroll>(e => e instanceof Scroll)).subscribe(e => this.lastRouterScrollEvent = e);
+    router.events.pipe(filter<Scroll>(e => e instanceof Scroll)).subscribe(e => this.lastRouterScrollEvent = e);
 
     this.search$.pipe(debounceTime(250)).subscribe(search => this.updateSearch());
 
@@ -103,6 +103,8 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
     this.updateScroll();
 
     this.loading = false;
+
+    setTimeout(() => this.restoreScrollAfterRouting());
 
   }
 
