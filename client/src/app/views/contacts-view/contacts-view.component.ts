@@ -3,12 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { TitleService } from "app/services/title.service";
 import { ConfigService } from "app/services/config.service";
 
-import { Contact } from "app/shared/schema/contact";
-
 @Component({
   selector: 'contacts-view',
   templateUrl: './contacts-view.component.html',
-  styleUrls: ['./contacts-view.component.css']
+  styleUrls: ['./contacts-view.component.scss']
 })
 export class ContactsViewComponent implements OnInit {
 

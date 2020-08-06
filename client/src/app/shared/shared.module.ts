@@ -20,7 +20,6 @@ import { AlbumsRecentComponent } from './components/albums-recent/albums-recent.
 import { ContactCardComponent } from './components/contact-card/contact-card.component';
 import { EventsTimelineComponent } from './components/events-timeline/events-timeline.component';
 import { GalleryAlbumComponent } from './components/gallery-album/gallery-album.component';
-import { GoogleMapComponent } from './components/google-map/google-map.component';
 import { TimelineScrollComponent, TimelineScrollLabelComponent } from './components/timeline-scroll/timeline-scroll.component';
 import { PhotoGalleryComponent } from "./components/photo-gallery/photo-gallery.component";
 
@@ -68,7 +67,6 @@ export function getTooltipConfig(): TooltipConfig {
     ContactCardComponent,
     GalleryAlbumComponent,
     EventsTimelineComponent,
-    GoogleMapComponent,
     AlbumsRecentComponent,
 
     /* DIRECTIVES */
@@ -103,7 +101,6 @@ export function getTooltipConfig(): TooltipConfig {
     ContactCardComponent,
     GalleryAlbumComponent,
     EventsTimelineComponent,
-    GoogleMapComponent,
     AlbumsRecentComponent,
 
     /* DIRECTIVES */

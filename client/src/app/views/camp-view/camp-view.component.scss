@@ -1,33 +1,41 @@
 @import "~styles/variables";
 
-.header{background-image: url("/assets/img/camp-info/san-header.jpg");}
+.header {
+  background-image: url("/assets/img/camp-info/san-header.jpg");
+}
 
 .img-shadow {
   box-shadow: $shadow;
 }
 
 .rot-2deg {
-    -ms-transform: rotate(2deg); /* IE 9 */
-    -webkit-transform: rotate(2deg); /* Safari 3-8 */
-    transform: rotate(2deg);
+  -ms-transform: rotate(2deg); /* IE 9 */
+  -webkit-transform: rotate(2deg); /* Safari 3-8 */
+  transform: rotate(2deg);
 }
 .rot-minus3deg {
-    -ms-transform: rotate(-3deg); /* IE 9 */
-    -webkit-transform: rotate(-3deg); /* Safari 3-8 */
-    transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg); /* IE 9 */
+  -webkit-transform: rotate(-3deg); /* Safari 3-8 */
+  transform: rotate(-3deg);
 }
 .rot-3deg {
-    -ms-transform: rotate(3deg); /* IE 9 */
-    -webkit-transform: rotate(3deg); /* Safari 3-8 */
-    transform: rotate(3deg);
+  -ms-transform: rotate(3deg); /* IE 9 */
+  -webkit-transform: rotate(3deg); /* Safari 3-8 */
+  transform: rotate(3deg);
 }
 
-.map{
-  height: 50vh;
+.map {
+  iframe {
+    height: 50vh;
+    width: 100%;
+    display: block;
+  }
 }
 
-.contact-img{
+.contact-img {
   height: 35vh;
 }
 
-.a-black{color:$black;}
+.a-black {
+  color: $black;
+}

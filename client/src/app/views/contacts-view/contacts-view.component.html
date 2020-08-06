@@ -1,48 +1,31 @@
-<section id="vedeni">
+<section id="vedeni" class="py-4">
   <div class="container">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h1>Vedení skupiny</h1>
-      </div>
-    </div>
+    <h2 class="text-center mb-4">Vedení skupiny</h2>
     <contact-card [contacts]="contacts.leaders"></contact-card>
   </div>
 </section>
 
-<section id="pondeli">
-     <div class="container">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h1>Vedoucí oddílů - schůzky v pondělí</h1>
-      </div>
-    </div>
+<section id="pondeli" class="py-4">
+  <div class="container">
+    <h2 class="text-center mb-4">Vedoucí oddílů - schůzky v pondělí</h2>
     <contact-card [contacts]="contacts.monday"></contact-card>
   </div>
 </section>
 
-<section id="streda">
-   <div class="container">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h1>Vedoucí oddílů - schůzky ve středu</h1>
-      </div>
-    </div>
+<section id="streda" class="py-4">
+  <div class="container">
+    <h2 class="text-center mb-4">Vedoucí oddílů - schůzky ve středu</h2>
     <contact-card [contacts]="contacts.wednesday"></contact-card>
   </div>
 </section>
 
-<section id="map">
+<section id="map" class="pt-4">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h1>Přijď se podívat osobně</h1>
-      </div>
-      <div class="col-12 text-center">
-        <p>Každé pondělí a středu máme schůzky od 16:00 do 18:00 v naší loděnici.</p>
-      </div>
-    </div>
-    <div class="row map">
-      <google-map [url]="mapUrl"></google-map>
-    </div>
+    <h2 class="text-center mb-4">Přijď se podívat osobně</h2>
+    <p class="text-center">Každé pondělí a středu máme schůzky od 16:00 do 18:00 v naší loděnici.</p>
+  </div>
+
+  <div *ngIf="mapUrl" class="map">
+    <iframe style="border:none" [src]="mapUrl | safeurl:'SafeResourceUrl'" width="800" height="600" frameborder="0"></iframe>
   </div>
 </section>

@@ -1,12 +1,19 @@
-.header{background-image: url("/assets/img/headers/kayaks.jpg");}
-
-.card{
-  border:none;
-}
-.card-img-top{
-  border-radius:0rem;
+.header {
+  background-image: url("/assets/img/headers/kayaks.jpg");
 }
 
-.map{
-  height: 50vh;
+.card {
+  border: none;
+  background-color: transparent;
+}
+.card-img-top {
+  border-radius: 0rem;
+}
+
+.map {
+  iframe {
+    height: 50vh;
+    width: 100%;
+    display: block;
+  }
 }
