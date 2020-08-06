@@ -63,9 +63,12 @@ routes.post("albums", "/", { permission: "albums:create" }).handle(async (req, r
 
 // GET THE DISTINCT YEARS OF ALBUMS
 routes.get("albums:years", "/years", { permission: "albums:list" }).handle(async (req, res) => {
-  res.json(await Album.distinct("year"))
+  const years = await Album.aggregate([
+    { $project: { year: { $year: "$dateFrom" } } },
+    { $group: { _id: null, years: { $addToSet: "$year" } } }
+  ])
+  res.json(years[0] ? years[0].years || [] : []);
 });
-
 
 
 // GET ALL ALBUMS NAMES AND DATES
