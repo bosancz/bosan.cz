@@ -46,7 +46,7 @@ routes.get("galleryalbum", "/:id", { permission: "gallery:read" }).handle(async 
 
   let i = 0;
   while (album.titlePhotos.length < 3 && album.photos[i]) {
-    if (!album.titlePhotos.some(item => item._id === album.photos[i]._id)) album.titlePhotos.push(album.photos[i]);
+    if (!album.titlePhotos.some(item => String(item._id) === String(album.photos[i]._id))) album.titlePhotos.push(album.photos[i]);
     i++;
   }
 
