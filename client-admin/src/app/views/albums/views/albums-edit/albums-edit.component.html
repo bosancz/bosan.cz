@@ -5,6 +5,8 @@
     <div class="actions" *actionMenu>
       <ng-container *ngIf="album$ | async as album">
         <a mat-button *ngIf="album.status === 'public'" [href]="'/fotogalerie/' + album._id">Otevřít na webu</a>
+        <button mat-button color="primary" *ngIf="album._actions.publish" [disabled]="!album._actions.publish?.allowed" (click)="albumAction(album,'publish')">Publikovat na webu</button>
+        <button mat-button color="primary" *ngIf="album._actions.unpublish" [disabled]="!album._actions.unpublish?.allowed" (click)="albumAction(album,'unpublish')">Skrýt na webu</button>
         <button mat-button color="warn" [disabled]="!album._links.self.allowed.DELETE" (click)="deleteAlbum(album)">Smazat</button>
       </ng-container>
     </div>

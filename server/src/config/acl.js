@@ -18,6 +18,7 @@ const permissions = {
   "albums:read": { spravce, vedouci },
   "albums:create": { spravce, vedouci },
   "albums:edit": { spravce, vedouci },
+  "albums:publish": { spravce, vedouci },
   "albums:delete": { spravce, vedouci },
 
   "competition:read": { clen },

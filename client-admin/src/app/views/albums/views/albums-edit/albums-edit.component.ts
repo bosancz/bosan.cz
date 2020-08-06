@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { AlbumsService } from '../../albums.service';
 
 import { Album } from 'app/shared/schema/album';
+import { ToastService } from 'app/services/toast.service';
+import { ApiService } from 'app/services/api.service';
 
 @Component({
   selector: 'albums-edit',
@@ -22,7 +24,9 @@ export class AlbumsEditComponent {
   constructor(
     public albumsService: AlbumsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService,
+    private api: ApiService
   ) { }
 
   ngOnInit() {
@@ -44,6 +48,20 @@ export class AlbumsEditComponent {
     await this.albumsService.deleteAlbum(album._id);
 
     this.router.navigate(["/galerie"]);
+  }
+
+  async albumAction(album: Album, action: string) {
+
+    if (!album._actions[action].allowed) {
+      this.toastService.toast("K této akci nemáš oprávnění.")
+      return;
+    }
+
+    await this.api.post(album._actions[action]);
+
+    await this.albumsService.loadAlbum(album._id);
+
+    this.toastService.toast("Uloženo");
   }
 
 }

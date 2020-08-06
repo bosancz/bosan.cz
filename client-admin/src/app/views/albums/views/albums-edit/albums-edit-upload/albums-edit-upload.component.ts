@@ -113,6 +113,8 @@ export class AlbumsEditUploadComponent {
     this.status = "finished";
     this.saved.emit();
 
+    this.albumsService.loadAlbum(album._id);
+
   }
 
   async uploadPhoto(album: Album, uploadItem: PhotoUploadItem): Promise<void> {
@@ -123,14 +125,10 @@ export class AlbumsEditUploadComponent {
 
     let formData: FormData = new FormData();
 
-    let lastModified;
-    if (uploadItem.file.lastModified) lastModified = new Date(uploadItem.file.lastModified).toISOString();
-    // DEPRECATED else if(uploadItem.file.lastModifiedDate) lastModified = uploadItem.file.lastModifiedDate.toISOString();
-
     formData.set("album", album._id);
     formData.set("tags", this.selectedTags.join(","));
     formData.set("photo", uploadItem.file, uploadItem.file.name);
-    formData.set("lastModified", lastModified);
+    formData.set("lastModified", uploadItem.file.lastModified ? new Date(uploadItem.file.lastModified).toISOString() : undefined);
 
     const uploadPath = await this.api.path2href("photos");
 
