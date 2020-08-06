@@ -4,7 +4,7 @@ const routes = module.exports = new Routes();
 const config = require("../config");
 
 var multer = require("multer");
-var upload = multer({ dest: config.uploads.dir })
+var upload = multer({ dest: config.storage.uploads })
 var fs = require("fs-extra");
 
 var path = require("path");
