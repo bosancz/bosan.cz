@@ -40,7 +40,8 @@ export class TimelineScrollLabelComponent {
   templateUrl: './timeline-scroll.component.html',
   styleUrls: ['./timeline-scroll.component.scss'],
   host: {
-    "(mousedown)": "timelineMouseDown($event)"
+    "(mousedown)": "timelineMouseDown($event)",
+    "(touchstart)": "timelineMouseDown($event)"
   },
   exportAs: "timelineScroll"
 })
@@ -62,13 +63,15 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   resizeCheckInterval: number;
 
-  timelineMouseMoveHandler: any;
+  timelineMouseMoveHandler: (event: TouchEvent | MouseEvent) => void;
 
 
   constructor(
     private timeline: ElementRef
   ) {
-    this.timelineMouseMoveHandler = function (event) { this.timelineMouseMove(event); }.bind(this);
+    this.timelineMouseMoveHandler = function (event: TouchEvent | MouseEvent) {
+      window.requestAnimationFrame(() => this.timelineMouseMove(event));
+    }.bind(this);
   }
 
   ngAfterViewInit() {
@@ -110,14 +113,19 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
   }
 
-  timelineMouseDown(event) {
+  timelineMouseDown(event: TouchEvent | MouseEvent) {
+    window.addEventListener("touchmove", this.timelineMouseMoveHandler);
     window.addEventListener("mousemove", this.timelineMouseMoveHandler);
     this.timelineMouseMove(event);
   }
 
-  timelineMouseMove(event: MouseEvent) {
+  timelineMouseMove(event: MouseEvent | TouchEvent) {
 
-    const timelinePct = (event.clientY - this.timelineDim.top) / (this.timelineDim.height);
+    event.preventDefault();
+
+    const pointerY = event instanceof MouseEvent ? event.clientY : event.touches[0]?.clientY;
+
+    const timelinePct = (pointerY - this.timelineDim.top) / (this.timelineDim.height);
 
     const containerTop = timelinePct * this.containerDim.scrollHeight - this.containerDim.height / 2;
 
