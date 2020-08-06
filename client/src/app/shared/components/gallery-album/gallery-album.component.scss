@@ -5,6 +5,12 @@ h4 a{
   text-decoration:none;
 }
 
+@media (max-width: 1199.98px) {
+  h4 {
+    font-size: 1.2rem;
+  }
+}
+
 .photos{
   height:$photo-height;
   max-height:$photo-max-height;
