@@ -45,32 +45,41 @@
     <h3 class="my-3">Další informace</h3>
 
 
-    <div class="row" ngModelGroup="meeting">
+    <div class="row">
       <div class="col-md-6 order-last order-md-first">
+
         <mat-form-field class="w-100">
           <mat-label>Místo</mat-label>
           <input matInput name="place" [ngModel]="event.place" placeholder="Dno pytle">
         </mat-form-field>
-        <mat-form-field class="w-100">
-          <mat-label>Sraz</mat-label>
-          <input matInput name="start" [ngModel]="event.meeting.start" placeholder="17:00, u Bilba doma">
-        </mat-form-field>
-        <mat-form-field class="w-100">
-          <mat-label>Konec</mat-label>
-          <input matInput name="end" [ngModel]="event.meeting.end" placeholder="3:00, tamtéž">
-        </mat-form-field>
+
+        <ng-container ngModelGroup="meeting">
+          <mat-form-field class="w-100">
+            <mat-label>Sraz</mat-label>
+            <input matInput name="start" [ngModel]="event.meeting.start" placeholder="17:00, u Bilba doma">
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-label>Konec</mat-label>
+            <input matInput name="end" [ngModel]="event.meeting.end" placeholder="3:00, tamtéž">
+          </mat-form-field>
+        </ng-container>
+
       </div>
+      
       <div class="col-md-6 order-first order-md-last">
+
         <div>
           <label class="w-100">Oddíly</label>
           <groups-select [ngModel]="event.groups" name="groups"></groups-select>
         </div>
+
         <div class="mt-4">
           <label class="w-100">Charakter akce</label>
           <div class="d-inline-block mr-3">
             <event-subtype-selector [(ngModel)]="event.subtype" name="subtype"></event-subtype-selector>
           </div>
         </div>
+
       </div>
     </div>
 
