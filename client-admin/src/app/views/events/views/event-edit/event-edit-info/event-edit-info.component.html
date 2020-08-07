@@ -1,7 +1,7 @@
 <div *ngIf="event$ | async as event">
 
   <div class="mb-5">
-    <event-card [event]="eventForm.value"></event-card>
+    <event-card [event]="event" [actions]="false"></event-card>
   </div>
 
   <form #eventForm="ngForm" (ngSubmit)="saveEvent(event,eventForm)">
@@ -65,7 +65,7 @@
         </ng-container>
 
       </div>
-      
+
       <div class="col-md-6 order-first order-md-last">
 
         <div>
