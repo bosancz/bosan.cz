@@ -33,7 +33,7 @@ export class UsersCreateComponent implements OnInit {
     // get the new user
     const user = await this.api.get<User>(response.headers.get("location"));
     // open the user
-    this.router.navigate(["./", user._id], { relativeTo: this.route });
+    this.router.navigate(["/uzivatele", user._id]);
   }
 
 }
