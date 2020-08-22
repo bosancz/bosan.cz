@@ -49,7 +49,7 @@ export class DashboardMyEventsComponent implements OnInit {
 
       stats.count++;
 
-      const days = DateTime.fromISO(event.dateTill).diff(DateTime.fromISO(event.dateFrom), "days").days;
+      const days = Math.ceil(DateTime.fromISO(event.dateTill).diff(DateTime.fromISO(event.dateFrom), "days").days);
       stats.days += days;
 
       stats.mandays += days * (event.attendees?.length || 0);
@@ -57,6 +57,7 @@ export class DashboardMyEventsComponent implements OnInit {
       return stats;
 
     }, { count: 0, days: 0, mandays: 0 });
+
   }
 
   openLeadEventModal() {
