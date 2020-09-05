@@ -1,4 +1,4 @@
-<div class="container" *ngIf="member$ | async as member">
+<div class="container" *ngIf="member">
 
   <bo-page-header>
     <h2 [pageTitle]="'Upravit: ' + member.nickname">
@@ -124,5 +124,9 @@
         </div>
 
       </ng-container>
+
+      <div class="mt-5 text-right">
+        <button mat-button mat-flat-button color="primary" type="submit" class="w-100">Uložit</button>
+      </div>
     </form>
   </div>

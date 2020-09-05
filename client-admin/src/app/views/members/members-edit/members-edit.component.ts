@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Member } from 'app/shared/schema/member';
-import { Observable, from } from 'rxjs';
+import { Observable, from, Subscription } from 'rxjs';
 import { ApiService } from 'app/services/api.service';
 import { ToastService } from 'app/services/toast.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -15,13 +15,14 @@ import { ConfigService } from 'app/services/config.service';
 })
 export class MembersEditComponent {
 
-  member$: Observable<Member> = this.route.params
-    .pipe(map((params: Params) => params.member))
-    .pipe(mergeMap(memberId => from(this.loadMember(memberId))));
+  member: Member;
+
 
   groups: WebConfigGroup[] = [];
   roles: string[] = [];
   membershipTypes: string[] = [];
+
+  paramsSubscription: Subscription;
 
   constructor(
     private api: ApiService,
@@ -30,6 +31,16 @@ export class MembersEditComponent {
     private configService: ConfigService
   ) {
     this.loadConfig();
+  }
+
+  ngOnInit() {
+    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
+      this.loadMember(params["member"]);
+    });
+  }
+
+  ngOnDestroy() {
+    this.paramsSubscription.unsubscribe();
   }
 
   loadConfig() {
@@ -41,13 +52,15 @@ export class MembersEditComponent {
   }
 
   async loadMember(memberId: string) {
-    return this.api.get<Member>(["member", memberId]);
+    this.member = await this.api.get<Member>(["member", memberId]);
   }
 
 
   async saveMember(memberData: any) {
     // send the list of changes or current state of member to the server
-    await this.api.patch(["member", memberData._id], memberData);
+    await this.api.patch(["member", this.member._id], memberData);
+
+    await this.loadMember(this.member._id);
 
     // send a toast with OK message
     this.toastService.toast("Uloženo.");
