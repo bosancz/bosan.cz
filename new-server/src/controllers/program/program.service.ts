@@ -1,8 +1,33 @@
 import { Injectable, Request } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
 import Event from 'models/event.entity';
+
+import dayjs = require("dayjs");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @Injectable()
 class ProgramService {
@@ -23,8 +48,9 @@ class ProgramService {
     );
     query.populate('leaders', '_id name nickname group contacts.mobile');
 
-    const today = new Date();
-    today.setDate(today.getDate() - 3);
+    const today = dayjs()
+      .subtract(3, 'day')
+      .toDate();
 
     query.where({
       dateTill: {

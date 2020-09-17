@@ -1,5 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 
+import Event from 'models/event.entity';
+
 import ProgramService from './program.service';
 
 @Controller()
@@ -7,7 +9,7 @@ class ProgramController {
   constructor(private readonly programService: ProgramService) {}
 
   @Get()
-  find() {
+  find(): Promise<Event[]> {
     return this.programService.find({});
   }
 }
