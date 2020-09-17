@@ -9,7 +9,7 @@ class ProgramController {
   constructor(private readonly programService: ProgramService) {}
 
   @Get()
-  find(): Promise<Event[]> {
+  get(): Promise<Event[]> {
     return this.programService.find({});
   }
 }

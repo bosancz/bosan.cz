@@ -1,33 +1,9 @@
-import { Injectable, Request } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import dayjs from 'dayjs';
+
 import Event from 'models/event.entity';
-
-import dayjs = require("dayjs");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @Injectable()
 class ProgramService {

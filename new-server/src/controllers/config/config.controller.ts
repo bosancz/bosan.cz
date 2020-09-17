@@ -9,7 +9,7 @@ import ResponseType from 'helpers/responseType';
 @Controller('config')
 class ConfigController {
   @Get()
-  async get(@Res() res: ResponseType) {
+  get(@Res() res: ResponseType): void {
     const configFile = path.resolve(storage.config, 'web-config.json');
     if (fs.existsSync(configFile)) {
       res.sendFile(configFile);
