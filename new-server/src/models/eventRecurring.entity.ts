@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 import Event from './event.entity';
 
 @Schema()
-class EventRecurring extends mongoose.Document {
+class EventRecurring extends Document {
   @Prop({
     enum: ['daily', 'weekly', 'monthly', 'monthlyDay', 'yearly'],
     required: true,
@@ -17,7 +17,7 @@ class EventRecurring extends mongoose.Document {
   @Prop({ required: true })
   endDate: Date;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }])
+  @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Event' }])
   events: Event[];
 }
 

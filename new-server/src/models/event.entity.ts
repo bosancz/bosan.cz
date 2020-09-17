@@ -1,11 +1,11 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 import EventRecurring from './eventRecurring.entity';
 import Member from './member.entity';
 
 @Schema()
-class Event extends mongoose.Document {
+class Event extends Document {
   @Prop({
     required: true,
     enum: ['draft', 'pending', 'public', 'cancelled', 'rejected'],
@@ -41,7 +41,7 @@ class Event extends mongoose.Document {
   timeTill: string;
 
   // TODO test without type definition
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'EventRecurring' })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'EventRecurring' })
   recurring: EventRecurring;
 
   @Prop()
@@ -76,7 +76,7 @@ class Event extends mongoose.Document {
 
   @Prop([
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: MongooseSchema.Types.ObjectId,
       ref: 'Member',
       autopopulate: { select: '_id nickname name group role' },
     },
@@ -85,7 +85,7 @@ class Event extends mongoose.Document {
 
   @Prop([
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: MongooseSchema.Types.ObjectId,
       ref: 'Member',
       autopopulate: { select: '_id nickname name group role' },
     },
