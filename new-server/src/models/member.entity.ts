@@ -67,4 +67,4 @@ class Member extends mongoose.Document {
 
 export default Member;
 
-export const MemberEntity = SchemaFactory.createForClass(Member);
+export const MemberSchema = SchemaFactory.createForClass(Member);

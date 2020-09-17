@@ -24,6 +24,7 @@ module.exports = {
   rules: {
     'no-plusplus': 'off',
     'spaced-comment': 'warn',
+    camelcase: 'off',
     'no-restricted-syntax': 'off',
     'newline-before-return': 'warn',
     'no-param-reassign': 'off',
