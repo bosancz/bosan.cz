@@ -5,7 +5,7 @@
   "author": "",
   "license": "MIT",
   "engines": {
-    "node": "12.18.1"
+    "node": "12.18.3"
   },
   "scripts": {
     "prebuild": "rimraf dist",
