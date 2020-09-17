@@ -8,13 +8,14 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
+    'plugin:import/warnings',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort'],
+  plugins: ['@typescript-eslint'],
   settings: {
     'import/resolver': {
       typescript: {},
@@ -40,24 +41,23 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    'simple-import-sort/sort': [
-      'error',
-      {
-        groups: [
-          ['^@nestjs$'],
-          ['^@?\\w'],
-          ['^controllers', '^models'],
-          ['^\\u0000'],
-          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
-          ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
-        ],
-      },
-    ],
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error',
-    'import/order': 'off',
-    'sort-imports': 'off',
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+        ],
+        'newlines-between': 'always',
+      },
+    ],
     '@typescript-eslint/explicit-function-return-type': [
       'error',
       {
