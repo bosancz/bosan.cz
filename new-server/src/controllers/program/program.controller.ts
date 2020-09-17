@@ -4,7 +4,7 @@ import Event from 'models/event.entity';
 
 import ProgramService from './program.service';
 
-@Controller()
+@Controller('program')
 class ProgramController {
   constructor(private readonly programService: ProgramService) {}
 
