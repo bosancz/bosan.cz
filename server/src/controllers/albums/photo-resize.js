@@ -36,7 +36,7 @@ module.exports = async function (file, sizes, options) {
     // generate smaller versions of the file    
     var sizesMetadata = [];
     for (let size of sizes) {
-      const meta = await sharp(file).rotate().resize(size.width, size.height, { fit: "contain" }).withMetadata().toFile(size.path);
+      const meta = await sharp(file).rotate().resize(size.width, size.height, { fit: "inside" }).withMetadata().toFile(size.path);
       sizesMetadata.push(meta);
     };
 
