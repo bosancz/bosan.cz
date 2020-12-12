@@ -31,7 +31,7 @@ Git je nástroj na verzování. Bude ti zpočátku připadat strašně složitý
 
 6) Nyní by se ti vlevo měla objevit složka bosan.cz. V ní je několik podsložek. Tebe bude teďka zajímat složka `client`, kde jsou kódy k veřejné části webu.  
 *Pro zajímavost, k čemu jsou ostatní:*
-    - *`.github` - toho si nevšímej, to je nějaké nastavení*
+    - *`.github` - technická nastavení jak zveřejnit nové změny webu*
     - *`client` - kód k veřejnému webu*
     - *`client-admin` - kód k interní sekci*
     - *`docs` - nějaké dokumenty, třeba obrázky z tohoto textu*
