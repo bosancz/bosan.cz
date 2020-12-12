@@ -57,7 +57,7 @@ Git je nástroj na verzování. Bude ti zpočátku připadat strašně složitý
     ```
 
 10) Web se bude chvíli připravovat. Až to doběhne, můžeš si v prohlížeči otevřít adresu http://localhost:4200. Pokud všechno dopadlo dobře, bude tam tvoje vlastní kopie Bošánovského webu.  
-*Proč takhle divná adresa? To `localhost` totiž znamená, že neotevíráme nic na internetu, ale na tvém počítači. `:4200` značí, že se to má otevřít na portu 4200. Porty jsou prostě takové adresy na počítači. Na každé portu může běžet jedna aplikace. Weby na internetu běží většinou na portu 443, ale ten se nepíše, to je výchozí port. Ale můžeš si to vyzkoušet. Třeba jdi na https://www.seznam.cz:443/. Náš vývojový je ale prostě na portu 4200.*
+*Proč takhle divná adresa? To `localhost` totiž znamená, že neotevíráme nic na internetu, ale na tvém počítači. `:4200` značí, že se to má otevřít na portu 4200. Porty jsou prostě takové adresy na počítači. Na každém portu může běžet jedna aplikace. Weby na internetu běží většinou na portu 443, ale ten se nepíše, to je výchozí port. Ale můžeš si to vyzkoušet. Třeba jdi na https://www.seznam.cz:443/. Náš vývojový je ale prostě na portu 4200.*
 
 ### Měníme web!
 
@@ -112,4 +112,4 @@ Ta historie změn se dá představit jako takový divný strom, kde se větve od
 
 10) Výborně! 👏👏👏 Tvoje první změna je na cestě na náš web! 
 
-Možná ti to přišlo složité, ale neboj, všechny tyhle kroky se brzy naučíš na zpaměť a pak už budeš jen s radostí upravovat web. A hlavně to pak budeš moct využít třeba v práci, takhle to totiž dělají všude.
+Možná ti to přišlo složité, ale neboj, všechny tyhle kroky se brzy naučíš nazpaměť a pak už budeš jen s radostí upravovat web. A hlavně to pak budeš moct využít třeba v práci, takhle to totiž dělají všude.
