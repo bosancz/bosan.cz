@@ -112,4 +112,4 @@ Ta historie změn se dá představit jako takový divný strom, kde se větve od
 
 10) Výborně! 👏👏👏 Tvoje první změna je na cestě na náš web! 
 
-Možná ti to přišlo složité, ale neboj, všechny tyhle kroky se brzy naučíš nazpaměť a pak už budeš jen s radostí upravovat web. A hlavně to pak budeš moct využít třeba v práci, takhle to totiž dělají všude.
+Možná ti to přišlo složité, ale neboj, většinu kroků jsi dělal/a jen napoprév a zbylé se brzy naučíš nazpaměť a pak už budeš jen s radostí upravovat web. A hlavně to pak budeš moct využít třeba v práci, takhle to totiž dělají všude.
