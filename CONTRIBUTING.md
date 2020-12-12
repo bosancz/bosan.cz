@@ -90,9 +90,9 @@ Tak dejme tomu, že jsi něco změnil/a podle předešlého návodu a nebyla to 
 
 Ta historie změn se dá představit jako takový divný strom, kde se větve odpojují ale pak zas připojují. Vypadá to spíš jak kolejiště na nádraží. Ten storm má větve (`branch`). Každá `branch` vždy obsahuje kompletní kód webu. Je jedna hlavní větev (říká se ji `master`), to je ta, co obsahuje ten kód co běží veřejně. Změny se dělají tak, že si uděláš svojí větev. Pojmenuješ si jí třeba `fix/summer-camp-dates` Vlastně takovou kopii toho webu. V ní uděláš nějaké změny, každou zaeviduješ a napíšeš co měníš (změně se říká `commit`, tomu vysvětlení se říká `commit message`). No a když budeš mít hotovo, nahraješ tuhle novou `branch` na GitHub a požádáš o zapojení všech změn do `master`. Té žádosti se říká `pull request`. Někdo zkušenější se na to koukne a když mu to bude připadat v pohodě, sloučí to. Pak se to cca do hodiny objeví na webu.
 
-0) Jeslti ještě nemáš, zaregistruj se na GitHub.com a požádej správce našeho webu, aby ti přidal přístup k měnení kódu webu.
+0) Jestli ještě nemáš, zaregistruj se na GitHub.com a požádej správce našeho webu, aby ti přidal přístup k měnení kódu webu.
 
-1) Tak to, jdeme na to! Nejdřív si pro jistotu stáhneme nejnovější verzi webu. Dole by ti mělo vedle ikonky výhybky svítit `master`. Pokud je tam něco jiného, klikni na to a z vyskakovacího menu zvol `master`. Vedle toho vpravo bude ikona dvou šipek v kruhu. Ty zmáčkni. Tím se stáhne nejnovější verze webu. A taky nahrají změny od tebe, ale to později.
+1) Tak jo, jdeme na to! Nejdřív si pro jistotu stáhneme nejnovější verzi webu. Dole by ti mělo vedle ikonky výhybky svítit `master`. Pokud je tam něco jiného, klikni na to a z vyskakovacího menu zvol `master`. Vedle toho vpravo bude ikona dvou šipek v kruhu. Ty zmáčkni. Tím se stáhne nejnovější verze webu. A taky nahrají změny od tebe, ale to později.
 
 2) Nyní si vytvoříme naší větev. Dole na spodní liště Visual Studia Code budeš mít ikonku výhybky a text `master`. To značí, že upravuješ hlavní větev. Klikni na to, pak v menu, které se nahoře zobrazí, klikni na `+ Create new branch`. Zde vyplň název své větve. My používáme přepony `fix/` když je to oprava a `feature/` když je to nová funkce, ale mužeš ji pojmenovat jak chceš. Ale jen bez mezer a speciálních znaků. Tak třeba `fix/summer-camp-dates` Pak zmáčkni enter.
 
