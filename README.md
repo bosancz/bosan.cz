@@ -1,8 +1,4 @@
-# Frontend webových stránek Dětské vodácké skupiny ŠÁN.
-
- - [Nahlášení chyby nebo návrh nové funkce](#nahlášení-chyby-nebo-návrh-nové-funkce)
- - [Spuštění na serveru](#spuštění-na-serveru) 
- - [Lokální vývoj](#lokální-vývoj)
+# Webové stránky Dětské vodácké skupiny ŠÁN.
 
 ## Nahlášení chyby nebo návrh nové funkce
 
@@ -12,123 +8,22 @@
 
 ## Spuštění na serveru
 
-### Instalace
+1) Stáhni si `docker-compose.yml` z tohoto repozitáře a **uprav hesla a další nastavení**
+2) Pokud nemáš, nainstaluj Docker a Docker Compose
+3) Spusť pomocí příkazu `docker-compose up -d`
 
-#### Potřebné aplikace
-
- - [NodeJS](https://nodejs.org)
- - [MongoDB](https://www.mongodb.com/download-center/community)
- 
-#### Instalace webu
-
-```sh
-npm install     # instalace balíčků
-npm run build   # kompilace kódu
+**Vytvoření admin účtu**:
 ```
-
-### Nastavení
-
-#### Vytvoření admin přístupu
-
-```
+cd server
 npm run create-admin
 ```
 
-#### Konfigurace serveru
-
-##### Prostředí
-
-Konfigurační soubory `server/environment.<prostředí>`
-
-Prostředí nastavíme pomocí globální proměnné `NODE_ENV`:
-
-```
-NODE_ENV=production npm start
-```
-
-##### Obecná nastavení
-
-Soubor `server/config/general.js`.
-
-##### Řízení přístupů
-
-Soubor `server/config/permissions.js`.
-
-#### Konfigurace klienta
-
-##### Řízení přístupů
-
-Soubor `client/src/config/permissions.ts`
-
-#### Sdílení na sociálních sítích
-
-Facebook a další nečtou obsah stránky vygenerovaný dynamicky. Je proto potřeba jim dodat obsah jinak, prostřednictvím OpenGraph tagů. Odchycení těchto dotazů docílíte např. metodou rewrite v Nginx:
-```nginx
-if ($http_user_agent ~ "^(facebookexternalhit)|(Twitterbot)|(Pinterest)|(Slackbot)") {
-  rewrite ^/(\/(?!data).*)$ /api/share/$1;#only when doesnt start with /data because there are the pictures shared
-}
-```
-
-#### Spuštění
-
-```sh
-NODE_ENV=production
-npm start
-```
-
-## Lokální vývoj
-
-### Instalace nástrojů
-
-**NodeJS**
- - https://nodejs.org
- - při instalaci na Windows nezapomeňte zaškrtnout zahrnutí v cestě PATH
-
-**Verzovací nástroj s podporou gitu**
- - [Sourcetree](https://www.sourcetreeapp.com/) nebo [Git](https://git-scm.com/)
-
-**Editor kódu**
- - doporučujeme [VSCode](https://code.visualstudio.com/), nebo [WebStorm](https://www.jetbrains.com/webstorm/)
-
-**Angular CLI**
- - `npm install @angular/cli -g`
- 
-**MongoDB** (pokud chcete vyvíjet backend)
- - https://www.mongodb.com/download-center/community
-
-### Spuštění pouze pro vývoj frontendu (bez instalace serveru a databáze)
-```sh
-cd client
-ng serve --configuration=local
-```
-### Spuštění pro vývoj frontendu i backendu
-Otevřete si dva terminály (příkazové řádky).
-
-V prvním spusťte:
-```sh
-cd client
-ng serve --configuration=local-server
-```
-
-A v druhém:
-```sh
-$env:NODE_ENV="local" # ve Windows v PowerShellu
-set NODE_ENV=local    # ve Windows v příkazovém řádku
-NODE_ENV=local        # v Linuxu nebo na Macu v terminálu
-
-cd server
-npm run dev
-```
-
-### Continuous Deployment - automatické nasazení
-
-Na branch master a development je nastaveno automatické nasazení na bosan.cz (test.bosan.cz pro branch development) po každém pushnutém commitu. Nasazení trvá cca tři minuty. V případě chyby zůstává nasazená poslední verze.
+## Rozvoj webu
 
 ### Jak na to?
 
-Popis toho, jak web interně funguje, jak co nastavit a jak co naprogramovat najdete ve [wiki](https://github.com/bosancz/bosan.cz/wiki). Obecné věci najdete samozřejmě v dokumentaci k příslušným technologiím.
+Oceníme každou pomoc. Proto jsem napsal [návod, jak začít s úpravami webu](./CONTRIBUTING.md). Tak vzhůru do toho! :)
 
-### Pravidla přispívání
+### Speciality
 
-- kód **v angličtině**, commity **v angličtině**, pull requesty **v angličtině**, issues **v češtině**
-- struktura souborů na klientu dle [Angular Style Guide](https://angular.io/guide/styleguide)
+Popis některých specialit najdete ve [wiki](https://github.com/bosancz/bosan.cz/wiki). Bohužel se mi to moc nedaří aktualizovat.
