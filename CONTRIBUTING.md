@@ -8,7 +8,7 @@
 NodeJS je software, co spouští skripty v jazyce JavaScript. A v tom je náš web napsaný. Respektive v TypeScriptu, ale o tom později. Při instalaci na Windows nezapomeň zaškrtnout "zahrnutí v cestě PATH".
 
 2) [Visual Studio Code](https://code.visualstudio.com/)  
-Editorů kódu je spousta. Já doporučuju Visual Studio Code. Je zdarma, má dobrou podporu pro technologie, co na našem webu požíváme, a má přímo v sobě nástroj na verzování.
+Editorů kódu je spousta. Já doporučuju Visual Studio Code. Je zdarma, má dobrou podporu pro technologie, co na našem webu požíváme, a má přímo v sobě hezké ovládání nástroje na verzování.
 
 4) [Git](https://git-scm.com/)  
 Git je nástroj na verzování. Bude ti zpočátku připadat strašně složitý a nesmyslný. Budeš si říkat, proč prostě neudělat složku, kam každý všechno nahraje. Ale časem pochopíš, že to bychom se v tom nevyznali, byl v tom bordel a web by nefungoval.
