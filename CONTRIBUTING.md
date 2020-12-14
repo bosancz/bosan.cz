@@ -20,7 +20,7 @@ NodeJS je software, co spouští programy v jazyce JavaScript. A v tom je náš 
 Editorů kódu je spousta. Já doporučuju Visual Studio Code. Je zdarma, má dobrou podporu pro technologie, co na našem webu požíváme, a má přímo v sobě hezké ovládání nástroje na verzování.
 
 4) [Git](https://git-scm.com/)  
-Git je nástroj na verzování. Bude ti zpočátku připadat strašně složitý a nesmyslný. Budeš si říkat, proč prostě neudělat složku, kam každý všechno nahraje. Ale časem pochopíš, že to bychom se v tom nevyznali, byl v tom bordel a web by nefungoval.
+Git je nástroj na verzování, tj. správu různých verzí webu. Bude ti zpočátku připadat strašně složitý a nesmyslný. Budeš si říkat, proč prostě neudělat složku, kam každý všechno nahraje. Ale časem pochopíš, že to bychom se v tom nevyznali, byl v tom bordel a web by nefungoval.
 
 ### Stáhni a spusť si svou kopii webu u sebe na PC
 
