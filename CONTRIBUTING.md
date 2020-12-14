@@ -2,7 +2,14 @@
 
 ## Jak udělat tvou první úpravu webu?
 
-### 1. Nainstaluj si potřebné nástroje:
+Pomocí následujícího návodu si nainstaluješ potřebné nástroje a vyzkoušíš udělat první úpravu webu. Návod má čtyři kapitoly:
+
+1) [Nainstaluj si potřebné nástroje](#nainstaluj-si-pot%C5%99ebn%C3%A9-n%C3%A1stroje)
+2) [Stáhni a spusť si svou kopii webu u sebe na PC](#st%C3%A1hni-a-spus%C5%A5-si-svou-kopii-webu-u-sebe-na-pc)
+3) [Měníme web](#m%C4%9Bn%C3%ADme-web)
+4) [Publikujeme změny](#publikujeme-zm%C4%9Bny)
+
+### Nainstaluj si potřebné nástroje:
 
 1) [NodeJS](https://nodejs.org/)  
 NodeJS je software, co spouští programy v jazyce JavaScript. A v tom je náš web napsaný. Respektive v TypeScriptu, ale o tom později. Při instalaci na Windows nezapomeň zaškrtnout "zahrnutí v cestě PATH".
@@ -13,7 +20,7 @@ Editorů kódu je spousta. Já doporučuju Visual Studio Code. Je zdarma, má do
 4) [Git](https://git-scm.com/)  
 Git je nástroj na verzování. Bude ti zpočátku připadat strašně složitý a nesmyslný. Budeš si říkat, proč prostě neudělat složku, kam každý všechno nahraje. Ale časem pochopíš, že to bychom se v tom nevyznali, byl v tom bordel a web by nefungoval.
 
-### 2. Stáhni a spusť si svou kopii webu u sebe na PC
+### Stáhni a spusť si svou kopii webu u sebe na PC
 
 1) Někde v počítači si vytvoř složku, kde chceš mít věci, co s webem souvisí. Úplně kde chceš, třeba v Dokumentech a pojmenuj ji Bošán.
 
