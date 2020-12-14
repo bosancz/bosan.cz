@@ -2,7 +2,9 @@
 
 ## Jak udělat tvou první úpravu webu?
 
-Pomocí následujícího návodu si nainstaluješ potřebné nástroje a vyzkoušíš udělat první úpravu webu. Návod má čtyři kapitoly:
+Pomocí následujícího návodu si nainstaluješ potřebné nástroje a vyzkoušíš udělat první úpravu webu. Možná ti to bude za začátku připadat složité, ale spoustu kroků budeš dělat jen jednou a ty zbylé si brzy zapamatuješ a zautomatizuješ. Udělat správně záplatu na loď ti taky určitě nejdřív přišlo složité a teď už to zvládneš i poslepu.
+
+Návod má čtyři kapitoly:
 
 1) [Nainstaluj si potřebné nástroje](#nainstaluj-si-pot%C5%99ebn%C3%A9-n%C3%A1stroje)
 2) [Stáhni a spusť si svou kopii webu u sebe na PC](#st%C3%A1hni-a-spus%C5%A5-si-svou-kopii-webu-u-sebe-na-pc)
