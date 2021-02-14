@@ -1,5 +1,6 @@
 var express = require("express");
 var app = express();
+var compression = require('compression');
 
 async function init() {
 
@@ -11,6 +12,9 @@ async function init() {
 
   /* CONFIG */
   var config = require("./config");
+
+  /* GZIP */
+  app.use(compression());
 
   /* REQUEST PARSING */
   const bodyParser = require("body-parser");
