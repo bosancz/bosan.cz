@@ -2,7 +2,7 @@
   "name": "bosan.cz-client-admin",
   "scripts": {
     "build": "ng build --prod",
-    "dev": "ng serve --configuration=local"
+    "dev": "ng serve"
   },
   "dependencies": {
     "@angular/animations": "^10.0.5",
