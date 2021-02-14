@@ -1,10 +1,9 @@
 {
-  "name": "Bošán",
-  "short_name": "Bošán",
+  "name": "Bošán interní",
+  "short_name": "BO interní",
   "theme_color": "#000000",
   "background_color": "#fafafa",
   "display": "standalone",
-  "scope": "/interni/",
   "start_url": "./index.html",
   "icons": [
     {

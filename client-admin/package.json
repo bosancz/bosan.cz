@@ -2,7 +2,7 @@
   "name": "bosan.cz-client-admin",
   "scripts": {
     "build": "ng build --prod",
-    "dev": "ng serve --configuration=local --base-href=/interni/"
+    "dev": "ng serve --configuration=local"
   },
   "dependencies": {
     "@angular/animations": "^10.0.5",
