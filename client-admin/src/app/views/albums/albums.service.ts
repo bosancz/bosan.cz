@@ -28,4 +28,8 @@ export class AlbumsService {
     await this.api.delete(["album", albumId]);
   }
 
+  async deletePhoto(photoId: Photo["_id"]){
+    await this.api.delete(["photo", photoId]);
+  }
+
 }
