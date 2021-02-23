@@ -85,6 +85,17 @@ export class AlbumsEditPhotosComponent implements OnInit, OnDestroy {
     this.saveTitlePhotos();
 
   }
+
+  async deletePhoto(photo: Photo) {
+
+    if (!window.confirm("Opravdu chcete smazat tuto fotku?")) return;
+
+    await this.albumsService.deletePhoto(photo._id);
+    await this.albumsService.loadAlbum(this.album._id);
+    
+    this.toastService.toast("Foto smazáno.");
+  }
+
   /*
     async saveTags(photo: Photo, tags: string[]) {
       await this.dataService.updatePhoto(photo._id, photo);
@@ -106,16 +117,7 @@ export class AlbumsEditPhotosComponent implements OnInit, OnDestroy {
       this.toastService.toast("Uloženo.");
     }
   
-    async deletePhoto(photo) {
-  
-      if (!window.confirm("Opravdu chcete smazat toho foto")) return;
-  
-      await this.dataService.deletePhoto(photo._id);
-  
-      this.toastService.toast("Foto smazáno.");
-  
-      this.saved.emit();
-    }
+    
     */
 
 }
