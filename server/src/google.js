@@ -6,7 +6,6 @@ function getJWTClient() {
 
     if(!config.keys.google) throw new Error("Missing Google keys");
 
-    console.log(config.keys.google)
     var jwtClient = new google.auth.JWT(
       config.keys.google.client_email,
       null,
