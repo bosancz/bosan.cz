@@ -8,6 +8,7 @@ module.exports = {
   general: require("./general"),
   google: require("./google"),
   ical: require("./ical"),  
+  keys: require("./keys"),
   photos: require("./photos"),
   server: require("./server"),
   storage: require("./storage"),
