@@ -12,8 +12,8 @@ module.exports = {
   url: url,
 
   image: {
-    url: url + "/assets/img/headers/kayaks.jpg",
-    width: 2560,
-    height: 1438
+    url: url + "/assets/img/share-default.jpg",
+    width: 1280,
+    height: 719
   }
 }
