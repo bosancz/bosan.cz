@@ -1,4 +1,5 @@
 const { Duration } = require("luxon");
+const keys = require("./keys");
 
 const expiration = Duration.fromISO(process.env.AUTH_EXPIRATION || "P1D");
 
@@ -6,7 +7,7 @@ module.exports = {
 
   jwt: {
     expiration: expiration.as("seconds"),
-    secret: process.env.AUTH_SECRET || "secret",
+    secret: process.env.AUTH_SECRET || keys.jwt.secret || "secret",
     credentialsRequired: false,
 
     getToken: (req) => {
