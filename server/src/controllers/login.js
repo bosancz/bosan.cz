@@ -54,7 +54,7 @@ routes.post("login", "/", { permission: "login:credentials" }).handle(validate({
   if (bcrypt.getRounds(user.password) < config.auth.bcrypt.rounds) {
 
     // we dont need to wait for this, rather return token faster
-    bcrypt.hash(req.body.password, config.bcrypt.rounds)
+    bcrypt.hash(req.body.password, config.auth.bcrypt.rounds)
       .then(hash => {
         user.password = hash;
         user.save();
