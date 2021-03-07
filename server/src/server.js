@@ -33,7 +33,7 @@ async function init() {
 
   /* DATABASE */
   const { connectDB } = require("./db");
-  await connectDB();
+  connectDB();
 
   /* FILE DATA */
   const { ensureDirs } = require("./file-storage");

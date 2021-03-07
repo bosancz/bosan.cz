@@ -1,23 +1,36 @@
-const {google} = require("googleapis"); 
+const { google } = require("googleapis");
 const config = require("./config");
 
+function getJWTClient() {
+  try {
 
-const jwtClient = new google.auth.JWT(
-  config.google.serviceMail,
-  null,
-  config.google.privateKey,
-  ['https://mail.google.com/'], // full access for now, we can restrict more
-  config.google.impersonate
-);
+    if(!config.keys.google) throw new Error("Missing Google keys");
 
-google.options({
-  auth: jwtClient
-});
+    console.log(config.keys.google)
+    var jwtClient = new google.auth.JWT(
+      config.keys.google.client_email,
+      null,
+      config.keys.google.private_key,
+      ['https://mail.google.com/'], // full access for now, we can restrict more
+      config.google.impersonate
+    );
 
-console.log("[GOOGLE] Google API set up.");
+    google.options({
+      auth: jwtClient
+    });
+
+    console.log("[GOOGLE] Google API set up.");
+
+    return jwtClient;
+  }
+  catch (err) {
+    console.error("[GOOGLE] Could not set up Google API. Error: " + err.message)
+    return undefined;
+  }
+}
 
 module.exports = {
-  jwtClient: jwtClient,
+  jwtClient: getJWTClient(),
   google: google
 };
 
