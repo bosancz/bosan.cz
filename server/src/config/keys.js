@@ -20,5 +20,3 @@ module.exports = {
   jwt: loadKeyfile("jwt.json"),
   vapid: loadKeyfile("vapid.json"),
 }
-
-console.log(module.exports)
