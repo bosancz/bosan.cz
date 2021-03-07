@@ -12,5 +12,5 @@ routes.get("notifications", "/", {permission:"notifications:list"}).handle((req,
 });
 
 routes.get("notifications:key", "/key", {permission:"notifications:key:read"}).handle((req,res) => {
-  res.send(config.notifications.vapidKeys.publicKey);
+  res.send(config.keys.vapid.publicKey);
 });
