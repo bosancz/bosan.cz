@@ -56,6 +56,18 @@ routes.get(null, "/fotogalerie/:album/:photo",{permission:"gallery:read"}).handl
   res.type("html").send(createPage(options));
 });
 
+routes.get(null, "/program", {permission:"webinfo:read"}).handle((req,res) => {
+  
+  var options = {
+    url:  `${config.url}/program`,
+    title: "Program akcí :: " + config.general.title,
+    description: "Podívejte se, jaké akce pro vás máme připraveny na příštích pár týdnů.",
+    type: "website"
+  };
+  
+  res.type("html").send(createPage(options));
+});
+
 routes.get(null, "**", {permission:"webinfo:read"}).handle((req,res) => {
   
   var options = {
