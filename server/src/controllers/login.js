@@ -89,7 +89,7 @@ routes.post("login:sendlink", "/sendlink", { permission: "login:link" }).handle(
 
   await user.save();
 
-  const link = config.api.root + "/login/link?code=" + code;
+  const link = `${config.general.url}${config.server.baseDir}/login/link?code=${code}`;
 
   await mailings("send-login-link", { user: user, link: link });
 
