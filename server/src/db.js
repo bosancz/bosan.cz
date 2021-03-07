@@ -17,14 +17,24 @@ mongoose.Promise = global.Promise;
 /* CONNECTION */
 var retries = 0;
 
-function connectDB() {
+function connectDB(attempt) {
 
-  console.log("[DB] Connecting to DB...");
+  attempt = (attempt || 0) + 1;
 
-  return mongoose.connect(config.database.uri, { useNewUrlParser: true })
+  if (!attempt) console.log("[DB] DB URI: " + config.database.uri)
+
+  console.log(`[DB] Connecting to DB... attempt ${attempt}/${config.database.retryCount}`);
+
+  mongoose.connect(config.database.uri, { useNewUrlParser: true })
     .then(() => console.log("[DB] Connected to " + config.database.uri))
     .catch(err => {
-      throw new Error("Error when connectiong to " + config.database.uri + ": " + err.message);      
+      if (attempt <= config.database.retryCount) {
+        console.error(`[DB] Error when connectiong to DB. Will retry in ${config.database.retryInterval / 1000}s.`);
+        setTimeout(() => connectDB(attempt), config.database.retryInterval);
+      }
+      else {
+        throw new Error("[DB] Error when connectiong to DB: " + err.message);
+      }
     });
 
 }
