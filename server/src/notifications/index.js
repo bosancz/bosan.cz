@@ -1,4 +1,5 @@
 const webpush = require('web-push');
+const config = require('../config');
 
 require("../db");
 
@@ -6,10 +7,10 @@ const User = require("../models/user");
 
 const notificationTemplates = require("./notifications");
 
-if (!process.env.KEYS_VAPID_PUBLIC || !process.env.KEYS_VAPID_PRIVATE) {
-  console.log("[NOTIFICATIONS] Vapid keys not set. Notifications are disabled. Set KEYS_VAPID_PUBLIC and KEYS_VAPID_PRIVATE environment variables to enable.")
+if (!config.keys.vapid) {
+  console.log("[NOTIFICATIONS] Vapid keyfile not loaded. Notifications are disabled. ")
   module.exports = {
-    sendNotifications: () => {},
+    sendNotifications: () => { },
     listNotifications
   };
   return;
@@ -17,8 +18,8 @@ if (!process.env.KEYS_VAPID_PUBLIC || !process.env.KEYS_VAPID_PRIVATE) {
 
 webpush.setVapidDetails(
   'mailto:info@bosan.cz',
-  process.env.KEYS_VAPID_PUBLIC,
-  process.env.KEYS_VAPID_PRIVATE
+  config.keys.vapid.publicKey,
+  config.keys.vapid.privateKey
 );
 
 function createNotification(name, data) {
