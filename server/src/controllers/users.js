@@ -38,7 +38,7 @@ routes.post("users", "/", { permission: "users:create" }).handle(async (req, res
   var user = await User.create(userData);
 
   // send mail
-  if (user.email) mailings("new-account", { user: user, validity: 10, token: createToken(user, "10 days") });
+  if (user.email) mailings("new-account", { user: user, validity: 10, token: createToken(user, { expiration: "10 days" }) });
 
   res.location("/users/" + user._id);
   // respond if succeeded
