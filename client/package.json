@@ -2,7 +2,8 @@
   "name": "bosan.cz-client",
   "scripts": {
     "build": "ng build --prod",
-    "dev": "ng serve"
+    "dev": "ng serve",
+    "dev:test-server": "ng serve --configuration=test-server"
   },
   "dependencies": {
     "@angular/animations": "^10.0.5",

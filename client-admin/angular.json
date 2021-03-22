@@ -15,8 +15,9 @@
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "aot": true,
             "assets": [
               "src/assets",
               "src/manifest.json"
@@ -55,29 +56,20 @@
               ],
               "serviceWorker": true
             },
-            "local": {
+            "test-server": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local.ts"
+                  "with": "src/environments/environment.test-server.ts"
                 }
               ]
-            },
-            "local-server": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local-server.ts"
                 }
-              ]
             }
-          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bosan.cz:build",
-            "aot": true
+            "browserTarget": "bosan.cz:build"
           },
           "configurations": {
             "production": {

@@ -16,16 +16,35 @@ async function init() {
   /* GZIP */
   app.use(compression());
 
+
+  /* CORS */
+  if (config.server.cors.enable === "true") {
+
+    const cors = require("cors");
+
+    app.use(cors({
+      origin: config.server.cors.origins ? config.server.cors.origins.split(",") : true,
+      methods: ["OPTIONS", "HEAD", "GET", "POST", "PUT", "PATCH", "DELETE"],
+      exposedHeaders: ["Location"],
+      credentials: true
+    }));
+
+    console.log(`[SERVER] CORS set up for ${config.server.cors.origins || 'all origins'}`);
+
+  }
+
   /* REQUEST PARSING */
-  const bodyParser = require("body-parser");
-  app.use(bodyParser.json({ limit: config.uploads.limit })); // support json encoded bodies
-  app.use(bodyParser.urlencoded({ extended: true, limit: config.uploads.limit })); // support urlencoded bodies
+  {
+    const { json, urlencoded } = require("body-parser");
+    app.use(json({ limit: config.uploads.limit })); // support json encoded bodies
+    app.use(urlencoded({ extended: true, limit: config.uploads.limit })); // support urlencoded bodies
 
-  const cookieParser = require("cookie-parser");
-  app.use(cookieParser());
+    const cookieParser = require("cookie-parser");
+    app.use(cookieParser());
 
-  // guess types like numbers, nulls and booleans
-  app.use(require("./middleware/query-guess-types.js"));
+    // guess types like numbers, nulls and booleans
+    app.use(require("./middleware/query-guess-types.js"));
+  }
 
   /* LOCALE */
   const { DateTime } = require("luxon");
