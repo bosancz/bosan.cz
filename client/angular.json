@@ -58,19 +58,11 @@
                 }
               ]
             },
-            "local": {
+            "test-server": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local.ts"
-                }
-              ]
-            },
-            "local-server": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local-server.ts"
+                  "with": "src/environments/environment.test-server.ts"
                 }
               ]
             }

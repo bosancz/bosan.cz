@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
 
-  apiRoot: "https://test.bosan.cz/api",
+  apiRoot: "http://localhost:3000/api",
 
   gapi: {
     client_id: '249555539983-j8rvff7bovgnecsmjffe0a3dj55j33hh.apps.googleusercontent.com',
