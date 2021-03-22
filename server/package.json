@@ -40,5 +40,8 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7",
     "phpunserialize": "^1.0.1"
+  },
+  "engines": {
+    "node": "~14.16.0"
   }
 }
