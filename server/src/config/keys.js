@@ -17,6 +17,5 @@ function loadKeyfile(file) {
 }
 module.exports = {
   google: loadKeyfile("google.json"),
-  jwt: loadKeyfile("jwt.json"),
-  vapid: loadKeyfile("vapid.json"),
+  vapid: loadKeyfile("vapid.json")
 }

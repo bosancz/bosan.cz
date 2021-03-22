@@ -1,10 +1,6 @@
 var mongoose = require("mongoose");
 
-var path = require("path");
 var config = require("../config");
-
-var Album = require("./album");
-var Member = require("./album");
 
 var photoSchema = mongoose.Schema({
   title: String,
