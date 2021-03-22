@@ -1,4 +1,4 @@
-name: Build server (master)
+name: Build server (test)
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - test
     paths:
       - server/**
-      - '.github/workflows/master-build-server.yml'
+      - ".github/workflows/test-build-server.yml"
 
 jobs:
   build-docker:
