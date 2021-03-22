@@ -60,9 +60,9 @@ Git je nástroj na verzování, tj. správu různých verzí webu. Bude ti zpoč
     npm install
     ```
 
-9) Teď si na tvém počítači konečně spustíš web! A to sice následujícím příkazem (neboj, to už je poslední!). Ten spustí předvolený příkaz `dev`, který zas spustí web.
+9) Teď si na tvém počítači konečně spustíš web! A to sice následujícím příkazem (neboj, to už je poslední!). Ten spustí předvolený příkaz `dev:test-server`, který nám spustí web tak, aby si bral data z `test.bosan.cz`.
     ```sh
-    npm run dev
+    npm run dev:test-server
     ```
 
 10) Web se bude chvíli připravovat. Až to doběhne, můžeš si v prohlížeči otevřít adresu http://localhost:4200 a pokud všechno dopadlo dobře, bude tam běžet tvoje vlastní kopie Bošánovského webu.  
@@ -72,7 +72,7 @@ Git je nástroj na verzování, tj. správu různých verzí webu. Bude ti zpoč
 
 1) Stránky píšeme v frameworku Angular. Framework je prostě jen takový soubor nástrojů a pravidel, jak se web píše. Šel by psát i ručně od základu (takhle se to asi učí na školách), ale to by bylo hrozně práce. Můžeš si o Angularu něco přečíst na angular.io, ale to až potom, teď jdeme měnit web! Otevři si tedy Visual Studio Code a pomocí známého `File -> Open Folder` složku `client` ve složce `bosan.cz` ve složce, kterou sis vytvořil/a někde u sebe na počítači podle bodu 1 minulé kapitoly.
 
-2) Klávesovou zkratkou `` CTRL+` ``, kterou známe z bodu 4 minulé kapitoly otevři terminál a rovnou v něm spusť příkaz `npm run dev` z bodu 9 a otevři si zas web v prohlížeči na adrese http://localhost:4200 z bodu 10. Teď jsi ready na to upravovat web.
+2) Klávesovou zkratkou `` CTRL+` ``, kterou známe z bodu 4 minulé kapitoly otevři terminál a rovnou v něm spusť příkaz `npm run dev:test-server` z bodu 9 a otevři si zas web v prohlížeči na adrese http://localhost:4200 z bodu 10. Teď jsi ready na to upravovat web.
 
 3) V levém menu si otevři složku `src` v ní je veškerý kód, zbytek jsou jen pomocné soubory a složky. V téhle složce je zase nejdůležitější složka `app`. Tu si taky otevři.
 
