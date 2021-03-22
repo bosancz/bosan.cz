@@ -18,7 +18,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-json-validator-middleware": "^1.2.3",
-    "express-jwt": "^5.3.3",
+    "express-jwt": "^6.0.0",
     "fs-extra": "^7.0.1",
     "googleapis": "^33.0.0",
     "ical-generator": "^1.15.4",
