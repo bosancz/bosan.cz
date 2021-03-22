@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "bosan.cz": {
+    "bosancz": {
       "root": "",
       "prefix": "bo",
       "sourceRoot": "src",
@@ -113,8 +113,23 @@
       "prefix": "",
       "skipTests": true
     },
+    "@schematics/angular:guard": {
+      "skipTests": true
+    },
+    "@schematics/angular:interceptor": {
+      "skipTests": true
+    },
+    "@schematics/angular:module": {
+      "skipTests": true
+    },
+    "@schematics/angular:pipe": {
+      "skipTests": true
+    },
     "@schematics/angular:service": {
       "skipTests": true
+    },
+    "@schematics/angular:application": {
+      "strict": true
     }
   },
   "cli": {
