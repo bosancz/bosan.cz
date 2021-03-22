@@ -8,6 +8,7 @@
 
     <div *actionMenu class="actions">
       <button *ngIf="canCreate" mat-button color="primary" routerLink="vytvorit">Vytvořit akci</button>
+      <button mat-icon-button (click)="export()">Exportovat</button>
     </div>
 
   </bo-page-header>
