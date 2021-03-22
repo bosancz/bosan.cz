@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+
+  server:
+    build: ./server
+    ports: 
+      - 3000:3000
+    environment:
+      DATABASE_URI: mongodb://db/bosan
+      CORS_ENABLE: "true"
+      CORS_ORIGINS: "http://localhost:4200,http://localhost:4300"
+
+  client:
+    build: ./client
+    ports:
+      - 4200:80
+
+  client-admin:
+    build: ./client-admin
+    ports:
+      - 4300:80
+
+  db:
+    image: mongo:4.2
+    ports: 
+      - 27019:27019
+    environment:
+      MONGO_INITDB_DATABASE: bosan
