@@ -9,6 +9,7 @@ import {WebConfigEventStatus} from 'app/shared/schema/web-config';
 import {ConfigService} from 'app/services/config.service';
 import {Subject, Observable, combineLatest, BehaviorSubject} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
+import {EventService} from "app/services/event.service";
 
 type EventWithSearchString = Event & { searchString?: string };
 
@@ -37,7 +38,8 @@ export class EventsListComponent implements OnInit {
 
   constructor(
       private api: ApiService,
-      private configService: ConfigService
+      private configService: ConfigService,
+      private readonly eventService: EventService
   ) {
 
     api.resources
@@ -121,12 +123,14 @@ export class EventsListComponent implements OnInit {
   async export() {
     const options: any = {
       sort: "dateFrom",
-      select: "description"
+      select: "description dateFrom dateTill name leaders"
     };
 
     const events: EventWithSearchString[] = await this.api.get<Event[]>("events", options);
 
-    console.log("eventsWithDescription", events)
+
+    //@ts-ignore
+    this.eventService.export(events.map(e => ({...e, leaders: [{nickname: "XX", contacts: {mobile: "xxx xxx xxx"}}]})))
   }
 
 }
