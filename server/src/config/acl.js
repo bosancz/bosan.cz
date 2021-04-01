@@ -1,13 +1,19 @@
-
 const guest = true;
 const user = true;
 
-const clen = true, revizor = true, hospodar = true, vedouci = true, spravce = true, program = true;
+const clen = true,
+  revizor = true,
+  hospodar = true,
+  vedouci = true,
+  spravce = true,
+  program = true;
 
-const vedouciAkce = { vedouci: req => !!req.user.member ? { $or: [{ "leaders._id": req.user.member }, { "leaders": req.user.member }] } : false };
+const vedouciAkce = {
+  vedouci: (req) =>
+    !!req.user.member ? { $or: [{ "leaders._id": req.user.member }, { leaders: req.user.member }] } : false,
+};
 
 const permissions = {
-
   "api:read": { guest },
   "webinfo:read": { guest },
 
@@ -20,6 +26,14 @@ const permissions = {
   "albums:edit": { spravce, vedouci },
   "albums:publish": { spravce, vedouci },
   "albums:delete": { spravce, vedouci },
+
+  "blogs:list": { guest },
+  "blogs:drafts:list": { spravce, vedouci },
+  "blogs:read": { spravce, vedouci },
+  "blogs:create": { spravce, vedouci },
+  "blogs:edit": { spravce, vedouci },
+  "blogs:publish": { spravce, vedouci },
+  "blogs:delete": { spravce, vedouci },
 
   "competition:read": { clen },
 
@@ -70,11 +84,11 @@ const permissions = {
   "program:stats": { spravce, program },
 
   "login:credentials": { spravce, guest },
-  "login:refresh": { "refresh": true },
+  "login:refresh": { refresh: true },
   "login:link": { spravce, guest },
   "login:google": { spravce, guest },
   "login:impersonate": { spravce },
-  "logout": { guest },
+  logout: { guest },
 
   "me:read": { guest },
 
@@ -119,18 +133,22 @@ const permissions = {
   "users:edit": { spravce },
   "users:delete": { spravce },
 
-  "users:credentials:edit": { spravce, user: req => ({ _id: req.user._id }) },
-  "users:subscriptions:edit": { user: req => ({ _id: req.user._id }) },
+  "users:credentials:edit": { spravce, user: (req) => ({ _id: req.user._id }) },
+  "users:subscriptions:edit": { user: (req) => ({ _id: req.user._id }) },
 
-  "versions:read": { spravce, guest }
+  "versions:read": { spravce, guest },
 };
-
 
 module.exports = {
   permissions,
-  userRoles: req => req.user ? req.user.roles || [] : [],
-  authenticated: req => !!req.user,
+  userRoles: (req) => (req.user ? req.user.roles || [] : []),
+  authenticated: (req) => !!req.user,
   defaultRole: "guest",
   logConsole: true,
-  logString: event => `ACL ${event.result ? "OK" : "XX"} | permission: ${event.permission}, user: ${event.req.user ? event.req.user._id : "-"}, roles: ${event.req.user ? event.req.user.roles.join(",") : "-"}, ip: ${event.req.headers['x-forwarded-for'] || event.req.connection.remoteAddress}`
+  logString: (event) =>
+    `ACL ${event.result ? "OK" : "XX"} | permission: ${event.permission}, user: ${
+      event.req.user ? event.req.user._id : "-"
+    }, roles: ${event.req.user ? event.req.user.roles.join(",") : "-"}, ip: ${
+      event.req.headers["x-forwarded-for"] || event.req.connection.remoteAddress
+    }`,
 };
