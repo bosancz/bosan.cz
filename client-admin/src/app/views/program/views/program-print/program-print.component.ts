@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'app/services/api.service';
 import { ProgramExportService } from 'app/services/program-export.service';
+import { ToastService } from 'app/services/toast.service';
 import { Event } from 'app/shared/schema/event';
 
 @Component({
@@ -14,7 +15,8 @@ export class ProgramPrintComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private programExport: ProgramExportService
+    private programExport: ProgramExportService,
+    private toasts: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +32,11 @@ export class ProgramPrintComponent implements OnInit {
     };
 
     const events = await this.api.get<Event[]>("events", requestOptions);
+
+    if (!events.length) {
+      this.toasts.toast("Nelze vygenerovat program, ve vybraném rozmezí nejsou žádné akce.");
+      return;
+    }
 
     this.programExport.export(events);
   }
