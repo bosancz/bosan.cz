@@ -44,7 +44,7 @@ export class EventsListComponent implements OnInit {
       .then(resources => resources.events.allowed.POST)
       .then(canCreate => this.canCreate = canCreate);
 
-    this.filteredEvents$ = combineLatest(this.events$, this.search$.pipe(debounceTime(250)))
+    this.filteredEvents$ = combineLatest([this.events$, this.search$.pipe(debounceTime(250))])
       .pipe(map(([events, search]) => this.filterEvents(events, search)));
 
   }
@@ -116,19 +116,6 @@ export class EventsListComponent implements OnInit {
 
   getLeadersString(event: Event) {
     return event.leaders.map(item => item.nickname).join(", ");
-  }
-
-  async export() {
-    const options: any = {
-      sort: "dateFrom",
-      select: "description dateFrom dateTill name leaders"
-    };
-
-    const events: EventWithSearchString[] = await this.api.get<Event[]>("events", options);
-
-
-    //@ts-ignore
-    this.eventService.export(events.map(e => ({ ...e, leaders: [{ nickname: "XX", contacts: { mobile: "xxx xxx xxx" } }] })));
   }
 
 }
