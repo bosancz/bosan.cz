@@ -18,13 +18,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "src/assets",
-              "src/manifest.json"
-            ],
-            "styles": [
-              "src/styles/styles.scss"
-            ],
+            "assets": ["src/assets", "src/manifest.json"],
+            "styles": ["src/styles/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -63,47 +58,40 @@
                   "with": "src/environments/environment.test-server.ts"
                 }
               ]
-                }
             }
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bosan.cz:build"
+            "browserTarget": "bosancz:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "bosan.cz:build:production"
+              "browserTarget": "bosancz:build:production"
             },
-            "local": {
-              "browserTarget": "bosan.cz:build:local"
-            },
-            "local-server": {
-              "browserTarget": "bosan.cz:build:local-server"
+            "test-server": {
+              "browserTarget": "bosancz:build:test-server"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bosan.cz:build"
+            "browserTarget": "bosancz:build"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/tsconfig.json"],
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
     }
   },
-  "defaultProject": "bosan.cz",
+  "defaultProject": "bosancz",
   "schematics": {
     "@schematics/angular:component": {
       "skipTests": true,
