@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { Member } from 'app/shared/schema/member';
-import { Observable, from, Subscription } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApiService } from 'app/services/api.service';
-import { ToastService } from 'app/services/toast.service';
-import { ActivatedRoute, Params } from '@angular/router';
-import { map, mergeMap } from 'rxjs/operators';
-import { WebConfigGroup } from 'app/shared/schema/web-config';
 import { ConfigService } from 'app/services/config.service';
+import { ToastService } from 'app/services/toast.service';
+import { Member } from 'app/shared/schema/member';
+import { WebConfigGroup } from 'app/shared/schema/web-config';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'members-edit',
@@ -28,6 +27,7 @@ export class MembersEditComponent {
     private api: ApiService,
     private toastService: ToastService,
     private route: ActivatedRoute,
+    private router: Router,
     private configService: ConfigService
   ) {
     this.loadConfig();
@@ -64,6 +64,8 @@ export class MembersEditComponent {
 
     // send a toast with OK message
     this.toastService.toast("Uloženo.");
+
+    this.router.navigate(["../"], { relativeTo: this.route });
   }
 
 }
