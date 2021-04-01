@@ -21,7 +21,9 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   user: User;
 
-  roles = userRoles.map(role => ({ name: role.id, title: role.title, active: false }));
+  roles = userRoles
+    .filter(item => item.assignable)
+    .map(role => ({ name: role.id, title: role.title, active: false }));
 
   members: Member[] = [];
 
