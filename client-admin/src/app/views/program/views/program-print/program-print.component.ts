@@ -3,6 +3,7 @@ import { ApiService } from 'app/services/api.service';
 import { ProgramExportService } from 'app/services/program-export.service';
 import { ToastService } from 'app/services/toast.service';
 import { Event } from 'app/shared/schema/event';
+import { TrimesterDateRange } from '../../components/trimester-selector/trimester-selector.component';
 
 @Component({
   selector: 'bo-program-print',
@@ -11,7 +12,7 @@ import { Event } from 'app/shared/schema/event';
 })
 export class ProgramPrintComponent implements OnInit {
 
-  dateRange?: [string, string];
+  dateRange?: TrimesterDateRange;
 
   constructor(
     private api: ApiService,
@@ -22,11 +23,12 @@ export class ProgramPrintComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async exportProgram(dateRange) {
+  async exportProgram(dateRange: TrimesterDateRange) {
+
     const requestOptions = {
       filter: {
-        dateFrom: { $lte: this.dateRange[1] },
-        dateTill: { $gte: this.dateRange[0] },
+        dateFrom: { $lte: dateRange[1] },
+        dateTill: { $gte: dateRange[0] },
       },
       select: "_id name description dateFrom dateTill leaders"
     };
@@ -39,6 +41,7 @@ export class ProgramPrintComponent implements OnInit {
     }
 
     this.programExport.export(events);
+
   }
 
 }
