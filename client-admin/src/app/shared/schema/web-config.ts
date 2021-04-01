@@ -67,12 +67,6 @@ export class WebConfigMembershipType {
   id: string;
 }
 
-export interface WebConfigUserRole {
-  name: string;
-  title: string;
-  desription: string
-}
-
 export interface WebConfig {
 
   general: {
@@ -82,17 +76,13 @@ export interface WebConfig {
     campMapUrl: string,
     canalFormUrl: string,
     canalAttendeesUrl: string,
-    documentsUrl: string
-  };
-
-  users: {
-    roles: WebConfigUserRole[]
+    documentsUrl: string;
   };
 
   contacts: {
     leaders: Contact[],
     monday: Contact[],
-    wednesday: Contact[]
+    wednesday: Contact[];
   };
 
   members: {
@@ -101,7 +91,7 @@ export interface WebConfig {
     ranks: WebConfigMemberRank[],
     groups: WebConfigGroup[],
     membershipTypes: WebConfigMembershipType[],
-    achievements: WebConfigAchievement[]
+    achievements: WebConfigAchievement[];
   };
 
   events: {
@@ -110,7 +100,7 @@ export interface WebConfig {
     subtypes: WebConfigEventSubType[],
     expenseTypes: WebConfigEventExpenseType[],
     recurringTypes: WebConfigRecurringType[],
-    descriptionWarnings: WebConfigDescriptionWarning[]
+    descriptionWarnings: WebConfigDescriptionWarning[];
   };
 
 }
