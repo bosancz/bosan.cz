@@ -9,9 +9,9 @@ export interface WebConfigStructureItemDef<U> {
 }
 
 export type WebConfigStructureItem<U = any> = (
-  WebConfigStructureItemDef<U> & { type: "string", default?: string }
-  | WebConfigStructureItemDef<U> & { type: "number", default?: number }
-  | WebConfigStructureItemDef<U> & { type: "codelist" } & Codelist
+  WebConfigStructureItemDef<U> & { type: "string", default?: string; }
+  | WebConfigStructureItemDef<U> & { type: "number", default?: number; }
+  | WebConfigStructureItemDef<U> & { type: "codelist"; } & Codelist
 );
 
 export interface WebConfigStructureGroup<T extends keyof WebConfig = keyof WebConfig> {
@@ -25,5 +25,4 @@ export type WebConfigStructure = [
   WebConfigStructureGroup<"events">,
   WebConfigStructureGroup<"members">,
   WebConfigStructureGroup<"contacts">,
-  WebConfigStructureGroup<"users">,
 ];
