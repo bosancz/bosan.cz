@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, Params } from "@angular/router";
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
-
-import { Subscription } from "rxjs";
-
-import { ConfigService } from "app/services/config.service";
-import { ToastService } from "app/services/toast.service";
-
-import { User } from "app/shared/schema/user";
-import { Member } from "app/shared/schema/member";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { ApiService } from 'app/services/api.service';
 import { LoginService } from 'app/services/login.service';
+import { ToastService } from "app/services/toast.service";
+import { Member } from "app/shared/schema/member";
+import { User } from "app/shared/schema/user";
+import { userRoles } from 'config/user-roles';
+import { Subscription } from "rxjs";
+
+
+
 
 @Component({
   selector: 'users-view',
@@ -21,7 +21,7 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   user: User;
 
-  roles: Array<{ name: string, title: string, active: boolean }> = [];
+  roles = userRoles.map(role => ({ name: role.id, title: role.title, active: false }));
 
   members: Member[] = [];
 
@@ -33,7 +33,6 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private api: ApiService,
-    private configService: ConfigService,
     private toastService: ToastService,
     private loginService: LoginService,
     private route: ActivatedRoute,
@@ -50,8 +49,6 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
     });
 
-    this.loadRoles();
-
     this.loadMembers();
   }
 
@@ -67,12 +64,6 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   updateRoles(): void {
     this.roles.forEach(role => role.active = (this.user.roles.indexOf(role.name) !== -1));
-  }
-
-  loadRoles() {
-    this.configService.getConfig().then(config => {
-      this.roles = config.users.roles.map(role => ({ name: role.name, title: role.title, active: false }))
-    });
   }
 
   async loadMembers() {
