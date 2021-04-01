@@ -17,7 +17,6 @@ routes.child("/cpv", require("./controllers/cpv"));
 routes.child("/errors", require("./controllers/errors"));
 
 routes.child("/events", require("./controllers/events"));
-routes.child("/events/:id/recurring", require("./controllers/events-event-recurring"));
 routes.child("/events/:id", require("./controllers/events-event"));
 
 routes.child("/gallery", require("./controllers/gallery"));

@@ -1,11 +1,5 @@
 const mongoose = require("mongoose");
 
-const path = require("path");
-const config = require("../config");
-
-const Member = require("./member"); // load because of reference
-const EventRecurring = require("./event-recurring"); // load because of reference
-
 var eventSchema = mongoose.Schema({
 
   "status": { type: String, enum: ['draft','pending','public','cancelled','rejected'], required: true, default: 'draft' },  
@@ -22,8 +16,6 @@ var eventSchema = mongoose.Schema({
   
   "timeFrom": String,
   "timeTill": String,
-  
-  "recurring": {type: mongoose.Schema.Types.ObjectId, ref: "EventRecurring"},
   
   "order": Number,
 

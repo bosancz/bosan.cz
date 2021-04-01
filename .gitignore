@@ -1,6 +1,7 @@
 # data storage
 data
 db
+keys
 
-#IDE
+# IDE
 .idea/

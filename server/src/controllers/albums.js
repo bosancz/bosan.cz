@@ -117,7 +117,7 @@ routes.patch("album", "/:id", { permission: "albums:edit" }).handle(async (req, 
 });
 
 routes.action("album:publish", "/:id/actions/publish", { permission: "albums:publish", hideRoot: true, query: { status: { $in: ["draft"] } } }).handle(async (req, res, next) => {
-  await Album.findOneAndUpdate({ _id: req.params.id }, { status: "public" });
+  await Album.findOneAndUpdate({ _id: req.params.id }, { status: "public", datePublished: new Date() });
   res.sendStatus(204);
 });
 
