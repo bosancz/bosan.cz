@@ -1,45 +1,35 @@
-import {Injectable} from "@angular/core";
-import {Event} from "app/shared/schema/event";
-import {
-  AlignmentType, Border,
-  Document,
-  HeadingLevel,
-  Packer,
-  Paragraph,
-  Table, TableBorders,
-  TableCell,
-  TableRow,
-  UnderlineType,
-  WidthType
-} from "docx";
-import {saveAs} from "file-saver";
-import {DateTime} from "luxon";
-import {groupBy, mergeMap, toArray} from "rxjs/operators";
-import {from} from "rxjs";
+import { Injectable } from "@angular/core";
+import { Event } from "app/shared/schema/event";
+import { AlignmentType, Document, HeadingLevel, Packer, Paragraph, Table, TableBorders, TableCell, TableRow, WidthType } from "docx";
+import { saveAs } from "file-saver";
+import { DateTime } from "luxon";
+import { from } from "rxjs";
+import { groupBy, mergeMap, toArray } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
 })
-export class EventService {
+export class ProgramExportService {
+
   export(events: Event[]) {
 
-    const groupedEvents: Event[][] = []
+    const groupedEvents: Event[][] = [];
     from(events).pipe(
-        groupBy(event => `${event.dateFrom},${event.dateTill}`),
-        mergeMap(group => group.pipe(toArray()))
+      groupBy(event => `${event.dateFrom},${event.dateTill}`),
+      mergeMap(group => group.pipe(toArray()))
     ).subscribe(group => groupedEvents.push(group));
 
     const sortedGroupedEvents = groupedEvents.sort((e1, e2) => {
-      const e1Millis = DateTime.fromISO(e1[0].dateTill).toMillis()
-      const e2Millis = DateTime.fromISO(e2[0].dateTill).toMillis()
+      const e1Millis = DateTime.fromISO(e1[0].dateTill).toMillis();
+      const e2Millis = DateTime.fromISO(e2[0].dateTill).toMillis();
 
-      if (e1Millis > e2Millis) return 1
-      if (e1Millis < e2Millis) return -1
-      return 0
+      if (e1Millis > e2Millis) return 1;
+      if (e1Millis < e2Millis) return -1;
+      return 0;
     });
 
     const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
-    const days = ["po", "út", "st", "čt", "pá", "so", "ne"]
+    const days = ["po", "út", "st", "čt", "pá", "so", "ne"];
 
 
     const rows: TableRow[] = [];
@@ -50,7 +40,7 @@ export class EventService {
       if (events[0].dateFrom) {
         const monthNumber = DateTime.fromISO(events[0].dateFrom).month - 1;
         if (lastWrittenMonth !== monthNumber) {
-          lastWrittenMonth = monthNumber
+          lastWrittenMonth = monthNumber;
 
           rows.push(new TableRow({
             children: [new TableCell({
@@ -63,7 +53,7 @@ export class EventService {
                 })
               ]
             })]
-          }))
+          }));
         }
       }
 
@@ -73,52 +63,52 @@ export class EventService {
       const dayTill = DateTime.fromISO(events[0].dateTill).weekday - 1;
 
       const getLeftEventCell = (empty: boolean) => (
-          new TableCell({
-            borders: TableBorders.NONE,
-            width: {
-              type: WidthType.PERCENTAGE,
-              size: 20
-            },
-            children: empty ? [] : [
-              new Paragraph({
-                text: `${days[dayFrom]} - ${days[dayTill]}`,
-                style: "heading3Spacing"
-              }),
-              new Paragraph({
-                text: `${formattedDateFrom} - ${formattedDateTill}`,
-                style: "normal"
-              })]
-          })
-      )
+        new TableCell({
+          borders: TableBorders.NONE,
+          width: {
+            type: WidthType.PERCENTAGE,
+            size: 20
+          },
+          children: empty ? [] : [
+            new Paragraph({
+              text: `${days[dayFrom]} - ${days[dayTill]}`,
+              style: "heading3Spacing"
+            }),
+            new Paragraph({
+              text: `${formattedDateFrom} - ${formattedDateTill}`,
+              style: "normal"
+            })]
+        })
+      );
 
 
       rows.push(...events.map((event, index) => {
-            return (
-                new TableRow({
-                  children: [
-                    getLeftEventCell(index !== 0),
-                    new TableCell({
-                      borders: TableBorders.NONE,
-                      width: {
-                        type: WidthType.PERCENTAGE,
-                        size: 80
-                      },
-                      children: [
-                        new Paragraph({text: event.name, heading: HeadingLevel.HEADING_3}),
-                        new Paragraph({text: event.description, style: "normal"}),
-                        new Paragraph({
-                          text: event.leaders.length > 0
-                              ? `Vede: ${event.leaders.map(l => `${l.nickname}(${l.contacts.mobile})`).join(", ")}`
-                              : "", style: "normal"
-                        })
-                      ]
-                    })
-                  ]
-                })
-            )
+        return (
+          new TableRow({
+            children: [
+              getLeftEventCell(index !== 0),
+              new TableCell({
+                borders: TableBorders.NONE,
+                width: {
+                  type: WidthType.PERCENTAGE,
+                  size: 80
+                },
+                children: [
+                  new Paragraph({ text: event.name, heading: HeadingLevel.HEADING_3 }),
+                  new Paragraph({ text: event.description, style: "normal" }),
+                  new Paragraph({
+                    text: event.leaders.length > 0
+                      ? `Vede: ${event.leaders.map(l => `${l.nickname}(${l.contacts.mobile})`).join(", ")}`
+                      : "", style: "normal"
+                  })
+                ]
+              })
+            ]
           })
-      )
-    })
+        );
+      })
+      );
+    });
 
     const doc = new Document({
       sections: [{
