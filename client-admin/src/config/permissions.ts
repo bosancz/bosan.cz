@@ -2,14 +2,14 @@
 export const permissions = {
   "login": { roles: ["guest"] },
   "logout": { roles: ["user"] },
-  
-  "admin": { roles: ["spravce","clen"] },
-  
+
+  "admin": { roles: ["spravce", "clen"] },
+
   "admin:dashboard": { roles: ["clen"] },
   "admin:events": { roles: ["clen"] },
   "admin:albums": { roles: ["clen"] },
   "admin:members": { roles: ["vedouci"] },
-  "admin:program": { roles: ["program","spravce"] },  
+  "admin:program-management": { roles: ["program", "spravce"] },
   "admin:statistics": { roles: ["vedouci"] },
   "admin:canal": { roles: ["clen"] },
   "admin:account": { roles: ["user"] },
