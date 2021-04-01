@@ -1,0 +1,20 @@
+<bo-page>
+  <bo-page-header>
+    <h2>Vytvořit blogový příspěvěk</h2>
+
+    <div class="actions" *actionMenu>
+      <button mat-button color="secondary" routerLink="/galerie">Zrušit</button>
+    </div>
+  </bo-page-header>
+
+  <form #createBlogForm="ngForm" (ngSubmit)="createBlog(createBlogForm)">
+    <mat-form-field class="w-100">
+      <mat-label>Titulek</mat-label>
+      <input matInput type="text" name="title" ngModel required />
+    </mat-form-field>
+
+    <div class="text-right">
+      <button class="btn btn-primary" type="submit" [disabled]="!createBlogForm.valid">Vytvořit</button>
+    </div>
+  </form>
+</bo-page>

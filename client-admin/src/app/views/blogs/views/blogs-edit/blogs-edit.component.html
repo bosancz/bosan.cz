@@ -1,0 +1,47 @@
+<bo-page>
+  <bo-page-header>
+    <h2 [pageTitle]="blog?.title || 'Načítám...'">{{ blog?.title || "Načítám..." }}</h2>
+
+    <div class="actions" *actionMenu>
+      <!-- <a mat-button *ngIf="blog.status === 'public'" [href]="'/blog/' + blog._id">Otevřít na webu</a> -->
+      <button
+        mat-button
+        color="primary"
+        *ngIf="blog._actions.publish"
+        [disabled]="!blog._actions.publish?.allowed"
+        (click)="publish()"
+      >
+        Publikovat na webu
+      </button>
+      <button
+        mat-button
+        color="primary"
+        *ngIf="blog._actions.unpublish"
+        [disabled]="!blog._actions.unpublish?.allowed"
+        (click)="unpublish()"
+      >
+        Skrýt na webu
+      </button>
+      <button mat-button color="warn" [disabled]="!blog._links.self.allowed.DELETE" (click)="delete()">Smazat</button>
+    </div>
+  </bo-page-header>
+
+  <form #createBlogForm="ngForm" (ngSubmit)="save(createBlogForm)">
+    <mat-form-field class="w-100">
+      <mat-label>Titulek</mat-label>
+      <input matInput type="text" name="title" [ngModel]="blog?.title" required />
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Perex</mat-label>
+      <textarea matInput type="text" name="perex" [ngModel]="blog?.perex"></textarea>
+    </mat-form-field>
+    <mat-form-field class="w-100">
+      <mat-label>Text</mat-label>
+      <textarea matInput type="text" name="content" [ngModel]="blog?.content"></textarea>
+    </mat-form-field>
+    <div class="text-right">
+      <button class="btn btn-primary" type="submit" [disabled]="!createBlogForm.valid">Uložit</button>
+    </div>
+  </form>
+</bo-page>

@@ -10,6 +10,7 @@ export const permissions = {
   "admin:albums": { roles: ["spravce", "clen"] },
   "admin:members": { roles: ["spravce", "vedouci"] },
   "admin:program": { roles: ["spravce", "program", "spravce"] },
+  "admin:blogs": { roles: ["spravce", "vedouci"] },
   "admin:statistics": { roles: ["spravce", "vedouci"] },
   "admin:canal": { roles: ["spravce", "clen"] },
   "admin:account": { roles: ["spravce", "user"] },
