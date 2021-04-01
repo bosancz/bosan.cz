@@ -1,16 +1,16 @@
 <nav class="navbar secondary navbar-expand-lg navbar-dark" [class.open]="!collapsed">
+  <a href="/" class="d-none d-lg-block navbar-brand">
+    <img src="assets/img/san_logo_barva.png" class="d-inline logo-small mr-3" />
+    Bošán interní
+    <span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{ environment }}</span>
+  </a>
 
-  <div class="navbar-brand">
-    <a href="/">
-      <img src="assets/img/san_logo_barva.png" class="d-inline logo-small" />
-    </a>
-
+  <div class="navbar-brand d-block d-lg-none">
     <button mat-icon-button (click)="collapsed = !collapsed" type="button" class="d-lg-none">
       <mat-icon>menu</mat-icon>
     </button>
 
-    <span class="d-none d-lg-inline ml-3">Bošán interní<span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{environment}}</span></span>
-    <span class="mobile-title d-inline d-lg-none">{{(titleService.pageTitle | async) || "Bošán interní"}}</span>
+    <span class="mobile-title">{{ (titleService.pageTitle | async) || "Bošán interní" }}</span>
   </div>
 
   <div class="buttons d-block d-lg-none">
@@ -30,39 +30,66 @@
 
   <div class="collapse navbar-collapse" [class.show]="!collapsed">
     <ul class="navbar-nav text-uppercase ml-lg-5" (click)="collapsed = true">
-      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:dashboard'" routerLink="prehled" class="nav-link px-lg-3">Přehled</a></li>
+      <li routerLinkActive="active" class="nav-item">
+        <a *aclCan="'admin:dashboard'" routerLink="prehled" class="nav-link px-lg-3">Přehled</a>
+      </li>
 
-      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:events'" routerLink="akce" class="nav-link px-lg-3">Akce</a></li>
+      <li routerLinkActive="active" class="nav-item">
+        <a *aclCan="'admin:events'" routerLink="akce" class="nav-link px-lg-3">Akce</a>
+      </li>
 
       <li *aclCan="'admin:program'" routerLinkActive="active" class="nav-item dropdown px-lg-3">
-        <a class="nav-link dropdown-toggle" (click)="dropdownsCollapsed.program = !dropdownsCollapsed.program; $event.stopPropagation()">Program</a>
-        <div class="dropdown-menu ml-3 ml-lg-0" [class.d-block]="!dropdownsCollapsed.program" (click)="dropdownsCollapsed.program = true">
+        <a
+          class="nav-link dropdown-toggle"
+          (click)="dropdownsCollapsed.program = !dropdownsCollapsed.program; $event.stopPropagation()"
+        >
+          Program
+        </a>
+        <div
+          class="dropdown-menu ml-3 ml-lg-0"
+          [class.d-block]="!dropdownsCollapsed.program"
+          (click)="dropdownsCollapsed.program = true"
+        >
           <a routerLink="program" class="nav-link px-lg-3">Schvalování</a>
           <a routerLink="program/planovani" class="nav-link px-lg-3">Plánování akcí</a>
         </div>
       </li>
 
+      <li routerLinkActive="active" class="nav-item">
+        <a *aclCan="'admin:albums'" routerLink="galerie" class="nav-link px-lg-3">Galerie</a>
+      </li>
 
+      <li routerLinkActive="active" class="nav-item">
+        <a *aclCan="'admin:members'" routerLink="databaze" class="nav-link px-lg-3">Databáze</a>
+      </li>
 
-      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:albums'" routerLink="galerie" class="nav-link px-lg-3">Galerie</a></li>
-
-      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:members'" routerLink="databaze" class="nav-link px-lg-3">Databáze</a></li>
-
-      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:statistics'" routerLink="statistiky" class="nav-link px-lg-3">Statistiky</a></li>
+      <li routerLinkActive="active" class="nav-item">
+        <a *aclCan="'admin:statistics'" routerLink="statistiky" class="nav-link px-lg-3">Statistiky</a>
+      </li>
 
       <!-- <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:canal'" routerLink="kanal" class="nav-link px-lg-3">Troja</a></li> -->
 
-      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:users'" routerLink="uzivatele" class="nav-link px-lg-3">Uživatelé</a></li>
+      <li routerLinkActive="active" class="nav-item">
+        <a *aclCan="'admin:users'" routerLink="uzivatele" class="nav-link px-lg-3">Uživatelé</a>
+      </li>
 
-      <li routerLinkActive="active" class="nav-item"><a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-link px-lg-3">Web</a></li>
+      <li routerLinkActive="active" class="nav-item">
+        <a *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" class="nav-link px-lg-3">Web</a>
+      </li>
     </ul>
     <ul class="navbar-nav text-uppercase ml-lg-auto" (click)="collapsed = true">
-
       <ng-container *ngIf="userService.user | async as user">
-        <li *aclCan="'admin'" routerLinkActive="active" class="nav-item ml-lg-3"><a class="nav-link pl-lg-3" routerLink="ucet" routerLinkActive="active"><i class="fas fa-user pr-2"></i>{{user.login}}</a></li>
-        <li *aclCan="'logout'" routerLinkActive="active" class="nav-item"><a class="nav-link pl-lg-3" (click)="logout()" tooltip="Odhásit se" placement="bottom"><i class="fas fa-sign-out-alt pr-2"></i><span class="d-inline d-lg-none">Odhlásit se</span></a></li>
+        <li *aclCan="'admin'" routerLinkActive="active" class="nav-item ml-lg-3">
+          <a class="nav-link pl-lg-3" routerLink="ucet" routerLinkActive="active"
+            ><i class="fas fa-user pr-2"></i>{{ user.login }}</a
+          >
+        </li>
+        <li *aclCan="'logout'" routerLinkActive="active" class="nav-item">
+          <a class="nav-link pl-lg-3" (click)="logout()" tooltip="Odhásit se" placement="bottom"
+            ><i class="fas fa-sign-out-alt pr-2"></i><span class="d-inline d-lg-none">Odhlásit se</span></a
+          >
+        </li>
       </ng-container>
-
     </ul>
   </div>
 </nav>
