@@ -1,17 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgForm} from "@angular/forms";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from "@angular/forms";
+import { ApiService } from "app/services/api.service";
+import { ConfigService } from 'app/services/config.service';
+import { Event } from "app/shared/schema/event";
+import { WebConfigEventStatus } from 'app/shared/schema/web-config';
+import { DateTime } from 'luxon';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 
-import {ApiService} from "app/services/api.service";
 
-import {Event} from "app/shared/schema/event";
-import {DateTime} from 'luxon';
-import {WebConfigEventStatus} from 'app/shared/schema/web-config';
-import {ConfigService} from 'app/services/config.service';
-import {Subject, Observable, combineLatest, BehaviorSubject} from 'rxjs';
-import {debounceTime, map} from 'rxjs/operators';
-import {EventService} from "app/services/event.service";
 
-type EventWithSearchString = Event & { searchString?: string };
+type EventWithSearchString = Event & { searchString?: string; };
 
 @Component({
   selector: 'bo-events-list',
@@ -30,24 +29,23 @@ export class EventsListComponent implements OnInit {
 
   canCreate: boolean;
 
-  @ViewChild('filterForm', {static: true}) filterForm: NgForm;
+  @ViewChild('filterForm', { static: true }) filterForm: NgForm;
 
   showFilter: boolean = false;
 
   search$ = new BehaviorSubject<string>("");
 
   constructor(
-      private api: ApiService,
-      private configService: ConfigService,
-      private readonly eventService: EventService
+    private api: ApiService,
+    private configService: ConfigService,
   ) {
 
     api.resources
-        .then(resources => resources.events.allowed.POST)
-        .then(canCreate => this.canCreate = canCreate);
+      .then(resources => resources.events.allowed.POST)
+      .then(canCreate => this.canCreate = canCreate);
 
     this.filteredEvents$ = combineLatest(this.events$, this.search$.pipe(debounceTime(250)))
-        .pipe(map(([events, search]) => this.filterEvents(events, search)));
+      .pipe(map(([events, search]) => this.filterEvents(events, search)));
 
   }
 
@@ -87,9 +85,9 @@ export class EventsListComponent implements OnInit {
     };
 
     options.filter = {
-      dateTill: {$gte: DateTime.local().set({year: filter.year, month: 1, day: 1}).toISODate()},
-      dateFrom: {$lte: DateTime.local().set({year: filter.year, month: 12, day: 31}).toISODate()}
-    }
+      dateTill: { $gte: DateTime.local().set({ year: filter.year, month: 1, day: 1 }).toISODate() },
+      dateFrom: { $lte: DateTime.local().set({ year: filter.year, month: 12, day: 31 }).toISODate() }
+    };
 
     if (filter.status) options.filter.status = filter.status;
 
@@ -100,8 +98,8 @@ export class EventsListComponent implements OnInit {
         event.name,
         event.place,
         event.leaders.map(member => member.nickname).join(" ")
-      ].filter(item => !!item).join(" ")
-    })
+      ].filter(item => !!item).join(" ");
+    });
 
     this.events$.next(events);
 
@@ -111,9 +109,9 @@ export class EventsListComponent implements OnInit {
 
     if (!search) return events;
 
-    const search_re = new RegExp("(^| )" + search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i")
+    const search_re = new RegExp("(^| )" + search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
 
-    return events.filter(event => search_re.test(event.searchString))
+    return events.filter(event => search_re.test(event.searchString));
   }
 
   getLeadersString(event: Event) {
@@ -130,7 +128,7 @@ export class EventsListComponent implements OnInit {
 
 
     //@ts-ignore
-    this.eventService.export(events.map(e => ({...e, leaders: [{nickname: "XX", contacts: {mobile: "xxx xxx xxx"}}]})))
+    this.eventService.export(events.map(e => ({ ...e, leaders: [{ nickname: "XX", contacts: { mobile: "xxx xxx xxx" } }] })));
   }
 
 }
