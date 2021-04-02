@@ -11,7 +11,7 @@
     </div>
   </bo-page-header>
 
-  <form #filterForm="ngForm" class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
+  <div class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
     <div class="row">
       <mat-form-field class="col">
         <mat-label>Hledat</mat-label>
@@ -29,20 +29,20 @@
 
       <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-1">
         <mat-label>Rok</mat-label>
-        <mat-select name="year" [ngModel]="currentYear">
+        <mat-select name="year" [ngModel]="filter.year" (ngModelChange)="updateFilter({ year: $event })">
           <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-2">
         <mat-label>Stav</mat-label>
-        <mat-select name="status" ngModel>
+        <mat-select name="status" [ngModel]="filter.status" (ngModelChange)="updateFilter({ status: $event })">
           <mat-option>všechny</mat-option>
           <mat-option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-  </form>
+  </div>
 
   <admin-table>
     <thead>

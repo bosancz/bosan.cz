@@ -7,6 +7,8 @@ import { ApiService } from 'app/services/api.service';
 
 import { Blog } from "app/shared/schema/blog";
 import { BlogsFilter, BlogsService } from '../../services/blogs.service';
+import { DateTime } from 'luxon';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 type BlogWithSearchString = Blog & { searchString?: string; };
 
@@ -30,16 +32,21 @@ export class BlogsListComponent implements OnInit {
 
   statusesIndex = this.statuses.reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string; });
 
+  filter: BlogsFilter = {
+    year: DateTime.local().year,
+    status: undefined
+  };
+
   showFilter = false;
 
   loading: boolean = false;
 
-  @ViewChild('filterForm', { static: true }) filterForm: NgForm;
-
   search$ = new BehaviorSubject<string>("");
 
   constructor(
-    private blogs: BlogsService
+    private blogs: BlogsService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
 
     this.filteredBlogs$ = combineLatest([this.blogs$, this.search$.pipe(debounceTime(250))])
@@ -47,21 +54,39 @@ export class BlogsListComponent implements OnInit {
 
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loadYears();
 
-  ngAfterViewInit() {
-    this.filterForm.valueChanges
-      .pipe(debounceTime(250))
-      .subscribe(filter => {
-        this.loadBlogs(filter);
-      });
+    this.route.queryParams.subscribe((params: { year?: string, status?: string; }) => {
+      if (params.year && this.years.indexOf(Number(params.year))) {
+        this.filter.year = Number(params.year);
+      }
+      if (params.status && this.statuses.some(item => item.id === params.status)) {
+        this.filter.status = params.status;
+      }
+
+      this.loadBlogs();
+    });
   }
 
-  async loadBlogs(filter: BlogsFilter) {
+  async loadYears() {
+    const years = []; // TODO load years from API
+    const currentYear = DateTime.local().year;
+
+    if (years.indexOf(currentYear) === -1) {
+      years.push(currentYear);
+    }
+
+    years.sort();
+
+    this.years = years;
+  }
+
+  async loadBlogs() {
 
     this.loading = true;
 
-    const blogs: BlogWithSearchString[] = await this.blogs.list(filter);
+    const blogs: BlogWithSearchString[] = await this.blogs.list(this.filter);
 
     blogs.forEach(blog => {
       blog.searchString = [
@@ -83,4 +108,9 @@ export class BlogsListComponent implements OnInit {
     return events.filter(event => search_re.test(event.searchString));
   }
 
-}
+  updateFilter(changes: Partial<BlogsFilter>) {
+    const filter = Object.assign({}, this.filter, changes);
+    this.router.navigate([], { queryParams: filter });
+  }
+
+};
