@@ -19,9 +19,6 @@ runs:
     - name: Login to DockerHub
       run: docker login --username=${{ inputs.username }} --password=${{ inputs.password }}
 
-    - uses: satackey/action-docker-layer-caching@v0.0.11
-      continue-on-error: true
-
     - name: Build the Docker image
       run: docker build ${{ inputs.context }} --tag ${{ inputs.tag }} --build-arg NG_CONFIGURATION=production
 
