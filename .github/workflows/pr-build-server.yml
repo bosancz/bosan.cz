@@ -21,6 +21,6 @@ jobs:
       - uses: ./.github/actions/build-docker
         with:
           context: "./server"
-          tag: "test"
+          tag: "bosancz/bosan.cz-server:test"
           username: "${{secrets.DOCKER_USERNAME}}"
           password: "${{secrets.DOCKER_TOKEN}}"
