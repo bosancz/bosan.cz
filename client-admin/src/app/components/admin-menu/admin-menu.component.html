@@ -1,4 +1,5 @@
 <nav class="navbar secondary navbar-expand-lg navbar-dark" [class.open]="!collapsed">
+
   <a href="/" class="d-none d-lg-block navbar-brand">
     <img src="assets/img/san_logo_barva.png" class="d-inline logo-small mr-3" />
     Bošán interní
@@ -6,11 +7,13 @@
   </a>
 
   <div class="navbar-brand d-block d-lg-none">
+
     <button mat-icon-button (click)="collapsed = !collapsed" type="button" class="d-lg-none">
       <mat-icon>menu</mat-icon>
     </button>
 
     <span class="mobile-title">{{ (titleService.pageTitle | async) || "Bošán interní" }}</span>
+
   </div>
 
   <div class="buttons d-block d-lg-none">
@@ -45,13 +48,21 @@
         >
           Program
         </a>
+
         <div
           class="dropdown-menu ml-3 ml-lg-0"
           [class.d-block]="!dropdownsCollapsed.program"
           (click)="dropdownsCollapsed.program = true"
         >
-          <a routerLink="program" class="nav-link px-lg-3">Schvalování</a>
-          <a routerLink="program/planovani" class="nav-link px-lg-3">Plánování akcí</a>
+
+          <a routerLink="program/tisk" class="nav-link px-lg-3">Tisk programu</a>
+          <a *aclCan="'admin:program-management'" routerLink="program/schvalovani" class="nav-link px-lg-3">
+            Schvalování
+          </a>
+            <a *aclCan="'admin:program-management'" routerLink="program/planovani" class="nav-link px-lg-3">
+              Plánování akcí
+          </a>
+
         </div>
       </li>
 
