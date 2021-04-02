@@ -122,19 +122,4 @@ export const webConfigStructure: WebConfigStructure = [
     ]
   },
 
-
-  {
-    name: "users", label: "Uživatelé",
-    items: [
-      {
-        name: "roles", label: "Uživatelské role", type: "codelist",
-        fields: [
-          { "name": "name", "title": "ID", "type": "text" },
-          { "name": "title", "title": "Název", "type": "text" },
-          { "name": "description", "title": "Popis", "type": "text" }
-        ]
-      }
-    ]
-  }
-
 ];

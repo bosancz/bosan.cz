@@ -2,7 +2,7 @@
   "name": "bosan.cz-server",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
+    "dev": "cross-env CORS_ENABLE=true nodemon src/server.js",
     "create-admin": "node src/scripts/create-admin.js"
   },
   "dependencies": {
@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7",
     "phpunserialize": "^1.0.1"

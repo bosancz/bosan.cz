@@ -1,19 +1,19 @@
 <nav class="navbar secondary navbar-expand-lg navbar-dark" [class.open]="!collapsed">
-  <div class="navbar-brand">
-    <a href="/">
-      <img src="assets/img/san_logo_barva.png" class="d-inline logo-small" />
-    </a>
+
+  <a href="/" class="d-none d-lg-block navbar-brand">
+    <img src="assets/img/san_logo_barva.png" class="d-inline logo-small mr-3" />
+    Bošán interní
+    <span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{ environment }}</span>
+  </a>
+
+  <div class="navbar-brand d-block d-lg-none">
 
     <button mat-icon-button (click)="collapsed = !collapsed" type="button" class="d-lg-none">
       <mat-icon>menu</mat-icon>
     </button>
 
-    <span class="d-none d-lg-inline ml-3"
-      >Bošán interní<span *ngIf="environment$ | async as environment" class="environment"
-        >&nbsp;{{ environment }}</span
-      ></span
-    >
-    <span class="mobile-title d-inline d-lg-none">{{ (titleService.pageTitle | async) || "Bošán interní" }}</span>
+    <span class="mobile-title">{{ (titleService.pageTitle | async) || "Bošán interní" }}</span>
+
   </div>
 
   <div class="buttons d-block d-lg-none">
@@ -41,24 +41,28 @@
         <a *aclCan="'admin:events'" routerLink="akce" class="nav-link px-lg-3">Akce</a>
       </li>
 
-      <li routerLinkActive="active" class="nav-item dropdown px-lg-3">
+      <li *aclCan="'admin:program'" routerLinkActive="active" class="nav-item dropdown px-lg-3">
         <a
           class="nav-link dropdown-toggle"
           (click)="dropdownsCollapsed.program = !dropdownsCollapsed.program; $event.stopPropagation()"
-          >Program</a
         >
+          Program
+        </a>
+
         <div
           class="dropdown-menu ml-3 ml-lg-0"
           [class.d-block]="!dropdownsCollapsed.program"
           (click)="dropdownsCollapsed.program = true"
         >
+
           <a routerLink="program/tisk" class="nav-link px-lg-3">Tisk programu</a>
-          <a *aclCan="'admin:program-management'" routerLink="program/schvalovani" class="nav-link px-lg-3"
-            >Schvalování</a
-          >
-          <a *aclCan="'admin:program-management'" routerLink="program/planovani" class="nav-link px-lg-3"
-            >Plánování akcí</a
-          >
+          <a *aclCan="'admin:program-management'" routerLink="program/schvalovani" class="nav-link px-lg-3">
+            Schvalování
+          </a>
+            <a *aclCan="'admin:program-management'" routerLink="program/planovani" class="nav-link px-lg-3">
+              Plánování akcí
+          </a>
+
         </div>
       </li>
 

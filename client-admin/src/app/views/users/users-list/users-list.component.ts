@@ -1,18 +1,15 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-
-import { Subscription, BehaviorSubject, combineLatest, Observable, Subject } from "rxjs";
-
+import { importExpr } from '@angular/compiler/src/output/output_ast';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
 import { ApiService } from "app/services/api.service";
-import { LoginService } from "app/services/login.service";
 import { ConfigService } from "app/services/config.service";
-import { ToastService } from "app/services/toast.service";
-
 import { User } from "app/shared/schema/user";
 import { WithSearchString } from 'app/shared/schema/with-search-string';
+import { userRoles } from 'config/user-roles';
+import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from "rxjs";
 import { debounceTime, map } from 'rxjs/operators';
-import { WebConfigUserRole } from 'app/shared/schema/web-config';
-import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'users-list',
@@ -26,8 +23,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filter$ = new Subject<any>();
 
-  roles: WebConfigUserRole[] = [];
-  roleNames: any = {};
+  roles = userRoles.filter(item => item.assignable);
 
   active: boolean;
 
@@ -56,7 +52,6 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       this.loadUsers();
     });
 
-    this.loadRoles();
   }
 
   ngAfterViewInit() {
@@ -77,7 +72,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
         user.member && user.member.name && user.member.name.first,
         user.member && user.member.name && user.member.name.last
       ].filter(item => !!item).join(" ");
-    })
+    });
 
     this.users$.next(users);
   }
@@ -94,10 +89,8 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  async loadRoles() {
-    const config = await this.configService.getConfig()
-    this.roles = config.users.roles;
-    this.roleNames = this.roles.reduce((acc, cur) => (acc[cur.name] = cur.title, acc), {} as { [name: string]: string });
+  getRoleName(roleId: string) {
+    return this.roles.find(item => item.id = roleId)?.title || roleId;
   }
-  
+
 }
