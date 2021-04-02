@@ -98,18 +98,4 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
     this.editor.readOnly.toggle(isDisabled);
   }
 
-
-  private makeId() {
-    const length = 10;
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    var result = '';
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-
-    return "editor_" + result;
-  }
-
-
 }
