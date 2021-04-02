@@ -1,0 +1,21 @@
+name: Build client (test)
+
+on:
+  pull_request:
+    types: [review_requested]
+    paths:
+      - client/**
+      - ".github/workflows/master-build-client.yml"
+      - ".github/workflows/build-docker.yml"
+
+jobs:
+  build-docker:
+    name: Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: ./.github/actions/build-docker
+        with:
+          context: "./client"
+          tag: "test"

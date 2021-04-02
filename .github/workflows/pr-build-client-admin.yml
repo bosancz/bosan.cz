@@ -1,0 +1,21 @@
+name: Build client-admin (test)
+
+on:
+  pull_request:
+    types: [review_requested]
+    paths:
+      - client-admin/**
+      - ".github/workflows/master-build-client-admin.yml"
+      - ".github/workflows/build-docker.yml"
+
+jobs:
+  build-docker:
+    name: Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: ./.github/actions/build-docker
+        with:
+          context: "./client-admin"
+          tag: "test"

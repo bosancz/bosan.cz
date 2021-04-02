@@ -1,0 +1,27 @@
+name: "Build Docker Image"
+description: "Build Docker Image and Push Image to DockerHub"
+
+inputs:
+  context:
+    description: "Which directory to set as docker build context"
+    required: true
+  tag:
+    description: "Tag to push to dockerhub"
+    required: true
+    default: "latest"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Login to DockerHub
+      run: docker login --username=${{secrets.DOCKER_USERNAME}} --password=${{secrets.DOCKER_TOKEN}}
+
+    - name: Docker Layer Caching
+      uses: satackey/action-docker-layer-caching@v0.0.11
+      continue-on-error: true
+
+    - name: Build the Docker image
+      run: docker build ${{ inputs.context }} --tag ${{ inputs.tag }} --build-arg NG_CONFIGURATION=production
+
+    - name: Push to DockerHub
+      run: docker push ${{ inputs.tag }}
