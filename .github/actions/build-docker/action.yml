@@ -19,12 +19,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Login Account
-      run: echo "Loggin in as ${{ inputs.username }}"
-      shell: bash
-
     - name: Login to DockerHub
-      run: docker login --username=${{ inputs.username }} --password=${{ inputs.password }}
+      run: docker login --username="${{ inputs.username }}" --password="${{ inputs.password }}"
       shell: bash
 
     - name: Build the Docker image
