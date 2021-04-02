@@ -18,11 +18,11 @@
         <input
           matInput
           type="text"
-          [ngModel]="search$ | async"
-          (ngModelChange)="search$.next($event)"
+          [ngModel]="searchString | async"
+          (ngModelChange)="searchString.next($event)"
           (keydown.enter)="$event.preventDefault()"
         />
-        <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
+        <button mat-button *ngIf="searchString | async" matSuffix mat-icon-button (click)="searchString.next('')">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
@@ -50,15 +50,13 @@
         <th>Titulek</th>
         <th>Datum publikace</th>
         <th>Stav</th>
-        <th>Publikováno</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let blog of filteredBlogs$ | async" [routerLink]="blog._id">
+      <tr *ngFor="let blog of filteredBlogs" [routerLink]="blog._id">
         <td>{{ blog.title }}</td>
-        <td class="date">{{ blog.dateFrom | date: "d. M. y" }} - {{ blog.dateTill | date: "d. M. y" }}</td>
-        <td>{{ statusesIndex[blog.status] || "N/A" }}</td>
         <td>{{ blog.datePublished | date: "d. M. y" }}</td>
+        <td>{{ statusesIndex[blog.status] || "N/A" }}</td>
       </tr>
     </tbody>
   </admin-table>

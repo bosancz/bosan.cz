@@ -16,7 +16,7 @@ export class BlogsEditComponent implements OnInit {
 
   blog?: Blog;
 
-  @ViewChild("textEditor", { read: TextEditorComponent }) textEditor: TextEditorComponent;
+  @ViewChild("textEditor", { read: TextEditorComponent }) textEditor!: TextEditorComponent;
 
   constructor(
     private blogs: BlogsService,
@@ -37,6 +37,8 @@ export class BlogsEditComponent implements OnInit {
 
   async save(form: NgForm) {
 
+    if (!this.blog) return;
+
     // call save() on textEditor to sync current content
     await this.textEditor.save();
 
@@ -50,18 +52,21 @@ export class BlogsEditComponent implements OnInit {
   }
 
   async delete() {
+    if (!this.blog) return;
     await this.blogs.delete(this.blog._id);
     this.toasts.toast("Příspěvek smazán.");
     this.router.navigate(["../../"], { relativeTo: this.route });
   }
 
   async publish() {
+    if (!this.blog) return;
     await this.blogs.publish(this.blog);
     await this.load(this.blog._id);
     this.toasts.toast("Publikováno");
   }
 
   async unpublish() {
+    if (!this.blog) return;
     await this.blogs.unpublish(this.blog);
     await this.load(this.blog._id);
     this.toasts.toast("Skryto");

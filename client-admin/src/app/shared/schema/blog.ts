@@ -1,6 +1,6 @@
 import { Document } from "./api";
 
-export class Blog extends Document {
+export interface Blog extends Document {
   _id: string;
   status: string;
   title: string;

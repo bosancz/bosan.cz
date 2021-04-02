@@ -1,16 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Observable, BehaviorSubject, combineLatest, Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-
-import { ApiService } from 'app/services/api.service';
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Blog } from "app/shared/schema/blog";
-import { BlogsFilter, BlogsService } from '../../services/blogs.service';
 import { DateTime } from 'luxon';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BehaviorSubject } from "rxjs";
+import { debounceTime } from 'rxjs/operators';
+import { BlogsFilter, BlogsService } from '../../services/blogs.service';
 
-type BlogWithSearchString = Blog & { searchString?: string; };
+
 
 @Component({
   selector: 'blogs-list',
@@ -20,10 +16,10 @@ type BlogWithSearchString = Blog & { searchString?: string; };
 export class BlogsListComponent implements OnInit {
 
   years: number[] = [];
-  currentYear: number;
+  currentYear?: number;
 
-  blogs$ = new Subject<BlogWithSearchString[]>();
-  filteredBlogs$: Observable<Blog[]>;
+  blogs: Blog[] = [];
+  filteredBlogs: Blog[] = [];
 
   statuses = [
     { id: "public", name: "zveřejněné" },
@@ -41,16 +37,17 @@ export class BlogsListComponent implements OnInit {
 
   loading: boolean = false;
 
-  search$ = new BehaviorSubject<string>("");
+  searchString = new BehaviorSubject<string>("");
 
   constructor(
-    private blogs: BlogsService,
+    private blogsService: BlogsService,
     private router: Router,
     private route: ActivatedRoute
   ) {
 
-    this.filteredBlogs$ = combineLatest([this.blogs$, this.search$.pipe(debounceTime(250))])
-      .pipe(map(([events, search]) => this.filterBlogs(events, search)));
+    this.searchString
+      .pipe(debounceTime(250))
+      .subscribe(() => this.filterBlogs());
 
   }
 
@@ -70,7 +67,7 @@ export class BlogsListComponent implements OnInit {
   }
 
   async loadYears() {
-    const years = []; // TODO load years from API
+    const years: number[] = []; // TODO load years from API
     const currentYear = DateTime.local().year;
 
     if (years.indexOf(currentYear) === -1) {
@@ -86,28 +83,25 @@ export class BlogsListComponent implements OnInit {
 
     this.loading = true;
 
-    const blogs: BlogWithSearchString[] = await this.blogs.list(this.filter);
+    const blogs = await this.blogsService.list(this.filter);
 
-    blogs.forEach(blog => {
-      blog.searchString = [
-        blog.title
-      ].filter(item => !!item).join(" ");
-    });
+    blogs.sort((a, b) => a.datePublished.localeCompare(b.datePublished)); // dates are ISO string, sorting as text    
 
-    blogs.sort((a, b) => a.datePublished.localeCompare(b.datePublished)); // dates are ISO string, sorting as text
-
-    this.blogs$.next(blogs);
+    this.blogs = blogs;
 
     this.loading = false;
   }
 
-  filterBlogs(events: BlogWithSearchString[], search: string) {
+  filterBlogs() {
 
-    if (!search) return events;
+    if (!this.searchString.value) {
+      this.filteredBlogs = this.blogs;
+      return;
+    }
 
-    const search_re = new RegExp("(^| )" + search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
+    const search_re = new RegExp("(^| )" + this.searchString.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
 
-    return events.filter(event => search_re.test(event.searchString));
+    this.filteredBlogs = this.blogs.filter(blog => search_re.test(blog.title));
   }
 
   updateFilter(changes: Partial<BlogsFilter>) {

@@ -18,7 +18,7 @@ import { debounceTime, filter } from 'rxjs/operators';
 })
 export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueAccessor {
 
-  editor?: EditorJS;
+  editor!: EditorJS; // ! bcs loaded in afterviewinit
 
   data?: OutputData;
 
@@ -26,7 +26,7 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
 
   @Input() autosaveDebounceTime: number = 250;
 
-  @Input() autosave?: boolean;
+  @Input() autosave: boolean = false;
 
   @Output() change = new EventEmitter<void>();
   @Output() load = new EventEmitter<void>();
@@ -60,7 +60,7 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
       },
 
       tools: {
-        header: Header,
+        header: <any>Header, // TODO https://github.com/editor-js/header/issues/23
       }
     });
 
@@ -81,7 +81,7 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
   writeValue(value: string): void {
     try {
       this.data = JSON.parse(value);
-      if (this.editor?.render) this.editor.render(this.data);
+      if (this.editor?.render && this.data) this.editor.render(this.data);
       console.log(value, this.data, this.editor, this.editor.render);
     }
     catch (err) {

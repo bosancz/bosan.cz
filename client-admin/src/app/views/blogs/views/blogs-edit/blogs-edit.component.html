@@ -3,29 +3,40 @@
     <h2 [pageTitle]="blog?.title || 'Načítám...'">{{ blog?.title || "Načítám..." }}</h2>
 
     <div class="actions" *actionMenu>
-      <button mat-button color="primary" [disabled]="!blog?._links.self.allowed.PATCH" (click)="save(createBlogForm)">
+      <button
+        mat-button
+        color="primary"
+        [disabled]="!blog?._links?.self?.allowed?.PATCH"
+        (click)="save(createBlogForm)"
+      >
         Uložit
       </button>
+
       <!-- <a mat-button *ngIf="blog?.status === 'public'" [href]="'/blog/' + blog?._id">Otevřít na webu</a> -->
+
       <button
         mat-button
         color="secondary"
-        *ngIf="blog?._actions.publish"
-        [disabled]="!blog?._actions.publish?.allowed"
+        *ngIf="blog?._actions?.publish"
+        [disabled]="!blog?._actions?.publish?.allowed"
         (click)="publish()"
       >
         Publikovat na webu
       </button>
+
       <button
         mat-button
         color="warn"
-        *ngIf="blog?._actions.unpublish"
-        [disabled]="!blog?._actions.unpublish?.allowed"
+        *ngIf="blog?._actions?.unpublish"
+        [disabled]="!blog?._actions?.unpublish?.allowed"
         (click)="unpublish()"
       >
         Skrýt na webu
       </button>
-      <button mat-button color="warn" [disabled]="!blog?._links.self.allowed.DELETE" (click)="delete()">Smazat</button>
+
+      <button mat-button color="warn" [disabled]="!blog?._links?.self?.allowed?.DELETE" (click)="delete()">
+        Smazat
+      </button>
     </div>
   </bo-page-header>
 

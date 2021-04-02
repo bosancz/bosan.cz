@@ -18,11 +18,11 @@ export class BlogsService {
 
     const options: any = {
       filter: {
-        dateFrom: filter.year ? { $gte: filter.year + "-01-01", $lte: filter.year + "-12-31" } : undefined
+        dateFrom: filter?.year ? { $gte: filter.year + "-01-01", $lte: filter.year + "-12-31" } : undefined
       }
     };
 
-    if (filter.status) options.filter.status = filter.status;
+    if (filter?.status) options.filter.status = filter.status;
 
     return this.api.get<Blog[]>("blogs", options);
   }
@@ -45,10 +45,12 @@ export class BlogsService {
   }
 
   async publish(blog: Blog) {
+    if (!blog._actions) throw new Error("Missing actions field");
     await this.api.post(blog._actions.publish);
   }
 
   async unpublish(blog: Blog) {
+    if (!blog._actions) throw new Error("Missing actions field");
     await this.api.post(blog._actions.unpublish);
   }
 }
