@@ -91,7 +91,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getRoleName(roleId: string) {
-    return this.roles.find(item => item.id = roleId)?.title || roleId;
+    return this.roles.find(item => item.id === roleId)?.title || roleId;
   }
 
 }
