@@ -21,6 +21,18 @@ export interface PaddlerCompetitionRanking {
 
 }
 
+export interface PaddlerCompetitionGroupRanking {
+
+  rank?: number;
+  rankTo?: number;
+
+  water_km: number;
+
+  group?: string;
+  events?: Event[];
+
+}
+
 @Component({
   selector: 'paddler-competition',
   templateUrl: './paddler-competition.component.html',
@@ -29,24 +41,24 @@ export interface PaddlerCompetitionRanking {
 export class PaddlerCompetitionComponent implements OnInit {
 
   years: number[] = [];
-  year: Observable<number>;
-  currentYear: number;
+  year = this.route.params.pipe(map((params: Params) => Number(params.year) || null));
+  currentYear?: number;
 
   rankings: PaddlerCompetitionRanking[] = [];
-  groups: PaddlerCompetitionRanking[] = [];
+  groups: PaddlerCompetitionGroupRanking[] = [];
 
-  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {
+    this.year
+      .pipe(filter((year): year is Exclude<typeof year, null> => !!year))
+      .pipe(debounceTime(500))
+      .subscribe(year => {
+        this.loadRanking(year);
+        this.currentYear = Number(year);
+      });
+  }
 
   ngOnInit() {
     this.loadYears();
-
-    this.year = this.route.params.pipe(map((params: Params) => Number(params.year) || null));
-
-    this.year.pipe(filter(year => !!year), debounceTime(500)).subscribe(year => {
-      this.loadRanking(year);
-      this.currentYear = Number(year);
-    });
-
   }
 
   async loadYears() {
@@ -56,22 +68,25 @@ export class PaddlerCompetitionComponent implements OnInit {
   }
 
   async loadRanking(year: number) {
-    const rankings = await this.api.get<PaddlerCompetitionRanking[]>("competition:ranking", { year: year })
+    const rankings = await this.api.get<PaddlerCompetitionRanking[]>("competition:ranking", { year: year });
 
     this.rankings = this.setRanks(rankings);
 
-    const groups = this.rankings.reduce((acc, cur) => {
-      if (!cur.member || !cur.member.group) return;
-      if (!acc[cur.member.group]) acc[cur.member.group] = { group: cur.member.group, water_km: 0 };
-      acc[cur.member.group].water_km += cur.water_km;
-      return acc;
-    }, {});
+    const groups: { [key: string]: PaddlerCompetitionRanking; } = {};
+
+    this.rankings.forEach(item => {
+      if (!item.member?.group) return;
+
+      if (!groups[item.member.group]) groups[item.member.group] = { group: item.member.group, water_km: 0 };
+
+      groups[item.member.group].water_km += item.water_km;
+    });
 
     this.groups = this.setRanks(Object.values(groups));
   }
 
   setYear(year: number) {
-    this.router.navigate(["./", { year: year }], { relativeTo: this.route })
+    this.router.navigate(["./", { year: year }], { relativeTo: this.route });
   }
 
   setRanks(ranking: PaddlerCompetitionRanking[]): PaddlerCompetitionRanking[] {
@@ -87,7 +102,7 @@ export class PaddlerCompetitionComponent implements OnInit {
         ranked.forEach(rankedItem => {
           rankedItem.rank = (i + 1) - (ranked.length - 1);
           rankedItem.rankTo = (i + 1);
-        })
+        });
         ranked = [];
       }
 

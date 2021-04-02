@@ -4,7 +4,7 @@ import { MenuService } from 'app/services/menu.service';
 @Directive({
   selector: '[secondaryMenu]'
 })
-export class SecondaryMenuDirective implements OnInit, OnDestroy  {
+export class SecondaryMenuDirective implements OnInit, OnDestroy {
 
   constructor(
     private templateRef: TemplateRef<any>,
@@ -15,10 +15,10 @@ export class SecondaryMenuDirective implements OnInit, OnDestroy  {
   }
 
   ngOnInit() {
-    
+
     // render for large display
     this.viewContainer.createEmbeddedView(this.templateRef);
-    
+
     // display in menu for mobile
     this.menuService.secondaryMenu = this.templateRef;
   }

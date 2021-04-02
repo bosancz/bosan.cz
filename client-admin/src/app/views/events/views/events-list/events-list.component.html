@@ -15,14 +15,9 @@
     <div class="row">
       <mat-form-field class="col">
         <mat-label>Hledat</mat-label>
-        <input
-          matInput
-          type="text"
-          [ngModel]="search$ | async"
-          (ngModelChange)="search$.next($event)"
-          name="search"
-          (keydown.enter)="$event.preventDefault()"
-        />
+
+        <input matInput type="text" [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" name="search" (keydown.enter)="$event.preventDefault()" />
+
         <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
           <mat-icon>close</mat-icon>
         </button>
@@ -59,9 +54,7 @@
       <tr *ngFor="let event of filteredEvents$ | async" [routerLink]="event._id">
         <td>{{ event.name }}</td>
         <td>{{ event.place }}</td>
-        <td class="date">
-          {{ event.dateFrom | date: "EEEEEE d. M." }} - {{ event.dateTill | date: "EEEEEE d. M. y" }}
-        </td>
+        <td class="date">{{ event.dateFrom | date: "EEEEEE d. M." }} - {{ event.dateTill | date: "EEEEEE d. M. y" }}</td>
         <td>
           <ng-container *ngFor="let leader of event.leaders; let isFirst = first">
             <ng-container *ngIf="!isFirst">, </ng-container>

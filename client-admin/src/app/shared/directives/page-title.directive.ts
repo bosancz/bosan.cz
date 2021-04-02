@@ -6,14 +6,14 @@ import { TitleService } from 'app/services/title.service';
 })
 export class PageTitleDirective implements AfterViewInit, OnChanges, OnDestroy {
 
-  @Input() pageTitle: string;
+  @Input() pageTitle!: string;
 
   constructor(
     private el: ElementRef<HTMLElement>,
     private titleService: TitleService
   ) { }
 
-  updateTitle(){
+  updateTitle() {
     this.titleService.setPageTitle(this.pageTitle || this.el.nativeElement.innerText);
   }
 
@@ -21,7 +21,7 @@ export class PageTitleDirective implements AfterViewInit, OnChanges, OnDestroy {
     this.updateTitle();
   }
 
-  ngOnChanges(){
+  ngOnChanges() {
     this.updateTitle();
   }
 

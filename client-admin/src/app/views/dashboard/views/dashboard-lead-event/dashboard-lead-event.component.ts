@@ -13,7 +13,7 @@ export class DashboardLeadEventComponent implements OnInit {
 
   title = "Vést akci";
 
-  events: Event[];
+  events: Event[] = [];
 
   constructor(
     private api: ApiService,
@@ -30,6 +30,8 @@ export class DashboardLeadEventComponent implements OnInit {
   }
 
   async leadEvent(event: Event) {
+    if (!event._actions?.lead) return;
+
     await this.api.post(event._actions.lead);
     this.loadEvents();
     const toastRef = this.toastService.toast("Po náročném výběrovém řízení jsi byl/a zvolen/a vedoucím této akce.", "Otevřít akci");

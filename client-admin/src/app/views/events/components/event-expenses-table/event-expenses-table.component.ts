@@ -6,7 +6,7 @@ import { ConfigService } from 'app/services/config.service';
 
 class ExpenseRow {
   editing: boolean = false;
-  previousValue: EventExpense = null;
+  previousValue: EventExpense | null = null;
   constructor(public expense: EventExpense) { }
 }
 
@@ -24,8 +24,8 @@ class ExpenseRow {
 })
 export class EventExpensesTableComponent implements ControlValueAccessor {
 
-  @Input() persons: number;
-  @Input() days: number;
+  @Input() persons!: number;
+  @Input() days!: number;
 
   expenses: ExpenseRow[] = [];
 
@@ -35,7 +35,7 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
   onTouched: any = () => { };
 
   disabled: boolean = false;
-  @Input() readonly: boolean;
+  @Input() readonly: boolean = false;
 
   constructor(configService: ConfigService) {
     configService.config.subscribe(config => this.types = config.events.expenseTypes.map(type => type.name));
@@ -51,7 +51,7 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
 
   sumExpenses(expenses: ExpenseRow[]) {
     if (!expenses) return 0;
-    return expenses.reduce((acc, cur) => acc + (cur.expense.amount || 0), 0)
+    return expenses.reduce((acc, cur) => acc + (cur.expense.amount || 0), 0);
   }
 
   perDayPerson(amount: number) {
@@ -59,10 +59,14 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
   }
 
   addExpense(type: string) {
-    const row = new ExpenseRow(new EventExpense());
-    row.expense.type = type;
+    const expense: EventExpense = {
+      type,
+      id: "V" + (this.expenses.reduce((acc, cur) => Math.max(acc, Number(cur.expense.id.substr(1)) || 0), 0) + 1),
+      amount: 0,
+      description: ""
+    };
+    const row = new ExpenseRow(expense);
     row.editing = true;
-    row.expense.id = "V" + (this.expenses.reduce((acc, cur) => Math.max(acc, Number(cur.expense.id.substr(1)) || 0), 0) + 1);
     this.expenses.push(row);
     this.onTouched();
   }
@@ -79,12 +83,12 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
   }
 
   resetExpense(row: ExpenseRow) {
-    if(row.previousValue) {
+    if (row.previousValue) {
       row.expense = row.previousValue;
-      row.previousValue = null;   
-      row.editing = false;   
+      row.previousValue = null;
+      row.editing = false;
     }
-    else{
+    else {
       this.expenses.splice(this.expenses.indexOf(row), 1);
     }
   }
@@ -112,7 +116,7 @@ export class EventExpensesTableComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled
+    this.disabled = isDisabled;
   }
 
 

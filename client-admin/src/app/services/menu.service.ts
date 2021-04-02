@@ -4,7 +4,7 @@ import { UrlTree } from '@angular/router';
 
 export interface SecondaryMenuItem {
   path: string | any[],
-  label: string
+  label: string;
 }
 
 export interface ActionItem {
@@ -23,9 +23,9 @@ export class MenuService {
   visible = new BehaviorSubject(true);
   transparent = new BehaviorSubject(false);
 
-  secondaryMenu: TemplateRef<any>;
+  secondaryMenu: TemplateRef<any> | null = null;
 
-  actionMenu: TemplateRef<any>;
+  actionMenu: TemplateRef<any> | null = null;
 
   menuButtons: TemplateRef<any>[] = [];
 

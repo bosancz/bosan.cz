@@ -10,6 +10,10 @@ import { userRoles } from 'config/user-roles';
 import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from "rxjs";
 import { debounceTime, map } from 'rxjs/operators';
 
+type UsersFilter = {
+  search: string;
+  role: string[];
+};
 
 @Component({
   selector: 'users-list',
@@ -25,15 +29,13 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   roles = userRoles.filter(item => item.assignable);
 
-  active: boolean;
-
-  @ViewChild('filterForm', { static: true }) filterForm: NgForm;
+  @ViewChild('filterForm', { static: true }) filterForm!: NgForm;
 
   showFilter: boolean = false;
 
   search$ = new BehaviorSubject<string>("");
 
-  paramsSubscription: Subscription;
+  paramsSubscription?: Subscription;
 
   constructor(
     private api: ApiService,
@@ -55,34 +57,33 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.filterForm.valueChanges.pipe(debounceTime(250)).subscribe(this.filter$);
+    this.filterForm.valueChanges!.pipe(debounceTime(250)).subscribe(this.filter$);
   }
 
   ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    this.paramsSubscription?.unsubscribe();
   }
 
   async loadUsers() {
-    const users: WithSearchString<User>[] = await this.api.get<User[]>("users", { members: 1 });
+    const users = await this.api.get<User[]>("users", { members: 1 });
 
-    users.forEach(user => {
-      user.searchString = [
+    this.users$.next(users.map(user => {
+      const searchString = [
         user.login,
         user.member && user.member.nickname,
         user.member && user.member.name && user.member.name.first,
         user.member && user.member.name && user.member.name.last
       ].filter(item => !!item).join(" ");
-    });
-
-    this.users$.next(users);
+      return { ...user, searchString };
+    }));
   }
 
-  filterUsers(filter: any, users: WithSearchString<User>[]) {
+  filterUsers(filter: UsersFilter, users: WithSearchString<User>[]) {
 
     const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/ /g, "").replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
 
     return users.filter(user => {
-      if (search_re && !search_re.test(user.searchString)) return false;
+      if (search_re && !search_re.test(user.searchString!)) return false;
       if (filter.role && filter.role.length && !filter.role.some(filterRole => user.roles.indexOf(filterRole) !== -1)) return false;
 
       return true;

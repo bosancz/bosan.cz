@@ -5,30 +5,30 @@ import { ApiService } from "app/services/api.service";
 
 import { User } from "app/shared/schema/user";
 /**
-	* Service to save user information and commnicate user data with server
-	*/
+  * Service to save user information and commnicate user data with server
+  */
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  userSnapshot:User;
+  userSnapshot: User | null = null;
 
-  user:ReplaySubject<User> = new ReplaySubject(null);
+  user: ReplaySubject<User | null> = new ReplaySubject(1);
 
-  constructor(private api:ApiService){
+  constructor(private api: ApiService) {
     this.user.subscribe(user => this.userSnapshot = user);
   }
-  
-  async loadUser(){
-    try{
+
+  async loadUser() {
+    try {
       const user = await this.api.get<User>("me:user");
       this.user.next(user);
     }
-    catch(err) {
-      if(err.status === 404 || err.status === 401) this.user.next(null);
+    catch (err) {
+      if (err.status === 404 || err.status === 401) this.user.next(null);
       else throw err;
     }
   }
-  
+
 }

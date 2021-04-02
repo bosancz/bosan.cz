@@ -19,7 +19,7 @@ export class AlbumsEditComponent {
 
   deleteConfirmation: boolean = false;
 
-  paramsSubscription: Subscription;
+  paramsSubscription?: Subscription;
 
   constructor(
     public albumsService: AlbumsService,
@@ -36,10 +36,10 @@ export class AlbumsEditComponent {
   }
 
   ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    this.paramsSubscription?.unsubscribe();
   }
 
-  async deleteAlbum(album: Album) {
+  async deleteAlbum(album: Album<any, any>) {
     let name = album.name;
     const confirmation = window.confirm(`Opravdu smazat album ${name}?`);
 
@@ -50,10 +50,10 @@ export class AlbumsEditComponent {
     this.router.navigate(["/galerie"]);
   }
 
-  async albumAction(album: Album, action: string) {
+  async albumAction(album: Album<any, any>, action: string) {
 
-    if (!album._actions[action].allowed) {
-      this.toastService.toast("K této akci nemáš oprávnění.")
+    if (!album._actions?.[action].allowed) {
+      this.toastService.toast("K této akci nemáš oprávnění.");
       return;
     }
 

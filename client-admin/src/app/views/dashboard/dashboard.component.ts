@@ -14,7 +14,7 @@ import { Event } from 'app/shared/schema/event';
 })
 export class DashboardComponent implements OnInit {
 
-  dashboard: Dashboard;
+  dashboard?: Dashboard;
 
   constructor(
     private api: ApiService
@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async loadDashboard() {
-    this.dashboard = await this.api.get<Dashboard>("me:dashboard");    
+    this.dashboard = await this.api.get<Dashboard>("me:dashboard");
   }
 
 }

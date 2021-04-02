@@ -16,25 +16,29 @@ import { WebConfigEventSubType } from 'app/shared/schema/web-config';
       multi: true,
       useExisting: forwardRef(() => EventSubtypeSelectorComponent),
     }
-  ]
+  ],
+  host: {
+    "[class.disabled]": "disabled",
+    "[class.readonly]": "readonly"
+  }
 })
 export class EventSubtypeSelectorComponent implements ControlValueAccessor {
 
-  value: string;
+  value?: string;
   types: Observable<WebConfigEventSubType[]>;
 
   onChange: any = () => { };
   onTouched: any = () => { };
 
-  @HostBinding('class.disabled') disabled: boolean = false;
-  @HostBinding('class.readonly') @Input() readonly: boolean;
+  disabled: boolean = false;
+  @Input() readonly: boolean = false;
 
   constructor(configService: ConfigService) {
-    this.types = configService.config.pipe(map(config => config.events.subtypes))
+    this.types = configService.config.pipe(map(config => config.events.subtypes));
   }
 
   select(type: WebConfigEventSubType) {
-    if(this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) return;
     this.value = type.name;
     this.onTouched();
     this.onChange(this.value);
@@ -54,7 +58,7 @@ export class EventSubtypeSelectorComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled
+    this.disabled = isDisabled;
   }
 
 }

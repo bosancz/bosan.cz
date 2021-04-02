@@ -24,9 +24,9 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
 
   events: Event[] = [];
 
-  statuses: WebConfigEventStatus[];
+  statuses?: WebConfigEventStatus[];
 
-  paramsSubscription: Subscription;
+  paramsSubscription?: Subscription;
 
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private configService: ConfigService, private toastService: ToastService) {
 
@@ -50,7 +50,7 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    this.paramsSubscription?.unsubscribe();
   }
 
   async loadStatuses() {
@@ -59,6 +59,8 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
   }
 
   async loadEvents() {
+
+    if (!this.dateTill || !this.dateFrom) return;
 
     const requestOptions = {
       filter: {

@@ -21,11 +21,12 @@ export class EventEditRegistrationComponent {
 
   async uploadRegistration(event: Event, input: HTMLInputElement) {
 
-    if (!input.files.length) return;
+    if (!event._links?.registration) return;
+    if (!input.files?.length) return;
 
-    let file = input.files[0];
+    let file = input.files![0];
 
-    if (file.name.split(".").pop().toLowerCase() !== "pdf") {
+    if (file.name.split(".").pop()?.toLowerCase() !== "pdf") {
       this.toastService.toast("Soubor musí být ve formátu PDF");
       return;
     }
@@ -51,14 +52,16 @@ export class EventEditRegistrationComponent {
   }
 
   async deleteRegistration(event: Event) {
+    if (!event._links?.registration) return;
+
     await this.api.delete(event._links.registration);
     this.toastService.toast("Přihláška smazána.");
-    
+
     this.eventService.loadEvent(event._id);
   }
 
-  getRegistrationUrl(event): string {
-    return this.api.link2href(event._links.registration);
+  getRegistrationUrl(event: Event): string {
+    return this.api.link2href(event._links?.registration!);
   }
 
 }

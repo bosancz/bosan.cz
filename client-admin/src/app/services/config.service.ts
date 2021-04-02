@@ -33,11 +33,12 @@ export class ConfigService {
     else return config;
   }
 
+  // TODO some old untyped code 🤦‍♀️
   private getPathValue(config: WebConfig, path: string): any {
     const parts = path.split(".");
-    var value = config;
-    var part;
-    while (part = parts.shift()) {
+    let value: any = config;
+    let part;
+    while (part = <keyof WebConfig>parts.shift()) {
       value = value && value[part] || undefined;
     }
     return value;
@@ -45,7 +46,7 @@ export class ConfigService {
 
   async updateConfig(): Promise<void> {
     const config = await this.http.get<WebConfig>(this.root + "/config").toPromise();
-    this.config.next(config)
+    this.config.next(config);
   }
 
   saveConfig(config: WebConfig): Promise<string> {

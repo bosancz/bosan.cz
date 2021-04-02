@@ -11,27 +11,30 @@ import { Member } from "app/shared/schema/member";
 })
 export class EventBirthdayListComponent {
 
-  birthdays:Array<{age:number, date:string, member:Member}> = [];
-  
+  birthdays: Array<{ age: number, date: string, member: Member; }> = [];
+
   constructor() { }
 
   @Input()
-  set event(event:Event){
+  set event(event: Event) {
     this.updateBirthdays(event);
   }
-  
-  updateBirthdays(event:Event){
-    const members = [...event.leaders,...event.attendees];
-    
+
+  updateBirthdays(event: Event) {
+    const members = [];
+    if (event.leaders) members.push(...event.leaders);
+    if (event.attendees) members.push(...event.attendees);
+
     this.birthdays = [];
-    
-    const dateFrom = DateTime.fromISO(event.dateFrom).set({hour:0,minute:0});
-    const dateTill = DateTime.fromISO(event.dateTill).set({hour:23,minute:59});
-    
+
+    const dateFrom = DateTime.fromISO(event.dateFrom).set({ hour: 0, minute: 0 });
+    const dateTill = DateTime.fromISO(event.dateTill).set({ hour: 23, minute: 59 });
+
     members.forEach(member => {
-      var ageStart = Math.floor( (-1) * DateTime.fromISO(member.birthday).diff(dateFrom,"years").toObject().years );
-      var ageEnd = Math.floor( (-1) * DateTime.fromISO(member.birthday).diff(dateTill,"years").toObject().years );
-      if(ageStart < ageEnd) this.birthdays.push({ age: ageEnd, date: member.birthday, member: member });
+      if (!member.birthday) return;
+      var ageStart = Math.floor((-1) * DateTime.fromISO(member.birthday).diff(dateFrom, "years").toObject().years!);
+      var ageEnd = Math.floor((-1) * DateTime.fromISO(member.birthday).diff(dateTill, "years").toObject().years!);
+      if (ageStart < ageEnd) this.birthdays.push({ age: ageEnd, date: member.birthday, member: member });
     });
   }
 

@@ -18,18 +18,12 @@ export class ApiService {
 
   root = environment.apiRoot;
 
-  resources: Promise<{ [name: string]: DocumentLink }>;
+  resources = this.http.get<any>(this.root).toPromise().then(api => api._links);
 
-  constructor(private http: HttpClient) {
-    this.loadResources();
-    console.log("API LOADED");
-  }
+  constructor(private http: HttpClient) { }
 
-  loadResources() {
-    this.resources = this.http.get<any>(this.root).toPromise().then(api => api._links);
-  }
 
-  link2href(link): string {
+  link2href(link: DocumentLink): string {
     if (!link.href.match(/^[a-z]+\:\/\//)) return this.root + link.href;
     else return link.href;
   }
@@ -74,7 +68,7 @@ export class ApiService {
 
   }
 
-  expandHref(href: string, expand: any): string {
+  expandHref(href: string, expand: (value: string) => string): string {
     //return URITemplate(href).expand(expand)
     return href.replace(/\{([^\}]+)\}/g, (match, p1) => expand(p1));
   }
@@ -112,7 +106,7 @@ export class ApiService {
   private setParam(params: HttpParams, name: string, value: any) {
     if (value === undefined) return params;
 
-    if (value === null) return params.set(name, null);
+    if (value === null) return params.delete(name);
 
     if (typeof value !== "object") return params.set(name, value);
 
@@ -125,7 +119,7 @@ export class ApiService {
     return params;
   }
 
-  private toParams(options: { [s: string]: any }): HttpParams {
+  private toParams(options: { [s: string]: any; }): HttpParams {
     let params = new HttpParams();
 
     if (options) Object.entries(options).forEach(entry => params = this.setParam(params, entry[0], entry[1]));

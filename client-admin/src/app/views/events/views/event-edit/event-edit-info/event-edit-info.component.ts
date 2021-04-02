@@ -44,8 +44,8 @@ export class EventEditInfoComponent implements OnInit {
 
   async saveEvent(event: Event, ngForm: NgForm) {
 
-    await this.api.patch<Event>(event._links.self, ngForm.value);
-    this.toastService.toast("Uloženo.")
+    await this.api.patch<Event>(["event", event._id], ngForm.value);
+    this.toastService.toast("Uloženo.");
 
     this.eventsService.loadEvent(event._id);
   }

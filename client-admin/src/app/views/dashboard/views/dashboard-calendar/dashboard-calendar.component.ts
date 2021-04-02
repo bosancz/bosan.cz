@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DateTime } from 'luxon';
-
 import { ApiService } from 'app/services/api.service';
+import { Event } from 'app/shared/schema/event';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'dashboard-calendar',
@@ -10,7 +10,7 @@ import { ApiService } from 'app/services/api.service';
 })
 export class DashboardCalendarComponent implements OnInit {
 
-  events: Event[];
+  events: Event[] = [];
 
   eventsDateFrom = DateTime.local().set({ day: 1, hour: 0, minute: 0, second: 0, millisecond: 0 });
   eventsDateTill = this.eventsDateFrom.plus({ months: 5, days: -1 });
@@ -31,7 +31,7 @@ export class DashboardCalendarComponent implements OnInit {
     options.filter = {
       dateTill: { $gte: this.eventsDateFrom.toISODate() },
       dateFrom: { $lte: this.eventsDateTill.toISODate() }
-    }
+    };
 
     this.events = await this.api.get<Event[]>("events", options);
   }

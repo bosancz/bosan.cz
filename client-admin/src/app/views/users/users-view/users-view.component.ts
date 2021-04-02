@@ -10,8 +10,6 @@ import { userRoles } from 'config/user-roles';
 import { Subscription } from "rxjs";
 
 
-
-
 @Component({
   selector: 'users-view',
   templateUrl: './users-view.component.html',
@@ -19,7 +17,7 @@ import { Subscription } from "rxjs";
 })
 export class UsersViewComponent implements OnInit, OnDestroy {
 
-  user: User;
+  user?: User;
 
   roles = userRoles
     .filter(item => item.assignable)
@@ -27,11 +25,11 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   members: Member[] = [];
 
-  category: string;
+  category: string = "ucet";
 
   deleteConfirmation: boolean = false;
 
-  paramsSubscription: Subscription;
+  paramsSubscription?: Subscription;
 
   constructor(
     private api: ApiService,
@@ -55,17 +53,17 @@ export class UsersViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    this.paramsSubscription?.unsubscribe();
   }
 
   // DB interaction
   async loadUser(userId: string) {
     this.user = await this.api.get<User>(["user", userId]);
-    this.updateRoles();
+    this.updateRoles(this.user);
   }
 
-  updateRoles(): void {
-    this.roles.forEach(role => role.active = (this.user.roles.indexOf(role.name) !== -1));
+  updateRoles(user: User): void {
+    this.roles.forEach(role => role.active = (user.roles.indexOf(role.name) !== -1));
   }
 
   async loadMembers() {
@@ -75,6 +73,8 @@ export class UsersViewComponent implements OnInit, OnDestroy {
   }
 
   async saveUser(userForm: NgForm) {
+
+    if (!this.user) return;
 
     const userData = userForm.value;
 
@@ -87,13 +87,15 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   async deleteUser() {
 
+    if (!this.user) return;
+
     const confirmation = window.confirm(`Opravdu smazat uživatele ${this.user.login}?`);
 
     if (!confirmation) return;
 
     await this.api.delete(["user", this.user._id]);
 
-    this.toastService.toast("Uživatel " + name + " byl smazán.");
+    this.toastService.toast(`Uživatel byl smazán.`);
 
     this.router.navigate(["../../"], { relativeTo: this.route });
   }
@@ -112,4 +114,4 @@ export class UsersViewComponent implements OnInit, OnDestroy {
     return this.roles.some(role => role.name === name && role.active === true);
   }
 
-}
+};

@@ -12,30 +12,32 @@ import { User } from "app/shared/schema/user";
   styleUrls: ['./my-account-credentials.component.scss']
 })
 export class MyAccountCredentialsComponent implements OnInit {
-  
-  user:User;
-  
-  passwordsVisible:boolean = false;
 
-  constructor(private api:ApiService, private toastService:ToastService) { }
-  
+  user?: User;
+
+  passwordsVisible: boolean = false;
+
+  constructor(private api: ApiService, private toastService: ToastService) { }
+
   ngOnInit() {
     this.loadUser();
-    
+
   }
-    
-  async loadUser(){
+
+  async loadUser() {
     this.user = await this.api.get<User>("me:user");
   }
 
-  async updateCredentials(form:NgForm){
-    
+  async updateCredentials(form: NgForm) {
+
+    if (!this.user) return;
+
     let userData = form.value;
-    
-    await this.api.put(this.user._links.credentials,userData);
-    
+
+    await this.api.put(this.user._links.credentials, userData);
+
     this.toastService.toast("Uloženo.");
-    
+
   }
 
 }

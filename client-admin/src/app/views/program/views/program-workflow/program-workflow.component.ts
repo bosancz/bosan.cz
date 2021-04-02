@@ -29,7 +29,7 @@ export class ProgramWorkflowComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadEvents()
+    this.loadEvents();
   }
 
   async loadEvents() {

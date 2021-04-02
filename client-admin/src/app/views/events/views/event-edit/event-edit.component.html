@@ -1,6 +1,6 @@
 <bo-page>
   <bo-page-header>
-    <h2 [pageTitle]="'Upravit: ' + (event$ | async)?.name">Upravit: {{(event$ | async)?.name}}</h2>
+    <h2 [pageTitle]="'Upravit: ' + (event$ | async)?.name">Upravit: {{ (event$ | async)?.name }}</h2>
 
     <div class="actions" *actionMenu>
       <button mat-button routerLink="../">Zavřít úpravy</button>
@@ -8,17 +8,14 @@
   </bo-page-header>
 
   <div class="row">
-
     <div class="col-lg-2 d-none d-lg-block">
-
       <nav *secondaryMenu class="nav nav-pills flex-column">
-        <a class="nav-link" routerLink="info" replaceUrl="true" routerLinkActive="active">Info</a>
-        <a class="nav-link" routerLink="prihlaska" replaceUrl="true" routerLinkActive="active">Přihláška</a>
-        <a class="nav-link" routerLink="ucastnici" replaceUrl="true" routerLinkActive="active">Účastníci</a>
-        <a class="nav-link" routerLink="uctovani" replaceUrl="true" routerLinkActive="active">Účtování</a>
-        <a class="nav-link" routerLink="report" replaceUrl="true" routerLinkActive="active">Report</a>
+        <a class="nav-link" routerLink="info" [replaceUrl]="true" routerLinkActive="active">Info</a>
+        <a class="nav-link" routerLink="prihlaska" [replaceUrl]="true" routerLinkActive="active">Přihláška</a>
+        <a class="nav-link" routerLink="ucastnici" [replaceUrl]="true" routerLinkActive="active">Účastníci</a>
+        <a class="nav-link" routerLink="uctovani" [replaceUrl]="true" routerLinkActive="active">Účtování</a>
+        <a class="nav-link" routerLink="report" [replaceUrl]="true" routerLinkActive="active">Report</a>
       </nav>
-
     </div>
 
     <div class="col-lg-10">

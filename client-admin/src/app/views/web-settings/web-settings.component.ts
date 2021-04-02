@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { NgForm } from '@angular/forms';
@@ -24,7 +25,7 @@ export class WebSettingsComponent implements OnInit {
 
   config$ = this.configService.config;
 
-  configStructure = webConfigStructure;
+  configStructure: any = webConfigStructure;
 
   viewJson: boolean = false;
 

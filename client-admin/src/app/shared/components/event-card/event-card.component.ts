@@ -12,7 +12,7 @@ import { DocumentAction } from 'app/shared/schema/api';
 export class EventCardComponent implements OnInit {
 
   @Input()
-  event: Event;
+  event?: Event;
 
   @Input()
   set eventId(eventId: string) {
@@ -41,7 +41,7 @@ export class EventCardComponent implements OnInit {
   async eventAction(action: DocumentAction, note: boolean = false) {
 
     if (note) {
-      const note = window.prompt("Poznámka k vrácení akce:")
+      const note = window.prompt("Poznámka k vrácení akce:");
 
       // hit cancel in the prompt cancels the action
       if (note === null) return;

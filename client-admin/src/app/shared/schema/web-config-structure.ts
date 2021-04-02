@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { WebConfig } from "app/shared/schema/web-config";
 import { Codelist } from '../components/codelist-editor/codelist-editor.component';
 

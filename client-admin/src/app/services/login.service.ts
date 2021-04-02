@@ -19,8 +19,6 @@ export class LoginService {
 
   googleLoginAvailable = this.googleService.loaded;
 
-  refreshToken: string;
-
   constructor(
     private api: ApiService,
     private route: ActivatedRoute,
@@ -37,7 +35,7 @@ export class LoginService {
     });
   }
 
-  async loginCredentials(credentials): Promise<LoginResult> {
+  async loginCredentials(credentials: { login: string, password: string; }): Promise<LoginResult> {
 
     const result: LoginResult = { success: true };
 
@@ -79,14 +77,14 @@ export class LoginService {
   }
 
   async loginToken(token: string) {
-    await this.api.post("login:token", { token: token })
+    await this.api.post("login:token", { token: token });
     this.onLogin.emit();
     this.router.navigate(["./"], { relativeTo: this.route });
   }
 
   async loginImpersonate(userId: string) {
     try {
-      await this.api.post("login:impersonate", { id: userId })
+      await this.api.post("login:impersonate", { id: userId });
 
       this.onLogin.emit();
 

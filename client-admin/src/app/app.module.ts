@@ -16,8 +16,6 @@ import { SharedModule } from "app/shared/shared.module";
 
 // VIEWS
 import { NotFoundComponent } from 'app/views/not-found/not-found.component';
-import { CanalRegistrationComponent } from './views/canal-registration/canal-registration.component';
-import { DocumentsViewComponent } from './views/documents-view/documents-view.component';
 import { LoginComponent } from './views/login/login.component';
 
 // COMPONENTS
@@ -40,8 +38,6 @@ registerLocaleData(localeCs, 'cs');
 
     /* VIEWS */
     NotFoundComponent,
-    CanalRegistrationComponent,
-    DocumentsViewComponent,
     LoginComponent,
 
     /* COMPONENTS */

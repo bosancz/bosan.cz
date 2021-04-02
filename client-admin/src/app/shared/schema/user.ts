@@ -1,9 +1,9 @@
-export class UserNotification {
+export interface UserNotification {
   email: boolean;
   system: boolean;
 }
 
-export class User {
+export interface User {
 
   _id: string;
   login: string;
@@ -13,7 +13,7 @@ export class User {
 
   email: string;
 
-  notifications
+  notifications: UserNotification[];
 
   _links?: any;
 }

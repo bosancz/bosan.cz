@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from "@angular/router";
-import { from, Observable, Subject } from "rxjs";
-
-import { ToastService } from "app/services/toast.service";
-
-import { Member } from "app/shared/schema/member";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { ApiService } from 'app/services/api.service';
-import { map, mergeMap, distinctUntilChanged, tap, switchMap, flatMap } from 'rxjs/operators';
+import { ToastService } from "app/services/toast.service";
+import { Member } from "app/shared/schema/member";
+import { Subject } from "rxjs";
+import { distinctUntilChanged, map, mergeMap } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'members-view',
@@ -15,8 +15,7 @@ import { map, mergeMap, distinctUntilChanged, tap, switchMap, flatMap } from 'rx
 })
 export class MembersViewComponent implements OnInit {
 
-  member$ = new Subject();
-
+  member$ = new Subject<Member>();
 
   constructor(
     private api: ApiService,
@@ -28,8 +27,8 @@ export class MembersViewComponent implements OnInit {
       .pipe(map((params: Params) => params.member))
       .pipe(distinctUntilChanged())
       .pipe(mergeMap(memberId => this.loadMember(memberId)))
-      .subscribe(this.member$)
-    
+      .subscribe(this.member$);
+
   }
 
   ngOnInit() {

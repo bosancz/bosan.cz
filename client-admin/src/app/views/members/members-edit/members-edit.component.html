@@ -10,7 +10,12 @@
 
     <div class="actions" *actionMenu>
       <button mat-button routerLink="../">Zrušit úpravy</button>
-      <button mat-button color="primary" [disabled]="!member._links?.self.allowed.PATCH" (click)="saveMember(memberInfoForm.value)">
+      <button
+        mat-button
+        color="primary"
+        [disabled]="!member?._links?.self?.allowed?.PATCH"
+        (click)="saveMember(memberInfoForm.value)"
+      >
         Uložit
       </button>
     </div>
@@ -23,22 +28,48 @@
       <div class="row mb-3">
         <div class="form-group col-lg-3 col-md-6">
           <label>Přezdívka</label>
-          <input type="text" name="nickname" [ngModel]="member.nickname" class="form-control" placeholder="Nositel Prstenu" />
+          <input
+            type="text"
+            name="nickname"
+            [ngModel]="member.nickname"
+            class="form-control"
+            placeholder="Nositel Prstenu"
+          />
         </div>
         <ng-container ngModelGroup="name">
           <div class="form-group col-lg-3 col-md-6">
             <label>Jméno</label>
-            <input type="text" name="first" [ngModel]="member.name?.first" class="form-control" required placeholder="Bilbo" />
+            <input
+              type="text"
+              name="first"
+              [ngModel]="member.name?.first"
+              class="form-control"
+              required
+              placeholder="Bilbo"
+            />
           </div>
           <div class="form-group col-lg-3 col-md-6">
             <label>Příjmení</label>
-            <input type="text" name="last" [ngModel]="member.name?.last" class="form-control" required placeholder="Pytlík" />
+            <input
+              type="text"
+              name="last"
+              [ngModel]="member.name?.last"
+              class="form-control"
+              required
+              placeholder="Pytlík"
+            />
           </div>
         </ng-container>
 
         <div class="form-group col-lg-3 col-md-6">
           <label>Datum narození</label>
-          <input type="date" name="birthday" [ngModel]="member.birthday | date: 'yyyy-MM-dd'" class="form-control" required />
+          <input
+            type="date"
+            name="birthday"
+            [ngModel]="member.birthday | date: 'yyyy-MM-dd'"
+            class="form-control"
+            required
+          />
         </div>
       </div>
 
@@ -96,7 +127,14 @@
           </div>
           <div class="form-group col-4">
             <label>Číslo</label>
-            <input type="text" name="streetNo" [ngModel]="member.address?.streetNo" class="form-control" placeholder="123/1a" required />
+            <input
+              type="text"
+              name="streetNo"
+              [ngModel]="member.address?.streetNo"
+              class="form-control"
+              placeholder="123/1a"
+              required
+            />
           </div>
         </div>
 
@@ -126,7 +164,13 @@
           </div>
           <div class="form-group col-4">
             <label>Země</label>
-            <input type="text" name="country" [ngModel]="member.address?.country" class="form-control" placeholder="Středozemě" />
+            <input
+              type="text"
+              name="country"
+              [ngModel]="member.address?.country"
+              class="form-control"
+              placeholder="Středozemě"
+            />
           </div>
         </div>
       </div>
@@ -136,11 +180,23 @@
         <div class="row">
           <div class="form-group col-6">
             <label>Mobil</label>
-            <input type="text" name="mobile" [ngModel]="member.contacts?.mobile" class="form-control" placeholder="+420 777123456" />
+            <input
+              type="text"
+              name="mobile"
+              [ngModel]="member.contacts?.mobile"
+              class="form-control"
+              placeholder="+420 777123456"
+            />
           </div>
           <div class="form-group col-6">
             <label>E-mail</label>
-            <input type="text" name="email" [ngModel]="member.contacts?.email" class="form-control" placeholder="bilbo@valinor.ea" />
+            <input
+              type="text"
+              name="email"
+              [ngModel]="member.contacts?.email"
+              class="form-control"
+              placeholder="bilbo@valinor.ea"
+            />
           </div>
         </div>
 

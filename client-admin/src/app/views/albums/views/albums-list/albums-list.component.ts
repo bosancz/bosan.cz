@@ -7,7 +7,7 @@ import { ApiService } from 'app/services/api.service';
 
 import { Album, Photo } from "app/shared/schema/album";
 
-type AlbumWithSearchString<T = Photo> = Album<T> & { searchString?: string };
+type AlbumWithSearchString<T = Photo> = Album<T> & { searchString: string; };
 
 @Component({
   selector: 'albums-list',
@@ -17,7 +17,7 @@ type AlbumWithSearchString<T = Photo> = Album<T> & { searchString?: string };
 export class AlbumsListComponent implements OnInit {
 
   years: number[] = [];
-  currentYear: number;
+  currentYear?: number;
 
   albums$ = new Subject<AlbumWithSearchString[]>();
   filteredAlbums$: Observable<Album[]>;
@@ -27,13 +27,13 @@ export class AlbumsListComponent implements OnInit {
     { id: "draft", name: "v přípravě" },
   ];
 
-  statusesIndex = this.statuses.reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string });
+  statusesIndex = this.statuses.reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string; });
 
   showFilter = false;
 
   loading: boolean = false;
 
-  @ViewChild('filterForm', { static: true }) filterForm: NgForm;
+  @ViewChild('filterForm', { static: true }) filterForm!: NgForm;
 
   search$ = new BehaviorSubject<string>("");
 
@@ -41,7 +41,7 @@ export class AlbumsListComponent implements OnInit {
     private api: ApiService,
   ) {
 
-    this.filteredAlbums$ = combineLatest(this.albums$, this.search$.pipe(debounceTime(250)))
+    this.filteredAlbums$ = combineLatest([this.albums$, this.search$.pipe(debounceTime(250))])
       .pipe(map(([events, search]) => this.filterAlbums(events, search)));
 
   }
@@ -51,7 +51,7 @@ export class AlbumsListComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.filterForm.valueChanges.subscribe(filter => {
+    this.filterForm.valueChanges!.subscribe(filter => {
       this.loadAlbums(filter);
     });
   }
@@ -73,19 +73,20 @@ export class AlbumsListComponent implements OnInit {
       filter: {
         dateFrom: { $gte: filter.year + "-01-01", $lte: filter.year + "-12-31" }
       }
-    }
+    };
 
     if (filter.status) options.filter.status = filter.status;
 
-    const albums: AlbumWithSearchString[] = await this.api.get<Album[]>("albums", options);
+    const albums = await this.api.get<Album[]>("albums", options);
 
-    albums.forEach(album => {
-      album.searchString = [
+    this.albums$.next(albums.map(album => {
+      const searchString = [
         album.name
-      ].filter(item => !!item).join(" ")
-    })
+      ].filter(item => !!item).join(" ");
 
-    this.albums$.next(albums)
+      return { ...album, searchString };
+    }));
+
     this.loading = false;
   }
 
@@ -93,9 +94,9 @@ export class AlbumsListComponent implements OnInit {
 
     if (!search) return events;
 
-    const search_re = new RegExp("(^| )" + search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i")
+    const search_re = new RegExp("(^| )" + search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
 
-    return events.filter(event => search_re.test(event.searchString))
+    return events.filter(event => search_re.test(event.searchString));
   }
 
 }

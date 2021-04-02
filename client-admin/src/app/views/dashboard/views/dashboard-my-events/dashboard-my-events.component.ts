@@ -6,6 +6,12 @@ import { ApiService } from "app/services/api.service";
 import { Event } from "app/shared/schema/event";
 import { DateTime } from 'luxon';
 
+type DashboardMyEventsStats = {
+  count: number,
+  days: number,
+  mandays: number;
+};
+
 @Component({
   selector: 'my-events',
   templateUrl: './dashboard-my-events.component.html',
@@ -17,10 +23,10 @@ export class DashboardMyEventsComponent implements OnInit {
 
   events: Event[] = [];
 
-  stats: {
-    count: number,
-    days: number,
-    mandays: number
+  stats: DashboardMyEventsStats = {
+    count: 0,
+    days: 0,
+    mandays: 0
   };
 
   constructor(

@@ -1,21 +1,14 @@
 import { Document } from "./api";
 import { Member } from "./member";
 
-export class EventRecurring {
-  recurring: string;
-  startDate: Date;
-  endDate: Date;
-  instances: any[];
-}
-
-export class EventExpense {
+export interface EventExpense {
   id: string;
   amount: number;
   type: string;
   description: string;
 }
 
-export class Event extends Document {
+export interface Event extends Document {
 
   _id: string;
   status: string;
@@ -32,26 +25,24 @@ export class Event extends Document {
   timeFrom: string;
   timeTill: string;
 
-  recurring?: EventRecurring;
-
   order?: number;
 
   meeting?: {
     start?: string,
-    end?: string
-  } = {};
+    end?: string;
+  };
 
-  attendees?: Member[] = [];
-  leaders?: Member[] = [];
+  attendees?: Member[];
+  leaders?: Member[];
 
   registration?: string;
 
   groups?: string[];
   leadersEvent?: boolean;
 
-  competition: { river: string, water_km: number };
+  competition: { river: string, water_km: number; };
 
-  expenses: EventExpense[] = [];
-  
+  expenses: EventExpense[];
+
   report: string;
 }

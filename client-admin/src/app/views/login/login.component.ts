@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   expired = this.route.params.pipe(map(params => params.expired));
 
-  status: string;
+  status?: string;
 
   view: string = "login";
 

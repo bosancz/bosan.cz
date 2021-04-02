@@ -1,10 +1,7 @@
-import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
-
+import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import { ConfigService } from "app/services/config.service";
-
 import { Event } from "app/shared/schema/event";
-import { WebConfigEventType, WebConfigEventSubType } from "app/shared/schema/web-config";
-import { filter } from 'rxjs/operators';
+import { WebConfigEventSubType, WebConfigEventType } from "app/shared/schema/web-config";
 
 type EventPipeProperty = "image" | "color" | "class";
 
@@ -15,11 +12,11 @@ type EventPipeProperty = "image" | "color" | "class";
 export class EventPipe implements PipeTransform {
 
   eventTypes: {
-    [name: string]: WebConfigEventType
+    [name: string]: WebConfigEventType;
   } = {};
 
   eventSubTypes: {
-    [name: string]: WebConfigEventSubType
+    [name: string]: WebConfigEventSubType;
   } = {};
 
   constructor(
@@ -36,7 +33,6 @@ export class EventPipe implements PipeTransform {
   }
 
   transform(event: Event, property: EventPipeProperty): string {
-    if (!event) return;
 
     switch (property) {
 

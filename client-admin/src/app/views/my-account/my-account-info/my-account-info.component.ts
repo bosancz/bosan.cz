@@ -11,15 +11,15 @@ import { User } from "app/shared/schema/user";
 })
 export class MyAccountInfoComponent implements OnInit {
 
-  user:User;
-  
-  constructor(private api:ApiService) { }
+  user?: User;
+
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
     this.loadUser();
   }
-  
-  async loadUser(){
+
+  async loadUser() {
     this.user = await this.api.get<User>("me:user");
   }
 

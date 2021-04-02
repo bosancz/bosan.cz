@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges, forwardRef } from '@angular/core';
-
-import { Photo } from 'app/shared/schema/photo';
+import { Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Face } from 'app/shared/schema/face';
 import { Member } from 'app/shared/schema/member';
-import { Subject, BehaviorSubject, combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { Photo } from 'app/shared/schema/photo';
+import { BehaviorSubject, combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+type MemberFaceInfo = Pick<Member, "_id" | "nickname" | "group" | "faceDescriptor">;
 
 @Component({
   selector: 'photo-face-edit',
@@ -22,7 +22,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class PhotoFaceEditComponent implements ControlValueAccessor {
 
-  @Input() photo: Photo;
+  @Input() photo!: Photo;
   @Input() size: number = 60;
 
 
@@ -32,12 +32,12 @@ export class PhotoFaceEditComponent implements ControlValueAccessor {
   face$ = new ReplaySubject<Face>(1);
 
 
-  @Input() set members(members: Member[]) {
+  @Input() set members(members: MemberFaceInfo[]) {
     this.members$.next(members);
   }
-  members$ = new ReplaySubject<Member[]>(1);
+  members$ = new ReplaySubject<MemberFaceInfo[]>(1);
 
-  expressionBadges = {
+  expressionBadges: { [key: string]: string; } = {
     "neutral": "😐",
     "happy": "🙂",
     "sad": "🙁",
@@ -48,22 +48,22 @@ export class PhotoFaceEditComponent implements ControlValueAccessor {
   };
 
   // Compute closest faces
-  topMembers$: Observable<Member[]> = combineLatest(this.face$, this.members$)
+  topMembers$: Observable<MemberFaceInfo[]> = combineLatest([this.face$, this.members$])
     .pipe(map(([face, members]) => this.getTopMembers(face, members)));
 
   // Filtering of autocomplete
   search$ = new BehaviorSubject<string>("");
 
-  filteredMembers$: Observable<Member[]> = combineLatest(this.search$.pipe(debounceTime(100)), this.members$)
-    .pipe(map(([search, members]) => this.filterMembers(search, members)))
+  filteredMembers$: Observable<MemberFaceInfo[]> = combineLatest([this.search$.pipe(debounceTime(100)), this.members$])
+    .pipe(map(([search, members]) => this.filterMembers(search, members)));
 
 
 
-  memberId$ = new ReplaySubject<Member["_id"] | null>(1);
-  member$: Observable<Member> = combineLatest(this.members$, this.memberId$).pipe(map(([members, memberId]) => this.findMember(memberId, members)));
+  memberId$ = new ReplaySubject<MemberFaceInfo["_id"] | null>(1);
+  member$: Observable<MemberFaceInfo | null> = combineLatest([this.members$, this.memberId$]).pipe(map(([members, memberId]) => memberId ? this.findMember(memberId, members) : null));
 
   // ControlValueAccessor
-  onChange = (memberId: string) => { };
+  onChange = (memberId: string | null) => { };
   onTouched = () => { };
   disabled: boolean = false;
 
@@ -73,24 +73,24 @@ export class PhotoFaceEditComponent implements ControlValueAccessor {
   ngOnInit() {
   }
 
-  filterMembers(value: string, members: Member[]) {
+  filterMembers(value: string, members: MemberFaceInfo[]) {
     if (!value) return members;
 
     const filterValue = value.toLowerCase();
     return members.filter(item => item.nickname.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  findMember(memberId: Member["_id"], members: Member[]) {
-    return members ? members.find(member => member._id === memberId) : undefined;
+  findMember(memberId: Member["_id"], members: MemberFaceInfo[]) {
+    return members?.find(member => member._id === memberId) || null;
   }
 
-  getTopMembers(face: Face, members: Member[]) {
+  getTopMembers(face: Face, members: MemberFaceInfo[]) {
 
     return members
       .filter(member => member.faceDescriptor)
       .map(member => ({
         member,
-        distance: this.computeDistance(face, member)
+        distance: this.computeDistance(face, member.faceDescriptor!)
       }))
       .sort((a, b) => a.distance - b.distance)
       .slice(0, 3)
@@ -98,22 +98,22 @@ export class PhotoFaceEditComponent implements ControlValueAccessor {
 
   }
 
-  computeDistance(face: Face, member: Member) {
+  computeDistance(face: Face, faceDescriptor: number[]) {
 
     // Euclidean distance
     return Math.sqrt(
       face.descriptor
-        .map((faceDescriptorI, i) => Math.pow(member.faceDescriptor[i] - faceDescriptorI, 2))
+        .map((faceDescriptorI, i) => Math.pow(faceDescriptor[i] - faceDescriptorI, 2))
         .reduce((acc, cur) => acc + cur, 0)
     );
   }
 
-  memberSelected(member: Member | null) {
+  memberSelected(member: MemberFaceInfo | null) {
     this.memberId$.next(member ? member._id : null);
     this.onChange(member ? member._id : null);
   }
 
-  displayMember(member: Member): string {
+  displayMember(member: MemberFaceInfo): string {
     return `${member.nickname} (${member.group})`;
   }
 

@@ -29,18 +29,18 @@ export class AlbumsEditPhotoComponent implements OnInit {
 
   album$ = this.albumsService.album$;
 
-  photo: Photo;
-  photoDate: string;
+  photo?: Photo;
+  photoDate?: string;
 
   members: Pick<Member, "_id" | "nickname" | "group" | "faceDescriptor">[] = [];
 
-  randomPlaceholder: string;
+  randomPlaceholder: string = this.selectRandomPlaceholder();
 
-  currentPhotoId: string;
-  previousPhotoId: string;
-  nextPhotoId: string;
+  currentPhotoId?: string;
+  previousPhotoId?: string;
+  nextPhotoId?: string;
 
-  paramsSubscription: Subscription;
+  paramsSubscription?: Subscription;
 
   constructor(
     private api: ApiService,
@@ -52,7 +52,7 @@ export class AlbumsEditPhotoComponent implements OnInit {
 
   ngOnInit() {
     this.loadMembers();
-    this.selectRandomPlaceholder()
+    this.randomPlaceholder = this.selectRandomPlaceholder();
 
     this.paramsSubscription = combineLatest(this.album$, this.route.params.pipe(map((params: Params) => params.photo)))
       .subscribe(([album, photoId]) => {
@@ -70,12 +70,12 @@ export class AlbumsEditPhotoComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    this.paramsSubscription?.unsubscribe();
   }
 
   async loadPhoto(photoId: string) {
     this.photo = photoId ? await this.api.get<Photo>(["photo", photoId], { members: 1 }) : undefined;
-    this.photoDate = DateTime.fromISO(<string>this.photo.date).setZone(new LocalZone()).toISO({ includeOffset: false })
+    this.photoDate = typeof this.photo?.date === "string" ? DateTime.fromISO(this.photo.date).setZone(new LocalZone()).toISO({ includeOffset: false }) : undefined;
   }
 
   async loadMembers() {
@@ -83,7 +83,9 @@ export class AlbumsEditPhotoComponent implements OnInit {
   }
 
   async savePhoto() {
-    this.photo.date = DateTime.fromISO(this.photoDate).setZone(new LocalZone()).toISO();
+    if (!this.photo) return;
+
+    if (this.photoDate) this.photo.date = DateTime.fromISO(this.photoDate).setZone(new LocalZone()).toISO();
 
     await this.api.patch<Photo>(["photo", this.photo._id], this.photo);
     this.toastService.toast("Uloženo.");
@@ -99,14 +101,14 @@ export class AlbumsEditPhotoComponent implements OnInit {
   }
 
   prevPhoto() {
-    this.selectPhoto(this.previousPhotoId);
+    if (this.previousPhotoId) this.selectPhoto(this.previousPhotoId);
   }
 
   nextPhoto() {
-    this.selectPhoto(this.nextPhotoId);
+    if (this.nextPhotoId) this.selectPhoto(this.nextPhotoId);
   }
 
   selectRandomPlaceholder() {
-    this.randomPlaceholder = placeHolders[Math.floor(Math.random() * placeHolders.length)];
+    return placeHolders[Math.floor(Math.random() * placeHolders.length)];
   }
 }

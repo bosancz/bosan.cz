@@ -18,8 +18,8 @@ import { Subject } from 'rxjs';
 })
 export class TypeaheadFieldComponent implements ControlValueAccessor, OnInit {
 
-  @Input() toStringFn: (item: any) => string;
-  @Input() matched: any[];
+  @Input() toStringFn?: (item: any) => string;
+  @Input() matched?: any[];
   @Input() delay: number = 250;
 
   @Output() search: EventEmitter<string> = new EventEmitter();

@@ -14,14 +14,13 @@ import { Subscription } from 'rxjs';
 })
 export class MembersEditComponent {
 
-  member: Member;
-
+  member?: Member;
 
   groups: WebConfigGroup[] = [];
   roles: string[] = [];
   membershipTypes: string[] = [];
 
-  paramsSubscription: Subscription;
+  paramsSubscription?: Subscription;
 
   constructor(
     private api: ApiService,
@@ -40,7 +39,7 @@ export class MembersEditComponent {
   }
 
   ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    this.paramsSubscription?.unsubscribe();
   }
 
   loadConfig() {
@@ -57,6 +56,9 @@ export class MembersEditComponent {
 
 
   async saveMember(memberData: any) {
+
+    if (!this.member) return;
+
     // send the list of changes or current state of member to the server
     await this.api.patch(["member", this.member._id], memberData);
 

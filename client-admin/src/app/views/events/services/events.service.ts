@@ -9,18 +9,14 @@ import { ApiService } from 'app/services/api.service';
 })
 export class EventsService {
 
-  event$ = new BehaviorSubject<Event>(null);
+  event$ = new BehaviorSubject<Event | null>(null);
 
   constructor(private api: ApiService) { }
 
   async loadEvent(eventId: string): Promise<Event> {
     const event = await this.api.get<Event>(["event", eventId], { populate: ["leaders"] });
 
-    event.attendees.sort((a, b) => a.nickname.localeCompare(b.nickname));
-
-    if (!event.meeting) event.meeting = { start: undefined, end: undefined };
-    if (!event.competition) event.competition = { river: undefined, water_km: undefined }
-    if (!event.expenses) event.expenses = [];
+    event.attendees?.sort((a, b) => a.nickname.localeCompare(b.nickname));
 
     event.dateFrom = DateTime.fromISO(event.dateFrom).toISODate();
     event.dateTill = DateTime.fromISO(event.dateTill).toISODate();

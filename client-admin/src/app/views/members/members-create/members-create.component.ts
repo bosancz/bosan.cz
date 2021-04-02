@@ -16,8 +16,8 @@ import { Member } from 'app/shared/schema/member';
 })
 export class MembersCreateComponent implements OnInit {
 
-  groups: WebConfigGroup[];
-  roles: WebConfigMemberRole[];
+  groups?: WebConfigGroup[];
+  roles?: WebConfigMemberRole[];
 
   constructor(
     private api: ApiService,

@@ -3,7 +3,7 @@ import { ConfigService } from 'app/services/config.service';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
-type TextcheckDirectiveDef = { regexp: RegExp, text: string };
+type TextcheckDirectiveDef = { regexp: RegExp, text: string; };
 
 @Directive({
   selector: '[textcheck]',
@@ -11,7 +11,7 @@ type TextcheckDirectiveDef = { regexp: RegExp, text: string };
 })
 export class TextcheckDirective {
 
-  defs: BehaviorSubject<TextcheckDirectiveDef[]> = new BehaviorSubject([]);
+  defs: BehaviorSubject<TextcheckDirectiveDef[]> = new BehaviorSubject([] as TextcheckDirectiveDef[]);
 
   warnings: string[] = [];
 
@@ -20,10 +20,14 @@ export class TextcheckDirective {
     this.configService.config
       .pipe(map(config => config.events.descriptionWarnings))
       .pipe(map(warnings => {
-        return warnings.map(warning => {
-          try { return { regexp: new RegExp(warning.regexp, warning.regexpModifiers), text: warning.text }; }
-          catch (err) { return undefined; }
-        }).filter(item => item !== undefined)
+        return warnings
+          .map(warning => {
+            try {
+              return { regexp: new RegExp(warning.regexp, warning.regexpModifiers), text: warning.text };
+            }
+            catch (err) { return undefined; }
+          })
+          .filter((item): item is Exclude<typeof item, undefined> => item !== undefined);
       }))
       .subscribe(this.defs);
 

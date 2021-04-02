@@ -1,6 +1,6 @@
 import { Document } from "./api";
 
-export class Member extends Document {
+export interface Member extends Document {
   _id: string;
 
   group: string;
@@ -8,38 +8,38 @@ export class Member extends Document {
   post: string;
   membership: string;
   inactive: boolean;
-  
+
   rank: string;
-  stars:string;
+  stars: string;
 
   nickname: string;
 
   name: {
     first: string,
-    last: string
+    last: string;
   };
 
-  birthday: string;
+  birthday?: string;
 
   address: {
     street: string,
     streetNo: string,
     city: string,
     postalCode: string,
-    country: string
+    country: string;
   };
 
   contacts: {
     mobile: string,
     email: string,
     mother: string,
-    father: string
+    father: string;
   };
 
   achievements: [{
     id: string,
     dateFrom: Date,
-    dateTill: Date
+    dateTill: Date;
   }];
 
   allergies?: string[];

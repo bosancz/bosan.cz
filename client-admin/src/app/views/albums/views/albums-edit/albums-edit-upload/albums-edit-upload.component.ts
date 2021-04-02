@@ -6,7 +6,7 @@ import { ApiService } from 'app/services/api.service';
 import { Album, Photo } from "app/shared/schema/album";
 import { AlbumsService } from 'app/views/albums/albums.service';
 
-class PhotoUploadItem {
+interface PhotoUploadItem {
   file: File;
   progress: number;
   status: string;
@@ -51,7 +51,7 @@ export class AlbumsEditUploadComponent {
 
   addPhotosByInput(photoInput: HTMLInputElement) {
 
-    if (!photoInput.files.length) return;
+    if (!photoInput.files?.length) return;
 
     for (let i = 0; i < photoInput.files.length; i++) {
       this.photoUploadQueue.push({
@@ -65,6 +65,8 @@ export class AlbumsEditUploadComponent {
 
   addPhotosByDropzone(event: DragEvent, dropZone: HTMLDivElement) {
     event.preventDefault();
+
+    if (!event.dataTransfer?.files) return;
 
     for (let i = 0; i < event.dataTransfer.files.length; i++) {
       this.photoUploadQueue.push({
@@ -90,7 +92,7 @@ export class AlbumsEditUploadComponent {
     this.photoUploadQueue = [];
   }
 
-  async uploadPhotos(album: Album) {
+  async uploadPhotos(album: Album<any, any>) {
 
     this.status = "started";
 
@@ -128,7 +130,7 @@ export class AlbumsEditUploadComponent {
     formData.set("album", album._id);
     formData.set("tags", this.selectedTags.join(","));
     formData.set("photo", uploadItem.file, uploadItem.file.name);
-    formData.set("lastModified", uploadItem.file.lastModified ? new Date(uploadItem.file.lastModified).toISOString() : undefined);
+    if (uploadItem.file.lastModified) formData.set("lastModified", new Date(uploadItem.file.lastModified).toISOString());
 
     const uploadPath = await this.api.path2href("photos");
 
@@ -142,7 +144,7 @@ export class AlbumsEditUploadComponent {
               break;
 
             case HttpEventType.UploadProgress:
-              uploadItem.progress = Math.round(event.loaded / event.total * 100);
+              uploadItem.progress = event.total ? Math.round(event.loaded / event.total * 100) : 0;
               this.cdRef.markForCheck();
               if (event.loaded === event.total) uploadItem.status = "processing";
               break;

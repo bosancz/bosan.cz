@@ -23,12 +23,17 @@ export class ProgramPrintComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async exportProgram(dateRange: TrimesterDateRange) {
+  async exportProgram() {
+
+    if (!this.dateRange) {
+      this.toasts.toast("Nelze vygenerovat program, neplatné rozmezí.");
+      return;
+    }
 
     const requestOptions = {
       filter: {
-        dateFrom: { $lte: dateRange[1] },
-        dateTill: { $gte: dateRange[0] },
+        dateFrom: { $lte: this.dateRange[1] },
+        dateTill: { $gte: this.dateRange[0] },
       },
       select: "_id name description dateFrom dateTill leaders"
     };

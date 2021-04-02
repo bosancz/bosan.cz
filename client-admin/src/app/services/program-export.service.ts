@@ -97,7 +97,7 @@ export class ProgramExportService {
                   new Paragraph({ text: event.name, heading: HeadingLevel.HEADING_3 }),
                   new Paragraph({ text: event.description, style: "normal" }),
                   new Paragraph({
-                    text: event.leaders.length > 0
+                    text: event.leaders && (event.leaders?.length || 0) > 0
                       ? `Vede: ${event.leaders.map(l => `${l.nickname}(${l.contacts?.mobile || "?"})`).join(", ")}`
                       : "", style: "normal"
                   })

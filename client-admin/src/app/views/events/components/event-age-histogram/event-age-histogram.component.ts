@@ -10,45 +10,45 @@ import { Event } from "app/shared/schema/event";
 })
 export class EventAgeHistogramComponent {
 
-  @Input() min:number = 7;
-  @Input() max:number = 18;
-  
-  countMax:number;
-  
-  histogram:Array<{age:number,count:number}> = [];
-  
+  @Input() min: number = 7;
+  @Input() max: number = 18;
+
+  countMax?: number;
+
+  histogram: Array<{ age: number, count: number; }> = [];
+
   constructor() { }
-  
+
   @Input()
-  set event(event:Event){
+  set event(event: Event) {
     this.updateAges(event);
   }
-  
-  updateAges(event:Event):void{
-    const members = event.attendees;
-    
-    const ages = {};
+
+  updateAges(event: Event): void {
+    const members = event.attendees || [];
+
+    const ages: { [age: string]: number; } = {};
     var countMax = 0;
-    
-    const dateFrom = DateTime.fromISO(event.dateFrom).set({hour:0});
-    const dateTill = DateTime.fromISO(event.dateTill).set({hour:23,minute:59});
-    
+
+    const dateFrom = DateTime.fromISO(event.dateFrom).set({ hour: 0 });
+    const dateTill = DateTime.fromISO(event.dateTill).set({ hour: 23, minute: 59 });
+
     members.forEach(member => {
-      var age = Math.floor( (-1) * DateTime.fromISO(member.birthday).diff(dateFrom,"years").toObject().years );
-      
-      if (age) {
-        age = Math.min(this.max,age);
-        age = Math.max(this.min,age);
-        ages[age] = ages[age] ? ages[age] + 1 : 1;
-        countMax = Math.max(countMax,ages[age]);
-      }
+      if (!member.birthday) return;
+
+      var age = Math.floor((-1) * DateTime.fromISO(member.birthday).diff(dateFrom, "years").toObject().years!);
+
+      age = Math.max(this.min, Math.min(this.max, age));
+
+      ages[age] = ages[age] ? ages[age] + 1 : 1;
+      countMax = Math.max(countMax, ages[age]);
     });
-    
+
     this.countMax = countMax;
-    
+
     this.histogram = [];
-    for(let i = this.min; i <= this.max; i++) this.histogram.push({ age: i, count: ages[i] || 0 });
-    
+    for (let i = this.min; i <= this.max; i++) this.histogram.push({ age: i, count: ages[i] || 0 });
+
   }
 
 }

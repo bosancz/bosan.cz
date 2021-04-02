@@ -10,7 +10,7 @@ import { debounceTime, map } from 'rxjs/operators';
 
 
 
-type EventWithSearchString = Event & { searchString?: string; };
+type EventWithSearchString = Event & { searchString: string; };
 
 @Component({
   selector: 'bo-events-list',
@@ -23,13 +23,13 @@ export class EventsListComponent implements OnInit {
   filteredEvents$: Observable<EventWithSearchString[]>;
 
   years: number[] = [];
-  currentYear: number;
+  currentYear?: number;
 
-  statuses: WebConfigEventStatus[];
+  statuses?: WebConfigEventStatus[];
 
-  canCreate: boolean;
+  canCreate?: boolean;
 
-  @ViewChild('filterForm', { static: true }) filterForm: NgForm;
+  @ViewChild('filterForm', { static: true }) filterForm!: NgForm;
 
   showFilter: boolean = false;
 
@@ -57,7 +57,7 @@ export class EventsListComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.filterForm.valueChanges.subscribe(filter => {
+    this.filterForm.valueChanges!.subscribe(filter => {
       this.loadEvents(filter);
     });
   }
@@ -91,17 +91,18 @@ export class EventsListComponent implements OnInit {
 
     if (filter.status) options.filter.status = filter.status;
 
-    const events: EventWithSearchString[] = await this.api.get<Event[]>("events", options);
+    const events = await this.api.get<Event[]>("events", options);
 
-    events.forEach(event => {
-      event.searchString = [
+    const eventsWithSearchString = events.map(event => {
+      const searchString = [
         event.name,
         event.place,
-        event.leaders.map(member => member.nickname).join(" ")
+        event.leaders?.map(member => member.nickname).join(" ")
       ].filter(item => !!item).join(" ");
+      return { ...event, searchString };
     });
 
-    this.events$.next(events);
+    this.events$.next(eventsWithSearchString);
 
   }
 
@@ -115,7 +116,7 @@ export class EventsListComponent implements OnInit {
   }
 
   getLeadersString(event: Event) {
-    return event.leaders.map(item => item.nickname).join(", ");
+    return event.leaders?.map(item => item.nickname).join(", ");
   }
 
 }

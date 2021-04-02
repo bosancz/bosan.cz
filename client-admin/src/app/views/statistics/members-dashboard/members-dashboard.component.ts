@@ -7,15 +7,15 @@ export interface MembersReport {
 
   count: number;
 
-  roles: { [role: string]: number };
-  ages: { [role: string]: { [age: string]: number } };
-  cities: { [city: string]: number };
+  roles: { [role: string]: number; };
+  ages: { [role: string]: { [age: string]: number; }; };
+  cities: { [city: string]: number; };
 
 }
 
 interface ChartData {
   labels: string[];
-  datasets: { data: number[], label?: string }[];
+  datasets: { data: number[], label?: string; }[];
 }
 
 
@@ -26,12 +26,12 @@ interface ChartData {
 })
 export class MembersDashboardComponent implements OnInit {
 
-  report: MembersReport;
+  report?: MembersReport;
 
-  roles: WebConfigMemberRole[];
-  cities: string[];
+  roles?: WebConfigMemberRole[];
+  cities?: string[];
 
-  agesData: ChartData;
+  agesData?: ChartData;
 
   agesOptions = {
     scales: {
@@ -42,7 +42,7 @@ export class MembersDashboardComponent implements OnInit {
         stacked: true
       }]
     }
-  }
+  };
 
   constructor(private api: ApiService, private config: ConfigService) { }
 
@@ -65,7 +65,7 @@ export class MembersDashboardComponent implements OnInit {
     this.roles = config.members.roles;
   }
 
-  fillMissingKeys(data: { [key: string]: number }, min: number, max: number) {
+  fillMissingKeys(data: { [key: string]: number; }, min: number, max: number) {
     for (let i = min; i <= max; i++) data[i] = data[i] || 0;
   }
 
@@ -85,16 +85,20 @@ export class MembersDashboardComponent implements OnInit {
 
     for (let role of Object.entries(this.report.ages)) {
       for (let i = min; i <= max; i++) role[1][i] = role[1][i] || 0;
-      agesData.datasets.push({ data: Object.values(role[1]), label: role[0] })
+      agesData.datasets.push({ data: Object.values(role[1]), label: role[0] });
     }
 
-    agesData.datasets.sort((a,b) => a.label.localeCompare(b.label));
+    agesData.datasets.sort((a, b) => a.label && b.label ? a.label.localeCompare(b.label) : 0);
 
     this.agesData = agesData;
   }
 
-  getRolesColClass(roles: any[]): string {
+  getRolesColClass(roles?: any[]): string {
+    if (!roles) return "col-12";
     return "col-" + Math.max(1, Math.floor(12 / ((roles ? roles.length : 0) + 1)));
   }
 
+  getRoleValue(id: string) {
+    return this.report?.roles?.[id] || "-";
+  }
 }

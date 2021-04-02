@@ -42,7 +42,8 @@ export class EventsViewComponent implements OnInit {
   async deleteEvent(event: Event) {
     if (window.confirm("Opravdu chcete smazat tuto akci?")) {
 
-      await this.api.delete(event._links.self);
+      await this.api.delete(["event", event._id]);
+
       this.router.navigate(["../"], { relativeTo: this.route });
       this.toastService.toast("Akce smazána");
     }
@@ -50,8 +51,8 @@ export class EventsViewComponent implements OnInit {
 
   async eventAction(event: Event, action: string) {
 
-    if (!event._actions[action].allowed) {
-      this.toastService.toast("K této akci nemáš oprávnění.")
+    if (!event._actions?.[action].allowed) {
+      this.toastService.toast("K této akci nemáš oprávnění.");
       return;
     }
 

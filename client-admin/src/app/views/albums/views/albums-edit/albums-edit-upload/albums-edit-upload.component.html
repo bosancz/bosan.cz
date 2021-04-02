@@ -1,9 +1,23 @@
 <ng-container *ngIf="album$ | async as album">
-  <div class="dropzone" #photoDropzone (drop)="addPhotosByDropzone($event,photoDropzone)" (dragover)="onDragOver($event)" (click)="photoInput.click()">
+  <div
+    class="dropzone"
+    #photoDropzone
+    (drop)="addPhotosByDropzone($event, photoDropzone)"
+    (dragover)="onDragOver($event)"
+    (click)="photoInput.click()"
+  >
     <p>Přetáhnout fotografie sem, nebo kliknout pro výběr</p>
   </div>
 
-  <input class="photoInput" type="file" accept="image/jpeg,image/png,image/gif" name="photo" #photoInput (change)="addPhotosByInput(photoInput)" multiple>
+  <input
+    class="photoInput"
+    type="file"
+    accept="image/jpeg,image/png,image/gif"
+    name="photo"
+    #photoInput
+    (change)="addPhotosByInput(photoInput)"
+    multiple
+  />
 
   <div class="queue">
     <table class="table table-striped table-hover table-sm uploadQueue">
@@ -12,18 +26,21 @@
           <th>Název souboru</th>
           <th colspan="2">Stav</th>
           <th></th>
+        </tr>
       </thead>
 
       <tbody>
         <tr *ngFor="let uploadItem of photoUploadQueue">
-          <td>{{uploadItem.file.name}}</td>
-          <td>{{uploadItem.progress}} %</td>
+          <td>{{ uploadItem.file.name }}</td>
+          <td>{{ uploadItem.progress }} %</td>
           <td [ngSwitch]="uploadItem.status">
             <ng-container *ngSwitchCase="'pending'">připraven</ng-container>
             <ng-container *ngSwitchCase="'uploading'">nahrává se</ng-container>
             <ng-container *ngSwitchCase="'processing'">zpracovává se</ng-container>
             <ng-container *ngSwitchCase="'finished'">hotovo</ng-container>
-            <ng-container *ngSwitchCase="'error'">Chyba: {{uploadItem.error.message}}</ng-container>
+            <ng-container *ngSwitchCase="'error'"
+              >Chyba: {{ uploadItem.error?.message || "Neznámá chyba." }}</ng-container
+            >
           </td>
           <td class="remove text-right">
             <a (click)="removeFromQueue(uploadItem)">odebrat</a>
@@ -35,7 +52,8 @@
   </div>
 
   <div class="tags">
-    <label><strong>Tagy:</strong></label>&nbsp;
+    <label><strong>Tagy:</strong></label
+    >&nbsp;
     <photo-tags-editor [(ngModel)]="selectedTags" [tags]="tags"></photo-tags-editor>
   </div>
 

@@ -18,8 +18,8 @@ export type TrimesterDateRange = [string, string];
 })
 export class TrimesterSelectorComponent implements OnInit, ControlValueAccessor {
 
-  trimester: number;
-  year: number;
+  trimester?: number;
+  year?: number;
 
   trimesterMonths = [[1, 4], [5, 8], [9, 12]]; // trimster months (jan-may, ...)
 
@@ -34,8 +34,8 @@ export class TrimesterSelectorComponent implements OnInit, ControlValueAccessor 
 
   /* ControlValueAccessor, implements the ngModel interface */
   writeValue(obj?: TrimesterDateRange): void {
-    let dateFrom = DateTime.fromISO(obj?.[0]);
-    this.setTrimesterByDate(dateFrom);
+    const dateFrom = obj?.[0];
+    this.setTrimesterByDate(dateFrom ? DateTime.fromISO(dateFrom) : undefined);
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -50,19 +50,11 @@ export class TrimesterSelectorComponent implements OnInit, ControlValueAccessor 
   ngOnInit(): void {
   }
 
-  previousTrimester() {
-    if (this.trimester === 0) return { rok: this.year - 1, trimestr: this.trimesterMonths.length - 1 };
-    else return { rok: this.year, trimestr: this.trimester - 1 };
-  }
-  nextTrimester() {
-    if (this.trimester === this.trimesterMonths.length - 1) return { rok: this.year + 1, trimestr: 0 };
-    else return { rok: this.year, trimestr: this.trimester + 1 };
-  }
+  setTrimester(year?: number, trimester?: number) {
+    if (!year || trimester === undefined) return;
 
-  setTrimester() {
-
-    const dateFrom = DateTime.local(this.year, this.trimesterMonths[this.trimester][0], 1);
-    const dateTill = DateTime.local(this.year, this.trimesterMonths[this.trimester][1], 1).plus({ months: 1 }).minus({ days: 1 });
+    const dateFrom = DateTime.local(year, this.trimesterMonths[trimester][0], 1);
+    const dateTill = DateTime.local(year, this.trimesterMonths[trimester][1], 1).plus({ months: 1 }).minus({ days: 1 });
 
     const value: TrimesterDateRange = [
       dateFrom.toISODate(),
@@ -70,16 +62,17 @@ export class TrimesterSelectorComponent implements OnInit, ControlValueAccessor 
     ];
 
     this.onChange(value);
+    this.onTouched();
 
   }
 
-  setTrimesterByDate(dateFrom: DateTime) {
+  setTrimesterByDate(dateFrom?: DateTime) {
 
-    if (!dateFrom.isValid) dateFrom = DateTime.local();
+    if (!dateFrom || !dateFrom.isValid) dateFrom = DateTime.local();
 
     this.year = dateFrom.year;
     this.trimester = this.trimesterMonths.findIndex(item => {
-      return item[0] >= dateFrom.month;
+      return item[0] >= dateFrom!.month;
     });
 
     if (this.trimester === -1) {

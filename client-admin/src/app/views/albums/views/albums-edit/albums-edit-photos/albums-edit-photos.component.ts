@@ -13,12 +13,12 @@ import { ToastService } from 'app/services/toast.service';
 })
 export class AlbumsEditPhotosComponent implements OnInit, OnDestroy {
 
-  album: Album<Photo, string>;
+  album?: Album<Photo, string>;
 
   photos: Photo[] = [];
   titlePhotos: string[] = [];
 
-  albumSubscription: Subscription;
+  albumSubscription?: Subscription;
 
   constructor(
     private albumsService: AlbumsService,
@@ -30,22 +30,26 @@ export class AlbumsEditPhotosComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.albumSubscription = this.albumsService.album$.subscribe(album => {
       this.album = album;
-      this.photos = album.photos.slice()
+      this.photos = album.photos.slice();
       this.titlePhotos = album.titlePhotos.slice();
     });
   }
 
   ngOnDestroy() {
-    this.albumSubscription.unsubscribe();
+    this.albumSubscription?.unsubscribe();
   }
 
   async savePhotos() {
+    if (!this.album) return;
+
     await this.albumsService.saveAlbum(this.album._id, { photos: this.photos.map(photo => photo._id) });
     this.album.photos = this.photos;
     this.toastService.toast("Uloženo.");
   }
 
   async saveTitlePhotos() {
+    if (!this.album) return;
+
     await this.albumsService.saveAlbum(this.album._id, { titlePhotos: this.titlePhotos });
     this.album.titlePhotos = this.titlePhotos;
     this.toastService.toast("Uloženo.");
@@ -78,6 +82,8 @@ export class AlbumsEditPhotosComponent implements OnInit, OnDestroy {
 
   async removeTitlePhoto(photo: Photo) {
 
+    if (!this.album) return;
+
     if (!this.titlePhotos) return;
 
     this.titlePhotos = this.album.titlePhotos.filter(item => item !== photo._id && !!item);
@@ -88,11 +94,13 @@ export class AlbumsEditPhotosComponent implements OnInit, OnDestroy {
 
   async deletePhoto(photo: Photo) {
 
+    if (!this.album) return;
+
     if (!window.confirm("Opravdu chcete smazat tuto fotku?")) return;
 
     await this.albumsService.deletePhoto(photo._id);
     await this.albumsService.loadAlbum(this.album._id);
-    
+
     this.toastService.toast("Foto smazáno.");
   }
 

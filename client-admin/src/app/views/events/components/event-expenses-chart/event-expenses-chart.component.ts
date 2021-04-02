@@ -8,7 +8,7 @@ import { EventExpense } from 'app/shared/schema/event';
 })
 export class EventExpensesChartComponent implements OnInit {
 
-  @Input() expenses: EventExpense[];
+  @Input() expenses!: EventExpense[];
 
   constructor() { }
 

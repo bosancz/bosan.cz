@@ -16,27 +16,31 @@ import { WebConfigEventType } from 'app/shared/schema/web-config';
       multi: true,
       useExisting: forwardRef(() => EventTypeSelectorComponent),
     }
-  ]
+  ],
+  host: {
+    "[class.disabled]": "disabled",
+    "[class.readonly]": "readonly"
+  }
 })
 export class EventTypeSelectorComponent implements ControlValueAccessor {
 
-  value: string;
+  value?: string;
   types: Observable<WebConfigEventType[]>;
 
   onChange: any = () => { };
   onTouched: any = () => { };
 
-  @HostBinding('class.disabled') disabled: boolean = false;
-  @HostBinding('class.readonly') @Input() readonly: boolean;
+  disabled: boolean = false;
+  @Input() readonly: boolean = false;
 
-   class: string = "badge badge-secondary";
+  class: string = "badge badge-secondary";
 
   constructor(configService: ConfigService) {
-    this.types = configService.config.pipe(map(config => config.events.types))
+    this.types = configService.config.pipe(map(config => config.events.types));
   }
 
   select(type: string) {
-    if(this.disabled || this.readonly) return;
+    if (this.disabled || this.readonly) return;
     this.value = type;
     this.onTouched();
     this.onChange(this.value);
@@ -56,7 +60,7 @@ export class EventTypeSelectorComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled
+    this.disabled = isDisabled;
   }
 
 }

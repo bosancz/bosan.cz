@@ -10,17 +10,17 @@ import { TitleService } from "app/services/title.service";
 })
 export class NotFoundComponent implements OnInit, OnDestroy {
 
-  url:string;
-  
+  url?: string;
+
   constructor(
-    private titleService:TitleService,
-    private metaService:Meta,
+    private titleService: TitleService,
+    private metaService: Meta,
   ) { }
 
   ngOnInit() {
     this.titleService.setPageTitle("404 Nenalezeno");
     this.setNoIndex();
-    
+
     this.url = (location.pathname || location.href);
   }
 
@@ -33,7 +33,7 @@ export class NotFoundComponent implements OnInit, OnDestroy {
     this.metaService.addTag({ name: 'robots', content: 'noindex' });
   }
 
-  removeNoIndex(){
+  removeNoIndex() {
     this.metaService.removeTag('name="googlebot"');
     this.metaService.removeTag('name="robots"');
   }

@@ -1,17 +1,16 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { environment } from "environments/environment";
 import { BehaviorSubject } from "rxjs";
 
-import { environment } from "environments/environment";
+declare const gapi: any;
 
-declare const gapi:any;
-
-declare const window:any;
+declare const window: any;
 
 export class GoogleError extends Error {
-  
-  name:string = "GoogleError"; // when transpiled to ES5 cant test if instanceof GoogleError
-  
-  description?:string;
+
+  name: string = "GoogleError"; // when transpiled to ES5 cant test if instanceof GoogleError
+
+  description?: string;
 }
 
 
@@ -20,52 +19,52 @@ export class GoogleError extends Error {
 })
 export class GoogleService {
 
-  gapi:any;
+  gapi: any;
 
-  loaded:BehaviorSubject<boolean> = new BehaviorSubject(false);
+  loaded = new BehaviorSubject<boolean>(false);
 
   constructor() {
     this.load_gapi();
   }
 
-  async load_gapi(){
+  async load_gapi() {
     // wait for the GAPI <script> to be loaded
-    const gapi:any = await new Promise((resolve,reject) => {
-      if(window.gapi){
+    const gapi: any = await new Promise((resolve, reject) => {
+      if (window.gapi) {
         resolve(window.gapi);
       }
-      else{
-        window.gapi_loaded = function() { resolve(window.gapi); }
+      else {
+        window.gapi_loaded = function () { resolve(window.gapi); };
       }
     });
 
     // https://github.com/google/google-api-javascript-client/blob/master/samples/loadedDiscovery.html
-    await new Promise((resolve,reject) => {
+    await new Promise((resolve, reject) => {
       gapi.load('client:auth2', resolve);
     });
 
-    try{
+    try {
       await gapi.client.init(environment.gapi);
     }
-    catch(googleErr){
+    catch (googleErr) {
       const err = new GoogleError(googleErr.error);
       err.description = googleErr.details;
       throw err;
-    }     
+    }
 
     this.gapi = gapi;
 
     this.loaded.next(true);
   }
 
-  getAuthInstance(){
-    if(!this.gapi) return undefined;
+  getAuthInstance() {
+    if (!this.gapi) return undefined;
     return this.gapi.auth2.getAuthInstance();
   }
 
-  async signIn():Promise<string>{
+  async signIn(): Promise<string> {
 
-    try{
+    try {
       const auth2 = this.getAuthInstance();
 
       await auth2.signIn();
@@ -74,7 +73,7 @@ export class GoogleService {
 
       return token;
     }
-    catch(googleErr){
+    catch (googleErr) {
       const err = new GoogleError(googleErr.error);
       err.description = googleErr.details;
       throw err;
@@ -82,19 +81,19 @@ export class GoogleService {
 
   }
 
-  async signOut():Promise<void>{
+  async signOut(): Promise<void> {
     const auth2 = this.getAuthInstance();
-    if(auth2) await auth2.signOut();
+    if (auth2) await auth2.signOut();
   }
 
-  async isSignedIn():Promise<boolean> {
+  async isSignedIn(): Promise<boolean> {
     const auth2 = this.getAuthInstance();
     return auth2 ? await auth2.isSignedIn.get() : false;
   }
 
   async getCurrentUser() {
 
-    if(!await this.isSignedIn()) return null;
+    if (!await this.isSignedIn()) return null;
 
     const auth2 = this.getAuthInstance();
 

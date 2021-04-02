@@ -1,58 +1,64 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-lg-4">
-
       <p *ngIf="expired | async" class="text-danger">Přihlášení vypršelo, přihlas se znovu.</p>
 
       <div class="status" [ngSwitch]="status">
         <p *ngSwitchCase="'invalidCredentials'" class="text-danger">Chybné uživatelské jméno nebo heslo.</p>
-        <p *ngSwitchCase="'credentialsLoginNotAvalible'" class="text-danger">Přihlášení přes login a heslo není možné. Je možné, že nemáte heslo nastavené. Použijte možnost zaslání odkazu.</p>
+        <p *ngSwitchCase="'credentialsLoginNotAvalible'" class="text-danger">
+          Přihlášení přes login a heslo není možné. Je možné, že nemáte heslo nastavené. Použijte možnost zaslání
+          odkazu.
+        </p>
         <p *ngSwitchCase="'linkSending'" class="text-warning">Odesílám odkaz na email...</p>
         <p *ngSwitchCase="'linkSent'" class="text-success">Odkaz odeslán na email.</p>
         <p *ngSwitchCase="'userNotFound'" class="text-danger">Uživatel nenalezen.</p>
         <p *ngSwitchCase="'googleFailed'" class="text-danger">Přihlášení přes Google se nezdařilo.</p>
-        <p *ngSwitchDefault class="text-danger">{{status}}</p>
+        <p *ngSwitchDefault class="text-danger">{{ status }}</p>
       </div>
 
       <ng-container [ngSwitch]="view">
-
         <form *ngSwitchCase="'login'" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
           <div class="form-group">
             <label for="inputLogin">Uživatelské jméno</label>
-            <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required>
+            <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required />
           </div>
 
           <div class="form-group">
             <label for="inputLogin">Heslo</label>
-            <input [type]="'password'" class="form-control" name="password" ngModel required>
+            <input [type]="'password'" class="form-control" name="password" ngModel required />
             <small><a (click)="view = 'link'" class="forgotPassword">Heslo nemám, nebo jsem ho zapomněl</a></small>
           </div>
           <div class="buttons text-right">
             <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Přihlásit se</button>
-            <br><br>
+            <br /><br />
             <ng-container *ngIf="googleLoginAvailable | async">
-              <button type="button" class="btn btn-secondary" (click)="loginGoogle()"><i class="fab fa-google"></i>&nbsp;&nbsp;Přihlásit přes Bošánovský mail</button>
-              <br><br>
+              <button type="button" class="btn btn-secondary" (click)="loginGoogle()">
+                <i class="fab fa-google"></i>&nbsp;&nbsp;Přihlásit přes Bošánovský mail
+              </button>
+              <br /><br />
             </ng-container>
             <button type="button" class="btn btn-secondary" (click)="view = 'link'">Poslat přihlašovací odkaz</button>
           </div>
         </form>
 
         <form *ngSwitchCase="'link'" #loginLinkForm="ngForm" (ngSubmit)="sendLoginLink(loginLinkForm)">
-
           <div class="form-group">
             <label for="inputLogin">Uživatelské jméno nebo email</label>
-            <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required>
+            <input type="text" class="form-control" name="login" [(ngModel)]="loginValue" required />
           </div>
 
           <div class="buttons row">
-            <div class="col-4 text-left"><button type="submit" class="btn btn-secondary" (click)="view = 'login'">Zpět</button></div>
-            <div class="col-8 text-right"><button type="submit" class="btn btn-primary" [disabled]="!loginLinkForm.valid">Zaslat odkaz na přihlášení</button></div>
+            <div class="col-4 text-left">
+              <button type="submit" class="btn btn-secondary" (click)="view = 'login'">Zpět</button>
+            </div>
+            <div class="col-8 text-right">
+              <button type="submit" class="btn btn-primary" [disabled]="!loginLinkForm.valid">
+                Zaslat odkaz na přihlášení
+              </button>
+            </div>
           </div>
-
         </form>
       </ng-container>
-
     </div>
   </div>
 </div>

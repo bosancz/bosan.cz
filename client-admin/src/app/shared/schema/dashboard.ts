@@ -1,6 +1,6 @@
 import { Event } from "./event";
 
-export class Dashboard {
-  noLeaderEventsCount:number;
-  program:Event[];
+export interface Dashboard {
+  noLeaderEventsCount: number;
+  program: Event[];
 }

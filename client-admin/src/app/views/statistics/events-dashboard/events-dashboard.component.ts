@@ -1,27 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'app/services/api.service';
-import { Observable } from 'rxjs';
-import { debounceTime, filter, map, first } from 'rxjs/operators';
-import { Member } from 'app/shared/schema/member';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ApiService } from 'app/services/api.service';
+import { Event } from 'app/shared/schema/event';
+import { Member } from 'app/shared/schema/member';
 import { DateTime } from 'luxon';
+import { debounceTime } from 'rxjs/operators';
 
 interface EventsReport {
-  attendees: { count: number, groups: { [group: string]: number }, age: { [age: string]: number } };
+  attendees: { count: number, groups: { [group: string]: number; }, age: { [age: string]: number; }; };
 
   leaders: {
     count: number,
-    groups: { [group: string]: number },
-    age: { [age: string]: number },
-    top: [{ member: { nickname: string }, events: Event[] }]
+    groups: { [group: string]: number; },
+    age: { [age: string]: number; },
+    top: [{ member: { nickname: string; }, events: Event[]; }];
   };
 
   events: {
     count: number,
-    groups: { [group: string]: number },
-    top: [{ name: string, dateFrom: string, dateTill: string, count: number }],
+    groups: { [group: string]: number; },
+    top: [{ name: string, dateFrom: string, dateTill: string, count: number; leaders: Member[]; }],
     days: number,
-    mandays: number
+    mandays: number;
   };
 }
 
@@ -38,30 +38,34 @@ class ChartData {
 })
 export class EventsDashboardComponent implements OnInit {
 
-  report: EventsReport;
+  report?: EventsReport;
 
-  minYear: number;
-  maxYear: number;
+  minYear?: number;
+  maxYear?: number;
   years: number[] = [];
-
-  year: Observable<number>;
+  year?: number | null;
 
   chartData = {
     leaders: new ChartData(),
     attendees: new ChartData()
+  };
+
+  constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {
   }
-
-  constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) { }
-
   ngOnInit() {
 
-    this.loadEventYears();
+    this.route.params
+      .pipe(debounceTime(500))
+      .subscribe((params: Params) => {
+        if (params.year) {
+          this.year = params.year || null;
+          this.loadData(params.year);
+        }
+        else {
+          this.setYear(DateTime.local().year);
+        }
+      });
 
-    this.year = this.route.params.pipe(map((params: Params) => Number(params.year) || null));
-
-    this.year.pipe(filter(year => !!year), debounceTime(500)).subscribe(year => this.loadData(year));
-
-    this.year.pipe(first(), filter(year => !year)).subscribe(() => this.setYear(DateTime.local().year));
   }
 
   async loadEventYears() {
@@ -75,7 +79,7 @@ export class EventsDashboardComponent implements OnInit {
   }
 
   setYear(year: number) {
-    this.router.navigate(["./", { year: year }], { relativeTo: this.route })
+    this.router.navigate(["./", { year: year }], { relativeTo: this.route });
   }
 
   updateChartData(report: EventsReport): void {

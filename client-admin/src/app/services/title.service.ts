@@ -9,16 +9,16 @@ import { ConfigService } from "app/services/config.service";
 })
 export class TitleService {
 
-  pageTitle: BehaviorSubject<string> = new BehaviorSubject(null);
+  pageTitle = new BehaviorSubject<string | null>(null);
 
-  private mainTitle: string;
+  private mainTitle?: string;
 
   constructor(private title: Title, private configService: ConfigService) {
     this.pageTitle.subscribe(() => this.updateWindowTitle());
     this.configService.getConfig("config.general.title").then(title => this.mainTitle = title);
   }
 
-  setPageTitle(title: string) {
+  setPageTitle(title: string | null) {
     setTimeout(() => this.pageTitle.next(title || null), 0);
   }
 

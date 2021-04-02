@@ -1,4 +1,4 @@
-
+// @ts-nocheck
 import { Contact } from "./contact";
 
 export class WebConfigGroup {
