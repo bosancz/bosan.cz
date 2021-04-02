@@ -4,7 +4,7 @@ import { Blog } from 'app/shared/schema/blog';
 
 export interface BlogsFilter {
   year: number;
-  status: Blog["status"];
+  status?: Blog["status"];
 }
 
 @Injectable()
@@ -17,7 +17,6 @@ export class BlogsService {
   async list(filter?: BlogsFilter) {
 
     const options: any = {
-      sort: "dateFrom",
       filter: {
         dateFrom: filter.year ? { $gte: filter.year + "-01-01", $lte: filter.year + "-12-31" } : undefined
       }

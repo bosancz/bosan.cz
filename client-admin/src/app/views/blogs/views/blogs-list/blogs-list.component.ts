@@ -94,6 +94,8 @@ export class BlogsListComponent implements OnInit {
       ].filter(item => !!item).join(" ");
     });
 
+    blogs.sort((a, b) => a.datePublished.localeCompare(b.datePublished)); // dates are ISO string, sorting as text
+
     this.blogs$.next(blogs);
 
     this.loading = false;
