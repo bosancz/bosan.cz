@@ -2,7 +2,7 @@ name: Build server (test)
 
 on:
   pull_request:
-    types: [review_requested, synchronize]
+    types: [review_requested]
     paths:
       - server/**
       - ".github/workflows/master-build-server.yml"
