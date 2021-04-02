@@ -1,0 +1,67 @@
+<bo-page>
+  <bo-page-header>
+    <h2 pageTitle>Blog</h2>
+
+    <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+
+    <div class="actions" *actionMenu>
+      <button mat-button color="primary" routerLink="vytvorit">Nový blog</button>
+    </div>
+  </bo-page-header>
+
+  <div class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
+    <div class="row">
+      <mat-form-field class="col">
+        <mat-label>Hledat</mat-label>
+        <input
+          matInput
+          type="text"
+          [ngModel]="search$ | async"
+          (ngModelChange)="search$.next($event)"
+          (keydown.enter)="$event.preventDefault()"
+        />
+        <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-1">
+        <mat-label>Rok</mat-label>
+        <mat-select name="year" [ngModel]="filter.year" (ngModelChange)="updateFilter({ year: $event })">
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-2">
+        <mat-label>Stav</mat-label>
+        <mat-select name="status" [ngModel]="filter.status" (ngModelChange)="updateFilter({ status: $event })">
+          <mat-option>všechny</mat-option>
+          <mat-option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <admin-table>
+    <thead>
+      <tr>
+        <th>Titulek</th>
+        <th>Datum publikace</th>
+        <th>Stav</th>
+        <th>Publikováno</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let blog of filteredBlogs$ | async" [routerLink]="blog._id">
+        <td>{{ blog.title }}</td>
+        <td class="date">{{ blog.dateFrom | date: "d. M. y" }} - {{ blog.dateTill | date: "d. M. y" }}</td>
+        <td>{{ statusesIndex[blog.status] || "N/A" }}</td>
+        <td>{{ blog.datePublished | date: "d. M. y" }}</td>
+      </tr>
+    </tbody>
+  </admin-table>
+
+  <p *ngIf="loading">Načítám...</p>
+</bo-page>

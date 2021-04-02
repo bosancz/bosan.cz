@@ -9,6 +9,7 @@ export const permissions = {
   "admin:dashboard": { roles: ["spravce", "vedouci"] },
   "admin:events": { roles: ["spravce", "vedouci"] },
   "admin:albums": { roles: ["spravce", "vedouci"] },
+  "admin:blogs": { roles: ["spravce", "vedouci"] },
   "admin:members": { roles: ["spravce", "vedouci"] },
   "admin:program": { roles: ["spravce", "vedouci"] },
   "admin:program-management": { roles: ["spravce", "program"] },
