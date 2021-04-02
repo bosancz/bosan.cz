@@ -23,4 +23,4 @@ jobs:
           context: "./server"
           tag: "test"
           username: "${{secrets.DOCKER_USERNAME}}"
-          password: "${{secrets.DOCKER_TOKEN}}"
+          password: "${{secrets.DOCKER_PASSWORD}}"
