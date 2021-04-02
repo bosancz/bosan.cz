@@ -56,7 +56,7 @@ routes
     query: { status: { $in: ["public"] } },
   })
   .handle(async (req, res, next) => {
-    await Blog.findOneAndUpdate({ _id: req.params.id }, { status: "draft" });
+    await Blog.findOneAndUpdate({ _id: req.params.id }, { status: "draft", datePublished: undefined });
     res.sendStatus(204);
   });
 
