@@ -8,6 +8,8 @@ module.exports = routes.router;
 
 routes.child("/albums", require("./controllers/albums"));
 
+routes.child("/blogs", require("./controllers/blogs"));
+
 routes.child("/config", require("./controllers/config"));
 
 routes.child("/competition", require("./controllers/competition"));
@@ -46,11 +48,9 @@ routes.child("/users", require("./controllers/users"));
 routes.child("/test", require("./controllers/test"));
 
 routes.get(null, "/", { permission: "api:read" }).handle((req, res) => {
-
   res.json({
     name: "bosancz-api",
     description: "API for bosan.cz",
-    _links: RoutesLinks.root(req)
+    _links: RoutesLinks.root(req),
   });
-
 });
