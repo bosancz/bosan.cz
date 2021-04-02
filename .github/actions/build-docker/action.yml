@@ -12,6 +12,9 @@ inputs:
   username:
     description: "DockerHub Username"
     required: true
+  password:
+    description: "DockerHub Password"
+    required: true
 
 runs:
   using: "composite"
