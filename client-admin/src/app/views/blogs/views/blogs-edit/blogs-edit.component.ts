@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ApiService } from 'app/services/api.service';
 import { ToastService } from 'app/services/toast.service';
 import { Blog } from 'app/shared/schema/blog';
+import { TextEditorComponent } from '../../components/text-editor/text-editor.component';
 import { BlogsService } from '../../services/blogs.service';
 
 
@@ -15,6 +15,8 @@ import { BlogsService } from '../../services/blogs.service';
 export class BlogsEditComponent implements OnInit {
 
   blog?: Blog;
+
+  @ViewChild("textEditor", { read: TextEditorComponent }) textEditor: TextEditorComponent;
 
   constructor(
     private blogs: BlogsService,
@@ -35,10 +37,15 @@ export class BlogsEditComponent implements OnInit {
 
   async save(form: NgForm) {
 
-    const data = form.value;
+    // call save() on textEditor to sync current content
+    await this.textEditor.save();
 
-    await this.blogs.save(this.blog._id, data);
+    const formData = form.value;
+
+    await this.blogs.save(this.blog._id, formData);
+
     await this.load(this.blog._id);
+
     this.toasts.toast("Uloženo.");
   }
 

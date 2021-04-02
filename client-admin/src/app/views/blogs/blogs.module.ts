@@ -8,6 +8,7 @@ import { BlogsListComponent } from './views/blogs-list/blogs-list.component';
 import { BlogsCreateComponent } from './views/blogs-create/blogs-create.component';
 import { BlogsEditComponent } from './views/blogs-edit/blogs-edit.component';
 import { BlogsService } from './services/blogs.service';
+import { TextEditorComponent } from './components/text-editor/text-editor.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { BlogsService } from './services/blogs.service';
     BlogsListComponent,
     BlogsCreateComponent,
     BlogsEditComponent,
+    TextEditorComponent,
   ],
   imports: [
     CommonModule,
