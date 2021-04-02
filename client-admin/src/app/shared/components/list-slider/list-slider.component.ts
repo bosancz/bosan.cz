@@ -42,14 +42,14 @@ export class ListSliderComponent implements ControlValueAccessor {
     return Math.max(1 - (1 / this.visible) * Math.abs(this.getI() - i), 0);
   }
 
-  nextItem(){
+  nextItem() {
     const i = this.getI();
-    if(i + 1 < this.items.length) this.setValue(this.items[i + 1])
+    if (i + 1 < this.items.length) this.setValue(this.items[i + 1]);
   }
 
-  prevItem(){
+  prevItem() {
     const i = this.getI();
-    if(i - 1 >= 0) this.setValue(this.items[i - 1])
+    if (i - 1 >= 0) this.setValue(this.items[i - 1]);
   }
 
   /* NgModel (ControlValueAccessor) */
@@ -63,7 +63,7 @@ export class ListSliderComponent implements ControlValueAccessor {
     this.value = value;
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: any) => void): void {
     this.onChange = fn;
   }
 

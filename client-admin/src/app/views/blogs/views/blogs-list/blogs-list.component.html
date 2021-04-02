@@ -55,8 +55,8 @@
     <tbody>
       <tr *ngFor="let blog of filteredBlogs" [routerLink]="blog._id">
         <td>{{ blog.title }}</td>
-        <td>{{ blog.datePublished | date: "d. M. y" }}</td>
-        <td>{{ statusesIndex[blog.status] || "N/A" }}</td>
+        <td>{{ blog.datePublished | date: "d. M. y" || "N/A" }}</td>
+        <td>{{ statusesIndex[blog.status] || blog.status }}</td>
       </tr>
     </tbody>
   </admin-table>

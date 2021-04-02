@@ -85,7 +85,8 @@ export class BlogsListComponent implements OnInit {
 
     const blogs = await this.blogsService.list(this.filter);
 
-    blogs.sort((a, b) => a.datePublished.localeCompare(b.datePublished)); // dates are ISO string, sorting as text    
+    // dates are ISO string, sorting as text    
+    blogs.sort((a, b) => a.datePublished && b.datePublished ? a.datePublished.localeCompare(b.datePublished) : 0);
 
     this.blogs = blogs;
 

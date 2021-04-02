@@ -43,7 +43,7 @@ export class EventsDashboardComponent implements OnInit {
   minYear?: number;
   maxYear?: number;
   years: number[] = [];
-  year?: number | null;
+  year?: number;
 
   chartData = {
     leaders: new ChartData(),
@@ -58,13 +58,15 @@ export class EventsDashboardComponent implements OnInit {
       .pipe(debounceTime(500))
       .subscribe((params: Params) => {
         if (params.year) {
-          this.year = params.year || null;
+          this.year = Number(params.year) || undefined;
           this.loadData(params.year);
         }
         else {
           this.setYear(DateTime.local().year);
         }
       });
+
+    this.loadEventYears();
 
   }
 
