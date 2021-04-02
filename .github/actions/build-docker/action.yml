@@ -9,15 +9,17 @@ inputs:
     description: "Tag to push to dockerhub"
     required: true
     default: "latest"
+  username:
+    description: "DockerHub Username"
+    required: true
 
 runs:
   using: "composite"
   steps:
     - name: Login to DockerHub
-      run: docker login --username=${{secrets.DOCKER_USERNAME}} --password=${{secrets.DOCKER_TOKEN}}
+      run: docker login --username=${{ inputs.username }} --password=${{ inputs.password }}
 
-    - name: Docker Layer Caching
-      uses: satackey/action-docker-layer-caching@v0.0.11
+    - uses: satackey/action-docker-layer-caching@v0.0.11
       continue-on-error: true
 
     - name: Build the Docker image
