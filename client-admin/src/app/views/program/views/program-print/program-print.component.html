@@ -1,0 +1,17 @@
+<bo-page>
+  <bo-page-header>
+    <h2 pageTitle>Tisk programu</h2>
+  </bo-page-header>
+
+  <div class="row">
+    <div class="col-lg-3 col-xl-2">
+      <bo-trimester-selector [(ngModel)]="dateRange"></bo-trimester-selector>
+    </div>
+
+    <div class="col-lg-9 col-xl-10 px-lg-5">
+      <button mat-flat-button color="primary" (click)="exportProgram(dateRange)">
+        Stáhnout program ve formátu MS Word
+      </button>
+    </div>
+  </div>
+</bo-page>
