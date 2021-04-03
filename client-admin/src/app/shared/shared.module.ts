@@ -40,6 +40,7 @@ import { EventPipe } from "./pipes/event.pipe";
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { AclModule } from 'lib/acl';
+import { IonicModule } from "@ionic/angular";
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { AclModule } from 'lib/acl';
     RouterModule,
     HttpClientModule,
     MaterialModule,
+    IonicModule,
 
     AclModule,
   ],
@@ -86,7 +88,7 @@ import { AclModule } from 'lib/acl';
   ],
   exports: [
     FormsModule,
-
+    IonicModule,
     AclModule,
 
     /* COMPONENTS */
