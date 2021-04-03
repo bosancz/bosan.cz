@@ -58,9 +58,6 @@ export class BlogsListComponent implements OnInit {
       if (params.year && this.years.indexOf(Number(params.year))) {
         this.filter.year = Number(params.year);
       }
-      if (params.status && this.statuses.some(item => item.id === params.status)) {
-        this.filter.status = params.status;
-      }
 
       this.loadBlogs();
     });

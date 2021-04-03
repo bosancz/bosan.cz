@@ -82,7 +82,6 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
     try {
       this.data = JSON.parse(value);
       if (this.editor?.render && this.data) this.editor.render(this.data);
-      console.log(value, this.data, this.editor, this.editor.render);
     }
     catch (err) {
       console.error(err);
