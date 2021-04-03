@@ -1,8 +1,13 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Přehled</h2>
-  </bo-page-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Přehled</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content>
   <div class="row">
     <div class="col-lg-2 d-none d-lg-block">
       <nav *secondaryMenu class="nav nav-pills flex-column">
@@ -17,4 +22,4 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-</bo-page>
+</ion-content>

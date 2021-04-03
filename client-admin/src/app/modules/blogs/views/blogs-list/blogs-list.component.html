@@ -1,17 +1,22 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Blog</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/prehled"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Blog</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="primary" routerLink="vytvorit">Nový blog</ion-button>
+      <ion-button fill="clear" (click)="showFilter = !showFilter">
+        <ion-icon name="filter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
-      <mat-icon>filter_list</mat-icon>
-    </button>
+<ion-content>
+  <div class="actions" *actionMenu></div>
 
-    <div class="actions" *actionMenu>
-      <button mat-button color="primary" routerLink="vytvorit">Nový blog</button>
-    </div>
-  </bo-page-header>
-
-  <div class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
+  <div class="filter" [class.d-none]="!showFilter">
     <div class="row">
       <mat-form-field class="col">
         <mat-label>Hledat</mat-label>
@@ -62,4 +67,4 @@
   </admin-table>
 
   <p *ngIf="loading">Načítám...</p>
-</bo-page>
+</ion-content>

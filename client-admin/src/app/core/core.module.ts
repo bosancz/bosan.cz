@@ -45,7 +45,9 @@ registerLocaleData(localeCs, 'cs');
     SharedModule,
     RouterModule,
     MaterialModule,
-    IonicModule.forRoot({}),
+    IonicModule.forRoot({
+      animated: false
+    }),
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
