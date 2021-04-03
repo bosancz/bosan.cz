@@ -20,6 +20,7 @@
           type="text"
           [ngModel]="search$ | async"
           (ngModelChange)="search$.next($event)"
+          [ngModelOptions]="{ standalone: true }"
           (keydown.enter)="$event.preventDefault()"
         />
         <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
