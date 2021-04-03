@@ -18,8 +18,16 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": ["src/assets", "src/manifest.json"],
             "styles": ["src/styles.scss"],
+            "assets": [
+              "src/assets",
+              "src/manifest.json",
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/ionicons/dist/ionicons/svg",
+                "output": "./svg"
+              }
+            ],
             "scripts": []
           },
           "configurations": {

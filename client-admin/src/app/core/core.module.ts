@@ -6,6 +6,9 @@ import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+/* IONIC */
+import { IonicModule } from "@ionic/angular";
+
 /* ERROR HANDLERS */
 import { MainErrorHandler } from 'app/core/error-handlers/main.error-handler';
 import { MaterialModule } from 'app/shared/modules/material/material.module';
@@ -42,6 +45,7 @@ registerLocaleData(localeCs, 'cs');
     SharedModule,
     RouterModule,
     MaterialModule,
+    IonicModule.forRoot({}),
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
