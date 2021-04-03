@@ -4,6 +4,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import localeCs from '@angular/common/locales/cs';
 import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 /* ERROR HANDLERS */
 import { MainErrorHandler } from 'app/core/error-handlers/main.error-handler';
@@ -39,12 +40,14 @@ registerLocaleData(localeCs, 'cs');
   imports: [
     CommonModule,
     SharedModule,
+    RouterModule,
     MaterialModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   exports: [
     CommonModule,
+    RouterModule,
     BrowserAnimationsModule,
     ServiceWorkerModule,
     NotFoundComponent,
