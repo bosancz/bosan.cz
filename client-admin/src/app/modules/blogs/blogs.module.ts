@@ -10,8 +10,6 @@ import { BlogsEditComponent } from './views/blogs-edit/blogs-edit.component';
 import { BlogsListComponent } from './views/blogs-list/blogs-list.component';
 
 
-
-
 @NgModule({
   declarations: [
     BlogsListComponent,
