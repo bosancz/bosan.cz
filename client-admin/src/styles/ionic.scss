@@ -14,6 +14,22 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-:root {
-  --ion-safe-area-left: 0;
+ion-header.md {
+  --ion-background-color: #333;
+  ion-toolbar {
+    --ion-toolbar-color: #fff;
+  }
+}
+ion-menu {
+  ion-header.md {
+    --ion-background-color: #111;
+  }
+}
+
+ion-split-pane {
+  --border: none;
+}
+
+ion-content {
+  padding: 1em;
 }

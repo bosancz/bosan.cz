@@ -1,11 +1,5 @@
 @import "~styles/variables";
 
-ion-title {
-  --color: #fff;
-}
-ion-header {
-  --ion-background-color: #333;
-}
 ::ng-deep {
   .logo-small {
     height: 2rem;
@@ -15,6 +9,18 @@ ion-header {
   }
 }
 
+ion-item {
+  --inner-border-width: 0;
+}
+ion-item-group {
+  margin-left: 1em;
+  ion-label {
+    font-size: 0.8em;
+  }
+}
+
+ion-item:hover {
+}
 // :host {
 //   display: block;
 // }

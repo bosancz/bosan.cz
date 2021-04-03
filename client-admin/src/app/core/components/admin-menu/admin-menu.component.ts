@@ -17,7 +17,7 @@ import { OnlineService } from 'app/core/services/online.service';
 })
 export class AdminMenuComponent implements OnInit {
 
-  collapsed: boolean = true;
+  submenu?: string;
 
   dropdownsCollapsed = {
     program: true
@@ -41,8 +41,8 @@ export class AdminMenuComponent implements OnInit {
   }
 
 
-  logout() {
-    this.loginService.logout();
+  async logout() {
+    await this.loginService.logout();
     this.router.navigate(["/login"]);
   }
 

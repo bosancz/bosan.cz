@@ -1,8 +1,12 @@
-<bo-page>
-  <bo-page-header>
-    <h2 [pageTitle]="blog?.title || 'Načítám...'">{{ blog?.title || "Načítám..." }}</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/blog"></ion-back-button>
+    </ion-buttons>
 
-    <div class="actions" *actionMenu>
+    <ion-title>{{ blog?.title || "Načítám..." }}</ion-title>
+
+    <ion-buttons slot="end">
       <ion-button
         fill="clear"
         color="primary"
@@ -37,9 +41,10 @@
       <ion-button fill="clear" color="danger" [disabled]="!blog?._links?.self?.allowed?.DELETE" (click)="delete()">
         Smazat
       </ion-button>
-    </div>
-  </bo-page-header>
-
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
   <form #createBlogForm="ngForm" (ngSubmit)="save(createBlogForm)">
     <div class="row">
       <div class="col-lg-8 col-xl-7">
@@ -76,4 +81,4 @@
       <ion-button color="primary" type="submit" [disabled]="!createBlogForm.valid">Uložit</ion-button>
     </div>
   </form>
-</bo-page>
+</ion-content>
