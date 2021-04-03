@@ -18,34 +18,37 @@
 
   <div class="filter" [class.d-none]="!showFilter">
     <div class="row">
-      <mat-form-field class="col">
-        <mat-label>Hledat</mat-label>
-        <input
-          matInput
-          type="text"
-          [ngModel]="searchString | async"
-          (ngModelChange)="searchString.next($event)"
-          (keydown.enter)="$event.preventDefault()"
-        />
-        <button mat-button *ngIf="searchString | async" matSuffix mat-icon-button (click)="searchString.next('')">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-
-      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-1">
-        <mat-label>Rok</mat-label>
-        <mat-select name="year" [ngModel]="filter.year" (ngModelChange)="updateFilter({ year: $event })">
-          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-2">
-        <mat-label>Stav</mat-label>
-        <mat-select name="status" [ngModel]="filter.status" (ngModelChange)="updateFilter({ status: $event })">
-          <mat-option>všechny</mat-option>
-          <mat-option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="col">
+        <ion-item>
+          <ion-label position="floating">Hledat</ion-label>
+          <ion-input
+            type="text"
+            [ngModel]="searchString | async"
+            (ngModelChange)="searchString.next($event)"
+            (keydown.enter)="$event.preventDefault()"
+          ></ion-input>
+          <ion-button *ngIf="searchString | async" (click)="searchString.next('')">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </div>
+      <div class="col-12 col-md-12 col-lg-2 col-xl-1">
+        <ion-item>
+          <ion-label position="floating">Rok</ion-label>
+          <ion-select name="year" [ngModel]="filter.year" (ngModelChange)="updateFilter({ year: $event })">
+            <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+      <div class="col-12 col-md-12 col-lg-2 col-xl-2">
+        <ion-item>
+          <ion-label position="floating">Stav</ion-label>
+          <ion-select name="status" [ngModel]="filter.status" (ngModelChange)="updateFilter({ status: $event })">
+            <ion-select-option>všechny</ion-select-option>
+            <ion-select-option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
     </div>
   </div>
 
