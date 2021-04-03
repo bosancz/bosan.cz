@@ -2,9 +2,9 @@ import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, HostBindi
 import { Subject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
-import { ConfigService } from 'app/services/config.service';
+import { ConfigService } from 'app/core/services/config.service';
 
-import { Event } from "app/shared/schema/event";
+import { Event } from "app/schema/event";
 
 @Component({
   selector: 'event-status-badge',

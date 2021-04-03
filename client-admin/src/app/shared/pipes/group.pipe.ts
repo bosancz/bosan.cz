@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, Injectable, ChangeDetectorRef } from '@angular/core';
 
-import { ConfigService } from "app/services/config.service";
+import { ConfigService } from "app/core/services/config.service";
 import { filter } from 'rxjs/operators';
 
 export type GroupPipeProperty = "name" | "color";

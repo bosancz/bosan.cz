@@ -1,0 +1,15 @@
+<div class="histogram">
+  <div class="chart">
+    <div
+      *ngFor="let bar of histogram; let i = index"
+      class="bar"
+      [style.left]="(i / histogram.length) * 100 + '%'"
+      [style.right]="(1 - (i + 1) / histogram.length) * 100 + '%'"
+    >
+      <div class="full" [style.height]="countMax ? (bar.count / countMax) * 100 + '%' : '0%'">
+        <span class="label">{{ bar.age }}</span>
+        <span *ngIf="bar.count > 0" class="count">{{ bar.count }}</span>
+      </div>
+    </div>
+  </div>
+</div>

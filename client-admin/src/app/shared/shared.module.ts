@@ -5,7 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
 /* MODULES */
-import { MaterialModule } from './material/material.module';
+import { MaterialModule } from './modules/material/material.module';
 
 /* DIRECTIVES */
 import { ActionMenuDirective } from './directives/action-menu.directive';
@@ -41,15 +41,13 @@ import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { AclModule } from 'lib/acl';
 
-
-
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,    
+    FormsModule,
     RouterModule,
-    MaterialModule,
     HttpClientModule,
+    MaterialModule,
 
     AclModule,
   ],
@@ -84,14 +82,10 @@ import { AclModule } from 'lib/acl';
     FormatPhonePipe,
     SafeurlPipe,
     PageComponent,
-    
+
   ],
   exports: [
-    CommonModule,
     FormsModule,
-    HttpClientModule,
-    MaterialModule,
-    RouterModule,
 
     AclModule,
 

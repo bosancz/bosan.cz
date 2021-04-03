@@ -1,8 +1,8 @@
 import { Component, OnInit, forwardRef, Input, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import { ConfigService } from "app/services/config.service";
-import { WebConfigGroup } from 'app/shared/schema/web-config';
+import { ConfigService } from "app/core/services/config.service";
+import { WebConfigGroup } from 'app/schema/web-config';
 
 @Component({
   selector: 'groups-select',

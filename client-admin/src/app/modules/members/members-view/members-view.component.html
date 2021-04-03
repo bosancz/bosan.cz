@@ -1,0 +1,130 @@
+<bo-page>
+  <bo-page-header>
+    <h2
+      [pageTitle]="
+        (member$ | async)?.nickname + ' (' + (member$ | async)?.name?.first + ' ' + (member$ | async)?.name?.last + ')'
+      "
+    >
+      {{ (member$ | async)?.nickname }} ({{ (member$ | async)?.name?.first }} {{ (member$ | async)?.name?.last }})
+    </h2>
+
+    <div class="actions" *actionMenu>
+      <ng-container *ngIf="member$ | async as member">
+        <button mat-button color="primary" [disabled]="!member?._links?.self?.allowed?.PATCH" routerLink="upravit">
+          Upravit
+        </button>
+        <button
+          mat-button
+          color="warn"
+          [disabled]="!member?._links?.self?.allowed?.DELETE"
+          (click)="deleteMember(member)"
+        >
+          Smazat
+        </button>
+      </ng-container>
+    </div>
+  </bo-page-header>
+
+  <div *ngIf="member$ | async as member">
+    <div class="row">
+      <div class="col-md-8 col-lg-9 order-12 order-lg-1">
+        <p>
+          Tohle by měla být taková karta člena. Když se na ní kouknete, mělo by být jasné, co u nás ve skupině už
+          dokázal. Vpravo pak rychlé info o členovi, abyste na akci nemuseli dlouho hledat základní věci.
+        </p>
+        <h3>Kvalifikace</h3>
+        <p>infografika NZ -> 1. hnezda -> 2. hvezda ... a kde jsem</p>
+        <h3>Akce</h3>
+        <p>Akce, které člen vedl, akce na kterých byl.</p>
+        <h3>Fotky</h3>
+        <p>Fotky z akcí na kterých je člen</p>
+      </div>
+
+      <div class="col-md-4 col-lg-3 order-1 order-lg-12">
+        <mat-card class="mb-3">
+          <mat-card-title>Osobní údaje</mat-card-title>
+          <mat-card-content>
+            <table class="table table-sm table-borderless">
+              <tbody>
+                <tr>
+                  <th>Jméno:</th>
+                  <td>{{ member.name?.first }}</td>
+                </tr>
+                <tr>
+                  <th>Příjmení:</th>
+                  <td>{{ member.name?.last }}</td>
+                </tr>
+                <tr>
+                  <th>Datum narození:</th>
+                  <td>{{ member.birthday | date: "d. M. y" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="mb-3">
+          <mat-card-title>Alergie</mat-card-title>
+          <mat-card-subtitle *ngIf="!member.allergiesDate">{{
+            member.allergiesDate | date: "d. M. y"
+          }}</mat-card-subtitle>
+          <mat-card-content>
+            <ul *ngIf="member.allergies && member.allergies.length">
+              <li *ngFor="let allergy of member.allergies">{{ allergy }}</li>
+            </ul>
+            <p *ngIf="member.allergies && !member.allergies.length"><i>Žádné alergie</i></p>
+            <p *ngIf="!member.allergies"><i>Nevyplněno</i></p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="mb-3">
+          <mat-card-title>Kontakty</mat-card-title>
+          <mat-card-content>
+            <table class="table table-sm table-borderless">
+              <tbody>
+                <tr *ngIf="member.contacts?.mobile">
+                  <th>Mobil:</th>
+                  <td>{{ member.contacts.mobile }}</td>
+                </tr>
+                <tr *ngIf="member.contacts?.email">
+                  <th>E-mail:</th>
+                  <td>{{ member.contacts.email }}</td>
+                </tr>
+                <tr *ngIf="member.contacts?.mother">
+                  <th>Matka:</th>
+                  <td>{{ member.contacts.mother }}</td>
+                </tr>
+                <tr *ngIf="member.contacts?.father">
+                  <th>Otec:</th>
+                  <td>{{ member.contacts.father }}</td>
+                </tr>
+                <tr *ngIf="member.address">
+                  <th>Adresa:</th>
+                  <td>
+                    {{ member.address.street }} {{ member.address.streetNo }}<br />
+                    {{ member.address.city }}<br />
+                    {{ member.address.postalCode }}
+                    <ng-container *ngIf="member.address.country"
+                      ><br />
+                      {{ member.address.country }}
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="mb-3">
+          <mat-card-title>Kartička pojištěnce</mat-card-title>
+          <mat-card-content>
+            <p>
+              Tady bude nahraná oskenovaná kartička pojištěnce. Když vyprší, budete u přihlašování člena na akci
+              upozorněni, abyste si sehnali od rodičů (a nahráli jí).
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</bo-page>

@@ -2,12 +2,12 @@ import { Component, OnInit, Input, SimpleChanges, OnChanges, EventEmitter, Outpu
 import { DateTime } from 'luxon';
 import { CzechHolidays } from 'czech-holidays';
 
-import { ConfigService } from 'app/services/config.service';
-import { ApiService } from 'app/services/api.service';
+import { ConfigService } from 'app/core/services/config.service';
+import { ApiService } from 'app/core/services/api.service';
 
-import { CPVEvent } from 'app/shared/schema/cpv-event';
-import { Event } from 'app/shared/schema/event';
-import { WebConfigEventStatus } from 'app/shared/schema/web-config';
+import { CPVEvent } from 'app/schema/cpv-event';
+import { Event } from 'app/schema/event';
+import { WebConfigEventStatus } from 'app/schema/web-config';
 
 const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
 

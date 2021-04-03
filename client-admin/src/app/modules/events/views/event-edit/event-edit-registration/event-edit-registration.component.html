@@ -1,0 +1,57 @@
+<p>
+  Tady bude kromě možnosti nahrát PDF i možnost přihlášku vytvořit. Rovnou se všema správnejma políčkama o GDPR a
+  bezinfekčnosti a konktaktech na rodiče.
+</p>
+
+<ng-container *ngIf="event$ | async as event">
+  <ng-container *ngIf="event._links?.registration">
+    <object
+      *ngIf="event._links?.registration?.allowed?.GET"
+      [data]="getRegistrationUrl(event) | safeurl: 'SafeResourceUrl'"
+      type="application/pdf"
+      style="width: 100%; height: 70vh"
+    ></object>
+
+    <a
+      [disabled]="!event._links?.registration?.allowed?.GET"
+      mat-button
+      mat-flat-button
+      color="primary"
+      class="w-100"
+      [href]="getRegistrationUrl(event)"
+      download="registration.pdf"
+      >Stáhnout</a
+    >
+    <a
+      [disabled]="!event._links?.registration?.allowed?.DELETE"
+      mat-button
+      mat-flat-button
+      color="warn"
+      class="w-100"
+      (click)="deleteRegistration(event)"
+      >Smazat</a
+    >
+  </ng-container>
+
+  <div *ngIf="!event.registration" class="p-md-5">
+    <p *ngIf="uploadingRegistration">Nahrávám&hellip;</p>
+
+    <div class="row">
+      <div class="offset-md-1 col-md-10 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <div class="custom-file">
+          <input
+            class="custom-file-input"
+            type="file"
+            name="file"
+            accept="application/pdf"
+            #registrationInput
+            ngModel
+            (ngModelChange)="uploadRegistration(event, registrationInput)"
+            required
+          />
+          <label class="custom-file-label" for="customFile">Přihláška není nahrána. Nahraj přihlášku v PDF</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

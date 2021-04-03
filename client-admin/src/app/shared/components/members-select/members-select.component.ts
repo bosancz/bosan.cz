@@ -2,9 +2,9 @@ import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ApiService } from "app/services/api.service";
-import { ConfigService } from "app/services/config.service";
-import { Member } from "app/shared/schema/member";
+import { ApiService } from "app/core/services/api.service";
+import { ConfigService } from "app/core/services/config.service";
+import { Member } from "app/schema/member";
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 

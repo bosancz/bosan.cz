@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-import { ConfigService } from 'app/services/config.service';
+import { ConfigService } from 'app/core/services/config.service';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 

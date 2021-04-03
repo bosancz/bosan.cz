@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Event } from 'app/shared/schema/event';
-import { ApiService } from 'app/services/api.service';
-import { ToastService } from 'app/services/toast.service';
-import { DocumentAction } from 'app/shared/schema/api';
+import { Event } from 'app/schema/event';
+import { ApiService } from 'app/core/services/api.service';
+import { ToastService } from 'app/core/services/toast.service';
+import { DocumentAction } from 'app/schema/api';
 
 @Component({
   selector: 'event-card',

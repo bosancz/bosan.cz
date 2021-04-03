@@ -19,7 +19,7 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": ["src/assets", "src/manifest.json"],
-            "styles": ["src/styles/styles.scss"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {

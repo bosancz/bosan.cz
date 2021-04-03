@@ -1,0 +1,26 @@
+<div class="container">
+
+  <bo-page-header>
+    <h2 pageTitle>Nastavení účtu</h2>
+  </bo-page-header>
+  
+  <div class="row">
+
+    <div class="col-lg-2 d-none d-lg-block">
+
+      <nav *secondaryMenu class="nav nav-pills flex-column">
+        <a class="nav-link" routerLink="info" routerLinkActive="active">Informace</a>
+        <a class="nav-link" routerLink="aplikace" routerLinkActive="active">Aplikace</a>
+        <a class="nav-link" routerLink="notifikace" routerLinkActive="active" tooltip="Připravujeme" placement="right">Notifikace</a>
+        <a class="nav-link" routerLink="prihlasovaci-udaje" routerLinkActive="active">Přihlašovací údaje</a>
+      </nav>
+
+    </div>
+
+    <div class="col-lg-10">
+
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
+</div>

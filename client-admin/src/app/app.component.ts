@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-
-import { MenuService } from 'app/services/menu.service';
-import { OnlineService } from 'app/services/online.service';
-
-import { AclService } from 'lib/acl';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
-import { UserService } from 'app/services/user.service';
-import { LoginService } from './services/login.service';
+import { permissions } from "app/config/permissions";
+import { LoginService } from 'app/core/services/login.service';
+import { MenuService } from 'app/core/services/menu.service';
+import { OnlineService } from 'app/core/services/online.service';
+import { UserService } from 'app/core/services/user.service';
+import { AclService } from 'lib/acl';
 
-import { permissions } from "config/permissions";
 
 @Component({
   selector: 'bo-app',
@@ -38,7 +36,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkLogin()
+    this.checkLogin();
   }
 
   loadPermissions() {
@@ -53,12 +51,12 @@ export class AppComponent implements OnInit {
     const user = await this.userService.user.toPromise();
 
     if (!user) {
-      this.router.navigate(["/login"])
+      this.router.navigate(["/login"]);
     }
     else {
       this.aclService.can("admin").toPromise().then(can => {
-        if (!can) this.router.navigate(["/pristup-odepren"])
-      })
+        if (!can) this.router.navigate(["/pristup-odepren"]);
+      });
     }
   }
 
