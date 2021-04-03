@@ -1,4 +1,11 @@
 @import "~styles/variables";
+
+ion-title {
+  --color: #fff;
+}
+ion-header {
+  --ion-background-color: #333;
+}
 ::ng-deep {
   .logo-small {
     height: 2rem;

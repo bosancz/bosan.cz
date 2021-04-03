@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
+import { Platform } from '@ionic/angular';
 import { permissions } from "app/config/permissions";
 import { LoginService } from 'app/core/services/login.service';
 import { MenuService } from 'app/core/services/menu.service';
@@ -17,10 +18,6 @@ import { AclService } from 'lib/acl';
 export class AppComponent implements OnInit {
 
   constructor(
-    public onlineService: OnlineService,
-    public swUpdate: SwUpdate,
-    public menuService: MenuService,
-
     private userService: UserService,
     private aclService: AclService,
     private loginService: LoginService,
@@ -41,10 +38,6 @@ export class AppComponent implements OnInit {
 
   loadPermissions() {
     this.aclService.setPermissions(permissions);
-  }
-
-  reload() {
-    window.location.reload();
   }
 
   async checkLogin() {

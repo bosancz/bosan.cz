@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>
       <img src="assets/img/san_logo_barva.png" class="d-inline logo-small mr-3" />
-      Bošán interní
+      Interní sekce
       <span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{ environment }}</span>
     </ion-title>
   </ion-toolbar>
@@ -79,3 +79,19 @@
     </ion-item>
   </ng-container>
 </ion-list>
+
+<div>
+  <pre>{{ platform.platforms() | json }}</pre>
+
+  <div *ngIf="!(onlineService.online | async)" id="offline" class="text-center bg-danger text-light">
+    Nejste připojeni k internetu. Zobrazené údaje mohou být zastaralé.
+  </div>
+
+  <div
+    *ngIf="(onlineService.online | async) && (swUpdate.available | async)"
+    id="update"
+    class="text-center bg-warning text-light"
+  >
+    Je k dispozici nová verze bosan.cz. <a (click)="reload()">Načíst</a>
+  </div>
+</div>

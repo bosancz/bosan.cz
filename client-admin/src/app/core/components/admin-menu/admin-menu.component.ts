@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { LoginService } from 'app/core/services/login.service';
 import { ConfigService } from 'app/core/services/config.service';
 import { map } from 'rxjs/operators';
+import { Platform } from '@ionic/angular';
+import { SwUpdate } from '@angular/service-worker';
+import { OnlineService } from 'app/core/services/online.service';
 
 @Component({
   selector: 'admin-menu',
@@ -28,7 +31,10 @@ export class AdminMenuComponent implements OnInit {
     public userService: UserService,
     private loginService: LoginService,
     private configService: ConfigService,
-    private router: Router
+    private router: Router,
+    public onlineService: OnlineService,
+    public swUpdate: SwUpdate,
+    public platform: Platform,
   ) { }
 
   ngOnInit() {
@@ -38,6 +44,10 @@ export class AdminMenuComponent implements OnInit {
   logout() {
     this.loginService.logout();
     this.router.navigate(["/login"]);
+  }
+
+  reload() {
+    window.location.reload();
   }
 
 }
