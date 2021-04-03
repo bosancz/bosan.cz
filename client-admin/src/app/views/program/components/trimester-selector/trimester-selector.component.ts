@@ -80,7 +80,7 @@ export class TrimesterSelectorComponent implements OnInit, ControlValueAccessor 
       this.trimester = 0;
     }
 
-    this.setTrimester();
+    this.setTrimester(this.year, this.trimester);
 
   }
 
