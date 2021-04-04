@@ -49,6 +49,7 @@ export class BlogsEditComponent implements OnInit {
     await this.load(this.blog._id);
 
     this.toasts.toast("Uloženo.");
+
   }
 
   async delete() {
