@@ -1,20 +1,20 @@
-<bo-page>
-  <bo-page-header>
-    <h2>Vytvořit blogový příspěvěk</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/blog"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Vytvořit příspěvěk</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="createBlog(createBlogForm)">Vytvořit</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <div class="actions" *actionMenu>
-      <ion-button color="danger" routerLink="/galerie">Zrušit</ion-button>
-    </div>
-  </bo-page-header>
-
+<ion-content class="ion-padding">
   <form #createBlogForm="ngForm" (ngSubmit)="createBlog(createBlogForm)">
     <ion-item>
       <ion-label>Titulek</ion-label>
       <ion-input type="text" name="title" ngModel required></ion-input>
     </ion-item>
-
-    <div class="text-right">
-      <button class="btn btn-primary" type="submit" [disabled]="!createBlogForm.valid">Vytvořit</button>
-    </div>
   </form>
-</bo-page>
+</ion-content>
