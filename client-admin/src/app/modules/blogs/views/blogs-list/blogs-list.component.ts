@@ -39,6 +39,8 @@ export class BlogsListComponent implements OnInit {
 
   searchString = new BehaviorSubject<string>("");
 
+  searchIndex: string[] = [];
+
   constructor(
     private blogsService: BlogsService,
     private router: Router,
@@ -83,10 +85,12 @@ export class BlogsListComponent implements OnInit {
     const blogs = await this.blogsService.list(this.filter);
 
     // dates are ISO string, sorting as text    
-    blogs.sort((a, b) => a.datePublished && b.datePublished ? a.datePublished.localeCompare(b.datePublished) : 0);
+    blogs.sort((a, b) => (a.datePublished || "").localeCompare(b.datePublished || ""));
 
     this.blogs = blogs;
 
+    this.searchIndex = blogs.map(blog => this.getSearchString(blog));
+    console.log(this.searchIndex);
     this.loading = false;
   }
 
@@ -97,9 +101,9 @@ export class BlogsListComponent implements OnInit {
       return;
     }
 
-    const search_re = new RegExp("(^| )" + this.searchString.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
+    const search_re = new RegExp(this.searchString.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
 
-    this.filteredBlogs = this.blogs.filter(blog => search_re.test(blog.title));
+    this.filteredBlogs = this.blogs.filter((blog, i) => search_re.test(this.searchIndex[i]));
   }
 
   updateFilter(changes: Partial<BlogsFilter>) {
@@ -107,4 +111,10 @@ export class BlogsListComponent implements OnInit {
     this.router.navigate([], { queryParams: filter });
   }
 
+  private getSearchString(blog: Blog) {
+    return [
+      blog.title,
+      blog.datePublished ? DateTime.fromISO(blog.datePublished).toFormat("d. M. y") : undefined
+    ].filter(item => !!item).join(" ");
+  }
 };

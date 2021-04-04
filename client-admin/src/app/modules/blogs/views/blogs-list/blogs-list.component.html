@@ -1,13 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/prehled"></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>Blog</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" color="primary" routerLink="vytvorit">Nový blog</ion-button>
       <ion-button fill="clear" (click)="showFilter = !showFilter">
-        <ion-icon name="filter-outline"></ion-icon>
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" color="primary" routerLink="vytvorit">
+        <ion-icon name="add-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -16,40 +18,12 @@
 <ion-content>
   <div class="actions" *actionMenu></div>
 
-  <div class="filter" [class.d-none]="!showFilter">
-    <div class="row">
-      <div class="col">
-        <ion-item>
-          <ion-label position="floating">Hledat</ion-label>
-          <ion-input
-            type="text"
-            [ngModel]="searchString | async"
-            (ngModelChange)="searchString.next($event)"
-            (keydown.enter)="$event.preventDefault()"
-          ></ion-input>
-          <ion-button *ngIf="searchString | async" (click)="searchString.next('')">
-            <ion-icon name="close-outline"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </div>
-      <div class="col-12 col-md-12 col-lg-2 col-xl-1">
-        <ion-item>
-          <ion-label position="floating">Rok</ion-label>
-          <ion-select name="year" [ngModel]="filter.year" (ngModelChange)="updateFilter({ year: $event })">
-            <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </div>
-      <div class="col-12 col-md-12 col-lg-2 col-xl-2">
-        <ion-item>
-          <ion-label position="floating">Stav</ion-label>
-          <ion-select name="status" [ngModel]="filter.status" (ngModelChange)="updateFilter({ status: $event })">
-            <ion-select-option>všechny</ion-select-option>
-            <ion-select-option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</ion-select-option>
-          </ion-select>
-        </ion-item>
-      </div>
-    </div>
+  <div *ngIf="showFilter" class="filter">
+    <ion-searchbar
+      [ngModel]="searchString | async"
+      (ngModelChange)="searchString.next($event)"
+      (keydown.enter)="$event.preventDefault()"
+    ></ion-searchbar>
   </div>
 
   <admin-table>
