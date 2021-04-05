@@ -24,8 +24,7 @@
       <ng-container *ngIf="event.meeting?.start && event.meeting?.end">, </ng-container>
       <ng-container *ngIf="event.meeting?.end"><strong>Konec: </strong>{{ event.meeting?.end }}</ng-container>
     </p>
-
-    <p>Vede <strong [innerHTML]="event.leaders ? (event.leaders | joinLeaders) : 'pan NIKDO'"></strong></p>
+    <p>Vede <strong [innerHTML]="event.leaders?.length ? (event.leaders! | joinLeaders) : 'pan NIKDO'"></strong></p>
   </mat-card-content>
 
   <mat-card-actions *ngIf="actions && event?._actions" align="end">
