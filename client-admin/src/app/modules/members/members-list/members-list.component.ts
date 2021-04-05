@@ -10,6 +10,8 @@ import { ApiService } from "app/core/services/api.service";
 import { Member } from "app/schema/member";
 import { WebConfigGroup, WebConfigMemberRole } from "app/schema/web-config";
 import { DateTime } from 'luxon';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 type MemberWithSearchString = Member & { searchString: string; };
 
@@ -50,6 +52,19 @@ export class MembersListComponent implements OnInit {
     { id: "city", name: "Město" },
   ];
 
+  actions: Action[] = [
+    {
+      icon: "search-outline",
+      pinned: true,
+      handler: () => this.showFilter = !this.showFilter
+    },
+    {
+      icon: "add-outline",
+      pinned: true,
+      handler: () => this.create()
+    }
+  ];
+
   visibleFields$ = new ReplaySubject<{ [field: string]: boolean; }>();
 
   defaultFields = ["nickname", "group", "role", "name", "birthday"];
@@ -59,11 +74,11 @@ export class MembersListComponent implements OnInit {
 
   @ViewChild('filterForm', { static: true }) filterForm!: NgForm;
 
-  search$ = new Subject<string>();
-
   constructor(
     private api: ApiService,
     private configService: ConfigService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
 
     this.filteredMembers$ = combineLatest([this.members$, this.filter$])
@@ -111,7 +126,13 @@ export class MembersListComponent implements OnInit {
     this.members$.next(members);
   }
 
+  create() {
+    this.router.navigate(["vytvorit"], { relativeTo: this.route });
+  }
+
   filterMembers(filter: MemberFilter, members: MemberWithSearchString[]) {
+
+    console.log(filter);
 
     const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/ /g, "").replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
 
