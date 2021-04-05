@@ -12,6 +12,7 @@ import { WebConfigGroup, WebConfigMemberRole } from "app/schema/web-config";
 import { DateTime } from 'luxon';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ViewWillEnter } from '@ionic/angular';
 
 type MemberWithSearchString = Member & { searchString: string; };
 
@@ -28,7 +29,7 @@ interface MemberFilter {
   templateUrl: './members-list.component.html',
   styleUrls: ['./members-list.component.scss']
 })
-export class MembersListComponent implements OnInit {
+export class MembersListComponent implements OnInit, ViewWillEnter {
 
   members$ = new Subject<(MemberWithSearchString)[]>();
   filteredMembers$: Observable<Member[]>;
@@ -92,13 +93,15 @@ export class MembersListComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadConfig();
+  }
+
+  ionViewWillEnter() {
     this.loadMembers();
   }
 
   ngAfterViewInit() {
     this.filterForm.valueChanges!.pipe(debounceTime(250)).subscribe(this.filter$);
   }
-
 
   getAge(birthday: string): number {
     return Math.floor((-1) * DateTime.fromISO(birthday).diffNow("years").years);

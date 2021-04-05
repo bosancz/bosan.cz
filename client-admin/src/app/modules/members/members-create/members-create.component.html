@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/databaze"></ion-back-button>
     </ion-buttons>
     <ion-title>Přidat člena</ion-title>
     <ion-buttons slot="end">
@@ -13,40 +13,52 @@
 <ion-content class="ion-padding">
   <form #createMemberForm="ngForm">
     <div class="row">
-      <mat-form-field class="col-12 col-xl-6">
-        <mat-label>Přezdívka</mat-label>
-        <input matInput type="text" name="nickname" ngModel placeholder="Nositel prstenu" />
-      </mat-form-field>
+      <div class="col-12 col-xl-6">
+        <ion-item>
+          <ion-label position="stacked">Přezdívka</ion-label>
+          <ion-input type="text" name="nickname" ngModel placeholder="Pulčík"></ion-input>
+        </ion-item>
+      </div>
 
       <div class="w-100"></div>
 
-      <mat-form-field class="col-12 col-xl-3">
-        <mat-label>Jméno</mat-label>
-        <input matInput type="text" ngModel name="first" placeholder="Bilbo" required />
-      </mat-form-field>
+      <ng-container ngModelGroup="name">
+        <div class="col-12 col-xl-3">
+          <ion-item>
+            <ion-label position="stacked">Jméno</ion-label>
+            <ion-input type="text" ngModel name="first" placeholder="Bilbo" required></ion-input>
+          </ion-item>
+        </div>
 
-      <mat-form-field class="col-12 col-xl-3">
-        <mat-label>Příjmení</mat-label>
-        <input matInput type="text" ngModel name="last" placeholder="Pytlík" required />
-      </mat-form-field>
-
-      <div class="w-100"></div>
-
-      <mat-form-field class="col-12 col-xl-6">
-        <mat-label>Oddíl</mat-label>
-        <mat-select name="group" ngModel required>
-          <mat-option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <div class="col-12 col-xl-3">
+          <ion-item>
+            <ion-label position="stacked">Příjmení</ion-label>
+            <ion-input type="text" ngModel name="last" placeholder="Pytlík" required></ion-input>
+          </ion-item>
+        </div>
+      </ng-container>
 
       <div class="w-100"></div>
 
-      <mat-form-field class="col-12 col-xl-6">
-        <mat-label>Role</mat-label>
-        <mat-select name="role" ngModel required>
-          <mat-option *ngFor="let role of roles" [value]="role.id">{{ role.id }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="col-12 col-xl-6">
+        <ion-item>
+          <ion-label position="stacked">Oddíl</ion-label>
+          <ion-select name="group" ngModel required placeholder="Chluponozi">
+            <ion-select-option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="w-100"></div>
+
+      <div class="col-12 col-xl-6">
+        <ion-item>
+          <ion-label position="stacked">Role</ion-label>
+          <ion-select name="role" ngModel required placeholder="nositel prstenu">
+            <ion-select-option *ngFor="let role of roles" [value]="role.id">{{ role.id }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
     </div>
   </form>
 </ion-content>

@@ -67,7 +67,7 @@ export class MembersEditComponent {
     // send a toast with OK message
     this.toastService.toast("Uloženo.");
 
-    this.router.navigate(["../"], { relativeTo: this.route });
+    this.router.navigate(["../"], { relativeTo: this.route, replaceUrl: true });
   }
 
 }

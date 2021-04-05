@@ -23,7 +23,7 @@ export class MembersCreateComponent implements OnInit {
   actions: Action[] = [
     {
       "text": "Přidat",
-      handler: () => this.createMember()
+      handler: () => this.create()
     }
   ];
 
@@ -47,17 +47,17 @@ export class MembersCreateComponent implements OnInit {
     this.roles = config.members.roles;
   }
 
-  async createMember() {
-    // get data from form
-    const eventData = this.form.value;
-    // create the event and wait for confirmation
-    const response = await this.api.post("members", eventData);
-    // get new member _id
+  async create() {
+
+    const formData = this.form.value;
+
+    const response = await this.api.post("members", formData);
+
     let member = await this.api.get<Member>(response.headers.get("location"), { select: "_id" });
-    // close the modal
+
     this.toastService.toast("Člen uložen.");
-    // open the event
-    this.router.navigate(["../", {}, member._id], { relativeTo: this.route });
+
+    this.router.navigate(["../", {}, member._id], { relativeTo: this.route, replaceUrl: true });
   }
 
 }

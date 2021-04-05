@@ -1,31 +1,19 @@
-<bo-page>
-  <bo-page-header>
-    <h2
-      [pageTitle]="
-        (member$ | async)?.nickname + ' (' + (member$ | async)?.name?.first + ' ' + (member$ | async)?.name?.last + ')'
-      "
-    >
-      {{ (member$ | async)?.nickname }} ({{ (member$ | async)?.name?.first }} {{ (member$ | async)?.name?.last }})
-    </h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/databaze"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>
+      {{ getFullName(member) }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Blogový příspěvek"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <div class="actions" *actionMenu>
-      <ng-container *ngIf="member$ | async as member">
-        <button mat-button color="primary" [disabled]="!member?._links?.self?.allowed?.PATCH" routerLink="upravit">
-          Upravit
-        </button>
-        <button
-          mat-button
-          color="warn"
-          [disabled]="!member?._links?.self?.allowed?.DELETE"
-          (click)="deleteMember(member)"
-        >
-          Smazat
-        </button>
-      </ng-container>
-    </div>
-  </bo-page-header>
-
-  <div *ngIf="member$ | async as member">
+<ion-content class="ion-padding">
+  <div *ngIf="member as member">
     <div class="row">
       <div class="col-md-8 col-lg-9 order-12 order-lg-1">
         <p>
@@ -127,4 +115,4 @@
       </div>
     </div>
   </div>
-</bo-page>
+</ion-content>

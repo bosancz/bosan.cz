@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<form #filterForm="ngForm" class="filter px-3 py-1" [hidden]="!showFilter">
+<form #filterForm="ngForm" class="filter px-lg-3 py-1" [hidden]="!showFilter">
   <div class="row">
     <div class="col-12 col-xl">
       <ion-searchbar type="text" name="search" ngModel (keydown.enter)="$event.preventDefault()"></ion-searchbar>
