@@ -1,0 +1,83 @@
+<div *ngIf="event$ | async as event">
+  <div class="mb-5">
+    <event-card [event]="event" [actions]="false"></event-card>
+  </div>
+
+  <form #eventForm="ngForm" (ngSubmit)="saveEvent(event, eventForm)">
+    <h3 class="my-3">Základní údaje</h3>
+
+    <mat-form-field class="w-100">
+      <mat-label>Název akce</mat-label>
+      <input matInput name="name" [ngModel]="event.name" placeholder="Neočekávaný dýchánek" />
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field class="w-100">
+          <mat-label>Datum od</mat-label>
+          <input matInput [matDatepicker]="datepickerFrom" type="text" name="dateFrom" [ngModel]="event.dateFrom" required />
+          <mat-datepicker-toggle matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
+          <mat-datepicker #datepickerFrom></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="w-100">
+          <mat-label>Datum od</mat-label>
+          <input matInput [matDatepicker]="datepickerTill" type="text" name="dateTill" [ngModel]="event.dateTill" required />
+          <mat-datepicker-toggle matSuffix [for]="datepickerTill"></mat-datepicker-toggle>
+          <mat-datepicker #datepickerTill></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-form-field class="w-100">
+      <mat-label>Popisek</mat-label>
+      <textarea matInput name="description" rows="3" [ngModel]="event.description" textcheck #descriptionCheck="textcheck"></textarea>
+      <mat-hint *ngIf="descriptionCheck.warnings">{{ descriptionCheck.warnings.join(" ") }}</mat-hint>
+    </mat-form-field>
+
+    <h3 class="my-3">Vedoucí akce</h3>
+
+    <members-select name="leaders" [ngModel]="leaders$ | async" [members]="members" label="Hlavní vedoucí"></members-select>
+
+    <h3 class="my-3">Další informace</h3>
+
+    <div class="row">
+      <div class="col-md-6 order-last order-md-first">
+        <mat-form-field class="w-100">
+          <mat-label>Místo</mat-label>
+          <input matInput name="place" [ngModel]="event.place" placeholder="Dno pytle" />
+        </mat-form-field>
+
+        <ng-container ngModelGroup="meeting">
+          <mat-form-field class="w-100">
+            <mat-label>Sraz</mat-label>
+            <input matInput name="start" [ngModel]="event.meeting?.start" placeholder="17:00, u Bilba doma" />
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <mat-label>Konec</mat-label>
+            <input matInput name="end" [ngModel]="event.meeting?.end" placeholder="3:00, tamtéž" />
+          </mat-form-field>
+        </ng-container>
+      </div>
+
+      <div class="col-md-6 order-first order-md-last">
+        <div>
+          <label class="w-100">Oddíly</label>
+          <groups-select [ngModel]="event.groups" name="groups"></groups-select>
+        </div>
+
+        <div class="mt-4">
+          <label class="w-100">Charakter akce</label>
+          <div class="d-inline-block mr-3">
+            <event-subtype-selector [(ngModel)]="event.subtype" name="subtype"></event-subtype-selector>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5 text-right">
+      <button mat-button mat-flat-button color="primary" type="submit" class="w-100">Uložit</button>
+    </div>
+  </form>
+</div>

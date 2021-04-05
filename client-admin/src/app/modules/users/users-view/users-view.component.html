@@ -1,0 +1,108 @@
+<bo-page>
+  <bo-page-header>
+    <h2 pageTitle>
+      <a routerLink="/uzivatele" class="back"><i class="fas fa-arrow-left"></i></a>
+      <ng-container *ngIf="user && user.login">
+        {{ user.login }}
+        <ng-container *ngIf="user.member">
+          &nbsp;({{ user.member.nickname }}, {{ user.member.group | group: "name" }})
+        </ng-container>
+        <ng-container *ngIf="!user.member && user.email">&nbsp;({{ user.email }})</ng-container>
+      </ng-container>
+      <ng-container *ngIf="user && !user.login && user.email">{{ user.email }}</ng-container>
+      <ng-container *ngIf="user && !user.login && !user.email">{{ user._id }}</ng-container>
+    </h2>
+
+    <div class="actions" *actionMenu>
+      <button *ngIf="user" mat-button (click)="impersonateUser($event, user)">
+        Přihlásit se jako {{ user.login }}
+      </button>
+      <button *ngIf="user" mat-button color="warn" [disabled]="!user._links.self.allowed.DELETE" (click)="deleteUser()">
+        Smazat uživatele
+      </button>
+    </div>
+  </bo-page-header>
+
+  <div class="row">
+    <div class="col-lg-2 d-none d-lg-block">
+      <nav *secondaryMenu class="nav nav-pills flex-column">
+        <a class="nav-link" routerLink="../ucet" routerLinkActive="active">Účet</a>
+        <a class="nav-link" routerLink="../heslo" routerLinkActive="active">Změnit heslo</a>
+        <a class="nav-link text-danger" routerLink="../smazat" routerLinkActive="active">Smazat</a>
+      </nav>
+    </div>
+
+    <div class="col-lg-10" [ngSwitch]="category">
+      <div *ngSwitchCase="'ucet'">
+        <form #editUserForm="ngForm" (ngSubmit)="saveUser(editUserForm)">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="editUserInput-login">ID</label>
+              <input
+                type="text"
+                [ngModel]="user?._id"
+                [ngModelOptions]="{ standalone: true }"
+                class="form-control"
+                id="editUserInput-login"
+                readonly
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editUserInput-login">Login</label>
+              <input type="text" name="login" [ngModel]="user?.login" class="form-control" id="editUserInput-login" />
+            </div>
+
+            <div class="form-group">
+              <label for="editUserInput-email">Bošánovský mail</label>
+              <input type="email" name="email" [ngModel]="user?.email" class="form-control" id="editUserInput-email" />
+            </div>
+
+            <div class="form-group">
+              <label for="editUserInput-member">Člen</label>
+              <select name="member" [ngModel]="user?.member?._id || ''" class="form-control" id="editUserInput-member">
+                <option value="">--žádný--</option>
+                <option *ngFor="let member of members" [value]="member._id">
+                  {{ member.nickname }} ({{ member.group | group: "name" }}, {{ member.name?.first }}
+                  {{ member.name?.last }})
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Role</label>
+              <div class="form-check" *ngFor="let role of roles">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="role.active"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-check-input"
+                  [id]="'editUserInput-role-' + role.name"
+                />
+                <label class="form-check-label" [for]="'editUserInput-role-' + role.name">{{ role.title }}</label>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" type="submit" [disabled]="!editUserForm.valid">Uložit</button>
+        </form>
+      </div>
+
+      <div *ngSwitchCase="'heslo'">
+        <form #passwordUserForm="ngForm" (ngSubmit)="saveUser(passwordUserForm)">
+          <div class="form-group">
+            <label for="editUserInput-password">Heslo</label>
+            <input type="password" name="password" ngModel class="form-control" id="editUserInput-password" required />
+          </div>
+          <button class="btn btn-primary" type="submit" [disabled]="!passwordUserForm.valid">Uložit</button>
+        </form>
+      </div>
+
+      <div *ngSwitchCase="'smazat'">
+        <input type="checkbox" [(ngModel)]="deleteConfirmation" id="deleteConfirmationInput" />
+        <label for="deleteConfirmationInput">Opravdu chci smazat tohoto uživatele</label>
+        <br />
+      </div>
+    </div>
+  </div>
+</bo-page>

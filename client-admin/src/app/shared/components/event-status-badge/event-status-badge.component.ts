@@ -2,9 +2,9 @@ import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef, HostBindi
 import { Subject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
-import { ConfigService } from 'app/services/config.service';
+import { ConfigService } from 'app/core/services/config.service';
 
-import { Event } from "app/shared/schema/event";
+import { Event } from "app/schema/event";
 
 @Component({
   selector: 'event-status-badge',
@@ -14,11 +14,12 @@ import { Event } from "app/shared/schema/event";
 })
 export class EventStatusBadgeComponent {
 
-  status: string;
-  note: string;
+  status?: string;
+  note?: string;
+
   @HostBinding('class') class: string = "badge badge-secondary";
 
-  defaultClasses:string = "badge align-top";
+  defaultClasses: string = "badge align-top";
 
   event: Subject<Event> = new Subject();
 
@@ -32,7 +33,7 @@ export class EventStatusBadgeComponent {
       .pipe(withLatestFrom(configService.config.pipe(map(config => config.events.statuses))))
       .subscribe(([event, statuses]) => {
         const status = event ? statuses.find(status => status.id === event.status) : null;
-        
+
         this.class = this.defaultClasses + ' badge-' + (status ? status.class : 'secondary');
         this.status = status ? status.name : "";
         this.note = event ? event.statusNote : "";

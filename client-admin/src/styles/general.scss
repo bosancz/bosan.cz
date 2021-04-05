@@ -1,7 +1,12 @@
 @import "./variables";
 
 /* LAYOUT */
+html,
 body {
+  height: 100%;
+}
+body {
+  margin: 0;
   font-family: $font-family;
   color: $black;
   background-color: #fff;
@@ -24,6 +29,10 @@ h1 {
 
 p.multiline {
   white-space: pre-line;
+}
+
+button:focus {
+  outline: 0 !important;
 }
 
 .header {

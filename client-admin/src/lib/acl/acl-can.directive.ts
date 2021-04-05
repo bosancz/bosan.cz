@@ -11,16 +11,15 @@ export class AclCanDirective {
   private hasView = false;
 
 
-  permission: string | string[];
+  permission?: string | string[];
 
-
-  private subscription: Subscription;
+  private subscription?: Subscription;
 
   @Input() set aclCan(permission: string | string[]) {
 
     if (this.permission !== permission) {
 
-      if (this.subscription) this.subscription.unsubscribe();
+      this.subscription?.unsubscribe();
 
       this.subscription = this.aclService.can(permission).subscribe(can => this.updateView(can));
 

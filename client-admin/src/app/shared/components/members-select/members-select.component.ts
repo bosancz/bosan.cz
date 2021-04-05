@@ -1,18 +1,17 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
-
-import { ConfigService } from "app/services/config.service";
-import { ApiService } from "app/services/api.service";
-
-import { Member } from "app/shared/schema/member";
-import { WebConfigGroup } from "app/shared/schema/web-config";
-import { Subject, combineLatest, BehaviorSubject } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ApiService } from "app/core/services/api.service";
+import { ConfigService } from "app/core/services/config.service";
+import { Member } from "app/schema/member";
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 
-type MemberWithSearchString = Member & { searchString: string };
+
+
+type MemberWithSearchString = Member & { searchString: string; };
 
 @Component({
   selector: 'members-select',
@@ -28,8 +27,8 @@ type MemberWithSearchString = Member & { searchString: string };
 })
 export class MembersSelectComponent implements ControlValueAccessor {
 
-  @Input() label:string;
-  @Input() placeholder:string;
+  @Input() label?: string;
+  @Input() placeholder?: string;
 
   value$ = new Subject<string[]>();
   members$ = new Subject<MemberWithSearchString[]>();
@@ -69,9 +68,11 @@ export class MembersSelectComponent implements ControlValueAccessor {
     private configService: ConfigService
   ) {
 
-    combineLatest(this.members$, this.value$)
+    combineLatest([this.members$, this.value$])
       .pipe(map(([members, value]) => {
-        return value.map(id => members.find(item => item._id === id)).filter(item => !!item)
+        return value
+          .map(id => members.find(item => item._id === id))
+          .filter((item): item is Exclude<typeof item, undefined | null> => !!item);
       }))
       .subscribe(this.selectedMembers$);
 

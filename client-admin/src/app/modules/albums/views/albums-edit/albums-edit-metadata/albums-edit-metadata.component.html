@@ -1,0 +1,37 @@
+<div *ngIf="album$ | async as album">
+
+  <form #albumForm="ngForm" (ngSubmit)="saveAlbum(album._id,albumForm)">
+
+    <mat-form-field class="w-100">
+      <mat-label>Název alba</mat-label>
+      <input matInput type="text" name="name" [ngModel]="album.name" placeholder="Neočekávaný dýchánek" required>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Akce v programu</mat-label>
+      <input matInput type="text" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="getEventString" (optionSelected)="eventSelected($event)">
+        <mat-option *ngFor="let event of eventsMatched$ | async" [value]="event">{{event.name}}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Datum</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate [ngModel]="album.dateFrom" name="dateFrom" placeholder="Začátek" required>
+        <input matEndDate [ngModel]="album.dateTill" name="dateTill" placeholder="Konec" required>
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Popis</mat-label>
+      <textarea matInput name="description" [ngModel]="album.description"></textarea>
+    </mat-form-field>
+
+    <div class="buttons text-right">
+      <button mat-flat-button color="primary" type="submit" [disabled]="!albumForm.valid">Uložit</button>
+    </div>
+  </form>
+</div>

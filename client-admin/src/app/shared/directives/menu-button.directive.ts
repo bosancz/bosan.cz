@@ -1,5 +1,5 @@
 import { Directive, ViewContainerRef, TemplateRef, OnInit, OnDestroy } from '@angular/core';
-import { MenuService } from 'app/services/menu.service';
+import { MenuService } from 'app/core/services/menu.service';
 
 @Directive({
   selector: '[menuButton]'

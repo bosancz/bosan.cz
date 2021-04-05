@@ -1,0 +1,48 @@
+<bo-page>
+  <bo-page-header>
+    <h2 [pageTitle]="(album$ | async)?.name || 'Načítám...'">{{ (album$ | async)?.name || "Načítám..." }}</h2>
+
+    <div class="actions" *actionMenu>
+      <ng-container *ngIf="album$ | async as album">
+        <a mat-button *ngIf="album.status === 'public'" [href]="'/fotogalerie/' + album._id">Otevřít na webu</a>
+        <button
+          mat-button
+          color="primary"
+          *ngIf="album._actions?.publish"
+          [disabled]="!album._actions?.publish?.allowed"
+          (click)="albumAction(album, 'publish')"
+        >
+          Publikovat na webu
+        </button>
+        <button
+          mat-button
+          color="primary"
+          *ngIf="album._actions?.unpublish"
+          [disabled]="!album._actions?.unpublish?.allowed"
+          (click)="albumAction(album, 'unpublish')"
+        >
+          Skrýt na webu
+        </button>
+        <button mat-button color="warn" [disabled]="!album._links?.self?.allowed?.DELETE" (click)="deleteAlbum(album)">
+          Smazat
+        </button>
+      </ng-container>
+    </div>
+  </bo-page-header>
+
+  <div class="row">
+    <div class="col-lg-2 d-none d-lg-block">
+      <nav *secondaryMenu class="nav nav-pills flex-column">
+        <a class="nav-link" routerLink="fotky" [replaceUrl]="true" routerLinkActive="active"
+          >Fotky ({{ (album$ | async)?.photos?.length || 0 }})</a
+        >
+        <a class="nav-link" routerLink="info" [replaceUrl]="true" routerLinkActive="active">Popis alba</a>
+        <a class="nav-link" routerLink="nahrat" [replaceUrl]="true" routerLinkActive="active">Nahrát fotky</a>
+      </nav>
+    </div>
+
+    <div class="col-lg-10">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</bo-page>

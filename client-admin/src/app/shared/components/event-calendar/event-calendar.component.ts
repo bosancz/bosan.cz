@@ -2,12 +2,12 @@ import { Component, OnInit, Input, SimpleChanges, OnChanges, EventEmitter, Outpu
 import { DateTime } from 'luxon';
 import { CzechHolidays } from 'czech-holidays';
 
-import { ConfigService } from 'app/services/config.service';
-import { ApiService } from 'app/services/api.service';
+import { ConfigService } from 'app/core/services/config.service';
+import { ApiService } from 'app/core/services/api.service';
 
-import { CPVEvent } from 'app/shared/schema/cpv-event';
-import { Event } from 'app/shared/schema/event';
-import { WebConfigEventStatus } from 'app/shared/schema/web-config';
+import { CPVEvent } from 'app/schema/cpv-event';
+import { Event } from 'app/schema/event';
+import { WebConfigEventStatus } from 'app/schema/web-config';
 
 const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
 
@@ -57,24 +57,24 @@ class CalendarEvent<T extends (CPVEvent | Event)> {
 })
 export class EventCalendarComponent implements OnInit, OnChanges {
 
-  calendar: CalendarMonth[];
+  calendar: CalendarMonth[] = [];
 
-  selectedDates: [DateTime, DateTime];
+  selectedDates?: [DateTime, DateTime];
 
-  @Input() dateFrom: DateTime;
-  @Input() dateTill: DateTime;
+  @Input() dateFrom!: DateTime;
+  @Input() dateTill!: DateTime;
 
   @Input() events: Event[] = [];
 
-  @Input() cpv: boolean;
-  @Input() selection: boolean;
+  @Input() cpv: boolean = false;
+  @Input() selection: boolean = false;
   @Input() headingLevel: number = 3;
 
   @Output() select = new EventEmitter<[DateTime, DateTime]>();
 
-  eventsCPV: CPVEvent[];
+  eventsCPV: CPVEvent[] = [];
 
-  statuses: WebConfigEventStatus[];
+  statuses: WebConfigEventStatus[] = [];
 
   eventHeight = 22;
 
@@ -113,7 +113,7 @@ export class EventCalendarComponent implements OnInit, OnChanges {
   createCalendar() {
 
     let currentDate = this.dateFrom;
-    let month = new CalendarMonth(currentDate.month, currentDate.year)
+    let month = new CalendarMonth(currentDate.month, currentDate.year);
     let holidays = CzechHolidays(currentDate.year);
 
     const calendar = [month];
@@ -147,8 +147,8 @@ export class EventCalendarComponent implements OnInit, OnChanges {
       });
   }
 
-  assignEvents(events: Array<Event>, type: "own"): void
-  assignEvents(events: Array<CPVEvent>, type: "cpv"): void
+  assignEvents(events: Array<Event>, type: "own"): void;
+  assignEvents(events: Array<CPVEvent>, type: "cpv"): void;
   assignEvents(events: Array<CPVEvent | Event>, type: "own" | "cpv"): void {
 
     if (!this.calendar) return;
@@ -211,7 +211,7 @@ export class EventCalendarComponent implements OnInit, OnChanges {
 
   emitSelected() {
     if (!this.selection) return;
-    this.selectedDates.sort();
+    this.selectedDates?.sort();
     this.select.emit(this.selectedDates);
   }
 

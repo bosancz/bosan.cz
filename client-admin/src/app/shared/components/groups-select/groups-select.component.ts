@@ -1,8 +1,8 @@
 import { Component, OnInit, forwardRef, Input, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import { ConfigService } from "app/services/config.service";
-import { WebConfigGroup } from 'app/shared/schema/web-config';
+import { ConfigService } from "app/core/services/config.service";
+import { WebConfigGroup } from 'app/schema/web-config';
 
 @Component({
   selector: 'groups-select',
@@ -14,15 +14,19 @@ import { WebConfigGroup } from 'app/shared/schema/web-config';
       multi: true,
       useExisting: forwardRef(() => GroupsSelectComponent),
     }
-  ]
+  ],
+  host: {
+    "[class.disabled]": "disabled",
+    "[class.readonly]": "readonly",
+  }
 })
 export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
 
   groups: WebConfigGroup[] = [];
   selectedGroups: string[] = [];
 
-  @HostBinding("class.disabled") disabled: boolean = false;
-  @HostBinding("class.readonly") @Input() readonly: boolean;
+  disabled: boolean = false;
+  @Input() readonly: boolean = false;
 
   onChange: any = () => { };
   onTouched: any = () => { };
@@ -42,7 +46,7 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   async loadGroups() {
-    const config = await this.configService.getConfig()
+    const config = await this.configService.getConfig();
     this.groups = config.members.groups.filter(group => group.event);
   }
 
@@ -51,7 +55,7 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   selectAll(checked: boolean): void {
-    
+
     if (this.disabled || this.readonly) return;
 
     if (checked) this.selectedGroups = this.groups.filter(group => group.children).map(group => group.id);
@@ -64,7 +68,7 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   toggleGroup(group: WebConfigGroup, deselectOther = false) {
-    
+
     if (this.disabled || this.readonly) return;
 
     let i = this.selectedGroups.indexOf(group.id);

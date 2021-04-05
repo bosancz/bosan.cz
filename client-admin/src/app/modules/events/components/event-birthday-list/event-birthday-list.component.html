@@ -1,0 +1,6 @@
+<ul *ngIf="birthdays.length">
+    <li *ngFor="let birthday of birthdays">
+    {{birthday.member.nickname}} ({{birthday.date | date:"d. M."}}, {{birthday.age}} let)
+    </li>
+</ul>
+<ng-container *ngIf="!birthdays.length">Žádné narozeniny v době konání akce</ng-container>

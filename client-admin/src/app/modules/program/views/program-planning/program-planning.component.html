@@ -1,0 +1,37 @@
+<bo-page>
+  <h2 pageTitle class="d-none">Plánování akcí</h2>
+
+  <div class="row">
+    <div class="col-lg-3 col-xl-2">
+      <bo-trimester-selector
+        [ngModel]="[this.dateFrom?.toISODate(), this.dateTill?.toISODate()]"
+        (ngModelChange)="setPeriod($event)"
+      ></bo-trimester-selector>
+
+      <div class="legend d-none d-lg-block">
+        <mat-list>
+          <mat-list-item *ngFor="let status of statuses">
+            <span [ngClass]="'text-' + status.class">
+              <i class="fas fa-circle mr-2"></i>{{ status.name || status.id }}
+            </span>
+          </mat-list-item>
+          <mat-list-item class="text-dark">
+            <span class="text-dark"><i class="fas fa-circle mr-2"></i>ČPV</span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+
+    <div class="col-lg-9 col-xl-10 px-lg-5">
+      <event-calendar
+        *ngIf="dateFrom && dateTill"
+        (select)="createEvent($event)"
+        [dateFrom]="dateFrom"
+        [dateTill]="dateTill"
+        [events]="events"
+        [cpv]="true"
+        [selection]="true"
+      ></event-calendar>
+    </div>
+  </div>
+</bo-page>

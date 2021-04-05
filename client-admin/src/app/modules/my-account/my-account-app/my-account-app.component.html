@@ -1,0 +1,7 @@
+<p *ngIf="!beforeinstallprompt">Aplikace je buď již nainstalovaná, nebo tvůj prohlížeč zatím vyhodnocuje, zda je možné aplikaci nainstalovat. Pokud zde ani po minutě nebude tlačítko s možností instalace, aplikaci na tomto zařízení nelze nainstalovat.</p>
+
+<div *ngIf="beforeinstallprompt">
+  <button class="btn btn-primary" (click)="install()">Nainstalovat aplikaci</button>
+</div>
+
+<p *ngIf="installed">Instalace se zdařila!</p>

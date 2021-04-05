@@ -8,14 +8,14 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 })
 export class PhotoFaceComponent implements OnChanges {
 
-  @Input() src: string;
+  @Input() src!: string;
 
-  @Input() rectangle: { x: number, y: number, height: number, width: number };
+  @Input() rectangle!: { x: number, y: number, height: number, width: number; };
 
-  @Input() size: number;
+  @Input() size!: number;
 
-  style: any = {}
-  backgroundStyle: SafeStyle;
+  style: any = {};
+  backgroundStyle?: SafeStyle;
 
   constructor(
     private sanitizer: DomSanitizer
@@ -28,7 +28,7 @@ export class PhotoFaceComponent implements OnChanges {
       "border-radius": (this.size / 2) + 'px',
       "background-image": 'url(' + this.src + ')',
       "background-size": this.rectangle.width > this.rectangle.height ? (this.size * 1 / this.rectangle.width) + 'px auto' : 'auto ' + (this.size * 1 / this.rectangle.height) + 'px'
-    }
+    };
 
     this.backgroundStyle = this.sanitizer.bypassSecurityTrustStyle('calc(' + (this.rectangle.x * 100) + '% - ' + (this.rectangle.x * this.size) + 'px) calc(' + (this.rectangle.y * 100) + '% - ' + (this.rectangle.y * this.size) + 'px)');
   }

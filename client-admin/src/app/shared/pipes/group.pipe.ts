@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, Injectable, ChangeDetectorRef } from '@angular/core';
 
-import { ConfigService } from "app/services/config.service";
+import { ConfigService } from "app/core/services/config.service";
 import { filter } from 'rxjs/operators';
 
 export type GroupPipeProperty = "name" | "color";
@@ -13,7 +13,7 @@ export class GroupPipe implements PipeTransform {
 
   groupIndex: any = {};
 
-  defaultValues: { [key: string]: any } = {
+  defaultValues: { [key: string]: any; } = {
     "color": "#000"
   };
 
@@ -28,9 +28,11 @@ export class GroupPipe implements PipeTransform {
     });
   }
 
-  transform(groupId: string, property: GroupPipeProperty): string {
+  transform(groupId: string | undefined | null, property: GroupPipeProperty): string {
 
     // if group properties not loaded yet or not present for group, return default values
+    if (!groupId) return this.defaultValues[property];
+
     switch (property) {
       case "name":
         return this.groupIndex[groupId] && this.groupIndex[groupId][property] || groupId;

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Contact } from "app/shared/schema/contact";
+import { Contact } from "app/schema/contact";
 
 @Component({
   selector: 'contacts-editor',
@@ -10,24 +10,24 @@ import { Contact } from "app/shared/schema/contact";
 export class ContactsEditorComponent implements OnInit {
 
   @Input()
-  contacts:Contact[];
-  
+  contacts!: Contact[];
+
   constructor() { }
 
   ngOnInit() {
   }
-  
-  add(){
+
+  add() {
     this.contacts.push(new Contact);
   }
-  
-  delete(i:number){
-    this.contacts.splice(i,1);
+
+  delete(i: number) {
+    this.contacts.splice(i, 1);
   }
-  
-  move(i:number,target:number){
-    if(target < 0 || target >= this.contacts.length) return;
-    this.contacts.splice(target,0,this.contacts.splice(i,1)[0]);
+
+  move(i: number, target: number) {
+    if (target < 0 || target >= this.contacts.length) return;
+    this.contacts.splice(target, 0, this.contacts.splice(i, 1)[0]);
   }
 
 }
