@@ -1,0 +1,27 @@
+<!-- SINGLE -->
+<ion-button *ngIf="single" [disabled]="single.disabled" (click)="onClick(single)">
+  {{ single.text }}
+</ion-button>
+
+<!-- PINNED -->
+<ion-button *ngFor="let action of pinned" [disabled]="action.disabled" (click)="onClick(action)">
+  <ion-icon *ngIf="action.icon" [class.d-xl-none]="!ios && action.text" [name]="action.icon"></ion-icon>
+  <span *ngIf="action.text" [class.d-none]="action.icon" [class.d-xl-inline]="!ios">{{ action.text }}</span>
+</ion-button>
+
+<!-- BUTTONS -->
+<ion-button
+  *ngFor="let action of buttons"
+  [disabled]="action.disabled"
+  [color]="action.color"
+  (click)="onClick(action)"
+  class="d-none"
+  [class.d-xl-inline-block]="!ios"
+>
+  {{ action.text }}
+</ion-button>
+
+<!-- DROPDOWN -->
+<ion-button *ngIf="menu.length > 0" [class.d-xl-none]="!ios" (click)="openActions()">
+  <ion-icon name="ellipsis-vertical"></ion-icon>
+</ion-button>
