@@ -27,177 +27,32 @@ h1 {
   margin-top: 0.5rem;
 }
 
-p.multiline {
-  white-space: pre-line;
-}
-
-button:focus {
-  outline: 0 !important;
-}
-
-.header {
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-color: #ccc;
-  background-size: cover;
-  height: 85vh;
-  text-align: center;
-  position: relative;
-}
-.header::after {
-  content: " ";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0) 100%);
-  z-index: 1;
-}
-.header .content {
-  position: relative;
-  top: 30%;
-  left: 0;
-  right: 0;
-  z-index: 2;
-}
-
-.header h1 {
-  color: $white;
-  font-size: $font-super-large;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
-}
-
-section:nth-child(odd) {
-  background-color: $grey;
-}
-
-a.btn {
-  display: inline-block;
-}
-a.flat {
-  font-weight: bold;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-
-.group-badges .group-badge {
-  display: inline-block;
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  font-weight: bold;
-  color: #fff;
-  text-align: center;
-  line-height: 30px;
-  vertical-align: middle;
-  text-decoration: none;
-  opacity: 1;
-}
-.group-badges .group-badge:first-of-type {
-  margin-left: 0;
-}
-.group-badges .group-badge:last-of-type {
-  margin-right: 0;
-}
-
-@media print {
-  .group-badges .group-badge {
-    border: 1px solid #666;
-  }
-}
-
-h2 .back {
-  margin-right: 10px;
-}
-
-a {
-  color: $linkBlue;
-  cursor: pointer;
-}
-a.link {
-  color: $linkBlue !important;
-  cursor: pointer;
-}
-a:not(.btn):hover {
-  color: $hover-yellow !important;
-}
-
-a.badge,
-.badge a {
-  cursor: pointer;
-}
-
-.footer-text {
-  color: $white;
-}
-
-.badge-pill {
-  color: $white;
-  font-size: 1rem;
-  background-color: $black;
-  padding: 0.5rem 1rem;
-}
-
-.red {
-  background-color: #bb0000;
-}
-
-.green {
-  background-color: #36802d;
-}
-
-.blue {
-  background-color: #012475;
-}
-
-.yellow {
-  background-color: #fec503;
-}
-
-@media (pointer: coarse) {
-  .responsive-font {
-    font-size: 1.8em;
-  }
-}
-
-/* === HEADER === */
-header {
-  background-color: $black70;
-}
-
-header.transparent {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  z-index: 1000;
-}
-header.transparent.top {
-  background-color: transparent;
-}
-
-::-moz-selection {
-  background: #00bfff;
-  text-shadow: none;
-}
-
-::selection {
-  background: #00bfff;
-  text-shadow: none;
-}
-
-/* EVENTS */
-
-.event {
-  .circle {
+.loading {
+  > * {
     position: relative;
-    top: 50%;
-    margin-top: -$circle-size/2;
-    width: $circle-size;
-    height: $circle-size;
-    border-radius: 50%;
-    background-color: #ccc;
-    z-index: 5;
+
+    animation-name: loadingBgAnimation;
+    animation-duration: 1000ms;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    width: 50%;
+  }
+
+  @keyframes loadingBgAnimation {
+    from {
+      background-color: #ddd;
+    }
+    to {
+      background-color: #f6f7f8;
+    }
   }
 }

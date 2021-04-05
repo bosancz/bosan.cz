@@ -1,11 +1,16 @@
+:host {
+  width: 100%;
+  padding-right: 15px;
+}
 ::ng-deep {
-  .ce-block {
-    border-left: 2px solid transparent;
-    padding-left: 10px;
-  }
-  .ce-block:hover {
-    border-left-color: #000;
-  }
+  // .ce-block {
+  //   border-left: 2px solid transparent;
+  //   padding-left: 10px;
+  //   margin-left: -10px;
+  // }
+  // .ce-block:hover {
+  //   border-left-color: #000;
+  // }
   .ce-block__content,
   .ce-toolbar__content {
     max-width: none;

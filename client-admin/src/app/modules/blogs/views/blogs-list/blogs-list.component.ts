@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ViewWillEnter } from '@ionic/angular';
+import { ToastService } from 'app/core/services/toast.service';
 import { Blog } from "app/schema/blog";
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { DateTime } from 'luxon';
 import { BehaviorSubject } from "rxjs";
 import { debounceTime } from 'rxjs/operators';
@@ -13,25 +16,13 @@ import { BlogsFilter, BlogsService } from '../../services/blogs.service';
   templateUrl: './blogs-list.component.html',
   styleUrls: ['./blogs-list.component.scss']
 })
-export class BlogsListComponent implements OnInit {
+export class BlogsListComponent implements OnInit, ViewWillEnter {
 
   years: number[] = [];
   currentYear?: number;
 
   blogs: Blog[] = [];
   filteredBlogs: Blog[] = [];
-
-  statuses = [
-    { id: "public", name: "zveřejněné" },
-    { id: "draft", name: "v přípravě" },
-  ];
-
-  statusesIndex = this.statuses.reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string; });
-
-  filter: BlogsFilter = {
-    year: DateTime.local().year,
-    status: undefined
-  };
 
   showFilter = false;
 
@@ -41,48 +32,45 @@ export class BlogsListComponent implements OnInit {
 
   searchIndex: string[] = [];
 
+  actions: Action[] = [
+    {
+      icon: "search-outline",
+      pinned: true,
+      handler: () => this.showFilter = !this.showFilter
+    },
+    {
+      icon: "add-outline",
+      text: "Vytvořit",
+      pinned: true,
+      handler: () => this.create()
+    },
+  ];
+
   constructor(
     private blogsService: BlogsService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toasts: ToastService
   ) {
 
     this.searchString
       .pipe(debounceTime(250))
-      .subscribe(() => this.filterBlogs());
+      .subscribe(() => this.filter());
 
   }
 
   ngOnInit() {
-    this.loadYears();
-
-    this.route.queryParams.subscribe((params: { year?: string, status?: string; }) => {
-      if (params.year && this.years.indexOf(Number(params.year))) {
-        this.filter.year = Number(params.year);
-      }
-
-      this.loadBlogs();
-    });
   }
 
-  async loadYears() {
-    const years: number[] = []; // TODO load years from API
-    const currentYear = DateTime.local().year;
-
-    if (years.indexOf(currentYear) === -1) {
-      years.push(currentYear);
-    }
-
-    years.sort();
-
-    this.years = years;
+  ionViewWillEnter() {
+    this.load();
   }
 
-  async loadBlogs() {
+  async load() {
 
     this.loading = true;
 
-    const blogs = await this.blogsService.list(this.filter);
+    const blogs = await this.blogsService.list();
 
     // dates are ISO string, sorting as text    
     blogs.sort((a, b) => (a.datePublished || "").localeCompare(b.datePublished || ""));
@@ -90,11 +78,13 @@ export class BlogsListComponent implements OnInit {
     this.blogs = blogs;
 
     this.searchIndex = blogs.map(blog => this.getSearchString(blog));
-    console.log(this.searchIndex);
+
+    this.filter();
+
     this.loading = false;
   }
 
-  filterBlogs() {
+  filter() {
 
     if (!this.searchString.value) {
       this.filteredBlogs = this.blogs;
@@ -106,9 +96,17 @@ export class BlogsListComponent implements OnInit {
     this.filteredBlogs = this.blogs.filter((blog, i) => search_re.test(this.searchIndex[i]));
   }
 
-  updateFilter(changes: Partial<BlogsFilter>) {
-    const filter = Object.assign({}, this.filter, changes);
-    this.router.navigate([], { queryParams: filter });
+  async create() {
+    // get data from form
+    const blogData = {
+      "title": "Nový příspěvek"
+    };
+    // create the event and wait for confirmation
+    const blog = await this.blogsService.create(blogData);
+    // show the confrmation
+    this.toasts.toast("Příspěvěk vytvořen a uložen.");
+    // open the blog
+    this.router.navigate(["/blog", blog._id, "upravit"], { relativeTo: this.route });
   }
 
   private getSearchString(blog: Blog) {
@@ -117,4 +115,5 @@ export class BlogsListComponent implements OnInit {
       blog.datePublished ? DateTime.fromISO(blog.datePublished).toFormat("d. M. y") : undefined
     ].filter(item => !!item).join(" ");
   }
+
 };

@@ -4,3 +4,16 @@
     --ion-background-color: transparent;
   }
 }
+
+.bo-table {
+  flex-grow: 1;
+  .header {
+    border-bottom: 1px solid #333;
+  }
+  .list {
+    .item {
+      cursor: pointer;
+      border-bottom: 1px solid #ccc;
+    }
+  }
+}

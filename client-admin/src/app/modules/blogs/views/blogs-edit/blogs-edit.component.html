@@ -1,82 +1,32 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/blog"></ion-back-button>
+      <ion-back-button [defaultHref]="'/blog/' + blog?._id"></ion-back-button>
     </ion-buttons>
 
-    <ion-title>{{ blog?.title || "Načítám..." }}</ion-title>
+    <ion-title>Upravit příspěvek</ion-title>
 
     <ion-buttons slot="end">
-      <ion-button
-        fill="clear"
-        color="primary"
-        [disabled]="!blog?._links?.self?.allowed?.PATCH"
-        (click)="save(createBlogForm)"
-      >
-        Uložit
-      </ion-button>
+      <bo-action-buttons [actions]="actions"></bo-action-buttons>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<!-- 
-
-       <a mat-button *ngIf="blog?.status === 'public'" [href]="'/blog/' + blog?._id">Otevřít na webu</a> 
-
-<ion-button
-  fill="clear"
-  color="secondary"
-  *ngIf="blog?._actions?.publish"
-  [disabled]="!blog?._actions?.publish?.allowed"
-  (click)="publish()"
->
-  Publikovat na webu
-</ion-button>
-
-<ion-button
-  fill="clear"
-  color="warning"
-  *ngIf="blog?._actions?.unpublish"
-  [disabled]="!blog?._actions?.unpublish?.allowed"
-  (click)="unpublish()"
->
-  Skrýt na webu
-</ion-button>
-
-<ion-button fill="clear" color="danger" [disabled]="!blog?._links?.self?.allowed?.DELETE" (click)="delete()">
-  Smazat
-</ion-button>
--->
 
 <ion-content class="ion-padding">
-  <form #createBlogForm="ngForm" (ngSubmit)="save(createBlogForm)">
-    <div class="row">
-      <div class="col-lg-8 col-xl-7">
-        <ion-item>
-          <ion-label position="floating">Titulek</ion-label>
-          <ion-input type="text" name="title" [ngModel]="blog?.title" required></ion-input>
-        </ion-item>
-      </div>
-      <div class="col-lg-4 col-xl-2">
-        <ion-item>
-          <ion-label position="floating">Datum publikace</ion-label>
-          <ion-datetime
-            displayFormat="D. M. YYYY"
-            [ngModel]="blog?.datePublished | date: 'yyyy-MM-dd'"
-            [ngModelOptions]="{ standalone: true }"
-          ></ion-datetime>
-        </ion-item>
-      </div>
+  <form #createBlogForm="ngForm">
+    <ion-item>
+      <ion-label position="stacked">Titulek</ion-label>
+      <ion-input type="text" name="title" [ngModel]="blog?.title" required></ion-input>
+    </ion-item>
 
-      <div class="col-lg-8 col-xl-7">
-        <ion-item>
-          <ion-label position="floating">Perex</ion-label>
-          <ion-textarea type="text" name="perex" [ngModel]="blog?.perex"></ion-textarea>
-        </ion-item>
-      </div>
+    <ion-item>
+      <ion-label position="stacked">Perex</ion-label>
+      <ion-textarea [autoGrow]="true" rows="3" type="text" name="perex" [ngModel]="blog?.perex"></ion-textarea>
+    </ion-item>
 
-      <div class="col-lg-8 col-xl-7">
-        <bo-text-editor #textEditor name="content" [ngModel]="blog?.content"></bo-text-editor>
-      </div>
-    </div>
+    <ion-item>
+      <ion-label position="stacked">Text</ion-label>
+      <bo-text-editor #textEditor name="content" [ngModel]="blog?.content" class="my-1"></bo-text-editor>
+    </ion-item>
   </form>
 </ion-content>

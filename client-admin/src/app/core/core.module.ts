@@ -11,7 +11,7 @@ import { IonicModule } from "@ionic/angular";
 
 /* ERROR HANDLERS */
 import { MainErrorHandler } from 'app/core/error-handlers/main.error-handler';
-import { MaterialModule } from 'app/shared/modules/material/material.module';
+import { MaterialModule } from 'app/shared/material.module';
 import { SharedModule } from 'app/shared/shared.module';
 /* ENVIRONMENT */
 import { environment } from 'environments/environment';

@@ -20,7 +20,7 @@ import { AlbumsEditUploadComponent } from './views/albums-edit/albums-edit-uploa
 /* COMPONENTS */
 import { AlbumsEditPhotoComponent } from './views/albums-edit/albums-edit-photo/albums-edit-photo.component';
 import { PhotoFaceEditComponent } from './components/photo-face-edit/photo-face-edit.component';
-import { MaterialModule } from 'app/shared/modules/material/material.module';
+import { MaterialModule } from 'app/shared/material.module';
 
 @NgModule({
   declarations: [

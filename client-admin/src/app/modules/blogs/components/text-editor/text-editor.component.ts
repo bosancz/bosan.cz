@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, NgZone, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import { debounceTime, filter } from 'rxjs/operators';
+import { Image } from './plugins/image';
+
 
 @Component({
   selector: 'bo-text-editor',
@@ -36,7 +38,8 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
   onChangeFn = (value: string) => { };
 
   constructor(
-    private elRef: ElementRef<HTMLElement>
+    private elRef: ElementRef<HTMLElement>,
+    private ngZone: NgZone
   ) {
     this.change
       .pipe(filter(() => this.autosave))
@@ -61,6 +64,7 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
 
       tools: {
         header: <any>Header, // TODO https://github.com/editor-js/header/issues/23
+        image: Image
       }
     });
 
@@ -79,6 +83,7 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
 
   /* ControlValueAccessor */
   writeValue(value: string): void {
+    if (!value) return;
     try {
       this.data = JSON.parse(value);
       if (this.editor?.render && this.data) this.editor.render(this.data);
@@ -86,6 +91,7 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
     catch (err) {
       console.error(err);
     }
+
   }
   registerOnChange(fn: (data: string) => void): void {
     this.onChangeFn = fn;

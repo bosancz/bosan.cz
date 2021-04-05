@@ -1,8 +1,10 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ToastService } from 'app/core/services/toast.service';
 import { Blog } from 'app/schema/blog';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { TextEditorComponent } from '../../components/text-editor/text-editor.component';
 import { BlogsService } from '../../services/blogs.service';
 
@@ -16,7 +18,11 @@ export class BlogsEditComponent implements OnInit {
 
   blog?: Blog;
 
+  actions: Action[] = [];
+
   @ViewChild("textEditor", { read: TextEditorComponent }) textEditor!: TextEditorComponent;
+
+  @ViewChild("createBlogForm") form!: NgForm;
 
   constructor(
     private blogs: BlogsService,
@@ -33,16 +39,20 @@ export class BlogsEditComponent implements OnInit {
 
   async load(id: string) {
     this.blog = await this.blogs.load(id);
+    this.actions = [{
+      text: "Uložit",
+      handler: () => this.save()
+    }];
   }
 
-  async save(form: NgForm) {
+  async save() {
 
     if (!this.blog) return;
 
     // call save() on textEditor to sync current content
     await this.textEditor.save();
 
-    const formData = form.value;
+    const formData = this.form.value;
 
     await this.blogs.save(this.blog._id, formData);
 
@@ -50,27 +60,8 @@ export class BlogsEditComponent implements OnInit {
 
     this.toasts.toast("Uloženo.");
 
-  }
+    this.router.navigate(["../"], { relativeTo: this.route, replaceUrl: true });
 
-  async delete() {
-    if (!this.blog) return;
-    await this.blogs.delete(this.blog._id);
-    this.toasts.toast("Příspěvek smazán.");
-    this.router.navigate(["../../"], { relativeTo: this.route });
-  }
-
-  async publish() {
-    if (!this.blog) return;
-    await this.blogs.publish(this.blog);
-    await this.load(this.blog._id);
-    this.toasts.toast("Publikováno");
-  }
-
-  async unpublish() {
-    if (!this.blog) return;
-    await this.blogs.unpublish(this.blog);
-    await this.load(this.blog._id);
-    this.toasts.toast("Skryto");
   }
 
 }
