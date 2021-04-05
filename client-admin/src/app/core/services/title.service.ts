@@ -11,11 +11,10 @@ export class TitleService {
 
   pageTitle = new BehaviorSubject<string | null>(null);
 
-  private mainTitle?: string;
+  private mainTitle?: string = "Bošán interní";
 
-  constructor(private title: Title, private configService: ConfigService) {
+  constructor(private title: Title) {
     this.pageTitle.subscribe(() => this.updateWindowTitle());
-    this.configService.getConfig("config.general.title").then(title => this.mainTitle = title);
   }
 
   setPageTitle(title: string | null) {
