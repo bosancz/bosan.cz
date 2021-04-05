@@ -99,13 +99,18 @@ export class MembersListComponent implements OnInit {
     this.filterForm.valueChanges!.pipe(debounceTime(250)).subscribe(this.filter$);
   }
 
-  async loadConfig() {
+
+  getAge(birthday: string): number {
+    return Math.floor((-1) * DateTime.fromISO(birthday).diffNow("years").years);
+  }
+
+  private async loadConfig() {
     const config = await this.configService.getConfig();
     this.groups = config.members.groups.filter(group => group.real);
     this.roles = config.members.roles;
   }
 
-  async loadMembers() {
+  private async loadMembers() {
 
     const members = (await this.api.get<Member[]>("members"))
       .map(member => {
@@ -126,11 +131,11 @@ export class MembersListComponent implements OnInit {
     this.members$.next(members);
   }
 
-  create() {
-    this.router.navigate(["vytvorit"], { relativeTo: this.route });
+  private create() {
+    this.router.navigate(["pridat"], { relativeTo: this.route });
   }
 
-  filterMembers(filter: MemberFilter, members: MemberWithSearchString[]) {
+  private filterMembers(filter: MemberFilter, members: MemberWithSearchString[]) {
 
     console.log(filter);
 
@@ -146,7 +151,7 @@ export class MembersListComponent implements OnInit {
     });
   }
 
-  sortMembers(members: Member[]): void {
+  private sortMembers(members: Member[]): void {
     const groupIndex = this.groups.map(group => group.id);
     const roleIndex = this.roles.map(role => role.id);
 
@@ -159,8 +164,5 @@ export class MembersListComponent implements OnInit {
     ));
   }
 
-  getAge(birthday: string): number {
-    return Math.floor((-1) * DateTime.fromISO(birthday).diffNow("years").years);
-  }
 
 }

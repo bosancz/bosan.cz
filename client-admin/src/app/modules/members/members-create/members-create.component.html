@@ -1,52 +1,52 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Přidat člena</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Přidat člena</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <div *actionMenu class="actions">
-      <button mat-button routerLink="../">Zrušit</button>
-    </div>
-  </bo-page-header>
-
-  <form #createMemberForm="ngForm" (ngSubmit)="createMember(createMemberForm)">
+<ion-content class="ion-padding">
+  <form #createMemberForm="ngForm">
     <div class="row">
-      <mat-form-field class="col-12 col-xl-4">
+      <mat-form-field class="col-12 col-xl-6">
         <mat-label>Přezdívka</mat-label>
-        <input matInput type="text" name="nickname" ngModel placeholder="Nositel prstenu">
+        <input matInput type="text" name="nickname" ngModel placeholder="Nositel prstenu" />
       </mat-form-field>
-    </div>
 
-    <div class="row" ngModelGroup="name">
-      <mat-form-field class="col-12 col-xl-2">
+      <div class="w-100"></div>
+
+      <mat-form-field class="col-12 col-xl-3">
         <mat-label>Jméno</mat-label>
-        <input matInput type="text" ngModel name="first" placeholder="Bilbo" required>
+        <input matInput type="text" ngModel name="first" placeholder="Bilbo" required />
       </mat-form-field>
-      <br>
-      <mat-form-field class="col-12 col-xl-2">
-        <mat-label>Příjmení</mat-label>
-        <input matInput type="text" ngModel name="last" placeholder="Pytlík" required>
-      </mat-form-field>
-    </div>
 
-    <div class="row">
-      <mat-form-field class="col-12 col-xl-2">
+      <mat-form-field class="col-12 col-xl-3">
+        <mat-label>Příjmení</mat-label>
+        <input matInput type="text" ngModel name="last" placeholder="Pytlík" required />
+      </mat-form-field>
+
+      <div class="w-100"></div>
+
+      <mat-form-field class="col-12 col-xl-6">
         <mat-label>Oddíl</mat-label>
         <mat-select name="group" ngModel required>
-          <mat-option *ngFor="let group of groups" [value]="group.id">{{group.name}}</mat-option>
+          <mat-option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="col-12 col-xl-2">
+
+      <div class="w-100"></div>
+
+      <mat-form-field class="col-12 col-xl-6">
         <mat-label>Role</mat-label>
         <mat-select name="role" ngModel required>
-          <mat-option *ngFor="let role of roles" [value]="role.id">{{role.id}}</mat-option>
+          <mat-option *ngFor="let role of roles" [value]="role.id">{{ role.id }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-
-    <div class="row">
-      <div class="col-12 col-xl-4">
-        <button mat-button mat-flat-button color="primary" type="submit" [disabled]="!createMemberForm.valid" class="w-100">Přidat člena</button>
-      </div>
-    </div>
-
   </form>
-</bo-page>
+</ion-content>

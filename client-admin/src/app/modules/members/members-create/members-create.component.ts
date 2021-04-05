@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
@@ -8,6 +8,7 @@ import { WebConfigGroup, WebConfigMemberRole } from 'app/schema/web-config';
 import { ConfigService } from 'app/core/services/config.service';
 
 import { Member } from 'app/schema/member';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 
 @Component({
   selector: 'members-create',
@@ -18,6 +19,15 @@ export class MembersCreateComponent implements OnInit {
 
   groups?: WebConfigGroup[];
   roles?: WebConfigMemberRole[];
+
+  actions: Action[] = [
+    {
+      "text": "Přidat",
+      handler: () => this.createMember()
+    }
+  ];
+
+  @ViewChild("createMemberForm") form!: NgForm;
 
   constructor(
     private api: ApiService,
@@ -37,9 +47,9 @@ export class MembersCreateComponent implements OnInit {
     this.roles = config.members.roles;
   }
 
-  async createMember(form: NgForm) {
+  async createMember() {
     // get data from form
-    const eventData = form.value;
+    const eventData = this.form.value;
     // create the event and wait for confirmation
     const response = await this.api.post("members", eventData);
     // get new member _id
