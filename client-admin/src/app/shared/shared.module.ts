@@ -5,7 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
 /* MODULES */
-import { MaterialModule } from './modules/material/material.module';
+import { MaterialModule } from './material.module';
 
 /* DIRECTIVES */
 import { ActionMenuDirective } from './directives/action-menu.directive';
@@ -41,6 +41,7 @@ import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { AclModule } from 'lib/acl';
 import { IonicModule } from "@ionic/angular";
+import { ActionButtonsComponent } from "./components/action-buttons/action-buttons.component";
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { IonicModule } from "@ionic/angular";
     MembersSelectComponent,
     ListSliderComponent,
     EventStatusBadgeComponent,
+    ActionButtonsComponent,
 
     CodelistEditorComponent,
     ContactsEditorComponent,
@@ -97,6 +99,7 @@ import { IonicModule } from "@ionic/angular";
     GroupsSelectComponent,
     MembersSelectComponent,
     ListSliderComponent,
+    ActionButtonsComponent,
 
     CodelistEditorComponent,
     ContactsEditorComponent,

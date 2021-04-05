@@ -28,7 +28,7 @@ import { EventExpensesTableComponent } from './components/event-expenses-table/e
 import { EventSubtypeSelectorComponent } from './components/event-subtype-selector/event-subtype-selector.component';
 import { EventTypeSelectorComponent } from './components/event-type-selector/event-type-selector.component';
 import { EventExpensesChartComponent } from './components/event-expenses-chart/event-expenses-chart.component';
-import { MaterialModule } from 'app/shared/modules/material/material.module';
+import { MaterialModule } from 'app/shared/material.module';
 
 @NgModule({
   declarations: [

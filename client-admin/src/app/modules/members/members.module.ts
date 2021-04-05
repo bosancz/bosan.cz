@@ -10,7 +10,7 @@ import { MembersListComponent } from './members-list/members-list.component';
 import { MembersViewComponent } from './members-view/members-view.component';
 import { MembersEditComponent } from './members-edit/members-edit.component';
 import { MembersCreateComponent } from './members-create/members-create.component';
-import { MaterialModule } from 'app/shared/modules/material/material.module';
+import { MaterialModule } from 'app/shared/material.module';
 
 
 @NgModule({

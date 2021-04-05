@@ -7,7 +7,7 @@ import { UsersListComponent } from './users-list/users-list.component';
 
 import { SharedModule } from 'app/shared/shared.module';
 import { UsersCreateComponent } from './users-create/users-create.component';
-import { MaterialModule } from 'app/shared/modules/material/material.module';
+import { MaterialModule } from 'app/shared/material.module';
 
 @NgModule({
   declarations: [

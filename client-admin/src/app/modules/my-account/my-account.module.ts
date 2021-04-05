@@ -12,7 +12,7 @@ import { MyAccountNotificationsComponent } from './my-account-notifications/my-a
 import { MyAccountAppComponent } from './my-account-app/my-account-app.component';
 
 import { SharedModule } from 'app/shared/shared.module';
-import { MaterialModule } from 'app/shared/modules/material/material.module';
+import { MaterialModule } from 'app/shared/material.module';
 
 @NgModule({
   declarations: [

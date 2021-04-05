@@ -9,7 +9,7 @@ import { ProgramPlanningComponent } from './views/program-planning/program-plann
 import { ProgramWorkflowComponent } from './views/program-workflow/program-workflow.component';
 import { ProgramPrintComponent } from './views/program-print/program-print.component';
 import { TrimesterSelectorComponent } from './components/trimester-selector/trimester-selector.component';
-import { MaterialModule } from 'app/shared/modules/material/material.module';
+import { MaterialModule } from 'app/shared/material.module';
 
 
 @NgModule({
