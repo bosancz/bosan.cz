@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, NgZone, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
-import Header from '@editorjs/header';
+
 import { debounceTime, filter } from 'rxjs/operators';
+import { EditorTools } from './plugins';
 import { Image } from './plugins/image';
 
 
@@ -62,10 +63,7 @@ export class TextEditorComponent implements OnInit, AfterViewInit, ControlValueA
         if (this.data) this.editor.render(this.data);
       },
 
-      tools: {
-        header: <any>Header, // TODO https://github.com/editor-js/header/issues/23
-        image: Image
-      }
+      tools: EditorTools
     });
 
   }

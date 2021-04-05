@@ -25,4 +25,18 @@
       </div>
     </div>
   </ng-container>
+
+  <ng-container *ngSwitchCase="'list'">
+    <ol *ngIf="block.data.style === 'ordered'">
+      <li *ngFor="let item of block.data.items">{{ item }}</li>
+    </ol>
+    <ul *ngIf="block.data.style === 'unordered'">
+      <li *ngFor="let item of block.data.items">{{ item }}</li>
+    </ul>
+  </ng-container>
+
+  <ng-container *ngSwitchDefault>
+    <pre>Type: {{ block.type }}</pre>
+    <pre>{{ block.data | json }}</pre>
+  </ng-container>
 </ng-container>
