@@ -13,7 +13,7 @@ type DashboardMyEventsStats = {
 };
 
 @Component({
-  selector: 'my-events',
+  selector: 'bo-dashboard-my-events',
   templateUrl: './dashboard-my-events.component.html',
   styleUrls: ['./dashboard-my-events.component.scss'],
 })

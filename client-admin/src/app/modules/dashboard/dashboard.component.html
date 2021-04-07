@@ -7,19 +7,64 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <div class="row">
-    <div class="col-lg-2 d-none d-lg-block">
+    <!-- <div class="col-lg-2 d-none d-lg-block">
       <nav *secondaryMenu class="nav nav-pills flex-column">
-        <!-- <a class="nav-link" routerLink="novinky" replaceUrl="true" routerLinkActive="active">Novinky</a> -->
+        <a class="nav-link" routerLink="novinky" replaceUrl="true" routerLinkActive="active">Novinky</a>
         <a class="nav-link" routerLink="kalendar" [replaceUrl]="true" routerLinkActive="active">Kalendář</a>
         <a class="nav-link" routerLink="moje-akce" [replaceUrl]="true" routerLinkActive="active">Moje akce</a>
         <a class="nav-link" routerLink="vest-akci" [replaceUrl]="true" routerLinkActive="active">Volné akce</a>
       </nav>
+    </div> -->
+
+    <div class="col-lg-6">
+      <h2 class="mb-3">Moje akce</h2>
+
+      <ion-list>
+        <ion-item *ngFor="let event of myEvents | slice: 0:3" [detail]="true" [routerLink]="'/akce/' + event._id">
+          <ion-label>
+            <h3>
+              <strong>{{ event.name }}</strong>
+            </h3>
+            <p>{{ event.dateFrom | date: "d. M. Y" }} ~ {{ event.dateTill | date: "d. M. Y" }}</p>
+            <p>{{ event.description }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <div class="text-center">
+        <a routerLink="moje-akce">Zobrazit všechny moje akce</a>
+      </div>
+
+      <h2 class="mb-3">Volné akce</h2>
+
+      <ion-list>
+        <ion-item *ngFor="let event of noLeaderEvents" [detail]="true" [routerLink]="'/akce/' + event._id">
+          <ion-label>
+            <h3>
+              <strong>{{ event.name }}</strong>
+            </h3>
+            <p>{{ event.dateFrom | date: "d. M. Y" }} ~ {{ event.dateTill | date: "d. M. Y" }}</p>
+            <p>{{ event.description }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
     </div>
 
-    <div class="col-lg-10">
-      <router-outlet></router-outlet>
+    <div class="col-lg-6">
+      <h2 class="mb-3">Kalendář</h2>
+      <event-calendar
+        [dateFrom]="calendarDateFrom"
+        [dateTill]="calendarDateTill"
+        [events]="calendarEvents"
+        [cpv]="true"
+        [headingLevel]="3"
+      ></event-calendar>
+
+      <div class="text-center">
+        <a routerLink="moje-akce">Zobrazit celý kalendář</a>
+      </div>
     </div>
   </div>
 </ion-content>
