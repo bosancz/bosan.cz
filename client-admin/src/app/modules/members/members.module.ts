@@ -10,7 +10,6 @@ import { MembersListComponent } from './members-list/members-list.component';
 import { MembersViewComponent } from './members-view/members-view.component';
 import { MembersEditComponent } from './members-edit/members-edit.component';
 import { MembersCreateComponent } from './members-create/members-create.component';
-import { MaterialModule } from 'app/shared/material.module';
 
 
 @NgModule({
@@ -25,7 +24,6 @@ import { MaterialModule } from 'app/shared/material.module';
     MembersRoutingModule,
 
     SharedModule,
-    MaterialModule
   ]
 })
 export class MembersModule { }

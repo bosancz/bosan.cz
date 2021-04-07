@@ -23,7 +23,6 @@ import { TextViewComponent } from './components/text-view/text-view.component';
     CommonModule,
     BlogsRoutingModule,
     SharedModule,
-    IonicModule
   ],
   providers: [
     BlogsService

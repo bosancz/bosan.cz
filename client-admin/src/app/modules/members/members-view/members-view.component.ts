@@ -34,18 +34,6 @@ export class MembersViewComponent implements OnInit, ViewWillEnter {
     }
   ];
 
-  // <button mat-button color="primary" [disabled]="!member?._links?.self?.allowed?.PATCH" routerLink="upravit">
-  //         Upravit
-  //       </button>
-  //       <button
-  //         mat-button
-  //         color="warn"
-  //         [disabled]="!member?._links?.self?.allowed?.DELETE"
-  //         (click)="deleteMember(member)"
-  //       >
-  //         Smazat
-  //       </button>
-
   constructor(
     private api: ApiService,
     private toastService: ToastService,

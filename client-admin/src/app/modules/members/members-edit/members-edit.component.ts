@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApiService } from 'app/core/services/api.service';
 import { ConfigService } from 'app/core/services/config.service';
 import { ToastService } from 'app/core/services/toast.service';
 import { Member } from 'app/schema/member';
 import { WebConfigGroup } from 'app/schema/web-config';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -21,6 +23,21 @@ export class MembersEditComponent {
   membershipTypes: string[] = [];
 
   paramsSubscription?: Subscription;
+
+  @ViewChild("memberInfoForm") form!: NgForm;
+
+  actions: Action[] = [
+    {
+      text: "Zrušit úpravy",
+      color: "danger",
+      role: "destructive",
+      handler: () => this.router.navigate(["../"], { relativeTo: this.route, replaceUrl: true })
+    },
+    {
+      text: "Uložit",
+      handler: () => this.saveMember()
+    }
+  ];
 
   constructor(
     private api: ApiService,
@@ -55,16 +72,16 @@ export class MembersEditComponent {
   }
 
 
-  async saveMember(memberData: any) {
+  async saveMember() {
 
     if (!this.member) return;
 
-    // send the list of changes or current state of member to the server
+    const memberData = this.form.value;
+
     await this.api.patch(["member", this.member._id], memberData);
 
     await this.loadMember(this.member._id);
 
-    // send a toast with OK message
     this.toastService.toast("Uloženo.");
 
     this.router.navigate(["../"], { relativeTo: this.route, replaceUrl: true });
