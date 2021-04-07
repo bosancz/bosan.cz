@@ -2,7 +2,7 @@
 
 $eventHeight: 20px;
 
-.calendar-container {
+:host {
   overflow: auto;
   width: 100%;
 }
@@ -11,14 +11,13 @@ $eventHeight: 20px;
 }
 
 .calendar {
-  min-width: 1000px;
+  // min-width: 1000px;
 
-  .month {
+  .calendar-row {
     position: relative;
     width: 100%;
     overflow: hidden;
     padding-top: 24px;
-    margin-bottom: 40px;
   }
 
   .events {
@@ -51,7 +50,7 @@ $eventHeight: 20px;
 
   .events.own {
     width: 100%;
-    height: 160px;
+    min-height: 60px;
   }
   .events.cpv {
     height: 60px;
@@ -68,13 +67,19 @@ $eventHeight: 20px;
     border-left: 1px solid #eee;
   }
 
+  .day.odd-month {
+    background-color: #f3f3f3;
+  }
   .day.weekend {
-    background-color: #eee;
+    background-color: #ddd;
     border-color: #fff;
   }
   .day.holiday {
     background-color: #ccc;
     border-color: #fff;
+    .date {
+      font-weight: bold;
+    }
   }
   .day.selected {
     background-color: #f00;
@@ -83,6 +88,7 @@ $eventHeight: 20px;
 
   .day {
     .date {
+      font-size: 0.8em;
       width: 100%;
       padding: 0 2px;
       border-bottom: 1px solid #eee;

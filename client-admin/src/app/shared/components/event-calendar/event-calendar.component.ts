@@ -11,35 +11,37 @@ import { WebConfigEventStatus } from 'app/schema/web-config';
 
 const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
 
-class CalendarMonth {
+class CalendarRow {
 
   days: CalendarDay[] = [];
 
   blocks = {
-    own: new CalendarMonthBlock<Event>(),
-    cpv: new CalendarMonthBlock<CPVEvent>()
+    own: new CalendarRowBlock<Event>(),
+    cpv: new CalendarRowBlock<CPVEvent>()
   };
 
-  name: string;
-
-  constructor(public number: number, public year: number) {
-    this.name = months[number - 1];
-
+  constructor(public from: DateTime, public to: DateTime) {
   }
 }
 
-class CalendarMonthBlock<T extends (CPVEvent | Event)> {
+class CalendarRowBlock<T extends (CPVEvent | Event)> {
   events: CalendarEvent<T>[] = [];
   levels: number = 1;
 }
 
+interface CalendarDayProperties {
+  holiday?: boolean;
+  empty?: boolean;
+  weekend?: boolean;
+  oddMonth: boolean;
+}
 class CalendarDay {
   eventCount: number = 0;
-  constructor(public date: DateTime, public isHoliday: boolean) { }
+  constructor(public date: DateTime, public properties: CalendarDayProperties) { }
 }
 
 class CalendarEvent<T extends (CPVEvent | Event)> {
-  level?: number = 0;
+  level: number = 0;
 
   dateFrom: DateTime;
   dateTill: DateTime;
@@ -57,7 +59,7 @@ class CalendarEvent<T extends (CPVEvent | Event)> {
 })
 export class EventCalendarComponent implements OnInit, OnChanges {
 
-  calendar: CalendarMonth[] = [];
+  calendar: CalendarRow[] = [];
 
   selectedDates?: [DateTime, DateTime];
 
@@ -95,6 +97,8 @@ export class EventCalendarComponent implements OnInit, OnChanges {
     }
 
     if (changes.dateFrom || changes.dateTill) {
+      this.dateFrom = this.dateFrom.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      this.dateTill = this.dateTill.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
       this.createCalendar();
       if (this.events) this.assignEvents(this.events, "own");
       if (this.eventsCPV) this.assignEvents(this.eventsCPV, "cpv");
@@ -113,23 +117,33 @@ export class EventCalendarComponent implements OnInit, OnChanges {
   createCalendar() {
 
     let currentDate = this.dateFrom;
-    let month = new CalendarMonth(currentDate.month, currentDate.year);
+    if (currentDate.weekday > 1) currentDate = currentDate.minus({ days: currentDate.weekday - 1 });
+
+    let dateTill = this.dateTill;
+    if (dateTill.weekday < 7) dateTill = dateTill.plus({ days: 7 - dateTill.weekday });
+
     let holidays = CzechHolidays(currentDate.year);
 
-    const calendar = [month];
+    let row = new CalendarRow(currentDate, currentDate.plus({ days: 6 }));
+    const calendar = [row];
 
-    while (currentDate <= this.dateTill) {
+    while (currentDate <= dateTill) {
 
-      if (currentDate.month !== month.number) {
-        month = new CalendarMonth(currentDate.month, currentDate.year);
-        calendar.push(month);
+      if (currentDate > row.to) {
+        row = new CalendarRow(currentDate, currentDate.plus({ days: 6 }));
+        calendar.push(row);
       }
 
-      if (currentDate.year !== month.year) holidays = CzechHolidays(currentDate.year);
+      if (currentDate.year !== row.to.year) holidays.push(...CzechHolidays(row.to.year));
 
-      const isHoliday = holidays.some(date => date.m === currentDate.month && date.d === currentDate.day);
+      const dayInfo = {
+        empty: currentDate < this.dateFrom || currentDate > this.dateTill,
+        holiday: this.isHoliday(currentDate),
+        weekend: this.isWeekend(currentDate),
+        oddMonth: (currentDate.month - this.dateFrom.month) % 2 === 0
+      };
 
-      month.days.push(new CalendarDay(currentDate, isHoliday));
+      row.days.push(new CalendarDay(currentDate, dayInfo));
 
       currentDate = currentDate.plus({ days: 1 });
     }
@@ -154,47 +168,45 @@ export class EventCalendarComponent implements OnInit, OnChanges {
     if (!this.calendar) return;
     if (!events) return;
 
-    this.calendar.forEach(month => {
+    this.calendar.forEach(row => {
 
       // get the monthBlock to which we assign
-      const monthBlock = month.blocks[type];
+      const rowBlock = row.blocks[type];
 
       // assign events based on first and last day, convert to CalendarEvent
-      const monthStart = month.days[0].date;
-      const monthEnd = month.days[month.days.length - 1].date;
-      monthBlock.events = events
+      rowBlock.events = events
         .map(event => new CalendarEvent(event))
-        .filter(event => event.dateTill >= monthStart && event.dateFrom <= monthEnd);
+        .filter(event => event.dateTill >= row.from && event.dateFrom <= row.to);
 
-      monthBlock.events.sort((a, b) => a.dateFrom.diff(b.dateFrom).valueOf());
+      rowBlock.events.sort((a, b) => a.dateFrom.diff(b.dateFrom).valueOf());
 
-      const eventCounts = month.days.map(() => 0);
+      const eventCounts = Array(7).fill(0);
 
-      monthBlock.events.forEach(event => {
+      rowBlock.events.forEach(event => {
 
         for (let date = event.dateFrom; date <= event.dateTill; date = date.plus({ days: 1 })) {
 
-          if (date.month === month.number) {
-            event.level = Math.max(event.level || 0, eventCounts[date.day - 1]);
-            eventCounts[date.day - 1] = event.level + 1;
+          if (date >= row.from && date <= row.to) {
+            event.level = Math.max(event.level, eventCounts[date.weekday - 1] + 1);
+            eventCounts[date.weekday - 1] = event.level;
           }
         }
 
       });
 
-      monthBlock.levels = Math.max(...eventCounts);
+      rowBlock.levels = Math.max(...eventCounts);
     });
 
 
 
   }
 
-  isWeekend(day: CalendarDay): boolean {
-    return day.date.weekday >= 6;
+  private isWeekend(date: DateTime): boolean {
+    return date.weekday >= 6;
   }
 
-  isHoliday(year: number, day: CalendarDay): boolean {
-    return CzechHolidays(year).some(date => date.m === day.date.month && date.d === day.date.day);
+  private isHoliday(date: DateTime): boolean {
+    return CzechHolidays(date.year).some(item => item.m === date.month && item.d === date.day);
   }
 
   isSelected(day: CalendarDay) {
@@ -215,11 +227,11 @@ export class EventCalendarComponent implements OnInit, OnChanges {
     this.select.emit(this.selectedDates);
   }
 
-  getEventLeft(event: CalendarEvent<CPVEvent | Event>, month: CalendarMonth) {
-    return event.dateFrom.diff(month.days[0].date, "days").days / month.days.length;
+  getEventLeft(event: CalendarEvent<CPVEvent | Event>, row: CalendarRow) {
+    return event.dateFrom.diff(row.days[0].date, "days").days / row.days.length;
   }
 
-  getEventWidth(event: CalendarEvent<CPVEvent | Event>, month: CalendarMonth) {
+  getEventWidth(event: CalendarEvent<CPVEvent | Event>, month: CalendarRow) {
     return (event.dateTill.diff(event.dateFrom, "days").days + 1) / month.days.length;
   }
 
