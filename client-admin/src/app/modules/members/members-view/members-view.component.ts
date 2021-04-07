@@ -23,6 +23,7 @@ export class MembersViewComponent implements OnInit, ViewWillEnter {
     {
       text: "Upravit",
       pinned: true,
+      icon: "create-outline",
       handler: () => this.router.navigate(["upravit"], { relativeTo: this.route })
     },
     {
