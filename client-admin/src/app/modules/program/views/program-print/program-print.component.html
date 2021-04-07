@@ -1,15 +1,20 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Tisk programu</h2>
-  </bo-page-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Tisk programu</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content class="ion-padding">
   <div class="row">
     <div class="col-lg-3 col-xl-2">
       <bo-trimester-selector [(ngModel)]="dateRange"></bo-trimester-selector>
     </div>
 
     <div class="col-lg-9 col-xl-10 px-lg-5">
-      <button mat-flat-button color="primary" (click)="exportProgram()">Stáhnout program ve formátu MS Word</button>
+      <ion-button (click)="exportProgram()">Stáhnout program ve formátu MS Word</ion-button>
     </div>
   </div>
-</bo-page>
+</ion-content>

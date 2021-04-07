@@ -1,6 +1,13 @@
-<bo-page>
-  <h2 pageTitle class="d-none">Plánování akcí</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Plánování akcí</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content class="ion-padding">
   <div class="row">
     <div class="col-lg-3 col-xl-2">
       <bo-trimester-selector
@@ -9,16 +16,16 @@
       ></bo-trimester-selector>
 
       <div class="legend d-none d-lg-block">
-        <mat-list>
-          <mat-list-item *ngFor="let status of statuses">
-            <span [ngClass]="'text-' + status.class">
-              <i class="fas fa-circle mr-2"></i>{{ status.name || status.id }}
-            </span>
-          </mat-list-item>
-          <mat-list-item class="text-dark">
-            <span class="text-dark"><i class="fas fa-circle mr-2"></i>ČPV</span>
-          </mat-list-item>
-        </mat-list>
+        <ion-list lines="none">
+          <ion-item *ngFor="let status of statuses">
+            <ion-label [ngClass]="'text-' + status.class">
+              <ion-icon name="ellipse"></ion-icon>&nbsp;{{ status.name || status.id }}
+            </ion-label>
+          </ion-item>
+          <ion-item class="text-dark">
+            <ion-label class="text-dark"><ion-icon name="ellipse"></ion-icon>&nbsp;ČPV</ion-label>
+          </ion-item>
+        </ion-list>
       </div>
     </div>
 
@@ -34,4 +41,4 @@
       ></event-calendar>
     </div>
   </div>
-</bo-page>
+</ion-content>
