@@ -1,42 +1,33 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Uživatelské účty</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Uživatelské účty</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
-      <mat-icon>filter_list</mat-icon>
-    </button>
-
-    <div *actionMenu class="actions">
-      <button mat-button color="primary" routerLink="vytvorit">Nový uživatel</button>
+<form #filterForm="ngForm" class="filter d-md-block px-3" [class.d-none]="!showFilter">
+  <div class="row">
+    <div class="col">
+      <ion-searchbar type="text" name="search" ngModel (keydown.enter)="$event.preventDefault()"></ion-searchbar>
     </div>
-  </bo-page-header>
 
-  <form #filterForm="ngForm" class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
-    <div class="row">
-      <mat-form-field class="col">
-        <mat-label>Hledat</mat-label>
-        <input
-          matInput
-          type="text"
-          [ngModel]="search$ | async"
-          (ngModelChange)="search$.next($event)"
-          name="search"
-          (keydown.enter)="$event.preventDefault()"
-        />
-        <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-
-      <mat-form-field class="col-12 col-md col-xl-2">
-        <mat-label>Role</mat-label>
-        <mat-select multiple name="role" ngModel>
-          <mat-option *ngFor="let role of roles" [value]="role.id">{{ role.title }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="col-12 col-md col-xl-2">
+      <ion-item lines="none">
+        <ion-label position="floating">Role</ion-label>
+        <ion-select multiple name="role" ngModel placeholder="všechny">
+          <ion-select-option *ngFor="let role of roles" [value]="role.id">{{ role.title }}</ion-select-option>
+        </ion-select>
+      </ion-item>
     </div>
-  </form>
+  </div>
+</form>
 
+<ion-content>
   <admin-table>
     <thead>
       <tr>
@@ -47,13 +38,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of filteredUsers$ | async" [routerLink]="user._id">
+      <tr *ngFor="let user of filteredUsers" [routerLink]="user._id">
         <td>{{ user.login }}</td>
         <td>{{ user.email || "-" }}</td>
         <td>
-          <ng-container *ngIf="user.member"
-            >{{ user.member.nickname }} ({{ user.member.name?.first }} {{ user.member.name?.last }})</ng-container
-          >
+          <ng-container *ngIf="user.member">
+            {{ user.member.nickname }} ({{ user.member.name?.first }} {{ user.member.name?.last }})
+          </ng-container>
           <ng-container *ngIf="!user.member">-</ng-container>
         </td>
         <td>
@@ -62,4 +53,4 @@
       </tr>
     </tbody>
   </admin-table>
-</bo-page>
+</ion-content>

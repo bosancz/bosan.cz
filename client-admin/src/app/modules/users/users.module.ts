@@ -8,12 +8,14 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { UsersCreateComponent } from './users-create/users-create.component';
 import { MaterialModule } from 'app/shared/material.module';
+import { UsersEditComponent } from './users-edit/users-edit.component';
 
 @NgModule({
   declarations: [
     UsersViewComponent,
     UsersListComponent,
-    UsersCreateComponent
+    UsersCreateComponent,
+    UsersEditComponent
   ],
   imports: [
     CommonModule,

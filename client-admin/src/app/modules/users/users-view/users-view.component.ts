@@ -1,23 +1,27 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { userRoles } from 'app/config/user-roles';
 import { ApiService } from 'app/core/services/api.service';
 import { LoginService } from 'app/core/services/login.service';
 import { ToastService } from "app/core/services/toast.service";
 import { Member } from "app/schema/member";
 import { User } from "app/schema/user";
-import { userRoles } from 'app/config/user-roles';
-import { Subscription } from "rxjs";
+import { UserRole } from 'app/schema/user-role';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 
-
+@UntilDestroy()
 @Component({
   selector: 'users-view',
   templateUrl: './users-view.component.html',
   styleUrls: ['./users-view.component.scss']
 })
-export class UsersViewComponent implements OnInit, OnDestroy {
+export class UsersViewComponent implements OnInit {
 
   user?: User;
+
+  userRoles?: UserRole[];
 
   roles = userRoles
     .filter(item => item.assignable)
@@ -25,11 +29,7 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   members: Member[] = [];
 
-  category: string = "ucet";
-
-  deleteConfirmation: boolean = false;
-
-  paramsSubscription?: Subscription;
+  actions: Action[] = [];
 
   constructor(
     private api: ApiService,
@@ -41,29 +41,21 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.paramsSubscription = this.route.params.subscribe((params: Params) => {
-
-      if (params.user && (!this.user || this.user._id !== params.user)) this.loadUser(params.user);
-
-      this.category = params.cat;
-
-    });
+    this.route.params
+      .pipe(untilDestroyed(this))
+      .subscribe((params: Params) => {
+        if (params.user) this.loadUser(params.user);
+      });
 
     this.loadMembers();
-  }
-
-  ngOnDestroy() {
-    this.paramsSubscription?.unsubscribe();
   }
 
   // DB interaction
   async loadUser(userId: string) {
     this.user = await this.api.get<User>(["user", userId]);
-    this.updateRoles(this.user);
-  }
+    this.userRoles = userRoles.filter(item => this.user?.roles.indexOf(item.id) !== -1);
 
-  updateRoles(user: User): void {
-    this.roles.forEach(role => role.active = (user.roles.indexOf(role.name) !== -1));
+    this.actions = this.getActions(this.user);
   }
 
   async loadMembers() {
@@ -72,19 +64,19 @@ export class UsersViewComponent implements OnInit, OnDestroy {
     this.members = members;
   }
 
-  async saveUser(userForm: NgForm) {
+  async setPassword() {
 
     if (!this.user) return;
 
-    const userData = userForm.value;
+    const password = window.prompt("Zadej nové heslo:");
 
-    userData.roles = this.roles.filter(role => role.active).map(role => role.name);
+    if (!password) return;
 
-    await this.api.patch(["user", this.user._id], userData);
+    await this.api.patch(["user", this.user._id], { password });
 
-    this.toastService.toast("Uloženo.");
+    this.toastService.toast("Heslo nastaveno.");
+
   }
-
   async deleteUser() {
 
     if (!this.user) return;
@@ -100,9 +92,7 @@ export class UsersViewComponent implements OnInit, OnDestroy {
     this.router.navigate(["../../"], { relativeTo: this.route });
   }
 
-  async impersonateUser(event: Event, user: User): Promise<void> {
-
-    event.stopPropagation();
+  async impersonateUser(user: User): Promise<void> {
 
     await this.loginService.loginImpersonate(user._id);
 
@@ -112,6 +102,35 @@ export class UsersViewComponent implements OnInit, OnDestroy {
 
   hasRole(name: string) {
     return this.roles.some(role => role.name === name && role.active === true);
+  }
+
+  private getActions(user: User): Action[] {
+    return [
+      {
+        text: "Upravit",
+        icon: "create-outline",
+        pinned: true,
+        handler: () => this.router.navigate(["upravit"], { relativeTo: this.route })
+      },
+      {
+        text: "Přihlásit se jako " + user.login,
+        icon: "log-in-outline",
+        handler: () => this.impersonateUser(user)
+      },
+      {
+        text: "Nastavit heslo",
+        icon: "key-outline",
+        handler: () => this.setPassword()
+      },
+      {
+        text: "Smazat uživatele",
+        role: "destructive",
+        color: "danger",
+        icon: "trash-outline",
+        disabled: !user._links.self.allowed.DELETE,
+        handler: () => this.deleteUser()
+      }
+    ];
   }
 
 };
