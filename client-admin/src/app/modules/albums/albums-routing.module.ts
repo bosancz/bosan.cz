@@ -9,6 +9,7 @@ import { AlbumsEditPhotosComponent } from './views/albums-edit/albums-edit-photo
 import { AlbumsEditMetadataComponent } from './views/albums-edit/albums-edit-metadata/albums-edit-metadata.component';
 import { AlbumsEditUploadComponent } from './views/albums-edit/albums-edit-upload/albums-edit-upload.component';
 import { AlbumsCreateComponent } from './views/albums-create/albums-create.component';
+import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
 
 const routes: Routes = [
 
@@ -25,7 +26,7 @@ const routes: Routes = [
     ]
   },
 
-  { path: ':album', redirectTo: ":album/upravit", pathMatch: "full" },
+  { path: ':album', component: AlbumsViewComponent },
 
   { path: '', component: AlbumsListComponent },
 

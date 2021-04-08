@@ -18,6 +18,7 @@ export class AlbumsService {
   async loadAlbum(albumId: Album["_id"]) {
     const album = await this.api.get<Album<Photo, string>>(["album", albumId], { photos: 1 });
     this.album$.next(album);
+    return album;
   }
 
   async saveAlbum(albumId: Album["_id"], data: Partial<Album<any>>) {

@@ -21,6 +21,8 @@ import { AlbumsEditUploadComponent } from './views/albums-edit/albums-edit-uploa
 import { AlbumsEditPhotoComponent } from './views/albums-edit/albums-edit-photo/albums-edit-photo.component';
 import { PhotoFaceEditComponent } from './components/photo-face-edit/photo-face-edit.component';
 import { MaterialModule } from 'app/shared/material.module';
+import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
+import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { MaterialModule } from 'app/shared/material.module';
 
     AlbumsEditPhotoComponent,
     PhotoFaceEditComponent,
+    AlbumsViewComponent,
+    PhotoGalleryComponent,
   ],
   imports: [
     CommonModule,
