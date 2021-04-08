@@ -15,7 +15,6 @@ import { MaterialModule } from 'app/shared/material.module';
 import { SharedModule } from 'app/shared/shared.module';
 /* ENVIRONMENT */
 import { environment } from 'environments/environment';
-import { version } from "../../../package.json";
 /* COMPONENTS */
 import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
 import { LoginComponent } from './components/login/login.component';
@@ -25,12 +24,6 @@ import { WithCredentialsInterceptor } from "./http-interceptors/with-credentials
 
 
 /* STARUP SCRIPTS */
-console.log("Bošán interní sekce", {
-  version,
-  environment: (environment.production ? "production" : "development"),
-  locale: "cs"
-});
-
 registerLocaleData(localeCs, 'cs');
 
 

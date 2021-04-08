@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SwUpdate } from '@angular/service-worker';
-import { Platform } from '@ionic/angular';
+import * as packageJson from "app/../../package.json";
 import { permissions } from "app/config/permissions";
 import { LoginService } from 'app/core/services/login.service';
-import { MenuService } from 'app/core/services/menu.service';
-import { OnlineService } from 'app/core/services/online.service';
 import { UserService } from 'app/core/services/user.service';
 import { AclService } from 'lib/acl';
-
+import { map } from 'rxjs/operators';
+import { ConfigService } from './core/services/config.service';
 
 @Component({
   selector: 'bo-app',
@@ -17,11 +15,15 @@ import { AclService } from 'lib/acl';
 })
 export class AppComponent implements OnInit {
 
+  environment$ = this.configService.config.pipe(map(config => config.general && config.general.environment));
+
+  version = packageJson.version;
+
   constructor(
     private userService: UserService,
     private aclService: AclService,
     private loginService: LoginService,
-
+    private configService: ConfigService,
     private router: Router,
     private route: ActivatedRoute
   ) {

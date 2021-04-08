@@ -1,16 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      <img src="assets/img/san_logo_barva.png" class="d-inline logo-small mr-3" />
-      Interní sekce
-      <span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{ environment }}</span>
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-list>
   <ion-item *aclCan="'admin:dashboard'" [detail]="true" routerLink="prehled" routerLinkActive="active" class="nav-item">
     <ion-label>Přehled</ion-label>

@@ -1,7 +1,24 @@
 <ion-app>
   <ion-split-pane contentId="content">
     <ion-menu contentId="content">
-      <admin-menu></admin-menu>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+          </ion-buttons>
+          <ion-title>
+            <img src="assets/img/san_logo_barva.png" class="d-inline logo-small mr-3" />
+            Interní sekce
+            <span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{ environment }}</span>
+          </ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <admin-menu></admin-menu>
+      </ion-content>
+
+      <div class="version text-center text-muted small pb-1">Verze {{ version }}</div>
     </ion-menu>
 
     <ion-router-outlet [animated]="false" id="content"></ion-router-outlet>
