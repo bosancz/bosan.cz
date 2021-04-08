@@ -9,7 +9,7 @@ import { ApiService } from 'app/core/services/api.service';
 })
 export class EventsService {
 
-  event$ = new BehaviorSubject<Event | null>(null);
+  event$ = new BehaviorSubject<Event | undefined>(undefined);
 
   constructor(private api: ApiService) { }
 
@@ -25,6 +25,10 @@ export class EventsService {
 
     return event;
 
+  }
+
+  async deleteEvent(eventId: string) {
+    await this.api.delete(["event", eventId]);
   }
 
 }

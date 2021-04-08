@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/akce"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>{{ event?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="event" class="ion-padding" [ngSwitch]="view">
+  <div *ngIf="eventStatus" class="status text-center mb-3">
+    <ion-chip [color]="eventStatus.color">
+      <ion-label>
+        <strong>Stav akce:</strong> {{ eventStatus.name }}
+        <ng-container *ngIf="event.statusNote">| <strong>Poznámka:</strong> {{ event.statusNote }}</ng-container>
+      </ion-label>
+    </ion-chip>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <event-card *ngSwitchCase="'event'" [event]="event" [actions]="false"></event-card>
+    </div>
+    <div class="col-lg-6 stats">
+      <span class="number">{{ event?.attendees?.length || 0 }}</span>
+    </div>
+  </div>
+</ion-content>

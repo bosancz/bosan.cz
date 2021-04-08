@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from "@angular/forms";
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from "app/core/services/api.service";
 import { ConfigService } from 'app/core/services/config.service';
 import { Event } from "app/schema/event";
 import { WebConfigEventStatus } from 'app/schema/web-config';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { DateTime } from 'luxon';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
@@ -35,9 +37,24 @@ export class EventsListComponent implements OnInit {
 
   search$ = new BehaviorSubject<string>("");
 
+  actions: Action[] = [
+    {
+      icon: "search-outline",
+      pinned: true,
+      handler: () => this.showFilter = !this.showFilter
+    },
+    {
+      icon: "add-outline",
+      pinned: true,
+      handler: () => this.createEvent()
+    }
+  ];
+
   constructor(
     private api: ApiService,
     private configService: ConfigService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
 
     api.resources
@@ -106,7 +123,11 @@ export class EventsListComponent implements OnInit {
 
   }
 
-  filterEvents(events: EventWithSearchString[], search: string) {
+  createEvent() {
+    this.router.navigate(["vytvorit"], { relativeTo: this.route });
+  }
+
+  private filterEvents(events: EventWithSearchString[], search: string) {
 
     if (!search) return events;
 

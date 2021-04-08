@@ -1,4 +1,6 @@
+import { EventStatuses } from "app/config/statuses";
 import { Document } from "./api";
+import { EventStatus } from "./event-status";
 import { Member } from "./member";
 
 export interface EventExpense {
@@ -11,7 +13,7 @@ export interface EventExpense {
 export interface Event extends Document {
 
   _id: string;
-  status: string;
+  status: EventStatus["id"];
   statusNote: string;
 
   name: string;

@@ -1,30 +1,62 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Params, ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from 'app/core/services/api.service';
+import { ToastService } from 'app/core/services/toast.service';
+import { Event } from 'app/schema/event';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { EventsService } from '../../services/events.service';
+
+
 
 @Component({
   selector: 'event-edit',
   templateUrl: './event-edit.component.html',
   styleUrls: ['./event-edit.component.scss']
 })
-export class EventEditComponent implements OnInit, OnDestroy {
+export class EventEditComponent implements OnInit {
 
-  event$ = this.eventsService.event$;
+  event?: Event;
 
-  paramsSubscription = this.route.params
-    .pipe(map((params: Params) => params.event))
-    .subscribe(eventId => this.eventsService.loadEvent(eventId));
+  actions: Action[] = [
+    {
+      text: "Uložit",
+      handler: () => this.saveEvent()
+    }
+  ];
 
-  constructor(private eventsService: EventsService, private route: ActivatedRoute) { }
+  @ViewChild("eventForm") form!: NgForm;
+
+  constructor(
+    private eventsService: EventsService,
+    private api: ApiService,
+    private toastService: ToastService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    this.eventsService.event$
+      .subscribe(event => {
+        this.event = event;
+        if (this.event && !this.event.meeting) this.event.meeting = {};
+      });
+
+    this.route.params.subscribe(params => {
+      this.eventsService.loadEvent(params["event"]);
+    });
   }
 
+  async saveEvent() {
 
-  ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+    if (!this.event) return;
+
+    const eventData = this.form.value;
+
+    await this.api.patch<Event>(["event", this.event._id], eventData);
+    this.toastService.toast("Uloženo.");
+
+    this.router.navigate(["../info"], { relativeTo: this.route, replaceUrl: true });
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ApiService } from 'app/core/services/api.service';
@@ -6,6 +6,7 @@ import { ToastService } from 'app/core/services/toast.service';
 
 import { Event } from 'app/schema/event';
 import { NgForm } from '@angular/forms';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 
 @Component({
   selector: 'events-create',
@@ -13,6 +14,15 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./events-create.component.scss']
 })
 export class EventsCreateComponent implements OnInit {
+
+  actions: Action[] = [
+    {
+      text: "Vytvořit",
+      handler: () => this.createEvent()
+    }
+  ];
+
+  @ViewChild("createEventForm") form!: NgForm;
 
   constructor(
     private api: ApiService,
@@ -23,9 +33,15 @@ export class EventsCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  async createEvent(form: NgForm) {
+  async createEvent() {
+
+    if (!this.form.valid) {
+      this.toastService.toast("Akci nelze vytvořit, ve formuláři jsou chyby.");
+      return;
+    }
+
     // get data from form
-    let eventData = form.value;
+    let eventData = this.form.value;
     // create the event and wait for confirmation
     let response = await this.api.post("events", eventData);
     // get the event id

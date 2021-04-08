@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { DateTime } from "luxon";
-
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { EventStatuses } from "app/config/statuses";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
-
 import { Event } from "app/schema/event";
-import { map } from 'rxjs/operators';
+import { EventStatus } from 'app/schema/event-status';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { filter } from 'rxjs/operators';
 import { EventsService } from '../../services/events.service';
 
+
+@UntilDestroy()
 @Component({
   selector: 'bo-events-view',
   templateUrl: './events-view.component.html',
@@ -16,54 +19,38 @@ import { EventsService } from '../../services/events.service';
 })
 export class EventsViewComponent implements OnInit {
 
-  event$ = this.eventsService.event$;
+  event?: Event;
+  eventStatus?: EventStatus;
 
-  days$ = this.event$.pipe(map(event => event ? DateTime.fromISO(event.dateTill).diff(DateTime.fromISO(event.dateFrom), "days").days + 1 : 0));
+  actions: Action[] = [];
 
-  paramsSubscription = this.route.params
-    .pipe(map((params: Params) => params.event))
-    .subscribe(eventId => this.eventsService.loadEvent(eventId));
+  view: "event" | "attendees" | "accounting" | "registration" | "report" = "event";
+
+  statuses = EventStatuses;
 
   constructor(
-    private api: ApiService,
-    private router: Router,
     private route: ActivatedRoute,
-    private toastService: ToastService,
     private eventsService: EventsService
   ) { }
 
   ngOnInit() {
+    this.route.params
+      .pipe(untilDestroyed(this))
+      .subscribe((params: Params) => {
+        this.loadEvent(params.event);
+      });
+
+    this.eventsService.event$
+      .pipe(filter(event => !!event))
+      .subscribe(event => this.updateEvent(event!));
   }
 
-  ngOnDestroy() {
-    this.paramsSubscription.unsubscribe();
+  async loadEvent(eventId: string) {
+    await this.eventsService.loadEvent(eventId);
   }
-
-  async deleteEvent(event: Event) {
-    if (window.confirm("Opravdu chcete smazat tuto akci?")) {
-
-      await this.api.delete(["event", event._id]);
-
-      this.router.navigate(["../"], { relativeTo: this.route });
-      this.toastService.toast("Akce smazána");
-    }
-  }
-
-  async eventAction(event: Event, action: string) {
-
-    if (!event._actions?.[action].allowed) {
-      this.toastService.toast("K této akci nemáš oprávnění.");
-      return;
-    }
-
-    const note = window.prompt("Poznámka ke změně stavu (můžeš nechat prázdné):");
-    if (note === null) return;
-
-    await this.api.post(event._actions[action], { note: note || undefined });
-
-    this.eventsService.loadEvent(event._id);
-
-    this.toastService.toast("Uloženo");
+  async updateEvent(event: Event) {
+    this.event = event;
+    this.eventStatus = EventStatuses[event.status];
   }
 
 }

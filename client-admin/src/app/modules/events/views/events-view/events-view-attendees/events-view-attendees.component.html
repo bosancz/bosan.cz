@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/akce"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Účastníci: {{ (event | async)?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngFor="let member of (event | async)?.attendees">
+    <ion-label>{{ member.nickname }}&nbsp;</ion-label>
+    <ion-badge mode="ios" [style.background-color]="member.group | group: 'color'">
+      {{ member.group }}
+    </ion-badge>
+  </ion-item>
+</ion-content>
