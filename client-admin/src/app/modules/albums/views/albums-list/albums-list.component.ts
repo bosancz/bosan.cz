@@ -1,14 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Observable, BehaviorSubject, combineLatest, Subject } from "rxjs";
-import { debounceTime, map } from 'rxjs/operators';
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ApiService } from 'app/core/services/api.service';
+import { Album } from "app/schema/album";
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { transliterate } from 'inflected';
+import { BehaviorSubject } from "rxjs";
+import { debounceTime } from 'rxjs/operators';
 
-import { Album, Photo } from "app/schema/album";
 
-type AlbumWithSearchString<T = Photo> = Album<T> & { searchString: string; };
 
+@UntilDestroy()
 @Component({
   selector: 'albums-list',
   templateUrl: './albums-list.component.html',
@@ -16,11 +18,10 @@ type AlbumWithSearchString<T = Photo> = Album<T> & { searchString: string; };
 })
 export class AlbumsListComponent implements OnInit {
 
-  years: number[] = [];
-  currentYear?: number;
+  albums: Album[] = [];
+  filteredAlbums: Album[] = [];
 
-  albums$ = new Subject<AlbumWithSearchString[]>();
-  filteredAlbums$: Observable<Album[]>;
+  searchIndex: string[] = [];
 
   statuses = [
     { id: "public", name: "zveřejněná" },
@@ -29,74 +30,66 @@ export class AlbumsListComponent implements OnInit {
 
   statusesIndex = this.statuses.reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string; });
 
-  showFilter = false;
+  loadingArray = Array(5).fill(null);
 
-  loading: boolean = false;
+  actions: Action[] = [
+    {
+      text: "Nové",
+      handler: () => this.router.navigate(["vytvorit"], { relativeTo: this.route })
+    }
+  ];
 
-  @ViewChild('filterForm', { static: true }) filterForm!: NgForm;
-
-  search$ = new BehaviorSubject<string>("");
+  searchString = new BehaviorSubject<string>("");
 
   constructor(
     private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
-
-    this.filteredAlbums$ = combineLatest([this.albums$, this.search$.pipe(debounceTime(250))])
-      .pipe(map(([events, search]) => this.filterAlbums(events, search)));
 
   }
 
   ngOnInit() {
-    this.loadYears();
+    this.loadAlbums();
+
+    this.searchString
+      .pipe(untilDestroyed(this))
+      .pipe(debounceTime(250))
+      .subscribe(searchString => {
+        this.filteredAlbums = this.filterAlbums(this.albums, searchString);
+      });
   }
 
-  ngAfterViewInit() {
-    this.filterForm.valueChanges!.subscribe(filter => {
-      this.loadAlbums(filter);
+
+  async loadAlbums() {
+
+    this.albums = [];
+
+    const albums = await this.api.get<Album[]>("albums");
+
+    albums.sort((a, b) => {
+      return a?.status.localeCompare(b.status)
+        || b.dateFrom?.localeCompare(a.dateFrom)
+        || 0;
     });
-  }
 
-  async loadYears() {
-    this.years = await this.api.get<number[]>("albums:years");
-    this.years.sort((a, b) => b - a);
-    this.currentYear = this.years[0];
-  }
-
-  async loadAlbums(filter: any) {
-
-    if (!filter.year) return;
-
-    this.loading = true;
-
-    const options: any = {
-      sort: "dateFrom",
-      filter: {
-        dateFrom: { $gte: filter.year + "-01-01", $lte: filter.year + "-12-31" }
-      }
-    };
-
-    if (filter.status) options.filter.status = filter.status;
-
-    const albums = await this.api.get<Album[]>("albums", options);
-
-    this.albums$.next(albums.map(album => {
-      const searchString = [
-        album.name
+    this.searchIndex = albums.map(album => {
+      return [
+        transliterate(album.name)
       ].filter(item => !!item).join(" ");
+    });
 
-      return { ...album, searchString };
-    }));
-
-    this.loading = false;
+    this.albums = albums;
+    this.filteredAlbums = this.filterAlbums(this.albums, this.searchString.value);
   }
 
-  filterAlbums(events: AlbumWithSearchString[], search: string) {
+  filterAlbums(albums: Album[], searchString: string) {
 
-    if (!search) return events;
+    if (!searchString) return albums;
 
-    const search_re = new RegExp("(^| )" + search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
+    const search_re = new RegExp("(^| )" + transliterate(searchString).replace(/[^a-zA-Z0-9]/g, ""), "i");
 
-    return events.filter(event => search_re.test(event.searchString));
+    return albums.filter((event, i) => search_re.test(this.searchIndex[i]));
   }
 
 }

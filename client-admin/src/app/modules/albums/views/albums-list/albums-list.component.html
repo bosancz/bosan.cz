@@ -1,50 +1,26 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Galerie</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Galerie</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
-      <mat-icon>filter_list</mat-icon>
-    </button>
+<div class="filter">
+  <ion-searchbar
+    matInput
+    type="text"
+    [ngModel]="searchString | async"
+    (ngModelChange)="searchString.next($event)"
+    (keydown.enter)="$event.preventDefault()"
+  ></ion-searchbar>
+</div>
 
-    <div class="actions" *actionMenu>
-      <button mat-button color="primary" routerLink="vytvorit">Nové album</button>
-    </div>
-  </bo-page-header>
-
-  <form #filterForm="ngForm" class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
-    <div class="row">
-      <mat-form-field class="col">
-        <mat-label>Hledat</mat-label>
-        <input
-          matInput
-          type="text"
-          [ngModel]="search$ | async"
-          (ngModelChange)="search$.next($event)"
-          [ngModelOptions]="{ standalone: true }"
-          (keydown.enter)="$event.preventDefault()"
-        />
-        <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-
-      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-1">
-        <mat-label>Rok</mat-label>
-        <mat-select name="year" [ngModel]="currentYear">
-          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-2">
-        <mat-label>Stav</mat-label>
-        <mat-select name="status" ngModel>
-          <mat-option>Všechny</mat-option>
-          <mat-option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </form>
-
+<ion-content>
   <admin-table>
     <thead>
       <tr>
@@ -55,14 +31,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let album of filteredAlbums$ | async" [routerLink]="album._id">
+      <tr *ngFor="let album of filteredAlbums" [routerLink]="album._id">
         <td>{{ album.name }}</td>
         <td class="date">{{ album.dateFrom | date: "d. M. y" }} - {{ album.dateTill | date: "d. M. y" }}</td>
         <td>{{ statusesIndex[album.status] || "N/A" }}</td>
         <td>{{ album.datePublished | date: "d. M. y" }}</td>
       </tr>
+
+      <ng-container *ngIf="!albums?.length">
+        <tr *ngFor="let item of loadingArray">
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated style="width: 40%"></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+        </tr>
+      </ng-container>
     </tbody>
   </admin-table>
-
-  <p *ngIf="loading">Načítám...</p>
-</bo-page>
+</ion-content>
