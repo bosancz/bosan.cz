@@ -10,23 +10,24 @@ import { AlbumsEditMetadataComponent } from './views/albums-edit/albums-edit-met
 import { AlbumsEditUploadComponent } from './views/albums-edit/albums-edit-upload/albums-edit-upload.component';
 import { AlbumsCreateComponent } from './views/albums-create/albums-create.component';
 import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
+import { AlbumsViewInfoComponent } from './views/albums-view/albums-view-info/albums-view-info.component';
+import { AlbumsViewPhotosComponent } from './views/albums-view/albums-view-photos/albums-view-photos.component';
 
 const routes: Routes = [
 
   { path: 'vytvorit', component: AlbumsCreateComponent },
 
+  { path: ':album/upravit', component: AlbumsEditComponent, },
+
   {
-    path: ':album/upravit', component: AlbumsEditComponent,
+    path: ':album',
+    component: AlbumsViewComponent,
     children: [
-      { path: 'fotky/:photo', component: AlbumsEditPhotoComponent },
-      { path: 'fotky', component: AlbumsEditPhotosComponent },
-      { path: 'info', component: AlbumsEditMetadataComponent },
-      { path: 'nahrat', component: AlbumsEditUploadComponent },
-      { path: '', redirectTo: "fotky", pathMatch: "full" }
+      { path: "info", component: AlbumsViewInfoComponent },
+      { path: "fotky", component: AlbumsViewPhotosComponent },
+      { path: "", pathMatch: "full", redirectTo: "info" }
     ]
   },
-
-  { path: ':album', component: AlbumsViewComponent },
 
   { path: '', component: AlbumsListComponent },
 

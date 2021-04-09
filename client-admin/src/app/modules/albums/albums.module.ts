@@ -23,6 +23,8 @@ import { PhotoFaceEditComponent } from './components/photo-face-edit/photo-face-
 import { MaterialModule } from 'app/shared/material.module';
 import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
 import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
+import { AlbumsViewInfoComponent } from './views/albums-view/albums-view-info/albums-view-info.component';
+import { AlbumsViewPhotosComponent } from './views/albums-view/albums-view-photos/albums-view-photos.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.
     PhotoFaceEditComponent,
     AlbumsViewComponent,
     PhotoGalleryComponent,
+    AlbumsViewInfoComponent,
+    AlbumsViewPhotosComponent,
   ],
   imports: [
     CommonModule,

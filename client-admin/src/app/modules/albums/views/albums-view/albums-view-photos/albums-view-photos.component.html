@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/galerie"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Fotky: {{ album?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Fotky"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-reorder-group (ionItemReorder)="onReorder($any($event))" [disabled]="!enableOrdering">
+    <ion-item *ngFor="let photo of album?.photos">
+      <ion-avatar slot="start">
+        <img [src]="photo.sizes.small.url" [style.background-color]="photo.bg" />
+      </ion-avatar>
+
+      <ion-label *ngIf="!enableEditing">{{ photo.caption }}</ion-label>
+      <ion-input *ngIf="enableEditing" [ngModel]="photo.caption"></ion-input>
+
+      <ion-buttons *ngIf="!enableOrdering && !enableEditing" slot="end">
+        <ion-button color="danger"><ion-icon name="trash-outline"></ion-icon></ion-button>
+      </ion-buttons>
+
+      <ion-reorder slot="end"></ion-reorder>
+    </ion-item>
+  </ion-reorder-group>
+</ion-content>

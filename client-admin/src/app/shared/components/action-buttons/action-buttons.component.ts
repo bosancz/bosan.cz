@@ -26,6 +26,8 @@ export class ActionButtonsComponent implements OnInit {
       this.menu = [];
     }
     else {
+      this.single = undefined;
+
       this.pinned = actions.filter(item => item.pinned);
 
       this.buttons = actions.filter(item => !item.pinned);

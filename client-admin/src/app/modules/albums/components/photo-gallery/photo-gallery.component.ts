@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { Photo } from 'app/schema/photo';
 
 class PhotoRow {
@@ -11,7 +11,7 @@ class PhotoRow {
   templateUrl: './photo-gallery.component.html',
   styleUrls: ['./photo-gallery.component.scss']
 })
-export class PhotoGalleryComponent implements OnInit, AfterViewChecked {
+export class PhotoGalleryComponent implements OnInit, AfterViewChecked, OnChanges {
 
   @Input() photos: Photo[] = [];
   @Input() maxHeight: number = 200;
@@ -36,6 +36,10 @@ export class PhotoGalleryComponent implements OnInit, AfterViewChecked {
       this.width = width;
       setTimeout(() => this.createRows(), 0);
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.createRows();
   }
 
   createRows() {
