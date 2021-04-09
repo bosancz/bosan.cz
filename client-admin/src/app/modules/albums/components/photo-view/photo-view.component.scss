@@ -1,0 +1,51 @@
+:host {
+  background-color: #000;
+}
+
+ion-content {
+  --ion-background-color: #000;
+}
+
+ion-toolbar {
+  --ion-background-color: rgba(0, 0, 0, 0.7) !important;
+  --ion-toolbar-color: #fff;
+}
+.top-toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.bottom-toolbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+ion-item {
+  --ion-background-color: rgba(0, 0, 0, 0.7);
+  --ion-item-color: #fff;
+}
+.edit-caption {
+  --ion-background-color: #fff;
+  --ion-item-color: #000;
+  --ion-toolbar-color: #000;
+}
+.nocaption {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+ion-slides {
+  width: 100%;
+  height: 100%;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

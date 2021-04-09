@@ -1,7 +1,8 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/galerie"></ion-back-button>
+      <ion-back-button *ngIf="!(enableDeleting && platform.is('ios'))" defaultHref="/galerie"></ion-back-button>
+      <ion-button *ngIf="enableDeleting && platform.is('ios')" (click)="endDeleting()">Zrušit</ion-button>
     </ion-buttons>
     <ion-title pageTitle>Fotky: {{ album?.name }}</ion-title>
     <ion-buttons slot="end">
@@ -12,17 +13,22 @@
 
 <ion-content class="ion-padding">
   <ion-reorder-group (ionItemReorder)="onReorder($any($event))" [disabled]="!enableOrdering">
-    <ion-item *ngFor="let photo of album?.photos">
+    <ion-item *ngFor="let photo of photos" [button]="true" (click)="onPhotoClick(photo, $event)">
+      <ion-checkbox *ngIf="enableDeleting" slot="start"> </ion-checkbox>
       <ion-avatar slot="start">
         <img [src]="photo.sizes.small.url" [style.background-color]="photo.bg" />
       </ion-avatar>
 
-      <ion-label *ngIf="!enableEditing">{{ photo.caption }}</ion-label>
-      <ion-input *ngIf="enableEditing" [ngModel]="photo.caption"></ion-input>
-
-      <ion-buttons *ngIf="!enableOrdering && !enableEditing" slot="end">
-        <ion-button color="danger"><ion-icon name="trash-outline"></ion-icon></ion-button>
-      </ion-buttons>
+      <ion-label>
+        <h2 [class.nocaption]="!photo.caption">{{ photo.caption || "Bez popisku" }}</h2>
+        <p class="row no-gutters">
+          <span class="col-12 col-lg-2">Název: {{ photo.name }}</span>
+          <span class="col-12 col-lg-3">Datum: {{ photo.date | date: "d. M. y H:mm:ss" }}</span>
+          <span class="col-12 col-lg-2 d-none d-lg-block">
+            Velikost: {{ photo.sizes.original.width }}×{{ photo.sizes.original.height }}
+          </span>
+        </p>
+      </ion-label>
 
       <ion-reorder slot="end"></ion-reorder>
     </ion-item>

@@ -36,7 +36,7 @@ export class ActionButtonsComponent implements OnInit {
 
         this.menu = actions.filter(item => item.text && !item.disabled);
 
-        if (!this.menu.some(item => item.role === "cancel")) {
+        if (!this.menu.some(item => item.role === "cancel") && this.platform.is('ios')) {
           this.menu.push({
             text: "Zrušit",
             role: "cancel",
