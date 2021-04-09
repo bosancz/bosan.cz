@@ -10,3 +10,9 @@ ion-avatar {
   opacity: 0.7;
   font-style: italic;
 }
+
+.info span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

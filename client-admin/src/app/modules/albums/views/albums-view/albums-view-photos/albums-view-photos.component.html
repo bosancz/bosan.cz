@@ -21,12 +21,15 @@
 
       <ion-label>
         <h2 [class.nocaption]="!photo.caption">{{ photo.caption || "Bez popisku" }}</h2>
-        <p class="row no-gutters">
-          <span class="col-12 col-lg-2">Název: {{ photo.name }}</span>
-          <span class="col-12 col-lg-3">Datum: {{ photo.date | date: "d. M. y H:mm:ss" }}</span>
-          <span class="col-12 col-lg-2 d-none d-lg-block">
-            Velikost: {{ photo.sizes.original.width }}×{{ photo.sizes.original.height }}
+        <p class="row no-gutters info">
+          <span class="col-12 col-lg-4 col-xl-3">Datum: {{ photo.date | date: "d. M. y H:mm:ss" }}</span>
+          <span class="col-12 col-lg-4 col-xl-3 d-none d-lg-block">
+            Velikost: {{ photo.sizes.original.width }}×{{ photo.sizes.original.height }} ({{
+              getMpix(photo.sizes.original.width, photo.sizes.original.height)
+            }}
+            MP)
           </span>
+          <span class="col-12 col-lg" [title]="photo.name">Název: {{ photo.name }}</span>
         </p>
       </ion-label>
 

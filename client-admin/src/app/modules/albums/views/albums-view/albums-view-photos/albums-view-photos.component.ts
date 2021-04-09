@@ -144,4 +144,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
     ];
   }
+
+  getMpix(width: number, height: number) {
+    return Math.round(width * height / 1000000);
+  }
 }
