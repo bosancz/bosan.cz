@@ -50,6 +50,8 @@ export class EventsListComponent implements OnInit {
     }
   ];
 
+  loadingArray = Array(5).fill(null);
+
   constructor(
     private api: ApiService,
     private configService: ConfigService,

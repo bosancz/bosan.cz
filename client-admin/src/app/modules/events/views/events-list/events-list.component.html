@@ -72,6 +72,16 @@
           <event-status-badge [event]="event"></event-status-badge>
         </td>
       </tr>
+
+      <ng-container *ngIf="!(events$ | async)?.length">
+        <tr *ngFor="let item of loadingArray">
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+        </tr>
+      </ng-container>
     </tbody>
   </admin-table>
 </ion-content>
