@@ -9,7 +9,7 @@ import { User, UserNotification } from "app/schema/user";
 declare const Notification: any;
 
 @Component({
-  selector: 'my-account-notifications',
+  selector: 'bo-my-account-notifications',
   templateUrl: './my-account-notifications.component.html',
   styleUrls: ['./my-account-notifications.component.scss']
 })

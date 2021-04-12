@@ -8,7 +8,7 @@ interface BeforeInstallPromptEvent {
 }
 
 @Component({
-  selector: 'my-account-app',
+  selector: 'bo-my-account-app',
   templateUrl: './my-account-app.component.html',
   styleUrls: ['./my-account-app.component.scss']
 })
