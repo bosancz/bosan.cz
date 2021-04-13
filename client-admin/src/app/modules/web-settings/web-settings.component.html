@@ -1,8 +1,16 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Nastavení webu</h2>
-  </bo-page-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Nastavení webu</ion-title>
+    <ion-buttons slot="end">
+      <!-- <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons> -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content class="ion-padding">
   <div class="row">
     <div class="col-md-3 col-xl-2">
       <nav *secondaryMenu class="nav nav-pills flex-column">
@@ -69,4 +77,4 @@
       </form>
     </div>
   </div>
-</bo-page>
+</ion-content>
