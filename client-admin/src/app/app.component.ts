@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 import * as packageJson from "app/../../package.json";
 import { permissions } from "app/config/permissions";
 import { LoginService } from 'app/core/services/login.service';
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
     private loginService: LoginService,
     private configService: ConfigService,
     private router: Router,
-    private route: ActivatedRoute
+    private menuController: MenuController
   ) {
     this.loadPermissions();
 
@@ -42,7 +43,7 @@ export class AppComponent implements OnInit {
     this.aclService.setPermissions(permissions);
   }
 
-  async checkLogin() {
+  private async checkLogin() {
     const user = await this.userService.user.toPromise();
 
     if (!user) {
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  initUserService() {
+  private initUserService() {
 
     // update roles
     this.userService.user.subscribe(user => {
@@ -67,13 +68,17 @@ export class AppComponent implements OnInit {
 
   }
 
-  initLoginService() {
+  private initLoginService() {
     this.loginService.onLogin.subscribe(() => {
       this.userService.loadUser();
     });
     this.loginService.onLogout.subscribe(() => {
       this.userService.loadUser();
     });
+  }
+
+  closeMenu() {
+    this.menuController.close();
   }
 
 }

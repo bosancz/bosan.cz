@@ -3,9 +3,6 @@
     <ion-menu contentId="content">
       <ion-header>
         <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
-          </ion-buttons>
           <ion-title>
             <img src="assets/img/san_logo_barva.png" class="d-inline logo-small mr-3" />
             Interní sekce
@@ -15,7 +12,7 @@
       </ion-header>
 
       <ion-content>
-        <admin-menu></admin-menu>
+        <admin-menu (click)="this.closeMenu()"></admin-menu>
       </ion-content>
 
       <div class="version text-center text-muted small pb-1">Verze {{ version }}</div>
