@@ -3,8 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { WebSettingsComponent } from './web-settings.component';
 
 const routes: Routes = [
-  { path: ':cat', component: WebSettingsComponent },
-  { path: '', redirectTo: "general", pathMatch: "full" },
+  { path: '', component: WebSettingsComponent },
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { NgForm } from '@angular/forms';
 
@@ -13,6 +13,7 @@ import { WebConfig } from "app/schema/web-config";
 import { WebConfigStructureGroup, WebConfigStructureItem } from 'app/schema/web-config-structure';
 
 import { webConfigStructure } from "app/config/web-config";
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 
 @Component({
   selector: 'web-settings',
@@ -21,23 +22,38 @@ import { webConfigStructure } from "app/config/web-config";
 })
 export class WebSettingsComponent implements OnInit {
 
-  viewCategory$ = this.route.params.pipe(map(params => params.cat));
-
   config$ = this.configService.config;
 
   configStructure: any = webConfigStructure;
 
   viewJson: boolean = false;
 
-  constructor(private configService: ConfigService, private toastService: ToastService, private route: ActivatedRoute) { }
+  actions: Action[] = [
+    {
+      text: "Uložit",
+      handler: () => this.saveConfig()
+    }
+  ];
+
+  @ViewChild("configForm") form!: NgForm;
+
+  constructor(
+    private configService: ConfigService,
+    private toastService: ToastService
+  ) { }
 
   ngOnInit() {
 
   }
 
-  async saveConfig(form: NgForm) {
+  async saveConfig() {
 
-    const data: WebConfig = form.value;
+    if (!this.form.valid) {
+      this.toastService.toast("Nelze uložit, formulář není vyplněn správně.");
+      return;
+    }
+
+    const data: WebConfig = this.form.value;
 
     await this.configService.saveConfig(data);
 
