@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { EventAddAttendeesComponent } from 'app/modules/events/components/event-add-attendees/event-add-attendees.component';
 import { EventsService } from 'app/modules/events/services/events.service';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 
@@ -31,8 +32,7 @@ export class EventsViewAttendeesComponent implements OnInit {
 
   async addAttendee() {
     const modal = await this.modalController.create({
-      component: EventsViewAttendeesComponent,
-      cssClass: 'my-custom-class'
+      component: EventAddAttendeesComponent,
     });
     return await modal.present();
   }

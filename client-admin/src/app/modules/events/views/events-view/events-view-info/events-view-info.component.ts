@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
+import { ModalController } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { EventStatuses } from "app/config/event-statuses";
 import { ApiService } from "app/core/services/api.service";
@@ -9,7 +10,7 @@ import { EventStatus } from 'app/schema/event-status';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { filter } from 'rxjs/operators';
 import { EventsService } from '../../../services/events.service';
-
+import { EventEditLeadersComponent } from "../../../components/event-edit-leaders/event-edit-leaders.component";
 
 @UntilDestroy()
 @Component({
@@ -17,7 +18,7 @@ import { EventsService } from '../../../services/events.service';
   templateUrl: './events-view-info.component.html',
   styleUrls: ['./events-view-info.component.scss'],
 })
-export class EventsViewInfoComponent implements OnInit {
+export class EventsViewInfoComponent implements OnInit, OnDestroy {
 
   event?: Event;
   eventStatus?: EventStatus;
@@ -28,12 +29,15 @@ export class EventsViewInfoComponent implements OnInit {
 
   statuses = EventStatuses;
 
+  modal?: HTMLIonModalElement;
+
   constructor(
     private api: ApiService,
     private router: Router,
     private route: ActivatedRoute,
     private toastService: ToastService,
-    private eventsService: EventsService
+    private eventsService: EventsService,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -41,6 +45,10 @@ export class EventsViewInfoComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .pipe(filter(event => !!event))
       .subscribe(event => this.updateEvent(event!));
+  }
+
+  ngOnDestroy() {
+    this.modal?.dismiss();
   }
 
   async updateEvent(event: Event) {
@@ -95,49 +103,54 @@ export class EventsViewInfoComponent implements OnInit {
         text: "Upravit",
         pinned: true,
         icon: "create-outline",
+        hidden: !event._links?.self.allowed.PATCH,
         handler: () => this.router.navigate(["../upravit"], { relativeTo: this.route })
+      },
+      {
+        text: "Upravit vedoucí",
+        icon: "people-outline",
+        hidden: !event._links?.self.allowed.PATCH,
+        handler: () => this.openEditLeaders()
       },
       {
         text: "Ke schválení",
         icon: "arrow-forward-outline",
-        hidden: !event?._actions?.submit,
-        disabled: !event?._actions?.submit?.allowed,
+        color: "primary",
+        hidden: !event?._actions?.submit?.allowed,
         handler: () => this.eventAction(event, "submit")
       },
       {
         text: "Do programu",
         icon: "arrow-forward-outline",
-        hidden: !event?._actions?.publish,
-        disabled: !event?._actions?.publish?.allowed,
+        color: "primary",
+        hidden: !event?._actions?.publish?.allowed,
         handler: () => this.eventAction(event, "publish")
       },
       {
         text: "Vrátit k úpravám",
         icon: "arrow-back-outline",
-        hidden: !event?._actions?.reject,
-        disabled: !event?._actions?.reject?.allowed,
+        color: "danger",
+        hidden: !event?._actions?.reject?.allowed,
         handler: () => this.eventAction(event, "reject")
       },
       {
         text: "Odebrat z programu",
         icon: "arrow-back-outline",
-        hidden: !event?._actions?.unpublish,
-        disabled: !event?._actions?.unpublish?.allowed,
+        color: "danger",
+        hidden: !event?._actions?.unpublish?.allowed,
         handler: () => this.eventAction(event, "unpublish")
       },
       {
         text: "Označit jako zrušenou",
         color: "danger",
         icon: "arrow-back-outline",
-        hidden: !event?._actions?.cancel,
-        disabled: !event?._actions?.cancel?.allowed,
+        hidden: !event?._actions?.cancel?.allowed,
         handler: () => this.eventAction(event, "cancel")
       },
       {
         text: "Odzrušit",
         icon: "arrow-forward-outline",
-        hidden: !event?._actions?.uncancel,
-        disabled: !event?._actions?.uncancel?.allowed,
+        hidden: !event?._actions?.uncancel?.allowed,
         handler: () => this.eventAction(event, "uncancel")
       },
       {
@@ -145,10 +158,18 @@ export class EventsViewInfoComponent implements OnInit {
         role: "destructive",
         color: "danger",
         icon: "trash-outline",
-        disabled: !event._links?.self?.allowed?.DELETE,
+        hidden: !event._links?.self?.allowed?.DELETE,
         handler: () => this.deleteEvent(event)
       },
     ];
+  }
+
+  private async openEditLeaders() {
+    this.modal = await this.modalController.create({
+      component: EventEditLeadersComponent
+    });
+
+    await this.modal.present();
   }
 
 }

@@ -21,6 +21,8 @@ import { EventsViewAttendeesComponent } from './views/events-view/events-view-at
 import { EventsViewInfoComponent } from './views/events-view/events-view-info/events-view-info.component';
 import { EventsViewRegistrationComponent } from './views/events-view/events-view-registration/events-view-registration.component';
 import { EventsViewComponent } from './views/events-view/events-view.component';
+import { EventEditLeadersComponent } from './components/event-edit-leaders/event-edit-leaders.component';
+import { EventAddAttendeesComponent } from './components/event-add-attendees/event-add-attendees.component';
 
 
 
@@ -46,6 +48,8 @@ import { EventsViewComponent } from './views/events-view/events-view.component';
     EventsViewAttendeesComponent,
     EventsViewInfoComponent,
     EventsViewAccountingComponent,
+    EventEditLeadersComponent,
+    EventAddAttendeesComponent,
   ],
   imports: [
     CommonModule,

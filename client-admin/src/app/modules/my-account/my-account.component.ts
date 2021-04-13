@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import { ApiService } from 'app/core/services/api.service';
 import { User } from 'app/schema/user';
-import { MyAccountCredentialsComponent } from './components/my-account-credentials/my-account-credentials.component';
 
 // from https://developer.mozilla.org/en-US/docs/Web/API/BeforeInstallPromptEvent
 interface BeforeInstallPromptEvent {
