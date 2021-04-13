@@ -46,7 +46,7 @@
 
     <div class="col-12 col-md-3 col-xl-2">
       <ion-item lines="none">
-        <ion-label position="stacked">Sloupce</ion-label>
+        <ion-label position="stacked">Zobrazené sloupce</ion-label>
         <ion-select multiple name="fields" [ngModel]="defaultFields">
           <ion-select-option *ngFor="let field of fields" [value]="field.id">{{ field.name }}</ion-select-option>
         </ion-select>
