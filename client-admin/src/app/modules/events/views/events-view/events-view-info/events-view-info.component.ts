@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { EventStatuses } from "app/config/statuses";
+import { EventStatuses } from "app/config/event-statuses";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 import { Event } from "app/schema/event";

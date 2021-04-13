@@ -1,4 +1,3 @@
-import { EventStatuses } from "app/config/statuses";
 import { Document } from "./api";
 import { EventStatus } from "./event-status";
 import { Member } from "./member";
