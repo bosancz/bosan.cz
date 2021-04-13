@@ -8,11 +8,11 @@ interface BeforeInstallPromptEvent {
 }
 
 @Component({
-  selector: 'bo-my-account-app',
-  templateUrl: './my-account-app.component.html',
-  styleUrls: ['./my-account-app.component.scss']
+  selector: 'bo-account-app',
+  templateUrl: './account-app.component.html',
+  styleUrls: ['./account-app.component.scss']
 })
-export class MyAccountAppComponent implements OnInit {
+export class AccountAppComponent implements OnInit {
 
   beforeinstallprompt?: BeforeInstallPromptEvent;
 

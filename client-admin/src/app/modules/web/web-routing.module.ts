@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { WebSettingsComponent } from './web-settings.component';
+import { WebComponent } from './web.component';
 
 const routes: Routes = [
-  { path: '', component: WebSettingsComponent },
+  { path: '', component: WebComponent },
 ];
 
 @NgModule({

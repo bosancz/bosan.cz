@@ -9,11 +9,11 @@ import { User, UserNotification } from "app/schema/user";
 declare const Notification: any;
 
 @Component({
-  selector: 'bo-my-account-notifications',
-  templateUrl: './my-account-notifications.component.html',
-  styleUrls: ['./my-account-notifications.component.scss']
+  selector: 'bo-account-notifications',
+  templateUrl: './account-notifications.component.html',
+  styleUrls: ['./account-notifications.component.scss']
 })
-export class MyAccountNotificationsComponent implements OnInit {
+export class AccountNotificationsComponent implements OnInit {
 
   user?: User;
 

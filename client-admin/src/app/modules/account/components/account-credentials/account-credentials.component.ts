@@ -6,11 +6,11 @@ import { User } from "app/schema/user";
 
 
 @Component({
-  selector: 'bo-my-account-credentials',
-  templateUrl: './my-account-credentials.component.html',
-  styleUrls: ['./my-account-credentials.component.scss']
+  selector: 'bo-account-credentials',
+  templateUrl: './account-credentials.component.html',
+  styleUrls: ['./account-credentials.component.scss']
 })
-export class MyAccountCredentialsComponent implements OnInit {
+export class AccountCredentialsComponent implements OnInit {
 
   user?: User;
 

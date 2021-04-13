@@ -41,7 +41,7 @@ export class AdminMenuComponent implements OnInit {
 
   async logout() {
     await this.loginService.logout();
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/"]);
   }
 
   reload() {

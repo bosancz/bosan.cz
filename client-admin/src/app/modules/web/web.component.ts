@@ -16,11 +16,11 @@ import { webConfigStructure } from "app/config/web-config";
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 
 @Component({
-  selector: 'web-settings',
-  templateUrl: './web-settings.component.html',
-  styleUrls: ['./web-settings.component.scss']
+  selector: 'bo-web',
+  templateUrl: './web.component.html',
+  styleUrls: ['./web.component.scss']
 })
-export class WebSettingsComponent implements OnInit {
+export class WebComponent implements OnInit {
 
   config$ = this.configService.config;
 

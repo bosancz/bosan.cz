@@ -1,47 +1,47 @@
-import { NgModule } from "@angular/core";
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-
-/* MODULES */
-import { MaterialModule } from './material.module';
-
-/* DIRECTIVES */
-import { ActionMenuDirective } from './directives/action-menu.directive';
-import { PageTitleDirective } from './directives/page-title.directive';
-import { MenuButtonDirective } from './directives/menu-button.directive';
-import { TextcheckDirective } from './directives/textcheck.directive';
-import { SecondaryMenuDirective } from './directives/secondary-menu.directive';
-
+import { IonicModule } from "@ionic/angular";
 /* COMPONENTS */
-import { PageComponent } from './components/page/page.component';
-import { PageHeaderComponent } from './components/page-header/page-header.component';
-
+import { ActionButtonsComponent } from "./components/action-buttons/action-buttons.component";
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
-import { EventCardComponent } from './components/event-card/event-card.component';
-
-import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
-import { MembersSelectComponent } from './components/members-select/members-select.component';
-import { ListSliderComponent } from './components/list-slider/list-slider.component';
-import { EventStatusBadgeComponent } from './components/event-status-badge/event-status-badge.component';
 import { CodelistEditorComponent } from "./components/codelist-editor/codelist-editor.component";
 import { ContactsEditorComponent } from "./components/contacts-editor/contacts-editor.component";
+import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
+import { EventCardComponent } from './components/event-card/event-card.component';
+import { EventStatusBadgeComponent } from './components/event-status-badge/event-status-badge.component';
+import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
+import { ListSliderComponent } from './components/list-slider/list-slider.component';
+import { MembersSelectComponent } from './components/members-select/members-select.component';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { PageComponent } from './components/page/page.component';
+import { PhotoFaceComponent } from './components/photo-face/photo-face.component';
 import { PhotoTagsEditorComponent } from "./components/photo-tags-editor/photo-tags-editor.component";
 import { TypeaheadFieldComponent } from "./components/typeahead-field/typeahead-field.component";
-import { PhotoFaceComponent } from './components/photo-face/photo-face.component';
-import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
-
+/* DIRECTIVES */
+import { AclCanDirective } from "./directives/acl-can.directive";
+import { ActionMenuDirective } from './directives/action-menu.directive';
+import { MenuButtonDirective } from './directives/menu-button.directive';
+import { PageTitleDirective } from './directives/page-title.directive';
+import { SecondaryMenuDirective } from './directives/secondary-menu.directive';
+import { TextcheckDirective } from './directives/textcheck.directive';
+/* MODULES */
+import { MaterialModule } from './material.module';
 /* PIPES */
-import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
-import { GroupPipe } from "./pipes/group.pipe";
 import { DateRangePipe } from "./pipes/date-range.pipe";
 import { EventPipe } from "./pipes/event.pipe";
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
+import { GroupPipe } from "./pipes/group.pipe";
+import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
-import { AclModule } from 'lib/acl';
-import { IonicModule } from "@ionic/angular";
-import { ActionButtonsComponent } from "./components/action-buttons/action-buttons.component";
+
+
+
+
+
+
 
 @NgModule({
   imports: [
@@ -51,8 +51,6 @@ import { ActionButtonsComponent } from "./components/action-buttons/action-butto
     HttpClientModule,
     MaterialModule,
     IonicModule,
-
-    AclModule,
   ],
   declarations: [
     AdminTableComponent,
@@ -77,6 +75,7 @@ import { ActionButtonsComponent } from "./components/action-buttons/action-butto
     MenuButtonDirective,
     TextcheckDirective,
     SecondaryMenuDirective,
+    AclCanDirective,
 
     /* PIPES */
     JoinLeadersPipe,
@@ -91,7 +90,6 @@ import { ActionButtonsComponent } from "./components/action-buttons/action-butto
   exports: [
     FormsModule,
     IonicModule,
-    AclModule,
 
     /* COMPONENTS */
     PageComponent,
@@ -118,6 +116,7 @@ import { ActionButtonsComponent } from "./components/action-buttons/action-butto
     MenuButtonDirective,
     TextcheckDirective,
     SecondaryMenuDirective,
+    AclCanDirective,
 
     /* PIPES */
     JoinLeadersPipe,

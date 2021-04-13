@@ -1,0 +1,17 @@
+@import "~styles/variables";
+
+:host {
+  justify-content: space-around;
+}
+
+.login-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.buttons {
+  text-align: center;
+  ion-button {
+    display: block;
+  }
+}

@@ -1,56 +1,44 @@
 <ion-list>
-  <ion-item *aclCan="'admin:dashboard'" [detail]="true" routerLink="prehled" routerLinkActive="active" class="nav-item">
+  <ion-item *aclCan="'dashboard'" [detail]="true" routerLink="prehled" routerLinkActive="active">
     <ion-label>Přehled</ion-label>
   </ion-item>
 
-  <ion-item *aclCan="'admin:events'" [detail]="true" routerLink="akce" routerLinkActive="active" class="nav-item">
+  <ion-item *aclCan="'events'" [detail]="true" routerLink="akce" routerLinkActive="active">
     <ion-label>Akce</ion-label>
   </ion-item>
 
-  <ion-item *aclCan="'admin:program'" [button]="true" (click)="submenu = 'program'">
+  <ion-item *aclCan="'program'" [detail]="true" routerLink="akce" routerLinkActive="active">
     <ion-label>Program</ion-label>
   </ion-item>
 
-  <ion-item-group *ngIf="submenu === 'program'">
-    <ion-item routerLink="program/tisk" [detail]="true" routerLink="program/tisk">
-      <ion-label>Tisk programu</ion-label>
-    </ion-item>
-    <ion-item *aclCan="'admin:program-management'" [detail]="true" routerLink="program/schvalovani">
-      <ion-label>Schvalování </ion-label>
-    </ion-item>
-    <ion-item *aclCan="'admin:program-management'" [detail]="true" routerLink="program/planovani">
-      <ion-label>Plánování akcí </ion-label>
-    </ion-item>
-  </ion-item-group>
-
-  <ion-item *aclCan="'admin:albums'" routerLink="galerie" routerLinkActive="active" [detail]="true">
+  <ion-item *aclCan="'albums'" routerLink="galerie" routerLinkActive="active" [detail]="true">
     <ion-label>Galerie</ion-label>
   </ion-item>
 
-  <ion-item *aclCan="'admin:members'" routerLink="databaze" routerLinkActive="active" [detail]="true">
+  <ion-item *aclCan="'members'" routerLink="databaze" routerLinkActive="active" [detail]="true">
     <ion-label>Databáze</ion-label>
   </ion-item>
 
-  <ion-item *aclCan="'admin:blogs'" routerLink="blog" routerLinkActive="active" [detail]="true">
+  <ion-item *aclCan="'blogs'" routerLink="blog" routerLinkActive="active" [detail]="true">
     <ion-label>Blog</ion-label>
   </ion-item>
 
-  <ion-item *aclCan="'admin:statistics'" routerLink="statistiky" routerLinkActive="active" [detail]="true">
+  <ion-item *aclCan="'statistics'" routerLink="statistiky" routerLinkActive="active" [detail]="true">
     <ion-label>Statistiky</ion-label>
   </ion-item>
 
-  <!-- <ion-item routerLinkActive="active" class="nav-item"><a *aclCan="'admin:canal'" routerLink="kanal">Troja</a></ion-item> -->
+  <!-- <ion-item routerLinkActive="active"><a *aclCan="'canal'" routerLink="kanal">Troja</a></ion-item> -->
 
-  <ion-item *aclCan="'admin:users'" routerLink="uzivatele" routerLinkActive="active" [detail]="true">
+  <ion-item *aclCan="'users'" routerLink="uzivatele" routerLinkActive="active" [detail]="true">
     <ion-label>Uživatelé</ion-label>
   </ion-item>
 
-  <ion-item *aclCan="'admin:web-settings'" routerLink="nastaveni-webu" routerLinkActive="active" [detail]="true">
+  <ion-item *aclCan="'web'" routerLink="web" routerLinkActive="active" [detail]="true">
     <ion-label>Web</ion-label>
   </ion-item>
 
   <ng-container *ngIf="userService.user | async as user">
-    <ion-item *aclCan="'admin'" routerLink="ucet" routerLinkActive="active">
+    <ion-item *aclCan="'account'" routerLink="ucet" routerLinkActive="active">
       <ion-label>
         <ion-icon name="person-sharp"></ion-icon>
         {{ user.login }}

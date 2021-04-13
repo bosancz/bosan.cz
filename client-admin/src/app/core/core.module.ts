@@ -2,7 +2,7 @@
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import localeCs from '@angular/common/locales/cs';
-import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -17,10 +17,12 @@ import { SharedModule } from 'app/shared/shared.module';
 import { environment } from 'environments/environment';
 /* COMPONENTS */
 import { AdminMenuComponent } from './components/admin-menu/admin-menu.component';
-import { LoginComponent } from './components/login/login.component';
-import { NotFoundComponent } from './components/not-found/not-found.component';
+import { LoginComponent } from './views/login/login.component';
+import { NotFoundComponent } from './views/not-found/not-found.component';
 /* HTTP INTERCEPTORS */
 import { WithCredentialsInterceptor } from "./http-interceptors/with-credentials.interceptor";
+import { AclService } from './services/acl.service';
+import { permissions } from 'app/config/permissions';
 
 
 /* STARUP SCRIPTS */

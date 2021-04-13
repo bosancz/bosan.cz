@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { ApiService } from "app/core/services/api.service";
 import { GoogleService } from "app/core/services/google.service";
+import { UserService } from './user.service';
 
 export interface LoginResult {
   success: boolean;
@@ -23,7 +24,8 @@ export class LoginService {
     private api: ApiService,
     private route: ActivatedRoute,
     private router: Router,
-    private googleService: GoogleService
+    private googleService: GoogleService,
+    private userService: UserService
   ) {
     this.checkTokenLogin();
   }
@@ -43,7 +45,7 @@ export class LoginService {
 
       await this.api.post("login", credentials);
 
-      this.onLogin.emit();
+      await this.userService.loadUser();
     }
     catch (err) {
       result.success = false;
@@ -66,7 +68,7 @@ export class LoginService {
       // validate token with the server
       await this.api.post("login:google", { token: googleToken });
 
-      this.onLogin.emit();
+      await this.userService.loadUser();
 
       return { success: true };
     }
@@ -77,8 +79,11 @@ export class LoginService {
   }
 
   async loginToken(token: string) {
+
     await this.api.post("login:token", { token: token });
-    this.onLogin.emit();
+
+    await this.userService.loadUser();
+
     this.router.navigate(["./"], { relativeTo: this.route });
   }
 
@@ -86,7 +91,7 @@ export class LoginService {
     try {
       await this.api.post("login:impersonate", { id: userId });
 
-      this.onLogin.emit();
+      await this.userService.loadUser();
 
       return { success: true };
     }
@@ -112,7 +117,7 @@ export class LoginService {
 
   async logout() {
     await this.api.post("logout");
-    this.onLogout.emit();
+    await this.userService.loadUser();
   }
 
 }
