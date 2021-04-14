@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges, EventEmitter, Output, HostBinding, HostListener } from '@angular/core';
 import { DateTime } from 'luxon';
 import { CzechHolidays } from 'czech-holidays';
 
@@ -53,18 +53,20 @@ class CalendarEvent<T extends (CPVEvent | Event)> {
 }
 
 @Component({
-  selector: 'event-calendar',
+  selector: 'bo-event-calendar',
   templateUrl: './event-calendar.component.html',
   styleUrls: ['./event-calendar.component.scss']
 })
 export class EventCalendarComponent implements OnInit, OnChanges {
 
-  calendar: CalendarRow[] = [];
-
-  selectedDates?: [DateTime, DateTime];
-
-  @Input() dateFrom!: DateTime;
-  @Input() dateTill!: DateTime;
+  @Input("dateFrom") set dateFromString(value: DateTime | string) {
+    this.dateFrom = typeof value === "string" ? DateTime.fromISO(value) : value;
+    this.dateFrom.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+  }
+  @Input("dateTill") set dateTillString(value: DateTime | string) {
+    this.dateTill = typeof value === "string" ? DateTime.fromISO(value) : value;
+    this.dateTill.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+  }
 
   @Input() events: Event[] = [];
 
@@ -73,6 +75,14 @@ export class EventCalendarComponent implements OnInit, OnChanges {
   @Input() headingLevel: number = 3;
 
   @Output() select = new EventEmitter<[DateTime, DateTime]>();
+
+  calendar: CalendarRow[] = [];
+
+  selectedDate?: DateTime;
+  hoverDate?: DateTime;
+
+  dateFrom!: DateTime;
+  dateTill!: DateTime;
 
   eventsCPV: CPVEvent[] = [];
 
@@ -96,9 +106,7 @@ export class EventCalendarComponent implements OnInit, OnChanges {
       else this.eventsCPV = [];
     }
 
-    if (changes.dateFrom || changes.dateTill) {
-      this.dateFrom = this.dateFrom.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-      this.dateTill = this.dateTill.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+    if (changes.dateFromString || changes.dateFromString) {
       this.createCalendar();
       if (this.events) this.assignEvents(this.events, "own");
       if (this.eventsCPV) this.assignEvents(this.eventsCPV, "cpv");
@@ -209,22 +217,38 @@ export class EventCalendarComponent implements OnInit, OnChanges {
     return CzechHolidays(date.year).some(item => item.m === date.month && item.d === date.day);
   }
 
-  isSelected(day: CalendarDay) {
-    return this.selection && this.selectedDates && (day.date >= this.selectedDates[0] && day.date <= this.selectedDates[1]);
+  isSelectedRange(day: CalendarDay) {
+    if (!this.selectedDate || !this.hoverDate) return false;
+    const range: [DateTime, DateTime] = [this.selectedDate, this.hoverDate];
+    range.sort();
+    return (day.date >= range[0] && day.date <= range[1]);
   }
 
-  setEventStart(day: CalendarDay) {
-    this.selectedDates = [day.date, day.date];
+  setSelection(day: CalendarDay) {
+    if (!this.selection) return;
+
+    if (this.selectedDate) {
+      const range: [DateTime, DateTime] = [this.selectedDate, day.date];
+      range.sort();
+      this.select.emit(range);
+      this.selectedDate = undefined;
+    }
+    else this.selectedDate = day.date;
   }
 
-  setEventEnd(day: CalendarDay) {
-    if (this.selectedDates) this.selectedDates[1] = day.date;
+  @HostListener('document:keydown.escape')
+  clearSelection(event?: MouseEvent) {
+    if (this.selectedDate) event?.preventDefault();
+    this.selectedDate = undefined;
+  }
+
+  setSelectionHover(day: CalendarDay) {
+    this.hoverDate = day.date;
   }
 
   emitSelected() {
     if (!this.selection) return;
-    this.selectedDates?.sort();
-    this.select.emit(this.selectedDates);
+
   }
 
   getEventLeft(event: CalendarEvent<CPVEvent | Event>, row: CalendarRow) {

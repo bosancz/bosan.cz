@@ -1,10 +1,12 @@
-.dashboard {
+@media (min-width: 992px) {
   .column {
+    background-color: #f8f9fa;
     border-radius: 4px;
+    height: 100%;
   }
+}
 
-  .noevents {
-    margin: 10vh 0;
-    vertical-align: middle;
-  }
+.noevents {
+  margin: 10vh 0;
+  vertical-align: middle;
 }

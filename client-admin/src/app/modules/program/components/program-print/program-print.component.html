@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="sendart">
+      <ion-button (click)="close()">Zavřít</ion-button>
+    </ion-buttons>
+    <ion-title pageTitle>Tisk programu</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Program"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="mb-3">
+    <bo-trimester-selector labelPosition="floating" [(ngModel)]="dateRange"></bo-trimester-selector>
+  </div>
+  <ion-button (click)="exportProgram()">Stáhnout program ve formátu MS Word</ion-button>
+</ion-content>

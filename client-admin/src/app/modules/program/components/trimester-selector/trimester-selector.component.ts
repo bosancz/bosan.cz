@@ -1,4 +1,4 @@
-import { Component, forwardRef, OnInit, Output } from '@angular/core';
+import { Component, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NgForm, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DateTime } from 'luxon';
 
@@ -17,6 +17,9 @@ export type TrimesterDateRange = [string, string];
   ]
 })
 export class TrimesterSelectorComponent implements OnInit, ControlValueAccessor {
+
+  @Input() lines?: string;
+  @Input() labelPosition?: string;
 
   trimester?: number;
   year?: number;
@@ -50,11 +53,11 @@ export class TrimesterSelectorComponent implements OnInit, ControlValueAccessor 
   ngOnInit(): void {
   }
 
-  setTrimester(year?: number, trimester?: number) {
-    if (!year || trimester === undefined) return;
+  setTrimester() {
+    if (!this.year || this.trimester === undefined) return;
 
-    const dateFrom = DateTime.local(year, this.trimesterMonths[trimester][0], 1);
-    const dateTill = DateTime.local(year, this.trimesterMonths[trimester][1], 1).plus({ months: 1 }).minus({ days: 1 });
+    const dateFrom = DateTime.local(this.year, this.trimesterMonths[this.trimester][0], 1);
+    const dateTill = DateTime.local(this.year, this.trimesterMonths[this.trimester][1], 1).plus({ months: 1 }).minus({ days: 1 });
 
     const value: TrimesterDateRange = [
       dateFrom.toISODate(),
@@ -80,7 +83,7 @@ export class TrimesterSelectorComponent implements OnInit, ControlValueAccessor 
       this.trimester = 0;
     }
 
-    this.setTrimester(this.year, this.trimester);
+    this.setTrimester();
 
   }
 

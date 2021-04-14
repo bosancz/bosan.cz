@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Program</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Program"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<div [class.d-none]="!showFilter" class="filter px-lg-3 py-1">
+  <bo-trimester-selector
+    lines="none"
+    labelPosition="floating"
+    [ngModel]="[dateFrom, dateTill]"
+    (ngModelChange)="setTrimester($event)"
+  ></bo-trimester-selector>
+</div>
+<ion-content>
+  <bo-event-calendar
+    *ngIf="dateFrom && dateTill"
+    [dateFrom]="dateFrom"
+    [dateTill]="dateTill"
+    [events]="calendarEvents"
+    [cpv]="true"
+  ></bo-event-calendar>
+</ion-content>

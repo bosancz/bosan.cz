@@ -1,4 +1,4 @@
-<div class="calendar">
+<div class="calendar" (contextmenu)="clearSelection($event)">
   <div class="calendar-row" *ngFor="let row of calendar">
     <div class="days clearfix">
       <div
@@ -8,13 +8,18 @@
         [style.width]="(1 / row.days.length) * 100 + '%'"
         [class.weekend]="day.properties.weekend"
         [class.holiday]="day.properties.holiday"
-        [class.selected]="isSelected(day)"
         [class.odd-month]="day.properties.oddMonth"
-        (mousedown)="setEventStart(day)"
-        (mouseover)="setEventEnd(day)"
-        (mouseup)="emitSelected()"
+        (click)="setSelection(day)"
+        (mouseenter)="setSelectionHover(day)"
       >
-        <div class="date" [class.empty]="day.properties.empty">{{ day.date.day }}. {{ day.date.month }}.</div>
+        <div
+          class="date"
+          [class.selected]="selectedDate === day.date || (selectedDate && hoverDate === day.date)"
+          [class.selectedRange]="isSelectedRange(day)"
+          [class.empty]="day.properties.empty"
+        >
+          {{ day.date.day }}. {{ day.date.month }}.
+        </div>
       </div>
     </div>
 

@@ -31,4 +31,7 @@ export class EventsService {
     await this.api.delete(["event", eventId]);
   }
 
+  async listEvents(options: any) {
+    return this.api.get<Event[]>("events", options);
+  }
 }

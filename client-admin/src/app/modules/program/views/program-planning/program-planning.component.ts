@@ -11,6 +11,7 @@ import { ToastService } from "app/core/services/toast.service";
 import { Event } from "app/schema/event";
 import { ConfigService } from 'app/core/services/config.service';
 import { WebConfigEventStatus } from 'app/schema/web-config';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'program-planning',
@@ -28,9 +29,14 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
 
   paramsSubscription?: Subscription;
 
-  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private configService: ConfigService, private toastService: ToastService) {
-
-  }
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private configService: ConfigService,
+    private toastService: ToastService,
+    private alertController: AlertController
+  ) { }
 
   ngOnInit() {
 
@@ -82,17 +88,55 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
     this.router.navigate(["./"], { queryParams: params, relativeTo: this.route, replaceUrl: true });
   }
 
-  async createEvent([dateFrom, dateTill]: [DateTime, DateTime]) {
+  async openCreateEventModal([dateFrom, dateTill]: [DateTime, DateTime]) {
 
-    var name = window.prompt("Bude vytvořena akce v termínu " + dateFrom.toLocaleString() + " - " + dateTill.toLocaleString() + ". Zadejte její název:");
+    const alert = await this.alertController.create({
+      header: "Vytvořit akci",
+      inputs: [
+        {
+          name: "name",
+          placeholder: "Neočekávaný dýchánek",
+          attributes: { required: true }
+        },
+        {
+          name: "dateFrom",
+          type: "date",
+          value: dateFrom.toISODate(),
+          attributes: { required: true }
+        },
+        {
+          name: "dateTill",
+          type: "date",
+          value: dateTill.toISODate(),
+          attributes: { required: true }
+        },
+        {
+          name: "description",
+          type: "textarea",
+          placeholder: "Všichni budou tak opilí, že nám Šmajdalf ukáže trik se špičatým...",
+          attributes: { required: true }
+        },
+      ],
+      buttons: [
+        { text: "Zrušit", role: "cancel" },
+        {
+          text: "Vytvořit",
+          handler: (data) => {
+            this.createEvent(data);
+          }
+        }
+      ]
+    });
 
-    if (!name) return;
+    alert.present();
+  }
 
-    const eventData = {
-      name,
-      dateFrom: dateFrom.toISODate(),
-      dateTill: dateTill.toISODate()
-    };
+  async createEvent(eventData: Partial<Event>) {
+
+    if (!eventData.name || !eventData.dateFrom || !eventData.dateTill) {
+      this.toastService.toast("Název i datum musí být vyplněno.");
+      return;
+    }
 
     await this.api.post("events", eventData);
 

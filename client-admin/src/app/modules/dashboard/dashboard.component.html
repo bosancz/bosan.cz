@@ -54,16 +54,16 @@
 
     <div class="col-lg-6">
       <h2 class="mb-3">Kalendář</h2>
-      <event-calendar
+      <bo-event-calendar
         [dateFrom]="calendarDateFrom"
         [dateTill]="calendarDateTill"
         [events]="calendarEvents"
         [cpv]="true"
         [headingLevel]="3"
-      ></event-calendar>
+      ></bo-event-calendar>
 
       <div class="text-center">
-        <a routerLink="moje-akce">Zobrazit celý program</a>
+        <a routerLink="/program">Zobrazit celý program</a>
       </div>
     </div>
   </div>
