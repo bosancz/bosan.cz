@@ -5,7 +5,7 @@ on:
     types: [opened, reopened, synchronize, ready_for_review]
     paths:
       - client/**
-      - ".github/workflows/pr-build-client.yml"
+      - ".github/workflows/test-client.yml"
       - ".github/workflows/build-docker.yml"
 
 jobs:

@@ -6,7 +6,7 @@ on:
       - master
     paths:
       - client-admin/**
-      - ".github/workflows/master-build-client-admin.yml"
+      - ".github/workflows/deploy-client-admin.yml"
       - ".github/workflows/build-docker.yml"
 
 jobs:

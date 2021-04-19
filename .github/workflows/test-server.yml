@@ -5,7 +5,7 @@ on:
     types: [opened, reopened, synchronize, ready_for_review]
     paths:
       - server/**
-      - ".github/workflows/pr-build-server.yml"
+      - ".github/workflows/test-server.yml"
       - ".github/workflows/build-docker.yml"
 
 jobs:
