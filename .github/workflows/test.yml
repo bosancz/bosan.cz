@@ -1,0 +1,57 @@
+name: Test
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+jobs:
+  build-docker-client:
+    name: "client: Build and Push Docker Image"
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      - uses: ./.github/actions/build-docker
+        with:
+          context: "./client"
+          tag: "bosancz/bosan.cz-client:test"
+          username: ${{secrets.DOCKER_USERNAME}}
+          password: ${{secrets.DOCKER_TOKEN}}
+
+  build-docker-client-admin:
+    name: "client-admin: Build and Push Docker Image"
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      - uses: ./.github/actions/build-docker
+        with:
+          context: "./client-admin"
+          tag: "bosancz/bosan.cz-client-admin:test"
+          username: ${{secrets.DOCKER_USERNAME}}
+          password: ${{secrets.DOCKER_TOKEN}}
+
+  build-docker-server:
+    name: "server: Build and Push Docker Image"
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      - uses: ./.github/actions/build-docker
+        with:
+          context: "./server"
+          tag: "bosancz/bosan.cz-server:test"
+          username: ${{secrets.DOCKER_USERNAME}}
+          password: ${{secrets.DOCKER_TOKEN}}

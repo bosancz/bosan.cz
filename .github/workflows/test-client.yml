@@ -1,8 +1,8 @@
-name: Test client
+name: Test sync
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, ready_for_review]
+    types: [synchronize]
     paths:
       - client/**
       - ".github/workflows/test-client.yml"
@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-docker:
-    name: Build and Push Docker Image
+    name: "client: Build and Push Docker Image"
     if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
