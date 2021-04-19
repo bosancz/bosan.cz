@@ -5,8 +5,6 @@ on:
     types: [synchronize]
     paths:
       - client-admin/**
-      - ".github/workflows/test-client-admin.yml"
-      - ".github/workflows/build-docker.yml"
 
 jobs:
   build-docker:
