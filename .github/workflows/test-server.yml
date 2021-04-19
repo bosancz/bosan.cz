@@ -1,0 +1,27 @@
+name: Test server
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+    paths:
+      - server/**
+      - ".github/workflows/pr-build-server.yml"
+      - ".github/workflows/build-docker.yml"
+
+jobs:
+  build-docker:
+    name: Build and Push Docker Image
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      - uses: ./.github/actions/build-docker
+        with:
+          context: "./server"
+          tag: "bosancz/bosan.cz-server:test"
+          username: "${{secrets.DOCKER_USERNAME}}"
+          password: "${{secrets.DOCKER_TOKEN}}"

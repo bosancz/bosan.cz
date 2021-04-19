@@ -1,16 +1,17 @@
-name: Build client-admin (test)
+name: Test client-admin
 
 on:
   pull_request:
-    types: [review_requested]
+    types: [opened, reopened, synchronize, ready_for_review]
     paths:
       - client-admin/**
-      - ".github/workflows/master-build-client-admin.yml"
+      - ".github/workflows/pr-build-client-admin.yml"
       - ".github/workflows/build-docker.yml"
 
 jobs:
   build-docker:
-    name: Docker Image
+    name: Build and Push Docker Image
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
