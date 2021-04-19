@@ -1,4 +1,4 @@
-name: Test sync
+name: Test Deploy Sync
 
 on:
   pull_request:
