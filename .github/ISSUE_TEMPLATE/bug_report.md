@@ -19,6 +19,6 @@ Kroky k reprodukování chyby:
 **Screenshoty**
 Pokud to jde, udělej screenshot (zmáčkni tlačítko PrtScr na klávesnici) a vlož ho sem pomocí CTRL+V
 
-**Zařízení:**¨
+**Zařízení:**
 - Zařízení: mobil / počítač
 - Prohlížeč: Chrome / Safari / Seznam / Edge
