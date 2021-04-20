@@ -1,16 +1,15 @@
-name: Build server (test)
+name: Test Deploy Sync
 
 on:
   pull_request:
-    types: [review_requested]
+    types: [synchronize]
     paths:
       - server/**
-      - ".github/workflows/master-build-server.yml"
-      - ".github/workflows/build-docker.yml"
 
 jobs:
   build-docker:
-    name: Docker Image
+    name: "server: Build and Push Docker Image"
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master

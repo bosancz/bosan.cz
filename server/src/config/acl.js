@@ -19,9 +19,9 @@ const permissions = {
 
   "albums:list": { spravce, vedouci },
   "albums:drafts:list": { spravce, vedouci },
-
   "albums:recent:list": { spravce, vedouci },
   "albums:read": { spravce, vedouci },
+  "albums:drafts:read": { spravce, vedouci },
   "albums:create": { spravce, vedouci },
   "albums:edit": { spravce, vedouci },
   "albums:publish": { spravce, vedouci },
