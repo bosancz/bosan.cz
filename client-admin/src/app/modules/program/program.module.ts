@@ -7,9 +7,10 @@ import { ProgramRoutingModule } from './program-routing.module';
 
 import { ProgramPlanningComponent } from './views/program-planning/program-planning.component';
 import { ProgramWorkflowComponent } from './views/program-workflow/program-workflow.component';
-import { ProgramPrintComponent } from './components/program-print/program-print.component';
+import { ProgramPrintComponent } from './views/program-print/program-print.component';
 import { TrimesterSelectorComponent } from './components/trimester-selector/trimester-selector.component';
-import { ProgramViewComponent } from './views/program-view/program-view.component';
+import { ProgramCalendarComponent } from './views/program-calendar/program-calendar.component';
+import { ProgramComponent } from './program.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ProgramViewComponent } from './views/program-view/program-view.componen
     ProgramWorkflowComponent,
     ProgramPrintComponent,
     TrimesterSelectorComponent,
-    ProgramViewComponent
+    ProgramCalendarComponent,
+    ProgramComponent
   ]
 })
 export class ProgramModule { }

@@ -5,7 +5,7 @@ import { ProgramExportService } from 'app/core/services/program-export.service';
 import { ToastService } from 'app/core/services/toast.service';
 import { Event } from 'app/schema/event';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { TrimesterDateRange } from '../trimester-selector/trimester-selector.component';
+import { TrimesterDateRange } from '../../components/trimester-selector/trimester-selector.component';
 
 @Component({
   selector: 'bo-program-print',
@@ -16,18 +16,12 @@ export class ProgramPrintComponent implements OnInit {
 
   dateRange?: TrimesterDateRange;
 
-  actions: Action[] = [
-    {
-      text: "Zavřít",
-      handler: () => this.close()
-    }
-  ];
+  actions: Action[] = [];
 
   constructor(
     private api: ApiService,
     private programExport: ProgramExportService,
     private toasts: ToastService,
-    private modalController: ModalController
   ) { }
 
   ngOnInit(): void {
@@ -57,10 +51,6 @@ export class ProgramPrintComponent implements OnInit {
 
     this.programExport.export(events);
 
-  }
-
-  close() {
-    this.modalController.dismiss();
   }
 
 }

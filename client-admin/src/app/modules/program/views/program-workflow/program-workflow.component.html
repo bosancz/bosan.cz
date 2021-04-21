@@ -7,6 +7,37 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-tab-bar slot="top" class="d-xl-none">
+  <ion-tab-button (click)="selectedColumn = 'noLeader'" [selected]="selectedColumn === 'noLeader'">
+    <ion-text class="event-count">
+      {{ (noLeaderEvents | async)?.length || 0 }}
+    </ion-text>
+    <!-- <ion-icon name="calendar"></ion-icon> -->
+    <ion-label>Pan NIKDO</ion-label>
+  </ion-tab-button>
+  <ion-tab-button (click)="selectedColumn = 'draft'" [selected]="selectedColumn === 'draft'">
+    <!-- <ion-icon name="calendar"></ion-icon> -->
+    <ion-text class="event-count">
+      {{ (draftEvents | async)?.length || 0 }}
+    </ion-text>
+    <ion-label>V přípravě</ion-label>
+  </ion-tab-button>
+  <ion-tab-button (click)="selectedColumn = 'pending'" [selected]="selectedColumn === 'pending'">
+    <!-- <ion-icon name="calendar"></ion-icon> -->
+    <ion-text class="event-count">
+      {{ (pendingEvents | async)?.length || 0 }}
+    </ion-text>
+    <ion-label>Ke schválení</ion-label>
+  </ion-tab-button>
+  <ion-tab-button (click)="selectedColumn = 'public'" [selected]="selectedColumn === 'public'">
+    <!-- <ion-icon name="calendar"></ion-icon> -->
+    <ion-text class="event-count">
+      {{ (publicEvents | async)?.length || 0 }}
+    </ion-text>
+    <ion-label>V programu</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>
+
 <ion-content>
   <ng-template #eventsColumn let-events>
     <event-card *ngFor="let event of events" [event]="event" (change)="eventChanged($event)" class="mb-3"></event-card>
@@ -17,7 +48,7 @@
     <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'noLeader'">
       <ion-item lines="none" class="d-none d-xl-block">
         <ion-label><h2>Pan NIKDO</h2></ion-label>
-        <ion-badge color="primary">{{ (noLeaderEvents | async)?.length }}</ion-badge>
+        <ion-button color="primary">{{ (noLeaderEvents | async)?.length }}</ion-button>
       </ion-item>
       <div class="column px-2 py-2 mb-3 mx-xl-1">
         <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: noLeaderEvents | async }"></ng-container>
@@ -27,7 +58,7 @@
     <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'draft'">
       <ion-item lines="none" class="d-none d-xl-block">
         <ion-label><h2>V přípravě</h2></ion-label>
-        <ion-badge color="primary">{{ (draftEvents | async)?.length }}</ion-badge>
+        <ion-button color="primary">{{ (draftEvents | async)?.length }}</ion-button>
       </ion-item>
       <div class="column px-2 py-2 mb-3 mx-xl-1">
         <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: draftEvents | async }"></ng-container>
@@ -39,7 +70,7 @@
         <ion-label>
           <h2><strong>Ke schválení</strong></h2>
         </ion-label>
-        <ion-badge color="primary">{{ (pendingEvents | async)?.length }}</ion-badge>
+        <ion-button color="primary">{{ (pendingEvents | async)?.length }}</ion-button>
       </ion-item>
       <div class="column px-2 py-2 mb-3 mx-xl-1">
         <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: pendingEvents | async }"></ng-container>
@@ -49,7 +80,7 @@
     <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'public'">
       <ion-item lines="none" class="d-none d-xl-block">
         <ion-label><h2>V programu</h2></ion-label>
-        <ion-badge color="primary">{{ (publicEvents | async)?.length }}</ion-badge>
+        <ion-button color="primary">{{ (publicEvents | async)?.length }}</ion-button>
       </ion-item>
       <div class="column px-2 py-2 mb-3 mx-xl-1">
         <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: publicEvents | async }"></ng-container>
@@ -57,34 +88,3 @@
     </div>
   </div>
 </ion-content>
-
-<ion-tab-bar slot="bottom" class="d-xl-none">
-  <ion-tab-button (click)="selectedColumn = 'noLeader'" [selected]="selectedColumn === 'noLeader'">
-    <ion-icon name="calendar"></ion-icon>
-    <ion-label>Pan NIKDO</ion-label>
-    <ion-badge *ngIf="(noLeaderEvents | async)?.length">
-      {{ (noLeaderEvents | async)?.length || 0 }}
-    </ion-badge>
-  </ion-tab-button>
-  <ion-tab-button (click)="selectedColumn = 'draft'" [selected]="selectedColumn === 'draft'">
-    <ion-icon name="calendar"></ion-icon>
-    <ion-label>V přípravě</ion-label>
-    <ion-badge *ngIf="(draftEvents | async)?.length">
-      {{ (draftEvents | async)?.length || 0 }}
-    </ion-badge>
-  </ion-tab-button>
-  <ion-tab-button (click)="selectedColumn = 'pending'" [selected]="selectedColumn === 'pending'">
-    <ion-icon name="calendar"></ion-icon>
-    <ion-label>Ke schválení</ion-label>
-    <ion-badge *ngIf="(pendingEvents | async)?.length">
-      {{ (pendingEvents | async)?.length || 0 }}
-    </ion-badge>
-  </ion-tab-button>
-  <ion-tab-button (click)="selectedColumn = 'public'" [selected]="selectedColumn === 'public'">
-    <ion-icon name="calendar"></ion-icon>
-    <ion-label>V programu</ion-label>
-    <ion-badge *ngIf="(publicEvents | async)?.length">
-      {{ (publicEvents | async)?.length || 0 }}
-    </ion-badge>
-  </ion-tab-button>
-</ion-tab-bar>

@@ -1,0 +1,23 @@
+<ion-tabs>
+  <ion-tab-bar>
+    <ion-tab-button tab="kalendar">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <ion-label>Kalendář</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="tisk">
+      <ion-icon name="print-outline"></ion-icon>
+      <ion-label>Tisk</ion-label>
+    </ion-tab-button>
+    <ion-tab-button *aclCan="'program-management'" tab="planovani">
+      <ion-icon name="create-outline"></ion-icon>
+      <ion-label>Plánování</ion-label>
+    </ion-tab-button>
+    <ion-tab-button *aclCan="'program-management'" tab="schvalovani">
+      <ion-icon name="checkmark-done-outline"></ion-icon>
+      <ion-label>Schvalování</ion-label>
+      <ion-badge [color]="(programService.pendingEventsCount | async) ? 'danger' : 'dark'">
+        {{ programService.pendingEventsCount | async }}
+      </ion-badge>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
