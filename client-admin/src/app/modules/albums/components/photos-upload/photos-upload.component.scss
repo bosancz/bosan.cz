@@ -1,0 +1,23 @@
+.photoInput {
+  display: none;
+}
+.upload {
+  flex-grow: 1;
+}
+
+.dropzone {
+  height: 100%;
+  background-color: #eee;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  p {
+    color: #999;
+    text-align: center;
+    margin: 0;
+  }
+}
+.dropzone:hover {
+  background-color: #ddd;
+}

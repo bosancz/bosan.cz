@@ -15,12 +15,12 @@ import { AlbumsCreateComponent } from './views/albums-create/albums-create.compo
 import { AlbumsEditComponent } from './views/albums-edit/albums-edit.component';
 import { AlbumsEditMetadataComponent } from './views/albums-edit/albums-edit-metadata/albums-edit-metadata.component';
 import { AlbumsEditPhotosComponent } from './views/albums-edit/albums-edit-photos/albums-edit-photos.component';
-import { AlbumsEditUploadComponent } from './views/albums-edit/albums-edit-upload/albums-edit-upload.component';
 
 /* COMPONENTS */
+import { PhotosUploadComponent } from './components/photos-upload/photos-upload.component';
 import { AlbumsEditPhotoComponent } from './views/albums-edit/albums-edit-photo/albums-edit-photo.component';
 import { PhotoFaceEditComponent } from './components/photo-face-edit/photo-face-edit.component';
-import { MaterialModule } from 'app/shared/material.module';
+import { MaterialModule } from 'app/shared/modules/material.module';
 import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
 import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
 import { AlbumsViewInfoComponent } from './views/albums-view/albums-view-info/albums-view-info.component';
@@ -35,7 +35,7 @@ import { PhotoViewComponent } from './components/photo-view/photo-view.component
     AlbumsEditComponent,
     AlbumsEditMetadataComponent,
     AlbumsEditPhotosComponent,
-    AlbumsEditUploadComponent,
+    PhotosUploadComponent,
 
     AlbumsEditPhotoComponent,
     PhotoFaceEditComponent,

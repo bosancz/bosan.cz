@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { WebSettingsRoutingModule } from './web-routing.module';
 import { WebComponent } from './web.component';
 import { SharedModule } from 'app/shared/shared.module';
-import { MaterialModule } from 'app/shared/material.module';
+import { MaterialModule } from 'app/shared/modules/material.module';
 
 @NgModule({
   declarations: [

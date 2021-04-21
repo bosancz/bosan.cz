@@ -4,6 +4,7 @@ import { ModalController, Platform, ViewWillLeave } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PhotoViewComponent } from 'app/modules/albums/components/photo-view/photo-view.component';
+import { PhotosUploadComponent } from 'app/modules/albums/components/photos-upload/photos-upload.component';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { AlbumsService } from '../../../albums.service';
@@ -27,7 +28,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   enableOrdering = false;
   enableDeleting = false;
 
-  photoModal?: HTMLIonModalElement;
+  modal?: HTMLIonModalElement;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,7 +45,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   }
 
   ionViewWillLeave() {
-    this.photoModal?.dismiss();
+    this.modal?.dismiss();
   }
 
   async loadPhotos(album: Album<Photo, string>) {
@@ -57,7 +58,9 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   async onPhotoClick(photo: Photo, event: MouseEvent) {
     if (this.enableDeleting || this.enableOrdering) return;
 
-    this.photoModal = await this.modalController.create({
+    if (this.modal) this.modal.dismiss();
+
+    this.modal = await this.modalController.create({
       component: PhotoViewComponent,
       componentProps: {
         "photo": photo,
@@ -65,7 +68,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       }
     });
 
-    this.photoModal.present();
+    this.modal.present();
   }
 
   private startOrdering() {
@@ -113,7 +116,19 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   }
 
   private async uploadPhotos() {
+    if (this.modal) this.modal.dismiss();
 
+    this.modal = await this.modalController.create({
+      component: PhotosUploadComponent,
+      componentProps: {
+        album: this.album
+      },
+      backdropDismiss: false
+    });
+
+    this.modal.present();
+
+    this.modal.onDidDismiss().then(saved => saved && this.loadPhotos(this.album!));
   }
 
 

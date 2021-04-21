@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from 'app/shared/material.module';
+import { MaterialModule } from 'app/shared/modules/material.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { AccountCredentialsComponent } from './components/account-credentials/account-credentials.component';
 import { AccountAppComponent } from './components/account-app/account-app.component';

@@ -1,10 +1,9 @@
-import { Component, OnChanges, SimpleChanges, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { HttpEvent, HttpEventType, HttpClient } from "@angular/common/http";
-
+import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ModalController, Platform } from '@ionic/angular';
 import { ApiService } from 'app/core/services/api.service';
+import { Album } from "app/schema/album";
 
-import { Album, Photo } from "app/schema/album";
-import { AlbumsService } from 'app/modules/albums/albums.service';
 
 interface PhotoUploadItem {
   file: File;
@@ -14,37 +13,62 @@ interface PhotoUploadItem {
 }
 
 @Component({
-  selector: 'albums-edit-upload',
-  templateUrl: './albums-edit-upload.component.html',
-  styleUrls: ['./albums-edit-upload.component.scss']
+  selector: 'photos-upload',
+  templateUrl: './photos-upload.component.html',
+  styleUrls: ['./photos-upload.component.scss']
 })
-export class AlbumsEditUploadComponent {
+export class PhotosUploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  album$ = this.albumsService.album$;
-
-  @Output() saved: EventEmitter<void> = new EventEmitter();
+  @Input() album!: Album;
 
   tags: string[] = [];
   selectedTags: string[] = [];
 
-  status: string = "notstarted";
+  uploading: boolean = false;
 
   photoUploadQueue: PhotoUploadItem[] = [];
 
   allowedFiles_re = /\.(jpg|jpeg|png|gif)$/i;
 
+  @ViewChild("photoInput") photoInput!: ElementRef<HTMLInputElement>;
+
+  isMobile: boolean = false;
+
+  private preventExitListener = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    event.returnValue = "Opravdu chcete zrušit nahrávání fotek?";
+    return "Opravdu chcete zrušit nahrávání fotek?";
+  };
+
   constructor(
-    private albumsService: AlbumsService,
     private api: ApiService,
     private http: HttpClient,
-    private cdRef: ChangeDetectorRef
+    private modalController: ModalController,
+    private platform: Platform
   ) {
-    this.album$.subscribe(album => this.updateTags(album));
+
   }
 
-  updateTags(album: Album<Photo, string>) {
+  ngOnInit() {
+    this.updateTags();
+
+  }
+  ngOnDestroy() {
+    this.uploading = false;
+    this.allowExit();
+  }
+
+  ngAfterViewInit() {
+    if (this.platform.is("mobile")) {
+      this.isMobile = true;
+      this.photoInput.nativeElement.click();
+    }
+  }
+
+
+  updateTags() {
     this.tags = [];
-    album.photos.forEach(photo => {
+    this.album.photos.forEach(photo => {
       photo.tags.filter(tag => this.tags.indexOf(tag) === -1).forEach(tag => this.tags.push(tag));
     });
   }
@@ -88,16 +112,19 @@ export class AlbumsEditUploadComponent {
     if (i !== -1) this.photoUploadQueue.splice(i, 1);
   }
 
-  clearQueue() {
-    this.photoUploadQueue = [];
+  close() {
+    this.modalController.dismiss(false);
   }
 
   async uploadPhotos(album: Album<any, any>) {
 
-    this.status = "started";
+    this.uploading = true;
+    this.preventExit();
 
     let uploadItem: PhotoUploadItem;
     for (uploadItem of this.photoUploadQueue) {
+
+      if (!this.uploading) break;
 
       if (uploadItem.status === "finished") continue;
 
@@ -112,10 +139,10 @@ export class AlbumsEditUploadComponent {
       }
     }
 
-    this.status = "finished";
-    this.saved.emit();
+    this.uploading = false;
+    this.allowExit();
 
-    this.albumsService.loadAlbum(album._id);
+    this.modalController.dismiss(true);
 
   }
 
@@ -145,7 +172,6 @@ export class AlbumsEditUploadComponent {
 
             case HttpEventType.UploadProgress:
               uploadItem.progress = event.total ? Math.round(event.loaded / event.total * 100) : 0;
-              this.cdRef.markForCheck();
               if (event.loaded === event.total) uploadItem.status = "processing";
               break;
 
@@ -157,6 +183,15 @@ export class AlbumsEditUploadComponent {
         }, err => reject(err));
 
     });
+  }
+
+
+  private preventExit() {
+    window.addEventListener("beforeunload", this.preventExitListener);
+  }
+
+  private allowExit() {
+    window.removeEventListener("beforeunload", this.preventExitListener);
   }
 
 }

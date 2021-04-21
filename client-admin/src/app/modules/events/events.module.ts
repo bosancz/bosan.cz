@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from 'app/shared/material.module';
+import { MaterialModule } from 'app/shared/modules/material.module';
 import { SharedModule } from 'app/shared/shared.module';
 /* COMPONENTS */
 import { EventAgeHistogramComponent } from './components/event-age-histogram/event-age-histogram.component';

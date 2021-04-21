@@ -28,7 +28,7 @@ import { PageTitleDirective } from './directives/page-title.directive';
 import { SecondaryMenuDirective } from './directives/secondary-menu.directive';
 import { TextcheckDirective } from './directives/textcheck.directive';
 /* MODULES */
-import { MaterialModule } from './material.module';
+import { MaterialModule } from './modules/material.module';
 /* PIPES */
 import { DateRangePipe } from "./pipes/date-range.pipe";
 import { EventPipe } from "./pipes/event.pipe";
@@ -36,6 +36,7 @@ import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { GroupPipe } from "./pipes/group.pipe";
 import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
+import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
 
 
 
@@ -66,6 +67,7 @@ import { SafeurlPipe } from "./pipes/safeurl.pipe";
     TypeaheadFieldComponent,
     EventCardComponent,
     PageHeaderComponent,
+    PageComponent,
     PhotoFaceComponent,
     EventCalendarComponent,
 
@@ -84,7 +86,7 @@ import { SafeurlPipe } from "./pipes/safeurl.pipe";
     EventPipe,
     FormatPhonePipe,
     SafeurlPipe,
-    PageComponent,
+    PrettyBytesPipe,
 
   ],
   exports: [
@@ -125,6 +127,7 @@ import { SafeurlPipe } from "./pipes/safeurl.pipe";
     EventPipe,
     FormatPhonePipe,
     SafeurlPipe,
+    PrettyBytesPipe
   ],
   providers: []
 

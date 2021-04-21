@@ -1,17 +1,13 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { AlbumsListComponent } from './views/albums-list/albums-list.component';
-
-import { AlbumsEditComponent } from './views/albums-edit/albums-edit.component';
-import { AlbumsEditPhotoComponent } from './views/albums-edit/albums-edit-photo/albums-edit-photo.component';
-import { AlbumsEditPhotosComponent } from './views/albums-edit/albums-edit-photos/albums-edit-photos.component';
-import { AlbumsEditMetadataComponent } from './views/albums-edit/albums-edit-metadata/albums-edit-metadata.component';
-import { AlbumsEditUploadComponent } from './views/albums-edit/albums-edit-upload/albums-edit-upload.component';
+import { RouterModule, Routes } from '@angular/router';
 import { AlbumsCreateComponent } from './views/albums-create/albums-create.component';
-import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
+import { AlbumsEditComponent } from './views/albums-edit/albums-edit.component';
+import { AlbumsListComponent } from './views/albums-list/albums-list.component';
 import { AlbumsViewInfoComponent } from './views/albums-view/albums-view-info/albums-view-info.component';
 import { AlbumsViewPhotosComponent } from './views/albums-view/albums-view-photos/albums-view-photos.component';
+import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
+
+
 
 const routes: Routes = [
 
