@@ -128,7 +128,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
     this.modal.present();
 
-    this.modal.onDidDismiss().then(saved => saved && this.loadPhotos(this.album!));
+    this.modal.onDidDismiss().then(saved => saved && this.albumsService.loadAlbum(this.album!._id));
   }
 
 
