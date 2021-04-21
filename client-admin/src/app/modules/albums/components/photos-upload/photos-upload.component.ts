@@ -1,5 +1,5 @@
 import { HttpClient, HttpEvent, HttpEventType } from "@angular/common/http";
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { ApiService } from 'app/core/services/api.service';
 import { Album } from "app/schema/album";
@@ -44,7 +44,8 @@ export class PhotosUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     private api: ApiService,
     private http: HttpClient,
     private modalController: ModalController,
-    private platform: Platform
+    private platform: Platform,
+    private cdRef: ChangeDetectorRef
   ) {
 
   }
@@ -172,6 +173,7 @@ export class PhotosUploadComponent implements OnInit, AfterViewInit, OnDestroy {
 
             case HttpEventType.UploadProgress:
               uploadItem.progress = event.total ? Math.round(event.loaded / event.total * 100) : 0;
+              this.cdRef.markForCheck();
               if (event.loaded === event.total) uploadItem.status = "processing";
               break;
 
