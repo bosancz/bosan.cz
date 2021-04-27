@@ -31,8 +31,15 @@ export class AlbumsCreateComponent implements OnInit {
     const albumData = form.value;
     // create the event and wait for confirmation
     const response = await this.api.post("albums", albumData);
+
+    const location = response.headers.get("location");
+    if (!location) {
+      this.toastService.toast("Chyba při otevírání nového alba.");
+      return;
+    }
+
     // get the newly created album    
-    const album = await this.api.get<Album>(response.headers.get("location"));
+    const album = await this.api.get<Album>(location);
     // show the confrmation
     this.toastService.toast("Album vytvořeno a uloženo.");
     // open the album

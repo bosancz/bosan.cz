@@ -52,10 +52,15 @@ export class MembersCreateComponent implements OnInit {
     const formData = this.form.value;
 
     const response = await this.api.post("members", formData);
-
-    let member = await this.api.get<Member>(response.headers.get("location"), { select: "_id" });
-
     this.toastService.toast("Člen uložen.");
+
+    const location = response.headers.get("location");
+    if (!location) {
+      this.toastService.toast("Chyba při otevírání nového člena.");
+      return;
+    }
+
+    let member = await this.api.get<Member>(location, { select: "_id" });
 
     this.router.navigate(["../", {}, member._id], { relativeTo: this.route, replaceUrl: true });
   }

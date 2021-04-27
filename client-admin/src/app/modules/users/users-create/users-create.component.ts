@@ -35,15 +35,26 @@ export class UsersCreateComponent implements OnInit {
   async createUser() {
     // get data from form
     const userData = this.form.value;
+
     // create the user and wait for confirmation
     const response = await this.api.post("users", userData);
+
     // show the confrmation
     this.toastService.toast("Uživatel vytvořen.");
 
     // get the new user
-    const user = await this.api.get<User>(response.headers.get("location"));
+    const location = response.headers.get("location");
+
+    if (!location) {
+      this.toastService.toast("Chyba při otevírání nového uživatele.");
+      return;
+    }
+
+    const user = await this.api.get<User>(location);
+
     // open the user
     this.router.navigate(["/uzivatele", user._id], { replaceUrl: true });
+
   }
 
 }

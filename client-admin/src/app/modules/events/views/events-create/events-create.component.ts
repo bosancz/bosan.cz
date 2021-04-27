@@ -44,8 +44,15 @@ export class EventsCreateComponent implements OnInit {
     let eventData = this.form.value;
     // create the event and wait for confirmation
     let response = await this.api.post("events", eventData);
+
+    const location = response.headers.get("location");
+    if (!location) {
+      this.toastService.toast("Chyba při otevírání nové akce.");
+      return;
+    }
+
     // get the event id
-    let event = await this.api.get<Event>(response.headers.get("location"), { select: "_id" });
+    let event = await this.api.get<Event>(location, { select: "_id" });
     // show the confrmation
     this.toastService.toast("Akce vytvořena a uložena.");
     // open the event

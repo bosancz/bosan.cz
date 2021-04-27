@@ -11,6 +11,8 @@ import { Document, DocumentLink } from "app/schema/api";
 export class ApiError extends Error {
 }
 
+type PathObject = string | [string, object] | [string, ...(string | number)[]] | { href: string; };
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,16 +30,23 @@ export class ApiService {
     else return link.href;
   }
 
-  async path2href(pathObj: any): Promise<string> {
+  async path2href(pathObj: PathObject): Promise<string> {
 
     if (!pathObj) throw new ApiError("Missing link");
 
-    var path: any;
-    var expand: any;
+    var path: string;
+    var expand: (string | number)[] | any = [];
 
-    if (Array.isArray(pathObj) && pathObj.length <= 2) [path, expand] = pathObj;
-    else if (Array.isArray(pathObj) && pathObj.length > 2) { path = pathObj.shift(); expand = pathObj; }
-    else path = pathObj;
+    if (Array.isArray(pathObj)) {
+      if (typeof pathObj[1] === "object") [path, expand] = pathObj;
+      else { path = pathObj[0]; expand = pathObj.slice(1); }
+    }
+    else if (typeof pathObj === "object") {
+      path = pathObj.href;
+    }
+    else {
+      path = pathObj;
+    }
 
     var href;
 
@@ -51,16 +60,11 @@ export class ApiService {
     else if (typeof path === "string") {
       href = path;
     }
-    else if (path.href) {
-      href = path.href;
-    }
     else {
       throw new ApiError("Invalid link: " + JSON.stringify(pathObj));
     }
 
-    if (typeof expand === "object") href = this.expandHref(href, key => expand[key]);
-    if (typeof expand === "string" || typeof expand === "number") href = this.expandHref(href, key => expand);
-    if (Array.isArray(expand)) { var i = 0; href = this.expandHref(href, key => { i++; return expand[i - 1]; }); }
+    href = this.expandHref(href, expand);
 
     if (!href.match(/^[a-z]+\:\/\//)) href = this.root + href;
 
@@ -68,37 +72,48 @@ export class ApiService {
 
   }
 
-  expandHref(href: string, expand: (value: string) => string): string {
-    //return URITemplate(href).expand(expand)
-    return href.replace(/\{([^\}]+)\}/g, (match, p1) => expand(p1));
+  expandHref(href: string, expand: any | (string | number)[]): string {
+
+    const re = /\{([^\}]+)\}/g;
+
+    if (Array.isArray(expand)) {
+      var i = 0;
+      href = href.replace(re, key => { i++; return expand[i - 1]; });
+    }
+
+    else {
+      href = href.replace(re, key => expand[key]);
+    }
+
+    return href;
   }
 
-  async get<T>(path: any, params?: any): Promise<T> {
+  async get<T>(path: PathObject, params?: any): Promise<T> {
     const href = await this.path2href(path);
     return this.http.get<T>(href, { params: this.toParams(params) }).toPromise();
-  }
+  };
 
-  async getAsText(path: any, params?: any): Promise<string> {
+  async getAsText(path: PathObject, params?: any): Promise<string> {
     const href = await this.path2href(path);
     return this.http.get(href, { params: this.toParams(params), responseType: "text" }).toPromise();
-  }
+  };
 
-  async post<T>(path: any, data?: T): Promise<HttpResponse<string>> {
+  async post<T>(path: PathObject, data?: T): Promise<HttpResponse<string>> {
     const href = await this.path2href(path);
     return this.http.post(href, data, { observe: "response", responseType: "text" }).toPromise();
-  }
+  };
 
-  async put<T>(path: any, data: T): Promise<HttpResponse<string>> {
+  async put<T>(path: PathObject, data: T): Promise<HttpResponse<string>> {
     const href = await this.path2href(path);
     return this.http.put(href, data, { observe: "response", responseType: "text" }).toPromise();
-  }
+  };
 
-  async patch<T>(path: any, data: Partial<T>): Promise<HttpResponse<string>> {
+  async patch<T>(path: PathObject, data: Partial<T>): Promise<HttpResponse<string>> {
     const href = await this.path2href(path);
     return this.http.patch(href, data, { observe: "response", responseType: "text" }).toPromise();
   }
 
-  async delete(path: any, expand?: any): Promise<HttpResponse<string>> {
+  async delete(path: PathObject, expand?: any): Promise<HttpResponse<string>> {
     const href = await this.path2href(path);
     return this.http.delete(href, { observe: "response", responseType: "text" }).toPromise();
   }
