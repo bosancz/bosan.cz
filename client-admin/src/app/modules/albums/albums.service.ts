@@ -5,6 +5,7 @@ import { Album, Photo } from 'app/schema/album';
 import { from, Subject, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, mergeMap } from 'rxjs/operators';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DocumentAction } from 'app/schema/api';
 
 @Injectable({
   providedIn: 'root'
@@ -22,14 +23,26 @@ export class AlbumsService {
     return album;
   }
 
-  async saveAlbum(albumId: Album["_id"], data: Partial<Album<any>>) {
+  /** @deprecated Use updateAlbum instead */
+  async saveAlbum(albumId: Album["_id"], data: Partial<Album<string>>) {
+    return this.updateAlbum(albumId, data);
+  }
+
+  async updateAlbum(albumId: Album["_id"], data: Partial<Album<string>>) {
     await this.api.patch(["album", albumId], data);
   }
+
+  async albumAction(action: DocumentAction) {
+    return this.api.post(action);
+  }
+
 
   async deleteAlbum(albumId: Album["_id"]) {
     await this.api.delete(["album", albumId]);
   }
 
+
+  /* PHOTOS */
   async getPhotos(album: Album<any, any> | Album["_id"]): Promise<Photo[]> {
     if (typeof album === "object" && album._links?.["photos"]) {
       return this.api.get<Photo[]>(album._links["photos"]);
