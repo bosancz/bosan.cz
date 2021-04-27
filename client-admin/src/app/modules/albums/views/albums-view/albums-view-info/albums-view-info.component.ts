@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ToastService } from 'app/core/services/toast.service';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { tap } from 'rxjs/operators';
 import { AlbumsService } from '../../../albums.service';
 
 @UntilDestroy()
@@ -18,10 +19,14 @@ export class AlbumsViewInfoComponent implements OnInit {
 
   actions: Action[] = [];
 
+  alert?: HTMLIonAlertElement;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private albumsService: AlbumsService
+    private albumsService: AlbumsService,
+    private toastService: ToastService,
+    private alertController: AlertController
   ) { }
 
   ngOnInit(): void {
@@ -30,24 +35,49 @@ export class AlbumsViewInfoComponent implements OnInit {
       .subscribe(album => this.updateAlbum(album));
   }
 
+  ngOnDestroy() {
+    this.alert?.dismiss();
+  }
+
   updateAlbum(album: Album<Photo, string>) {
     this.album = album;
     this.actions = this.getActions(this.album);
   }
 
-  private async uploadPhotos() {
-
-  }
-
   private async publish() {
-
+    if (!this.album?._actions?.publish) return;
+    await this.albumsService.albumAction(this.album?._actions?.publish);
+    await this.albumsService.loadAlbum(this.album._id);
+    this.toastService.toast("Publikováno.");
   }
 
   private async unpublish() {
-
+    if (!this.album?._actions?.unpublish) return;
+    await this.albumsService.albumAction(this.album?._actions?.unpublish);
+    await this.albumsService.loadAlbum(this.album._id);
+    this.toastService.toast("Skryto.");
   }
 
   private async delete() {
+    this.alert = await this.alertController.create({
+      message: `Opravdu chcete smazat album ${this.album?.name}?`,
+      buttons: [
+        { text: "Zrušit", role: "cancel" },
+        { text: "Smazat", handler: () => this.deleteConfirmed() }
+      ]
+
+    });
+
+    this.alert.present();
+  }
+
+  private async deleteConfirmed() {
+    if (!this.album) return;
+
+    await this.albumsService.deleteAlbum(this.album._id);
+
+    this.toastService.toast("Smazáno.");
+    this.router.navigate(["/galerie"], { relativeTo: this.route, replaceUrl: true });
 
   }
 
@@ -73,6 +103,7 @@ export class AlbumsViewInfoComponent implements OnInit {
       },
       {
         text: "Publikovat",
+        icon: "eye-outline",
         hidden: album.status !== "draft",
         handler: () => this.publish()
       },
