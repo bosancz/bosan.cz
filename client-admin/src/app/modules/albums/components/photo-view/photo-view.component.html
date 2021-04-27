@@ -12,13 +12,13 @@
   </ion-slides>
 
   <ion-toolbar class="bottom-toolbar">
-    <ion-item *ngIf="!editingCaption">
+    <ion-item *ngIf="!editingCaption" lines="none">
       <ion-label [class.nocaption]="!photo.caption" (dblclick)="editCaption()">
         {{ photo.caption || "Bez popisku" }}
       </ion-label>
       <ion-button (click)="editCaption()" fill="clear"><ion-icon name="create-outline"></ion-icon></ion-button>
     </ion-item>
-    <ion-item class="edit-caption" [class.d-none]="!editingCaption">
+    <ion-item class="edit-caption" [class.d-none]="!editingCaption" lines="none">
       <ion-input
         #captionInput
         [ngModel]="photo.caption"
