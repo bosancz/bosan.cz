@@ -21,8 +21,6 @@ import { LoginComponent } from './views/login/login.component';
 import { NotFoundComponent } from './views/not-found/not-found.component';
 /* HTTP INTERCEPTORS */
 import { WithCredentialsInterceptor } from "./http-interceptors/with-credentials.interceptor";
-import { AclService } from './services/acl.service';
-import { permissions } from 'app/config/permissions';
 
 
 /* STARUP SCRIPTS */

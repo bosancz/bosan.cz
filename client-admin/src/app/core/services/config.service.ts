@@ -33,7 +33,7 @@ export class ConfigService {
     else return config;
   }
 
-  // TODO some old untyped code 🤦‍♀️
+  // TODO: some old untyped code 🤦‍♀️
   private getPathValue(config: WebConfig, path: string): any {
     const parts = path.split(".");
     let value: any = config;

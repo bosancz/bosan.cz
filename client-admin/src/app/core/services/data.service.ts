@@ -1,22 +1,19 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-import { environment } from "environments/environment";
-
-import { Paginated } from "app/schema/paginated";
+import { Injectable } from '@angular/core';
 import { Album, Photo } from "app/schema/album";
 import { Camp } from "app/schema/camp";
-import { Contact } from "app/schema/contact";
-import { Event, EventRecurring } from "app/schema/event";
 import { Member } from "app/schema/member";
-import { Payment } from "app/schema/payment";
+import { Paginated } from "app/schema/paginated";
 import { User } from "app/schema/user";
+import { environment } from "environments/environment";
+import { Observable } from 'rxjs';
+
+
 
 function setParam(params: HttpParams, name: string, value: any) {
   if (value === undefined) return params;
 
-  if (value === null) return params.set(name, null);
+  if (value === null) return params.delete(name);
 
   if (typeof value !== "object") return params.set(name, value);
 
@@ -63,11 +60,11 @@ export class DataService {
     return this.http.get<any>(this.root + "/albums/list", { params: toParams(options) }).toPromise();
   }
 
-  getAlbum(albumId: string, options?): Promise<Album> {
+  getAlbum(albumId: string, options?: any): Promise<Album> {
     return this.http.get<Album>(this.root + "/albums/" + albumId, { params: toParams(options) }).toPromise();
   }
 
-  createAlbum(albumData: any): Promise<Album> {
+  createAlbum(albumData: Partial<Album<any>>): Promise<Album> {
     return this.http.post<Album>(this.root + "/albums", albumData).toPromise();
   }
 
@@ -95,7 +92,7 @@ export class DataService {
     return this.http.get<string[]>(this.root + "/photos/tags").toPromise();
   }
 
-  createPhoto(photoData): Observable<HttpEvent<string>> {
+  createPhoto(photoData: Partial<Photo>): Observable<HttpEvent<string>> {
     return this.http.post(this.root + "/photos", photoData, { observe: 'events', reportProgress: true, responseType: "text" });
   }
 
@@ -141,7 +138,7 @@ export class DataService {
     return this.http.post<Member>(this.root + "/members", memberData).toPromise();
   }
 
-  updateMember(memberId: string, memberData): Promise<string> {
+  updateMember(memberId: string, memberData: Partial<Member>): Promise<string> {
     return this.http.patch(this.root + "/members/" + memberId, memberData, { responseType: "text" }).toPromise();
   }
 

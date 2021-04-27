@@ -23,7 +23,7 @@ export class ToastService {
 
     if (typeof toastOptions === "string") {
 
-      // TODO remove this way from codebase and then remove this
+      // TODO: remove this way from codebase and then remove this
 
       console.error("This is a deprecated way of adding button to toast!");
 
