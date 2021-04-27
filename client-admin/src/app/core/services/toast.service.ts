@@ -17,11 +17,13 @@ export class ToastService {
     public toastController: ToastController
   ) { }
 
-  toast(toast: string, toastOptions?: ToastOptions): void;
+  toast(toast: string, toastOptions?: ToastOptions): Promise<HTMLIonToastElement>;
   /** @deprecated */ toast(toast: string, action: string): { onAction: () => Observable<void>; };
-  toast(toast: string, toastOptions?: string | ToastOptions): void | { onAction: () => Observable<void>; } {
+  toast(toast: string, toastOptions?: string | ToastOptions): Promise<HTMLIonToastElement> | { onAction: () => Observable<void>; } {
 
     if (typeof toastOptions === "string") {
+
+      // TODO remove this way from codebase and then remove this
 
       console.error("This is a deprecated way of adding button to toast!");
 
@@ -46,7 +48,12 @@ export class ToastService {
       duration: toastOptions?.duration || 2000
     };
 
-    this.toastController.create(toastOptions).then(toast => toast.present());
+    return this.toastController
+      .create(toastOptions)
+      .then(toast => {
+        toast.present();
+        return toast;
+      });
 
   }
 
