@@ -6,7 +6,9 @@
 <!-- PINNED -->
 <ion-button *ngFor="let action of pinned" [disabled]="action.disabled" (click)="onClick(action)">
   <ion-icon *ngIf="action.icon" [class.d-xl-none]="!ios && action.text" [name]="action.icon"></ion-icon>
-  <span *ngIf="action.text" [class.d-none]="action.icon" [class.d-xl-inline]="!ios">{{ action.text }}</span>
+  <span *ngIf="action.text" [class.d-none]="action.icon" [class.d-xl-inline]="!ios">
+    <ion-text [color]="action.color">{{ action.text }}</ion-text>
+  </span>
 </ion-button>
 
 <!-- BUTTONS -->
