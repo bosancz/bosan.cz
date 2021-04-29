@@ -7,6 +7,7 @@ import { ApiService } from 'app/core/services/api.service';
 
 import { Member } from "app/schema/member";
 import { Event } from "app/schema/event";
+import { MemberGroupID } from 'app/config/member-groups';
 
 export interface PaddlerCompetitionRanking {
 
@@ -16,7 +17,7 @@ export interface PaddlerCompetitionRanking {
   water_km: number;
 
   member?: Member;
-  group?: string;
+  group?: MemberGroupID;
   events?: Event[];
 
 }
@@ -28,7 +29,7 @@ export interface PaddlerCompetitionGroupRanking {
 
   water_km: number;
 
-  group?: string;
+  group?: MemberGroupID;
   events?: Event[];
 
 }

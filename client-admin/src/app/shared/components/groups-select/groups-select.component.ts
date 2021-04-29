@@ -1,8 +1,8 @@
-import { Component, OnInit, forwardRef, Input, HostBinding } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-
-import { ConfigService } from "app/core/services/config.service";
+import { MemberGroupID, MemberGroups } from 'app/config/member-groups';
 import { WebConfigGroup } from 'app/schema/web-config';
+
 
 @Component({
   selector: 'groups-select',
@@ -22,7 +22,7 @@ import { WebConfigGroup } from 'app/schema/web-config';
 })
 export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
 
-  groups: WebConfigGroup[] = [];
+  groups = Object.entries(MemberGroups).map(entry => ({ id: <MemberGroupID>entry[0], ...entry[1] }));
   selectedGroups: string[] = [];
 
   disabled: boolean = false;
@@ -39,15 +39,9 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
     this.selectedGroups = [];
   }
 
-  constructor(private configService: ConfigService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.loadGroups();
-  }
-
-  async loadGroups() {
-    const config = await this.configService.getConfig();
-    this.groups = config.members.groups.filter(group => group.event);
   }
 
   isSelected(group: WebConfigGroup) {
