@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { AlertController, ViewWillEnter } from '@ionic/angular';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ApiService } from 'app/core/services/api.service';
 import { ToastService } from "app/core/services/toast.service";
 import { Member } from "app/schema/member";
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { Subject } from "rxjs";
+import { DateTime } from 'luxon';
+import { pipe, Subject } from "rxjs";
 import { distinctUntilChanged, map, mergeMap } from 'rxjs/operators';
 
 
-
+@UntilDestroy()
 @Component({
   selector: 'members-view',
   templateUrl: './members-view.component.html',
@@ -46,14 +48,14 @@ export class MembersViewComponent implements OnInit, ViewWillEnter {
 
   ngOnInit() {
     this.route.params
-      .pipe(map((params: Params) => params.member))
-      .subscribe(memberId => this.load(memberId));
+      .pipe(untilDestroyed(this))
+      .subscribe(params => this.loadMember(params.member));
   }
 
   ionViewWillEnter() { }
 
   // DB interaction
-  async load(memberId: string) {
+  async loadMember(memberId: string) {
     this.member = await this.api.get<Member>(["member", memberId]);
   }
 
@@ -86,5 +88,9 @@ export class MembersViewComponent implements OnInit, ViewWillEnter {
   getFullName(member?: Member) {
     if (!member) return "";
     return member.nickname + (member?.name ? ` (${member?.name?.first} ${member?.name?.last})` : '');
+  }
+
+  getAge(member?: Member) {
+
   }
 }

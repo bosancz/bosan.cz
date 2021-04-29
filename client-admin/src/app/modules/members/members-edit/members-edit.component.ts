@@ -1,11 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { MemberGroups } from 'app/config/member-groups';
+import { MemberRoles } from 'app/config/member-roles';
+import { MembershipTypes } from 'app/config/membership-types';
 import { ApiService } from 'app/core/services/api.service';
-import { ConfigService } from 'app/core/services/config.service';
 import { ToastService } from 'app/core/services/toast.service';
 import { Member } from 'app/schema/member';
-import { WebConfigGroup } from 'app/schema/web-config';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { Subscription } from 'rxjs';
 
@@ -18,9 +20,12 @@ export class MembersEditComponent {
 
   member?: Member;
 
-  groups: WebConfigGroup[] = [];
-  roles: string[] = [];
-  membershipTypes: string[] = [];
+  groups = Object.entries(MemberGroups)
+    .map(entry => ({ key: entry[0], value: entry[1] }))
+    .filter(entry => entry.value.real);
+
+  roles = MemberRoles;
+  membershipTypes = MembershipTypes;
 
   paramsSubscription?: Subscription;
 
@@ -28,13 +33,8 @@ export class MembersEditComponent {
 
   actions: Action[] = [
     {
-      text: "Zrušit úpravy",
-      color: "danger",
-      role: "destructive",
-      handler: () => this.router.navigate(["../"], { relativeTo: this.route, replaceUrl: true })
-    },
-    {
       text: "Uložit",
+      pinned: true,
       handler: () => this.saveMember()
     }
   ];
@@ -44,9 +44,8 @@ export class MembersEditComponent {
     private toastService: ToastService,
     private route: ActivatedRoute,
     private router: Router,
-    private configService: ConfigService
+    private navController: NavController
   ) {
-    this.loadConfig();
   }
 
   ngOnInit() {
@@ -57,14 +56,6 @@ export class MembersEditComponent {
 
   ngOnDestroy() {
     this.paramsSubscription?.unsubscribe();
-  }
-
-  loadConfig() {
-    this.configService.getConfig().then(config => {
-      this.groups = config.members.groups.filter(group => group.real);
-      this.roles = config.members.roles.map(item => item.id);
-      this.membershipTypes = config.members.membershipTypes.map(item => item.id);
-    });
   }
 
   async loadMember(memberId: string) {
@@ -84,7 +75,7 @@ export class MembersEditComponent {
 
     this.toastService.toast("Uloženo.");
 
-    this.router.navigate(["../"], { relativeTo: this.route, replaceUrl: true });
+    this.navController.navigateBack(["/databaze", this.member._id]);
   }
 
 }

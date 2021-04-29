@@ -13,114 +13,178 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div *ngIf="member as member">
-    <div class="row">
-      <div class="col-md-8 col-lg-9 order-12 order-lg-1">
-        <p>
-          Tohle by měla být taková karta člena. Když se na ní kouknete, mělo by být jasné, co u nás ve skupině už
-          dokázal. Vpravo pak rychlé info o členovi, abyste na akci nemuseli dlouho hledat základní věci.
-        </p>
-        <h3>Kvalifikace</h3>
-        <p>infografika NZ -> 1. hnezda -> 2. hvezda ... a kde jsem</p>
-        <h3>Akce</h3>
-        <p>Akce, které člen vedl, akce na kterých byl.</p>
-        <h3>Fotky</h3>
-        <p>Fotky z akcí na kterých je člen</p>
+  <div *ngIf="!member">
+    <h1><ion-skeleton-text></ion-skeleton-text></h1>
+  </div>
+
+  <div class="row" *ngIf="member">
+    <div class="col-12 col-lg-8">
+      <h1>{{ member?.nickname || member.name?.first || member.name?.last }}</h1>
+      <p>
+        {{ member.name?.first }} {{ member.name?.last }},
+        <span [style.color]="member.group | group: 'color'">{{ member.group | group: "name" }}</span
+        >, {{ member.birthday | age }} let
+      </p>
+
+      <ion-slides [pager]="true" class="d-lg-none">
+        <ion-slide>
+          <ng-container *ngTemplateOutlet="cardPersonalInfo"></ng-container>
+        </ion-slide>
+
+        <ion-slide>
+          <ng-container *ngTemplateOutlet="cardContacts"></ng-container>
+        </ion-slide>
+
+        <ion-slide>
+          <ng-container *ngTemplateOutlet="cardAllergies"></ng-container>
+        </ion-slide>
+
+        <ion-slide>
+          <ng-container *ngTemplateOutlet="cardInsurance"></ng-container>
+        </ion-slide>
+
+        <ion-slide>
+          <ng-container *ngTemplateOutlet="cardMembership"></ng-container>
+        </ion-slide>
+      </ion-slides>
+    </div>
+    <div class="d-none d-lg-block col-lg-4">
+      <div class="mb-3">
+        <ng-container *ngTemplateOutlet="cardPersonalInfo"></ng-container>
       </div>
 
-      <div class="col-md-4 col-lg-3 order-1 order-lg-12">
-        <ion-card class="mb-3">
-          <ion-card-header>
-            <ion-card-title>Osobní údaje</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <table class="table table-sm table-borderless">
-              <tbody>
-                <tr>
-                  <th>Jméno:</th>
-                  <td>{{ member.name?.first }}</td>
-                </tr>
-                <tr>
-                  <th>Příjmení:</th>
-                  <td>{{ member.name?.last }}</td>
-                </tr>
-                <tr>
-                  <th>Datum narození:</th>
-                  <td>{{ member.birthday | date: "d. M. y" }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </ion-card-content>
-        </ion-card>
+      <div class="mb-3">
+        <ng-container *ngTemplateOutlet="cardContacts"></ng-container>
+      </div>
 
-        <ion-card class="mb-3">
-          <ion-card-header>
-            <ion-card-title>Alergie</ion-card-title>
-            <ion-card-subtitle *ngIf="!member.allergiesDate">{{
-              member.allergiesDate | date: "d. M. y"
-            }}</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            <ul *ngIf="member.allergies && member.allergies.length">
-              <li *ngFor="let allergy of member.allergies">{{ allergy }}</li>
-            </ul>
-            <p *ngIf="member.allergies && !member.allergies.length"><i>Žádné alergie</i></p>
-            <p *ngIf="!member.allergies"><i>Nevyplněno</i></p>
-          </ion-card-content>
-        </ion-card>
+      <div class="mb-3">
+        <ng-container *ngTemplateOutlet="cardAllergies"></ng-container>
+      </div>
 
-        <ion-card class="mb-3">
-          <ion-card-header>
-            <ion-card-title>Kontakty</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <table class="table table-sm table-borderless">
-              <tbody>
-                <tr *ngIf="member.contacts?.mobile">
-                  <th>Mobil:</th>
-                  <td>{{ member.contacts.mobile }}</td>
-                </tr>
-                <tr *ngIf="member.contacts?.email">
-                  <th>E-mail:</th>
-                  <td>{{ member.contacts.email }}</td>
-                </tr>
-                <tr *ngIf="member.contacts?.mother">
-                  <th>Matka:</th>
-                  <td>{{ member.contacts.mother }}</td>
-                </tr>
-                <tr *ngIf="member.contacts?.father">
-                  <th>Otec:</th>
-                  <td>{{ member.contacts.father }}</td>
-                </tr>
-                <tr *ngIf="member.address">
-                  <th>Adresa:</th>
-                  <td>
-                    {{ member.address.street }} {{ member.address.streetNo }}<br />
-                    {{ member.address.city }}<br />
-                    {{ member.address.postalCode }}
-                    <ng-container *ngIf="member.address.country"
-                      ><br />
-                      {{ member.address.country }}
-                    </ng-container>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </ion-card-content>
-        </ion-card>
+      <div class="mb-3">
+        <ng-container *ngTemplateOutlet="cardInsurance"></ng-container>
+      </div>
 
-        <ion-card class="mb-3">
-          <ion-card-header>
-            <ion-card-title>Kartička pojištěnce</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <p>
-              Tady bude nahraná oskenovaná kartička pojištěnce. Když vyprší, budete u přihlašování člena na akci
-              upozorněni, abyste si sehnali od rodičů (a nahráli jí).
-            </p>
-          </ion-card-content>
-        </ion-card>
+      <div class="mb-3">
+        <ng-container *ngTemplateOutlet="cardMembership"></ng-container>
       </div>
     </div>
   </div>
 </ion-content>
+
+<ng-template #cardPersonalInfo>
+  <ion-card *ngIf="member">
+    <ion-card-header>
+      <ion-card-title>Osobní údaje</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <table class="table table-sm table-borderless">
+        <tbody>
+          <tr>
+            <th>Jméno:</th>
+            <td>{{ member.name?.first || "-" }} {{ member.name?.last || "-" }}</td>
+          </tr>
+          <tr>
+            <th>Datum narození:</th>
+            <td>{{ member.birthday ? (member.birthday | date: "d. M. y") : "-" }}</td>
+          </tr>
+          <tr>
+            <th>Adresa:</th>
+            <td *ngIf="!member.address">-</td>
+            <td *ngIf="member.address">
+              {{ member.address.street }} {{ member.address.streetNo }}<br />
+              {{ member.address.city }}<br />
+              {{ member.address.postalCode }}
+              <ng-container *ngIf="member.address.country"
+                ><br />
+                {{ member.address.country }}
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card-content>
+  </ion-card>
+</ng-template>
+
+<ng-template #cardAllergies>
+  <ion-card *ngIf="member">
+    <ion-card-header>
+      <ion-card-title>Alergie</ion-card-title>
+      <ion-card-subtitle *ngIf="!member.allergiesDate">{{ member.allergiesDate | date: "d. M. y" }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ul *ngIf="member.allergies && member.allergies.length">
+        <li *ngFor="let allergy of member.allergies">{{ allergy }}</li>
+      </ul>
+      <p *ngIf="member.allergies && !member.allergies.length"><i>Žádné alergie</i></p>
+      <p *ngIf="!member.allergies"><i>Nevyplněno</i></p>
+    </ion-card-content>
+  </ion-card>
+</ng-template>
+
+<ng-template #cardContacts>
+  <ion-card *ngIf="member">
+    <ion-card-header>
+      <ion-card-title>Kontakty</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <table class="table table-sm table-borderless">
+        <tbody>
+          <tr>
+            <th>Mobil:</th>
+            <td>{{ member.contacts.mobile || "-" }}</td>
+          </tr>
+          <tr>
+            <th>E-mail:</th>
+            <td>{{ member.contacts.email || "-" }}</td>
+          </tr>
+          <tr>
+            <th>Matka:</th>
+            <td>{{ member.contacts.mother || "-" }}</td>
+          </tr>
+          <tr>
+            <th>Otec:</th>
+            <td>{{ member.contacts.father || "-" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card-content>
+  </ion-card>
+</ng-template>
+
+<ng-template #cardInsurance>
+  <ion-card *ngIf="member">
+    <ion-card-header>
+      <ion-card-title>Kartička pojištěnce</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        Tady bude nahraná oskenovaná kartička pojištěnce. Když vyprší, budete u přihlašování člena na akci upozorněni,
+        abyste si sehnali od rodičů (a nahráli jí).
+      </p>
+    </ion-card-content>
+  </ion-card>
+</ng-template>
+
+<ng-template #cardMembership>
+  <ion-card *ngIf="member">
+    <ion-card-header>
+      <ion-card-title>Členství</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <table class="table table-sm table-borderless">
+        <tbody>
+          <tr>
+            <th>Člen:</th>
+            <td>{{ member.membership === undefined ? "-" : member.membership ? "Ano" : "Ne" }}</td>
+          </tr>
+          <tr>
+            <th>Aktivní:</th>
+            <td>{{ member.inactive === undefined ? "-" : member.inactive ? "Ne" : "Ano" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card-content>
+  </ion-card>
+</ng-template>
