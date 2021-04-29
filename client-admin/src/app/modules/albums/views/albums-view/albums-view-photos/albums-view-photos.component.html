@@ -17,12 +17,7 @@
 
 <ion-content class="ion-padding">
   <ion-reorder-group (ionItemReorder)="onReorder($any($event))" [disabled]="!enableOrdering">
-    <ion-item
-      *ngFor="let photo of photos"
-      [button]="true"
-      [detail]="!enableOrdering && !showCheckboxes"
-      (click)="onPhotoClick(photo, $event)"
-    >
+    <ion-item *ngFor="let photo of photos" [button]="true" [detail]="false" (click)="onPhotoClick(photo, $event)">
       <ion-checkbox *ngIf="showCheckboxes" slot="start" [ngModel]="false" (ngModelChange)="onPhotoCheck(photo, $event)">
       </ion-checkbox>
       <ion-avatar slot="start">

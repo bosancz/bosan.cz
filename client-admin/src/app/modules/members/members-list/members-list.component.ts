@@ -140,8 +140,6 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
 
   private filterMembers(filter: MemberFilter, members: MemberWithSearchString[]) {
 
-    console.log(filter);
-
     const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/ /g, "").replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
 
     return members.filter(member => {

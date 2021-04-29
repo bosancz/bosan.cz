@@ -3,6 +3,8 @@ export interface MemberRole {
   genitiv: string;
 }
 
+export type MemberRoleID = keyof typeof MemberRoles;
+
 const asMemberRoles = <T>(value: { [key in keyof T]: MemberRole }) => value;
 
 export const MemberRoles = asMemberRoles({

@@ -124,7 +124,7 @@
 </ng-template>
 
 <ng-template #cardContacts>
-  <ion-card *ngIf="member">
+  <ion-card>
     <ion-card-header>
       <ion-card-title>Kontakty</ion-card-title>
     </ion-card-header>
@@ -133,19 +133,19 @@
         <tbody>
           <tr>
             <th>Mobil:</th>
-            <td>{{ member.contacts.mobile || "-" }}</td>
+            <td>{{ member?.contacts?.mobile || "-" }}</td>
           </tr>
           <tr>
             <th>E-mail:</th>
-            <td>{{ member.contacts.email || "-" }}</td>
+            <td>{{ member?.contacts?.email || "-" }}</td>
           </tr>
           <tr>
             <th>Matka:</th>
-            <td>{{ member.contacts.mother || "-" }}</td>
+            <td>{{ member?.contacts?.mother || "-" }}</td>
           </tr>
           <tr>
             <th>Otec:</th>
-            <td>{{ member.contacts.father || "-" }}</td>
+            <td>{{ member?.contacts?.father || "-" }}</td>
           </tr>
         </tbody>
       </table>
