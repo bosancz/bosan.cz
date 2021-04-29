@@ -95,19 +95,31 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     ev.detail.complete();
   }
 
+  orderByDate() {
+    this.photos?.sort((a, b) => a.date.localeCompare(b.date));
+  }
+
+  orderByName() {
+    this.photos?.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
   startOrdering() {
     this.enableOrdering = true;
-    this.actions = [{
-      "text": "Uložit",
-      color: "primary",
-      pinned: true,
-      handler: () => this.saveOrdering().then(() => this.endOrdering())
-    },
-    {
-      text: "Zrušit",
-      hidden: this.platform.is('ios'),
-      handler: () => this.endOrdering()
-    }];
+    this.actions = [
+      {
+        "text": "Uložit",
+        color: "primary",
+        pinned: true,
+        handler: () => this.saveOrdering().then(() => this.endOrdering())
+      },
+      { "text": "Podle data", handler: () => this.orderByDate() },
+      { "text": "Podle jména", handler: () => this.orderByName() },
+      {
+        text: "Zrušit",
+        hidden: this.platform.is('ios'),
+        handler: () => this.endOrdering()
+      }
+    ];
   }
 
   endOrdering() {

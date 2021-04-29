@@ -25,7 +25,7 @@ export interface Photo {
 
   faces: Face[];
 
-  date: Date | string;
+  date: string;
 
   shareUrl?: string;
 
