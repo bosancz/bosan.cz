@@ -1,13 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AlbumsService } from '../../albums.service';
 
-import { Album } from 'app/schema/album';
+import { Album, Photo } from 'app/schema/album';
 import { ToastService } from 'app/core/services/toast.service';
 import { ApiService } from 'app/core/services/api.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { formatDate } from '@angular/common';
+import { Event } from 'app/schema/event';
+import { NgForm } from '@angular/forms';
 
+@UntilDestroy()
 @Component({
   selector: 'albums-edit',
   templateUrl: './albums-edit.component.html',
@@ -15,11 +22,16 @@ import { ApiService } from 'app/core/services/api.service';
 })
 export class AlbumsEditComponent {
 
-  album$ = this.albumsService.album$;
+  album?: Album<Photo, string>;
 
-  deleteConfirmation: boolean = false;
+  actions: Action[] = [
+    {
+      text: "Uložit",
+      handler: () => this.saveAlbum()
+    }
+  ];
 
-  paramsSubscription?: Subscription;
+  @ViewChild("albumForm") albumForm!: NgForm;
 
   constructor(
     public albumsService: AlbumsService,
@@ -30,38 +42,48 @@ export class AlbumsEditComponent {
   ) { }
 
   ngOnInit() {
-    this.paramsSubscription = this.route.params.subscribe(params => {
-      this.albumsService.loadAlbum(params.album);
-    });
+    this.route.params
+      .pipe(untilDestroyed(this))
+      .subscribe(params => {
+        this.albumsService.loadAlbum(params.album);
+      });
+
+    this.albumsService.album$
+      .pipe(untilDestroyed(this))
+      .subscribe(album => {
+        this.album = album;
+      });
   }
 
   ngOnDestroy() {
-    this.paramsSubscription?.unsubscribe();
+  }
+  async searchEvents(value: string): Promise<Event[]> {
+    return value ? this.api.get<Event[]>("events:search", { search: value }) : [];
   }
 
-  async deleteAlbum(album: Album<any, any>) {
-    let name = album.name;
-    const confirmation = window.confirm(`Opravdu smazat album ${name}?`);
-
-    if (!confirmation) return;
-
-    await this.albumsService.deleteAlbum(album._id);
-
-    this.router.navigate(["/galerie"]);
+  getEventString(event: Event): string {
+    if (!event) return "";
+    return event.name + " (" + formatDate(event.dateFrom, 'd. M. y', "cs") + " ~ " + formatDate(event.dateTill, 'd. M. y', "cs") + ")";
   }
 
-  async albumAction(album: Album<any, any>, action: string) {
+  async saveAlbum() {
 
-    if (!album._actions?.[action].allowed) {
-      this.toastService.toast("K této akci nemáš oprávnění.");
+    if (!this.album) return;
+
+    if (this.albumForm.invalid) {
+      this.toastService.toast("Nelze uložit, zkontrolujte údaje.");
       return;
     }
 
-    await this.api.post(album._actions[action]);
+    let albumData = this.albumForm.value;
 
-    await this.albumsService.loadAlbum(album._id);
+    await this.albumsService.updateAlbum(this.album._id, albumData);
 
-    this.toastService.toast("Uloženo");
+    this.toastService.toast("Uloženo.");
+  }
+
+  test(event: any) {
+    console.log(event);
   }
 
 }
