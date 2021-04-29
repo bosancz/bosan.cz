@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { StyleEventDetail } from "@ionic/core";
@@ -19,7 +19,7 @@ import { EventSelectorModalComponent } from '../event-selector-modal/event-selec
     }
   ],
 })
-export class EventSelectorComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+export class EventSelectorComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnDestroy {
 
   value?: Event["_id"] | null;
   event?: Event;
@@ -50,6 +50,10 @@ export class EventSelectorComponent implements OnInit, ControlValueAccessor, Aft
   ngAfterViewInit() {
 
     this.emitIonStyle();
+  }
+
+  ngOnDestroy() {
+    this.modal?.dismiss();
   }
 
   private emitIonStyle() {
