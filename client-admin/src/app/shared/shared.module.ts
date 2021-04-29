@@ -37,6 +37,7 @@ import { GroupPipe } from "./pipes/group.pipe";
 import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
+import { AgePipe } from './pipes/age.pipe';
 
 
 
@@ -87,6 +88,7 @@ import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
     FormatPhonePipe,
     SafeurlPipe,
     PrettyBytesPipe,
+    AgePipe,
 
   ],
   exports: [
@@ -127,7 +129,8 @@ import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
     EventPipe,
     FormatPhonePipe,
     SafeurlPipe,
-    PrettyBytesPipe
+    PrettyBytesPipe,
+    AgePipe
   ],
   providers: []
 
