@@ -13,6 +13,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { formatDate } from '@angular/common';
 import { Event } from 'app/schema/event';
 import { NgForm } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 
 @UntilDestroy()
 @Component({
@@ -38,24 +39,18 @@ export class AlbumsEditComponent {
     private route: ActivatedRoute,
     private router: Router,
     private toastService: ToastService,
-    private api: ApiService
+    private navController: NavController
   ) { }
 
   ngOnInit() {
     this.route.params
       .pipe(untilDestroyed(this))
-      .subscribe(params => {
-        this.albumsService.loadAlbum(params.album);
-      });
+      .subscribe(params => this.loadAlbum(params.album));
 
-    this.albumsService.album$
-      .pipe(untilDestroyed(this))
-      .subscribe(album => {
-        this.album = album;
-      });
   }
 
-  ngOnDestroy() {
+  private async loadAlbum(albumId: string) {
+    this.album = await this.albumsService.loadAlbum(albumId);
   }
 
   eventUpdated(event: Event) {
@@ -79,6 +74,8 @@ export class AlbumsEditComponent {
     await this.albumsService.updateAlbum(this.album._id, albumData);
 
     this.toastService.toast("Uloženo.");
+
+    this.navController.navigateBack(["/galerie", this.album._id]);
   }
 
 }
