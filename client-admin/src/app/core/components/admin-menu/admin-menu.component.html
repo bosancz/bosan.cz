@@ -59,10 +59,10 @@
 
   <ion-item
     *ngIf="(onlineService.online | async) && (swUpdate.available | async)"
+    [button]="true"
     (click)="reload()"
     color="warning"
-    class="ion-text-wrap"
   >
-    <ion-label>Je k dispozici nová verze, klikněte pro načtení.</ion-label>
+    <ion-label class="ion-text-wrap">Je k dispozici nová verze, klikněte pro načtení.</ion-label>
   </ion-item>
 </ion-list>
