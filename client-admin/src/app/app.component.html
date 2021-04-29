@@ -18,6 +18,6 @@
       <div class="version text-center text-muted small pb-1">Verze {{ version }}</div>
     </ion-menu>
 
-    <ion-router-outlet [animated]="false" id="content"></ion-router-outlet>
+    <ion-router-outlet [animated]="platform.is('mobile')" id="content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>

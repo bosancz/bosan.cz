@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import * as packageJson from "app/../../package.json";
 import { LoginService } from 'app/core/services/login.service';
 import { UserService } from 'app/core/services/user.service';
@@ -25,7 +25,8 @@ export class AppComponent implements OnInit {
     private loginService: LoginService,
     private configService: ConfigService,
     private router: Router,
-    private menuController: MenuController
+    private menuController: MenuController,
+    public platform: Platform
   ) {
     this.initUserService();
 
