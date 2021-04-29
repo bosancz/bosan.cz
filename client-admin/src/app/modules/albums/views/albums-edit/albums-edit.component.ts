@@ -1,19 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-
+import { NavController } from '@ionic/angular';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ToastService } from 'app/core/services/toast.service';
+import { Album, Photo } from 'app/schema/album';
+import { Event } from 'app/schema/event';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { AlbumsService } from '../../albums.service';
 
-import { Album, Photo } from 'app/schema/album';
-import { ToastService } from 'app/core/services/toast.service';
-import { ApiService } from 'app/core/services/api.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { formatDate } from '@angular/common';
-import { Event } from 'app/schema/event';
-import { NgForm } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+
 
 @UntilDestroy()
 @Component({
