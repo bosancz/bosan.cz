@@ -63,8 +63,6 @@ export class AlbumsEditComponent {
 
     this.album.dateFrom = event.dateFrom;
     this.album.dateTill = event.dateTill;
-
-    if (!this.album.description) this.album.description = event.description;
   }
 
   private async saveAlbum() {
