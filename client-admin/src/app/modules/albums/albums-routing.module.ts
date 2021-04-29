@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AlbumsCreateComponent } from './views/albums-create/albums-create.component';
 import { AlbumsEditComponent } from './views/albums-edit/albums-edit.component';
 import { AlbumsListComponent } from './views/albums-list/albums-list.component';
 import { AlbumsViewInfoComponent } from './views/albums-view/albums-view-info/albums-view-info.component';
@@ -10,8 +9,6 @@ import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
 
 
 const routes: Routes = [
-
-  { path: 'vytvorit', component: AlbumsCreateComponent },
 
   { path: ':album/upravit', component: AlbumsEditComponent, },
 

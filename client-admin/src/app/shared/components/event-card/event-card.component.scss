@@ -1,14 +1,21 @@
-$circle-size: 2.5rem;
+$circle-size: 3rem;
 
 :host {
   display: block;
 }
 
-.circle {
+.icon {
+  margin: 0.8rem 0.8rem 0;
+  float: left;
   width: $circle-size;
   height: $circle-size;
   border-radius: 50%;
   background-color: #ccc;
+}
+
+ion-card-title,
+ion-card-subtitle {
+  margin-left: 3rem;
 }
 
 .description {

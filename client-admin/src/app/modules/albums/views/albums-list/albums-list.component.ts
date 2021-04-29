@@ -35,7 +35,7 @@ export class AlbumsListComponent implements OnInit {
   actions: Action[] = [
     {
       text: "Nové",
-      handler: () => this.router.navigate(["vytvorit"], { relativeTo: this.route })
+      handler: () => this.createAlbum()
     }
   ];
 
@@ -61,7 +61,7 @@ export class AlbumsListComponent implements OnInit {
   }
 
 
-  async loadAlbums() {
+  private async loadAlbums() {
 
     this.albums = [];
 
@@ -83,13 +83,17 @@ export class AlbumsListComponent implements OnInit {
     this.filteredAlbums = this.filterAlbums(this.albums, this.searchString.value);
   }
 
-  filterAlbums(albums: Album[], searchString: string) {
+  private filterAlbums(albums: Album[], searchString: string) {
 
     if (!searchString) return albums;
 
     const search_re = new RegExp("(^| )" + transliterate(searchString).replace(/[^a-zA-Z0-9]/g, ""), "i");
 
     return albums.filter((event, i) => search_re.test(this.searchIndex[i]));
+  }
+
+  private async createAlbum() {
+
   }
 
 }

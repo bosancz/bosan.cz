@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from 'app/shared/modules/material.module';
 import { SharedModule } from 'app/shared/shared.module';
+import { EventAddAttendeesComponent } from './components/event-add-attendees/event-add-attendees.component';
 /* COMPONENTS */
 import { EventAgeHistogramComponent } from './components/event-age-histogram/event-age-histogram.component';
 import { EventBirthdayListComponent } from './components/event-birthday-list/event-birthday-list.component';
@@ -21,7 +21,6 @@ import { EventsViewAttendeesComponent } from './views/events-view/events-view-at
 import { EventsViewInfoComponent } from './views/events-view/events-view-info/events-view-info.component';
 import { EventsViewRegistrationComponent } from './views/events-view/events-view-registration/events-view-registration.component';
 import { EventsViewComponent } from './views/events-view/events-view.component';
-import { EventAddAttendeesComponent } from './components/event-add-attendees/event-add-attendees.component';
 
 
 
@@ -53,7 +52,6 @@ import { EventAddAttendeesComponent } from './components/event-add-attendees/eve
     CommonModule,
     EventsRoutingModule,
     SharedModule,
-    MaterialModule
   ],
   providers: [
     EventsService

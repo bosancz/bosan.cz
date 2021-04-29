@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from 'app/shared/modules/material.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
@@ -15,8 +14,7 @@ import { DashboardMyEventsComponent } from "./views/dashboard-my-events/dashboar
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    SharedModule,
-    MaterialModule
+    SharedModule
   ]
 })
 export class DashboardModule { }

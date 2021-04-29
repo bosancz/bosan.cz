@@ -13,7 +13,6 @@ import { EventsDashboardComponent } from './events-dashboard/events-dashboard.co
 
 import { MembersDashboardComponent } from './members-dashboard/members-dashboard.component';
 import { PaddlerCompetitionComponent } from './paddler-competition/paddler-competition.component';
-import { MaterialModule } from 'app/shared/modules/material.module';
 
 
 @NgModule({
@@ -26,7 +25,6 @@ import { MaterialModule } from 'app/shared/modules/material.module';
   imports: [
     CommonModule,
     SharedModule,
-    MaterialModule,
     StatisticsRoutingModule,
 
     ChartsModule,

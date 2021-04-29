@@ -1,16 +1,11 @@
 @import "~styles/variables";
-@import '~@angular/material/theming';
-
-  
-.mat-menu-panel button {
-  display: block;
-}
+@import "~@angular/material/theming";
 
 admin {
   display: block;
   background-color: #fafafa;
 
-  header{
+  header {
     @include mat-elevation(2);
   }
 

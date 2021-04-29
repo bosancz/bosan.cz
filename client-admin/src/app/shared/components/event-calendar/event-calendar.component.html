@@ -30,7 +30,6 @@
         [style.left]="getEventLeft(calEvent, row) * 100 + '%'"
         [style.width]="getEventWidth(calEvent, row) * 100 + '%'"
         [style.top]="eventHeight * (calEvent.level - 1) + 'px'"
-        [matTooltip]="getEventTooltip(calEvent.event)"
         placement="bottom"
         [routerLink]="['/akce', calEvent.event._id]"
       >
@@ -45,7 +44,6 @@
         [style.left]="getEventLeft(calEvent, row) * 100 + '%'"
         [style.width]="getEventWidth(calEvent, row) * 100 + '%'"
         [style.top]="eventHeight * (calEvent.level - 1) + 'px'"
-        [matTooltip]="calEvent.event.name"
         [attr.href]="calEvent.event.link || null"
         target="_blank"
         placement="bottom"
