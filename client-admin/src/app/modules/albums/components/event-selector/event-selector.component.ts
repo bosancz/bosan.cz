@@ -21,11 +21,12 @@ import { EventSelectorModalComponent } from '../event-selector-modal/event-selec
 })
 export class EventSelectorComponent implements OnInit, ControlValueAccessor, AfterViewInit {
 
+  value?: Event["_id"] | null;
   event?: Event;
 
   @Input() placeholder?: string;
+  @Output("event") eventOutput = new EventEmitter<Event>();
 
-  @Output() ionStyle = new EventEmitter<CustomEvent<StyleEventDetail>>();
 
   modal?: HTMLIonModalElement;
 
@@ -60,7 +61,7 @@ export class EventSelectorComponent implements OnInit, ControlValueAccessor, Aft
         'interactive': true,
         'input': true,
         'has-placeholder': true,
-        'has-value': !!this.event,
+        'has-value': !!this.value,
         'has-focus': this.focused,
         'interactive-disabled': this.disabled,
       }
@@ -68,34 +69,31 @@ export class EventSelectorComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   inputValueChanged(value: string) {
-    if (value === "") this.selectEvent(null);
+    if (value === "") this.updateValue(null);
   }
 
   async openModal() {
     this.modal = await this.modalController.create({
-      component: EventSelectorModalComponent,
-      componentProps: {
-        event: this.event
-      }
+      component: EventSelectorModalComponent
     });
 
     this.modal.onDidDismiss().then(result => {
-      if (result.data?.event !== undefined) this.selectEvent(result.data?.event);
+      if (result.data?.event !== undefined) this.updateValue(result.data?.event);
     });
 
     this.modal.present();
   }
 
-  async selectEvent(eventId: Event["_id"] | null) {
+  private async updateValue(value: Event["_id"] | null) {
 
-    if (eventId === this.event?._id) return;
+    if (value === this.value) return;
 
-    this.event = eventId ? await this.loadEvent(eventId) : undefined;
+    this.value = value;
+    this.event = value ? await this.loadEvent(value) : undefined;
 
-    this.onChange?.(eventId);
-
+    this.onChange?.(value);
+    this.eventOutput.emit(this.event);
     this.emitIonStyle();
-
   }
 
   private async loadEvent(eventId: Event["_id"]) {
@@ -104,7 +102,7 @@ export class EventSelectorComponent implements OnInit, ControlValueAccessor, Aft
 
   /* ControlValueAccessor */
   writeValue(obj?: Event["_id"] | null): void {
-    this.selectEvent(obj || null);
+    this.updateValue(obj || null);
   };
 
   registerOnChange(fn: (value: Event["_id"] | null) => void): void {

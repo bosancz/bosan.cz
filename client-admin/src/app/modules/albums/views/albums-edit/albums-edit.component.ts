@@ -57,16 +57,17 @@ export class AlbumsEditComponent {
 
   ngOnDestroy() {
   }
-  async searchEvents(value: string): Promise<Event[]> {
-    return value ? this.api.get<Event[]>("events:search", { search: value }) : [];
+
+  eventUpdated(event: Event) {
+    if (!this.album || !event) return;
+
+    this.album.dateFrom = event.dateFrom;
+    this.album.dateTill = event.dateTill;
+
+    if (!this.album.description) this.album.description = event.description;
   }
 
-  getEventString(event: Event): string {
-    if (!event) return "";
-    return event.name + " (" + formatDate(event.dateFrom, 'd. M. y', "cs") + " ~ " + formatDate(event.dateTill, 'd. M. y', "cs") + ")";
-  }
-
-  async saveAlbum() {
+  private async saveAlbum() {
 
     if (!this.album) return;
 
@@ -75,15 +76,11 @@ export class AlbumsEditComponent {
       return;
     }
 
-    let albumData = this.albumForm.value;
+    let albumData: Partial<Event> = this.albumForm.value;
 
     await this.albumsService.updateAlbum(this.album._id, albumData);
 
     this.toastService.toast("Uloženo.");
-  }
-
-  test(event: any) {
-    console.log(event);
   }
 
 }

@@ -33,6 +33,7 @@
             [ngModel]="album?.event"
             name="event"
             placeholder="Neočekávaný dýchánek"
+            (event)="eventUpdated($event)"
           ></bo-event-selector>
         </ion-item>
       </div>
@@ -40,14 +41,26 @@
       <div class="col-12 col-lg-6">
         <ion-item>
           <ion-label position="stacked">Datum od</ion-label>
-          <ion-input type="date" [ngModel]="album?.dateFrom" name="dateFrom" placeholder="Začátek" required></ion-input>
+          <ion-input
+            type="date"
+            [ngModel]="album?.dateFrom | date: 'yyyy-MM-dd'"
+            name="dateFrom"
+            placeholder="Začátek"
+            required
+          ></ion-input>
         </ion-item>
       </div>
 
       <div class="col-12 col-lg-6">
         <ion-item>
           <ion-label position="stacked">Datum do</ion-label>
-          <ion-input type="date" [ngModel]="album?.dateTill" name="dateTill" placeholder="Konec" required></ion-input>
+          <ion-input
+            type="date"
+            [ngModel]="album?.dateTill | date: 'yyyy-MM-dd'"
+            name="dateTill"
+            placeholder="Konec"
+            required
+          ></ion-input>
         </ion-item>
       </div>
 
