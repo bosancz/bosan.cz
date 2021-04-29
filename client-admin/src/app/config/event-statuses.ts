@@ -1,36 +1,36 @@
-import { EventStatus } from "app/schema/event-status";
+export interface EventStatus {
+  name: string;
+  color: string;
+}
 
+export type EventStatusID = keyof typeof EventStatuses;
 
-export const EventStatuses: { [key in EventStatus["id"]]: EventStatus; } = {
+const asEventStatuses = <T>(value: { [key in keyof T]: EventStatus }) => value;
+
+export const EventStatuses = asEventStatuses({
 
   "draft": {
-    "id": "draft",
     "name": "Připravovaná",
     "color": "dark"
   },
   "pending": {
-    "id": "pending",
     "name": "Čeká na schválení",
     "color": "warning"
   },
   "public": {
-    "id": "public",
     "name": "V programu",
     "color": "success"
   },
   "cancelled": {
-    "id": "cancelled",
     "name": "Zrušená",
     "color": "danger"
   },
   "finalized": {
-    "id": "finalized",
     "name": "Uzavřená",
     "color": "dark"
   },
   "rejected": {
-    "id": "rejected",
     "name": "Vrácená k úpravám",
     "color": "warning"
   }
-};
+});

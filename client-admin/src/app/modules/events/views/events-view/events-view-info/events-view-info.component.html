@@ -10,22 +10,38 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="event" class="ion-padding" [ngSwitch]="view">
-  <div *ngIf="eventStatus" class="status text-center mb-3">
-    <ion-chip [color]="eventStatus.color">
-      <ion-label>
-        <strong>Stav akce:</strong> {{ eventStatus.name }}
-        <ng-container *ngIf="event.statusNote">| <strong>Poznámka:</strong> {{ event.statusNote }}</ng-container>
-      </ion-label>
-    </ion-chip>
-  </div>
+<ion-content class="ion-padding" [ngSwitch]="view">
+  <ng-container *ngIf="!event">
+    <h1><ion-skeleton-text></ion-skeleton-text></h1>
+    <p><ion-skeleton-text></ion-skeleton-text></p>
+  </ng-container>
 
-  <div class="row">
-    <div class="col-lg-6">
-      <event-card *ngSwitchCase="'event'" [event]="event" [actions]="false"></event-card>
+  <ng-container *ngIf="event">
+    <div class="row">
+      <div class="order-last order-lg-first col-12 col-lg-8">
+        <h1>{{ event?.name }}</h1>
+
+        <div [innerHTML]="event.report"></div>
+
+        <bo-photo-gallery [photos]="eventAlbum?.photos || []"></bo-photo-gallery>
+      </div>
+
+      <div class="order-first order-lg-last col-12 col-lg-4 mb-4 mb-lg-0">
+        <div class="text-center mb-3">
+          <ion-chip [color]="event.status | eventStatus: 'color'">
+            <ion-label>
+              <strong>Stav akce:</strong> {{ event.status | eventStatus: "name" }}
+              <ng-container *ngIf="event.statusNote">| <strong>Poznámka:</strong> {{ event.statusNote }}</ng-container>
+            </ion-label>
+          </ion-chip>
+        </div>
+
+        <event-card [event]="event" [actions]="false"></event-card>
+
+        <div class="attendees">
+          <ion-chip *ngFor="let attendee of event.attendees">{{ attendee.nickname }}</ion-chip>
+        </div>
+      </div>
     </div>
-    <div class="col-lg-6 stats">
-      <span class="number">{{ event?.attendees?.length || 0 }}</span>
-    </div>
-  </div>
+  </ng-container>
 </ion-content>

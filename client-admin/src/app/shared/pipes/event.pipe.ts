@@ -19,6 +19,10 @@ export class EventPipe implements PipeTransform {
     [name: string]: WebConfigEventSubType;
   } = {};
 
+  defaultProperties: { [property: string]: any; } = {
+
+  };
+
   constructor(
     private configService: ConfigService,
     private cdRef: ChangeDetectorRef
@@ -32,7 +36,9 @@ export class EventPipe implements PipeTransform {
 
   }
 
-  transform(event: Event, property: EventPipeProperty): string {
+  transform(event: Event | undefined, property: EventPipeProperty): string {
+
+    if (!event) return this.defaultProperties[property];
 
     switch (property) {
 

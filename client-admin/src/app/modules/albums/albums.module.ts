@@ -7,7 +7,6 @@ import { AlbumsRoutingModule } from './albums-routing.module';
 import { AlbumsService } from './albums.service';
 /* COMPONENTS */
 import { PhotoFaceEditComponent } from './components/photo-face-edit/photo-face-edit.component';
-import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
 import { PhotoViewComponent } from './components/photo-view/photo-view.component';
 import { PhotosUploadComponent } from './components/photos-upload/photos-upload.component';
 /* VIEWS */
@@ -33,7 +32,6 @@ import { EventSelectorModalComponent } from './components/event-selector-modal/e
     PhotosUploadComponent,
     PhotoFaceEditComponent,
     AlbumsViewComponent,
-    PhotoGalleryComponent,
     AlbumsViewInfoComponent,
     AlbumsViewPhotosComponent,
     PhotoViewComponent,

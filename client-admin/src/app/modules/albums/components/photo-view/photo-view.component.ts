@@ -49,7 +49,9 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
     switch (event.code) {
       case "ArrowLeft": return this.previousPhoto();
       case "ArrowRight": return this.nextPhoto();
-      case "Escape": return this.close();
+      // case "Escape":
+      //   event.preventDefault();
+      //   return this.editingCaption ? this.cancelEditingCaption() : this.close();
       case "Home": return this.openPhoto(0);
       case "End": return this.openPhoto(this.photos.length - 1);
       case "Enter": return this.editCaption();
@@ -72,8 +74,11 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
 
   editCaption() {
     this.editingCaption = true;
-    console.log(this.captionInput);
     this.captionInput.getInputElement().then(el => el.focus());
+  }
+
+  cancelEditingCaption() {
+    this.editingCaption = false;
   }
 
   async saveCaption(value: string | number | null | undefined) {

@@ -5,12 +5,11 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { EventStatuses } from "app/config/event-statuses";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
+import { Album, Photo } from 'app/schema/album';
 import { Event } from "app/schema/event";
-import { EventStatus } from 'app/schema/event-status';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { filter } from 'rxjs/operators';
 import { EventsService } from '../../../services/events.service';
-import { EventEditLeadersComponent } from "../../../components/event-edit-leaders/event-edit-leaders.component";
 
 @UntilDestroy()
 @Component({
@@ -21,15 +20,14 @@ import { EventEditLeadersComponent } from "../../../components/event-edit-leader
 export class EventsViewInfoComponent implements OnInit, OnDestroy {
 
   event?: Event;
-  eventStatus?: EventStatus;
+
+  eventAlbum?: Album<Photo>;
 
   actions: Action[] = [];
 
   view: "event" | "attendees" | "accounting" | "registration" | "report" = "event";
 
   statuses = EventStatuses;
-
-  modal?: HTMLIonModalElement;
 
   constructor(
     private api: ApiService,
@@ -48,15 +46,12 @@ export class EventsViewInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.modal?.dismiss();
   }
 
   async updateEvent(event: Event) {
     this.event = event;
 
     this.actions = this.getActions(this.event);
-
-    this.eventStatus = EventStatuses[this.event.status];
   }
 
   async deleteEvent(event: Event) {
@@ -105,12 +100,6 @@ export class EventsViewInfoComponent implements OnInit, OnDestroy {
         icon: "create-outline",
         hidden: !event._links?.self.allowed.PATCH,
         handler: () => this.router.navigate(["../upravit"], { relativeTo: this.route })
-      },
-      {
-        text: "Upravit vedoucí",
-        icon: "people-outline",
-        hidden: !event._links?.self.allowed.PATCH,
-        handler: () => this.openEditLeaders()
       },
       {
         text: "Ke schválení",
@@ -162,14 +151,6 @@ export class EventsViewInfoComponent implements OnInit, OnDestroy {
         handler: () => this.deleteEvent(event)
       },
     ];
-  }
-
-  private async openEditLeaders() {
-    this.modal = await this.modalController.create({
-      component: EventEditLeadersComponent
-    });
-
-    await this.modal.present();
   }
 
 }

@@ -38,6 +38,8 @@ import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
 import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
 import { AgePipe } from './pipes/age.pipe';
+import { EventStatusPipe } from './pipes/event-status.pipe';
+import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
 
 
 
@@ -71,6 +73,7 @@ import { AgePipe } from './pipes/age.pipe';
     PageComponent,
     PhotoFaceComponent,
     EventCalendarComponent,
+    PhotoGalleryComponent,
 
     /* DIRECTIVES */
     ActionMenuDirective,
@@ -89,6 +92,7 @@ import { AgePipe } from './pipes/age.pipe';
     SafeurlPipe,
     PrettyBytesPipe,
     AgePipe,
+    EventStatusPipe,
 
   ],
   exports: [
@@ -102,6 +106,7 @@ import { AgePipe } from './pipes/age.pipe';
     MembersSelectComponent,
     ListSliderComponent,
     ActionButtonsComponent,
+    PhotoGalleryComponent,
 
     CodelistEditorComponent,
     ContactsEditorComponent,
@@ -130,7 +135,8 @@ import { AgePipe } from './pipes/age.pipe';
     FormatPhonePipe,
     SafeurlPipe,
     PrettyBytesPipe,
-    AgePipe
+    AgePipe,
+    EventStatusPipe,
   ],
   providers: []
 

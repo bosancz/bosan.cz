@@ -3,7 +3,6 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { EventStatuses } from "app/config/event-statuses";
 import { Event } from "app/schema/event";
-import { EventStatus } from 'app/schema/event-status';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { filter } from 'rxjs/operators';
 import { EventsService } from '../../services/events.service';
@@ -18,13 +17,8 @@ import { EventsService } from '../../services/events.service';
 export class EventsViewComponent implements OnInit {
 
   event?: Event;
-  eventStatus?: EventStatus;
 
   actions: Action[] = [];
-
-  view: "event" | "attendees" | "accounting" | "registration" | "report" = "event";
-
-  statuses = EventStatuses;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,21 +28,15 @@ export class EventsViewComponent implements OnInit {
   ngOnInit() {
     this.route.params
       .pipe(untilDestroyed(this))
-      .subscribe((params: Params) => {
-        this.loadEvent(params.event);
-      });
+      .subscribe((params: Params) => this.loadEvent(params.event));
 
     this.eventsService.event$
       .pipe(filter(event => !!event))
-      .subscribe(event => this.updateEvent(event!));
+      .subscribe(event => this.event = event);
   }
 
   async loadEvent(eventId: string) {
     await this.eventsService.loadEvent(eventId);
-  }
-  async updateEvent(event: Event) {
-    this.event = event;
-    this.eventStatus = EventStatuses[event.status];
   }
 
 }

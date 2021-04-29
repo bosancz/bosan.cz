@@ -3,7 +3,7 @@
     <ion-tab-button tab="info">
       <ion-icon name="calendar"></ion-icon>
       <ion-label>Akce</ion-label>
-      <ion-badge [color]="eventStatus?.color">&nbsp;&nbsp;</ion-badge>
+      <ion-badge [color]="event?.status | eventStatus: 'color'">&nbsp;&nbsp;</ion-badge>
     </ion-tab-button>
     <ion-tab-button tab="ucastnici">
       <ion-icon name="people-outline"></ion-icon>
@@ -19,6 +19,12 @@
       <ion-label>Přihláška</ion-label>
       <ion-badge *ngIf="event?.registration" color="success">&nbsp;&nbsp;</ion-badge>
       <ion-badge *ngIf="!event?.registration" color="danger">&nbsp;&nbsp;</ion-badge>
+    </ion-tab-button>
+    <ion-tab-button tab="report">
+      <ion-icon name="document-outline"></ion-icon>
+      <ion-label>Report</ion-label>
+      <ion-badge *ngIf="event?.report" color="success">&nbsp;&nbsp;</ion-badge>
+      <ion-badge *ngIf="!event?.report" color="danger">&nbsp;&nbsp;</ion-badge>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
