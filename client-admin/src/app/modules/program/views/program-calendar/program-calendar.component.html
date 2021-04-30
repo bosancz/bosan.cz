@@ -18,12 +18,29 @@
     (ngModelChange)="setTrimester($event)"
   ></bo-trimester-selector>
 </div>
-<ion-content>
-  <bo-event-calendar
-    *ngIf="dateFrom && dateTill"
-    [dateFrom]="dateFrom"
-    [dateTill]="dateTill"
-    [events]="calendarEvents"
-    [cpv]="true"
-  ></bo-event-calendar>
-</ion-content>
+
+<div class="row no-gutters" style="flex-grow: 1">
+  <div class="d-none d-lg-block col-12 col-lg-6" [class.d-block]="view === 'list'">
+    <ion-content>
+      <ion-list>
+        <ion-item *ngFor="let event of calendarEvents" [routerLink]="['/akce', event._id]">
+          <ion-label>
+            <h3>{{ event.name }}</h3>
+            <p>{{ [event.dateFrom, event.dateTill] | dateRange }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </div>
+  <div class="d-none d-lg-block col-12 col-lg-6" [class.d-block]="view === 'calendar'">
+    <ion-content>
+      <bo-event-calendar
+        *ngIf="dateFrom && dateTill"
+        [dateFrom]="dateFrom"
+        [dateTill]="dateTill"
+        [events]="calendarEvents"
+        [cpv]="true"
+      ></bo-event-calendar>
+    </ion-content>
+  </div>
+</div>

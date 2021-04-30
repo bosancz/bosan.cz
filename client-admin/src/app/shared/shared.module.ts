@@ -69,11 +69,7 @@ import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.
     PhotoGalleryComponent,
 
     /* DIRECTIVES */
-    ActionMenuDirective,
-    PageTitleDirective,
-    MenuButtonDirective,
     TextcheckDirective,
-    SecondaryMenuDirective,
     AclCanDirective,
 
     /* PIPES */
@@ -97,8 +93,8 @@ import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.
     AdminTableComponent,
     GroupsSelectComponent,
     ListSliderComponent,
-    ActionButtonsComponent,
     PhotoGalleryComponent,
+    ActionButtonsComponent,
 
     CodelistEditorComponent,
     ContactsEditorComponent,
@@ -111,11 +107,7 @@ import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.
     EventCalendarComponent,
 
     /* DIRECTIVES */
-    ActionMenuDirective,
-    PageTitleDirective,
-    MenuButtonDirective,
     TextcheckDirective,
-    SecondaryMenuDirective,
     AclCanDirective,
 
     /* PIPES */

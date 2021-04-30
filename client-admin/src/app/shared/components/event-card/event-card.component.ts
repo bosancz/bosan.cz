@@ -3,6 +3,7 @@ import { Event } from 'app/schema/event';
 import { ApiService } from 'app/core/services/api.service';
 import { ToastService } from 'app/core/services/toast.service';
 import { DocumentAction } from 'app/schema/api';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'event-card',
@@ -19,13 +20,16 @@ export class EventCardComponent implements OnInit {
     this.loadEvent(eventId);
   }
 
-  @Input()
-  actions: boolean = true;
+  @Input() actions: boolean = false;
+  @Input() open: boolean = false;
 
   @Output()
   change = new EventEmitter<Event>();
 
-  constructor(private api: ApiService, private toastService: ToastService) { }
+  constructor(
+    private api: ApiService,
+    public platform: Platform
+  ) { }
 
   ngOnInit() {
   }

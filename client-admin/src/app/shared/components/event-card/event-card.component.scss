@@ -1,3 +1,5 @@
+@import "~styles/variables";
+
 $circle-size: 3rem;
 
 :host {
@@ -5,7 +7,7 @@ $circle-size: 3rem;
 }
 
 .icon {
-  margin: 0.8rem 0.8rem 0;
+  // padding-right: 1em;
   float: left;
   width: $circle-size;
   height: $circle-size;
@@ -20,4 +22,21 @@ ion-card-subtitle {
 
 .description {
   white-space: pre-line;
+}
+
+.buttons {
+  background-color: $grey;
+
+  -webkit-padding-start: 10px;
+  padding-inline-start: 10px;
+  -webkit-padding-end: 10px;
+  padding-inline-end: 10px;
+
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+  ion-button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }

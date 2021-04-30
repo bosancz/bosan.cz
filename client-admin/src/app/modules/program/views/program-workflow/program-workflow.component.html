@@ -40,7 +40,14 @@
 
 <ion-content>
   <ng-template #eventsColumn let-events>
-    <event-card *ngFor="let event of events" [event]="event" (change)="eventChanged($event)" class="mb-3"></event-card>
+    <event-card
+      *ngFor="let event of events"
+      [open]="true"
+      [actions]="true"
+      [event]="event"
+      (change)="eventChanged($event)"
+      class="mb-3"
+    ></event-card>
     <p *ngIf="!loading && events?.length === 0" class="text-center noevents">Žádné akce</p>
   </ng-template>
 
@@ -50,7 +57,7 @@
         <ion-label><h2>Pan NIKDO</h2></ion-label>
         <ion-button color="primary">{{ (noLeaderEvents | async)?.length }}</ion-button>
       </ion-item>
-      <div class="column px-2 py-2 mb-3 mx-xl-1">
+      <div class="column py-1 mx-xl-1">
         <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: noLeaderEvents | async }"></ng-container>
       </div>
     </div>
@@ -60,7 +67,7 @@
         <ion-label><h2>V přípravě</h2></ion-label>
         <ion-button color="primary">{{ (draftEvents | async)?.length }}</ion-button>
       </ion-item>
-      <div class="column px-2 py-2 mb-3 mx-xl-1">
+      <div class="column py-1 mx-xl-1">
         <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: draftEvents | async }"></ng-container>
       </div>
     </div>
@@ -72,7 +79,7 @@
         </ion-label>
         <ion-button color="primary">{{ (pendingEvents | async)?.length }}</ion-button>
       </ion-item>
-      <div class="column px-2 py-2 mb-3 mx-xl-1">
+      <div class="column py-1 mx-xl-1">
         <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: pendingEvents | async }"></ng-container>
       </div>
     </div>
@@ -82,7 +89,7 @@
         <ion-label><h2>V programu</h2></ion-label>
         <ion-button color="primary">{{ (publicEvents | async)?.length }}</ion-button>
       </ion-item>
-      <div class="column px-2 py-2 mb-3 mx-xl-1">
+      <div class="column py-1 mx-xl-1">
         <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: publicEvents | async }"></ng-container>
       </div>
     </div>

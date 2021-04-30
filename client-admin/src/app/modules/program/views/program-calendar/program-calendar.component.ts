@@ -24,16 +24,30 @@ export class ProgramCalendarComponent implements OnInit, OnDestroy {
   actions: Action[] = [
   ];
 
+  view: "list" | "calendar" = "calendar";
+
   modal?: HTMLIonModalElement;
+
+  lg!: boolean;
 
   constructor(
     private modalController: ModalController,
     private eventsService: EventsService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
+    const lgQuery = window.matchMedia("(min-width: 992px)");
+
+    this.lg = lgQuery.matches;
+    this.setActions();
+
+    lgQuery.addEventListener("change", event => {
+      this.lg = event.matches;
+      this.setActions();
+    });
 
     this.route.queryParams.subscribe(params => {
       this.dateFrom = params["from"];
@@ -69,11 +83,28 @@ export class ProgramCalendarComponent implements OnInit, OnDestroy {
     this.calendarEvents = await this.eventsService.listEvents(options);
   }
 
-  private async openPrintModal() {
-    this.modal = await this.modalController.create({
-      component: ProgramPrintComponent
-    });
+  setView(view: "list" | "calendar") {
+    this.view = view;
+    this.setActions();
+  }
 
-    this.modal.present();
+  setActions() {
+    this.actions = [
+      {
+        text: "Kalendář",
+        icon: "calendar-outline",
+        pinned: true,
+        hidden: this.lg || this.view === "calendar",
+        handler: () => this.setView("calendar"),
+      },
+      {
+        text: "Seznam",
+        icon: "list-outline",
+        pinned: true,
+        hidden: this.lg || this.view === "list",
+        handler: () => this.setView("list"),
+      }
+    ];
+    console.log(this.actions);
   }
 }
