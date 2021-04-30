@@ -36,7 +36,9 @@
         <ion-label>Stav</ion-label>
         <ion-select name="status" ngModel>
           <ion-select-option>Všechny</ion-select-option>
-          <ion-select-option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</ion-select-option>
+          <ion-select-option *ngFor="let status of statuses | keyvalue" [value]="status.key">
+            {{ status.value.name }}
+          </ion-select-option>
         </ion-select>
       </ion-item>
     </div>
@@ -51,7 +53,7 @@
         <th>Místo</th>
         <th>Datum</th>
         <th>Vede</th>
-        <th>Status</th>
+        <th>Stav</th>
       </tr>
     </thead>
     <tbody>
@@ -69,7 +71,7 @@
           <strong *ngIf="!event.leaders?.length" class="text-danger">Pan NIKDO</strong>
         </td>
         <td>
-          <event-status-badge [event]="event"></event-status-badge>
+          <bo-event-status-badge [event]="event"></bo-event-status-badge>
         </td>
       </tr>
 

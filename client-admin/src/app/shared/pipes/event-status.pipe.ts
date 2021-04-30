@@ -9,7 +9,7 @@ export class EventStatusPipe implements PipeTransform {
   statuses = EventStatuses;
 
   defaultValues: { [key: string]: any; } = {
-    "color": "#000"
+    "color": "#ccc"
   };
 
   transform(status: EventStatusID | undefined, property: keyof EventStatus): string | undefined {

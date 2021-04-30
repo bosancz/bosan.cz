@@ -1,17 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgForm } from "@angular/forms";
-import { Router, ActivatedRoute, Params } from "@angular/router";
-import { DateTime } from "luxon";
-
-import { Subscription } from "rxjs";
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { AlertController } from '@ionic/angular';
+import { EventStatuses } from 'app/config/event-statuses';
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
-
 import { Event } from "app/schema/event";
-import { ConfigService } from 'app/core/services/config.service';
-import { WebConfigEventStatus } from 'app/schema/web-config';
-import { AlertController } from '@ionic/angular';
+import { DateTime } from "luxon";
+import { Subscription } from "rxjs";
+
+
+
 
 @Component({
   selector: 'program-planning',
@@ -25,7 +23,7 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
 
   events: Event[] = [];
 
-  statuses?: WebConfigEventStatus[];
+  statuses = EventStatuses;
 
   paramsSubscription?: Subscription;
 
@@ -33,14 +31,11 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
     private api: ApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private configService: ConfigService,
     private toastService: ToastService,
     private alertController: AlertController
   ) { }
 
   ngOnInit() {
-
-    this.loadStatuses();
 
     this.paramsSubscription = this.route.queryParams.subscribe((params: Params) => {
 
@@ -57,11 +52,6 @@ export class ProgramPlanningComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.paramsSubscription?.unsubscribe();
-  }
-
-  async loadStatuses() {
-    const config = await this.configService.getConfig();
-    this.statuses = config.events.statuses;
   }
 
   async loadEvents() {

@@ -15,7 +15,10 @@ export class TextcheckDirective {
 
   warnings: string[] = [];
 
-  constructor(private el: ElementRef<HTMLInputElement | HTMLTextAreaElement>, private configService: ConfigService) {
+  constructor(
+    private el: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
+    private configService: ConfigService
+  ) {
 
     this.configService.config
       .pipe(map(config => config.events.descriptionWarnings))

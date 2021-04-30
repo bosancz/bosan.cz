@@ -1,11 +1,11 @@
 <div class="row numbers text-center my-5">
-  <div [class]="getRolesColClass(roles)">
+  <div class="col">
     <span class="number">{{ report?.count || "-" }}</span>
     členů
   </div>
-  <div *ngFor="let role of roles" [class]="getRolesColClass(roles)">
-    <span class="number">{{ getRoleValue(role.id) }}</span>
-    {{ role.genitiv }}
+  <div *ngFor="let role of roles | keyvalue" class="col">
+    <span class="number">{{ getRoleValue(role.key) }}</span>
+    {{ role.value.genitiv }}
   </div>
 </div>
 

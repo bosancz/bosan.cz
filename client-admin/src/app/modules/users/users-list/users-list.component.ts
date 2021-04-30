@@ -4,7 +4,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { userRoles } from 'app/config/user-roles';
 import { ApiService } from "app/core/services/api.service";
-import { ConfigService } from "app/core/services/config.service";
 import { User } from "app/schema/user";
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { BehaviorSubject } from "rxjs";
@@ -51,7 +50,6 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private api: ApiService,
-    private configService: ConfigService,
     private route: ActivatedRoute,
     private router: Router
   ) { }

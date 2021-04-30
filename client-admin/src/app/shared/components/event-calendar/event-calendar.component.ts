@@ -1,13 +1,11 @@
-import { Component, OnInit, Input, SimpleChanges, OnChanges, EventEmitter, Output, HostBinding, HostListener } from '@angular/core';
-import { DateTime } from 'luxon';
-import { CzechHolidays } from 'czech-holidays';
-
-import { ConfigService } from 'app/core/services/config.service';
+import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ApiService } from 'app/core/services/api.service';
-
 import { CPVEvent } from 'app/schema/cpv-event';
 import { Event } from 'app/schema/event';
-import { WebConfigEventStatus } from 'app/schema/web-config';
+import { CzechHolidays } from 'czech-holidays';
+import { DateTime } from 'luxon';
+
+
 
 const months = ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"];
 
@@ -86,17 +84,13 @@ export class EventCalendarComponent implements OnInit, OnChanges {
 
   eventsCPV: CPVEvent[] = [];
 
-  statuses: WebConfigEventStatus[] = [];
-
   eventHeight = 22;
 
   constructor(
     private api: ApiService,
-    private configService: ConfigService
   ) { }
 
   ngOnInit() {
-    this.loadStatuses();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -115,11 +109,6 @@ export class EventCalendarComponent implements OnInit, OnChanges {
     if (changes.events) {
       this.assignEvents(this.events, "own");
     }
-  }
-
-  async loadStatuses() {
-    const config = await this.configService.getConfig();
-    this.statuses = config.events.statuses;
   }
 
   createCalendar() {
@@ -257,11 +246,6 @@ export class EventCalendarComponent implements OnInit, OnChanges {
 
   getEventWidth(event: CalendarEvent<CPVEvent | Event>, month: CalendarRow) {
     return (event.dateTill.diff(event.dateFrom, "days").days + 1) / month.days.length;
-  }
-
-  getEventClass(event: Event): string {
-    const status = this.statuses.find(status => status.id === event.status);
-    return status ? "bg-" + status.class : "bg-secondary";
   }
 
   getEventTooltip(event: Event): string {

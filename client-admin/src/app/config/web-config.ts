@@ -30,30 +30,6 @@ export const webConfigStructure: WebConfigStructure = [
     name: "events", label: "Akce",
     items: [
       {
-        name: "statuses", label: "Stavy akcí", type: "codelist",
-        default: [{ id: "draft" }, { id: "pending" }, { id: "public" }, { id: "cancelled" }, { id: "finalized" }, { id: "rejected" }],
-        fields: [
-          { "name": "id", "title": "ID", "type": "text" },
-          { "name": "name", "title": "Název", "type": "text" },
-          { "name": "class", "title": "CSS třída", "type": "text" }
-        ]
-      },
-      {
-        name: "types", label: "Typy akcí", type: "codelist",
-        fields: [
-          { "name": "name", "title": "Název", "type": "text" },
-          { "name": "class", "title": "CSS třída", "type": "text" }
-        ]
-      },
-      {
-        name: "subtypes", label: "Charaktery akcí", type: "codelist",
-        fields: [
-          { "name": "name", "title": "Název", "type": "text" },
-          { "name": "color", "title": "Barva (#HEX)", "type": "text", "pattern": colorPattern, "placeholder": "#A1B2C3" },
-          { "name": "image", "title": "URL obrázku", "type": "text" }
-        ]
-      },
-      {
         name: "expenseTypes", label: "Typy výdajů", type: "codelist",
         fields: [
           { "name": "name", "title": "Typ", "type": "text" }
@@ -67,48 +43,6 @@ export const webConfigStructure: WebConfigStructure = [
           { "name": "text", "title": "Varování", "type": "text" }
         ]
       }
-    ]
-  },
-
-  {
-    name: "members", label: "Členská databáze",
-    items: [
-
-      {
-        name: "groups", label: "Oddíly", type: "codelist",
-        fields: [
-          { "name": "id", "title": "ID", "type": "text", "required": true },
-          { "name": "name", "title": "Jméno", "type": "text" },
-          { "name": "color", "title": "Barva (#HEX)", "pattern": colorPattern, "type": "text", "placeholder": "#A1B2C3" },
-          { "name": "real", "title": "Oddíl", "type": "checkbox" },
-          { "name": "active", "title": "Aktivní", "type": "checkbox" },
-          { "name": "event", "title": "Akce", "type": "checkbox" },
-          { "name": "children", "title": "Dětský", "type": "checkbox" }
-        ]
-      },
-
-      {
-        name: "roles", label: "Role", type: "codelist",
-        fields: [
-          { "name": "id", "title": "ID", "type": "text" },
-          { "name": "genitiv", "title": "2. pád", "type": "text" }
-        ]
-      },
-
-      {
-        name: "posts", label: "Funkce", type: "codelist",
-        fields: [
-          { "name": "id", "title": "ID", "type": "text" },
-        ]
-      },
-
-      {
-        name: "ranks", label: "Hodnosti", type: "codelist",
-        fields: [
-          { "name": "id", "title": "ID", "type": "text" },
-        ]
-      },
-
     ]
   },
 

@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { BehaviorSubject } from 'rxjs';
 
-import { ConfigService } from "app/core/services/config.service";
-
 @Injectable({
   providedIn: 'root'
 })

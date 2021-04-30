@@ -44,7 +44,9 @@
         <ion-item>
           <ion-label position="stacked">Oddíl</ion-label>
           <ion-select name="group" ngModel required placeholder="Chluponozi">
-            <ion-select-option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</ion-select-option>
+            <ion-select-option *ngFor="let group of groups | keyvalue" [value]="group.key">
+              {{ group.value.name }}
+            </ion-select-option>
           </ion-select>
         </ion-item>
       </div>
@@ -55,7 +57,9 @@
         <ion-item>
           <ion-label position="stacked">Role</ion-label>
           <ion-select name="role" ngModel required placeholder="nositel prstenu">
-            <ion-select-option *ngFor="let role of roles" [value]="role.id">{{ role.id }}</ion-select-option>
+            <ion-select-option *ngFor="let role of roles | keyvalue" [value]="role.key">
+              {{ role.value.title }}
+            </ion-select-option>
           </ion-select>
         </ion-item>
       </div>

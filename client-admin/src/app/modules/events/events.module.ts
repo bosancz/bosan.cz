@@ -8,7 +8,6 @@ import { EventBirthdayListComponent } from './components/event-birthday-list/eve
 import { EventExpensesChartComponent } from './components/event-expenses-chart/event-expenses-chart.component';
 import { EventExpensesTableComponent } from './components/event-expenses-table/event-expenses-table.component';
 import { EventSubtypeSelectorComponent } from './components/event-subtype-selector/event-subtype-selector.component';
-import { EventTypeSelectorComponent } from './components/event-type-selector/event-type-selector.component';
 import { EventsRoutingModule } from './events-routing.module';
 /* SERVICES */
 import { EventsService } from './services/events.service';
@@ -40,7 +39,6 @@ import { EventsViewComponent } from './views/events-view/events-view.component';
     EventBirthdayListComponent,
     EventExpensesTableComponent,
     EventSubtypeSelectorComponent,
-    EventTypeSelectorComponent,
     EventExpensesChartComponent,
     EventsCreateComponent,
     EventsViewAttendeesComponent,

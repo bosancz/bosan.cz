@@ -1,18 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from "@angular/forms";
-
-import { Subject, Observable, combineLatest, ReplaySubject } from "rxjs";
-import { map, debounceTime } from 'rxjs/operators';
-
-import { ConfigService } from "app/core/services/config.service";
-import { ApiService } from "app/core/services/api.service";
-
-import { Member } from "app/schema/member";
-import { WebConfigGroup, WebConfigMemberRole } from "app/schema/web-config";
-import { DateTime } from 'luxon';
-import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ViewWillEnter } from '@ionic/angular';
+import { MemberGroups } from 'app/config/member-groups';
+import { MemberRoles } from 'app/config/member-roles';
+import { ApiService } from "app/core/services/api.service";
+import { Member } from "app/schema/member";
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { DateTime } from 'luxon';
+import { combineLatest, Observable, ReplaySubject, Subject } from "rxjs";
+import { debounceTime, map } from 'rxjs/operators';
+
 
 type MemberWithSearchString = Member & { searchString: string; };
 
@@ -70,14 +68,13 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
 
   defaultFields = ["nickname", "group", "role", "name", "birthday"];
 
-  groups: WebConfigGroup[] = [];
-  roles: WebConfigMemberRole[] = [];
+  groups = MemberGroups;
+  roles = MemberRoles;
 
   @ViewChild('filterForm', { static: true }) filterForm!: NgForm;
 
   constructor(
     private api: ApiService,
-    private configService: ConfigService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -91,8 +88,7 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
 
   }
 
-  async ngOnInit() {
-    await this.loadConfig();
+  ngOnInit() {
   }
 
   ionViewWillEnter() {
@@ -105,12 +101,6 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
 
   getAge(birthday: string): number {
     return Math.floor((-1) * DateTime.fromISO(birthday).diffNow("years").years);
-  }
-
-  private async loadConfig() {
-    const config = await this.configService.getConfig();
-    this.groups = config.members.groups.filter(group => group.real);
-    this.roles = config.members.roles;
   }
 
   private async loadMembers() {
@@ -153,8 +143,8 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
   }
 
   private sortMembers(members: Member[]): void {
-    const groupIndex = this.groups.map(group => group.id);
-    const roleIndex = this.roles.map(role => role.id);
+    const groupIndex = Object.keys(this.groups);
+    const roleIndex = Object.keys(this.roles);
 
     members.sort((a, b) => (
       (Number(a.inactive) - Number(b.inactive))

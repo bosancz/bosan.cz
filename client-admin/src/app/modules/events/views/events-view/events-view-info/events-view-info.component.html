@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title pageTitle>{{ event?.name }}</ion-title>
     <ion-buttons slot="end">
-      <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons>
+      <bo-action-buttons [actions]="actions" [header]="event?.name || 'Akce'"></bo-action-buttons>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -20,6 +20,7 @@
     <div class="row">
       <div class="order-last order-lg-first col-12 col-lg-8">
         <h1>{{ event?.name }}</h1>
+        <p><bo-event-status-badge [event]="event"></bo-event-status-badge></p>
 
         <div [innerHTML]="event.report"></div>
 
@@ -27,15 +28,6 @@
       </div>
 
       <div class="order-first order-lg-last col-12 col-lg-4 mb-4 mb-lg-0">
-        <div class="text-center mb-3">
-          <ion-chip [color]="event.status | eventStatus: 'color'">
-            <ion-label>
-              <strong>Stav akce:</strong> {{ event.status | eventStatus: "name" }}
-              <ng-container *ngIf="event.statusNote">| <strong>Poznámka:</strong> {{ event.statusNote }}</ng-container>
-            </ion-label>
-          </ion-chip>
-        </div>
-
         <event-card [event]="event" [actions]="false"></event-card>
 
         <div class="attendees">

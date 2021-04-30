@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { MemberGroups } from 'app/config/member-groups';
+import { MemberRoles } from 'app/config/member-roles';
 import { ApiService } from 'app/core/services/api.service';
 import { ToastService } from 'app/core/services/toast.service';
-import { WebConfigGroup, WebConfigMemberRole } from 'app/schema/web-config';
-import { ConfigService } from 'app/core/services/config.service';
-
 import { Member } from 'app/schema/member';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+
+
 
 @Component({
   selector: 'members-create',
@@ -17,8 +17,8 @@ import { Action } from 'app/shared/components/action-buttons/action-buttons.comp
 })
 export class MembersCreateComponent implements OnInit {
 
-  groups?: WebConfigGroup[];
-  roles?: WebConfigMemberRole[];
+  groups = MemberGroups;
+  roles = MemberRoles;
 
   actions: Action[] = [
     {
@@ -31,21 +31,12 @@ export class MembersCreateComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private configService: ConfigService,
     private toastService: ToastService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
-    this.loadConfig();
-  }
-
-  async loadConfig() {
-    const config = await this.configService.getConfig();
-    this.groups = config.members.groups.filter(group => group.real && group.active);
-    this.roles = config.members.roles;
-  }
+  ngOnInit() { }
 
   async create() {
 

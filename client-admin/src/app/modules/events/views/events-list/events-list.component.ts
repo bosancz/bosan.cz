@@ -1,15 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from '@angular/router';
+import { EventStatuses } from 'app/config/event-statuses';
 import { ApiService } from "app/core/services/api.service";
-import { ConfigService } from 'app/core/services/config.service';
 import { Event } from "app/schema/event";
-import { WebConfigEventStatus } from 'app/schema/web-config';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { DateTime } from 'luxon';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-
 
 
 type EventWithSearchString = Event & { searchString: string; };
@@ -27,7 +25,7 @@ export class EventsListComponent implements OnInit {
   years: number[] = [];
   currentYear?: number;
 
-  statuses?: WebConfigEventStatus[];
+  statuses = EventStatuses;
 
   canCreate?: boolean;
 
@@ -54,7 +52,6 @@ export class EventsListComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private configService: ConfigService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -69,21 +66,13 @@ export class EventsListComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.loadYears();
-    this.loadConfig();
-
   }
 
   ngAfterViewInit() {
     this.filterForm.valueChanges!.subscribe(filter => {
       this.loadEvents(filter);
     });
-  }
-
-  async loadConfig() {
-    const config = await this.configService.getConfig();
-    this.statuses = config.events.statuses;
   }
 
   async loadYears() {

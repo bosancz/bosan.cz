@@ -11,7 +11,7 @@ export const EventStatuses = asEventStatuses({
 
   "draft": {
     "name": "Připravovaná",
-    "color": "dark"
+    "color": "light"
   },
   "pending": {
     "name": "Čeká na schválení",

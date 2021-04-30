@@ -1,10 +1,8 @@
-import { Component, forwardRef, HostBinding, Input } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { EventTypeID, EventTypes } from 'app/config/event-types';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { ConfigService } from 'app/core/services/config.service';
-import { WebConfigEventSubType } from 'app/schema/web-config';
 
 @Component({
   selector: 'event-subtype-selector',
@@ -24,8 +22,8 @@ import { WebConfigEventSubType } from 'app/schema/web-config';
 })
 export class EventSubtypeSelectorComponent implements ControlValueAccessor {
 
-  value?: string;
-  types: Observable<WebConfigEventSubType[]>;
+  value?: EventTypeID;
+  types = EventTypes;
 
   onChange: any = () => { };
   onTouched: any = () => { };
@@ -33,19 +31,18 @@ export class EventSubtypeSelectorComponent implements ControlValueAccessor {
   disabled: boolean = false;
   @Input() readonly: boolean = false;
 
-  constructor(configService: ConfigService) {
-    this.types = configService.config.pipe(map(config => config.events.subtypes));
+  constructor() {
   }
 
-  select(type: WebConfigEventSubType) {
+  select(typeId: EventTypeID) {
     if (this.disabled || this.readonly) return;
-    this.value = type.name;
+    this.value = typeId;
     this.onTouched();
     this.onChange(this.value);
   }
 
   /* ControlValueAccessor */
-  writeValue(value: string) {
+  writeValue(value: EventTypeID) {
     this.value = value;
   }
 

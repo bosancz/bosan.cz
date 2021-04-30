@@ -24,6 +24,5 @@ export interface WebConfigStructureGroup<T extends keyof WebConfig = keyof WebCo
 export type WebConfigStructure = [
   WebConfigStructureGroup<"general">,
   WebConfigStructureGroup<"events">,
-  WebConfigStructureGroup<"members">,
   WebConfigStructureGroup<"contacts">,
 ];

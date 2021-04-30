@@ -1,6 +1,0 @@
-label {
-  cursor: pointer;
-}
-:host.disabled label, :host.readonly label {
-  cursor: default;
-}

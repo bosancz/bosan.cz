@@ -19,9 +19,9 @@
 
         <div class="legend d-none d-lg-block">
           <ion-list lines="none">
-            <ion-item *ngFor="let status of statuses">
-              <ion-label [ngClass]="'text-' + status.class">
-                <ion-icon name="ellipse"></ion-icon>&nbsp;{{ status.name || status.id }}
+            <ion-item *ngFor="let status of statuses | keyvalue">
+              <ion-label [color]="status.value.color">
+                <ion-icon name="ellipse"></ion-icon>&nbsp;{{ status.value.name || status.key }}
               </ion-label>
             </ion-item>
             <ion-item class="text-dark">

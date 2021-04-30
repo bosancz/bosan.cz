@@ -1,4 +1,5 @@
 import { EventStatusID } from "app/config/event-statuses";
+import { EventTypeID } from "app/config/event-types";
 import { Document } from "./api";
 import { Member } from "./member";
 
@@ -17,7 +18,7 @@ export interface Event extends Document {
 
   name: string;
   type: string;
-  subtype: string;
+  subtype: EventTypeID;
   place: string;
   description: string;
 
