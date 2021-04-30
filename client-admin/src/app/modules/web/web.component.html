@@ -40,11 +40,11 @@
           </ng-container>
 
           <ng-container *ngSwitchCase="'codelist'">
-            <codelist-editor
+            <bo-codelist-editor
               [fields]="item.fields"
               [name]="item.name"
               [ngModel]="getConfigValue(category, item) | async"
-            ></codelist-editor>
+            ></bo-codelist-editor>
           </ng-container>
         </div>
 

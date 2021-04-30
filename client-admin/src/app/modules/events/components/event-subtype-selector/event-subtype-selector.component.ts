@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EventTypeID, EventTypes } from 'app/config/event-types';
 import { Observable } from 'rxjs';
@@ -20,7 +20,7 @@ import { Observable } from 'rxjs';
     "[class.readonly]": "readonly"
   }
 })
-export class EventSubtypeSelectorComponent implements ControlValueAccessor {
+export class EventSubtypeSelectorComponent implements ControlValueAccessor, AfterViewInit {
 
   value?: EventTypeID;
   types = EventTypes;
@@ -31,7 +31,13 @@ export class EventSubtypeSelectorComponent implements ControlValueAccessor {
   disabled: boolean = false;
   @Input() readonly: boolean = false;
 
-  constructor() {
+  constructor(
+    private elRef: ElementRef<HTMLElement>
+  ) {
+  }
+
+  ngAfterViewInit() {
+    this.emitIonStyle();
   }
 
   select(typeId: EventTypeID) {
@@ -56,6 +62,22 @@ export class EventSubtypeSelectorComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  private emitIonStyle() {
+    this.elRef.nativeElement.dispatchEvent(new CustomEvent("ionStyle", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: {
+        'interactive': true,
+        'input': true,
+        'has-placeholder': true,
+        'has-value': true,
+        'has-focus': false,
+        'interactive-disabled': this.disabled,
+      }
+    }));
   }
 
 }

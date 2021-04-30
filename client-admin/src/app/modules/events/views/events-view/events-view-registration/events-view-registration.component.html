@@ -13,7 +13,7 @@
 <ion-content class="ion-padding">
   <object
     *ngIf="event?._links?.registration?.allowed?.GET"
-    [data]="getRegistrationUrl(event!) | safeurl: 'SafeResourceUrl'"
+    [data]="getRegistrationUrl(event!)"
     type="application/pdf"
     style="width: 100%; height: 70vh"
   ></object>

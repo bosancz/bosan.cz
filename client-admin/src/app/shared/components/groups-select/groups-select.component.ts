@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MemberGroupID, MemberGroups } from 'app/config/member-groups';
 
@@ -18,7 +18,7 @@ import { MemberGroupID, MemberGroups } from 'app/config/member-groups';
     "[class.readonly]": "readonly",
   }
 })
-export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
+export class GroupsSelectComponent implements OnInit, ControlValueAccessor, AfterViewInit {
 
   groups = Object.entries(MemberGroups)
     .map(([key, value]) => ({ key, value }))
@@ -41,9 +41,15 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
     this.selectedGroups = [];
   }
 
-  constructor() { }
+  constructor(
+    private elRef: ElementRef<HTMLElement>
+  ) { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.emitIonStyle();
   }
 
   isSelected(groupId: string) {
@@ -81,5 +87,21 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
 
   getChildrenGroups() {
     return this.groups.filter(group => group.value.children);
+  }
+
+  private emitIonStyle() {
+    this.elRef.nativeElement.dispatchEvent(new CustomEvent("ionStyle", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: {
+        'interactive': true,
+        'input': true,
+        'has-placeholder': true,
+        'has-value': true,
+        'has-focus': false,
+        'interactive-disabled': this.disabled,
+      }
+    }));
   }
 }
