@@ -20,7 +20,11 @@ import { MemberGroupID, MemberGroups } from 'app/config/member-groups';
 })
 export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
 
-  groups = MemberGroups;
+  groups = Object.entries(MemberGroups)
+    .map(([key, value]) => ({ key, value }))
+    .filter(group => group.value.event && group.value.active)
+    .sort((a, b) => (Number(b.value.children) - Number(a.value.children)) || a.key.localeCompare(b.key, "cs", { numeric: true }));
+
   selectedGroups: string[] = [];
 
   disabled: boolean = false;
@@ -51,18 +55,15 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
     if (this.disabled || this.readonly) return;
 
     if (checked) {
-      this.selectedGroups = Object.entries(this.groups)
-        .filter(([key, value]) => value.children)
-        .map(([key, value]) => key);
+      this.selectedGroups = this.getChildrenGroups().map(group => group.key);
     }
     else this.selectedGroups = [];
     this.onChange(this.selectedGroups);
   }
 
   isSelectedAll(): boolean {
-    return !Object.entries(this.groups)
-      .filter(([key, value]) => value.children)
-      .some(([key, value]) => this.selectedGroups.indexOf(key) === -1);
+    return !this.getChildrenGroups()
+      .some(group => this.selectedGroups.indexOf(group.key) === -1);
   }
 
   toggleGroup(groupId: string, deselectOther = false) {
@@ -78,4 +79,7 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
     this.onChange(this.selectedGroups);
   }
 
+  getChildrenGroups() {
+    return this.groups.filter(group => group.value.children);
+  }
 }

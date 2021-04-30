@@ -3,9 +3,27 @@
 }
 
 .group-badge {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  line-height: 30px;
+  vertical-align: middle;
+  text-decoration: none;
   opacity: 0.1;
   cursor: pointer;
 }
+
+.group-badge:first-of-type {
+  margin-left: 0;
+}
+.group-badge:last-of-type {
+  margin-right: 0;
+}
+
 .group-badge.active {
   opacity: 1;
 }

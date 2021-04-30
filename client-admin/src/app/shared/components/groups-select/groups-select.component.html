@@ -1,6 +1,6 @@
 <div class="group-badges mr-2">
   <span
-    *ngFor="let group of groups | keyvalue; let isLast = last"
+    *ngFor="let group of groups; let isLast = last"
     (click)="toggleGroup(group.key)"
     [class.active]="isSelected(group.key)"
     [style.background-color]="group.value.color"
