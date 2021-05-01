@@ -8,6 +8,8 @@ import { EventBirthdayListComponent } from './components/event-birthday-list/eve
 import { EventExpensesChartComponent } from './components/event-expenses-chart/event-expenses-chart.component';
 import { EventExpensesTableComponent } from './components/event-expenses-table/event-expenses-table.component';
 import { EventSubtypeSelectorComponent } from './components/event-subtype-selector/event-subtype-selector.component';
+import { MemberSelectorModalComponent } from './components/member-selector-modal/member-selector-modal.component';
+import { MemberSelectorComponent } from './components/member-selector/member-selector.component';
 import { EventsRoutingModule } from './events-routing.module';
 /* SERVICES */
 import { EventsService } from './services/events.service';
@@ -34,7 +36,6 @@ import { EventsViewComponent } from './views/events-view/events-view.component';
     EventsViewComponent,
     EventEditComponent,
     EventsViewRegistrationComponent,
-
     EventAgeHistogramComponent,
     EventBirthdayListComponent,
     EventExpensesTableComponent,
@@ -45,6 +46,8 @@ import { EventsViewComponent } from './views/events-view/events-view.component';
     EventsViewInfoComponent,
     EventsViewAccountingComponent,
     EventAddAttendeesComponent,
+    MemberSelectorComponent,
+    MemberSelectorModalComponent
   ],
   imports: [
     CommonModule,

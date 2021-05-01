@@ -49,6 +49,11 @@
     </ion-item>
 
     <ion-item class="w-100">
+      <ion-label position="floating">Hlavní vedoucí</ion-label>
+      <bo-member-selector name="leaders" multiple [ngModel]="event.leaders"></bo-member-selector>
+    </ion-item>
+
+    <ion-item class="w-100">
       <ion-label position="floating">Místo</ion-label>
       <ion-input name="place" [(ngModel)]="event.place" placeholder="Dno pytle"></ion-input>
     </ion-item>
