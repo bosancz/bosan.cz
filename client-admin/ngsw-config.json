@@ -1,16 +1,12 @@
 {
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": [
-          "/favicon.ico",
-          "/index.html",
-          "/*.css",
-          "/*.js"
-        ]
+        "files": ["/favicon.ico", "/index.html", "/*.css", "/*.js"]
       }
     },
     {
@@ -18,9 +14,7 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "files": [
-          "/assets/**"
-        ]
+        "files": ["/assets/**"]
       }
     },
     {
@@ -28,33 +22,28 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "urls": [
-          "https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css",
-          "https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700",
-          "https://use.fontawesome.com/releases/v5.0.10/css/all.css"
-        ]
+        "urls": ["https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"]
       }
     }
   ],
   "dataGroups": [
     {
       "name": "api",
-      "urls": [
-        "/api",
-        "/api/config",
-        "/api/me/user",
-        "/api/events/program",
-        "/api/albums/recent?limit=3"
-      ],
+      "urls": ["/api", "/api/me/user"],
       "cacheConfig": {
         "strategy": "freshness",
         "maxSize": 100,
         "maxAge": "7d"
-      },
-      "navigationUrls": [
-        "/**", 
-        "!/api/events/**/accounting/template"
-      ]
+      }
+    },
+    {
+      "name": "database",
+      "urls": ["/api/members", "/api/members/*"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 200,
+        "maxAge": "7d"
+      }
     }
   ]
 }
