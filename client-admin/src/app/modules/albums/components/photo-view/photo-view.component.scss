@@ -7,9 +7,9 @@ ion-content {
 }
 
 ion-toolbar {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  color: #fff;
   --background: none;
-  --ion-background-color: rgba(0, 0, 0, 0.7) !important;
-  --ion-toolbar-color: #fff;
 }
 .top-toolbar {
   position: absolute;
@@ -25,7 +25,7 @@ ion-toolbar {
 }
 
 ion-item {
-  --ion-background-color: rgba(0, 0, 0, 0.7);
+  --ion-background-color: transparent;
   --ion-item-color: #fff;
 }
 .edit-caption {
