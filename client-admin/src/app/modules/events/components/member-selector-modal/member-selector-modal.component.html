@@ -7,7 +7,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let member of members" [button]="true" (click)="close(member)">
+    <ion-item *ngFor="let member of filteredMembers" [button]="true" (click)="close(member)">
       <ion-label>
         <h3>{{ member.nickname || member.name?.first || member.name?.last }}</h3>
         <p>{{ member.group | group: "name" }}</p>

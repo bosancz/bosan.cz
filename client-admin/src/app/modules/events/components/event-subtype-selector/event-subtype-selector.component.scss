@@ -1,4 +1,8 @@
-$size: 50px;
+$size: 30px;
+
+:host {
+  display: block;
+}
 
 span.type {
   display: inline-block;

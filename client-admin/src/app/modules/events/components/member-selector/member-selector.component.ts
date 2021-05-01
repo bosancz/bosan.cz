@@ -18,12 +18,15 @@ export type MemberSelectorType = Member | Member[] | null;
       useExisting: forwardRef(() => MemberSelectorComponent),
     }
   ],
+  host: {
+    "(click)": "openModal(); $event.stopPropagation()"
+  }
 })
 export class MemberSelectorComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnDestroy {
 
   value: Member[] = [];
 
-  members!: Promise<Member[]>;
+  @Input() members!: Member[];
 
   @Input() placeholder?: string;
   @Input() multiple: boolean | string = false;
@@ -44,7 +47,6 @@ export class MemberSelectorComponent implements OnInit, ControlValueAccessor, Af
   ) { }
 
   ngOnInit(): void {
-    this.loadMembers();
   }
 
   ngAfterViewInit() {
@@ -63,7 +65,7 @@ export class MemberSelectorComponent implements OnInit, ControlValueAccessor, Af
       detail: {
         'interactive': true,
         'input': true,
-        'has-placeholder': true,
+        'has-placeholder': false,
         'has-value': this.value.length > 0,
         'has-focus': this.focused,
         'interactive-disabled': this.disabled,
@@ -76,18 +78,23 @@ export class MemberSelectorComponent implements OnInit, ControlValueAccessor, Af
   }
 
   async openModal() {
+
+    if (!(this.multiple || this.multiple === "") && this.value.length >= 1) return;
+
     this.focused = true;
+    this.emitIonStyle();
 
     this.modal = await this.modalController.create({
       component: MemberSelectorModalComponent,
       componentProps: {
-        members: await this.members
+        members: this.members
       }
     });
 
     this.modal.onDidDismiss().then(result => {
       this.focused = false;
       if (result.data?.member !== undefined) this.addMember(result.data.member);
+      this.emitIonStyle();
     });
 
     this.modal.present();
@@ -112,33 +119,15 @@ export class MemberSelectorComponent implements OnInit, ControlValueAccessor, Af
 
     if (this.value === value) return;
 
-    if (!value) {
-      this.value = [];
-      return;
-    }
+    if (!value) value = [];
+    if (!Array.isArray(value)) value = [value];
 
-    if (!Array.isArray(value)) {
-      value = [value];
-    }
+    this.value = value;
 
-    const members = await this.members;
-
-    this.value = value
-      .map(value => members.find(item => item._id === value._id))
-      .filter((member): member is Exclude<typeof member, undefined> => !!member);
-
-    if (this.multiple) this.onChange?.(this.value);
+    if (this.multiple || this.multiple === "") this.onChange?.(this.value);
     else this.onChange?.(this.value[0] || null);
 
     this.emitIonStyle();
-  }
-
-  private async loadMembers() {
-    const options = {
-      select: "_id nickname name group"
-    };
-
-    this.members = this.api.get<Member[]>("members", options);
   }
 
   /* ControlValueAccessor */

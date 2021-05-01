@@ -1,16 +1,14 @@
-<div class="text-center text-md-left">
+<span
+  *ngFor="let type of types | keyvalue"
+  (click)="select($any(type.key))"
+  [class.selected]="type.key === value"
+  placement="bottom"
+  class="type mr-2 my-2"
+>
+  <img *ngIf="type.value.image" [src]="type.value.image" class="align-middle" />
   <span
-    *ngFor="let type of types | keyvalue"
-    (click)="select($any(type.key))"
-    [class.selected]="type.key === value"
-    placement="bottom"
-    class="type mx-1 ml-md-0 mr-md-2 mb-2"
-  >
-    <img *ngIf="type.value.image" [src]="type.value.image" class="align-middle" />
-    <span
-      *ngIf="!type.value.image"
-      class="circle align-middle"
-      [style.background-color]="type.value.color || '#ccc'"
-    ></span>
-  </span>
-</div>
+    *ngIf="!type.value.image"
+    class="circle align-middle"
+    [style.background-color]="type.value.color || '#ccc'"
+  ></span>
+</span>

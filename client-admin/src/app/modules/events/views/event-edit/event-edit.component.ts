@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { ApiService } from 'app/core/services/api.service';
 import { ToastService } from 'app/core/services/toast.service';
 import { Event } from 'app/schema/event';
+import { Member } from 'app/schema/member';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { EventsService } from '../../services/events.service';
 
@@ -17,6 +19,8 @@ import { EventsService } from '../../services/events.service';
 export class EventEditComponent implements OnInit {
 
   event?: Event;
+
+  members: Member[] = [];
 
   actions: Action[] = [
     {
@@ -32,7 +36,7 @@ export class EventEditComponent implements OnInit {
     private api: ApiService,
     private toastService: ToastService,
     private route: ActivatedRoute,
-    private router: Router
+    private navController: NavController
   ) { }
 
   ngOnInit() {
@@ -45,18 +49,31 @@ export class EventEditComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.eventsService.loadEvent(params["event"]);
     });
+
+    this.loadMembers();
+  }
+
+  private async loadMembers() {
+    const options = {
+      select: "_id nickname name group",
+    };
+
+    this.members = await this.api.get<Member[]>("members", options);
   }
 
   async saveEvent() {
 
     if (!this.event) return;
 
-    const eventData = this.form.value;
+    const eventData: Partial<Event> = this.form.value;
+
+    // eventData.leaders = eventData.leaders?.map(member => member._id) || [];
 
     await this.api.patch<Event>(["event", this.event._id], eventData);
     this.toastService.toast("Uloženo.");
 
-    this.router.navigate(["../info"], { relativeTo: this.route, replaceUrl: true });
+    // this.router.navigate(["../info"], { relativeTo: this.route, replaceUrl: true });
+    this.navController.navigateBack(["/akce", this.event._id]);
   }
 
 }
