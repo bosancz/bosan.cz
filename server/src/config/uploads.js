@@ -1,5 +1,3 @@
-
-
 module.exports = {
-  limit: process.env.UPLOADS_LIMIT || "10mb"
-}
+  limit: process.env.UPLOADS_LIMIT || "20mb",
+};
