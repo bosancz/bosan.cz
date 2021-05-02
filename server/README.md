@@ -39,30 +39,30 @@ Konfigurace probíhá pomocí Environment variables. Klíče pro  Google a Vapid
 
 ### Environment variables
 
-| ENV variable       | Default value                   | Description                                                   |
-|--------------------|---------------------------------|---------------------------------------------------------------|
-| AUTH_EXPIRATION    | P1D                             | Expiration of authcookie as ISO 8601 duration string          |
-| AUTH_SAMESITE      | true                            | True if samesite parameter should be used when setting cookie |
-| AUTH_SECRET        | secret                          | Key to sign JWT tokens CHANGE THIS!                           |
-| BASE_DIR           | /api                            | Base URL of the server                                        |
-| BASE_URL           | http://SERVER_HOST:SERVER_PORT  | Site url                                                      |
-| DATABASE_URI       | mongodb://localhost:27017/bosan | Database path and credentials                                 |
-| FACEBOOK_APP_ID    |                                 | Facebook APP ID for sharing                                   |
-| GOOGLE_IMPERSONATE |                                 | Which account to use for mailing                              |
-| ICAL_DOMAIN        | SERVER_HOST                     | Domain to use for iCal exports                                |
-| SERVER_HOST        | 0.0.0.0                         | Server host                                                   |
-| SERVER_PORT        | 3000                            | Server port                                                   |
-| SITE_DESCRIPTION   |                                 | Site description                                              |
-| SITE_MAIL          | info@bosan.cz                   | Site mail                                                     |
-| SITE_TITLE         | Dětská vodácká skupina ŠÁN      | Site title                                                    |
-| KEYS_DIR           | /keys                           | Keyfiles storage directory                                    |
-| STORAGE            | /data                           | Root storage directory                                        |
-| STORAGE_CONFIG     | STORAGE + /config               | Storage directory for config                                  |
-| STORAGE_EVENTS     | STORAGE + /events               | Storage directory for events                                  |
-| STORAGE_PHOTOS     | STORAGE + /photos               | Storage directory for photos                                  |
-| STORAGE_THUMBS     | STORAGE + /thumbs               | Storage directory for thumbs                                  |
-| STORAGE_UPLOADS    | STORAGE + /uploads              | Storage directory for uploads                                 |
-| UPLOADS_LIMIT      | 10mb                            | Maximum size of an uploaded file                              |
+| ENV variable       | Default value                   | Description                                                                                                                            |
+|--------------------|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| AUTH_EXPIRATION    | P1D                             | Jak dlouho zůstane člověk přihlášený ve formátu ISO 8601                                                                               |
+| AUTH_SAMESITE      | true                            | Nastaví [samesite](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite) u přihlašovací cookie.  dovolí vývoj |
+| AUTH_SECRET        | secret                          | Klíč k podepsání přihlašovacího tokenu.                                                                                                |
+| BASE_DIR           | /api                            | Část cesty URL, na které poběží server                                                                                                 |
+| BASE_URL           | http://SERVER_HOST:SERVER_PORT  | Část domény URL serveru                                                                                                                |
+| DATABASE_URI       | mongodb://localhost:27017/bosan | Adresa a přihlašovací údaje k databázi                                                                                                 |
+| FACEBOOK_APP_ID    |                                 | Facebook APP ID                                                                                                                        |
+| GOOGLE_IMPERSONATE |                                 | Který účet na Googlu použít k odesílání mailů (je ptořeba přístup)                                                                     |
+| ICAL_DOMAIN        | SERVER_HOST                     | Doména pro ICAL události                                                                                                               |
+| SERVER_HOST        | 0.0.0.0                         | Hostname na kterém bude poslouchat server                                                                                              |
+| SERVER_PORT        | 3000                            | Port na kterém bude poslouchat server                                                                                                  |
+| SITE_DESCRIPTION   |                                 | Hodnota HTML META tagu description                                                                                                     |
+| SITE_MAIL          | info@bosan.cz                   | Hodnota HTML META tagu main                                                                                                            |
+| SITE_TITLE         | Dětská vodácká skupina ŠÁN      | Hodnota HTML META tagu title                                                                                                           |
+| KEYS_DIR           | ./keys                          | Cesta k adresáři s klíči (viz níže)                                                                                                    |
+| STORAGE            | ./data                          | Cesta k adresáři s daty (viz níže)                                                                                                     |
+| STORAGE_CONFIG     | STORAGE + /config               | Cesta k adresáři souboru nastavení                                                                                                     |
+| STORAGE_EVENTS     | STORAGE + /events               | Cesta k adresáři souborů akcí                                                                                                          |
+| STORAGE_PHOTOS     | STORAGE + /photos               | Cesta k adresáři originálů fotek                                                                                                       |
+| STORAGE_THUMBS     | STORAGE + /thumbs               | Cesta k adresáři zmenšených fotek                                                                                                      |
+| STORAGE_UPLOADS    | STORAGE + /uploads              | Cesta k adresáři nahrávaných souborů                                                                                                   |
+| UPLOADS_LIMIT      | 20mb                            | Maximální velikost nahrávaního souboru                                                                                                 |
 
 ### Soubory s klíči: Google a Vapid
 
@@ -72,6 +72,11 @@ Ve složce `keys` (v Dockeru `/srv/keys`) můžou být dva soubory s klíči: `g
 
 `vapid.json` si můžete vygenerovat třeba na https://vapidkeys.com/. Slouží k rozesílání notifikací. Když někdo odsouhlasí, že mu můžeme posílat notifikace, jeho prohlížeč/mobil dostane veřejný klíč z tohoto souboru a dovolí notifikace jen když budou podepsané soukromým klíčem z tohoto souboru. Tak se zajistí, že ho nebude spamovat někdo, s jehož notifikacemi nesouhlasil.
 
+## Data
+
+Soubory se neukládají do databáze, ale do vybrané složky (defaultně ./data). 
+
+Pokud aplikaci spouštíte v Dockeru je potřeba tento adresář namapovat lokálně, jinak o všechna data po restartu přijdete. V Dockeru je plná cesta `/srv/app/${STORAGE}`, tedy defaultně `/srv/app/data`.
 
 ## Vytvoření admin účtu:
 
