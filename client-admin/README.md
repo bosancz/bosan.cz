@@ -1,8 +1,28 @@
-# Server pro webové stránky bosan.cz
+# Interní sekce bosan.cz
 
 ## Jak na to?
 
-Oceníme každou pomoc. Pokud jsi nováček, nejdřív si přečti detailní [návod, jak začít s úpravami webu](./CONTRIBUTING.md).
+Interní sekce je psána ve frameworku Angular. Pokud ho neznáš, doporučuji si nejdřív prostudovat základní tutoriál na angular.io.
+
+## Adresářová struktura
+
+    .
+    ├── dist                    # Výstupní kompilované soubory - to, co běží v prohlížeči
+    ├── node_modules            # NPM balíčky, na kterých je aplikace závislá
+    └── src                     # Zdrojové kódy
+        ├── app                 # Aplikační zdrojové kódy
+        │   ├── config          # Statická nastavení
+        │   ├── core            # Modul obsahující součásti kořenové části aplikace
+        │   ├── modules         # Moduly jednolivých částí aplikace
+        │   ├── schema          # TypeScript schémata datových struktur používaných napříč aplikací
+        │   ├── shared          # Modul obsahující součísti sdílené všemi moduly aplikace
+        │   └── app.*.*         # Kořenová část aplikace
+        ├── assets              # Další zdroje aplikace - obrázky, fonty atd.
+        ├── environment         # Nastavení prosteřdí
+        ├── styles              # Zdrojové kódy globálních CSS stylů
+        ├── index.html          # Zaváděcí soubor HTML
+        ├── main.ts             # Zaváděcí soubor programu aplikace
+        └── styles.scss         # Zaváděcí soubor globálních stylů
 
 ## Prerekvizity
 
@@ -20,7 +40,7 @@ Vývoj interní sekce spusť v této složce následujícím příkazem:
 npm run dev:test-server
 ```
 
-Web se bude nejdřív celý kompilovat Až to skončí oetvři si v prohlížeči adresu http://localhost:4200 a uvidíš spuštěný web. Jakmile něco změníš v kódu (složka `src`), ihned se ta část zkompiluje a sama v prohlížeči zaktualizuje.
+Web se bude nejdřív celý kompilovat. Až to skončí oetvři si v prohlížeči adresu http://localhost:4300 a uvidíš spuštěný web. Jakmile něco změníš v kódu (složka `src`), ihned se ta část zkompiluje a sama v prohlížeči zaktualizuje.
 
 ### Chci si spustit vlastní lokální server
 
@@ -30,13 +50,13 @@ Vývoj interní sekce spusť místo přechozího následujícím příkazem:
 npm run dev
 ```
 
-Budeš muset spustit ještě server a databázi. To můžeš udělat buď ručně dle [návodu u serveru](../server), nebo pomocí `docker-compose` takto:
+Budeš muset spustit ještě server a databázi. To můžeš udělat buď ručně dle [návodu u serveru](../server), nebo pomocí `docker-compose` (musíš si nainstalovat [Docker Desktop](https://www.docker.com/get-started)) takto:
 
 ```sh
 docker-compose up server db
 ```
 
-Můžeš si k tomu spustit i veřejnou sekci, která poběží na http://localhost:4300:
+Můžeš si k tomu spustit i veřejnou sekci, která poběží na http://localhost:4200:
 
 ```sh
 docker-compose up server db client
