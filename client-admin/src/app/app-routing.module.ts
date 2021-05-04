@@ -6,7 +6,7 @@ import { LoginComponent } from './core/views/login/login.component';
 import { NotFoundComponent } from './core/views/not-found/not-found.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, data: { hideMenu: true } },
 
   { path: 'prehled', canLoad: [AclGuard], data: { permission: "dashboard" }, loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
 

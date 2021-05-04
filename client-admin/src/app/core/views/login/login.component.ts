@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import * as packageJson from "app/../../package.json";
+import { LoginService } from 'app/core/services/login.service';
 import { map } from 'rxjs/operators';
 
-import { LoginService } from 'app/core/services/login.service';
 
 @Component({
   selector: 'login',
@@ -12,8 +12,6 @@ import { LoginService } from 'app/core/services/login.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  title = "Přihlášení";
 
   expired = this.route.params.pipe(map(params => params.expired));
 
@@ -24,6 +22,8 @@ export class LoginComponent implements OnInit {
   loginValue: string = "";
 
   googleLoginAvailable = this.loginService.googleLoginAvailable;
+
+  version = packageJson.version;
 
   constructor(
     private router: Router,

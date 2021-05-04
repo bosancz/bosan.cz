@@ -2,9 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { userRoles } from 'app/config/user-roles';
+import { UserRoles } from 'app/config/user-roles';
 import { ApiService } from 'app/core/services/api.service';
-import { LoginService } from 'app/core/services/login.service';
 import { ToastService } from "app/core/services/toast.service";
 import { Member } from "app/schema/member";
 import { User } from "app/schema/user";
@@ -20,7 +19,7 @@ export class UsersEditComponent implements OnInit {
 
   user?: User;
 
-  roles = userRoles
+  roles = UserRoles
     .filter(item => item.assignable)
     .map(role => ({ name: role.id, title: role.title, active: false }));
 
@@ -80,8 +79,6 @@ export class UsersEditComponent implements OnInit {
     if (!this.user) return;
 
     const userData = this.form.value;
-
-    userData.roles = this.roles.filter(role => role.active).map(role => role.name);
 
     await this.api.patch(["user", this.user._id], userData);
 

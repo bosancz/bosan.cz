@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { userRoles } from 'app/config/user-roles';
+import { UserRoles } from 'app/config/user-roles';
 import { ApiService } from "app/core/services/api.service";
 import { User } from "app/schema/user";
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
@@ -28,7 +28,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   searchIndex: string[] = [];
   searchString = new BehaviorSubject<string>("");
 
-  roles = userRoles.filter(item => item.assignable);
+  roles = UserRoles.filter(item => item.assignable);
 
   @ViewChild('filterForm', { static: true }) filterForm!: NgForm;
 

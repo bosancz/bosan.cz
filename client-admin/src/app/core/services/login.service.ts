@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { ApiService } from "app/core/services/api.service";
 import { GoogleService } from "app/core/services/google.service";
+import { ToastService } from './toast.service';
 import { UserService } from './user.service';
 
 export interface LoginResult {
@@ -25,7 +26,8 @@ export class LoginService {
     private route: ActivatedRoute,
     private router: Router,
     private googleService: GoogleService,
-    private userService: UserService
+    private userService: UserService,
+    private toastService: ToastService
   ) {
     this.checkTokenLogin();
   }
@@ -117,7 +119,9 @@ export class LoginService {
 
   async logout() {
     await this.api.post("logout");
-    await this.userService.loadUser();
+    const user = await this.userService.loadUser();
+
+    if (user) this.toastService.toast("Přihlášen zpět jako " + user.login);
   }
 
 }

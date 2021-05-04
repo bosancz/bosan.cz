@@ -1,4 +1,4 @@
-export const userRoles = [
+export const UserRoles = [
   { id: "user", assignable: false, title: "Uživatel" },
   { id: "guest", assignable: false, title: "Host" },
 

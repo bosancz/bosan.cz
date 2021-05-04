@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 
 import { LoginService } from 'app/core/services/login.service';
 import { MenuService } from 'app/core/services/menu.service';
@@ -29,7 +29,7 @@ export class AdminMenuComponent implements OnInit {
     public menuService: MenuService,
     public userService: UserService,
     private loginService: LoginService,
-    private router: Router,
+    private navController: NavController,
     public onlineService: OnlineService,
     public swUpdate: SwUpdate,
     public platform: Platform,
@@ -41,7 +41,12 @@ export class AdminMenuComponent implements OnInit {
 
   async logout() {
     await this.loginService.logout();
-    this.router.navigate(["/"]);
+    if (this.userService.userSnapshot?._id) {
+      this.navController.navigateRoot("/");
+    }
+    else {
+      this.navController.navigateRoot("/login");
+    }
   }
 
   reload() {
