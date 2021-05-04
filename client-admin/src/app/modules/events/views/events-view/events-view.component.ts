@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from "@angular/router";
+import { NavController } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { EventStatuses } from "app/config/event-statuses";
+import { ToastService } from 'app/core/services/toast.service';
 import { Event } from "app/schema/event";
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { filter } from 'rxjs/operators';
@@ -22,7 +24,9 @@ export class EventsViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private eventsService: EventsService
+    private eventsService: EventsService,
+    private navController: NavController,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -36,7 +40,13 @@ export class EventsViewComponent implements OnInit {
   }
 
   async loadEvent(eventId: string) {
-    await this.eventsService.loadEvent(eventId);
+    try {
+      await this.eventsService.loadEvent(eventId);
+    }
+    catch (err) {
+      this.navController.navigateBack("/akce");
+      this.toastService.toast("Akce nebyla nalezena, zobrazuji přehled akcí.");
+    }
   }
 
 }

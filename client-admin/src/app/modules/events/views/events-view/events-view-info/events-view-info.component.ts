@@ -34,8 +34,7 @@ export class EventsViewInfoComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private toastService: ToastService,
-    private eventsService: EventsService,
-    private modalController: ModalController
+    private eventsService: EventsService
   ) { }
 
   ngOnInit() {
