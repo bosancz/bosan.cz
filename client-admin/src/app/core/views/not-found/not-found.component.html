@@ -1,11 +1,21 @@
-<section class="pt-3">
-  <div class="container">
-    
-    <div class="notfound">
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="notfound">
+    <div>
       <h2>Stránka nebyla nalezena.</h2>
-      <p>Litujeme, stránka {{url}} na našem webu není.</p>
-      <p class="smiley">:(</p>
+
+      <p>
+        Adresa <code>{{ url }}</code> v interní sekci neexistuje.
+      </p>
+
+      <img class="mt-5" src="/assets/img/notfound.gif" />
     </div>
-    
   </div>
-</section>
+</ion-content>

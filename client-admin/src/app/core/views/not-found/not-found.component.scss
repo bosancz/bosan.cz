@@ -1,4 +1,12 @@
 @import "~styles/variables";
 
-.notfound{padding:50px;text-align:center;}
-.smiley{font-size:5em;}
+.notfound {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+img {
+  border-radius: 10px;
+}
