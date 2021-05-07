@@ -16,17 +16,23 @@
   <ng-container [ngSwitch]="view">
     <form *ngSwitchCase="'login'" #loginFormEl #loginForm="ngForm" (ngSubmit)="login(loginForm)">
       <ion-item>
-        <ion-label>Login</ion-label>
-        <ion-input type="text" name="login" [(ngModel)]="loginValue" required></ion-input>
+        <!-- <ion-label>Login</ion-label> -->
+        <ion-input
+          type="text"
+          name="login"
+          placeholder="Uživatelské jméno"
+          [(ngModel)]="loginValue"
+          required
+        ></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label>Heslo</ion-label>
-        <ion-input [type]="'password'" name="password" ngModel required></ion-input>
+        <!-- <ion-label>Heslo</ion-label> -->
+        <ion-input [type]="'password'" name="password" placeholder="Heslo" ngModel required></ion-input>
       </ion-item>
 
       <div class="buttons text-center">
-        <ion-button type="submit" color="primary" [disabled]="!loginForm.valid">Přihlásit se</ion-button>
+        <ion-button type="submit" color="primary" [disabled]="!loginForm.valid" class="my-3">Přihlásit se</ion-button>
 
         <ion-button *ngIf="googleLoginAvailable | async" type="button" color="secondary" (click)="loginGoogle()">
           <i class="fab fa-google"></i>&nbsp;&nbsp;Přihlásit přes Bošánovský mail
