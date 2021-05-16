@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, NavController } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ApiService } from 'app/core/services/api.service';
+import { ToastService } from 'app/core/services/toast.service';
 import { Album } from "app/schema/album";
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { ThematicBreak } from 'docx';
 import { transliterate } from 'inflected';
 import { BehaviorSubject } from "rxjs";
 import { debounceTime } from 'rxjs/operators';
@@ -16,7 +19,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './albums-list.component.html',
   styleUrls: ['./albums-list.component.scss']
 })
-export class AlbumsListComponent implements OnInit {
+export class AlbumsListComponent implements OnInit, OnDestroy {
 
   albums: Album[] = [];
   filteredAlbums: Album[] = [];
@@ -35,16 +38,19 @@ export class AlbumsListComponent implements OnInit {
   actions: Action[] = [
     {
       text: "Nové",
-      handler: () => this.createAlbum()
+      handler: () => this.createAlbumModal()
     }
   ];
+
+  alert?: HTMLIonAlertElement;
 
   searchString = new BehaviorSubject<string>("");
 
   constructor(
     private api: ApiService,
-    private router: Router,
-    private route: ActivatedRoute
+    private alertController: AlertController,
+    private toastService: ToastService,
+    private navController: NavController
   ) {
 
   }
@@ -60,6 +66,9 @@ export class AlbumsListComponent implements OnInit {
       });
   }
 
+  ngOnDestroy() {
+    this.alert?.dismiss();
+  }
 
   private async loadAlbums() {
 
@@ -92,8 +101,50 @@ export class AlbumsListComponent implements OnInit {
     return albums.filter((event, i) => search_re.test(this.searchIndex[i]));
   }
 
-  private async createAlbum() {
+  private async createAlbumModal() {
+    this.alert = await this.alertController.create({
+      header: "Vytvořit album",
+      inputs: [
+        { name: "name", type: "text" },
+        { name: "dateFrom", type: "date", attributes: { required: true } },
+        { name: "dateTill", type: "date", attributes: { required: true } },
+      ],
+      buttons: [
+        { role: "cancel", text: "Zrušit" },
+        { text: "Vytvořit", handler: (data: Partial<Pick<Album, "name" | "dateFrom" | "dateTill">>) => this.onCreateAlbum(data) },
+      ]
+    });
 
+    await this.alert.present();
+  }
+
+  private onCreateAlbum(albumData: Partial<Pick<Album, "name" | "dateFrom" | "dateTill">>) {
+    if (!albumData.name || !albumData.dateFrom || !albumData.dateTill) {
+      this.toastService.toast("Musíš vyplnit jméno i datumy");
+      return false;
+    }
+
+    this.createAlbum(<Pick<Album, "name" | "dateFrom" | "dateTill">>albumData);
+  }
+
+  private async createAlbum(albumData: Pick<Album, "name" | "dateFrom" | "dateTill">) {
+
+    if (!albumData.name || !albumData.dateFrom || !albumData.dateTill) {
+      this.toastService.toast("Musíš vyplnit jméno i datumy");
+      return false;
+    }
+
+    const response = await this.api.post("albums", albumData);
+
+    const location = response.headers.get("location");
+    if (!location) {
+      this.toastService.toast("Chyba při otevírání nového alba.");
+      return;
+    }
+
+    const album = await this.api.get<Album>(location);
+
+    await this.navController.navigateForward("/galerie/" + album._id);
   }
 
 }
