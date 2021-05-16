@@ -31,7 +31,7 @@
         <event-card [event]="event" [actions]="false"></event-card>
 
         <div class="attendees">
-          <ion-chip *ngFor="let attendee of event.attendees">{{ attendee.nickname }}</ion-chip>
+          <ion-chip *ngFor="let attendee of event.attendees">{{ attendee | member: "nickname" }}</ion-chip>
         </div>
       </div>
     </div>

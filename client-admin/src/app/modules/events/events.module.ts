@@ -6,7 +6,6 @@ import { EventAddAttendeesComponent } from './components/event-add-attendees/eve
 import { EventAgeHistogramComponent } from './components/event-age-histogram/event-age-histogram.component';
 import { EventBirthdayListComponent } from './components/event-birthday-list/event-birthday-list.component';
 import { EventExpensesChartComponent } from './components/event-expenses-chart/event-expenses-chart.component';
-import { EventExpensesTableComponent } from './components/event-expenses-table/event-expenses-table.component';
 import { EventSubtypeSelectorComponent } from './components/event-subtype-selector/event-subtype-selector.component';
 import { MemberSelectorModalComponent } from './components/member-selector-modal/member-selector-modal.component';
 import { MemberSelectorComponent } from './components/member-selector/member-selector.component';
@@ -22,6 +21,7 @@ import { EventsViewAttendeesComponent } from './views/events-view/events-view-at
 import { EventsViewInfoComponent } from './views/events-view/events-view-info/events-view-info.component';
 import { EventsViewRegistrationComponent } from './views/events-view/events-view-registration/events-view-registration.component';
 import { EventsViewComponent } from './views/events-view/events-view.component';
+import { EventExpenseModalComponent } from './components/event-expense-modal/event-expense-modal.component';
 
 
 
@@ -38,7 +38,6 @@ import { EventsViewComponent } from './views/events-view/events-view.component';
     EventsViewRegistrationComponent,
     EventAgeHistogramComponent,
     EventBirthdayListComponent,
-    EventExpensesTableComponent,
     EventSubtypeSelectorComponent,
     EventExpensesChartComponent,
     EventsCreateComponent,
@@ -47,7 +46,8 @@ import { EventsViewComponent } from './views/events-view/events-view.component';
     EventsViewAccountingComponent,
     EventAddAttendeesComponent,
     MemberSelectorComponent,
-    MemberSelectorModalComponent
+    MemberSelectorModalComponent,
+    EventExpenseModalComponent
   ],
   imports: [
     CommonModule,

@@ -5,9 +5,37 @@
     </ion-buttons>
     <ion-title pageTitle>Účtování: {{ event?.name }}</ion-title>
     <ion-buttons slot="end">
-      <!-- <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons> -->
+      <bo-action-buttons [actions]="actions" header="Účtování"></bo-action-buttons>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding"> </ion-content>
+<ion-content>
+  <ion-list>
+    <ion-item-sliding #sliding *ngFor="let expense of event?.expenses" (click)="toggleSliding(sliding)">
+      <ion-item [button]="true" [detail]="false">
+        <ion-label>
+          <h2>
+            <strong>{{ expense.id }}</strong> - {{ expense.description }}
+            <ion-icon class="ml-1" *ngIf="expense.photo" name="camera-outline"></ion-icon>
+          </h2>
+          <p class="d-lg-none">{{ expense.amount | number: "1.2-2":"cs" }}&nbsp;Kč</p>
+        </ion-label>
+
+        <ion-badge mode="ios" [color]="getExpenseColor(expense)">{{ expense.type }}</ion-badge>
+
+        <ion-label class="d-none d-lg-block text-right mr-3">
+          {{ expense.amount | number: "1.2-2":"cs" }}&nbsp;Kč
+        </ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="editExpenseModal(expense)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="removeExpense(expense)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

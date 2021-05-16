@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ApiService } from 'app/core/services/api.service';
+import { ToastService } from 'app/core/services/toast.service';
 import { EventAddAttendeesComponent } from 'app/modules/events/components/event-add-attendees/event-add-attendees.component';
 import { MemberSelectorModalComponent } from 'app/modules/events/components/member-selector-modal/member-selector-modal.component';
 import { EventsService } from 'app/modules/events/services/events.service';
 import { Event } from 'app/schema/event';
 import { Member } from 'app/schema/member';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { ThemeService } from 'ng2-charts';
 
 @UntilDestroy()
 @Component({
@@ -15,7 +17,7 @@ import { Action } from 'app/shared/components/action-buttons/action-buttons.comp
   templateUrl: './events-view-attendees.component.html',
   styleUrls: ['./events-view-attendees.component.scss']
 })
-export class EventsViewAttendeesComponent implements OnInit {
+export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
 
   event?: Event;
 
@@ -30,10 +32,13 @@ export class EventsViewAttendeesComponent implements OnInit {
     }
   ];
 
+  modal?: HTMLIonModalElement;
+
   constructor(
     private eventsService: EventsService,
     private api: ApiService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private toasts: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +50,10 @@ export class EventsViewAttendeesComponent implements OnInit {
 
         this.sortAttendees();
       });
+  }
+
+  ngOnDestroy() {
+    this.modal?.dismiss();
   }
 
   private sortAttendees() {
@@ -59,22 +68,28 @@ export class EventsViewAttendeesComponent implements OnInit {
 
     const members = await this.api.get("members");
 
-    const modal = await this.modalController.create({
+    this.modal = await this.modalController.create({
       component: MemberSelectorModalComponent,
       componentProps: { members }
     });
 
-    modal.onDidDismiss().then(ev => {
+    this.modal.onDidDismiss().then(ev => {
       if (ev.data?.member) this.addAttendee(ev.data?.member);
     });
 
-    return await modal.present();
+    return await this.modal.present();
   }
 
   private async addAttendee(member: Member) {
     if (!this.event) return;
 
     const attendees = this.event.attendees?.map(member => member._id) || [];
+
+    if (attendees.findIndex(item => item === member._id) !== -1) {
+      this.toasts.toast("Účastník už v seznamu je.");
+      return;
+    }
+
     attendees.push(member._id);
 
     await this.api.patch(["event", this.event._id], { attendees });
@@ -93,6 +108,13 @@ export class EventsViewAttendeesComponent implements OnInit {
 
     await this.eventsService.loadEvent(this.event._id);
 
+  }
+
+  toggleSliding(sliding: any) {
+    sliding.getOpenAmount().then((open: number) => {
+      if (open) sliding.close();
+      else sliding.open();
+    });
   }
 
 

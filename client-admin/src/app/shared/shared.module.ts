@@ -25,6 +25,7 @@ import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { GroupPipe } from "./pipes/group.pipe";
 import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
 import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
+import { MemberPipe } from './pipes/member.pipe';
 
 
 
@@ -64,6 +65,7 @@ import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
     PrettyBytesPipe,
     AgePipe,
     EventStatusPipe,
+    MemberPipe,
 
   ],
   exports: [
@@ -95,6 +97,7 @@ import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
     PrettyBytesPipe,
     AgePipe,
     EventStatusPipe,
+    MemberPipe,
   ],
   providers: []
 

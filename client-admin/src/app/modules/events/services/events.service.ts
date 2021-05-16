@@ -34,4 +34,8 @@ export class EventsService {
   async listEvents(options: any) {
     return this.api.get<Event[]>("events", options);
   }
+
+  async updateEvent(eventId: string, data: Partial<Event>) {
+    return this.api.patch<Event>(["event", eventId], data);
+  };
 }

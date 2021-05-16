@@ -1,3 +1,4 @@
+import { EventExpenseTypeId } from "app/config/event-expense-types";
 import { EventStatusID } from "app/config/event-statuses";
 import { EventTypeID } from "app/config/event-types";
 import { Document } from "./api";
@@ -6,8 +7,9 @@ import { Member } from "./member";
 export interface EventExpense {
   id: string;
   amount: number;
-  type: string;
+  type: EventExpenseTypeId;
   description: string;
+  photo?: string;
 }
 
 export interface Event extends Document {

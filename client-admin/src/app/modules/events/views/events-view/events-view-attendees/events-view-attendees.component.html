@@ -5,21 +5,26 @@
     </ion-buttons>
     <ion-title pageTitle>Účastníci: {{ event?.name }}</ion-title>
     <ion-buttons slot="end">
-      <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons>
+      <bo-action-buttons [actions]="actions" header="Účastníci akce"></bo-action-buttons>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let member of event?.attendees">
-      <ion-label>{{ member.nickname || member.name?.first || member.name?.last }}&nbsp;</ion-label>
-      <ion-badge mode="ios" [style.background-color]="member.group | group: 'color'">
-        {{ member.group }}
-      </ion-badge>
-      <ion-button slot="end" fill="clear" color="danger" (click)="removeAttendee(member)">
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
-    </ion-item>
+    <ion-item-sliding #sliding *ngFor="let member of event?.attendees" (click)="toggleSliding(sliding)">
+      <ion-item [button]="true" [detail]="false">
+        <ion-label>{{ member | member: "nickname" }}&nbsp;</ion-label>
+        <ion-badge mode="ios" [style.background-color]="member.group | group: 'color'">
+          {{ member.group }}
+        </ion-badge>
+      </ion-item>
+
+      <ion-item-options>
+        <ion-item-option color="danger" (click)="removeAttendee(member)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>
