@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ApiService } from 'app/core/services/api.service';
 import { Member } from 'app/schema/member';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'bo-member-selector-modal',
@@ -11,7 +9,7 @@ import { filter } from 'rxjs/operators';
 })
 export class MemberSelectorModalComponent implements OnInit {
 
-  members: Member[] = [];
+  @Input() members: Member[] = [];
 
   membersIndex: string[] = [];
 
