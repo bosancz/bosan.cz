@@ -12,7 +12,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding #sliding *ngFor="let member of event?.attendees" (click)="toggleSliding(sliding)">
+    <ion-item-sliding #sliding *ngFor="let member of attendees" (click)="toggleSliding(sliding)">
       <ion-item [button]="true" [detail]="false">
         <ion-label>{{ member | member: "nickname" }}&nbsp;</ion-label>
         <ion-badge mode="ios" [style.background-color]="member.group | group: 'color'">

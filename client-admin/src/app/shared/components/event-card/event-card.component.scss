@@ -24,6 +24,15 @@ ion-card-subtitle {
   white-space: pre-line;
 }
 
+.statusNote {
+  color: $white;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  p {
+    margin: 0;
+  }
+}
+
 .buttons {
   background-color: $grey;
 

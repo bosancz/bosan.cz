@@ -20,19 +20,23 @@
     <div class="row">
       <div class="order-last order-lg-first col-12 col-lg-8">
         <h1>{{ event?.name }}</h1>
-        <p><bo-event-status-badge [event]="event"></bo-event-status-badge></p>
 
-        <div [innerHTML]="event.report"></div>
+        <div class="attendees">
+          <h3 class="mt-4">Účastníci</h3>
+          <ion-chip *ngFor="let attendee of event.attendees">{{ attendee | member: "nickname" }}</ion-chip>
+        </div>
 
-        <bo-photo-gallery [photos]="eventAlbum?.photos || []"></bo-photo-gallery>
+        <h3 class="mt-4">Report</h3>
+        <div *ngIf="event.report" [innerHTML]="event.report"></div>
+        <p *ngIf="!event.report">Report zatím chybí</p>
+
+        <h3 class="mt-4">Fotogalerie</h3>
+        <bo-photo-gallery *ngIf="eventAlbum" [photos]="eventAlbum?.photos || []"></bo-photo-gallery>
+        <p *ngIf="!eventAlbum">Fotky zatím chybí</p>
       </div>
 
       <div class="order-first order-lg-last col-12 col-lg-4 mb-4 mb-lg-0">
         <event-card [event]="event" [actions]="false"></event-card>
-
-        <div class="attendees">
-          <ion-chip *ngFor="let attendee of event.attendees">{{ attendee | member: "nickname" }}</ion-chip>
-        </div>
       </div>
     </div>
   </ng-container>

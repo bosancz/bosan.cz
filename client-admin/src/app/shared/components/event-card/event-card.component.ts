@@ -42,13 +42,17 @@ export class EventCardComponent implements OnInit {
     if (this.event && this.event._id) return this.loadEvent(this.event._id);
   }
 
-  async eventAction(action: DocumentAction, note: boolean = false) {
+  async eventAction(action: DocumentAction, takeNote: boolean = false) {
 
-    if (note) {
-      const note = window.prompt("Poznámka k vrácení akce:");
+    let note: string = "";
+
+    if (takeNote) {
+      const promptResult = window.prompt("Poznámka k vrácení akce:");
 
       // hit cancel in the prompt cancels the action
-      if (note === null) return;
+      if (promptResult === null) return;
+
+      note = promptResult;
 
     }
 

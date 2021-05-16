@@ -11,26 +11,26 @@ export const EventStatuses = asEventStatuses({
 
   "draft": {
     "name": "Připravovaná",
-    "color": "medium"
+    "color": "#92949c"
   },
   "pending": {
     "name": "Čeká na schválení",
-    "color": "warning"
+    "color": "#ffc409"
   },
   "public": {
     "name": "V programu",
-    "color": "success"
+    "color": "#2dd36f"
   },
   "cancelled": {
     "name": "Zrušená",
-    "color": "danger"
+    "color": "#eb445a"
   },
   "finalized": {
     "name": "Uzavřená",
-    "color": "dark"
+    "color": "#222428"
   },
   "rejected": {
     "name": "Vrácená k úpravám",
-    "color": "warning"
+    "color": "#ffc409"
   }
 });

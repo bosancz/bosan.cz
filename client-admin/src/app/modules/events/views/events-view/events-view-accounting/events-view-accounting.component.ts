@@ -23,7 +23,7 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
   actions: Action[] = [
     {
       text: "Přidat",
-      // icon: "add-outline",
+      icon: "add-outline",
       pinned: true,
       handler: () => this.editExpenseModal()
     },
@@ -74,7 +74,7 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.modal.onDidDismiss().then(ev => {
+    this.modal.onWillDismiss().then(ev => {
       if (ev.data?.expense) this.saveExpense(i, ev.data?.expense);
     });
 
@@ -89,6 +89,8 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
 
     if (i >= 0) expenses.splice(i, 1, expense);
     else expenses.push(expense);
+
+    this.expenses = expenses;  // optimistic update
 
     await this.eventsService.updateEvent(this.event._id, { expenses });
     await this.eventsService.loadEvent(this.event._id);
@@ -112,6 +114,8 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
     if (!this.event) return;
 
     const expenses = this.expenses.filter(item => item !== expense);
+
+    this.expenses = expenses;  // optimistic update
 
     await this.eventsService.updateEvent(this.event._id, { expenses });
     await this.eventsService.loadEvent(this.event._id);

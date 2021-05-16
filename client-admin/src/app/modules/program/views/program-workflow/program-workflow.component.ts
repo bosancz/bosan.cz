@@ -53,7 +53,7 @@ export class ProgramWorkflowComponent implements OnInit {
         dateFrom: { $gte: DateTime.local().toISODate() }
       },
       sort: "dateFrom",
-      select: "_id status name description dateFrom dateTill leaders subtype"
+      select: "_id status statusNote name description dateFrom dateTill leaders subtype"
     };
 
     const events = await this.api.get<Event[]>("events", options);

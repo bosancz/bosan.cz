@@ -12,7 +12,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding #sliding *ngFor="let expense of event?.expenses" (click)="toggleSliding(sliding)">
+    <ion-item-sliding #sliding *ngFor="let expense of expenses" (click)="toggleSliding(sliding)">
       <ion-item [button]="true" [detail]="false">
         <ion-label>
           <h2>

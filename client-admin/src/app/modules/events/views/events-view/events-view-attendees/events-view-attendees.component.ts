@@ -29,6 +29,11 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
       icon: "add-outline",
       pinned: true,
       handler: () => this.addAttendeeModal()
+    },
+    {
+      text: "Stáhnout ohlášku",
+      icon: "download-outline",
+      handler: () => this.exportExcel()
     }
   ];
 
@@ -38,7 +43,7 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
     private eventsService: EventsService,
     private api: ApiService,
     public modalController: ModalController,
-    private toasts: ToastService
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -73,7 +78,7 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
       componentProps: { members }
     });
 
-    this.modal.onDidDismiss().then(ev => {
+    this.modal.onWillDismiss().then(ev => {
       if (ev.data?.member) this.addAttendee(ev.data?.member);
     });
 
@@ -83,16 +88,19 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
   private async addAttendee(member: Member) {
     if (!this.event) return;
 
-    const attendees = this.event.attendees?.map(member => member._id) || [];
+    const attendees = this.event.attendees || [];
 
-    if (attendees.findIndex(item => item === member._id) !== -1) {
-      this.toasts.toast("Účastník už v seznamu je.");
+    if (attendees.findIndex(item => item._id === member._id) !== -1) {
+      this.toastService.toast("Účastník už v seznamu je.");
       return;
     }
 
-    attendees.push(member._id);
+    attendees.push(member);
 
-    await this.api.patch(["event", this.event._id], { attendees });
+    this.attendees = attendees; // optimistic update
+    this.sortAttendees();
+
+    await this.api.patch(["event", this.event._id], { attendees: attendees.map(item => item._id) });
 
     await this.eventsService.loadEvent(this.event._id);
 
@@ -101,10 +109,12 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
   async removeAttendee(member: Member) {
     if (!this.event) return;
 
-    let attendees = this.event.attendees?.map(member => member._id) || [];
-    attendees = attendees.filter(item => item !== member._id);
+    let attendees = this.event.attendees || [];
+    attendees = attendees.filter(item => item._id !== member._id);
 
-    await this.api.patch(["event", this.event._id], { attendees });
+    this.attendees = attendees; // optimistic update
+
+    await this.api.patch(["event", this.event._id], { attendees: attendees.map(item => item._id) });
 
     await this.eventsService.loadEvent(this.event._id);
 
@@ -117,5 +127,8 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
     });
   }
 
+  private async exportExcel() {
+    this.toastService.toast("Zatím nefunguje :(");
+  }
 
 }

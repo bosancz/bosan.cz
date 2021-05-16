@@ -5,7 +5,6 @@
   </ion-label>
 </ion-chip> -->
 
-<ion-badge [color]="event.status | eventStatus: 'color'">
-  {{ event.status | eventStatus: "name" }}
-  <ng-container *ngIf="event.statusNote">: {{ event.statusNote }}</ng-container>
+<ion-badge [style.background-color]="event.status | eventStatus: 'color'">
+  {{ event.status | eventStatus: "name" }}<ng-container *ngIf="event.statusNote">: {{ event.statusNote }}</ng-container>
 </ion-badge>
