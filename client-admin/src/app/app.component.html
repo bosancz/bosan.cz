@@ -6,7 +6,7 @@
           <ion-title>
             <img src="assets/img/san_logo_barva.png" class="d-inline logo-small mr-3" />
             Interní sekce
-            <span *ngIf="environment$ | async as environment" class="environment">&nbsp;{{ environment }}</span>
+            <span *ngIf="environment?.title" class="environment">&nbsp;{{ environment!.title }}</span>
           </ion-title>
         </ion-toolbar>
       </ion-header>

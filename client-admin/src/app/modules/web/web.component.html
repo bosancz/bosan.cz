@@ -13,6 +13,7 @@
 <ion-content class="ion-padding">
   <form #configForm="ngForm">
     <div *ngFor="let category of configStructure" [ngModelGroup]="category.name">
+      <h2>{{ category.label }}</h2>
       <div *ngFor="let item of category.items" class="form-group">
         <label>
           <h5>{{ item.label }}</h5>

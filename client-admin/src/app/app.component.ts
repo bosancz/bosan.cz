@@ -6,7 +6,9 @@ import { LoginService } from 'app/core/services/login.service';
 import { UserService } from 'app/core/services/user.service';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { AclService } from './core/services/acl.service';
+import { ApiService } from './core/services/api.service';
 import { ConfigService } from './core/services/config.service';
+import { Environment } from './schema/environment';
 
 @Component({
   selector: 'bo-app',
@@ -15,7 +17,7 @@ import { ConfigService } from './core/services/config.service';
 })
 export class AppComponent implements OnInit {
 
-  environment$ = this.configService.config.pipe(map(config => config.general && config.general.environment));
+  environment?: Environment;
 
   version = packageJson.version;
 
@@ -29,11 +31,14 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private menuController: MenuController,
+    private api: ApiService,
     public platform: Platform
   ) {
     this.initUserService();
 
     this.initLoginService();
+
+    this.loadEnvironment();
   }
 
   ngOnInit() {
@@ -53,6 +58,8 @@ export class AppComponent implements OnInit {
       else this.splitPaneWhen = "lg";
 
     });
+
+
   }
 
   private rootRoute(route: ActivatedRoute) {
@@ -73,6 +80,10 @@ export class AppComponent implements OnInit {
     this.loginService.onLogout.subscribe(() => {
       this.userService.loadUser();
     });
+  }
+
+  private async loadEnvironment() {
+    this.environment = await this.api.get<Environment>("environment");
   }
 
   closeMenu() {

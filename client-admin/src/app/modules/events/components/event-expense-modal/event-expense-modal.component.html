@@ -19,7 +19,7 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Typ</ion-label>
-      <ion-select placeholder="Tabákové výrobky" name="type" [ngModel]="expense.type">
+      <ion-select placeholder="Potraviny" name="type" [ngModel]="expense.type">
         <ion-select-option *ngFor="let type of types | keyvalue" [value]="type.key">{{ type.key }}</ion-select-option>
       </ion-select>
     </ion-item>

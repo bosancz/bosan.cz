@@ -26,7 +26,6 @@ export interface WebConfig {
 
   general: {
     title: string,
-    environment: string,
     homeMapUrl: string,
     campMapUrl: string,
     canalFormUrl: string,
@@ -38,12 +37,6 @@ export interface WebConfig {
     leaders: Contact[],
     monday: Contact[],
     wednesday: Contact[];
-  };
-
-  events: {
-    expenseTypes: WebConfigEventExpenseType[],
-    recurringTypes: WebConfigRecurringType[],
-    descriptionWarnings: WebConfigDescriptionWarning[];
   };
 
 }

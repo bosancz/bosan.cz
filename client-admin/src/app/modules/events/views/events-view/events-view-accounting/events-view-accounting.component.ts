@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { EventExpenseTypes } from 'app/config/event-expense-types';
+import { ToastService } from 'app/core/services/toast.service';
 import { EventExpenseModalComponent } from 'app/modules/events/components/event-expense-modal/event-expense-modal.component';
 import { EventsService } from 'app/modules/events/services/events.service';
 import { Event, EventExpense } from 'app/schema/event';
@@ -39,7 +40,8 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
   constructor(
     private eventsService: EventsService,
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -116,7 +118,7 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
   }
 
   private async exportExcel() {
-
+    this.toastService.toast("Zatím nefunguje :(");
   }
 
   toggleSliding(sliding: any) {
