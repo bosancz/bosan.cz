@@ -105,6 +105,5 @@ export class ProgramCalendarComponent implements OnInit, OnDestroy {
         handler: () => this.setView("list"),
       }
     ];
-    console.log(this.actions);
   }
 }
