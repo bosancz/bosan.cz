@@ -16,6 +16,8 @@ routes.child("/competition", require("./controllers/competition"));
 
 routes.child("/cpv", require("./controllers/cpv"));
 
+routes.child("/environment", require("./controllers/environment"));
+
 routes.child("/errors", require("./controllers/errors"));
 
 routes.child("/events", require("./controllers/events"));
