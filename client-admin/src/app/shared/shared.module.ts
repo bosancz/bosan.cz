@@ -15,7 +15,6 @@ import { PhotoFaceComponent } from './components/photo-face/photo-face.component
 import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
 /* DIRECTIVES */
 import { AclCanDirective } from "./directives/acl-can.directive";
-import { TextcheckDirective } from './directives/textcheck.directive';
 /* PIPES */
 import { AgePipe } from './pipes/age.pipe';
 import { DateRangePipe } from "./pipes/date-range.pipe";
@@ -53,7 +52,6 @@ import { MemberPipe } from './pipes/member.pipe';
     PhotoGalleryComponent,
 
     /* DIRECTIVES */
-    TextcheckDirective,
     AclCanDirective,
 
     /* PIPES */
@@ -85,7 +83,6 @@ import { MemberPipe } from './pipes/member.pipe';
     EventCalendarComponent,
 
     /* DIRECTIVES */
-    TextcheckDirective,
     AclCanDirective,
 
     /* PIPES */

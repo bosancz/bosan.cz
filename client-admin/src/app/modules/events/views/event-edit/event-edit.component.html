@@ -74,13 +74,7 @@
 
     <ion-item class="w-100">
       <ion-label position="floating">Popisek</ion-label>
-      <ion-textarea
-        name="description"
-        rows="3"
-        [ngModel]="event.description"
-        textcheck
-        #descriptionCheck="textcheck"
-      ></ion-textarea>
+      <ion-textarea name="description" rows="3" [ngModel]="event.description"></ion-textarea>
       <!-- TODO: reimplement descriptionCheck list -->
     </ion-item>
 
