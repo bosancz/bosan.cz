@@ -1,7 +1,5 @@
 import { WebConfigStructure } from 'app/schema/web-config-structure';
 
-const colorPattern = "^([rR][gG][bB][aA]\\([\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\d\\)|[rR][gG][bB]\\([\\d\\.]*\\d,[\\d\\.]*\\d,[\\d\\.]*\\d\\)|#[0-9a-fA-F]{8}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})$";
-
 const contactFields = [
   { "name": "name", "title": "Jméno", "type": "text" },
   { "name": "nickname", "title": "Přezdívka", "type": "text" },

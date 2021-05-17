@@ -1,27 +1,6 @@
 // @ts-nocheck
 import { Contact } from "./contact";
 
-export class WebConfigAchievement {
-  id: string;
-  name: string;
-  image: string;
-}
-
-export class WebConfigEventExpenseType {
-  name: string;
-}
-
-export class WebConfigRecurringType {
-  name: string;
-  title: string;
-}
-
-export class WebConfigDescriptionWarning {
-  regexp: string;
-  regexpModifiers: string;
-  text: string;
-}
-
 export interface WebConfig {
 
   general: {

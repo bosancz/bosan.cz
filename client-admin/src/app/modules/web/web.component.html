@@ -25,7 +25,7 @@
               type="string"
               class="form-control"
               [name]="item.name"
-              [ngModel]="getConfigValue(category, item) | async"
+              [ngModel]="getConfigValue(category, item)"
               [placeholder]="item.placeholder || ''"
             />
           </ng-container>
@@ -35,7 +35,7 @@
               type="number"
               class="form-control"
               [name]="item.name"
-              [ngModel]="getConfigValue(category, item) | async"
+              [ngModel]="getConfigValue(category, item)"
               [placeholder]="item.placeholder || ''"
             />
           </ng-container>
@@ -44,7 +44,7 @@
             <bo-codelist-editor
               [fields]="item.fields"
               [name]="item.name"
-              [ngModel]="getConfigValue(category, item) | async"
+              [ngModel]="getConfigValue(category, item)"
             ></bo-codelist-editor>
           </ng-container>
         </div>

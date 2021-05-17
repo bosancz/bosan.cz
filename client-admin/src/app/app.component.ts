@@ -5,9 +5,7 @@ import * as packageJson from "app/../../package.json";
 import { LoginService } from 'app/core/services/login.service';
 import { UserService } from 'app/core/services/user.service';
 import { filter, map, mergeMap } from 'rxjs/operators';
-import { AclService } from './core/services/acl.service';
 import { ApiService } from './core/services/api.service';
-import { ConfigService } from './core/services/config.service';
 import { Environment } from './schema/environment';
 
 @Component({
@@ -25,9 +23,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private aclService: AclService,
     private loginService: LoginService,
-    private configService: ConfigService,
     private route: ActivatedRoute,
     private router: Router,
     private menuController: MenuController,
