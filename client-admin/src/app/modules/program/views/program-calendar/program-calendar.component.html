@@ -10,37 +10,45 @@
   </ion-toolbar>
 </ion-header>
 
-<div [class.d-none]="!showFilter" class="filter px-lg-3 py-1">
-  <bo-trimester-selector
-    lines="none"
-    labelPosition="floating"
-    [ngModel]="[dateFrom, dateTill]"
-    (ngModelChange)="setTrimester($event)"
-  ></bo-trimester-selector>
-</div>
+<ion-content>
+  <div class="row no-gutters">
+    <div class="col-lg-3">
+      <div class="px-lg-3 py-lg-3 pb-3">
+        <bo-trimester-selector
+          labelPosition="floating"
+          [ngModel]="[dateFrom, dateTill]"
+          (ngModelChange)="setTrimester($event)"
+        ></bo-trimester-selector>
 
-<div class="row no-gutters" style="flex-grow: 1">
-  <div class="d-none d-lg-block col-12 col-lg-6" [class.d-block]="view === 'list'">
-    <ion-content>
-      <ion-list>
-        <ion-item *ngFor="let event of calendarEvents" [routerLink]="['/akce', event._id]">
-          <ion-label>
-            <h3>{{ event.name }}</h3>
-            <p>{{ [event.dateFrom, event.dateTill] | dateRange }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+        <bo-event-status-legend></bo-event-status-legend>
+      </div>
+    </div>
+
+    <!-- <div class="d-none d-lg-block col-12 col-lg-6" [class.d-block]="view === 'list'">
+    <ion-content class="p-lg-3">
+      <div class="p-lg-3">
+        <ion-list>
+          <ion-item *ngFor="let event of calendarEvents" [routerLink]="['/akce', event._id]">
+            <ion-label>
+              <h3>{{ event.name }}</h3>
+              <p>{{ [event.dateFrom, event.dateTill] | dateRange }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
     </ion-content>
+  </div> -->
+
+    <div class="d-none d-lg-block col-12 col-lg-9" [class.d-block]="view === 'calendar'">
+      <div class="p-lg-3">
+        <bo-event-calendar
+          *ngIf="dateFrom && dateTill"
+          [dateFrom]="dateFrom"
+          [dateTill]="dateTill"
+          [events]="calendarEvents"
+          [cpv]="true"
+        ></bo-event-calendar>
+      </div>
+    </div>
   </div>
-  <div class="d-none d-lg-block col-12 col-lg-6" [class.d-block]="view === 'calendar'">
-    <ion-content>
-      <bo-event-calendar
-        *ngIf="dateFrom && dateTill"
-        [dateFrom]="dateFrom"
-        [dateTill]="dateTill"
-        [events]="calendarEvents"
-        [cpv]="true"
-      ></bo-event-calendar>
-    </ion-content>
-  </div>
-</div>
+</ion-content>

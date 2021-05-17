@@ -83,27 +83,27 @@ export class ProgramCalendarComponent implements OnInit, OnDestroy {
     this.calendarEvents = await this.eventsService.listEvents(options);
   }
 
-  setView(view: "list" | "calendar") {
-    this.view = view;
-    this.setActions();
-  }
+  // setView(view: "list" | "calendar") {
+  //   this.view = view;
+  //   this.setActions();
+  // }
 
   setActions() {
     this.actions = [
-      {
-        text: "Kalendář",
-        icon: "calendar-outline",
-        pinned: true,
-        hidden: this.lg || this.view === "calendar",
-        handler: () => this.setView("calendar"),
-      },
-      {
-        text: "Seznam",
-        icon: "list-outline",
-        pinned: true,
-        hidden: this.lg || this.view === "list",
-        handler: () => this.setView("list"),
-      }
+      // {
+      //   text: "Kalendář",
+      //   icon: "calendar-outline",
+      //   pinned: true,
+      //   hidden: this.lg || this.view === "calendar",
+      //   handler: () => this.setView("calendar"),
+      // },
+      // {
+      //   text: "Seznam",
+      //   icon: "list-outline",
+      //   pinned: true,
+      //   hidden: this.lg || this.view === "list",
+      //   handler: () => this.setView("list"),
+      // }
     ];
   }
 }

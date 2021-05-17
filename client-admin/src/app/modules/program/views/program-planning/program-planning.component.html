@@ -7,8 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
-<div style="flex-grow: 1; display: flex">
-  <div class="row" style="flex-grow: 1; display: flex">
+<ion-content>
+  <div class="row no-gutters">
     <div class="col-lg-3">
       <div class="px-lg-3 py-lg-3 pb-3">
         <bo-trimester-selector
@@ -17,35 +17,22 @@
           (ngModelChange)="setPeriod($event)"
         ></bo-trimester-selector>
 
-        <div class="legend d-none d-lg-block">
-          <ion-list lines="none">
-            <ion-item *ngFor="let status of statuses | keyvalue">
-              <ion-label [color]="status.value.color">
-                <ion-icon name="ellipse"></ion-icon>&nbsp;{{ status.value.name || status.key }}
-              </ion-label>
-            </ion-item>
-            <ion-item class="text-dark">
-              <ion-label class="text-dark"><ion-icon name="ellipse"></ion-icon>&nbsp;ČPV</ion-label>
-            </ion-item>
-          </ion-list>
-        </div>
+        <bo-event-status-legend></bo-event-status-legend>
       </div>
     </div>
 
     <div class="col-lg-9">
-      <ion-content>
-        <div class="px-lg-3 py-lg-5">
-          <bo-event-calendar
-            *ngIf="dateFrom && dateTill"
-            (select)="openCreateEventModal($event)"
-            [dateFrom]="dateFrom"
-            [dateTill]="dateTill"
-            [events]="events"
-            [cpv]="true"
-            [selection]="true"
-          ></bo-event-calendar>
-        </div>
-      </ion-content>
+      <div class="p-lg-3">
+        <bo-event-calendar
+          *ngIf="dateFrom && dateTill"
+          (select)="openCreateEventModal($event)"
+          [dateFrom]="dateFrom"
+          [dateTill]="dateTill"
+          [events]="events"
+          [cpv]="true"
+          [selection]="true"
+        ></bo-event-calendar>
+      </div>
     </div>
   </div>
-</div>
+</ion-content>

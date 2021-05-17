@@ -11,6 +11,7 @@ import { ProgramPrintComponent } from './views/program-print/program-print.compo
 import { TrimesterSelectorComponent } from './components/trimester-selector/trimester-selector.component';
 import { ProgramCalendarComponent } from './views/program-calendar/program-calendar.component';
 import { ProgramComponent } from './program.component';
+import { EventStatusLegendComponent } from './components/event-status-legend/event-status-legend.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ProgramComponent } from './program.component';
     ProgramPrintComponent,
     TrimesterSelectorComponent,
     ProgramCalendarComponent,
-    ProgramComponent
+    ProgramComponent,
+    EventStatusLegendComponent
   ]
 })
 export class ProgramModule { }

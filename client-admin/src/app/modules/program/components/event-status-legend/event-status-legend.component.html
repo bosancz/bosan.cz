@@ -1,0 +1,12 @@
+<div class="legend d-none d-lg-block">
+  <ion-list lines="none">
+    <ion-item *ngFor="let status of statuses | keyvalue">
+      <ion-label [style.color]="status.value.color">
+        <ion-icon name="ellipse"></ion-icon>&nbsp;{{ status.value.name || status.key }}
+      </ion-label>
+    </ion-item>
+    <ion-item class="text-dark">
+      <ion-label class="text-dark"><ion-icon name="ellipse"></ion-icon>&nbsp;ČPV</ion-label>
+    </ion-item>
+  </ion-list>
+</div>
