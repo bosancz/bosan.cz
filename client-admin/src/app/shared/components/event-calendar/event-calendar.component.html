@@ -26,7 +26,8 @@
     <div class="events own" [style.height]="(row.blocks.own.levels + 1) * eventHeight + 'px'">
       <div
         *ngFor="let calEvent of row.blocks.own.events"
-        [ngClass]="['event', 'bg-' + (calEvent.event.status | eventStatus: 'color')]"
+        class="event"
+        [style.background-color]="calEvent.event.status | eventStatus: 'color'"
         [style.left]="getEventLeft(calEvent, row) * 100 + '%'"
         [style.width]="getEventWidth(calEvent, row) * 100 + '%'"
         [style.top]="eventHeight * (calEvent.level - 1) + 'px'"

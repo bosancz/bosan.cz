@@ -30,29 +30,3 @@ a.clickable {
 :host {
   --test-var: #f00;
 }
-// overwrite bootstrap bg colors with theme
-
-.bg-danger {
-  background-color: var(--ion-color-danger, #333) !important;
-}
-.bg-warning {
-  background-color: var(--ion-color-warning, #333) !important;
-}
-.bg-primary {
-  background-color: var(--ion-color-primary, #333) !important;
-}
-.bg-secondary {
-  background-color: var(--ion-color-secondary, #333) !important;
-}
-.bg-tertiary {
-  background-color: var(--ion-color-tertiary, #333) !important;
-}
-.bg-light {
-  background-color: var(--ion-color-light, #333) !important;
-}
-.bg-medium {
-  background-color: var(--ion-color-medium, #333) !important;
-}
-.bg-dark {
-  background-color: var(--ion-color-dark, #333) !important;
-}
