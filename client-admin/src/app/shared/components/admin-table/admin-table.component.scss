@@ -1,6 +1,16 @@
-::ng-deep td{white-space:nowrap;}
-::ng-deep th{white-space:nowrap;}
+::ng-deep td {
+  white-space: nowrap;
+}
+::ng-deep th {
+  white-space: nowrap;
+}
 
-table{
-  background-color: #fff;  
+table {
+  // background-color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  table {
+    color: #fff;
+  }
 }

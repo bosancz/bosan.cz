@@ -5,3 +5,9 @@ ion-split-pane {
 ion-menu {
   --ion-background-color: #eee;
 }
+
+@media (prefers-color-scheme: dark) {
+  ion-menu {
+    --ion-background-color: #1e1e1e;
+  }
+}

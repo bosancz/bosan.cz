@@ -2,3 +2,9 @@
 // but somehow it breaks up ionic
 
 @import "~bootstrap/scss/bootstrap.scss";
+
+@media (prefers-color-scheme: dark) {
+  .table {
+    color: #fff;
+  }
+}

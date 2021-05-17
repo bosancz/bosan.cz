@@ -38,7 +38,7 @@ export const MemberGroups = asMemberGroups({
   },
   "4": {
     name: "4. oddíl",
-    color: "#012475",
+    color: "#3880ff",
     active: true,
     children: true,
     event: true,
@@ -62,7 +62,7 @@ export const MemberGroups = asMemberGroups({
   },
   "7": {
     name: "7. oddíl",
-    color: "#012475",
+    color: "#3880ff",
     active: true,
     children: true,
     event: true,

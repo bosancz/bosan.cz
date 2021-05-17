@@ -3,4 +3,8 @@
   ion-item {
     --ion-background-color: transparent;
   }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #1e1e1e;
+  }
 }

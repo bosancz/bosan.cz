@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="events own" [style.height]="(row.blocks.own.levels + 1) * eventHeight + 'px'">
+    <div class="events own" [style.height]="row.blocks.own.levels * eventHeight + 'px'">
       <div
         *ngFor="let calEvent of row.blocks.own.events"
         class="event"

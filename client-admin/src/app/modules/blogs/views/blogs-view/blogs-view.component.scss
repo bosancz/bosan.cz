@@ -1,11 +1,11 @@
-ion-content {
-  --ion-background-color: #fafafa;
-}
 .post {
   max-width: 768px;
   margin: 0 auto;
   min-height: 100%;
   background-color: #fff;
+  @media (prefers-color-scheme: dark) {
+    background-color: #1e1e1e;
+  }
 }
 .perex {
   text-align: justify;

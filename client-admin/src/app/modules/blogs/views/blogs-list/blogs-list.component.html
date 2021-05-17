@@ -18,35 +18,37 @@
   ></ion-searchbar>
 </div>
 
-<div class="bo-table">
-  <div class="header p-3 d-none d-lg-block">
-    <div class="row">
-      <div class="col-lg-7 col-xl-8">
-        <strong>Titulek</strong>
-      </div>
-      <div class="col-lg-3 col-xl-2">
-        <strong>Datum publikace</strong>
-      </div>
-      <div class="col-lg-2">
-        <strong>Autoři</strong>
-      </div>
-    </div>
-  </div>
-
-  <div class="list">
-    <div class="item p-3" *ngFor="let blog of filteredBlogs" [routerLink]="blog._id">
+<ion-content>
+  <div class="bo-table">
+    <div class="header p-3 d-none d-lg-block">
       <div class="row">
-        <div class="col-12 col-lg-7 col-xl-8">
-          <strong>{{ blog.title }}</strong>
+        <div class="col-lg-7 col-xl-8">
+          <strong>Titulek</strong>
         </div>
-        <div class="col-12 col-lg-3 col-xl-2 text-muted">
-          <ng-container *ngIf="blog.status === 'public'">
-            <span class="d-lg-none">Publikováno</span> {{ blog.datePublished | date: "d. M. y" || "N/A" }}
-          </ng-container>
-          <ng-container *ngIf="blog.status === 'draft'">Nepublikováno</ng-container>
+        <div class="col-lg-3 col-xl-2">
+          <strong>Datum publikace</strong>
         </div>
-        <div *ngIf="false" class="col-12 col-lg-2 text-muted"><span class="d-lg-none">Napsali</span> {{ "N/A" }}</div>
+        <div class="col-lg-2">
+          <strong>Autoři</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="list">
+      <div class="item p-3" *ngFor="let blog of filteredBlogs" [routerLink]="blog._id">
+        <div class="row">
+          <div class="col-12 col-lg-7 col-xl-8">
+            <strong>{{ blog.title }}</strong>
+          </div>
+          <div class="col-12 col-lg-3 col-xl-2 text-muted">
+            <ng-container *ngIf="blog.status === 'public'">
+              <span class="d-lg-none">Publikováno</span> {{ blog.datePublished | date: "d. M. y" || "N/A" }}
+            </ng-container>
+            <ng-container *ngIf="blog.status === 'draft'">Nepublikováno</ng-container>
+          </div>
+          <div *ngIf="false" class="col-12 col-lg-2 text-muted"><span class="d-lg-none">Napsali</span> {{ "N/A" }}</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</ion-content>
