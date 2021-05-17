@@ -113,7 +113,8 @@ export class EventCalendarComponent implements OnInit, OnChanges {
 
   createCalendar() {
 
-    let currentDate = this.dateFrom;
+    let currentDate = this.dateFrom.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+
     if (currentDate.weekday > 1) currentDate = currentDate.minus({ days: currentDate.weekday - 1 });
 
     let dateTill = this.dateTill;
