@@ -24,6 +24,7 @@ routes.get("cpv", "/", {}).handle(async (req, res) => {
           source: "padler",
           name,
           dateFrom,
+          dateTill: dateFrom,
           link,
         });
       });
