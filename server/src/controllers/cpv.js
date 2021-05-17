@@ -11,7 +11,10 @@ routes.get("cpv", "/", {}).handle(async (req, res) => {
 
   while (i <= 10) {
     try {
-      var padlerResponse = await axios(`https://www.padler.cz/kalendar-akci/strana/${i}/`, { responseType: "text" });
+      var padlerResponse = await axios(
+        `https://www.padler.cz/kalendar-akci/mesic/vse/rok/vse/lokalita/vse/typ-akce/1-2-5-9-17/strana/${i}/`,
+        { responseType: "text" }
+      );
 
       const $ = cheerio.load(padlerResponse.data, { xmlMode: true });
 
