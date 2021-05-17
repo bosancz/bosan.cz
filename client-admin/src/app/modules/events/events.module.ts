@@ -22,6 +22,7 @@ import { EventsViewInfoComponent } from './views/events-view/events-view-info/ev
 import { EventsViewRegistrationComponent } from './views/events-view/events-view-registration/events-view-registration.component';
 import { EventsViewComponent } from './views/events-view/events-view.component';
 import { EventExpenseModalComponent } from './components/event-expense-modal/event-expense-modal.component';
+import { EventsViewReportComponent } from './views/events-view/events-view-report/events-view-report.component';
 
 
 
@@ -47,7 +48,8 @@ import { EventExpenseModalComponent } from './components/event-expense-modal/eve
     EventAddAttendeesComponent,
     MemberSelectorComponent,
     MemberSelectorModalComponent,
-    EventExpenseModalComponent
+    EventExpenseModalComponent,
+    EventsViewReportComponent
   ],
   imports: [
     CommonModule,

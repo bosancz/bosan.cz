@@ -21,14 +21,19 @@
       <div class="order-last order-lg-first col-12 col-lg-8">
         <h1>{{ event?.name }}</h1>
 
+        <h3 class="mt-4">Účastníci</h3>
         <div class="attendees">
-          <h3 class="mt-4">Účastníci</h3>
           <ion-chip *ngFor="let attendee of event.attendees">{{ attendee | member: "nickname" }}</ion-chip>
+          <p *ngIf="!event.attendees?.length">Účastníci zatím chybí</p>
         </div>
 
         <h3 class="mt-4">Report</h3>
         <div *ngIf="event.report" [innerHTML]="event.report"></div>
         <p *ngIf="!event.report">Report zatím chybí</p>
+
+        <h3 class="mt-4">Účtování</h3>
+        <bo-event-expenses-chart *ngIf="event.expenses?.length" [event]="event"></bo-event-expenses-chart>
+        <p *ngIf="!event.expenses?.length">Účtování zatím chybí</p>
 
         <h3 class="mt-4">Fotogalerie</h3>
         <bo-photo-gallery *ngIf="eventAlbum" [photos]="eventAlbum?.photos || []"></bo-photo-gallery>

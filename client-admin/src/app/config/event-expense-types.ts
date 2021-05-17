@@ -5,11 +5,12 @@ export enum EventExpenseTypeId {
 }
 
 export interface EventExpenseType {
+  title: string;
   color: string;
 }
 
 export const EventExpenseTypes: { [id in EventExpenseTypeId]: EventExpenseType } = {
-  "Potraviny": { color: "primary" },
-  "Doprava": { color: "secondary" },
-  "Materiál": { color: "dark" },
+  "Potraviny": { title: "Potraviny", color: "primary" },
+  "Doprava": { title: "Doprava", color: "secondary" },
+  "Materiál": { title: "Materiál", color: "dark" },
 };

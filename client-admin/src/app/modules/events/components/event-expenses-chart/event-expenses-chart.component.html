@@ -1,1 +1,31 @@
-<p>Tady bude graf z rozpadem kolik se utratilo na osoboden na potraviny, auto atd. a porovnání s ostatními akcemi.</p>
+<div class="expenses-table">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>VÝDAJE</th>
+        <th>Celkem</th>
+        <th>Na&nbsp;den</th>
+        <th *ngIf="persons > 0">Na&nbsp;osobu</th>
+        <th *ngIf="persons > 0">Na&nbsp;osoboden</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of totalByType | keyvalue">
+        <th>{{ item.value.type.title }}</th>
+        <td>{{ item.value.total | number: "1.0-0":"cs" }}&nbsp;Kč</td>
+        <td>{{ item.value.total / days | number: "1.0-0":"cs" }}&nbsp;Kč</td>
+        <td *ngIf="persons > 0">{{ item.value.total / persons | number: "1.0-0":"cs" }}&nbsp;Kč</td>
+        <td *ngIf="persons > 0">{{ item.value.total / days / persons | number: "1.0-0":"cs" }}&nbsp;Kč</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Celkem</th>
+        <td>{{ total | number: "1.0-0":"cs" }}&nbsp;Kč</td>
+        <td>{{ total / days | number: "1.0-0":"cs" }}&nbsp;Kč</td>
+        <td *ngIf="persons > 0">{{ total / persons | number: "1.0-0":"cs" }}&nbsp;Kč</td>
+        <td *ngIf="persons > 0">{{ total / days / persons | number: "1.0-0":"cs" }}&nbsp;Kč</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

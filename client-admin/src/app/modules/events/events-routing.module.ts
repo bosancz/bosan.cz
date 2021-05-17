@@ -10,6 +10,7 @@ import { EventsViewAttendeesComponent } from './views/events-view/events-view-at
 import { EventsViewInfoComponent } from './views/events-view/events-view-info/events-view-info.component';
 import { EventsViewRegistrationComponent } from './views/events-view/events-view-registration/events-view-registration.component';
 import { EventsViewAccountingComponent } from './views/events-view/events-view-accounting/events-view-accounting.component';
+import { EventsViewReportComponent } from './views/events-view/events-view-report/events-view-report.component';
 
 const routes: Routes = [
   { path: '', component: EventsListComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: "ucastnici", component: EventsViewAttendeesComponent },
       { path: "prihlaska", component: EventsViewRegistrationComponent },
       { path: "uctovani", component: EventsViewAccountingComponent },
+      { path: "report", component: EventsViewReportComponent },
       { path: "", redirectTo: "info", pathMatch: "full" }
     ]
   },
