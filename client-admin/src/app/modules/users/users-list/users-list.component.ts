@@ -34,6 +34,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   actions: Action[] = [
     {
+      text: "Přidat",
       icon: "add-outline",
       pinned: true,
       handler: () => this.router.navigate(["vytvorit"], { relativeTo: this.route })
