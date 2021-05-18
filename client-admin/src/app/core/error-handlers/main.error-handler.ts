@@ -64,9 +64,6 @@ export class MainErrorHandler implements ErrorHandler {
       console.error(err);
     }
 
-    if (reportError && environment.production) {
-      api.post("errors", errorData).catch(err => console.error(err));
-    }
   }
 
 }
