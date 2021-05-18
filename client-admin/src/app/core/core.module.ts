@@ -53,7 +53,7 @@ registerLocaleData(localeCs, 'cs');
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    // { provide: ErrorHandler, useClass: MainErrorHandler },
+    { provide: ErrorHandler, useClass: MainErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: WithCredentialsInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'cs' },
   ],
