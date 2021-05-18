@@ -1,7 +1,7 @@
 {
-  "name": "bosan.cz-client-admin",
-  "description": "Bošán inteerní sekce",
-  "version": "3.0.0-rc.1",
+  "name": "bosancz-client-admin",
+  "description": "Bošán interní sekce",
+  "version": "3.0.0-rc.2",
   "private": true,
   "scripts": {
     "build": "ng build --prod",
