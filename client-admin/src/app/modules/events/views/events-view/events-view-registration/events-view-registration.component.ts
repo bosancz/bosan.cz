@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ApiService } from 'app/core/services/api.service';
 import { ToastService } from 'app/core/services/toast.service';
@@ -22,10 +23,13 @@ export class EventsViewRegistrationComponent {
 
   actions: Action[] = [];
 
+  @ViewChild("registrationInput") registrationInput!: ElementRef<HTMLInputElement>;
+
   constructor(
     private api: ApiService,
     private toastService: ToastService,
-    private eventService: EventsService
+    private eventService: EventsService,
+    private sanitizer: DomSanitizer
   ) {
     this.eventService.event$
       .pipe(filter(event => !!event))
@@ -35,6 +39,10 @@ export class EventsViewRegistrationComponent {
   private updateEvent(event: Event) {
     this.event = event;
     this.actions = this.getActions(event);
+  }
+
+  uploadRegistrationSelect() {
+    this.registrationInput.nativeElement.click();
   }
 
   async uploadRegistration(input: HTMLInputElement) {
@@ -86,8 +94,12 @@ export class EventsViewRegistrationComponent {
     window.open(this.getRegistrationUrl(this.event));
   }
 
-  getRegistrationUrl(event: Event): string {
+  getRegistrationUrl(event: Event) {
     return this.api.link2href(event._links?.registration!);
+  }
+
+  getSafeRegistrationUrl(event: Event) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.getRegistrationUrl(event));
   }
 
   getActions(event: Event): Action[] {
@@ -99,11 +111,9 @@ export class EventsViewRegistrationComponent {
       },
       {
         text: "Nahrát",
-        disabled: !event._links?.registration?.allowed.PUT
+        disabled: !event._links?.registration?.allowed.PUT,
+        handler: () => this.uploadRegistrationSelect()
       },
-      // {
-      //   text: "Vygenerovat",
-      // },
       {
         text: "Smazat",
         role: "destructive",
