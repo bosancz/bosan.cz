@@ -34,6 +34,7 @@ export class ProgramPrintComponent implements OnInit {
       filter: {
         dateFrom: { $lte: this.dateRange[1] },
         dateTill: { $gte: this.dateRange[0] },
+        status: "public"
       },
       select: "_id name description dateFrom dateTill leaders"
     };
