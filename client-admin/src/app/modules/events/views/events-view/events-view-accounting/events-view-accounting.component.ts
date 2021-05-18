@@ -70,7 +70,7 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
     this.modal = await this.modalController.create({
       component: EventExpenseModalComponent,
       componentProps: {
-        expense: expense || { id: "V" + (this.expenses.length + 1) }
+        expense: expense || { id: this.getNextExpenseId() }
       }
     });
 
@@ -134,5 +134,16 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
 
   getExpenseColor(expense: EventExpense) {
     return EventExpenseTypes[expense.type]?.color || "primary";
+  }
+
+  private getNextExpenseId() {
+    const re = /\d+/;
+
+    const maxId = this.expenses.reduce((acc, cur) => {
+      const match = re.exec(cur.id);
+      return match ? Math.max(acc, Number(match[0])) : acc;
+    }, 1);
+
+    return "V" + String(maxId + 1);
   }
 }
