@@ -51,7 +51,7 @@ export class MembersCreateComponent implements OnInit {
       return;
     }
 
-    let member = await this.api.get<Member>(location, { select: "_id" });
+    let member = await this.api.get<Member>({ href: location }, { select: "_id" });
 
     this.router.navigate(["../", {}, member._id], { relativeTo: this.route, replaceUrl: true });
   }

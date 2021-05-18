@@ -1,17 +1,14 @@
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-//import * as URITemplate from "urijs/src/URITemplate";
-
+import { DocumentLink } from "app/schema/api-document";
+import { ApiEndpoint } from 'app/schema/api-endpoints';
+import { ApiError } from 'app/schema/api-error';
 import { environment } from "environments/environment";
 
-import { Document, DocumentLink } from "app/schema/api";
-
-export class ApiError extends Error {
-}
-
-type PathObject = string | [string, object] | [string, ...(string | number)[]] | { href: string; };
+type PathObject =
+  ApiEndpoint
+  | [ApiEndpoint, ...(string | number)[]]
+  | { href: string; };
 
 @Injectable({
   providedIn: 'root'

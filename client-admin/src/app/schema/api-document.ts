@@ -1,4 +1,5 @@
 
+
 export interface DocumentLinkAllowed {
   GET?: boolean;
   POST?: boolean;
@@ -21,9 +22,9 @@ export interface DocumentAction {
 export class Document {
   _links?: {
     self: DocumentLink,
-    [link: string]: DocumentLink
+    [link: string]: DocumentLink;
   };
   _actions?: {
-    [link: string]: DocumentAction
+    [link: string]: DocumentAction;
   };
 }

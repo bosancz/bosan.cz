@@ -1,7 +1,7 @@
 import { EventExpenseTypeId } from "app/config/event-expense-types";
 import { EventStatusID } from "app/config/event-statuses";
 import { EventTypeID } from "app/config/event-types";
-import { Document } from "./api";
+import { Document } from "./api-document";
 import { Member } from "./member";
 
 export interface EventExpense {

@@ -29,14 +29,6 @@ export class LoginService {
     private userService: UserService,
     private toastService: ToastService
   ) {
-    this.checkTokenLogin();
-  }
-
-  checkTokenLogin() {
-    // if token provided (e.g. login link) save it and remove it from URL
-    this.route.queryParams.subscribe((params: any) => {
-      if (params.token) this.loginToken(params.token);
-    });
   }
 
   async loginCredentials(credentials: { login: string, password: string; }): Promise<LoginResult> {
@@ -78,15 +70,6 @@ export class LoginService {
       return { success: false };
     }
 
-  }
-
-  async loginToken(token: string) {
-
-    await this.api.post("login:token", { token: token });
-
-    await this.userService.loadUser();
-
-    this.router.navigate(["./"], { relativeTo: this.route });
   }
 
   async loginImpersonate(userId: string) {

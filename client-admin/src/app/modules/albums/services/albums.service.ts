@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AlbumsModule } from './albums.module';
 import { ApiService } from 'app/core/services/api.service';
 import { Album, Photo } from 'app/schema/album';
-import { from, Subject, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, mergeMap } from 'rxjs/operators';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { DocumentAction } from 'app/schema/api';
+import { DocumentAction } from 'app/schema/api-document';
+import { ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +46,7 @@ export class AlbumsService {
     }
     else {
       const albumId = typeof album === "string" ? album : album._id;
-      return this.api.get<Photo[]>(["albums:photos", albumId]);
+      return this.api.get<Photo[]>(["album:photos", albumId]);
     }
   }
 

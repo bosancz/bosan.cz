@@ -142,7 +142,7 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const album = await this.api.get<Album>(location);
+    const album = await this.api.get<Album>({ href: location });
 
     await this.navController.navigateForward("/galerie/" + album._id);
   }

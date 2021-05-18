@@ -52,7 +52,7 @@ export class EventsCreateComponent implements OnInit {
     }
 
     // get the event id
-    let event = await this.api.get<Event>(location, { select: "_id" });
+    let event = await this.api.get<Event>({ href: location }, { select: "_id" });
     // show the confrmation
     this.toastService.toast("Akce vytvořena a uložena.");
     // open the event

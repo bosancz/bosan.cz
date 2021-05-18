@@ -1,7 +1,7 @@
 import { MemberGroupID } from "app/config/member-groups";
 import { MemberRoleID } from "app/config/member-roles";
 import { MembershipTypeID } from "app/config/membership-types";
-import { Document } from "./api";
+import { Document } from "./api-document";
 
 export interface Member extends Document {
   _id: string;

@@ -1,4 +1,4 @@
-import { Document } from "./api";
+import { Document } from "./api-document";
 
 export interface Blog extends Document {
   _id: string;

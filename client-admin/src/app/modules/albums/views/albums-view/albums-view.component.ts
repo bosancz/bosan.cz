@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Album, Photo } from 'app/schema/album';
-import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { AlbumsService } from '../../albums.service';
+import { AlbumsService } from '../../services/albums.service';
 
 @UntilDestroy()
 @Component({

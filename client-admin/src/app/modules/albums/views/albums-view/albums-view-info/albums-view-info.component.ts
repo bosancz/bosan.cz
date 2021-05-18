@@ -5,7 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { AlbumsService } from '../../../albums.service';
+import { AlbumsService } from '../../../services/albums.service';
 
 @UntilDestroy()
 @Component({

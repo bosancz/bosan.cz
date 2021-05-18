@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { AlbumsRoutingModule } from './albums-routing.module';
 /* SERVICES */
-import { AlbumsService } from './albums.service';
+import { AlbumsService } from './services/albums.service';
 /* COMPONENTS */
 import { EventSelectorModalComponent } from './components/event-selector-modal/event-selector-modal.component';
 import { EventSelectorComponent } from './components/event-selector/event-selector.component';
@@ -15,10 +15,6 @@ import { AlbumsListComponent } from './views/albums-list/albums-list.component';
 import { AlbumsViewInfoComponent } from './views/albums-view/albums-view-info/albums-view-info.component';
 import { AlbumsViewPhotosComponent } from './views/albums-view/albums-view-photos/albums-view-photos.component';
 import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
-
-
-
-
 
 
 @NgModule({

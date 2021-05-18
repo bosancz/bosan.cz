@@ -50,7 +50,7 @@ export class UsersCreateComponent implements OnInit {
       return;
     }
 
-    const user = await this.api.get<User>(location);
+    const user = await this.api.get<User>({ href: location });
 
     // open the user
     this.router.navigate(["/uzivatele", user._id], { replaceUrl: true });

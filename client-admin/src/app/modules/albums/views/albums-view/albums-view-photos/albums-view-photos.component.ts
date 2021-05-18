@@ -7,7 +7,7 @@ import { PhotoViewComponent } from 'app/modules/albums/components/photo-view/pho
 import { PhotosUploadComponent } from 'app/modules/albums/components/photos-upload/photos-upload.component';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { AlbumsService } from '../../../albums.service';
+import { AlbumsService } from '../../../services/albums.service';
 
 @UntilDestroy()
 @Component({

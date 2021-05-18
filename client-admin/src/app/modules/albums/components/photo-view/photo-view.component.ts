@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { IonInput, IonSlides, ModalController, ViewDidEnter, ViewWillEnter } from '@ionic/angular';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { IonInput, IonSlides, ModalController, ViewDidEnter } from '@ionic/angular';
 import { Photo } from 'app/schema/photo';
-import { AlbumsService } from '../../albums.service';
+import { AlbumsService } from '../../services/albums.service';
 
 @Component({
   selector: 'bo-photo-view',
