@@ -30,6 +30,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   enableOrdering = false;
   enableDeleting = false;
 
+  oldOrder?: Photo[];
+
   showCheckboxes = false;
   selectedPhotos: Photo[] = [];
 
@@ -105,6 +107,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
   startOrdering() {
     this.enableOrdering = true;
+    this.oldOrder = this.photos?.slice();
     this.actions = [
       {
         "text": "Uložit",
@@ -123,6 +126,10 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   }
 
   endOrdering() {
+    if (this.oldOrder) {
+      this.photos = this.oldOrder;
+      this.oldOrder = undefined;
+    }
     this.actions = this.getActions(this.album!);
     this.enableOrdering = false;
   }
@@ -212,6 +219,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     await this.albumsService.updateAlbum(this.album._id, data);
 
     await this.loadPhotos(this.album);
+
+    this.oldOrder = undefined;
 
     this.toastService.toast("Uloženo.");
   }
