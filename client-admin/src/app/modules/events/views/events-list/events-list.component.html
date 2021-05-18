@@ -50,7 +50,6 @@
     <thead>
       <tr>
         <th>Název akce</th>
-        <th>Místo</th>
         <th>Datum</th>
         <th>Vede</th>
         <th>Stav</th>
@@ -59,7 +58,6 @@
     <tbody>
       <tr *ngFor="let event of filteredEvents$ | async" [routerLink]="event._id">
         <td>{{ event.name }}</td>
-        <td>{{ event.place }}</td>
         <td class="date">
           {{ event.dateFrom | date: "EEEEEE d. M." }} - {{ event.dateTill | date: "EEEEEE d. M. y" }}
         </td>
