@@ -41,21 +41,20 @@ export class MainErrorHandler implements ErrorHandler {
 
       errorData.description = JSON.stringify(err.error, undefined, "  ");
 
-      // dont report errors due to connection loss
       if (!onlineService.online.value) {
+        propagateError = false;
         toastService.toast("Akci se nepodařilo dokončit - jsi bez internetu.");
-        return;
       }
 
-      if (err.status === 401) {
-        const queryParams = {
-          return_url: window.location.pathname
-        };
-        navController.navigateRoot("/login", { queryParams });
-      }
-      else if (err.status === 403) {
-        toastService.toast("K akci nemáš oprávnění.");
+      else if (err.status === 401) {
         propagateError = false;
+        const return_url = window.location.pathname;
+        navController.navigateForward("/login", { queryParams: { return_url } });
+      }
+
+      else if (err.status === 403) {
+        propagateError = false;
+        toastService.toast("K akci nemáš oprávnění.");
       }
 
     }

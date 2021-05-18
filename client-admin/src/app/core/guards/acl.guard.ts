@@ -40,10 +40,13 @@ export class AclGuard implements CanActivate, CanActivateChild, CanLoad {
 
   async canLoad(route: Route, segments: UrlSegment[]) {
     const can = await this.canRoute(route);
+
+    const return_url = window.location.pathname;
+
     // if possible load 
     return can
       || (await this.can("dashboard") && this.router.createUrlTree(["/prehled"]))
       || (await this.can("account") && this.router.createUrlTree(["/ucet"]))
-      || this.router.createUrlTree(["/login"]);
+      || this.router.createUrlTree(["/login"], { queryParams: { return_url } });
   }
 }

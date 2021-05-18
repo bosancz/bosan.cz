@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import * as packageJson from "app/../../package.json";
 import { LoginService } from 'app/core/services/login.service';
 import { map } from 'rxjs/operators';
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
   version = packageJson.version;
 
   constructor(
-    private router: Router,
+    private navController: NavController,
     private route: ActivatedRoute,
     private loginService: LoginService,
   ) { }
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
     const result = await this.loginService.loginCredentials(loginForm.value);
 
     if (result.success) {
-      this.router.navigate(["../"], { relativeTo: this.route });
+      return this.loginSuccess();
     }
     else {
       this.status = result.error;
@@ -51,7 +52,7 @@ export class LoginComponent implements OnInit {
     const result = await this.loginService.loginGoogle();
 
     if (result) {
-      this.router.navigate(["../"], { relativeTo: this.route });
+      return this.loginSuccess();
     }
     else {
       this.status = "googleFailed";
@@ -67,6 +68,18 @@ export class LoginComponent implements OnInit {
 
     if (result.success) this.status = "linkSent";
     else this.status = result.error;
+  }
+
+  async loginSuccess() {
+
+    const return_url = this.route.snapshot.queryParams["return_url"];
+
+    if (return_url) {
+      this.navController.navigateBack([return_url]);
+    }
+    else {
+      this.navController.navigateRoot(["/"]);
+    }
   }
 
 }
