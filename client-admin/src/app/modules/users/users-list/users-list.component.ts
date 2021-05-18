@@ -32,14 +32,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   @ViewChild('filterForm', { static: true }) filterForm!: NgForm;
 
-  showFilter: boolean = false;
-
   actions: Action[] = [
-    {
-      icon: "search-outline",
-      pinned: true,
-      handler: () => this.showFilter = !this.showFilter
-    },
     {
       icon: "add-outline",
       pinned: true,
