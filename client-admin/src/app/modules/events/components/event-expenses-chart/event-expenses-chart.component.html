@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of totalByType | keyvalue">
-        <th>{{ item.value.type.title }}</th>
+        <th>{{ item.value.type?.title }}</th>
         <td>{{ item.value.total | number: "1.0-0":"cs" }}&nbsp;Kč</td>
         <td>{{ item.value.total / days | number: "1.0-0":"cs" }}&nbsp;Kč</td>
         <td *ngIf="persons > 0">{{ item.value.total / persons | number: "1.0-0":"cs" }}&nbsp;Kč</td>

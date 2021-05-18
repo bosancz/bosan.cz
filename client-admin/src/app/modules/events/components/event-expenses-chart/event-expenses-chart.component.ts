@@ -15,7 +15,7 @@ export class EventExpensesChartComponent implements OnInit {
 
   total: number = 0;
 
-  totalByType: { [type: string]: { total: number, type: EventExpenseType; }; } = {};
+  totalByType: { [type: string]: { total: number, type?: EventExpenseType; }; } = {};
 
   @Input() set event(event: Event) {
     const dateFrom = DateTime.fromISO(event.dateFrom).set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
