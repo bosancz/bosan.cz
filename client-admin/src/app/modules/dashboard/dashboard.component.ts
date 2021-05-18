@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "app/core/services/api.service";
-import { Dashboard } from "app/schema/dashboard";
 import { Event } from 'app/schema/event';
 import { DateTime } from 'luxon';
 
@@ -14,7 +13,6 @@ import { DateTime } from 'luxon';
 })
 export class DashboardComponent implements OnInit {
 
-  dashboard?: Dashboard;
 
   calendarDateFrom = DateTime.local();
   calendarDateTill = DateTime.local().plus({ months: 1 });

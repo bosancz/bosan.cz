@@ -1,5 +1,11 @@
-// @ts-nocheck
-import { Contact } from "./contact";
+export class WebConfigContact {
+  name?: string;
+  nickname?: string;
+  avatar?: string;
+  role?: string;
+  email?: string;
+  mobile?: string;
+}
 
 export interface WebConfig {
 
@@ -13,9 +19,9 @@ export interface WebConfig {
   };
 
   contacts: {
-    leaders: Contact[],
-    monday: Contact[],
-    wednesday: Contact[];
+    leaders: WebConfigContact[],
+    monday: WebConfigContact[],
+    wednesday: WebConfigContact[];
   };
 
 }

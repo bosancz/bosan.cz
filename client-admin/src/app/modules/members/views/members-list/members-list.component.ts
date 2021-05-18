@@ -82,6 +82,7 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
     this.filteredMembers$ = combineLatest([this.members$, this.filter$])
       .pipe(map(([members, filter]) => this.filterMembers(filter, members)));
 
+    // TODO: rewrite to easier non rxjs filtering
     this.filter$
       .pipe(map(filter => filter.fields.reduce((acc, cur) => (acc[cur] = true, acc), {} as { [field: string]: boolean; })))
       .subscribe(this.visibleFields$);

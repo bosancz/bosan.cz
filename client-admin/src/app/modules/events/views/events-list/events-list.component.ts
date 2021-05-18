@@ -60,6 +60,7 @@ export class EventsListComponent implements OnInit {
       .then(resources => resources.events.allowed.POST)
       .then(canCreate => this.canCreate = canCreate);
 
+    // TODO: rewrite to easier non rxjs filtering
     this.filteredEvents$ = combineLatest([this.events$, this.search$.pipe(debounceTime(250))])
       .pipe(map(([events, search]) => this.filterEvents(events, search)));
 
