@@ -37,6 +37,8 @@ $eventHeight: 20px;
   padding: 0 5px;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
+
   @media (prefers-color-scheme: dark) {
     border: 1px solid #121212;
   }
