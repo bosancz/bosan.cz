@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-tab-bar slot="top" class="d-xl-none">
+<ion-tab-bar slot="top" class="d-xl-none top-tabs">
   <ion-tab-button (click)="selectedColumn = 'noLeader'" [selected]="selectedColumn === 'noLeader'">
     <ion-text class="event-count">
       {{ (noLeaderEvents | async)?.length || 0 }}
