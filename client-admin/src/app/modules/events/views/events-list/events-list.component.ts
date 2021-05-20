@@ -139,7 +139,7 @@ export class EventsListComponent implements OnInit {
         hidden: resources["events"].allowed["POST"],
         handler: () => this.createEvent()
       }
+    ];
   }
-]
 
 }
