@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, ViewWillEnter } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ApiService } from 'app/core/services/api.service';
 import { ToastService } from 'app/core/services/toast.service';
@@ -19,7 +19,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './albums-list.component.html',
   styleUrls: ['./albums-list.component.scss']
 })
-export class AlbumsListComponent implements OnInit, OnDestroy {
+export class AlbumsListComponent implements OnInit, OnDestroy, ViewWillEnter {
 
   albums: Album[] = [];
   filteredAlbums: Album[] = [];
@@ -56,14 +56,16 @@ export class AlbumsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loadAlbums();
-
     this.searchString
       .pipe(untilDestroyed(this))
       .pipe(debounceTime(250))
       .subscribe(searchString => {
         this.filteredAlbums = this.filterAlbums(this.albums, searchString);
       });
+  }
+
+  ionViewWillEnter() {
+    this.loadAlbums();
   }
 
   ngOnDestroy() {
