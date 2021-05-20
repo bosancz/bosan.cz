@@ -127,8 +127,8 @@ const permissions = {
   "reports:events:read": { vedouci },
   "reports:members:read": { vedouci },
 
-  "users:list": { spravce },
-  "users:read": { spravce },
+  "users:list": { spravce, revizor },
+  "users:read": { spravce, revizor },
   "users:create": { spravce },
   "users:edit": { spravce },
   "users:delete": { spravce },
