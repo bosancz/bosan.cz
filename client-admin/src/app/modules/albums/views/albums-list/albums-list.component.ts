@@ -121,6 +121,15 @@ export class AlbumsListComponent implements OnInit, OnDestroy, ViewWillEnter {
   }
 
   private onCreateAlbum(albumData: Partial<Pick<Album, "name" | "dateFrom" | "dateTill">>) {
+
+    // prevent switched date order
+    if (albumData.dateFrom && albumData.dateTill) {
+      const dates = [albumData.dateFrom, albumData.dateTill];
+      dates.sort();
+      albumData.dateFrom = dates[0];
+      albumData.dateTill = dates[1];
+    }
+
     if (!albumData.name || !albumData.dateFrom || !albumData.dateTill) {
       this.toastService.toast("Musíš vyplnit jméno i datumy");
       return false;

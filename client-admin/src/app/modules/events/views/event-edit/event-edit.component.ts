@@ -67,6 +67,14 @@ export class EventEditComponent implements OnInit {
 
     const eventData: Partial<Event> = this.form.value;
 
+    // prevent switched date order
+    if (eventData.dateFrom && eventData.dateTill) {
+      const dates = [eventData.dateFrom, eventData.dateTill];
+      dates.sort();
+      eventData.dateFrom = dates[0];
+      eventData.dateTill = dates[1];
+    }
+
     // eventData.leaders = eventData.leaders?.map(member => member._id) || [];
 
     await this.api.patch<Event>(["event", this.event._id], eventData);

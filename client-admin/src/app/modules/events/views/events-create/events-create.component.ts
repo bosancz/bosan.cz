@@ -41,7 +41,16 @@ export class EventsCreateComponent implements OnInit {
     }
 
     // get data from form
-    let eventData = this.form.value;
+    let eventData = <Partial<Event>>this.form.value;
+
+    // prevent switched date order
+    if (eventData.dateFrom && eventData.dateTill) {
+      const dates = [eventData.dateFrom, eventData.dateTill];
+      dates.sort();
+      eventData.dateFrom = dates[0];
+      eventData.dateTill = dates[1];
+    }
+
     // create the event and wait for confirmation
     let response = await this.api.post("events", eventData);
 
