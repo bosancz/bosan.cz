@@ -13,7 +13,7 @@
 <ion-content class="ion-padding">
   <h2>{{ album?.name }}</h2>
 
-  <p *ngIf="album?.dateFrom && album?.dateFrom">{{ [album!.dateFrom, album!.dateFrom] | dateRange: "d. M. y" }}</p>
+  <p *ngIf="album?.dateFrom && album?.dateTill">{{ [album!.dateFrom, album!.dateTill] | dateRange: "d. M. y" }}</p>
 
   <p>{{ album?.description }}</p>
 
