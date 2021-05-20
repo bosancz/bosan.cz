@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { TitleService } from "app/services/title.service";
 import { ConfigService } from "app/services/config.service";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: 'events-view',
@@ -12,10 +12,10 @@ import {map} from "rxjs/operators";
 })
 export class EventsViewComponent implements OnInit {
 
-  public canalFormUrl:Observable<string> = this.configService.config.pipe(map(config => config.canal.formUrl));
-  public canalAttendeesUrl:Observable<string> = this.configService.config.pipe(map(config => config.canal.attendeesUrl));
+  public canalFormUrl: Observable<string> = this.configService.config.pipe(map(config => config.general.canalFormUrl));
+  public canalAttendeesUrl: Observable<string> = this.configService.config.pipe(map(config => config.general.canalAttendeesUrl));
 
-  constructor(private titleService:TitleService,private configService:ConfigService) { }
+  constructor(private titleService: TitleService, private configService: ConfigService) { }
 
   ngOnInit() {
     this.titleService.setPageTitle("Program");

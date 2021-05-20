@@ -16,8 +16,6 @@ export class PageMenuComponent {
 
   isTop: boolean = true;
 
-  environment$ = this.configService.config.pipe(map(config => config.general.environment));
-
   collapsed: boolean = true;
 
   @Output()
@@ -26,11 +24,10 @@ export class PageMenuComponent {
   constructor(
     public menuService: MenuService,
     public titleService: TitleService,
-    private configService: ConfigService,
   ) { }
 
   setCollapsed(collapsed: boolean) {
-    this.collapsed = collapsed
+    this.collapsed = collapsed;
     this.collapse.emit(collapsed);
   }
 }
