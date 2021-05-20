@@ -35,18 +35,7 @@ export class EventsListComponent implements OnInit {
 
   search$ = new BehaviorSubject<string>("");
 
-  actions: Action[] = [
-    {
-      icon: "search-outline",
-      pinned: true,
-      handler: () => this.showFilter = !this.showFilter
-    },
-    {
-      icon: "add-outline",
-      pinned: true,
-      handler: () => this.createEvent()
-    }
-  ];
+  actions: Action[] = [];
 
   loadingArray = Array(5).fill(null);
 
@@ -68,6 +57,8 @@ export class EventsListComponent implements OnInit {
 
   ngOnInit() {
     this.loadYears();
+
+    this.setActions();
   }
 
   ngAfterViewInit() {
@@ -131,5 +122,24 @@ export class EventsListComponent implements OnInit {
   getLeadersString(event: Event) {
     return event.leaders?.map(item => item.nickname).join(", ");
   }
+
+  private async setActions() {
+
+    const resources = await this.api.resources;
+
+    this.actions = [
+      {
+        icon: "search-outline",
+        pinned: true,
+        handler: () => this.showFilter = !this.showFilter
+      },
+      {
+        icon: "add-outline",
+        pinned: true,
+        hidden: resources["events"].allowed["POST"],
+        handler: () => this.createEvent()
+      }
+  }
+]
 
 }

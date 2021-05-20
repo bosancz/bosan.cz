@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { DocumentLink } from "app/schema/api-document";
 import { ApiEndpoint } from 'app/schema/api-endpoints';
 import { ApiError } from 'app/schema/api-error';
+import { ApiInfo } from 'app/schema/api-info';
 import { environment } from "environments/environment";
 
 type PathObject =
@@ -17,7 +18,7 @@ export class ApiService {
 
   root = environment.apiRoot;
 
-  resources = this.http.get<any>(this.root).toPromise().then(api => api._links);
+  resources = this.http.get<ApiInfo>(this.root).toPromise().then(api => api._links);
 
   constructor(private http: HttpClient) { }
 
@@ -50,9 +51,12 @@ export class ApiService {
     if (typeof path === "string" && path.match(/^[a-z\-\:]+$/i)) {
       const resources = await this.resources;
 
-      if (!resources[path]) throw new ApiError(`Resource ${path} does not exist on the API endpoint ${this.root}.`);
-
-      href = resources[path].href;
+      if (path in resources) {
+        href = resources[<keyof typeof resources>path].href;
+      }
+      else {
+        throw new ApiError(`Resource ${path} does not exist on the API endpoint ${this.root}.`);
+      }
     }
     else if (typeof path === "string") {
       href = path;
