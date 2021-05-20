@@ -64,7 +64,15 @@ export class AlbumsEditComponent {
       return;
     }
 
-    let albumData: Partial<Event> = this.albumForm.value;
+    let albumData: Partial<Album<string>> = this.albumForm.value;
+
+    // prevent switched date order
+    if (albumData.dateFrom && albumData.dateTill) {
+      const dates = [albumData.dateFrom, albumData.dateTill];
+      dates.sort();
+      albumData.dateFrom = dates[0];
+      albumData.dateTill = dates[1];
+    }
 
     await this.albumsService.updateAlbum(this.album._id, albumData);
 
