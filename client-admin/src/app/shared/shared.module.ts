@@ -25,6 +25,7 @@ import { GroupPipe } from "./pipes/group.pipe";
 import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
 import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
 import { MemberPipe } from './pipes/member.pipe';
+import { DotComponent } from './components/dot/dot.component';
 
 
 
@@ -64,6 +65,7 @@ import { MemberPipe } from './pipes/member.pipe';
     AgePipe,
     EventStatusPipe,
     MemberPipe,
+    DotComponent,
 
   ],
   exports: [
@@ -81,6 +83,7 @@ import { MemberPipe } from './pipes/member.pipe';
 
     EventStatusBadgeComponent,
     EventCalendarComponent,
+    DotComponent,
 
     /* DIRECTIVES */
     AclCanDirective,
