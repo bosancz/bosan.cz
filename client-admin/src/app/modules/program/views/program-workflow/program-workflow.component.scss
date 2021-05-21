@@ -3,6 +3,10 @@
     background-color: #f8f9fa;
     border-radius: 4px;
     height: 100%;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #333;
+    }
   }
 }
 
