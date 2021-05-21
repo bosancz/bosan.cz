@@ -1,12 +1,12 @@
 @import "~styles/variables";
 
-:host {
-  justify-content: space-around;
-}
-
 .login-container {
-  max-width: 600px;
+  height: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 400px;
 }
 
 .buttons {
