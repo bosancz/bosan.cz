@@ -32,6 +32,10 @@ ion-item {
   --ion-background-color: #fff;
   --ion-item-color: #000;
   --ion-toolbar-color: #000;
+
+  @media (prefers-color-scheme: dark) {
+    --ion-item-color: #fff;
+  }
 }
 .nocaption {
   opacity: 0.7;
