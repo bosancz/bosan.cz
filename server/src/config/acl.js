@@ -66,8 +66,8 @@ const permissions = {
   "events:noleader:list": { spravce, revizor, program, clen },
 
   "events:registration:read": { spravce, guest },
-  "events:registration:edit": { spravce, vedouci },
-  "events:registration:delete": { spravce, vedouci },
+  "events:registration:edit": { spravce, ...vedouciAkce },
+  "events:registration:delete": { spravce, ...vedouciAkce },
 
   "events:accounting:read": { spravce, revizor, hospodar, ...vedouciAkce },
   "events:accounting:edit": { spravce, revizor, hospodar, ...vedouciAkce },
