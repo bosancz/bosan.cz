@@ -1,13 +1,12 @@
-@media (min-width: 992px) {
-  .column {
-    background-color: #f8f9fa;
+.column {
+  @media (min-width: 1200px) {
+    background-color: var(--ion-color-light);
     border-radius: 4px;
     height: 100%;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #333;
-    }
   }
+}
+.column-heading {
+  --ion-item-background: transparent;
 }
 
 .noevents {
@@ -19,6 +18,9 @@
 }
 
 .top-tabs {
+  ion-item {
+    --ion-item-background: transparent;
+  }
   ion-label {
     white-space: nowrap;
   }

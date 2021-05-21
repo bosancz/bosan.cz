@@ -19,6 +19,7 @@
           [class.empty]="day.properties.empty"
         >
           {{ day.date.day }}. {{ day.date.month }}.
+          <span *ngIf="day.properties.holiday" class="float-right" title="Svátek">🎉</span>
         </div>
       </div>
     </div>

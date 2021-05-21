@@ -15,6 +15,10 @@ $circle-size: 3rem;
   background-color: #ccc;
 }
 
+.event-heading {
+  --ion-item-background: transparent;
+}
+
 ion-card-title,
 ion-card-subtitle {
   margin-left: 3rem;

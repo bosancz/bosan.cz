@@ -6,11 +6,11 @@
     </p>
   </ion-card-content>
 
-  <ion-item *ngIf="open" lines="none" [detail]="true" [routerLink]="'/akce/' + event._id" class="mt-3">
+  <ion-item *ngIf="open" lines="none" [detail]="true" [routerLink]="'/akce/' + event._id" class="mt-3 event-heading">
     <ng-container *ngTemplateOutlet="itemContent"></ng-container>
   </ion-item>
 
-  <ion-item *ngIf="!open" lines="none" class="mt-3">
+  <ion-item *ngIf="!open" lines="none" class="mt-3 event-heading">
     <ng-container *ngTemplateOutlet="itemContent"></ng-container>
   </ion-item>
 

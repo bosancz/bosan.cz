@@ -53,7 +53,7 @@
 
   <div class="row no-gutters">
     <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'noLeader'">
-      <ion-item lines="none" class="d-none d-xl-block">
+      <ion-item lines="none" class="d-none d-xl-block column-heading">
         <ion-label><h2>Pan NIKDO</h2></ion-label>
         <ion-button color="primary">{{ (noLeaderEvents | async)?.length }}</ion-button>
       </ion-item>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'draft'">
-      <ion-item lines="none" class="d-none d-xl-block">
+      <ion-item lines="none" class="d-none d-xl-block column-heading">
         <ion-label><h2>V přípravě</h2></ion-label>
         <ion-button color="primary">{{ (draftEvents | async)?.length }}</ion-button>
       </ion-item>
@@ -73,7 +73,7 @@
     </div>
 
     <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'pending'">
-      <ion-item lines="none" class="d-none d-xl-block">
+      <ion-item lines="none" class="d-none d-xl-block column-heading">
         <ion-label>
           <h2><strong>Ke schválení</strong></h2>
         </ion-label>
@@ -85,7 +85,7 @@
     </div>
 
     <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'public'">
-      <ion-item lines="none" class="d-none d-xl-block">
+      <ion-item lines="none" class="d-none d-xl-block column-heading">
         <ion-label><h2>V programu</h2></ion-label>
         <ion-button color="primary">{{ (publicEvents | async)?.length }}</ion-button>
       </ion-item>
