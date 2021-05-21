@@ -19,12 +19,11 @@ export interface DocumentAction {
   allowed: boolean;
 }
 
-export class Document {
+export class Document<L extends string = string, A extends string = string> {
   _links?: {
-    self: DocumentLink,
-    [link: string]: DocumentLink;
+    [link in L | "self"]: DocumentLink;
   };
   _actions?: {
-    [link: string]: DocumentAction;
+    [link in A]: DocumentAction;
   };
 }
