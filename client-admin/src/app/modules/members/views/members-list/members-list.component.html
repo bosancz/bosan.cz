@@ -81,11 +81,13 @@
     </thead>
     <tbody>
       <ng-container *ngFor="let member of filteredMembers$ | async">
-        <tr [routerLink]="member._id" [class.inactive]="member.inactive">
+        <tr [routerLink]="member._id" class="member" [class.inactive]="member.inactive">
           <ng-container *ngIf="visibleFields$ | async as visibleFields">
             <th *ngIf="visibleFields.nickname">{{ member.nickname }}</th>
-            <td *ngIf="visibleFields.group" [style.color]="member.group | group: 'color'">
-              {{ member.group | group: "name" }}
+            <td *ngIf="visibleFields.group">
+              <span class="group-badge" [style.color]="member.group | group: 'color'">
+                {{ member.group | group: "name" }}
+              </span>
             </td>
             <td *ngIf="visibleFields.role">{{ member.role }}</td>
             <td *ngIf="visibleFields.post">{{ member.post }}</td>

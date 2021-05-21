@@ -1,0 +1,11 @@
+.group-badge {
+  @media (prefers-color-scheme: dark) {
+    padding: 2px 4px;
+    border-radius: 2px;
+    background-color: #fff;
+  }
+}
+
+.member {
+  cursor: pointer;
+}
