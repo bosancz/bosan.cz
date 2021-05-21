@@ -9,6 +9,7 @@ import { EventsService } from 'app/modules/events/services/events.service';
 import { Event } from 'app/schema/event';
 import { Member } from 'app/schema/member';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { environment } from 'environments/environment';
 import { ThemeService } from 'ng2-charts';
 
 @UntilDestroy()
@@ -23,19 +24,7 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
 
   attendees: Member[] = [];
 
-  actions: Action[] = [
-    {
-      text: "Přidat",
-      icon: "add-outline",
-      pinned: true,
-      handler: () => this.addAttendeeModal()
-    },
-    {
-      text: "Stáhnout ohlášku",
-      icon: "download-outline",
-      handler: () => this.exportExcel()
-    }
-  ];
+  actions: Action[] = [];
 
   modal?: HTMLIonModalElement;
 
@@ -54,6 +43,8 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
         this.attendees = event?.attendees || [];
 
         this.sortAttendees();
+
+        this.setActions(event);
       });
   }
 
@@ -127,8 +118,29 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async exportExcel() {
-    this.toastService.toast("Zatím nefunguje :(");
+  private async exportExcel(event: Event) {
+    console.log(event._links);
+    if (event._links?.['announcement-template']) {
+      const url = environment.apiRoot + event._links?.['announcement-template'].href;
+      window.open(url);
+    }
   }
 
+  private setActions(event?: Event) {
+    this.actions = [
+      {
+        text: "Přidat",
+        icon: "add-outline",
+        pinned: true,
+        hidden: !event?._links?.self.allowed.PATCH,
+        handler: () => this.addAttendeeModal()
+      },
+      {
+        text: "Stáhnout ohlášku",
+        icon: "download-outline",
+        hidden: !event?._links?.self.allowed.GET,
+        handler: () => this.exportExcel(event!)
+      }
+    ];
+  }
 }

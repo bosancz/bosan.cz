@@ -38,7 +38,7 @@ export class EventsViewRegistrationComponent {
 
   private updateEvent(event: Event) {
     this.event = event;
-    this.actions = this.getActions(event);
+    this.setActions(event);
   }
 
   uploadRegistrationSelect() {
@@ -102,11 +102,11 @@ export class EventsViewRegistrationComponent {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.getRegistrationUrl(event));
   }
 
-  getActions(event: Event): Action[] {
-    return [
+  setActions(event: Event) {
+    this.actions = [
       {
         text: "Stáhnout",
-        hidden: !event.registration,
+        hidden: !event._links?.registration?.allowed.GET,
         handler: () => this.downloadRegistration()
       },
       {

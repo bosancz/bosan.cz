@@ -5,23 +5,23 @@
       <ion-label>Akce</ion-label>
       <ion-badge [color]="event?.status | eventStatus: 'color'">&nbsp;&nbsp;</ion-badge>
     </ion-tab-button>
-    <ion-tab-button tab="prihlaska" *ngIf="event?._links?.self?.allowed?.PATCH">
+    <ion-tab-button tab="prihlaska">
       <ion-icon name="document-outline"></ion-icon>
       <ion-label>Přihláška</ion-label>
       <ion-badge *ngIf="event?.registration" color="success">&nbsp;&nbsp;</ion-badge>
       <ion-badge *ngIf="!event?.registration" color="danger">&nbsp;&nbsp;</ion-badge>
     </ion-tab-button>
-    <ion-tab-button tab="ucastnici" *ngIf="event?._links?.self?.allowed?.PATCH">
+    <ion-tab-button tab="ucastnici">
       <ion-icon name="people-outline"></ion-icon>
       <ion-label>Účastníci</ion-label>
       <ion-badge [color]="event?.attendees?.length ? 'success' : 'danger'">{{ event?.attendees?.length }}</ion-badge>
     </ion-tab-button>
-    <ion-tab-button tab="uctovani" *ngIf="event?._links?.self?.allowed?.PATCH">
+    <ion-tab-button tab="uctovani">
       <ion-icon name="cash-outline"></ion-icon>
       <ion-label>Účtování</ion-label>
       <ion-badge color="success">{{ event?.expenses?.length }}</ion-badge>
     </ion-tab-button>
-    <ion-tab-button tab="report" *ngIf="event?._links?.self?.allowed?.PATCH">
+    <ion-tab-button tab="report">
       <ion-icon name="document-outline"></ion-icon>
       <ion-label>Report</ion-label>
       <ion-badge *ngIf="event?.report" color="success">&nbsp;&nbsp;</ion-badge>

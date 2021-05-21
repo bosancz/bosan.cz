@@ -7,6 +7,7 @@ import { EventExpenseModalComponent } from 'app/modules/events/components/event-
 import { EventsService } from 'app/modules/events/services/events.service';
 import { Event, EventExpense } from 'app/schema/event';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { environment } from 'environments/environment';
 
 @UntilDestroy()
 @Component({
@@ -20,19 +21,7 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
 
   expenses: EventExpense[] = [];
 
-  actions: Action[] = [
-    {
-      text: "Přidat",
-      icon: "add-outline",
-      pinned: true,
-      handler: () => this.editExpenseModal()
-    },
-    {
-      text: "Stáhnout účtování",
-      icon: "download-outline",
-      handler: () => this.exportExcel()
-    }
-  ];
+  actions: Action[] = [];
 
   modal?: HTMLIonModalElement;
   alert?: HTMLIonAlertElement;
@@ -51,6 +40,8 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
         this.event = event;
         this.expenses = event?.expenses || [];
         this.sortExpenes();
+
+        this.setActions(event);
       });
   }
 
@@ -121,10 +112,6 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
     await this.eventsService.loadEvent(this.event._id);
   }
 
-  private async exportExcel() {
-    this.toastService.toast("Zatím nefunguje :(");
-  }
-
   toggleSliding(sliding: any) {
     sliding.getOpenAmount().then((open: number) => {
       if (open) sliding.close();
@@ -145,5 +132,32 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
     }, 1);
 
     return "V" + String(maxId + 1);
+  }
+
+  private async exportExcel(event: Event) {
+    console.log(event._links);
+    if (event._links?.['accounting-template']) {
+      const url = environment.apiRoot + event._links?.['accounting-template'].href;
+      window.open(url);
+    }
+  }
+
+  private setActions(event?: Event) {
+
+    this.actions = [
+      {
+        text: "Přidat",
+        icon: "add-outline",
+        pinned: true,
+        hidden: !event?._links?.self.allowed.PATCH,
+        handler: () => this.editExpenseModal()
+      },
+      {
+        text: "Stáhnout účtování",
+        icon: "download-outline",
+        hidden: !event?._links?.self.allowed.GET,
+        handler: () => this.exportExcel(event!)
+      }
+    ];
   }
 }

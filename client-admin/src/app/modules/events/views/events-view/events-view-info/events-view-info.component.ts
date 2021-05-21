@@ -6,7 +6,7 @@ import { EventStatuses } from "app/config/event-statuses";
 import { ApiService } from "app/core/services/api.service";
 import { ToastService } from "app/core/services/toast.service";
 import { Album, Photo } from 'app/schema/album';
-import { Event } from "app/schema/event";
+import { Event, EventActions } from "app/schema/event";
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { filter } from 'rxjs/operators';
 import { EventsService } from '../../../services/events.service';
@@ -67,7 +67,7 @@ export class EventsViewInfoComponent implements OnInit, OnDestroy {
     this.toastService.toast("Akce smazána");
   }
 
-  async eventAction(event: Event, action: string) {
+  async eventAction(event: Event, action: EventActions) {
 
     if (!event._actions?.[action].allowed) {
       this.toastService.toast("K této akci nemáš oprávnění.");
