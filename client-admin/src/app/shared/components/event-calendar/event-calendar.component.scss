@@ -31,17 +31,13 @@ $eventHeight: 20px;
   margin-top: 1px;
   white-space: nowrap;
   color: #fff;
-  border: 1px solid #fff;
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 4px;
   font-size: 12px;
   padding: 0 5px;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
-
-  @media (prefers-color-scheme: dark) {
-    border: 1px solid #121212;
-  }
 }
 
 .events.own {
@@ -53,11 +49,7 @@ $eventHeight: 20px;
   // border-top: 1px solid #eee;
 
   .event {
-    background-color: var(--ion-color-dark, #333) !important;
-    @media (prefers-color-scheme: dark) {
-      background-color: var(--ion-color-light, #eee) !important;
-      color: #000;
-    }
+    background-color: var(--ion-color-dark, #000) !important;
   }
 }
 
@@ -65,10 +57,15 @@ $eventHeight: 20px;
   position: absolute;
   top: 0;
   height: 100%;
-  border-right: 1px solid #eee;
+  border: 1px solid #eee;
+  border-width: 0 1px 0 0;
+
+  @media (prefers-color-scheme: dark) {
+    border-color: #333;
+  }
 }
 .day:first-child {
-  border-left: 1px solid #eee;
+  border-width: 0 1px 0 1px;
 }
 
 .day.odd-month {
@@ -80,17 +77,18 @@ $eventHeight: 20px;
 
 .day.weekend {
   background-color: #ddd;
+
   @media (prefers-color-scheme: dark) {
     background-color: #222;
   }
-  border-color: #fff;
 }
 .day.holiday {
   background-color: #ccc;
+
   @media (prefers-color-scheme: dark) {
     background-color: #333;
   }
-  border-color: #fff;
+
   .date {
     font-weight: bold;
   }
@@ -103,6 +101,10 @@ $eventHeight: 20px;
     padding: 0 2px;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
+
+    @media (prefers-color-scheme: dark) {
+      border-color: #333;
+    }
   }
   .date.selectedRange {
     background-color: yellow;
