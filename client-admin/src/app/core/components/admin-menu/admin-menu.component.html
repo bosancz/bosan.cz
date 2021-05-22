@@ -23,17 +23,9 @@
     <ion-label>Blog</ion-label>
   </ion-item>
 
-  <ion-item
-    *aclCan="'statistics'"
-    routerLink="statistiky"
-    routerDirection="root"
-    routerLinkActive="active"
-    [detail]="true"
-  >
+  <ion-item *aclCan="'statistics'" routerLink="statistiky" routerDirection="root" [detail]="true">
     <ion-label>Statistiky</ion-label>
   </ion-item>
-
-  <!-- <ion-item routerDirection="root" routerLinkActive="active"><a *aclCan="'canal'" routerLink="kanal">Troja</a></ion-item> -->
 
   <ion-item *aclCan="'users'" routerLink="uzivatele" routerDirection="root" [detail]="true">
     <ion-label>Uživatelé</ion-label>
@@ -41,6 +33,10 @@
 
   <ion-item *aclCan="'web'" routerLink="web" routerDirection="root" [detail]="true">
     <ion-label>Web</ion-label>
+  </ion-item>
+
+  <ion-item href="https://bosan.cz" target="_blank">
+    <ion-label>Veřejná sekce</ion-label>
   </ion-item>
 
   <ng-container *ngIf="userService.user | async as user">
