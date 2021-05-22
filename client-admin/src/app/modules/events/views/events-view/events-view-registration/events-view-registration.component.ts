@@ -111,15 +111,14 @@ export class EventsViewRegistrationComponent {
       },
       {
         text: "Nahrát",
-        disabled: !event._links?.registration?.allowed.PUT,
+        hidden: !event._links?.registration?.allowed.PUT,
         handler: () => this.uploadRegistrationSelect()
       },
       {
         text: "Smazat",
         role: "destructive",
         color: "danger",
-        hidden: !event?.registration,
-        disabled: !event._links?.registration?.allowed.DELETE,
+        hidden: !event?.registration || !event._links?.registration?.allowed.DELETE,
         handler: () => this.deleteRegistration()
       }
     ];
