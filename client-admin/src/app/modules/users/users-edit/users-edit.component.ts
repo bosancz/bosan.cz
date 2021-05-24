@@ -70,7 +70,7 @@ export class UsersEditComponent implements OnInit {
 
   async loadMembers() {
     let members = await this.api.get<Member[]>("members");
-    members.sort((a, b) => a.nickname.localeCompare(b.nickname));
+    members.sort((a, b) => (a.nickname || "").localeCompare(b.nickname || ""));
     this.members = members;
   }
 

@@ -41,7 +41,11 @@ export class MemberSelectorModalComponent implements OnInit {
   }
 
   private createIndex() {
-    this.membersIndex = this.members.map(member => ([member.nickname, member.name.first, member.name.last].join(" ")));
+    this.membersIndex = this.members.map(member => {
+      return [member.nickname, member.name?.first, member.name?.last]
+        .filter(value => !!value)
+        .join(" ");
+    });
   }
 
   private sortMembers() {

@@ -1,5 +1,5 @@
 <ion-chip *ngFor="let member of value" (click)="$event.stopPropagation()">
-  {{ member.nickname || member.name.first || member.name.last }}
+  {{ member | member: "nickname" }}
   <ion-icon name="close-circle" (click)="removeMember(member); $event.stopPropagation()"></ion-icon>
 </ion-chip>
 

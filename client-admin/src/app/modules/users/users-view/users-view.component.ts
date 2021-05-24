@@ -27,8 +27,6 @@ export class UsersViewComponent implements OnInit {
     .filter(item => item.assignable)
     .map(role => ({ name: role.id, title: role.title, active: false }));
 
-  members: Member[] = [];
-
   actions: Action[] = [];
 
   constructor(
@@ -47,7 +45,6 @@ export class UsersViewComponent implements OnInit {
         if (params.user) this.loadUser(params.user);
       });
 
-    this.loadMembers();
   }
 
   // DB interaction
@@ -56,12 +53,6 @@ export class UsersViewComponent implements OnInit {
     this.userRoles = UserRoles.filter(item => this.user?.roles.indexOf(item.id) !== -1);
 
     this.actions = this.getActions(this.user);
-  }
-
-  async loadMembers() {
-    let members = await this.api.get<Member[]>("members");
-    members.sort((a, b) => a.nickname.localeCompare(b.nickname));
-    this.members = members;
   }
 
   async setPassword() {

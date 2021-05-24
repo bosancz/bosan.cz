@@ -15,9 +15,9 @@ export interface Member extends Document {
   rank: string;
   stars: string;
 
-  nickname: string;
+  nickname?: string;
 
-  name: {
+  name?: {
     first: string,
     last: string;
   };

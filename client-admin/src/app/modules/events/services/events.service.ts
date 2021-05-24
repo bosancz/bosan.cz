@@ -16,7 +16,7 @@ export class EventsService {
   async loadEvent(eventId: string): Promise<Event> {
     const event = await this.api.get<Event>(["event", eventId], { populate: ["leaders"] });
 
-    event.attendees?.sort((a, b) => a.nickname.localeCompare(b.nickname));
+    event.attendees?.sort((a, b) => (a.nickname || "").localeCompare(b.nickname || ""));
 
     event.dateFrom = DateTime.fromISO(event.dateFrom).toISODate();
     event.dateTill = DateTime.fromISO(event.dateTill).toISODate();

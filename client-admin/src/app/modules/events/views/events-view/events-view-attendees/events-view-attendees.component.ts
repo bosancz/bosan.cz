@@ -39,12 +39,12 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
     this.eventsService.event$
       .pipe(untilDestroyed(this))
       .subscribe(event => {
-        this.event = event;
+        this.event = event || undefined;
         this.attendees = event?.attendees || [];
 
         this.sortAttendees();
 
-        this.setActions(event);
+        this.setActions(this.event);
       });
   }
 
@@ -54,8 +54,8 @@ export class EventsViewAttendeesComponent implements OnInit, OnDestroy {
 
   private sortAttendees() {
     this.attendees.sort((a, b) => {
-      const aString = a.nickname || a.name?.first || a.name.last || "";
-      const bString = b.nickname || b.name?.first || b.name.last || "";
+      const aString = a.nickname || a.name?.first || a.name?.last || "";
+      const bString = b.nickname || b.name?.first || b.name?.last || "";
       return aString.localeCompare(bString);
     });
   }
