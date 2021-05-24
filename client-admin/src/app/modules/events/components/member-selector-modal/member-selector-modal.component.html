@@ -10,7 +10,7 @@
     <ion-item *ngFor="let member of filteredMembers" [button]="true" (click)="close(member)">
       <ion-label>
         <h3>{{ member | member: "nickname" }}</h3>
-        <p>{{ member.group | group: "name" }}</p>
+        <p>{{ member.group | group: "name" }}, {{ member.name?.first }} {{ member.name?.last }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
