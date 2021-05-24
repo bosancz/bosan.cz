@@ -1,27 +1,25 @@
-<bo-page>
-  <bo-page-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/uzivatele"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Vytvořit uživatelský účet</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <h2>Vytvořit uživatelský účet</h2>
+<ion-content class="ion-padding">
+  <form #createUserForm="ngForm">
+    <ion-item class="w-100">
+      <ion-label position="floating">Login</ion-label>
+      <ion-input type="text" name="login" placeholder="bilbo" ngModel required></ion-input>
+    </ion-item>
 
-    <div class="actions" *actionMenu>
-
-      <button mat-button color="secondary" routerLink="/uzivatele">Zrušit</button>
-
-    </div>
-  </bo-page-header>
-  <form #createUserForm="ngForm" (ngSubmit)="createUser(createUserForm)">
-
-    <mat-form-field class="w-100">
-      <mat-label>Login</mat-label>
-      <input matInput type="text" name="login" placeholder="bilbo" ngModel required>
-    </mat-form-field>
-
-    <mat-form-field class="w-100">
-      <mat-label>E-mail</mat-label>
-      <input matInput type="email" name="email" placeholder="bilbo@bosan.cz" ngModel>
-    </mat-form-field>
-    
-    <button mat-button mat-flat-button color="primary" type="submit" [disabled]="!createUserForm.valid" class="w-100">Vytvořit</button>
-
+    <ion-item class="w-100">
+      <ion-label position="floating">Bošánovský e-mail</ion-label>
+      <ion-input type="email" name="email" placeholder="bilbo@bosan.cz" ngModel></ion-input>
+    </ion-item>
   </form>
-</bo-page>
+</ion-content>

@@ -1,26 +1,18 @@
-<form #trimesterForm="ngForm" class="mb-5">
-  <div class="form-group">
-    <label>Rok</label>
-    <input
-      type="number"
-      name="year"
-      class="form-control"
-      [(ngModel)]="year"
-      (ngModelChange)="setTrimester(year, trimester)"
-    />
+<div class="row">
+  <div class="col">
+    <ion-item [lines]="lines">
+      <ion-label [position]="labelPosition">Rok</ion-label>
+      <ion-input type="number" inputmode="numeric" [(ngModel)]="year" (ngModelChange)="setTrimester()"></ion-input>
+    </ion-item>
   </div>
-
-  <div class="form-group">
-    <label>Trimestr</label>
-    <select
-      name="trimester"
-      class="form-control"
-      [(ngModel)]="trimester"
-      (ngModelChange)="setTrimester(year, trimester)"
-    >
-      <option value="0">leden - duben</option>
-      <option value="1">květen - srpen</option>
-      <option value="2">září - prosinec</option>
-    </select>
+  <div class="col">
+    <ion-item [lines]="lines">
+      <ion-label [position]="labelPosition">Trimestr</ion-label>
+      <ion-select [(ngModel)]="trimester" (ngModelChange)="setTrimester()">
+        <ion-select-option [value]="0">leden - duben</ion-select-option>
+        <ion-select-option [value]="1">květen - srpen</ion-select-option>
+        <ion-select-option [value]="2">září - prosinec</ion-select-option>
+      </ion-select>
+    </ion-item>
   </div>
-</form>
+</div>

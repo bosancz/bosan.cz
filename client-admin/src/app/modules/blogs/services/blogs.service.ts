@@ -27,9 +27,11 @@ export class BlogsService {
     return this.api.get<Blog[]>("blogs", options);
   }
 
-  async create(data: Blog) {
+  async create(data: Omit<Blog, "_id" | "status">) {
     const response = await this.api.post("blogs", data);
-    return await this.api.get<Blog>(response.headers.get("location"));
+    const location = response.headers.get("location");
+    if (!location) throw new Error("Error creating new blog");
+    return await this.api.get<Blog>({ href: location });
   }
 
   async load(id: string) {

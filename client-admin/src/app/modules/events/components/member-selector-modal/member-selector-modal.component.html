@@ -1,0 +1,17 @@
+<ion-toolbar>
+  <ion-searchbar enterkeyhint="search" (ionChange)="searchMembers($any($event).detail.value)"></ion-searchbar>
+  <ion-buttons slot="end">
+    <ion-button (click)="close()">Zrušit</ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let member of filteredMembers" [button]="true" (click)="close(member)">
+      <ion-label>
+        <h3>{{ member | member: "nickname" }}</h3>
+        <p>{{ member.group | group: "name" }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

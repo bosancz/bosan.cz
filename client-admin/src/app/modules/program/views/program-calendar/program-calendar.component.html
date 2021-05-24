@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Program</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Program"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="row no-gutters">
+    <div class="col-lg-3">
+      <div class="px-lg-3 py-lg-3 pb-3">
+        <bo-trimester-selector
+          labelPosition="floating"
+          [ngModel]="[dateFrom, dateTill]"
+          (ngModelChange)="setTrimester($event)"
+        ></bo-trimester-selector>
+
+        <bo-event-status-legend></bo-event-status-legend>
+      </div>
+    </div>
+
+    <!-- <div class="d-none d-lg-block col-12 col-lg-6" [class.d-block]="view === 'list'">
+    <ion-content class="p-lg-3">
+      <div class="p-lg-3">
+        <ion-list>
+          <ion-item *ngFor="let event of calendarEvents" [routerLink]="['/akce', event._id]">
+            <ion-label>
+              <h3>{{ event.name }}</h3>
+              <p>{{ [event.dateFrom, event.dateTill] | dateRange }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-content>
+  </div> -->
+
+    <div class="d-none d-lg-block col-12 col-lg-9" [class.d-block]="view === 'calendar'">
+      <div class="p-lg-3">
+        <bo-event-calendar
+          *ngIf="dateFrom && dateTill"
+          [dateFrom]="dateFrom"
+          [dateTill]="dateTill"
+          [events]="calendarEvents"
+          [cpv]="true"
+        ></bo-event-calendar>
+      </div>
+    </div>
+  </div>
+</ion-content>

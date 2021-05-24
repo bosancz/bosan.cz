@@ -1,91 +1,97 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Schvalování akcí</h2>
-  </bo-page-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Schvalování akcí</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <div class="dashboard">
-    <mat-form-field class="d-lg-none w-100 my-3">
-      <mat-select [(ngModel)]="selectedColumn">
-        <mat-option value="noLeader">Pan NIKDO ({{ (noLeaderEvents | async)?.length || 0 }})</mat-option>
-        <mat-option value="draft">V přípravě ({{ (draftEvents | async)?.length || 0 }})</mat-option>
-        <mat-option value="pending">Ke schválení ({{ (pendingEvents | async)?.length || 0 }})</mat-option>
-        <mat-option value="public">V programu ({{ (publicEvents | async)?.length || 0 }})</mat-option>
-      </mat-select>
-    </mat-form-field>
+<ion-tab-bar slot="top" class="d-xl-none top-tabs">
+  <ion-tab-button (click)="selectedColumn = 'noLeader'" [selected]="selectedColumn === 'noLeader'">
+    <ion-text class="event-count">
+      {{ (noLeaderEvents | async)?.length || 0 }}
+    </ion-text>
+    <!-- <ion-icon name="calendar"></ion-icon> -->
+    <ion-label>Pan NIKDO</ion-label>
+  </ion-tab-button>
+  <ion-tab-button (click)="selectedColumn = 'draft'" [selected]="selectedColumn === 'draft'">
+    <!-- <ion-icon name="calendar"></ion-icon> -->
+    <ion-text class="event-count">
+      {{ (draftEvents | async)?.length || 0 }}
+    </ion-text>
+    <ion-label>V přípravě</ion-label>
+  </ion-tab-button>
+  <ion-tab-button (click)="selectedColumn = 'pending'" [selected]="selectedColumn === 'pending'">
+    <!-- <ion-icon name="calendar"></ion-icon> -->
+    <ion-text class="event-count">
+      {{ (pendingEvents | async)?.length || 0 }}
+    </ion-text>
+    <ion-label>Ke schválení</ion-label>
+  </ion-tab-button>
+  <ion-tab-button (click)="selectedColumn = 'public'" [selected]="selectedColumn === 'public'">
+    <!-- <ion-icon name="calendar"></ion-icon> -->
+    <ion-text class="event-count">
+      {{ (publicEvents | async)?.length || 0 }}
+    </ion-text>
+    <ion-label>V programu</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>
 
-    <div class="row">
-      <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'noLeader'">
-        <h3 class="mb-3 d-none d-lg-block ml-3">
-          <span
-            [matBadge]="(noLeaderEvents | async)?.length"
-            matBadgePosition="above after"
-            matBadgeOverlap="false"
-            matBadgeColor="primary"
-            matBadgeSize="small"
-            >Pan NIKDO</span
-          >
-        </h3>
-        <div class="column bg-light px-2 py-2 mb-3">
-          <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: noLeaderEvents | async }"></ng-container>
-        </div>
+<ion-content>
+  <ng-template #eventsColumn let-events>
+    <event-card
+      *ngFor="let event of events"
+      [open]="true"
+      [actions]="true"
+      [event]="event"
+      (change)="eventChanged($event)"
+      class="mb-3"
+    ></event-card>
+    <p *ngIf="!loading && events?.length === 0" class="text-center noevents">Žádné akce</p>
+  </ng-template>
+
+  <div class="row no-gutters">
+    <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'noLeader'">
+      <ion-item lines="none" class="d-none d-xl-block column-heading">
+        <ion-label><h2>Pan NIKDO</h2></ion-label>
+        <ion-button color="primary">{{ (noLeaderEvents | async)?.length }}</ion-button>
+      </ion-item>
+      <div class="column py-1 mx-xl-1">
+        <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: noLeaderEvents | async }"></ng-container>
       </div>
+    </div>
 
-      <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'draft'">
-        <h3 class="mb-3 d-none d-lg-block ml-3">
-          <span
-            [matBadge]="(draftEvents | async)?.length"
-            matBadgePosition="above after"
-            matBadgeOverlap="false"
-            matBadgeColor="primary"
-            matBadgeSize="small"
-            >V přípravě</span
-          >
-        </h3>
-        <div class="column bg-light px-2 py-2 mb-3">
-          <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: draftEvents | async }"></ng-container>
-        </div>
+    <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'draft'">
+      <ion-item lines="none" class="d-none d-xl-block column-heading">
+        <ion-label><h2>V přípravě</h2></ion-label>
+        <ion-button color="primary">{{ (draftEvents | async)?.length }}</ion-button>
+      </ion-item>
+      <div class="column py-1 mx-xl-1">
+        <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: draftEvents | async }"></ng-container>
       </div>
+    </div>
 
-      <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'pending'">
-        <h3 class="mb-3 d-none d-lg-block ml-3">
-          <span
-            [matBadge]="(pendingEvents | async)?.length"
-            matBadgePosition="above after"
-            matBadgeOverlap="false"
-            matBadgeColor="primary"
-            matBadgeSize="small"
-            >Ke schválení</span
-          >
-        </h3>
-        <div
-          class="column bg-light px-2 py-2 mb-3"
-          [class.bg-light]="!(pendingEvents | async)?.length"
-          [class.bg-primary]="(pendingEvents | async)?.length"
-        >
-          <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: pendingEvents | async }"></ng-container>
-        </div>
+    <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'pending'">
+      <ion-item lines="none" class="d-none d-xl-block column-heading">
+        <ion-label>
+          <h2><strong>Ke schválení</strong></h2>
+        </ion-label>
+        <ion-button color="primary">{{ (pendingEvents | async)?.length }}</ion-button>
+      </ion-item>
+      <div class="column py-1 mx-xl-1">
+        <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: pendingEvents | async }"></ng-container>
       </div>
+    </div>
 
-      <div class="col-12 col-lg-3 d-lg-block" [class.d-none]="selectedColumn !== 'public'">
-        <h3 class="mb-3 d-none d-lg-block ml-3">
-          <span
-            [matBadge]="(publicEvents | async)?.length"
-            matBadgePosition="above after"
-            matBadgeOverlap="false"
-            matBadgeColor="primary"
-            matBadgeSize="small"
-            >V programu</span
-          >
-        </h3>
-        <div class="column bg-light px-2 py-2 mb-3">
-          <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: publicEvents | async }"></ng-container>
-        </div>
+    <div class="col-12 col-xl-3 d-xl-block" [class.d-none]="selectedColumn !== 'public'">
+      <ion-item lines="none" class="d-none d-xl-block column-heading">
+        <ion-label><h2>V programu</h2></ion-label>
+        <ion-button color="primary">{{ (publicEvents | async)?.length }}</ion-button>
+      </ion-item>
+      <div class="column py-1 mx-xl-1">
+        <ng-container *ngTemplateOutlet="eventsColumn; context: { $implicit: publicEvents | async }"></ng-container>
       </div>
     </div>
   </div>
-</bo-page>
-
-<ng-template #eventsColumn let-events>
-  <event-card *ngFor="let event of events" [event]="event" (change)="eventChanged($event)" class="mb-3"></event-card>
-  <p *ngIf="!loading && events?.length === 0" class="text-center noevents">Žádné akce</p>
-</ng-template>
+</ion-content>

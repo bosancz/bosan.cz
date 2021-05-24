@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-
-import { AlbumsService } from '../../albums.service';
-
-import { Album } from 'app/schema/album';
+import { NavController } from '@ionic/angular';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
-import { ApiService } from 'app/core/services/api.service';
+import { Album, Photo } from 'app/schema/album';
+import { Event } from 'app/schema/event';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { AlbumsService } from '../../services/albums.service';
 
+
+@UntilDestroy()
 @Component({
   selector: 'albums-edit',
   templateUrl: './albums-edit.component.html',
@@ -15,53 +18,67 @@ import { ApiService } from 'app/core/services/api.service';
 })
 export class AlbumsEditComponent {
 
-  album$ = this.albumsService.album$;
+  album?: Album<Photo, string>;
 
-  deleteConfirmation: boolean = false;
+  actions: Action[] = [
+    {
+      text: "Uložit",
+      handler: () => this.saveAlbum()
+    }
+  ];
 
-  paramsSubscription?: Subscription;
+  @ViewChild("albumForm") albumForm!: NgForm;
 
   constructor(
     public albumsService: AlbumsService,
     private route: ActivatedRoute,
     private router: Router,
     private toastService: ToastService,
-    private api: ApiService
+    private navController: NavController
   ) { }
 
   ngOnInit() {
-    this.paramsSubscription = this.route.params.subscribe(params => {
-      this.albumsService.loadAlbum(params.album);
-    });
+    this.route.params
+      .pipe(untilDestroyed(this))
+      .subscribe(params => this.loadAlbum(params.album));
+
   }
 
-  ngOnDestroy() {
-    this.paramsSubscription?.unsubscribe();
+  private async loadAlbum(albumId: string) {
+    this.album = await this.albumsService.loadAlbum(albumId);
   }
 
-  async deleteAlbum(album: Album<any, any>) {
-    let name = album.name;
-    const confirmation = window.confirm(`Opravdu smazat album ${name}?`);
+  eventUpdated(event: Event) {
+    if (!this.album || !event) return;
 
-    if (!confirmation) return;
-
-    await this.albumsService.deleteAlbum(album._id);
-
-    this.router.navigate(["/galerie"]);
+    this.album.dateFrom = event.dateFrom;
+    this.album.dateTill = event.dateTill;
   }
 
-  async albumAction(album: Album<any, any>, action: string) {
+  private async saveAlbum() {
 
-    if (!album._actions?.[action].allowed) {
-      this.toastService.toast("K této akci nemáš oprávnění.");
+    if (!this.album) return;
+
+    if (this.albumForm.invalid) {
+      this.toastService.toast("Nelze uložit, zkontrolujte údaje.");
       return;
     }
 
-    await this.api.post(album._actions[action]);
+    let albumData: Partial<Album<string>> = this.albumForm.value;
 
-    await this.albumsService.loadAlbum(album._id);
+    // prevent switched date order
+    if (albumData.dateFrom && albumData.dateTill) {
+      const dates = [albumData.dateFrom, albumData.dateTill];
+      dates.sort();
+      albumData.dateFrom = dates[0];
+      albumData.dateTill = dates[1];
+    }
 
-    this.toastService.toast("Uloženo");
+    await this.albumsService.updateAlbum(this.album._id, albumData);
+
+    this.toastService.toast("Uloženo.");
+
+    this.navController.navigateBack(["/galerie", this.album._id]);
   }
 
 }

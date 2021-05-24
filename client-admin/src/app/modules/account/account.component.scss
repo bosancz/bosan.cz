@@ -1,0 +1,10 @@
+ion-content {
+  ::ng-deep ion-item ion-label:first-child {
+    flex-grow: 0.5;
+    padding-right: 10px;
+  }
+  ::ng-deep ion-label {
+    white-space: normal !important;
+    align-self: flex-start;
+  }
+}

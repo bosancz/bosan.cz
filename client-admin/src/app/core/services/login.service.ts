@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { ApiService } from "app/core/services/api.service";
 import { GoogleService } from "app/core/services/google.service";
+import { ToastService } from './toast.service';
+import { UserService } from './user.service';
 
 export interface LoginResult {
   success: boolean;
@@ -23,16 +25,10 @@ export class LoginService {
     private api: ApiService,
     private route: ActivatedRoute,
     private router: Router,
-    private googleService: GoogleService
+    private googleService: GoogleService,
+    private userService: UserService,
+    private toastService: ToastService
   ) {
-    this.checkTokenLogin();
-  }
-
-  checkTokenLogin() {
-    // if token provided (e.g. login link) save it and remove it from URL
-    this.route.queryParams.subscribe((params: any) => {
-      if (params.token) this.loginToken(params.token);
-    });
   }
 
   async loginCredentials(credentials: { login: string, password: string; }): Promise<LoginResult> {
@@ -43,7 +39,7 @@ export class LoginService {
 
       await this.api.post("login", credentials);
 
-      this.onLogin.emit();
+      await this.userService.loadUser();
     }
     catch (err) {
       result.success = false;
@@ -66,7 +62,7 @@ export class LoginService {
       // validate token with the server
       await this.api.post("login:google", { token: googleToken });
 
-      this.onLogin.emit();
+      await this.userService.loadUser();
 
       return { success: true };
     }
@@ -76,17 +72,11 @@ export class LoginService {
 
   }
 
-  async loginToken(token: string) {
-    await this.api.post("login:token", { token: token });
-    this.onLogin.emit();
-    this.router.navigate(["./"], { relativeTo: this.route });
-  }
-
   async loginImpersonate(userId: string) {
     try {
       await this.api.post("login:impersonate", { id: userId });
 
-      this.onLogin.emit();
+      await this.userService.loadUser();
 
       return { success: true };
     }
@@ -112,7 +102,9 @@ export class LoginService {
 
   async logout() {
     await this.api.post("logout");
-    this.onLogout.emit();
+    const user = await this.userService.loadUser();
+
+    if (user) this.toastService.toast("Přihlášen zpět jako " + user.login);
   }
 
 }

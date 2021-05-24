@@ -8,17 +8,23 @@ export class PageTitleDirective implements AfterViewInit, OnChanges, OnDestroy {
 
   @Input() pageTitle!: string;
 
+  observer?: MutationObserver;
+
   constructor(
     private el: ElementRef<HTMLElement>,
     private titleService: TitleService
   ) { }
 
   updateTitle() {
-    this.titleService.setPageTitle(this.pageTitle || this.el.nativeElement.innerText);
+    this.titleService.setPageTitle(this.pageTitle || this.el.nativeElement.textContent);
   }
 
   ngAfterViewInit() {
-    this.updateTitle();
+    this.observer = new MutationObserver(records => {
+      if (records.some(item => item.type === "characterData")) this.updateTitle();
+    });
+
+    this.observer.observe(this.el.nativeElement, { characterData: true, subtree: true });
   }
 
   ngOnChanges() {
@@ -26,6 +32,7 @@ export class PageTitleDirective implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.observer?.disconnect();
     this.titleService.setPageTitle(null);
   }
 

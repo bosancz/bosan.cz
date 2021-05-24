@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DateTime } from "luxon";
-
 import { ApiService } from "app/core/services/api.service";
-
-import { Dashboard } from "app/schema/dashboard";
 import { Event } from 'app/schema/event';
+import { DateTime } from 'luxon';
+
+
 
 
 @Component({
@@ -14,18 +13,45 @@ import { Event } from 'app/schema/event';
 })
 export class DashboardComponent implements OnInit {
 
-  dashboard?: Dashboard;
+
+  calendarDateFrom = DateTime.local();
+  calendarDateTill = DateTime.local().plus({ months: 1 });
+  calendarEvents: Event[] = [];
+
+  myEvents: Event[] = [];
+  noLeaderEvents: Event[] = [];
 
   constructor(
     private api: ApiService
   ) { }
 
+
   ngOnInit() {
-    this.loadDashboard();
+    this.loadMyEvents();
+    this.loadNoLeaderEvents();
+    this.loadCalendarEvents();
   }
 
-  async loadDashboard() {
-    this.dashboard = await this.api.get<Dashboard>("me:dashboard");
+  async loadMyEvents() {
+    this.myEvents = await this.api.get<Event[]>("me:events");
+    this.myEvents.sort((a, b) => b.dateFrom.localeCompare(a.dateFrom));
+  }
+
+  async loadNoLeaderEvents() {
+    this.noLeaderEvents = await this.api.get<Event[]>("events:noleader", { sort: "dateFrom" });
+  }
+
+  async loadCalendarEvents() {
+    const options: any = {
+      sort: "dateFrom",
+    };
+
+    options.filter = {
+      dateTill: { $gte: this.calendarDateFrom.toISODate() },
+      dateFrom: { $lte: this.calendarDateTill.toISODate() }
+    };
+
+    this.calendarEvents = await this.api.get<Event[]>("events", options);
   }
 
 }

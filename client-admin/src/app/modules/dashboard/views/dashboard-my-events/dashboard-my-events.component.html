@@ -1,13 +1,26 @@
-<div class="container mt-3 mt-lg-0">
-  
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Moje akce</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
   <div class="stats row text-center mb-4">
-    <div class="col-4"><span class="number">{{stats.count}}</span> akcí </div>
-    <div class="col-4"><span class="number">{{stats.days}}</span> dní </div>
-    <div class="col-4"><span class="number">{{stats.mandays}}</span> člověkodnů </div>
+    <div class="col-4">
+      <span class="number">{{ stats.count }}</span> akcí
+    </div>
+    <div class="col-4">
+      <span class="number">{{ stats.days }}</span> dní
+    </div>
+    <div class="col-4">
+      <span class="number">{{ stats.mandays }}</span> člověkodnů
+    </div>
   </div>
 
   <div class="events">
-    <event-card *ngFor="let event of events" [event]="event" class="mb-3"></event-card>
+    <event-card *ngFor="let event of events" [open]="true" [event]="event" class="mb-3"></event-card>
   </div>
-
-</div>
+</ion-content>

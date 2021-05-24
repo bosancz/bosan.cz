@@ -1,45 +1,37 @@
-import { NgModule } from "@angular/core";
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-
-/* MODULES */
-import { MaterialModule } from './modules/material/material.module';
-
-/* DIRECTIVES */
-import { ActionMenuDirective } from './directives/action-menu.directive';
-import { PageTitleDirective } from './directives/page-title.directive';
-import { MenuButtonDirective } from './directives/menu-button.directive';
-import { TextcheckDirective } from './directives/textcheck.directive';
-import { SecondaryMenuDirective } from './directives/secondary-menu.directive';
-
+import { IonicModule } from "@ionic/angular";
 /* COMPONENTS */
-import { PageComponent } from './components/page/page.component';
-import { PageHeaderComponent } from './components/page-header/page-header.component';
-
+import { ActionButtonsComponent } from "./components/action-buttons/action-buttons.component";
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
-import { EventCardComponent } from './components/event-card/event-card.component';
-
-import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
-import { MembersSelectComponent } from './components/members-select/members-select.component';
-import { ListSliderComponent } from './components/list-slider/list-slider.component';
-import { EventStatusBadgeComponent } from './components/event-status-badge/event-status-badge.component';
-import { CodelistEditorComponent } from "./components/codelist-editor/codelist-editor.component";
-import { ContactsEditorComponent } from "./components/contacts-editor/contacts-editor.component";
-import { PhotoTagsEditorComponent } from "./components/photo-tags-editor/photo-tags-editor.component";
-import { TypeaheadFieldComponent } from "./components/typeahead-field/typeahead-field.component";
-import { PhotoFaceComponent } from './components/photo-face/photo-face.component';
 import { EventCalendarComponent } from './components/event-calendar/event-calendar.component';
-
+import { EventCardComponent } from './components/event-card/event-card.component';
+import { EventStatusBadgeComponent } from './components/event-status-badge/event-status-badge.component';
+import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
+import { PhotoFaceComponent } from './components/photo-face/photo-face.component';
+import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
+/* DIRECTIVES */
+import { AclCanDirective } from "./directives/acl-can.directive";
 /* PIPES */
-import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
-import { GroupPipe } from "./pipes/group.pipe";
+import { AgePipe } from './pipes/age.pipe';
 import { DateRangePipe } from "./pipes/date-range.pipe";
+import { EventStatusPipe } from './pipes/event-status.pipe';
 import { EventPipe } from "./pipes/event.pipe";
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
-import { SafeurlPipe } from "./pipes/safeurl.pipe";
-import { AclModule } from 'lib/acl';
+import { GroupPipe } from "./pipes/group.pipe";
+import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
+import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
+import { MemberPipe } from './pipes/member.pipe';
+import { DotComponent } from './components/dot/dot.component';
+
+
+
+
+
+
 
 @NgModule({
   imports: [
@@ -47,32 +39,21 @@ import { AclModule } from 'lib/acl';
     FormsModule,
     RouterModule,
     HttpClientModule,
-    MaterialModule,
-
-    AclModule,
+    IonicModule,
   ],
   declarations: [
     AdminTableComponent,
     GroupsSelectComponent,
-    MembersSelectComponent,
-    ListSliderComponent,
     EventStatusBadgeComponent,
+    ActionButtonsComponent,
 
-    CodelistEditorComponent,
-    ContactsEditorComponent,
-    PhotoTagsEditorComponent,
-    TypeaheadFieldComponent,
     EventCardComponent,
-    PageHeaderComponent,
     PhotoFaceComponent,
     EventCalendarComponent,
+    PhotoGalleryComponent,
 
     /* DIRECTIVES */
-    ActionMenuDirective,
-    PageTitleDirective,
-    MenuButtonDirective,
-    TextcheckDirective,
-    SecondaryMenuDirective,
+    AclCanDirective,
 
     /* PIPES */
     JoinLeadersPipe,
@@ -80,39 +61,32 @@ import { AclModule } from 'lib/acl';
     DateRangePipe,
     EventPipe,
     FormatPhonePipe,
-    SafeurlPipe,
-    PageComponent,
+    PrettyBytesPipe,
+    AgePipe,
+    EventStatusPipe,
+    MemberPipe,
+    DotComponent,
 
   ],
   exports: [
     FormsModule,
-
-    AclModule,
+    IonicModule,
 
     /* COMPONENTS */
-    PageComponent,
     AdminTableComponent,
     GroupsSelectComponent,
-    MembersSelectComponent,
-    ListSliderComponent,
+    PhotoGalleryComponent,
+    ActionButtonsComponent,
 
-    CodelistEditorComponent,
-    ContactsEditorComponent,
-    PhotoTagsEditorComponent,
-    TypeaheadFieldComponent,
     EventCardComponent,
-    PageHeaderComponent,
     PhotoFaceComponent,
 
     EventStatusBadgeComponent,
     EventCalendarComponent,
+    DotComponent,
 
     /* DIRECTIVES */
-    ActionMenuDirective,
-    PageTitleDirective,
-    MenuButtonDirective,
-    TextcheckDirective,
-    SecondaryMenuDirective,
+    AclCanDirective,
 
     /* PIPES */
     JoinLeadersPipe,
@@ -120,7 +94,10 @@ import { AclModule } from 'lib/acl';
     DateRangePipe,
     EventPipe,
     FormatPhonePipe,
-    SafeurlPipe,
+    PrettyBytesPipe,
+    AgePipe,
+    EventStatusPipe,
+    MemberPipe,
   ],
   providers: []
 

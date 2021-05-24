@@ -1,11 +1,11 @@
-import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-
-import { environment } from "environments/environment";
-
+import { ErrorHandler, Injectable, Injector } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { OnlineService } from "app/core/services/online.service";
-import { ApiService } from "app/core/services/api.service";
-import { Router } from '@angular/router';
+import { ErrorData } from 'app/schema/error';
+import { environment } from "environments/environment";
+import { ToastService } from '../services/toast.service';
+
 
 @Injectable()
 export class MainErrorHandler implements ErrorHandler {
@@ -17,14 +17,14 @@ export class MainErrorHandler implements ErrorHandler {
   handleError(err: any) {
 
     const onlineService = this.injector.get(OnlineService);
-    const api = this.injector.get(ApiService);
-    const router = this.injector.get(Router);
+    const navController = this.injector.get(NavController);
+    const toastService = this.injector.get(ToastService);
 
     if (err.promise && err.rejection) err = err.rejection;
 
-    var reportError = true;
+    var propagateError = true;
 
-    const errorData = {
+    const errorData: ErrorData = {
       message: err.message,
       status: err.status,
       description: err.description,
@@ -41,31 +41,37 @@ export class MainErrorHandler implements ErrorHandler {
 
       errorData.description = JSON.stringify(err.error, undefined, "  ");
 
-      if (!onlineService.online.value) return; // dont report errors due to conenction loss
-
-      if (err.status === 401) {
-        router.navigate(["/login"]);
+      if (!onlineService.online.value) {
+        propagateError = false;
+        toastService.toast("Akci se nepodařilo dokončit - jsi bez internetu.");
       }
+
+      else if (err.status === 401) {
+        propagateError = false;
+        const return_url = window.location.pathname;
+        navController.navigateForward("/login", { queryParams: { return_url } });
+      }
+
       else if (err.status === 403) {
-        reportError = false;
+        propagateError = false;
+        toastService.toast("K akci nemáš oprávnění.");
       }
-
-      console.error(err);
 
     }
+
     else if (err.name === "GoogleError") {
       if (err.message === "idpiframe_initialization_failed") {
-        console.error("Failed to initialize Google Services");
-        reportError = false;
+        errorData.message = "Failed to initialize Google Services";
+        propagateError = false;
       }
-      else console.error(err);
-    }
-    else {
-      console.error(err);
     }
 
-    if (reportError && environment.production) {
-      api.post("errors", errorData).catch(err => console.error(err));
+    console.error("Error", err);
+    console.error("ErrorData", errorData);
+
+
+    if (propagateError) {
+      // TODO: open modal or page to propagate error to the user and enable reporting
     }
   }
 

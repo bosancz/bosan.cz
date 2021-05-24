@@ -1,16 +1,27 @@
-:host {
-  display: block;
-  overflow: auto;
-}
-.dashboard {
-  // min-width: 1200px;
-  .column {
-    // background-color: rgba(0, 0, 0, 0.05);
+.column {
+  @media (min-width: 1200px) {
+    background-color: var(--ion-color-light);
     border-radius: 4px;
+    height: 100%;
   }
+}
+.column-heading {
+  --ion-item-background: transparent;
+}
 
-  .noevents {
-    margin: 10vh 0;
-    vertical-align: middle;
+.noevents {
+  margin: 10vh 0;
+  vertical-align: middle;
+}
+.event-count {
+  font-size: 1.5em;
+}
+
+.top-tabs {
+  ion-item {
+    --ion-item-background: transparent;
+  }
+  ion-label {
+    white-space: nowrap;
   }
 }

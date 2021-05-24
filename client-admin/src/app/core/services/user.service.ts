@@ -24,6 +24,7 @@ export class UserService {
     try {
       const user = await this.api.get<User>("me:user");
       this.user.next(user);
+      return user;
     }
     catch (err) {
       if (err.status === 404 || err.status === 401) this.user.next(null);

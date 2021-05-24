@@ -1,7 +1,22 @@
-<div class="group-badges mr-2">
-  <span *ngFor="let group of groups; let isLast = last" (click)="toggleGroup(group)" [class.active]="isSelected(group)" [style.background-color]="group.id | group:'color'" [matTooltip]="group.id | group:'name'" class="group-badge" [class.mr-2]="!isLast">{{group.id}}</span>
+<div class="group-badges">
+  <span
+    *ngFor="let group of groups; let isLast = last"
+    (click)="toggleGroup(group.key)"
+    [class.active]="isSelected(group.key)"
+    [style.background-color]="group.value.color"
+    class="group-badge mr-2 my-2"
+  >
+    {{ group.key }}
+  </span>
 </div>
 <div class="selectAll custom-control custom-checkbox mr-2">
-  <input type="checkbox" [ngModel]="isSelectedAll()" (ngModelChange)="selectAll($event)" [disabled]="disabled" class="custom-control-input" id="checkboxSelectAll">
+  <input
+    type="checkbox"
+    [ngModel]="isSelectedAll()"
+    (ngModelChange)="selectAll($event)"
+    [disabled]="disabled"
+    class="custom-control-input"
+    id="checkboxSelectAll"
+  />
   <label class="custom-control-label" for="checkboxSelectAll">Všechny oddíly</label>
 </div>

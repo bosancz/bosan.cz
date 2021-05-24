@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { TitleService } from 'app/core/services/title.service';
-import { MenuService } from 'app/core/services/menu.service';
-import { UserService } from 'app/core/services/user.service';
 import { Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
+import { NavController, Platform } from '@ionic/angular';
+
 import { LoginService } from 'app/core/services/login.service';
-import { ConfigService } from 'app/core/services/config.service';
-import { map } from 'rxjs/operators';
+import { MenuService } from 'app/core/services/menu.service';
+import { OnlineService } from 'app/core/services/online.service';
+import { TitleService } from 'app/core/services/title.service';
+import { UserService } from 'app/core/services/user.service';
 
 @Component({
   selector: 'admin-menu',
@@ -14,30 +16,41 @@ import { map } from 'rxjs/operators';
 })
 export class AdminMenuComponent implements OnInit {
 
-  collapsed: boolean = true;
+  submenu?: string;
+
+
 
   dropdownsCollapsed = {
     program: true
   };
-
-  environment$ = this.configService.config.pipe(map(config => config.general && config.general.environment));
 
   constructor(
     public titleService: TitleService,
     public menuService: MenuService,
     public userService: UserService,
     private loginService: LoginService,
-    private configService: ConfigService,
-    private router: Router
+    private navController: NavController,
+    public onlineService: OnlineService,
+    public swUpdate: SwUpdate,
+    public platform: Platform,
   ) { }
 
   ngOnInit() {
   }
 
 
-  logout() {
-    this.loginService.logout();
-    this.router.navigate(["/login"]);
+  async logout() {
+    await this.loginService.logout();
+    if (this.userService.userSnapshot?._id) {
+      this.navController.navigateRoot("/");
+    }
+    else {
+      this.navController.navigateRoot("/login");
+    }
+  }
+
+  reload() {
+    window.location.reload();
   }
 
 }

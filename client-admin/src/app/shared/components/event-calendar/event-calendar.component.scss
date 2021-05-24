@@ -1,8 +1,9 @@
 @import "~styles/variables";
+// @import "~styles/ionic-theme";
 
 $eventHeight: 20px;
 
-.calendar-container {
+:host {
   overflow: auto;
   width: 100%;
 }
@@ -10,82 +11,85 @@ $eventHeight: 20px;
   user-select: none;
 }
 
-.calendar {
-  min-width: 1000px;
+.calendar-row {
+  position: relative;
+  width: 100%;
+  min-height: 80px;
+  padding-bottom: 20px;
+  overflow: hidden;
+  padding-top: 24px;
+}
 
-  .month {
-    position: relative;
+.events {
+  position: relative;
+  overflow: hidden;
+}
+
+.events .event {
+  position: absolute;
+  height: $eventHeight;
+  margin-top: 1px;
+  white-space: nowrap;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.events.own {
+  width: 100%;
+}
+.events.cpv {
+  width: 100%;
+  // min-height: 60px;
+  // border-top: 1px solid #eee;
+
+  .event {
+    background-color: #000 !important;
+  }
+}
+
+.day {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-style: solid;
+  border-width: 0 1px 0 0;
+  border-color: var(--ion-color-light);
+}
+.day:first-child {
+  border-width: 0 1px 0 1px;
+}
+
+.day.odd-month {
+  background-color: var(--ion-color-light);
+}
+
+.day.weekend {
+  background-color: var(--ion-color-light-shade);
+}
+.day.holiday {
+  background-color: var(--ion-color-medium);
+}
+
+.day {
+  .date {
+    font-size: 0.8em;
     width: 100%;
-    overflow: hidden;
-    padding-top: 24px;
-    margin-bottom: 40px;
+    padding: 0 2px;
+    border-top: 1px solid var(--ion-color-light);
+    border-bottom: 1px solid var(--ion-color-light);
   }
-
-  .events {
-    position: relative;
-    overflow: hidden;
-  }
-  .events .event {
-    position: absolute;
-    height: $eventHeight;
-    margin-top: 1px;
-    white-space: nowrap;
-    background-color: #333;
-    color: #fff;
-    border: 1px solid #fff;
-    border-radius: 4px;
-    font-size: 12px;
-    padding: 0 5px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .events .draft {
-    background-color: $darkGrey;
-  }
-  .events .public {
-    background-color: $blue;
-  }
-  .events .cancelled {
-    background-color: $red;
-  }
-
-  .events.own {
-    width: 100%;
-    height: 160px;
-  }
-  .events.cpv {
-    height: 60px;
-    border-top: 1px solid #eee;
-  }
-
-  .day {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    border-right: 1px solid #eee;
-  }
-  .day:first-child {
-    border-left: 1px solid #eee;
-  }
-
-  .day.weekend {
-    background-color: #eee;
+  .date.selectedRange {
+    background-color: yellow;
     border-color: #fff;
   }
-  .day.holiday {
-    background-color: #ccc;
-    border-color: #fff;
-  }
-  .day.selected {
+  .date.selected {
     background-color: #f00;
     border-color: #fff;
-  }
-
-  .day {
-    .date {
-      width: 100%;
-      padding: 0 2px;
-      border-bottom: 1px solid #eee;
-    }
   }
 }

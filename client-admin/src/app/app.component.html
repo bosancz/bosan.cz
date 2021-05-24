@@ -1,26 +1,23 @@
-<div id="layout">
-  <header>
-    <div *ngIf="!(onlineService.online | async)" id="offline" class="text-center bg-danger text-light">
-      Nejste připojeni k internetu. Zobrazené údaje mohou být zastaralé.
-    </div>
+<ion-app>
+  <ion-split-pane contentId="content" [when]="splitPaneWhen">
+    <ion-menu contentId="content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>
+            <img src="assets/img/san_logo_barva.png" class="d-inline logo-small mr-3" />
+            Interní sekce
+            <span *ngIf="environment?.title" class="environment">&nbsp;{{ environment!.title }}</span>
+          </ion-title>
+        </ion-toolbar>
+      </ion-header>
 
-    <div *ngIf="(onlineService.online | async) && (swUpdate.available | async)" id="update" class="text-center bg-warning text-light">
-      Je k dispozici nová verze bosan.cz. <a (click)="reload()">Načíst</a>
-    </div>
+      <ion-content>
+        <admin-menu (click)="this.closeMenu()"></admin-menu>
+      </ion-content>
 
-    <!-- Navigation -->
-    <admin-menu *ngIf="menuService.visible | async" class="d-print-none"></admin-menu>
-  </header>
+      <div class="version text-center text-muted small pb-1">Verze {{ version }}</div>
+    </ion-menu>
 
-  <!-- MAIN CONTENT -->
-  <div id="content">
-
-    <router-outlet></router-outlet>
-
-  </div>
-
-  <div *ngIf="menuService.secondaryMenu" id="secondaryMenu" class="d-block d-lg-none p-2">
-      <ng-container *ngTemplateOutlet="menuService.secondaryMenu"></ng-container>
-  </div>
-
-</div>
+    <ion-router-outlet id="content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

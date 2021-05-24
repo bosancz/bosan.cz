@@ -1,0 +1,12 @@
+<ng-container *ngIf="!beforeinstallprompt">
+  <p class="mb-0">
+    <ion-text color="danger">Aplikaci nelze nainstalovat.</ion-text>
+  </p>
+  <p class="text-muted">Aplikace je buď již nainstalovaná, nebo to ji toto zařízení nepodporuje.</p>
+</ng-container>
+
+<div *ngIf="beforeinstallprompt">
+  <button class="btn btn-primary" (click)="install()">Nainstalovat aplikaci</button>
+</div>
+
+<p *ngIf="installed">Instalace se zdařila!</p>

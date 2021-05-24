@@ -7,7 +7,7 @@ routes.get("blogs", "/", { permission: "blogs:list" }).handle(async (req, res, n
   const query = Blog.find();
   query.filterByPermission("blogs:drafts:list", req);
 
-  query.select("_id title perex datePublished");
+  query.select("_id title perex datePublished status");
 
   const blogs = await query;
 

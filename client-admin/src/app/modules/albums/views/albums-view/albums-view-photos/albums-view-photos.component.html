@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="!enableDeleting && !enableOrdering" defaultHref="/galerie"></ion-back-button>
+
+      <ion-button *ngIf="enableDeleting && platform.is('ios')" (click)="endDeleting()">Zrušit</ion-button>
+      <ion-button *ngIf="enableOrdering && platform.is('ios')" (click)="endOrdering()">Zrušit</ion-button>
+    </ion-buttons>
+
+    <ion-title pageTitle>{{ album?.name }}</ion-title>
+
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Fotky"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-reorder-group (ionItemReorder)="onReorder($any($event))" [disabled]="!enableOrdering">
+    <ion-item *ngFor="let photo of photos" [button]="true" [detail]="false" (click)="onPhotoClick(photo, $event)">
+      <ion-checkbox *ngIf="showCheckboxes" slot="start" [ngModel]="false" (ngModelChange)="onPhotoCheck(photo, $event)">
+      </ion-checkbox>
+      <ion-avatar slot="start">
+        <img [src]="photo.sizes.small.url" [style.background-color]="photo.bg" />
+      </ion-avatar>
+
+      <ion-label>
+        <h2 [class.nocaption]="!photo.caption">{{ photo.caption || "Bez popisku" }}</h2>
+        <p class="row no-gutters info">
+          <span class="col-12 col-lg-4 col-xl-3">Datum: {{ photo.date | date: "d. M. y H:mm:ss" }}</span>
+          <span class="col-12 col-lg-4 col-xl-3 d-none d-lg-block">
+            Velikost: {{ photo.sizes.original.width }}×{{ photo.sizes.original.height }} ({{
+              getMpix(photo.sizes.original.width, photo.sizes.original.height)
+            }}
+            MP)
+          </span>
+          <span class="col-12 col-lg" [title]="photo.name">Název: {{ photo.name }}</span>
+        </p>
+      </ion-label>
+
+      <ion-reorder slot="end"></ion-reorder>
+    </ion-item>
+
+    <ion-item *ngFor="let item of loadingPhotos">
+      <ion-avatar slot="start">
+        <ion-skeleton-text></ion-skeleton-text>
+      </ion-avatar>
+
+      <ion-label>
+        <h2><ion-skeleton-text></ion-skeleton-text></h2>
+        <p class="row no-gutters info"><ion-skeleton-text></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+  </ion-reorder-group>
+</ion-content>

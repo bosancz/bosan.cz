@@ -1,10 +1,8 @@
-import { Component, forwardRef, HostBinding, Input } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { EventTypeID, EventTypes } from 'app/config/event-types';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { ConfigService } from 'app/core/services/config.service';
-import { WebConfigEventSubType } from 'app/schema/web-config';
 
 @Component({
   selector: 'event-subtype-selector',
@@ -22,10 +20,10 @@ import { WebConfigEventSubType } from 'app/schema/web-config';
     "[class.readonly]": "readonly"
   }
 })
-export class EventSubtypeSelectorComponent implements ControlValueAccessor {
+export class EventSubtypeSelectorComponent implements ControlValueAccessor, AfterViewInit {
 
-  value?: string;
-  types: Observable<WebConfigEventSubType[]>;
+  value?: EventTypeID;
+  types = EventTypes;
 
   onChange: any = () => { };
   onTouched: any = () => { };
@@ -33,19 +31,24 @@ export class EventSubtypeSelectorComponent implements ControlValueAccessor {
   disabled: boolean = false;
   @Input() readonly: boolean = false;
 
-  constructor(configService: ConfigService) {
-    this.types = configService.config.pipe(map(config => config.events.subtypes));
+  constructor(
+    private elRef: ElementRef<HTMLElement>
+  ) {
   }
 
-  select(type: WebConfigEventSubType) {
+  ngAfterViewInit() {
+    this.emitIonStyle();
+  }
+
+  select(typeId: EventTypeID) {
     if (this.disabled || this.readonly) return;
-    this.value = type.name;
+    this.value = typeId;
     this.onTouched();
     this.onChange(this.value);
   }
 
   /* ControlValueAccessor */
-  writeValue(value: string) {
+  writeValue(value: EventTypeID) {
     this.value = value;
   }
 
@@ -59,6 +62,22 @@ export class EventSubtypeSelectorComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  private emitIonStyle() {
+    this.elRef.nativeElement.dispatchEvent(new CustomEvent("ionStyle", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: {
+        'interactive': true,
+        'input': true,
+        'has-placeholder': true,
+        'has-value': true,
+        'has-focus': false,
+        'interactive-disabled': this.disabled,
+      }
+    }));
   }
 
 }

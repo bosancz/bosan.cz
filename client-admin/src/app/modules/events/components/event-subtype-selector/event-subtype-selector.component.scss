@@ -1,8 +1,12 @@
-$size: 50px;
+$size: 30px;
+
+:host {
+  display: block;
+}
 
 span.type {
   display: inline-block;
-  opacity: 0.1;
+  opacity: 0.2;
   cursor: pointer;
 }
 span.type img {

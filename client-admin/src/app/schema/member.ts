@@ -1,12 +1,15 @@
-import { Document } from "./api";
+import { MemberGroupID } from "app/config/member-groups";
+import { MemberRoleID } from "app/config/member-roles";
+import { MembershipTypeID } from "app/config/membership-types";
+import { Document } from "./api-document";
 
 export interface Member extends Document {
   _id: string;
 
-  group: string;
-  role: string;
+  group: MemberGroupID;
+  role: MemberRoleID;
   post: string;
-  membership: string;
+  membership: MembershipTypeID;
   inactive: boolean;
 
   rank: string;
@@ -29,7 +32,7 @@ export interface Member extends Document {
     country: string;
   };
 
-  contacts: {
+  contacts?: {
     mobile: string,
     email: string,
     mother: string,

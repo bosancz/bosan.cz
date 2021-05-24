@@ -1,37 +1,38 @@
-<bo-page>
-  <h2 pageTitle class="d-none">Plánování akcí</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Plánování akcí</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <div class="row">
-    <div class="col-lg-3 col-xl-2">
-      <bo-trimester-selector
-        [ngModel]="[this.dateFrom?.toISODate(), this.dateTill?.toISODate()]"
-        (ngModelChange)="setPeriod($event)"
-      ></bo-trimester-selector>
+<ion-content>
+  <div class="row no-gutters">
+    <div class="col-lg-3">
+      <div class="px-lg-3 py-lg-3 pb-3">
+        <bo-trimester-selector
+          labelPosition="floating"
+          [ngModel]="[this.dateFrom?.toISODate(), this.dateTill?.toISODate()]"
+          (ngModelChange)="setPeriod($event)"
+        ></bo-trimester-selector>
 
-      <div class="legend d-none d-lg-block">
-        <mat-list>
-          <mat-list-item *ngFor="let status of statuses">
-            <span [ngClass]="'text-' + status.class">
-              <i class="fas fa-circle mr-2"></i>{{ status.name || status.id }}
-            </span>
-          </mat-list-item>
-          <mat-list-item class="text-dark">
-            <span class="text-dark"><i class="fas fa-circle mr-2"></i>ČPV</span>
-          </mat-list-item>
-        </mat-list>
+        <bo-event-status-legend></bo-event-status-legend>
       </div>
     </div>
 
-    <div class="col-lg-9 col-xl-10 px-lg-5">
-      <event-calendar
-        *ngIf="dateFrom && dateTill"
-        (select)="createEvent($event)"
-        [dateFrom]="dateFrom"
-        [dateTill]="dateTill"
-        [events]="events"
-        [cpv]="true"
-        [selection]="true"
-      ></event-calendar>
+    <div class="col-lg-9">
+      <div class="p-lg-3">
+        <bo-event-calendar
+          *ngIf="dateFrom && dateTill"
+          (select)="openCreateEventModal($event)"
+          [dateFrom]="dateFrom"
+          [dateTill]="dateTill"
+          [events]="events"
+          [cpv]="true"
+          [selection]="true"
+        ></bo-event-calendar>
+      </div>
     </div>
   </div>
-</bo-page>
+</ion-content>

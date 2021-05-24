@@ -1,6 +1,0 @@
-:host{display:block;position:relative;font-size:inherit;}
-
-.slider{margin:0 40px;overflow:hidden;}
-.items{position:relative;left:50%;height:100%;white-space:nowrap;margin-left:0;transition:margin-left 500ms;}
-.items .item{display:inline-block;width:40px;line-height:38px;transition:font-weight 500ms, opacity 500ms;font-size:inherit;}
-.items .item.current{font-weight: bold}

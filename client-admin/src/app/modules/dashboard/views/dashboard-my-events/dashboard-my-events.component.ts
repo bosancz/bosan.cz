@@ -13,7 +13,7 @@ type DashboardMyEventsStats = {
 };
 
 @Component({
-  selector: 'my-events',
+  selector: 'bo-dashboard-my-events',
   templateUrl: './dashboard-my-events.component.html',
   styleUrls: ['./dashboard-my-events.component.scss'],
 })
@@ -55,7 +55,11 @@ export class DashboardMyEventsComponent implements OnInit {
 
       stats.count++;
 
-      const days = Math.ceil(DateTime.fromISO(event.dateTill).diff(DateTime.fromISO(event.dateFrom), "days").days);
+      const dateFrom = DateTime.fromISO(event.dateFrom).set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+      const dateTill = DateTime.fromISO(event.dateTill).set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).plus({ days: 1 });
+
+      const days = dateTill.diff(dateFrom, "days").days;
+
       stats.days += days;
 
       stats.mandays += days * (event.attendees?.length || 0);

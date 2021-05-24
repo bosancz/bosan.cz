@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from "@angular/forms";
+import { ActivatedRoute, Router } from '@angular/router';
+import { EventStatuses } from 'app/config/event-statuses';
 import { ApiService } from "app/core/services/api.service";
-import { ConfigService } from 'app/core/services/config.service';
 import { Event } from "app/schema/event";
-import { WebConfigEventStatus } from 'app/schema/web-config';
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
 import { DateTime } from 'luxon';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-
 
 
 type EventWithSearchString = Event & { searchString: string; };
@@ -25,7 +25,7 @@ export class EventsListComponent implements OnInit {
   years: number[] = [];
   currentYear?: number;
 
-  statuses?: WebConfigEventStatus[];
+  statuses = EventStatuses;
 
   canCreate?: boolean;
 
@@ -35,36 +35,36 @@ export class EventsListComponent implements OnInit {
 
   search$ = new BehaviorSubject<string>("");
 
+  actions: Action[] = [];
+
+  loadingArray = Array(5).fill(null);
+
   constructor(
     private api: ApiService,
-    private configService: ConfigService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
 
     api.resources
       .then(resources => resources.events.allowed.POST)
       .then(canCreate => this.canCreate = canCreate);
 
+    // TODO: rewrite to easier non rxjs filtering
     this.filteredEvents$ = combineLatest([this.events$, this.search$.pipe(debounceTime(250))])
       .pipe(map(([events, search]) => this.filterEvents(events, search)));
 
   }
 
   ngOnInit() {
-
     this.loadYears();
-    this.loadConfig();
 
+    this.setActions();
   }
 
   ngAfterViewInit() {
     this.filterForm.valueChanges!.subscribe(filter => {
       this.loadEvents(filter);
     });
-  }
-
-  async loadConfig() {
-    const config = await this.configService.getConfig();
-    this.statuses = config.events.statuses;
   }
 
   async loadYears() {
@@ -106,7 +106,11 @@ export class EventsListComponent implements OnInit {
 
   }
 
-  filterEvents(events: EventWithSearchString[], search: string) {
+  createEvent() {
+    this.router.navigate(["vytvorit"], { relativeTo: this.route });
+  }
+
+  private filterEvents(events: EventWithSearchString[], search: string) {
 
     if (!search) return events;
 
@@ -117,6 +121,25 @@ export class EventsListComponent implements OnInit {
 
   getLeadersString(event: Event) {
     return event.leaders?.map(item => item.nickname).join(", ");
+  }
+
+  private async setActions() {
+
+    const resources = await this.api.resources;
+
+    this.actions = [
+      {
+        icon: "search-outline",
+        pinned: true,
+        handler: () => this.showFilter = !this.showFilter
+      },
+      {
+        icon: "add-outline",
+        pinned: true,
+        hidden: resources["events"].allowed["POST"],
+        handler: () => this.createEvent()
+      }
+    ];
   }
 
 }

@@ -1,0 +1,14 @@
+<ion-tabs>
+  <ion-tab-bar>
+    <ion-tab-button tab="info">
+      <ion-icon name="book-outline"></ion-icon>
+      <ion-label>Album</ion-label>
+      <!-- <ion-badge [color]="eventStatus?.color">&nbsp;&nbsp;</ion-badge> -->
+    </ion-tab-button>
+    <ion-tab-button tab="fotky">
+      <ion-icon name="images-outline"></ion-icon>
+      <ion-label>Fotky</ion-label>
+      <ion-badge>{{ album?.photos?.length }}</ion-badge>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

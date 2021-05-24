@@ -1,0 +1,55 @@
+<div *ngIf="photoUploadQueue.length === 0" class="upload ion-padding">
+  <div
+    class="dropzone"
+    #photoDropzone
+    (drop)="addPhotosByDropzone($event, photoDropzone)"
+    (dragover)="onDragOver($event)"
+    (click)="photoInput.click()"
+  >
+    <p *ngIf="!isMobile">Přetáhnout fotografie sem, nebo kliknout pro výběr</p>
+    <p *ngIf="isMobile">Klikni pro výběr fotek</p>
+  </div>
+
+  <input
+    class="photoInput"
+    type="file"
+    accept="image/jpeg,image/png,image/gif"
+    name="photo"
+    #photoInput
+    (change)="addPhotosByInput(photoInput)"
+    multiple
+  />
+</div>
+
+<ion-content>
+  <ion-list *ngIf="photoUploadQueue.length > 0" class="queue">
+    <ion-item *ngFor="let uploadItem of photoUploadQueue">
+      <ion-label>
+        <h3>{{ uploadItem.file.name }}</h3>
+        <p>{{ uploadItem.file.size | prettyBytes }}</p>
+        <p [ngSwitch]="uploadItem.status">
+          <ng-container *ngSwitchCase="'pending'">Připraven</ng-container>
+          <ng-container *ngSwitchCase="'uploading'">Nahrávám... {{ uploadItem.progress }} %</ng-container>
+          <ng-container *ngSwitchCase="'processing'">Zpracovávám...</ng-container>
+          <ng-container *ngSwitchCase="'finished'">Hotovo</ng-container>
+          <ng-container *ngSwitchCase="'error'"
+            >Chyba: {{ uploadItem.error?.message || "Neznámá chyba." }}</ng-container
+          >
+        </p>
+      </ion-label>
+
+      <ion-button fill="clear" color="danger" (click)="removeFromQueue(uploadItem)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Zrušit</ion-button>
+      <ion-button color="primary" (click)="uploadPhotos(album)">Nahrát</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

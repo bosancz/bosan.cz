@@ -1,45 +1,38 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SharedModule } from 'app/shared/shared.module';
-
 import { AlbumsRoutingModule } from './albums-routing.module';
-
 /* SERVICES */
-import { AlbumsService } from './albums.service';
-
-/* VIEWS */
-import { AlbumsListComponent } from './views/albums-list/albums-list.component';
-import { AlbumsCreateComponent } from './views/albums-create/albums-create.component';
-
-import { AlbumsEditComponent } from './views/albums-edit/albums-edit.component';
-import { AlbumsEditMetadataComponent } from './views/albums-edit/albums-edit-metadata/albums-edit-metadata.component';
-import { AlbumsEditPhotosComponent } from './views/albums-edit/albums-edit-photos/albums-edit-photos.component';
-import { AlbumsEditUploadComponent } from './views/albums-edit/albums-edit-upload/albums-edit-upload.component';
-
+import { AlbumsService } from './services/albums.service';
 /* COMPONENTS */
-import { AlbumsEditPhotoComponent } from './views/albums-edit/albums-edit-photo/albums-edit-photo.component';
-import { PhotoFaceEditComponent } from './components/photo-face-edit/photo-face-edit.component';
-import { MaterialModule } from 'app/shared/modules/material/material.module';
+import { EventSelectorModalComponent } from './components/event-selector-modal/event-selector-modal.component';
+import { EventSelectorComponent } from './components/event-selector/event-selector.component';
+import { PhotoViewComponent } from './components/photo-view/photo-view.component';
+import { PhotosUploadComponent } from './components/photos-upload/photos-upload.component';
+/* VIEWS */
+import { AlbumsEditComponent } from './views/albums-edit/albums-edit.component';
+import { AlbumsListComponent } from './views/albums-list/albums-list.component';
+import { AlbumsViewInfoComponent } from './views/albums-view/albums-view-info/albums-view-info.component';
+import { AlbumsViewPhotosComponent } from './views/albums-view/albums-view-photos/albums-view-photos.component';
+import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
+
 
 @NgModule({
   declarations: [
     AlbumsListComponent,
-    AlbumsCreateComponent,
-
     AlbumsEditComponent,
-    AlbumsEditMetadataComponent,
-    AlbumsEditPhotosComponent,
-    AlbumsEditUploadComponent,
-
-    AlbumsEditPhotoComponent,
-    PhotoFaceEditComponent,
+    PhotosUploadComponent,
+    AlbumsViewComponent,
+    AlbumsViewInfoComponent,
+    AlbumsViewPhotosComponent,
+    PhotoViewComponent,
+    EventSelectorComponent,
+    EventSelectorModalComponent,
   ],
   imports: [
     CommonModule,
     AlbumsRoutingModule,
     SharedModule,
-    MaterialModule
   ],
   providers: [
     AlbumsService

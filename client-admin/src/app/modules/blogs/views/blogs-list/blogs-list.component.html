@@ -1,65 +1,50 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Blog</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Blog</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Blogový příspěvek"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
-      <mat-icon>filter_list</mat-icon>
-    </button>
+<div *ngIf="showFilter" class="filter">
+  <ion-searchbar
+    [ngModel]="searchString | async"
+    (ngModelChange)="searchString.next($event)"
+    (keydown.enter)="$event.preventDefault()"
+  ></ion-searchbar>
+</div>
 
-    <div class="actions" *actionMenu>
-      <button mat-button color="primary" routerLink="vytvorit">Nový blog</button>
+<ion-content>
+  <div class="bo-table">
+    <div class="header p-3 d-none d-lg-block">
+      <div class="row">
+        <div class="col-lg-7 col-xl-8">
+          <strong>Titulek</strong>
+        </div>
+        <div class="col-lg-5 col-xl-2">
+          <strong>Datum publikace</strong>
+        </div>
+      </div>
     </div>
-  </bo-page-header>
 
-  <div class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
-    <div class="row">
-      <mat-form-field class="col">
-        <mat-label>Hledat</mat-label>
-        <input
-          matInput
-          type="text"
-          [ngModel]="searchString | async"
-          (ngModelChange)="searchString.next($event)"
-          (keydown.enter)="$event.preventDefault()"
-        />
-        <button mat-button *ngIf="searchString | async" matSuffix mat-icon-button (click)="searchString.next('')">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-
-      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-1">
-        <mat-label>Rok</mat-label>
-        <mat-select name="year" [ngModel]="filter.year" (ngModelChange)="updateFilter({ year: $event })">
-          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-2">
-        <mat-label>Stav</mat-label>
-        <mat-select name="status" [ngModel]="filter.status" (ngModelChange)="updateFilter({ status: $event })">
-          <mat-option>všechny</mat-option>
-          <mat-option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="list">
+      <div class="item p-3" *ngFor="let blog of filteredBlogs" [routerLink]="blog._id">
+        <div class="row">
+          <div class="col-12 col-lg-7 col-xl-8">
+            <strong>{{ blog.title }}</strong>
+          </div>
+          <div class="col-12 col-lg-3 col-xl-2 text-muted">
+            <ng-container *ngIf="blog.status === 'public'">
+              <span class="d-lg-none">Publikováno</span> {{ blog.datePublished | date: "d. M. y" || "N/A" }}
+            </ng-container>
+            <ng-container *ngIf="blog.status === 'draft'">Nepublikováno</ng-container>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <admin-table>
-    <thead>
-      <tr>
-        <th>Titulek</th>
-        <th>Datum publikace</th>
-        <th>Stav</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let blog of filteredBlogs" [routerLink]="blog._id">
-        <td>{{ blog.title }}</td>
-        <td>{{ blog.datePublished | date: "d. M. y" || "N/A" }}</td>
-        <td>{{ statusesIndex[blog.status] || blog.status }}</td>
-      </tr>
-    </tbody>
-  </admin-table>
-
-  <p *ngIf="loading">Načítám...</p>
-</bo-page>
+</ion-content>

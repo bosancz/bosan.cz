@@ -1,87 +1,103 @@
-<mat-card *ngIf="event" class="event">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image">
-      <div
-        class="circle mx-auto"
-        [style.background-color]="(event | event: 'image') ? 'transparent' : (event | event: 'color') || '#ccc'"
-      >
-        <img *ngIf="event | event: 'image'" class="img-fluid" [src]="event | event: 'image'" />
-      </div>
+<ion-card *ngIf="event" class="event">
+  <ion-card-content class="statusNote" [style.background-color]="event.status | eventStatus: 'color'">
+    <p>
+      <strong>{{ event.status | eventStatus: "name" }}</strong
+      ><ng-container *ngIf="event.statusNote">: {{ event.statusNote }}</ng-container>
+    </p>
+  </ion-card-content>
+
+  <ion-item *ngIf="open" lines="none" [detail]="true" [routerLink]="'/akce/' + event._id" class="mt-3 event-heading">
+    <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+  </ion-item>
+
+  <ion-item *ngIf="!open" lines="none" class="mt-3 event-heading">
+    <ng-container *ngTemplateOutlet="itemContent"></ng-container>
+  </ion-item>
+
+  <ng-template #itemContent>
+    <div
+      slot="start"
+      class="icon"
+      [style.background-color]="(event | event: 'image') ? 'transparent' : (event | event: 'color') || '#ccc'"
+    >
+      <img *ngIf="event | event: 'image'" class="img-fluid" [src]="event | event: 'image'" />
     </div>
-    <mat-card-title>{{ event?.name }}</mat-card-title>
-    <mat-card-subtitle *ngIf="event?.dateFrom || event?.place">
-      <ng-container *ngIf="event?.dateFrom">{{ [event.dateFrom, event.dateTill] | dateRange }}</ng-container>
-      <ng-container *ngIf="event?.dateFrom && event?.place">, </ng-container>
-      <ng-container *ngIf="event?.place">{{ event.place }}</ng-container>
-    </mat-card-subtitle>
-  </mat-card-header>
 
-  <mat-card-content>
-    <p *ngIf="event?.description" class="description">{{ event.description }}</p>
+    <ion-label>
+      <h3>{{ event?.name }}</h3>
+      <p>
+        <ng-container *ngIf="event?.dateFrom">{{ [event.dateFrom, event.dateTill] | dateRange }}</ng-container>
+        <ng-container *ngIf="event?.dateFrom && event?.place">, </ng-container>
+        <ng-container *ngIf="event?.place">{{ event.place }}</ng-container>
+      </p>
+    </ion-label>
+  </ng-template>
 
-    <p *ngIf="event.meeting?.start || event.meeting?.end">
+  <ion-card-content>
+    <p *ngIf="event?.description" class="description mb-3">{{ event.description }}</p>
+
+    <p *ngIf="event.meeting?.start || event.meeting?.end" class="mb-3">
       <ng-container *ngIf="event.meeting?.start"><strong>Sraz: </strong>{{ event.meeting?.start }}</ng-container>
       <ng-container *ngIf="event.meeting?.start && event.meeting?.end">, </ng-container>
       <ng-container *ngIf="event.meeting?.end"><strong>Konec: </strong>{{ event.meeting?.end }}</ng-container>
     </p>
-    <p>Vede <strong [innerHTML]="event.leaders?.length ? (event.leaders! | joinLeaders) : 'pan NIKDO'"></strong></p>
-  </mat-card-content>
+    <p class="mb-0">
+      Vede <strong [innerHTML]="event.leaders?.length ? (event.leaders! | joinLeaders) : 'pan NIKDO'"></strong>
+    </p>
+  </ion-card-content>
 
-  <mat-card-actions *ngIf="actions && event?._actions" align="end">
-    <button
-      *ngIf="event._actions?.submit"
-      mat-button
-      class="mx-0"
-      [disabled]="!event._actions?.submit?.allowed"
-      (click)="eventAction(event._actions?.submit!)"
-    >
-      Ke schválení
-    </button>
-    <button
-      *ngIf="event._actions?.reject"
-      mat-button
-      class="mx-0"
-      [disabled]="!event._actions!.reject.allowed"
-      (click)="eventAction(event._actions?.reject!, true)"
-    >
-      K úpravám
-    </button>
-    <button
-      *ngIf="event._actions?.publish"
-      mat-button
-      class="mx-0"
-      [disabled]="!event._actions!.publish.allowed"
-      (click)="eventAction(event._actions?.publish!)"
-    >
-      Do programu
-    </button>
-    <button
-      *ngIf="event._actions?.unpublish"
-      mat-button
-      class="mx-0"
-      [disabled]="!event._actions!.unpublish.allowed"
-      (click)="eventAction(event._actions?.unpublish!)"
-    >
-      Z programu
-    </button>
-    <button
-      *ngIf="event._actions?.cancel"
-      mat-button
-      class="mx-0"
-      [disabled]="!event._actions!.cancel.allowed"
-      (click)="eventAction(event._actions?.cancel!)"
-    >
-      Zrušit akci
-    </button>
-    <button
-      *ngIf="event._actions?.uncancel"
-      mat-button
-      class="mx-0"
-      [disabled]="!event._actions!.uncancel.allowed"
-      (click)="eventAction(event._actions?.uncancel!)"
-    >
-      Vrátit zrušení
-    </button>
-    <button mat-button color="secondary" class="mx-0" [routerLink]="'/akce/' + event._id">Otevřít</button>
-  </mat-card-actions>
-</mat-card>
+  <ion-card-content *ngIf="actions && event?._actions" class="text-right buttons">
+    <ion-buttons class="d-block">
+      <ion-button
+        *ngIf="event._actions?.submit"
+        color="primary"
+        [disabled]="!event._actions?.submit?.allowed"
+        (click)="eventAction(event._actions?.submit!)"
+      >
+        Ke schválení
+      </ion-button>
+
+      <ion-button
+        *ngIf="event._actions?.reject"
+        [disabled]="!event._actions!.reject.allowed"
+        (click)="eventAction(event._actions?.reject!, true)"
+      >
+        K úpravám
+      </ion-button>
+
+      <ion-button
+        *ngIf="event._actions?.publish"
+        color="primary"
+        [disabled]="!event._actions!.publish.allowed"
+        (click)="eventAction(event._actions?.publish!)"
+      >
+        Do programu
+      </ion-button>
+
+      <ion-button
+        *ngIf="event._actions?.unpublish"
+        [disabled]="!event._actions!.unpublish.allowed"
+        (click)="eventAction(event._actions?.unpublish!)"
+      >
+        Z programu
+      </ion-button>
+
+      <ion-button
+        *ngIf="event._actions?.cancel"
+        color="danger"
+        [disabled]="!event._actions!.cancel.allowed"
+        (click)="eventAction(event._actions?.cancel!)"
+      >
+        Zrušit akci
+      </ion-button>
+
+      <ion-button
+        *ngIf="event._actions?.uncancel"
+        [disabled]="!event._actions!.uncancel.allowed"
+        (click)="eventAction(event._actions?.uncancel!)"
+      >
+        Vrátit zrušení
+      </ion-button>
+    </ion-buttons>
+  </ion-card-content>
+</ion-card>

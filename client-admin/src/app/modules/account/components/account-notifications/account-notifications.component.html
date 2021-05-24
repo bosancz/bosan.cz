@@ -1,0 +1,70 @@
+TODO
+<!-- <table class="table">
+  <thead>
+    <tr>
+      <th></th><th>Mail</th><th>Systémové</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let notification of notifications">
+      <th>{{notification.name}}</th>
+      <th>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" [id]="notification.id + '_email_checkbox'" [ngModel]="userNotifications[notification.id]?.email">
+          <label class="custom-control-label" [for]="notification.id + '_email_checkbox'">Ano</label>
+        </div>
+      </th>
+      <th>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" [id]="notification.id + '_system_checkbox'" [ngModel]="userNotifications[notification.id]?.system">
+          <label class="custom-control-label" [for]="notification.id + '_system_checkbox'">Ano</label>
+        </div>
+      </th>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Mailové notifikace</h4>
+<p>Tyto notifikace ti přijdou na email nastavený u tvého účtu.</p>
+<p>Nastavený email: <strong>{{user?.email}}</strong></p>
+
+
+<h4>Systémové notifikace</h4>
+
+<p>Tyto notifikace se zobrazí v notifikačním panelu tvého počítače nebo mobilního telefonu. Zapnout a vypnout je vždy musíš na daném zařízení.</p>
+
+<p *ngIf="!swPush.isEnabled" class="text-danger">Na tomto zařízení nejsou systémové notifikace podporovány.</p>
+<ng-container *ngIf="swPush.isEnabled">
+  <p>
+    Stav systémových notifikací na tomto zařízení:
+    <strong>
+      <span *ngIf="(swPush.subscription | async)" class="text-success">zapnuté</span>
+      <span *ngIf="!(swPush.subscription | async) && systemNotificationStatus !== 'denied'">vypnuté</span>
+      <span *ngIf="systemNotificationStatus === 'denied'" class="text-danger">blokované</span>    
+    </strong>
+  </p>
+
+  <button *ngIf="!(swPush.subscription | async) && systemNotificationStatus !== 'denied'" class="btn btn-primary" (click)="subscribe()">Zapnout na tomto zařízení</button>
+  <button *ngIf="(swPush.subscription | async)" class="btn btn-primary" (click)="unsubscribe()">Vypnout na tomto zařízení</button>
+
+  <ng-container *ngIf="systemNotificationStatus === 'denied'">
+    <p>Odblokovat notifikace jde pouze v nastavení prohlížeče:</p>  
+    <ul>
+      <li>
+        Chrome:
+        <a href="https://support.google.com/chrome/answer/3220216?co=GENIE.Platform%3DDesktop&hl=cs" target="_blank">Počítač</a>, 
+        <a href="https://support.google.com/chrome/answer/3220216?co=GENIE.Platform%3DAndroid&hl=cs&oco=1" target="_blank">Android</a>, 
+        <a href="https://support.google.com/chrome/answer/3220216?co=GENIE.Platform%3DiOS&hl=cs&oco=1" target="_blank">iPhone/iPad</a>
+      </li>
+      <li>
+        Safari:
+        <a href="https://support.apple.com/cs-cz/guide/safari/customize-website-notifications-sfri40734/mac" target="_blank">Mac</a>
+      </li>
+      <li>
+        Firefox:
+        <a href="https://support.mozilla.org/en-US/kb/push-notifications-firefox" target="_blank">Počítač</a>,
+        <a href="https://support.mozilla.org/en-US/kb/control-notifications-firefox-android" target="_blank">Android</a>
+      </li>
+    </ul>
+  </ng-container>
+</ng-container> -->

@@ -1,6 +1,21 @@
-::ng-deep td{white-space:nowrap;}
-::ng-deep th{white-space:nowrap;}
+::ng-deep td {
+  white-space: nowrap;
+}
+::ng-deep th {
+  white-space: nowrap;
+}
 
-table{
-  background-color: #fff;  
+table {
+  // background-color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  table {
+    color: #fff;
+  }
+
+  .table-hover ::ng-deep tbody tr:hover {
+    color: #ccc;
+    background-color: rgba(255, 255, 255, 0.075);
+  }
 }

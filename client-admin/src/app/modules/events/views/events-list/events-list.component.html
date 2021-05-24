@@ -1,60 +1,66 @@
-<bo-page>
-  <bo-page-header>
-    <h2 pageTitle>Přehled akcí</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Přehled akcí</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Členská databáze"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <button *menuButton mat-icon-button (click)="showFilter = !showFilter">
-      <mat-icon>filter_list</mat-icon>
-    </button>
-
-    <div *actionMenu class="actions">
-      <button *ngIf="canCreate" mat-button color="primary" routerLink="vytvorit">Vytvořit akci</button>
+<form #filterForm="ngForm" class="filter px-lg-3 py-1" [class.d-none]="!showFilter">
+  <div class="row">
+    <div class="col-12 col-lg">
+      <ion-searchbar
+        type="text"
+        [ngModel]="search$ | async"
+        (ngModelChange)="search$.next($event)"
+        [ngModelOptions]="{ standalone: true }"
+        (keydown.enter)="$event.preventDefault()"
+      ></ion-searchbar>
     </div>
-  </bo-page-header>
 
-  <form #filterForm="ngForm" class="filter d-md-block px-3 px-md-0" [class.d-none]="!showFilter">
-    <div class="row">
-      <mat-form-field class="col">
-        <mat-label>Hledat</mat-label>
-
-        <input matInput type="text" [ngModel]="search$ | async" (ngModelChange)="search$.next($event)" name="search" (keydown.enter)="$event.preventDefault()" />
-
-        <button mat-button *ngIf="search$ | async" matSuffix mat-icon-button (click)="search$.next('')">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-
-      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-1">
-        <mat-label>Rok</mat-label>
-        <mat-select name="year" [ngModel]="currentYear">
-          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-12 col-md-12 col-lg-2 col-xl-2">
-        <mat-label>Stav</mat-label>
-        <mat-select name="status" ngModel>
-          <mat-option>Všechny</mat-option>
-          <mat-option *ngFor="let status of statuses" [value]="status.id">{{ status.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div class="col-12 col-md-12 col-lg-4 col-xl-3">
+      <ion-item>
+        <ion-label>Rok</ion-label>
+        <ion-select name="year" [ngModel]="currentYear">
+          <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
+        </ion-select>
+      </ion-item>
     </div>
-  </form>
 
+    <div class="col-12 col-md-12 col-lg-3 col-xl-2">
+      <ion-item>
+        <ion-label>Stav</ion-label>
+        <ion-select name="status" ngModel>
+          <ion-select-option>Všechny</ion-select-option>
+          <ion-select-option *ngFor="let status of statuses | keyvalue" [value]="status.key">
+            {{ status.value.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+  </div>
+</form>
+
+<ion-content>
   <admin-table>
     <thead>
       <tr>
         <th>Název akce</th>
-        <th>Místo</th>
         <th>Datum</th>
         <th>Vede</th>
-        <th>Status</th>
+        <th>Stav</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let event of filteredEvents$ | async" [routerLink]="event._id">
         <td>{{ event.name }}</td>
-        <td>{{ event.place }}</td>
-        <td class="date">{{ event.dateFrom | date: "EEEEEE d. M." }} - {{ event.dateTill | date: "EEEEEE d. M. y" }}</td>
+        <td class="date">
+          {{ event.dateFrom | date: "EEEEEE d. M." }} - {{ event.dateTill | date: "EEEEEE d. M. y" }}
+        </td>
         <td>
           <ng-container *ngFor="let leader of event.leaders; let isFirst = first">
             <ng-container *ngIf="!isFirst">, </ng-container>
@@ -63,9 +69,19 @@
           <strong *ngIf="!event.leaders?.length" class="text-danger">Pan NIKDO</strong>
         </td>
         <td>
-          <event-status-badge [event]="event"></event-status-badge>
+          <bo-event-status-badge [event]="event"></bo-event-status-badge>
         </td>
       </tr>
+
+      <ng-container *ngIf="!(events$ | async)?.length">
+        <tr *ngFor="let item of loadingArray">
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+          <td><ion-skeleton-text animated></ion-skeleton-text></td>
+        </tr>
+      </ng-container>
     </tbody>
   </admin-table>
-</bo-page>
+</ion-content>

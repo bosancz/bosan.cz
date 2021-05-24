@@ -1,26 +1,30 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Observable, BehaviorSubject, combineLatest, Subject } from "rxjs";
-import { debounceTime, map } from 'rxjs/operators';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, NavController, ViewWillEnter } from '@ionic/angular';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ApiService } from 'app/core/services/api.service';
+import { ToastService } from 'app/core/services/toast.service';
+import { Album } from "app/schema/album";
+import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { ThematicBreak } from 'docx';
+import { transliterate } from 'inflected';
+import { BehaviorSubject } from "rxjs";
+import { debounceTime } from 'rxjs/operators';
 
-import { Album, Photo } from "app/schema/album";
 
-type AlbumWithSearchString<T = Photo> = Album<T> & { searchString: string; };
 
+@UntilDestroy()
 @Component({
   selector: 'albums-list',
   templateUrl: './albums-list.component.html',
   styleUrls: ['./albums-list.component.scss']
 })
-export class AlbumsListComponent implements OnInit {
+export class AlbumsListComponent implements OnInit, OnDestroy, ViewWillEnter {
 
-  years: number[] = [];
-  currentYear?: number;
+  albums: Album[] = [];
+  filteredAlbums: Album[] = [];
 
-  albums$ = new Subject<AlbumWithSearchString[]>();
-  filteredAlbums$: Observable<Album[]>;
+  searchIndex: string[] = [];
 
   statuses = [
     { id: "public", name: "zveřejněná" },
@@ -29,74 +33,129 @@ export class AlbumsListComponent implements OnInit {
 
   statusesIndex = this.statuses.reduce((acc, cur) => (acc[cur.id] = cur.name, acc), {} as { [id: string]: string; });
 
-  showFilter = false;
+  loadingArray = Array(5).fill(null);
 
-  loading: boolean = false;
+  actions: Action[] = [
+    {
+      text: "Nové",
+      handler: () => this.createAlbumModal()
+    }
+  ];
 
-  @ViewChild('filterForm', { static: true }) filterForm!: NgForm;
+  alert?: HTMLIonAlertElement;
 
-  search$ = new BehaviorSubject<string>("");
+  searchString = new BehaviorSubject<string>("");
 
   constructor(
     private api: ApiService,
+    private alertController: AlertController,
+    private toastService: ToastService,
+    private navController: NavController
   ) {
-
-    this.filteredAlbums$ = combineLatest([this.albums$, this.search$.pipe(debounceTime(250))])
-      .pipe(map(([events, search]) => this.filterAlbums(events, search)));
 
   }
 
   ngOnInit() {
-    this.loadYears();
+    this.searchString
+      .pipe(untilDestroyed(this))
+      .pipe(debounceTime(250))
+      .subscribe(searchString => {
+        this.filteredAlbums = this.filterAlbums(this.albums, searchString);
+      });
   }
 
-  ngAfterViewInit() {
-    this.filterForm.valueChanges!.subscribe(filter => {
-      this.loadAlbums(filter);
+  ionViewWillEnter() {
+    this.loadAlbums();
+  }
+
+  ngOnDestroy() {
+    this.alert?.dismiss();
+  }
+
+  private async loadAlbums() {
+
+    this.albums = [];
+
+    const albums = await this.api.get<Album[]>("albums");
+
+    albums.sort((a, b) => {
+      return a?.status.localeCompare(b.status)
+        || b.dateFrom?.localeCompare(a.dateFrom)
+        || 0;
     });
-  }
 
-  async loadYears() {
-    this.years = await this.api.get<number[]>("albums:years");
-    this.years.sort((a, b) => b - a);
-    this.currentYear = this.years[0];
-  }
-
-  async loadAlbums(filter: any) {
-
-    if (!filter.year) return;
-
-    this.loading = true;
-
-    const options: any = {
-      sort: "dateFrom",
-      filter: {
-        dateFrom: { $gte: filter.year + "-01-01", $lte: filter.year + "-12-31" }
-      }
-    };
-
-    if (filter.status) options.filter.status = filter.status;
-
-    const albums = await this.api.get<Album[]>("albums", options);
-
-    this.albums$.next(albums.map(album => {
-      const searchString = [
-        album.name
+    this.searchIndex = albums.map(album => {
+      return [
+        transliterate(album.name)
       ].filter(item => !!item).join(" ");
+    });
 
-      return { ...album, searchString };
-    }));
-
-    this.loading = false;
+    this.albums = albums;
+    this.filteredAlbums = this.filterAlbums(this.albums, this.searchString.value);
   }
 
-  filterAlbums(events: AlbumWithSearchString[], search: string) {
+  private filterAlbums(albums: Album[], searchString: string) {
 
-    if (!search) return events;
+    if (!searchString) return albums;
 
-    const search_re = new RegExp("(^| )" + search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i");
+    const search_re = new RegExp("(^| )" + transliterate(searchString).replace(/[^a-zA-Z0-9]/g, ""), "i");
 
-    return events.filter(event => search_re.test(event.searchString));
+    return albums.filter((event, i) => search_re.test(this.searchIndex[i]));
+  }
+
+  private async createAlbumModal() {
+    this.alert = await this.alertController.create({
+      header: "Vytvořit album",
+      inputs: [
+        { name: "name", type: "text" },
+        { name: "dateFrom", type: "date", attributes: { required: true } },
+        { name: "dateTill", type: "date", attributes: { required: true } },
+      ],
+      buttons: [
+        { role: "cancel", text: "Zrušit" },
+        { text: "Vytvořit", handler: (data: Partial<Pick<Album, "name" | "dateFrom" | "dateTill">>) => this.onCreateAlbum(data) },
+      ]
+    });
+
+    await this.alert.present();
+  }
+
+  private onCreateAlbum(albumData: Partial<Pick<Album, "name" | "dateFrom" | "dateTill">>) {
+
+    // prevent switched date order
+    if (albumData.dateFrom && albumData.dateTill) {
+      const dates = [albumData.dateFrom, albumData.dateTill];
+      dates.sort();
+      albumData.dateFrom = dates[0];
+      albumData.dateTill = dates[1];
+    }
+
+    if (!albumData.name || !albumData.dateFrom || !albumData.dateTill) {
+      this.toastService.toast("Musíš vyplnit jméno i datumy");
+      return false;
+    }
+
+    this.createAlbum(<Pick<Album, "name" | "dateFrom" | "dateTill">>albumData);
+  }
+
+  private async createAlbum(albumData: Pick<Album, "name" | "dateFrom" | "dateTill">) {
+
+    if (!albumData.name || !albumData.dateFrom || !albumData.dateTill) {
+      this.toastService.toast("Musíš vyplnit jméno i datumy");
+      return false;
+    }
+
+    const response = await this.api.post("albums", albumData);
+
+    const location = response.headers.get("location");
+    if (!location) {
+      this.toastService.toast("Chyba při otevírání nového alba.");
+      return;
+    }
+
+    const album = await this.api.get<Album>({ href: location });
+
+    await this.navController.navigateForward("/galerie/" + album._id);
   }
 
 }

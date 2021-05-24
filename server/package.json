@@ -1,5 +1,5 @@
 {
-  "name": "bosan.cz-server",
+  "name": "bosancz-server",
   "scripts": {
     "start": "node src/server.js",
     "dev": "cross-env CORS_ENABLE=true nodemon src/server.js",

@@ -1,30 +1,13 @@
-@import "~styles/variables";
-
-#layout {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+ion-split-pane {
+  --side-width: 250px;
 }
 
-#content {
-  overflow: auto;
-  flex-grow: 1;
+ion-menu {
+  --ion-background-color: #eee;
 }
 
-#secondaryMenu {
-  border-top: 1px solid $grey;
-}
-
-::ng-deep {
-  #secondaryMenu {
-    nav {
-      flex-direction: row !important;
-      flex-wrap: nowrap;
-      overflow: auto;
-      width: 100%;
-      a {
-        white-space: nowrap;
-      }
-    }
+@media (prefers-color-scheme: dark) {
+  ion-menu {
+    --ion-background-color: #1e1e1e;
   }
 }

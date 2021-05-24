@@ -1,8 +1,6 @@
-import { Component, OnInit, forwardRef, Input, HostBinding } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-
-import { ConfigService } from "app/core/services/config.service";
-import { WebConfigGroup } from 'app/schema/web-config';
+import { MemberGroupID, MemberGroups } from 'app/config/member-groups';
 
 @Component({
   selector: 'groups-select',
@@ -20,9 +18,13 @@ import { WebConfigGroup } from 'app/schema/web-config';
     "[class.readonly]": "readonly",
   }
 })
-export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
+export class GroupsSelectComponent implements OnInit, ControlValueAccessor, AfterViewInit {
 
-  groups: WebConfigGroup[] = [];
+  groups = Object.entries(MemberGroups)
+    .map(([key, value]) => ({ key, value }))
+    .filter(group => group.value.event && group.value.active)
+    .sort((a, b) => (Number(b.value.children) - Number(a.value.children)) || a.key.localeCompare(b.key, "cs", { numeric: true }));
+
   selectedGroups: string[] = [];
 
   disabled: boolean = false;
@@ -39,45 +41,67 @@ export class GroupsSelectComponent implements OnInit, ControlValueAccessor {
     this.selectedGroups = [];
   }
 
-  constructor(private configService: ConfigService) { }
+  constructor(
+    private elRef: ElementRef<HTMLElement>
+  ) { }
 
   ngOnInit() {
-    this.loadGroups();
   }
 
-  async loadGroups() {
-    const config = await this.configService.getConfig();
-    this.groups = config.members.groups.filter(group => group.event);
+  ngAfterViewInit() {
+    this.emitIonStyle();
   }
 
-  isSelected(group: WebConfigGroup) {
-    return this.selectedGroups.indexOf(group.id) !== -1;
+  isSelected(groupId: string) {
+    return this.selectedGroups.indexOf(groupId) !== -1;
   }
 
   selectAll(checked: boolean): void {
 
     if (this.disabled || this.readonly) return;
 
-    if (checked) this.selectedGroups = this.groups.filter(group => group.children).map(group => group.id);
+    if (checked) {
+      this.selectedGroups = this.getChildrenGroups().map(group => group.key);
+    }
     else this.selectedGroups = [];
     this.onChange(this.selectedGroups);
   }
 
   isSelectedAll(): boolean {
-    return !this.groups.filter(group => group.children).some(group => this.selectedGroups.indexOf(group.id) === -1);
+    return !this.getChildrenGroups()
+      .some(group => this.selectedGroups.indexOf(group.key) === -1);
   }
 
-  toggleGroup(group: WebConfigGroup, deselectOther = false) {
+  toggleGroup(groupId: string, deselectOther = false) {
 
     if (this.disabled || this.readonly) return;
 
-    let i = this.selectedGroups.indexOf(group.id);
+    let i = this.selectedGroups.indexOf(groupId);
     if (i === -1) {
       if (deselectOther) this.selectedGroups = [];
-      this.selectedGroups.push(group.id);
+      this.selectedGroups.push(groupId);
     }
     else this.selectedGroups.splice(i, 1);
     this.onChange(this.selectedGroups);
   }
 
+  getChildrenGroups() {
+    return this.groups.filter(group => group.value.children);
+  }
+
+  private emitIonStyle() {
+    this.elRef.nativeElement.dispatchEvent(new CustomEvent("ionStyle", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: {
+        'interactive': true,
+        'input': true,
+        'has-placeholder': true,
+        'has-value': true,
+        'has-focus': false,
+        'interactive-disabled': this.disabled,
+      }
+    }));
+  }
 }

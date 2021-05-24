@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { StatisticsComponent } from "./statistics.component";
 
-import { EventsDashboardComponent } from './events-dashboard/events-dashboard.component';
-import { MembersDashboardComponent } from './members-dashboard/members-dashboard.component';
-import { PaddlerCompetitionComponent } from './paddler-competition/paddler-competition.component';
+import { EventsDashboardComponent } from './views/events-dashboard/events-dashboard.component';
+import { MembersDashboardComponent } from './views/members-dashboard/members-dashboard.component';
+import { PaddlerCompetitionComponent } from './views/paddler-competition/paddler-competition.component';
 
 const routes: Routes = [
 
@@ -20,8 +20,8 @@ const routes: Routes = [
 
       { path: 'kilometry', component: PaddlerCompetitionComponent },
 
-      { path: '', redirectTo: "akce", pathMatch: "full"}
-      
+      { path: '', redirectTo: "akce", pathMatch: "full" }
+
     ]
   }
 

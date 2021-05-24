@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/akce"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>Přihláška: {{ event?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Přihláška"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <object
+    *ngIf="event?._links?.registration?.allowed?.GET"
+    [data]="getSafeRegistrationUrl(event!)"
+    type="application/pdf"
+    style="width: 100%; height: 70vh"
+  >
+    <a [href]="getRegistrationUrl(event!)">Stáhnout přihlášku</a>
+  </object>
+
+  <p *ngIf="uploadingRegistration">Nahrávám&hellip;</p>
+  <input
+    class="d-none"
+    type="file"
+    accept="application/pdf"
+    #registrationInput
+    ngModel
+    (ngModelChange)="uploadRegistration(registrationInput)"
+    required
+  />
+</ion-content>

@@ -1,63 +1,31 @@
-<bo-page>
-  <bo-page-header>
-    <h2 [pageTitle]="(event$ | async)?.name || ''">{{ (event$ | async)?.name }}</h2>
-
-    <div class="actions" *actionMenu>
-      <ng-container *ngIf="event$ | async as event">
-        <button mat-button color="primary" *ngIf="event._actions?.lead" [disabled]="!event._actions?.lead?.allowed" (click)="eventAction(event, 'lead')">Vést akci</button>
-        <button mat-button color="primary" [disabled]="!event._links?.self?.allowed?.PATCH" routerLink="upravit">Upravit</button>
-
-        <ng-container *ngIf="event._actions">
-          <button mat-button *ngIf="event._actions.submit" [disabled]="!event._actions.submit.allowed" (click)="eventAction(event, 'submit')">Ke schválení</button>
-
-          <button mat-button *ngIf="event._actions.publish" [disabled]="!event._actions.publish.allowed" (click)="eventAction(event, 'publish')">Do programu</button>
-
-          <button mat-button *ngIf="event._actions.announce" [disabled]="!event._actions.announce.allowed" (click)="eventAction(event, 'announce')">Poslat ohlášku</button>
-
-          <button mat-button *ngIf="event._actions.finalize" [disabled]="!event._actions.finalize.allowed" (click)="eventAction(event, 'finalize')">Uzavřít</button>
-
-          <button mat-button *ngIf="event._actions.reject" [disabled]="!event._actions.reject.allowed" (click)="eventAction(event, 'reject')">Vrátit vedoucím k úpravám</button>
-
-          <button mat-button *ngIf="event._actions.unpublish" [disabled]="!event._actions.unpublish.allowed" (click)="eventAction(event, 'unpublish')">Odebrat z programu</button>
-
-          <button mat-button color="warn" *ngIf="event._actions.cancel" [disabled]="!event._actions.cancel.allowed" (click)="eventAction(event, 'cancel')">Zrušit</button>
-
-          <button mat-button *ngIf="event._actions.uncancel" [disabled]="!event._actions.uncancel.allowed" (click)="eventAction(event, 'uncancel')">Odzrušit</button>
-        </ng-container>
-
-        <button mat-button color="warn" [disabled]="!event._links?.self?.allowed?.DELETE" (click)="deleteEvent(event)">Smazat</button>
-      </ng-container>
-    </div>
-  </bo-page-header>
-
-  <ng-container *ngIf="event$ | async as event" class="container-fluid px-lg-5 mt-3">
-    <div class="row">
-      <div class="col-xl-4 order-xl-last mb-3">
-        <event-card [event]="event" [actions]="false"></event-card>
-      </div>
-      <div class="col-xl-8">
-        <div class="row">
-          <div class="col-lg-6 mb-3">
-            <h3>Účtování</h3>
-            <event-expenses-chart [expenses]="event.expenses"></event-expenses-chart>
-          </div>
-
-          <div class="col-lg-6 mb-3">
-            <h3>Účastníci</h3>
-            <p>Tady bude seznam účastníků.</p>
-            <!-- <ul>
-              <li *ngFor="let member of event.attendees">{{member.nickname}} {{member.group}}</li>
-            </ul>
-            <event-age-histogram *ngIf="event" [event]="event"></event-age-histogram> -->
-          </div>
-        </div>
-
-        <h3>Fotogalerie</h3>
-        <p>Pokud bude u nějaké galerie jako akce označena tahle akce, tak se tu budete moct podívat na fotky</p>
-
-        <h3>Report</h3>
-        <p>Reporty zmizí z Excelů, kde se blbě píší a budou rovnou tady na webu. Vlastně z toho vznikne taková interaktivní kronika akcí. Asi tomu pak uděláme třeba zvláštní kategorii na webu pro rodiče.</p>
-      </div>
-    </div>
-  </ng-container>
-</bo-page>
+<ion-tabs>
+  <ion-tab-bar>
+    <ion-tab-button tab="info">
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label>Akce</ion-label>
+      <ion-badge [color]="event?.status | eventStatus: 'color'">&nbsp;&nbsp;</ion-badge>
+    </ion-tab-button>
+    <ion-tab-button tab="prihlaska">
+      <ion-icon name="document-outline"></ion-icon>
+      <ion-label>Přihláška</ion-label>
+      <ion-badge *ngIf="event?.registration" color="success">&nbsp;&nbsp;</ion-badge>
+      <ion-badge *ngIf="!event?.registration" color="danger">&nbsp;&nbsp;</ion-badge>
+    </ion-tab-button>
+    <ion-tab-button tab="ucastnici">
+      <ion-icon name="people-outline"></ion-icon>
+      <ion-label>Účastníci</ion-label>
+      <ion-badge [color]="event?.attendees?.length ? 'success' : 'danger'">{{ event?.attendees?.length }}</ion-badge>
+    </ion-tab-button>
+    <ion-tab-button tab="uctovani">
+      <ion-icon name="cash-outline"></ion-icon>
+      <ion-label>Účtování</ion-label>
+      <ion-badge color="success">{{ event?.expenses?.length }}</ion-badge>
+    </ion-tab-button>
+    <ion-tab-button tab="report">
+      <ion-icon name="document-outline"></ion-icon>
+      <ion-label>Report</ion-label>
+      <ion-badge *ngIf="event?.report" color="success">&nbsp;&nbsp;</ion-badge>
+      <ion-badge *ngIf="!event?.report" color="danger">&nbsp;&nbsp;</ion-badge>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

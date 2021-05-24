@@ -1,8 +1,0 @@
-<mat-form-field>
-  <input type="text" matInput [ngModel]="getItemString(selected)" (ngModelChange)="searchString$.next ($event)" [ngModelOptions]="{standalone: true}" [matAutocomplete]="autocomplete">
-</mat-form-field>
-<mat-autocomplete #autocomplete="matAutocomplete">
-  <mat-option *ngFor="let option of matched" [value]="option">
-    {{ option }}
-  </mat-option>
-</mat-autocomplete>

@@ -1,0 +1,10 @@
+:host {
+  display: inline-block;
+  height: 0.8em;
+  width: 0.8em;
+  border-radius: 50%;
+
+  @media (prefers-color-scheme: dark) {
+    border: 1px solid #fff;
+  }
+}
