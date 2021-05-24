@@ -14,8 +14,11 @@
     <ion-item *ngFor="let member of filteredMembers" [button]="true" (click)="close(member)">
       <ion-label>
         <h3>{{ member | member: "nickname" }}</h3>
-        <p>{{ member.group | group: "name" }}, {{ member.name?.first }} {{ member.name?.last }}</p>
+        <p><bo-member-item-detail [member]="member"></bo-member-item-detail></p>
       </ion-label>
+      <ion-badge mode="ios" [style.background-color]="member.group | group: 'color'">
+        {{ member.group }}
+      </ion-badge>
     </ion-item>
   </ion-list>
 </ion-content>

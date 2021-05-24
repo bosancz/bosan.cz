@@ -13,6 +13,7 @@ import { EventStatusBadgeComponent } from './components/event-status-badge/event
 import { GroupsSelectComponent } from './components/groups-select/groups-select.component';
 import { PhotoFaceComponent } from './components/photo-face/photo-face.component';
 import { PhotoGalleryComponent } from './components/photo-gallery/photo-gallery.component';
+import { MemberItemDetailComponent } from './components/member-item-detail/member-item-detail.component';
 /* DIRECTIVES */
 import { AclCanDirective } from "./directives/acl-can.directive";
 /* PIPES */
@@ -51,6 +52,7 @@ import { DotComponent } from './components/dot/dot.component';
     PhotoFaceComponent,
     EventCalendarComponent,
     PhotoGalleryComponent,
+    MemberItemDetailComponent,
 
     /* DIRECTIVES */
     AclCanDirective,
@@ -84,6 +86,7 @@ import { DotComponent } from './components/dot/dot.component';
     EventStatusBadgeComponent,
     EventCalendarComponent,
     DotComponent,
+    MemberItemDetailComponent,
 
     /* DIRECTIVES */
     AclCanDirective,
