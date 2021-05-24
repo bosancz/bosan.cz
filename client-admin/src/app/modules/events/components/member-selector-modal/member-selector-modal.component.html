@@ -1,5 +1,9 @@
 <ion-toolbar>
-  <ion-searchbar enterkeyhint="search" (ionChange)="searchMembers($any($event).detail.value)"></ion-searchbar>
+  <ion-searchbar
+    #searchBar
+    enterkeyhint="search"
+    (ionChange)="searchMembers($any($event).detail.value)"
+  ></ion-searchbar>
   <ion-buttons slot="end">
     <ion-button (click)="close()">Zrušit</ion-button>
   </ion-buttons>
