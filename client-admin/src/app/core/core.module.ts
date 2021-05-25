@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 /* IONIC */
-import {IonicModule, IonicRouteStrategy, isPlatform} from "@ionic/angular";
+import { IonicModule, IonicRouteStrategy, isPlatform } from "@ionic/angular";
 /* ERROR HANDLERS */
 import { MainErrorHandler } from 'app/core/error-handlers/main.error-handler';
 /* MODULES */
@@ -39,7 +39,7 @@ registerLocaleData(localeCs, 'cs');
     SharedModule,
     RouterModule,
     IonicModule.forRoot({
-      backButtonText: isPlatform('ios')?'Zpět':''
+      backButtonText: isPlatform('ios') ? 'Zpět' : ''
     }),
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
