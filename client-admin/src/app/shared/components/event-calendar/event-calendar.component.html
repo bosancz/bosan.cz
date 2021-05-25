@@ -18,7 +18,8 @@
           [class.selectedRange]="isSelectedRange(day)"
           [class.empty]="day.properties.empty"
         >
-          {{ day.date.day }}. {{ day.date.month }}.
+          <span *ngIf="!day.properties.today">{{ day.date.day }}. {{ day.date.month }}.</span>
+          <span *ngIf="day.properties.today"><ion-badge>{{ day.date.day }}. {{ day.date.month }}.</ion-badge></span>
           <span *ngIf="day.properties.holiday" class="float-right" title="Svátek">🎉</span>
         </div>
       </div>
