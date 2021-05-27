@@ -210,7 +210,7 @@ export class EventCalendarComponent implements OnInit, OnChanges {
   }
 
   private isToday(date: DateTime): boolean {
-    return date.toMillis() === DateTime.now().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toMillis();
+    return date.hasSame(DateTime.now(), 'day');
   }
 
   isSelectedRange(day: CalendarDay) {
