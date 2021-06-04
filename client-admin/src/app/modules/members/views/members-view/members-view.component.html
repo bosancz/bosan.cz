@@ -177,7 +177,7 @@
         <tbody>
           <tr>
             <th>Člen:</th>
-            <td>{{ member.membership === undefined ? "-" : member.membership ? "Ano" : "Ne" }}</td>
+            <td>{{ membershipTypes[member.membership]?.title }}</td>
           </tr>
           <tr>
             <th>Aktivní:</th>

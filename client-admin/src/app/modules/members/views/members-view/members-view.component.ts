@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AlertController, ViewWillEnter } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { MembershipTypes } from 'app/config/membership-types';
 import { ApiService } from 'app/core/services/api.service';
 import { ToastService } from "app/core/services/toast.service";
 import { Member } from "app/schema/member";
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { DateTime } from 'luxon';
-import { pipe, Subject } from "rxjs";
-import { distinctUntilChanged, map, mergeMap } from 'rxjs/operators';
 
 
 @UntilDestroy()
@@ -20,6 +18,8 @@ import { distinctUntilChanged, map, mergeMap } from 'rxjs/operators';
 export class MembersViewComponent implements OnInit, ViewWillEnter {
 
   member?: Member;
+
+  membershipTypes = MembershipTypes;
 
   actions: Action[] = [
     {
