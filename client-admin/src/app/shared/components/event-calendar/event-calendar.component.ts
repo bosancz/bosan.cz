@@ -32,6 +32,7 @@ interface CalendarDayProperties {
   empty?: boolean;
   weekend?: boolean;
   oddMonth: boolean;
+  today?: boolean;
 }
 class CalendarDay {
   eventCount: number = 0;
@@ -138,7 +139,8 @@ export class EventCalendarComponent implements OnInit, OnChanges {
         empty: currentDate < this.dateFrom || currentDate > this.dateTill,
         holiday: this.isHoliday(currentDate),
         weekend: this.isWeekend(currentDate),
-        oddMonth: (currentDate.month - this.dateFrom.month) % 2 === 0
+        oddMonth: (currentDate.month - this.dateFrom.month) % 2 === 0,
+        today: this.isToday(currentDate)
       };
 
       row.days.push(new CalendarDay(currentDate, dayInfo));
@@ -205,6 +207,10 @@ export class EventCalendarComponent implements OnInit, OnChanges {
 
   private isHoliday(date: DateTime): boolean {
     return CzechHolidays(date.year).some(item => item.m === date.month && item.d === date.day);
+  }
+
+  private isToday(date: DateTime): boolean {
+    return date.hasSame(DateTime.now(), 'day');
   }
 
   isSelectedRange(day: CalendarDay) {
