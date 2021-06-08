@@ -1,6 +1,9 @@
 <!-- SINGLE -->
 <ion-button *ngIf="single" [color]="single.color" [disabled]="single.disabled" (click)="onClick(single)">
-  {{ single.text }}
+  <ion-icon *ngIf="!single.text && single.icon" [name]="single.icon"></ion-icon>
+  <span *ngIf="single.text && !single.icon">
+    <ion-text [color]="single.color">{{ single.text }}</ion-text>
+  </span>
 </ion-button>
 
 <!-- PINNED -->
