@@ -129,16 +129,17 @@ export class EventsListComponent implements OnInit {
 
     this.actions = [
       {
-        icon: "search-outline",
+        icon: "filter-outline",
         pinned: true,
         handler: () => this.showFilter = !this.showFilter
       },
       {
         icon: "add-outline",
         pinned: true,
-        hidden: resources["events"].allowed["POST"],
+        hidden: !resources["events"].allowed["POST"],
         handler: () => this.createEvent()
       }
+
     ];
   }
 
