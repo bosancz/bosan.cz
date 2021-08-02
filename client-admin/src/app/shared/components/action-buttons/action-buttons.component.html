@@ -1,7 +1,7 @@
 <!-- SINGLE -->
 <ion-button *ngIf="single" [color]="single.color" [disabled]="single.disabled" (click)="onClick(single)">
   <ion-icon *ngIf="!single.text && single.icon" [name]="single.icon"></ion-icon>
-  <span *ngIf="single.text && !single.icon">
+  <span *ngIf="single.text">
     <ion-text [color]="single.color">{{ single.text }}</ion-text>
   </span>
 </ion-button>

@@ -17,7 +17,8 @@ export interface Action extends ActionSheetButton {
 export class ActionButtonsComponent implements OnInit {
 
   @Input() set actions(actions: Action[]) {
-    actions = actions.filter(item => !item.hidden);
+
+    actions = this.filterActions(actions);
 
     if (actions.length === 1) {
       this.single = actions[0];
@@ -97,6 +98,10 @@ export class ActionButtonsComponent implements OnInit {
 
   onClick(action: Action) {
     action.handler?.();
+  }
+
+  private filterActions(actions: Action[]) {
+    return actions.filter(item => !item.hidden);
   }
 
 }
