@@ -74,8 +74,12 @@ export class EventsViewInfoComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const note = window.prompt("Poznámka ke změně stavu (můžeš nechat prázdné):");
-    if (note === null) return;
+    let note: string | null = null;
+
+    if (action !== "lead") {
+      note = window.prompt("Poznámka ke změně stavu (můžeš nechat prázdné):");
+      if (note === null) return; // user clicked on cancel
+    }
 
     await this.api.post(event._actions[action], { note: note || undefined });
 
