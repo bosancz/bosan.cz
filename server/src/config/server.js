@@ -6,7 +6,7 @@ module.exports = {
   port,
 
   baseDir: process.env.BASE_DIR || "/api",
-  baseUrl: process.env.BASE_URL || `http://${host}${port && ":" + port}`,
+  baseUrl: process.env.BASE_URL || `http://${host === "0.0.0.0" ? "localhost" : host}${port && ":" + port}`,
 
   cors: {
     enable: process.env.CORS_ENABLE,
