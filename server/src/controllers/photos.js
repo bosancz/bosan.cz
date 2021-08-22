@@ -54,6 +54,7 @@ routes.post("photos", "/", { permission: "photos:create" }).handle(upload.single
     fields: {
       tags: tags || [],
     },
+    uploadedBy: req.user._id,
   };
 
   var photo = await savePhoto(photoData);
