@@ -1,12 +1,10 @@
-module.exports = {
-  Album: require("./album"),
-  Blog: require("./blog"),
-  Camp: require("./camp"),
-  Event: require("./event"),
-  Group: require("./group"),
-  Member: require("./member"),
-  Payment: require("./payment"),
-  Photo: require("./photo"),
-  ReportedError: require("./reported-error"),
-  User: require("./user"),
-};
+export { Album } from "./album.js";
+export { Blog } from "./blog.js";
+export { Camp } from "./camp.js";
+export { Event } from "./event.js";
+export { Group } from "./group.js";
+export { Member } from "./member.js";
+export { Payment } from "./payment.js";
+export { Photo } from "./photo.js";
+export { ReportedError } from "./reported-error.js";
+export { User } from "./user.js";

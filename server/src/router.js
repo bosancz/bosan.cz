@@ -1,53 +1,74 @@
-const config = require("./config");
-
-const { Routes, RoutesLinks } = require("@smallhillcz/routesjs");
+import { Routes, RoutesLinks } from "@smallhillcz/routesjs";
+import { AlbumsController } from "./controllers/albums.js";
+import { BlogsController } from "./controllers/blogs.js";
+import { CompetitionController } from "./controllers/competition.js";
+import { ConfigController } from "./controllers/config.js";
+import { CpvController } from "./controllers/cpv.js";
+import { EnvironmentController } from "./controllers/environment.js";
+import { ErrorsController } from "./controllers/errors.js";
+import { EventsEventController } from "./controllers/events-event.js";
+import { EventsController } from "./controllers/events.js";
+import { GalleryController } from "./controllers/gallery.js";
+import { GroupsController } from "./controllers/groups.js";
+import { LoginController } from "./controllers/login.js";
+import { MeController } from "./controllers/me.js";
+import { MembersController } from "./controllers/members.js";
+import { NotificationsController } from "./controllers/notifications.js";
+import { PaymentsController } from "./controllers/payments.js";
+import { PhotosController } from "./controllers/photos.js";
+import { ProgramController } from "./controllers/program.js";
+import { ReportsController } from "./controllers/reports.js";
+import { ShareController } from "./controllers/share.js";
+import { TestController } from "./controllers/test.js";
+import { UsersController } from "./controllers/users.js";
 
 const routes = new Routes({ url: "" });
 
-module.exports = routes.router;
+export default routes.router;
 
-routes.child("/albums", require("./controllers/albums"));
+routes.child("/albums", AlbumsController);
 
-routes.child("/blogs", require("./controllers/blogs"));
+routes.child("/blogs", BlogsController);
 
-routes.child("/config", require("./controllers/config"));
+routes.child("/config", ConfigController);
 
-routes.child("/competition", require("./controllers/competition"));
+routes.child("/competition", CompetitionController);
 
-routes.child("/cpv", require("./controllers/cpv"));
+routes.child("/cpv", CpvController);
 
-routes.child("/environment", require("./controllers/environment"));
+routes.child("/environment", EnvironmentController);
 
-routes.child("/errors", require("./controllers/errors"));
+routes.child("/errors", ErrorsController);
 
-routes.child("/events", require("./controllers/events"));
-routes.child("/events/:id", require("./controllers/events-event"));
+routes.child("/events", EventsController);
 
-routes.child("/gallery", require("./controllers/gallery"));
+routes.child("/events/:id", EventsEventController);
 
-routes.child("/groups", require("./controllers/groups"));
+routes.child("/gallery", GalleryController);
 
-routes.child("/login", require("./controllers/login"));
+routes.child("/groups", GroupsController);
 
-routes.child("/me", require("./controllers/me"));
+routes.child("/login", LoginController);
 
-routes.child("/members", require("./controllers/members"));
+routes.child("/me", MeController);
 
-routes.child("/notifications", require("./controllers/notifications"));
+routes.child("/members", MembersController);
 
-routes.child("/payments", require("./controllers/payments"));
+routes.child("/notifications", NotificationsController);
 
-routes.child("/photos", require("./controllers/photos"));
+routes.child("/payments", PaymentsController);
 
-routes.child("/program", require("./controllers/program"));
+routes.child("/photos", PhotosController);
 
-routes.child("/reports", require("./controllers/reports"));
+routes.child("/program", ProgramController);
 
-routes.child("/share", require("./controllers/share"));
+routes.child("/reports", ReportsController);
 
-routes.child("/users", require("./controllers/users"));
+routes.child("/share", ShareController);
 
-routes.child("/test", require("./controllers/test"));
+routes.child("/users", UsersController);
+
+routes.child("/test", TestController);
 
 routes.get(null, "/", { permission: "api:read" }).handle((req, res) => {
   res.json({

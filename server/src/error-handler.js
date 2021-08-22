@@ -1,13 +1,12 @@
-var { Validator, ValidationError } = require('express-json-validator-middleware');
+import { Validator, ValidationError } from "express-json-validator-middleware";
 
-module.exports = function(err, req, res, next){
-
+export default function (err, req, res, next) {
   // if headers already sent return to default error handler
   if (res.headersSent) {
-    return next(err)
+    return next(err);
   }
-    
-  if(err instanceof ValidationError){
+
+  if (err instanceof ValidationError) {
     console.error("JSON Schema Validation Error");
     console.error("Url: " + req.url);
     console.error("Query:");
@@ -17,18 +16,18 @@ module.exports = function(err, req, res, next){
     return res.status(400).json(err.validationErrors);
   }
 
-  if (err.name === 'UnauthorizedError') {
+  if (err.name === "UnauthorizedError") {
     return res.status(401).send("Invalid token.");
   }
-  
-  if (err.name === 'MongooseActionsError') {
+
+  if (err.name === "MongooseActionsError") {
     return res.status(400).send(err.message);
   }
-  
-  if (err.name === 'UploadError') {
+
+  if (err.name === "UploadError") {
     return res.status(400).send(err.message);
   }
-  
+
   console.error(err);
   res.sendStatus(500);
-};
+}

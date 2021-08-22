@@ -1,15 +1,23 @@
-var config = require("./config");
+import * as config from "./config/index.js";
 
-var mongoose = require("mongoose");
+import mongoose from "mongoose";
+
+import mongooseAutopopulatePlugin from "mongoose-autopopulate";
+import mongooseToObjectPlugin from "./plugins/mongoose-to-object.js";
+import mongoosePaginatePlugin from "./plugins/mongoose-paginate.js";
+import { RoutesPluginsMongoose } from "@smallhillcz/routesjs/lib/plugins/mongoose.js";
+
+/* MODELS */
+import "./models/index.js";
 
 /* PLUGINS */
-mongoose.plugin(require("mongoose-autopopulate"));
+mongoose.plugin(mongooseAutopopulatePlugin);
 
-mongoose.plugin(require("./plugins/mongoose-to-object"));
+mongoose.plugin(mongooseToObjectPlugin);
 
-mongoose.plugin(require("./plugins/mongoose-paginate"));
+mongoose.plugin(mongoosePaginatePlugin);
 
-mongoose.plugin(require("@smallhillcz/routesjs/lib/plugins/mongoose").RoutesPluginsMongoose);
+mongoose.plugin(RoutesPluginsMongoose);
 
 /* SETTINGS */
 mongoose.Promise = global.Promise;
@@ -17,7 +25,7 @@ mongoose.Promise = global.Promise;
 /* CONNECTION */
 var retries = 0;
 
-function connectDB(attempt) {
+export function connectDB(attempt) {
   if (!attempt) console.log("[DB] DB URI: " + config.database.uri);
 
   attempt = (attempt || 0) + 1;
@@ -36,12 +44,3 @@ function connectDB(attempt) {
       }
     });
 }
-
-/* MODELS */
-
-require("./models");
-
-module.exports = {
-  connectDB,
-  mongoose,
-};

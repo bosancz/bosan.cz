@@ -1,45 +1,38 @@
-const webpush = require('web-push');
-const config = require('../config');
+import webpush from "web-push";
+import config from "../config";
+import "../db";
 
-require("../db");
+import User from "../models/user";
 
-const User = require("../models/user");
-
-const notificationTemplates = require("./notifications");
+import notificationTemplates from "./notifications";
 
 if (!config.keys.vapid) {
-  console.log("[NOTIFICATIONS] Vapid keyfile not loaded. Notifications are disabled. ")
+  console.log("[NOTIFICATIONS] Vapid keyfile not loaded. Notifications are disabled. ");
   module.exports = {
-    sendNotifications: () => { },
-    listNotifications
+    sendNotifications: () => {},
+    listNotifications,
   };
   return;
 }
 
-webpush.setVapidDetails(
-  'mailto:info@bosan.cz',
-  config.keys.vapid.publicKey,
-  config.keys.vapid.privateKey
-);
+webpush.setVapidDetails("mailto:info@bosan.cz", config.keys.vapid.publicKey, config.keys.vapid.privateKey);
 
 function createNotification(name, data) {
-
   const payload = {
-    "notification": {
-      "title": "Notifikace z Bošánovského webu",
-      "body": "",
-      "icon": "https://bosan.cz/assets/img/logo.png",
-      "vibrate": [100, 50, 100],
-      "data": {},
-      "actions": [
+    notification: {
+      title: "Notifikace z Bošánovského webu",
+      body: "",
+      icon: "https://bosan.cz/assets/img/logo.png",
+      vibrate: [100, 50, 100],
+      data: {},
+      actions: [
         /*{
           "action": "explore",
           "title": "Otevřít bosan.cz"
         }*/
-      ]
-    }
+      ],
+    },
   };
-
 
   const notificationTemplate = notificationTemplates[name];
   if (!notificationTemplate) return payload;
@@ -52,19 +45,23 @@ function createNotification(name, data) {
 }
 
 async function sendNotifications(to, data) {
-
   const queue = [];
 
-  const except = [];//to.except || [];
+  const except = []; //to.except || [];
 
   if (to.all) {
     for (let notificationName of to.all) {
-
       if (!checkNotification(notificationName)) continue;
 
-      const users = await User.find({ _id: { $nin: except }, notifications: notificationName, pushSubscriptions: { $exists: true } }).select("pushSubscriptions").lean();
+      const users = await User.find({
+        _id: { $nin: except },
+        notifications: notificationName,
+        pushSubscriptions: { $exists: true },
+      })
+        .select("pushSubscriptions")
+        .lean();
 
-      const subs = users.map(user => user.pushSubscriptions).reduce((acc, cur) => [...acc, ...cur], []);
+      const subs = users.map((user) => user.pushSubscriptions).reduce((acc, cur) => [...acc, ...cur], []);
       const payload = createNotification(notificationName, data);
 
       queue.push(sendNotification(subs, payload));
@@ -73,15 +70,20 @@ async function sendNotifications(to, data) {
 
   if (to.users) {
     for (let entry of Object.entries(to.users)) {
-
       const notificationName = entry[0];
       if (!checkNotification(notificationName)) continue;
 
-      const userIds = entry[1].filter(id => except.indexOf(id) === -1);
+      const userIds = entry[1].filter((id) => except.indexOf(id) === -1);
 
-      const users = await User.find({ _id: { $in: userIds }, notifications: notificationName, pushSubscriptions: { $exists: true } }).select("pushSubscriptions").lean();
+      const users = await User.find({
+        _id: { $in: userIds },
+        notifications: notificationName,
+        pushSubscriptions: { $exists: true },
+      })
+        .select("pushSubscriptions")
+        .lean();
 
-      const subs = users.map(user => user.pushSubscriptions).reduce((acc, cur) => [...acc, ...cur], []);
+      const subs = users.map((user) => user.pushSubscriptions).reduce((acc, cur) => [...acc, ...cur], []);
       const payload = createNotification(notificationName, data);
 
       queue.push(sendNotification(subs, payload));
@@ -94,9 +96,16 @@ async function sendNotifications(to, data) {
 
       if (!checkNotification(notificationName)) continue;
 
-      const users = await User.find({ _id: { $nin: except }, member: { $in: memberIds }, notifications: notificationName, pushSubscriptions: { $exists: true } }).select("pushSubscriptions").lean();
+      const users = await User.find({
+        _id: { $nin: except },
+        member: { $in: memberIds },
+        notifications: notificationName,
+        pushSubscriptions: { $exists: true },
+      })
+        .select("pushSubscriptions")
+        .lean();
 
-      const subs = users.map(user => user.pushSubscriptions).reduce((acc, cur) => [...acc, ...cur], []);
+      const subs = users.map((user) => user.pushSubscriptions).reduce((acc, cur) => [...acc, ...cur], []);
       const payload = createNotification(notificationName, data);
 
       queue.push(sendNotification(subs, payload));
@@ -105,20 +114,15 @@ async function sendNotifications(to, data) {
 
   try {
     await Promise.all(queue);
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err);
   }
-
 }
 
-
 async function sendNotification(subs, payload) {
-
-  const queue = subs.map(sub => webpush.sendNotification(sub, JSON.stringify(payload)));
+  const queue = subs.map((sub) => webpush.sendNotification(sub, JSON.stringify(payload)));
 
   await Promise.all(queue);
-
 }
 
 function listNotifications() {
@@ -126,7 +130,7 @@ function listNotifications() {
 }
 
 function checkNotification(name) {
-  return listNotifications().indexOf(name) !== -1
+  return listNotifications().indexOf(name) !== -1;
 }
 
-module.exports = { sendNotifications, listNotifications };
+export default { sendNotifications, listNotifications };

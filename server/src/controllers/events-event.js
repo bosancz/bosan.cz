@@ -1,41 +1,43 @@
-const config = require("../config");
+import config from "../config";
 
-const { Routes, RoutesACL } = require("@smallhillcz/routesjs");
-const routes = module.exports = new Routes();
+import { Routes, RoutesACL } from "@smallhillcz/routesjs";
+const routes = (module.exports = new Routes());
 
-const { sendNotifications } = require("../notifications");
+import { sendNotifications } from "../notifications";
 
-var validate = require("../validator");
+import validate from "../validator";
 
-var deleteEvent = require("./events/delete-event");
+import deleteEvent from "./events/delete-event";
 
-var Event = require("../models/event");
-var Payment = require("../models/payment");
+import Event from "../models/event";
+import Payment from "../models/payment";
 
 var getEventSchema = {
-  type: 'object',
+  type: "object",
   properties: {
-    "select": { type: "string" },
-    "populate": { type: "array", items: { enum: ["leaders"] } },
+    select: { type: "string" },
+    populate: { type: "array", items: { enum: ["leaders"] } },
   },
-  additionalProperties: false
+  additionalProperties: false,
 };
 
 // read the event document
-routes.get("event", "/", { permission: "events:read" }).handle(validate({ query: getEventSchema }), async (req, res, next) => {
-  const query = Event.findOne({ _id: req.params.id }, {}, { autopopulate: false });
+routes
+  .get("event", "/", { permission: "events:read" })
+  .handle(validate({ query: getEventSchema }), async (req, res, next) => {
+    const query = Event.findOne({ _id: req.params.id }, {}, { autopopulate: false });
 
-  query.populate("leaders", "nickname name group role birthday");
-  query.populate("attendees", "nickname name group role birthday");
+    query.populate("leaders", "nickname name group role birthday");
+    query.populate("attendees", "nickname name group role birthday");
 
-  var event = await query.toObject();
+    var event = await query.toObject();
 
-  if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:read", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
+    if (!event) return res.sendStatus(404);
+    if (!RoutesACL.canDoc("events:read", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
-  req.routes.links(event, "event");
-  res.json(event);
-});
+    req.routes.links(event, "event");
+    res.json(event);
+  });
 
 // change part of the events
 routes.patch("event", "/", { permission: "events:edit" }).handle(async (req, res, next) => {
@@ -51,123 +53,182 @@ routes.patch("event", "/", { permission: "events:edit" }).handle(async (req, res
   res.sendStatus(204);
 });
 
+routes
+  .delete("event", "/", { permission: "events:delete", query: { status: "draft" } })
+  .handle(async (req, res, next) => {
+    await deleteEvent(req.params.id);
+    res.sendStatus(204);
+    sendNotifications({ all: ["eventDeleted"], except: req.user._id });
+  });
 
-routes.delete("event", "/", { permission: "events:delete", query: { status: "draft" } }).handle(async (req, res, next) => {
-  await deleteEvent(req.params.id);
-  res.sendStatus(204);
-  sendNotifications({ all: ["eventDeleted"], except: req.user._id });
-});
+routes
+  .action("event:submit", "/actions/submit", {
+    permission: "events:submit",
+    hideRoot: true,
+    query: { status: { $in: ["draft", "rejected"] } },
+  })
+  .handle(async (req, res, next) => {
+    const event = await Event.findOne({ _id: req.params.id }, "name status statusHistory leaders", {
+      autopopulate: false,
+    });
 
-routes.action("event:submit", "/actions/submit", { permission: "events:submit", hideRoot: true, query: { status: { $in : ["draft","rejected"] } } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status statusHistory leaders", { autopopulate: false });
+    if (!event) return res.sendStatus(404);
+    if (!RoutesACL.canDoc("events:submit", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
-  if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:submit", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
+    event.status = "pending";
+    event.statusNote = req.body.note || null;
 
-  event.status = "pending";
-  event.statusNote = req.body.note || null;
+    await event.save();
 
-  await event.save();
+    res.sendStatus(200);
 
-  res.sendStatus(200);
+    sendNotifications({ all: ["eventSubmitted"], except: req.user._id });
+  });
 
-  sendNotifications({ all: ["eventSubmitted"], except: req.user._id });
-});
+routes
+  .action("event:reject", "/actions/reject", {
+    permission: "events:reject",
+    hideRoot: true,
+    query: { status: { $in: ["pending"] } },
+  })
+  .handle(async (req, res, next) => {
+    const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
-routes.action("event:reject", "/actions/reject", { permission: "events:reject", hideRoot: true, query: { status: { $in: ["pending"] } } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
+    if (!event) return res.sendStatus(404);
+    if (!RoutesACL.canDoc("events:reject", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
-  if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:reject", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
+    event.status = "rejected";
+    event.statusNote = req.body.note || null;
 
-  event.status = "rejected";
-  event.statusNote = req.body.note || null;
+    await event.save();
 
-  await event.save();
+    res.sendStatus(200);
 
-  res.sendStatus(200);
+    sendNotifications(
+      { all: ["eventRejected"], members: { myEventRejected: event.leaders }, except: req.user._id },
+      event
+    );
+  });
 
-  sendNotifications({ all: ["eventRejected"], members: { "myEventRejected": event.leaders }, except: req.user._id }, event);
-});
+routes
+  .action("event:publish", "/actions/publish", {
+    permission: "events:publish",
+    hideRoot: true,
+    query: { status: { $in: ["draft", "rejected", "pending"] } },
+  })
+  .handle(async (req, res, next) => {
+    const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
-routes.action("event:publish", "/actions/publish", { permission: "events:publish", hideRoot: true, query: { status: { $in: ["draft", "rejected", "pending"] } } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
+    if (!event) return res.sendStatus(404);
+    if (!RoutesACL.canDoc("events:publish", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
-  if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:publish", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
+    event.status = "public";
+    event.statusNote = req.body.note || null;
 
-  event.status = "public";
-  event.statusNote = req.body.note || null;
+    await event.save();
 
-  await event.save()
+    res.sendStatus(200);
 
-  res.sendStatus(200);
+    sendNotifications(
+      { all: ["eventPublished"], members: { myEventPublished: event.leaders }, except: req.user._id },
+      event
+    );
+  });
 
-  sendNotifications({ all: ["eventPublished"], members: { "myEventPublished": event.leaders }, except: req.user._id }, event);
-});
+routes
+  .action("event:unpublish", "/actions/unpublish", {
+    permission: "events:unpublish",
+    hideRoot: true,
+    query: { status: "public" },
+  })
+  .handle(async (req, res, next) => {
+    const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
-routes.action("event:unpublish", "/actions/unpublish", { permission: "events:unpublish", hideRoot: true, query: { status: "public" } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
+    if (!event) return res.sendStatus(404);
+    if (!RoutesACL.canDoc("events:unpublish", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
-  if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:unpublish", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
+    event.status = "draft";
+    event.statusNote = req.body.note || null;
 
-  event.status = "draft";
-  event.statusNote = req.body.note || null;
+    await event.save();
 
-  await event.save()
+    res.sendStatus(200);
 
-  res.sendStatus(200);
+    sendNotifications(
+      { all: ["eventUnpublished"], members: { myEventUnpublished: event.leaders }, except: req.user._id },
+      event
+    );
+  });
 
-  sendNotifications({ all: ["eventUnpublished"], members: { "myEventUnpublished": event.leaders }, except: req.user._id }, event);
-});
+routes
+  .action("event:cancel", "/actions/cancel", {
+    permission: "events:cancel",
+    hideRoot: true,
+    query: { status: "public" },
+  })
+  .handle(async (req, res, next) => {
+    const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
+    if (!event) return res.sendStatus(404);
+    if (!RoutesACL.canDoc("events:cancel", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
-routes.action("event:cancel", "/actions/cancel", { permission: "events:cancel", hideRoot: true, query: { status: "public" } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
+    event.status = "cancelled";
+    event.statusNote = req.body.note || null;
 
-  if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:cancel", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
+    await event.save();
 
-  event.status = "cancelled";
-  event.statusNote = req.body.note || null;
+    res.sendStatus(200);
 
-  await event.save();
+    sendNotifications(
+      { all: ["eventCancelled"], members: { myEventCancelled: event.leaders }, except: req.user._id },
+      event
+    );
+  });
 
-  res.sendStatus(200);
+routes
+  .action("event:uncancel", "/actions/uncancel", {
+    permission: "events:cancel",
+    hideRoot: true,
+    query: { status: "cancelled" },
+  })
+  .handle(async (req, res, next) => {
+    const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
 
-  sendNotifications({ all: ["eventCancelled"], members: { "myEventCancelled": event.leaders }, except: req.user._id }, event);
-});
+    if (!event) return res.sendStatus(404);
+    if (!RoutesACL.canDoc("events:cancel", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
 
-routes.action("event:uncancel", "/actions/uncancel", { permission: "events:cancel", hideRoot: true, query: { status: "cancelled" } }).handle(async (req, res, next) => {
-  const event = await Event.findOne({ _id: req.params.id }, "name status leaders", { autopopulate: false });
+    event.status = "public";
+    event.statusNote = req.body.note || null;
 
-  if (!event) return res.sendStatus(404);
-  if (!RoutesACL.canDoc("events:cancel", JSON.parse(JSON.stringify(event)), req)) return res.sendStatus(403);
+    await event.save();
 
-  event.status = "public";
-  event.statusNote = req.body.note || null;
+    res.sendStatus(200);
 
-  await event.save();
+    sendNotifications(
+      { all: ["eventUncancelled"], members: { myEventUncancelled: event.leaders }, except: req.user._id },
+      event
+    );
+  });
 
-  res.sendStatus(200);
+routes
+  .action("event:lead", "/actions/lead", {
+    permission: "events:lead",
+    hideRoot: true,
+    query: { leaders: { $size: 0 } },
+  })
+  .handle(async (req, res, next) => {
+    if (!req.user || !req.user.member) return res.status(400).send("No member ID linked to this account.");
 
-  sendNotifications({ all: ["eventUncancelled"], members: { "myEventUncancelled": event.leaders }, except: req.user._id }, event);
-});
+    await Event.findOneAndUpdate({ _id: req.params.id }, { leaders: [req.user.member] });
 
-routes.action("event:lead", "/actions/lead", { permission: "events:lead", hideRoot: true, query: { leaders: { $size: 0 } } }).handle(async (req, res, next) => {
-
-  if (!req.user || !req.user.member) return res.status(400).send("No member ID linked to this account.");
-
-  await Event.findOneAndUpdate({ _id: req.params.id }, { leaders: [req.user.member] });
-
-  res.sendStatus(200);
-});
+    res.sendStatus(200);
+  });
 
 routes.get("event:leaders", "/leaders", { permission: "events:read" }).handle(async (req, res, next) => {
-
   // get event with populated leaders' members
-  var event = await Event.findOne({ _id: req.params.id }).select("leaders").populate("leaders", "_id nickname name group");
+  var event = await Event.findOne({ _id: req.params.id })
+    .select("leaders")
+    .populate("leaders", "_id nickname name group");
 
   var leaders = event.leaders;
 
@@ -186,4 +247,3 @@ routes.get("event:payments", "/payments", { permission: "events:payments:list" }
   req.routes.links(payments, "payment");
   res.json(payments);
 });
-

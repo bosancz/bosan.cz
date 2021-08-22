@@ -1,6 +1,5 @@
-const fs = require("fs-extra");
-const config = require("./config");
-
+import fs from "fs-extra";
+import * as config from "./config/index.js";
 
 const dirs = [
   config.storage.config,
@@ -10,14 +9,11 @@ const dirs = [
   config.storage.uploads,
 ];
 
-async function ensureDirs() {
+export async function ensureDirs() {
   for (let dir of dirs) {
-    await fs.ensureDir(dir)
+    await fs
+      .ensureDir(dir)
       .then(() => console.log("[FS] Initialized dir: " + dir))
       .catch(() => console.error("[FS] Failed to initialize dir: " + dir));
   }
-}
-
-module.exports = {
-  ensureDirs
 }

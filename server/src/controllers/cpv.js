@@ -1,7 +1,7 @@
-const { Routes } = require("@smallhillcz/routesjs");
-const axios = require("axios");
-const cheerio = require("cheerio");
-const { DateTime } = require("luxon");
+import { Routes } from "@smallhillcz/routesjs";
+import axios from "axios";
+import cheerio from "cheerio";
+import { DateTime } from "luxon";
 
 const routes = (module.exports = new Routes());
 

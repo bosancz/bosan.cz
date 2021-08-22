@@ -1,20 +1,18 @@
-const { Routes } = require("@smallhillcz/routesjs");
-const routes = module.exports = new Routes();
+import { Routes } from "@smallhillcz/routesjs";
+const routes = (module.exports = new Routes());
 
-const config = require("../config");
+import config from "../config";
 
-var fs = require("fs-extra");
+import fs from "fs-extra";
 
-var Event = require("../models/event");
+import Event from "../models/event";
 
-routes.get("me:events","/",{permission:"me:events:list"}).handle(async (req,res,next) => {
-
+routes.get("me:events", "/", { permission: "me:events:list" }).handle(async (req, res, next) => {
   // construct the query
-  const query = Event.find({leaders:req.user.member});
+  const query = Event.find({ leaders: req.user.member });
 
   const events = await query.toObject();
 
-  req.routes.links(events,"event");
+  req.routes.links(events, "event");
   res.json(events);
-
 });

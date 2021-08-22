@@ -1,56 +1,55 @@
-const { Routes } = require("@smallhillcz/routesjs");
-const routes = module.exports = new Routes();
+import { Routes } from "@smallhillcz/routesjs";
+const routes = (module.exports = new Routes());
 
-const config = require("../config");
+import config from "../config";
 
-const { DateTime } = require("luxon");
-const ical = require('ical-generator');
+import { DateTime } from "luxon";
+import ical from "ical-generator";
 
-var validate = require("../validator");
+import validate from "../validator";
 
-var Event = require("../models/event");
+import Event from "../models/event";
 
 const getEventsProgramSchema = {
-  type: 'object',
+  type: "object",
   properties: {
-    "dateFrom": { type: "string", format: "date" },
-    "dateTill": { type: "string", format: "date" },
-    "limit": { type: "number" }
+    dateFrom: { type: "string", format: "date" },
+    dateTill: { type: "string", format: "date" },
+    limit: { type: "number" },
   },
-  additionalProperties: false
+  additionalProperties: false,
 };
 
-routes.get("program", "/", { permission: "program:read" }).handle(validate({ query: getEventsProgramSchema }), async (req, res, next) => {
+routes
+  .get("program", "/", { permission: "program:read" })
+  .handle(validate({ query: getEventsProgramSchema }), async (req, res, next) => {
+    const query = Event.find({ status: { $in: ["public", "cancelled"] } }, null, { autopopulate: false });
 
+    query.select("_id name status dateFrom dateTill groups leadersEvent description type subtype meeting registration");
+    query.populate("leaders", "_id name nickname group contacts.mobile");
 
-  const query = Event.find({ status: { $in: ["public", "cancelled"] } }, null, { autopopulate: false });
+    const today = new Date();
+    today.setDate(today.getDate() - 3);
 
-  query.select("_id name status dateFrom dateTill groups leadersEvent description type subtype meeting registration");
-  query.populate("leaders", "_id name nickname group contacts.mobile");
+    query.where({ dateTill: { $gte: req.query.dateFrom ? new Date(req.query.dateFrom) : today } });
+    if (req.query.dateTill) query.where({ dateFrom: { $lte: new Date(req.query.dateTill) } });
 
-  const today = new Date();
-  today.setDate(today.getDate() - 3);
+    query.sort("dateFrom order");
+    query.limit(req.query.limit ? Math.min(100, Number(req.query.limit)) : 100);
 
-  query.where({ dateTill: { $gte: req.query.dateFrom ? new Date(req.query.dateFrom) : today } });
-  if (req.query.dateTill) query.where({ dateFrom: { $lte: new Date(req.query.dateTill) } });
+    const program = await query.toObject();
 
-  query.sort("dateFrom order");
-  query.limit(req.query.limit ? Math.min(100, Number(req.query.limit)) : 100);
+    req.routes.links(program, "event");
 
-  const program = await query.toObject();
-
-  req.routes.links(program, "event");
-
-  res.json(program);
-});
+    res.json(program);
+  });
 
 routes.get("program:ical", "/ical", { permission: "program:read" }).handle(async (req, res, next) => {
-
   const cal = ical({
     domain: config.ical.domain,
     name: "Bošán - Program akcí",
     timezone: config.ical.timezone,
-    method: "publish"
+    method: "publish",
   });
 
   const from = DateTime.local().minus({ days: 30 });
@@ -76,28 +75,31 @@ routes.get("program:ical", "/ical", { permission: "program:read" }).handle(async
       description: event.description,
       location: event.place,
       organizer: config.ical.organizer,
-      attendees: event.leaders.map(member => ({ name: member.nickname, email: member.contacts && member.contacts.email || "info@bosan.cz", rsvp: true })),
-      timezone: config.ical.timezone
+      attendees: event.leaders.map((member) => ({
+        name: member.nickname,
+        email: (member.contacts && member.contacts.email) || "info@bosan.cz",
+        rsvp: true,
+      })),
+      timezone: config.ical.timezone,
     });
-
   }
 
   cal.serve(res);
-
 });
 
 routes.get("program:stats", "/stats", { permission: "program:stats" }).handle(async (req, res, next) => {
-
-  const stats = {}
+  const stats = {};
   const status = await Event.aggregate([
     { $match: { dateFrom: { $gte: new Date() } } },
     { $group: { _id: "$status", count: { $sum: 1 } } },
-    { $project: { _id: false, status: "$_id", count: "$count" } }
+    { $project: { _id: false, status: "$_id", count: "$count" } },
   ]);
 
-
-  stats.count = status.map(item => item.count).reduce((acc, cur) => acc + cur, 0);
-  stats.status = status.reduce((acc, cur) => { acc[cur.status] = cur.count; return acc; }, {});
+  stats.count = status.map((item) => item.count).reduce((acc, cur) => acc + cur, 0);
+  stats.status = status.reduce((acc, cur) => {
+    acc[cur.status] = cur.count;
+    return acc;
+  }, {});
 
   res.json(stats);
 });

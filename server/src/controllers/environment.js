@@ -1,5 +1,5 @@
-const { Routes } = require("@smallhillcz/routesjs");
-const config = require("../config");
+import { Routes } from "@smallhillcz/routesjs";
+import * as config from "../config/index.js";
 
 const routes = (module.exports = new Routes());
 

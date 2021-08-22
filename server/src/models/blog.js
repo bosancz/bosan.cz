@@ -1,4 +1,4 @@
-var mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const blogSchema = mongoose.Schema(
   {
@@ -11,4 +11,4 @@ const blogSchema = mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-module.exports = mongoose.model("Blog", blogSchema);
+export const Blog = mongoose.model("Blog", blogSchema);

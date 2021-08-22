@@ -1,7 +1,7 @@
-const server = require("./server");
-const general = require("./general");
+import server from "./server.js";
+import general from "./general.js";
 
-module.exports = {
+export default {
   domain: process.env.ICAL_DOMAIN || server.host,
-  organizer: `${general.title} <${general.mail}>`
-}
+  organizer: `${general.title} <${general.mail}>`,
+};

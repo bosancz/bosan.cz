@@ -1,7 +1,7 @@
-var createToken = require("./create-token");
-var saveCookie = require("./save-cookie");
+import createToken from "./create-token";
+import saveCookie from "./save-cookie";
 
-module.exports = async function (res, user, impersonatedBy) {
+export default async function (res, user, impersonatedBy) {
   var token = await createToken(user, { impersonatedBy });
 
   saveCookie(res, token);

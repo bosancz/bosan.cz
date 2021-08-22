@@ -1,16 +1,14 @@
-module.exports = {
-  acl: require("./acl"),
-  auth: require("./auth"),
-  database: require("./database"),
-  environment: require("./environment"),
-  events: require("./events"),
-  facebook: require("./facebook"),
-  general: require("./general"),
-  google: require("./google"),
-  ical: require("./ical"),
-  keys: require("./keys"),
-  photos: require("./photos"),
-  server: require("./server"),
-  storage: require("./storage"),
-  uploads: require("./uploads"),
-};
+export * as acl from "./acl.js";
+export * as auth from "./auth.js";
+export * as database from "./database.js";
+export * as environment from "./environment.js";
+export * as events from "./events.js";
+export * as facebook from "./facebook.js";
+export * as general from "./general.js";
+export * as google from "./google.js";
+export * as ical from "./ical.js";
+export * as keys from "./keys.js";
+export * as photos from "./photos.js";
+export * as server from "./server.js";
+export * as storage from "./storage.js";
+export * as uploads from "./uploads.js";

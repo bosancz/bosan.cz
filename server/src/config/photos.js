@@ -1,16 +1,15 @@
-const path = require("path");
+import path from "path";
 
-const storage = require("./storage");
+import storage from "./storage.js";
 
-module.exports = {
-
-  albumStorageDirFn: albumId => path.join(storage.photos, String(albumId)),
-  albumThumbsDirFn: albumId => path.join(storage.thumbs, String(albumId)),
+export default {
+  albumStorageDirFn: (albumId) => path.join(storage.photos, String(albumId)),
+  albumThumbsDirFn: (albumId) => path.join(storage.thumbs, String(albumId)),
 
   allowedTypes: ["jpg", "jpeg", "png", "gif"],
 
   sizes: {
-    "big": [1280, 1024],
-    "small": [1024, 340]
-  }
-}
+    big: [1280, 1024],
+    small: [1024, 340],
+  },
+};

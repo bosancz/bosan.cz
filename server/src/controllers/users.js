@@ -1,15 +1,15 @@
-const { Routes, RoutesACL } = require("@smallhillcz/routesjs");
-const createToken = require("./login/create-token");
+import { Routes, RoutesACL } from "@smallhillcz/routesjs";
+import createToken from "./login/create-token";
 
-const routes = module.exports = new Routes();
+const routes = (module.exports = new Routes());
 
-var bcrypt = require("bcryptjs");
+import bcrypt from "bcryptjs";
 
-var config = require("../config");
+import config from "../config";
 
-var User = require("../models").User;
+import { User as User } from "../models";
 
-var mailings = require("../mailings");
+import mailings from "../mailings";
 
 routes.get("users", "/", { permission: "users:list" }).handle(async (req, res, next) => {
   var query = User.find({}).select("_id login member roles email");
@@ -21,7 +21,6 @@ routes.get("users", "/", { permission: "users:list" }).handle(async (req, res, n
 });
 
 routes.post("users", "/", { permission: "users:create" }).handle(async (req, res) => {
-
   // get the user data
   const userData = req.body;
 
@@ -32,13 +31,14 @@ routes.post("users", "/", { permission: "users:create" }).handle(async (req, res
   // choose the proper type for null member
   if (!userData.member) userData.member = null;
   // if there is password in the payload, hash it with bcrypt
-  if (userData.password) userData.password = await bcrypt.hash(req.body.password, config.auth.bcrypt.rounds)
+  if (userData.password) userData.password = await bcrypt.hash(req.body.password, config.auth.bcrypt.rounds);
 
   // update or create the user
   var user = await User.create(userData);
 
   // send mail
-  if (user.email) mailings("new-account", { user: user, validity: 10, token: createToken(user, { expiration: "10 days" }) });
+  if (user.email)
+    mailings("new-account", { user: user, validity: 10, token: createToken(user, { expiration: "10 days" }) });
 
   res.location("/users/" + user._id);
   // respond if succeeded
@@ -54,7 +54,6 @@ routes.get("user", "/:id", { permission: "users:read" }).handle(async (req, res,
 });
 
 routes.patch("user", "/:id", { permission: "users:edit" }).handle(async (req, res) => {
-
   var userData = req.body;
 
   // normalize
@@ -64,10 +63,10 @@ routes.patch("user", "/:id", { permission: "users:edit" }).handle(async (req, re
   // choose the proper type for null member
   if (!userData.member) userData.member = null;
   // if there is password in the payload, hash it with bcrypt
-  if (userData.password) userData.password = await bcrypt.hash(userData.password, config.auth.bcrypt.rounds)
+  if (userData.password) userData.password = await bcrypt.hash(userData.password, config.auth.bcrypt.rounds);
 
   // update the user
-  await User.findOneAndUpdate({ _id: req.params.id }, userData)
+  await User.findOneAndUpdate({ _id: req.params.id }, userData);
 
   // respond success
   res.sendStatus(204);
@@ -79,40 +78,45 @@ routes.delete("user", "/:id", { permission: "users:delete" }).handle(async (req,
   res.sendStatus(204);
 });
 
-routes.put("user:credentials", "/:id/credentials", { permission: "users:credentials:edit" }).handle(async (req, res) => {
+routes
+  .put("user:credentials", "/:id/credentials", { permission: "users:credentials:edit" })
+  .handle(async (req, res) => {
+    const user = await User.findOne({ _id: req.params.id }).filterByPermission("users:credentials:edit", req);
+    if (!user) return res.sendStatus(401);
 
-  const user = await User.findOne({ _id: req.params.id }).filterByPermission("users:credentials:edit", req);
-  if (!user) return res.sendStatus(401);
+    var userData = req.body;
 
-  var userData = req.body;
+    userData.login = userData.login.toLowerCase();
+    userData.password = await bcrypt.hash(userData.password, config.auth.bcrypt.rounds);
 
-  userData.login = userData.login.toLowerCase();
-  userData.password = await bcrypt.hash(userData.password, config.auth.bcrypt.rounds)
+    // update the user
+    await User.findOneAndUpdate({ _id: req.params.id }, userData);
 
-  // update the user
-  await User.findOneAndUpdate({ _id: req.params.id }, userData)
+    // respond success
+    res.sendStatus(204);
+  });
 
-  // respond success
-  res.sendStatus(204);
-});
+routes
+  .post("user:subscriptions", "/subscriptions", { permission: "users:subscriptions:edit" })
+  .handle(async (req, res) => {
+    const user = await User.findOne({ _id: req.user._id }).filterByPermission("users:subscriptions:edit", req);
+    if (!user) return res.sendStatus(401);
 
-routes.post("user:subscriptions", "/subscriptions", { permission: "users:subscriptions:edit" }).handle(async (req, res) => {
-  const user = await User.findOne({ _id: req.user._id }).filterByPermission("users:subscriptions:edit", req);
-  if (!user) return res.sendStatus(401);
+    if (!user.pushSubscriptions) user.pushSubscriptions = [];
+    user.pushSubscriptions.push(req.body);
 
-  if (!user.pushSubscriptions) user.pushSubscriptions = []
-  user.pushSubscriptions.push(req.body);
+    await user.save();
+    res.sendStatus(200);
+  });
 
-  await user.save();
-  res.sendStatus(200);
-});
+routes
+  .delete("user:subscriptions", "/subscriptions/:id", { permission: "users:subscriptions:edit" })
+  .handle(async (req, res) => {
+    const user = await User.findOne({ _id: req.user._id }).filterByPermission("users:subscriptions:edit", req);
+    if (!user) return res.sendStatus(401);
 
-routes.delete("user:subscriptions", "/subscriptions/:id", { permission: "users:subscriptions:edit" }).handle(async (req, res) => {
-  const user = await User.findOne({ _id: req.user._id }).filterByPermission("users:subscriptions:edit", req);
-  if (!user) return res.sendStatus(401);
+    user.pushSubscriptions = [];
 
-  user.pushSubscriptions = [];
-
-  await user.save();
-  res.sendStatus(200);
-});
+    await user.save();
+    res.sendStatus(200);
+  });

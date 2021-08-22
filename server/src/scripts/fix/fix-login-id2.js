@@ -1,17 +1,15 @@
-var mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-var connection = require("../db");
+import connection from "../db";
 
-var User = require("../models/user");
+import User from "../models/user";
 
-async function fixUserId(){
-  
+async function fixUserId() {
   const users = await User.find({}).select("+password");
-  
-  for(let user of users){
-    
+
+  for (let user of users) {
     user.login = user._id;
-    await user.save()
+    await user.save();
 
     /*
     let userData = user.toObject();

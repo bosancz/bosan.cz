@@ -1,37 +1,34 @@
-var mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-var connection = require("../../db");
+import connection from "../../db";
 
-var Event = require("../../models/event");
-var Member = require("../../models/member");
+import Event from "../../models/event";
+import Member from "../../models/member";
 
 const dry = false;
 
-async function fixMemberDuplicates(){
-  
+async function fixMemberDuplicates() {
   var members = await Member.find().select("_id nickname role inactive");
-  
-  for(let member of members){
-    if(member.role === "neaktivní"){
+
+  for (let member of members) {
+    if (member.role === "neaktivní") {
       member.inactive = true;
       member.role = "vedoucí";
       console.log("Updating member " + member.nickname + (dry ? " (DRY)" : ""));
-      if(!dry) await member.save();
+      if (!dry) await member.save();
     }
   }
-  
+
   console.log("Finished.");
-  
-  
 }
-  
-  /* RUN, FOREST, RUN */
+
+/* RUN, FOREST, RUN */
 Promise.resolve()
   .then(() => connection)
   .then(() => fixMemberDuplicates())
   .then(() => mongoose.disconnect().then(() => console.log("DB disconnected")))
   .then(() => process.exit())
-  .catch(err => {
+  .catch((err) => {
     console.error("Error: " + err.name);
     console.error(err);
     process.exit(1);

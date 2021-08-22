@@ -1,14 +1,13 @@
-var bcrypt = require("bcryptjs");
+import bcrypt from "bcryptjs";
 
-var config = require("../config");
+import config from "../config";
 
-var { mongoose, connectDB } = require("../db");
+import { mongoose, connectDB } from "../db";
 
-var User = require("../models/user");
+import User from "../models/user";
 
 (async function () {
   try {
-
     console.log("Connecting to DB...");
     await connectDB();
 
@@ -22,13 +21,10 @@ var User = require("../models/user");
     await User.create({ login: "admin", password: hash, roles: ["spravce"] });
 
     console.log(`Created user "admin" with password "admin".`);
-    
-  }
-  catch (err) {
+  } catch (err) {
     console.error("Error when creating user:");
     console.error(err);
   }
 
   mongoose.disconnect();
-
 })();

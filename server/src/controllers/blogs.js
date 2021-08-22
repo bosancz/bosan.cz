@@ -1,7 +1,7 @@
-const { Routes, RoutesACL } = require("@smallhillcz/routesjs");
+import { Routes, RoutesACL } from "@smallhillcz/routesjs";
 const routes = (module.exports = new Routes());
 
-var Blog = require("../models/blog");
+import Blog from "../models/blog.js";
 
 routes.get("blogs", "/", { permission: "blogs:list" }).handle(async (req, res, next) => {
   const query = Blog.find();

@@ -1,17 +1,17 @@
-const config = require("../config");
+import config from "../config";
 
-const { Routes } = require("@smallhillcz/routesjs");
+import { Routes } from "@smallhillcz/routesjs";
 const routes = (module.exports = new Routes());
 
-var fs = require("fs-extra");
-var path = require("path");
+import fs from "fs-extra";
+import path from "path";
 
-var multer = require("multer");
+import multer from "multer";
 var upload = multer({ dest: config.storage.uploads });
 
-var validate = require("../validator");
+import validate from "../validator";
 
-var Event = require("../models/event");
+import Event from "../models/event";
 
 routes
   .get("event:registration", "/", {

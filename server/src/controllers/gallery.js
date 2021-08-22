@@ -1,12 +1,12 @@
-const { Routes } = require("@smallhillcz/routesjs");
-const routes = module.exports = new Routes();
+import { Routes } from "@smallhillcz/routesjs";
+const routes = (module.exports = new Routes());
 
-const config = require("../config");
+import config from "../config";
 
-const Album = require("../models/album");
-const Photo = require("../models/photo");
+import Album from "../models/album";
+import Photo from "../models/photo";
 
-const albumDownload = require("./albums/album-download");
+import albumDownload from "./albums/album-download";
 
 routes.get("gallery", "/", { permission: "gallery:list" }).handle(async (req, res) => {
   const query = Album.find({ status: "public" });
@@ -15,12 +15,13 @@ routes.get("gallery", "/", { permission: "gallery:list" }).handle(async (req, re
 });
 
 routes.get("gallery:recent", "/recent", { permission: "gallery:list" }).handle(async (req, res) => {
-
-  var query = Album.find({ status: "public" }).sort("-datePublished").limit(req.query.limit ? Math.min(10, req.query.limit) : 5);
+  var query = Album.find({ status: "public" })
+    .sort("-datePublished")
+    .limit(req.query.limit ? Math.min(10, req.query.limit) : 5);
   query.populate("titlePhotos");
   query.populate({ path: "photos", options: { limit: 3 } });
 
-  const albums = await query.then(docs => docs.map(doc => doc.toObject()));
+  const albums = await query.then((docs) => docs.map((doc) => doc.toObject()));
 
   // fill in missing titlePhotos
   for (let album of albums) {
@@ -46,7 +47,8 @@ routes.get("galleryalbum", "/:id", { permission: "gallery:read" }).handle(async 
 
   let i = 0;
   while (album.titlePhotos.length < 3 && album.photos[i]) {
-    if (!album.titlePhotos.some(item => String(item._id) === String(album.photos[i]._id))) album.titlePhotos.push(album.photos[i]);
+    if (!album.titlePhotos.some((item) => String(item._id) === String(album.photos[i]._id)))
+      album.titlePhotos.push(album.photos[i]);
     i++;
   }
 
@@ -56,11 +58,11 @@ routes.get("galleryalbum", "/:id", { permission: "gallery:read" }).handle(async 
 });
 
 routes.get("galleryalbum:preview", "/:id", { permission: "gallery:read" }).handle(async (req, res) => {
-  var query = Album.findOne({ _id: req.params.id, status: "public" }).select("name dateFrom dateTill description")
+  var query = Album.findOne({ _id: req.params.id, status: "public" }).select("name dateFrom dateTill description");
   query.populate({ path: "titlePhotos", options: { limit: 3 } });
   query.populate({ path: "photos", options: { limit: 3 } });
 
-  const album = await query.then(doc => doc.toObject());
+  const album = await query.then((doc) => doc.toObject());
 
   // fill in missing titlePhotos
   if (!album.titlePhotos) album.titlePhotos = [];
@@ -72,18 +74,16 @@ routes.get("galleryalbum:preview", "/:id", { permission: "gallery:read" }).handl
 });
 
 routes.get("galleryalbum:download", "/:id/download", { permission: "gallery:download" }).handle(async (req, res) => {
-
   var album = await Album.findOne({ _id: req.params.id, status: "public" });
 
   if (!album) return res.sendStatus(404);
 
   res.writeHead(200, {
-    'Content-Type': 'application/zip',
-    'Content-disposition': 'attachment; filename=album.zip'
+    "Content-Type": "application/zip",
+    "Content-disposition": "attachment; filename=album.zip",
   });
 
-  albumDownload(album._id, res)
-    .catch(err => {
-      console.log(err.message);
-    });
+  albumDownload(album._id, res).catch((err) => {
+    console.log(err.message);
+  });
 });

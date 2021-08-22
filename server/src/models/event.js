@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 var eventSchema = mongoose.Schema(
   {
@@ -73,4 +73,4 @@ var eventSchema = mongoose.Schema(
   { toObject: { virtuals: true } }
 );
 
-module.exports = mongoose.model("Event", eventSchema);
+export const Event = mongoose.model("Event", eventSchema);

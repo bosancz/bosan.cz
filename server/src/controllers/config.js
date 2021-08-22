@@ -1,18 +1,17 @@
-const config = require("../config");
+import * as config from "../config/index.js";
 
-const { Routes } = require("@smallhillcz/routesjs");
-const routes = module.exports = new Routes();
+import { Routes } from "@smallhillcz/routesjs";
+const routes = (module.exports = new Routes());
 
-var fs = require("fs-extra");
-var path = require("path");
+import fs from "fs-extra";
+import path from "path";
 
 var configFile = path.resolve(config.storage.config, "web-config.json");
 
 routes.get("config", "/", { permission: "config:read" }).handle(async (req, res, next) => {
   if (await fs.pathExists(configFile)) {
-    res.sendFile(configFile)
-  }
-  else {
+    res.sendFile(configFile);
+  } else {
     res.json({});
   }
 });

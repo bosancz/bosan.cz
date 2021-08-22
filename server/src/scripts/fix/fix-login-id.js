@@ -1,21 +1,19 @@
-var mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-var connection = require("../db");
+import connection from "../db";
 
-var User = require("../models/user");
+import User from "../models/user";
 
-async function fixUserId(){
-  
+async function fixUserId() {
   const users = await User.find({});
-  
-  for(let user of users){
-    
-    let userData= user.toObject();
+
+  for (let user of users) {
+    let userData = user.toObject();
     userData._id = userData._id.toLowerCase();
-    
+
     console.log(`Converting ${user._id} to ${userData._id}.`);
-    
-    await User.deleteOne({_id:user._id});
+
+    await User.deleteOne({ _id: user._id });
     await User.create(userData);
   }
 }

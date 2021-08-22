@@ -1,7 +1,7 @@
 const host = process.env.SERVER_HOST || "0.0.0.0";
 const port = process.env.SERVER_PORT || 3000;
 
-module.exports = {
+export default {
   host,
   port,
 

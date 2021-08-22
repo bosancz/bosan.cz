@@ -1,14 +1,14 @@
-var config = require("../../config");
+import config from "../../config";
 
-module.exports = function createPage(options){
+export default function createPage(options) {
   var image = "";
-  if(options.image){
+  if (options.image) {
     image = `
     <meta property="og:image" content="${options.image.url}" />
     <meta property="og:image:width" content="${options.image.width}" />
     <meta property="og:image:height" content="${options.image.height}" />`;
   }
-  
+
   return `
 <!DOCTYPE html>
 <html>

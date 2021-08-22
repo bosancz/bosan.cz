@@ -1,16 +1,14 @@
-const archiver = require("archiver");
+import archiver from "archiver";
 
-const config = require("../../config");
+import config from "../../config";
 
-module.exports = function(albumId,res){
+export default function (albumId, res) {
+  return new Promise((resolve, reject) => {
+    const zip = archiver("zip");
+    zip.on("error", (err) => reject(err));
 
-  return new Promise((resolve,reject) => {
-
-    const zip = archiver("zip");  
-    zip.on('error', err => reject(err));
-
-    res.on('close', () => resolve());
-    res.on('error', err => reject(err));
+    res.on("close", () => resolve());
+    res.on("error", (err) => reject(err));
 
     const albumDir = config.photos.albumStorageDirFn(albumId);
 
@@ -19,7 +17,5 @@ module.exports = function(albumId,res){
     zip.directory(albumDir, false);
 
     zip.finalize();
-
   });
-
-};
+}

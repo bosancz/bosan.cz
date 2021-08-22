@@ -139,7 +139,7 @@ const permissions = {
   "versions:read": { spravce, guest },
 };
 
-module.exports = {
+export default {
   permissions,
   userRoles: (req) => (req.user ? req.user.roles || [] : []),
   authenticated: (req) => !!req.user,

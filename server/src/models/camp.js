@@ -1,13 +1,13 @@
-var mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-var Album = require("./album"); // load because of reference
+import { Album } from "./album.js"; // load because of reference
 
 var campSchema = mongoose.Schema({
-  "name": String,
-  "dateFrom": Date,
-  "dateTill": Date,
-  "theme": String,
-  "album": {type: mongoose.Schema.Types.ObjectId, ref: "Album"}
+  name: String,
+  dateFrom: Date,
+  dateTill: Date,
+  theme: String,
+  album: { type: mongoose.Schema.Types.ObjectId, ref: "Album" },
 });
 
-module.exports = mongoose.model("Camp", campSchema);
+export const Camp = mongoose.model("Camp", campSchema);

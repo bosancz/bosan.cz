@@ -1,18 +1,18 @@
-const { Routes } = require("@smallhillcz/routesjs");
+import { Routes } from "@smallhillcz/routesjs";
 const routes = (module.exports = new Routes());
 
-const config = require("../config");
+import config from "../config/index.js";
 
-var multer = require("multer");
+import multer from "multer";
 var upload = multer({ dest: config.storage.uploads });
-var fs = require("fs-extra");
+import fs from "fs-extra";
 
-var path = require("path");
+import path from "path";
 
-var Album = require("../models/album");
-var Photo = require("../models/photo");
+import Album from "../models/album.js";
+import Photo from "../models/photo.js";
 
-var savePhoto = require("./albums/photo-save");
+import savePhoto from "./albums/photo-save.js";
 
 // LIST ALBUMS
 routes.get("photos", "/", { permission: "photos:list" }).handle(async (req, res, next) => {

@@ -1,3 +1,3 @@
-module.exports = {
-  app_id: process.env.FACEBOOK_APP_ID
+export default {
+  app_id: process.env.FACEBOOK_APP_ID,
 };

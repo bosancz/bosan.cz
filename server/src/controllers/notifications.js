@@ -1,16 +1,16 @@
-const { Routes } = require("@smallhillcz/routesjs");
-const routes = module.exports = new Routes();
+import { Routes } from "@smallhillcz/routesjs";
+const routes = (module.exports = new Routes());
 
-const config = require("../config");
+import config from "../config";
 
-const User = require("../models/user");
+import User from "../models/user";
 
-const { listNotifications } = require("../notifications");
+import { listNotifications } from "../notifications";
 
-routes.get("notifications", "/", {permission:"notifications:list"}).handle((req,res) => {
+routes.get("notifications", "/", { permission: "notifications:list" }).handle((req, res) => {
   res.json(listNotifications());
 });
 
-routes.get("notifications:key", "/key", {permission:"notifications:key:read"}).handle((req,res) => {
+routes.get("notifications:key", "/key", { permission: "notifications:key:read" }).handle((req, res) => {
   res.send(config.keys.vapid.publicKey);
 });

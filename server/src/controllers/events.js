@@ -1,11 +1,11 @@
-const { Routes } = require("@smallhillcz/routesjs");
+import { Routes } from "@smallhillcz/routesjs";
 const routes = (module.exports = new Routes());
 
-var validate = require("../validator");
+import validate from "../validator";
 
-var createEvent = require("./events/create-event");
+import createEvent from "./events/create-event";
 
-var Event = require("../models/event");
+import Event from "../models/event";
 
 var getEventsSchema = {
   type: "object",
