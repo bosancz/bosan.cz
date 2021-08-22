@@ -35,6 +35,9 @@
             MP)
           </span>
           <span class="col-12 col-lg" [title]="photo.name">Název: {{ photo.name }}</span>
+          <span class="col-12 col-lg">
+            Nahrál/a: {{ photo.uploadedBy!.member!.nickname || photo.uploadedBy!.login }}
+          </span>
         </p>
       </ion-label>
 
