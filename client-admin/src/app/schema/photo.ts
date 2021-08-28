@@ -29,4 +29,6 @@ export interface Photo {
 
   shareUrl?: string;
 
+  uploadedBy?: { _id: string, login: string, member?: { name: string, nickname: string; }; };
+
 }
