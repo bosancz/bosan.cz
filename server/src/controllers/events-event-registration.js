@@ -1,6 +1,6 @@
 const config = require("../config");
 
-const { Routes } = require("@smallhillcz/routesjs");
+const { Routes, RoutesACL } = require("@smallhillcz/routesjs");
 const routes = (module.exports = new Routes());
 
 var fs = require("fs-extra");
