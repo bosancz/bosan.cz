@@ -3,13 +3,13 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title *ngIf="!isLg">Bošán Interní</ion-title>
-    <ion-title *ngIf="isLg">Přehled</ion-title>
+    <!-- <ion-title *ngIf="!isLg">Bošán Interní</ion-title> -->
+    <ion-title>Přehled</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <bo-home-menu *ngIf="!isLg"></bo-home-menu>
+  <!-- <bo-home-menu *ngIf="!isLg"></bo-home-menu> -->
 
-  <bo-home-dashboard *ngIf="isLg"></bo-home-dashboard>
+  <bo-home-dashboard></bo-home-dashboard>
 </ion-content>
