@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApiService } from "app/core/services/api.service";
@@ -13,11 +13,13 @@ type DashboardMyEventsStats = {
 };
 
 @Component({
-  selector: 'bo-dashboard-my-events',
-  templateUrl: './dashboard-my-events.component.html',
-  styleUrls: ['./dashboard-my-events.component.scss'],
+  selector: 'bo-home-my-events',
+  templateUrl: './home-my-events.component.html',
+  styleUrls: ['./home-my-events.component.scss'],
 })
-export class DashboardMyEventsComponent implements OnInit {
+export class HomeMyEventsComponent implements OnInit {
+
+  @Input() limit?: number;
 
   title = "Moje akce";
 
@@ -45,6 +47,8 @@ export class DashboardMyEventsComponent implements OnInit {
     this.events = await this.api.get<Event[]>("me:events");
 
     this.events.sort((a, b) => b.dateFrom.localeCompare(a.dateFrom));
+
+    if (this.limit) this.events = this.events.slice(0, this.limit);
 
     this.updateStats();
 

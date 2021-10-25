@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-lg-6">
+    <h2 class="mb-3">Moje akce</h2>
+
+    <ion-list>
+      <ion-item *ngFor="let event of myEvents | slice: 0:3" [detail]="true" [routerLink]="'/akce/' + event._id">
+        <ion-label>
+          <h3>
+            <strong>{{ event.name }}</strong>
+          </h3>
+          <p>{{ event.dateFrom | date: "d. M. Y" }} ~ {{ event.dateTill | date: "d. M. Y" }}</p>
+          <p>{{ event.description }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <div class="text-center">
+      <a routerLink="moje-akce">Zobrazit všechny moje akce</a>
+    </div>
+
+    <h2 class="my-3">Volné akce</h2>
+
+    <bo-noleader-events></bo-noleader-events>
+  </div>
+
+  <div class="col-lg-6">
+    <h2 class="mb-3">Kalendář</h2>
+    <bo-home-calendar [months]="1"></bo-home-calendar>
+
+    <div class="text-center">
+      <a routerLink="/program">Zobrazit celý program</a>
+    </div>
+  </div>
+</div>

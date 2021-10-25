@@ -8,7 +8,7 @@ import { NotFoundComponent } from './core/views/not-found/not-found.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { hideMenu: true } },
 
-  { path: 'prehled', canLoad: [AclGuard], data: { permission: "dashboard" }, loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) },
+  { path: '', canLoad: [AclGuard], data: { permission: "dashboard" }, loadChildren: () => import('./modules/home/home.module').then(m => m.DashboardModule) },
 
   { path: 'akce', canLoad: [AclGuard], data: { permission: "events" }, loadChildren: () => import('./modules/events/events.module').then(m => m.EventsModule) },
 
@@ -28,7 +28,7 @@ const routes: Routes = [
 
   { path: 'web', canLoad: [AclGuard], data: { permission: "web" }, loadChildren: () => import('./modules/web/web.module').then(m => m.WebModule) },
 
-  { path: '', redirectTo: "prehled", pathMatch: "full" },
+  // { path: '', redirectTo: "prehled", pathMatch: "full" },
 
   { path: '**', component: NotFoundComponent },
 
