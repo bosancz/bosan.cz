@@ -1,7 +1,7 @@
 {
   "name": "bosancz-client-admin",
   "description": "Bošán interní sekce",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "private": true,
   "scripts": {
     "build": "ng build --prod",
