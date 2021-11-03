@@ -33,8 +33,8 @@ export class HomeCalendarComponent implements OnInit {
     this.dateTill = DateTime.local().plus({ months: 1 });
 
     options.filter = {
-      dateTill: { $gte: this.dateTill.toISODate() },
-      dateFrom: { $lte: this.dateFrom.toISODate() }
+      dateTill: { $gte: this.dateFrom.toISODate() },
+      dateFrom: { $lte: this.dateTill.toISODate() }
     };
 
     this.events = await this.api.get<Event[]>("events", options);
