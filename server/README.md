@@ -33,7 +33,7 @@ Také je potřeba mít k dispozici MongoDB databázi. Tu můžete spustit buď v
 docker-compose up db
 ```
 
-Pokud byste si chtěli ověřit, že API serveru funguje, jak má, můžete spustit ještě i veřejnou a interní sekci. Buď pomocí návodu v jejich složkách, nebo kdž máte Docker, tak jen přidat do příkazu `docker-compose`:
+Pokud byste si chtěli ověřit, že API serveru funguje, jak má, můžete spustit ještě i veřejnou a interní sekci. Buď pomocí návodu v jejich složkách, nebo když máte Docker, tak jen přidat do příkazu `docker-compose`:
 
 ```sh
 docker-compose up db client client-admin
