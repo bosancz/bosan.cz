@@ -28,6 +28,14 @@ Interní sekce je psána ve frameworku Angular. Pokud ho neznáš, doporučuji s
 
  - [NodeJS](http://nodejs.org/) alespoň ve verzi 14
 
+## Instalace
+
+V této složce spusť:
+
+```
+npm install
+```
+
 ## Spuštění pro vývoj
 
 Pro vývoj budeš potřebovat i nějaká data o akcích ze serveru. Můžeš si spustit buď vlastní lokální server, nebo použít náš testovací server `test.bosan.cz`.

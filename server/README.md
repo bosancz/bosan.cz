@@ -5,6 +5,14 @@
  - [NodeJS](http://nodejs.org/) alespoň ve verzi 14
  - Pokud nemáte Docker, tak [MongoDB Community Server](https://www.mongodb.com/try/download/community) ve verzi 4.2
 
+## Instalace
+
+V této složce spusť:
+
+```
+npm install
+```
+
 ## Spuštění pro vývoj
 
 Pro vývoj serveru si musíte spustit jednak samotný **server**, ale taky **databázi**. 
