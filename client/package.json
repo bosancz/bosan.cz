@@ -1,5 +1,6 @@
 {
   "name": "bosan.cz-client",
+  "version": "2.0.1",
   "scripts": {
     "build": "ng build --prod",
     "dev": "ng serve",
