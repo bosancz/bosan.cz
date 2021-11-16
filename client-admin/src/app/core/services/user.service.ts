@@ -26,7 +26,7 @@ export class UserService {
       this.user.next(user);
       return user;
     }
-    catch (err) {
+    catch (err: any) {
       if (err.status === 404 || err.status === 401) this.user.next(null);
       else throw err;
     }

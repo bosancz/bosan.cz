@@ -68,7 +68,7 @@ export class EventsViewRegistrationComponent {
     try {
       await this.api.put(this.event._links.registration, formData);
     }
-    catch (err) {
+    catch (err: any) {
       this.toastService.toast("Nastala chyba při nahrávání: " + err.message);
     }
 
