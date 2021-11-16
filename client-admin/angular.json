@@ -17,9 +17,8 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
-            "namedChunks": true,
             "styles": ["src/styles.scss"],
+            "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
               "src/manifest.json",
@@ -33,13 +32,6 @@
           },
           "configurations": {
             "production": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -58,9 +50,24 @@
                   "maximumError": "10kb"
                 }
               ],
-              "serviceWorker": true
+              "serviceWorker": true,
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             },
             "test-server": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -68,7 +75,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -80,10 +88,14 @@
             "production": {
               "browserTarget": "bosancz:build:production"
             },
+            "development": {
+              "browserTarget": "bosancz:build:development"
+            },
             "test-server": {
               "browserTarget": "bosancz:build:test-server"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -117,9 +129,7 @@
     "@schematics/angular:interceptor": {
       "skipTests": true
     },
-    "@schematics/angular:module": {
-      "skipTests": true
-    },
+    "@schematics/angular:module": {},
     "@schematics/angular:pipe": {
       "skipTests": true
     },
