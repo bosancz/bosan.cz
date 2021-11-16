@@ -9,15 +9,15 @@
     "dev:test-server": "ng serve --configuration=test-server"
   },
   "dependencies": {
-    "@angular/animations": "^12.2.13",
-    "@angular/common": "^12.2.13",
-    "@angular/compiler": "^12.2.13",
-    "@angular/core": "^12.2.13",
-    "@angular/forms": "^12.2.13",
-    "@angular/platform-browser": "^12.2.13",
+    "@angular/animations": "^13.0.1",
+    "@angular/common": "^13.0.1",
+    "@angular/compiler": "^13.0.1",
+    "@angular/core": "^13.0.1",
+    "@angular/forms": "^13.0.1",
+    "@angular/platform-browser": "^13.0.1",
     "@angular/pwa": "^0.1102.11",
-    "@angular/router": "^12.2.13",
-    "@angular/service-worker": "^12.2.13",
+    "@angular/router": "^13.0.1",
+    "@angular/service-worker": "^13.0.1",
     "@editorjs/editorjs": "^2.21.0",
     "@editorjs/header": "^2.6.1",
     "@editorjs/image": "^2.6.0",
@@ -28,7 +28,6 @@
     "bootstrap": "^4.6.0",
     "chart.js": "^2.9.4",
     "chartjs-adapter-luxon": "^0.2.2",
-    "classlist.js": "^1.1.20150312",
     "czech-holidays": "^1.0.2",
     "docx": "^6.0.3",
     "file-saver": "^2.0.5",
@@ -40,14 +39,14 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.2.13",
-    "@angular/cli": "^12.2.13",
-    "@angular/compiler-cli": "^12.2.13",
-    "@angular/language-service": "~12.2.13",
+    "@angular-devkit/build-angular": "^13.0.2",
+    "@angular/cli": "^13.0.2",
+    "@angular/compiler-cli": "^13.0.1",
+    "@angular/language-service": "~13.0.1",
     "@ionic/angular-toolkit": "latest",
     "@types/file-saver": "^2.0.2",
     "@types/inflected": "^1.1.29",
     "@types/luxon": "^1.26.5",
-    "typescript": "~4.3.5"
+    "typescript": "~4.4.4"
   }
 }
