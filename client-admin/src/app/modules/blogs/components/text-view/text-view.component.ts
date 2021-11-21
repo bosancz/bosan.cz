@@ -15,7 +15,7 @@ export class TextViewComponent implements OnInit {
     try {
       this.data = JSON.parse(content);
     }
-    catch (err) {
+    catch (err: any) {
       this.data = undefined;
       this.error.emit(err);
     }

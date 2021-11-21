@@ -134,7 +134,7 @@ export class PhotosUploadComponent implements OnInit, AfterViewInit, OnDestroy {
         await this.uploadPhoto(album, uploadItem);
         uploadItem.status = "finished";
       }
-      catch (err) {
+      catch (err: any) {
         uploadItem.status = "error";
         uploadItem.error = err;
       }

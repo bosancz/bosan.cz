@@ -46,7 +46,7 @@ export class GoogleService {
     try {
       await gapi.client.init(environment.gapi);
     }
-    catch (googleErr) {
+    catch (googleErr: any) {
       const err = new GoogleError(googleErr.error);
       err.description = googleErr.details;
       throw err;
@@ -73,7 +73,7 @@ export class GoogleService {
 
       return token;
     }
-    catch (googleErr) {
+    catch (googleErr: any) {
       const err = new GoogleError(googleErr.error);
       err.description = googleErr.details;
       throw err;

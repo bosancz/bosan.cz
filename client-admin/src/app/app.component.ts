@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MenuController, Platform } from '@ionic/angular';
-import * as packageJson from "app/../../package.json";
+import packageJson from "app/../../package.json";
 import { LoginService } from 'app/core/services/login.service';
 import { UserService } from 'app/core/services/user.service';
 import { filter, map, mergeMap } from 'rxjs/operators';

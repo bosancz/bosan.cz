@@ -41,7 +41,7 @@ export class LoginService {
 
       await this.userService.loadUser();
     }
-    catch (err) {
+    catch (err: any) {
       result.success = false;
 
       if (err.status === 401) result.error = "invalidCredentials";
@@ -80,7 +80,7 @@ export class LoginService {
 
       return { success: true };
     }
-    catch (err) {
+    catch (err: any) {
       return { success: false, error: err.message };
     }
   }
@@ -91,7 +91,7 @@ export class LoginService {
     try {
       await this.api.post("login:sendlink", { login });
     }
-    catch (err) {
+    catch (err: any) {
       result.success = false;
       if (err.status === 404) result.error = "userNotFound";
       else result.error = "error";

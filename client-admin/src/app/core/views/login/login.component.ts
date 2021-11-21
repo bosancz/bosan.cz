@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import * as packageJson from "app/../../package.json";
+import packageJson from "app/../../package.json";
 import { LoginService } from 'app/core/services/login.service';
 import { map } from 'rxjs/operators';
 
