@@ -17,7 +17,7 @@
             "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": ["src/assets", "src/manifest.json"],
+            "assets": ["src/assets", "src/manifest.json", "src/pf-2022.html"],
             "styles": ["src/styles/styles.scss"],
             "scripts": ["node_modules/hammerjs/hammer.min.js"]
           },

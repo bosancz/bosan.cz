@@ -185,6 +185,7 @@ textarea:invalid:not(.novalidate, [matInput]) {
   overflow: auto;
   display: flex;
   flex-direction: column;
+  border: none;
 }
 
 .modal-body {

@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, LOCALE_ID, Inject } from '@angular/core';
 import { MenuService } from 'app/services/menu.service';
 import { FooterService } from 'app/services/footer.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { PourFeliciterComponent } from './components/pour-feliciter/pour-feliciter.component';
 
 @Component({
   selector: 'bo-app',
@@ -17,12 +19,15 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     public menuService: MenuService,
-    public footerService: FooterService
+    public footerService: FooterService,
+    private modalService: BsModalService
   ) { }
 
   ngAfterViewInit() {
     window.addEventListener("scroll", () => this.updateTop());
     this.updateTop();
+
+    this.modalService.show(PourFeliciterComponent, { class: 'modal-lg' });
   }
 
   updateTop() {
