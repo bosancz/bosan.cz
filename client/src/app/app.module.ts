@@ -36,6 +36,7 @@ import { PageFooterComponent } from './components/page-footer/page-footer.compon
 
 /* THIRD PARTY */
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { PourFeliciterComponent } from './components/pour-feliciter/pour-feliciter.component';
 
 
 console.log("Angular is running in " + (environment.production ? "production" : "development") + " environment");
@@ -64,6 +65,7 @@ registerLocaleData(localeCs, 'cs');
     /* COMPONENTS */
     PageMenuComponent,
     PageFooterComponent,
+    PourFeliciterComponent,
 
   ],
   imports: [
