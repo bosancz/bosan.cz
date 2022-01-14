@@ -35,8 +35,6 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
     this.sliderOptions = {
       initialSlide: index
     };
-
-    console.log(index, this.photo, this.photos);
   }
 
   async onSlideChange(event: CustomEvent) {
@@ -46,15 +44,21 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
 
   @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
-    switch (event.code) {
-      case "ArrowLeft": return this.previousPhoto();
-      case "ArrowRight": return this.nextPhoto();
-      // case "Escape":
-      //   event.preventDefault();
-      //   return this.editingCaption ? this.cancelEditingCaption() : this.close();
-      case "Home": return this.openPhoto(0);
-      case "End": return this.openPhoto(this.photos.length - 1);
-      case "Enter": return this.editCaption();
+
+    if (!this.editingCaption) {
+      switch (event.code) {
+        case "ArrowLeft": return this.previousPhoto();
+        case "ArrowRight": return this.nextPhoto();
+        case "Escape": return this.close();
+        case "Home": return this.openPhoto(0);
+        case "End": return this.openPhoto(this.photos.length - 1);
+        case "Enter": return this.editCaption();
+      }
+    }
+    else {
+      switch (event.code) {
+        case "Escape": return this.cancelEditingCaption();
+      }
     }
   }
 

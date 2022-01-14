@@ -73,7 +73,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       componentProps: {
         "photo": photo,
         "photos": this.photos
-      }
+      },
+      backdropDismiss: false
     });
 
     this.modal.present();

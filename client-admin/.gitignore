@@ -1,7 +1,9 @@
-/.angular/cache
 # compiled output
 /dist
 /dist-www
+
+# build artifacts
+/.angular/cache
 
 # dependencies
 /node_modules
