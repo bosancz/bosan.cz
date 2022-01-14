@@ -12,22 +12,25 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding #sliding *ngFor="let member of attendees" (click)="toggleSliding(sliding)">
-      <ion-item [button]="true" [detail]="false">
-        <ion-label>
-          <h3>{{ member | member: "nickname" }}</h3>
-          <p><bo-member-item-detail [member]="member"></bo-member-item-detail></p>
-        </ion-label>
-        <ion-badge mode="ios" [style.background-color]="member.group | group: 'color'">
-          {{ member.group }}
-        </ion-badge>
-      </ion-item>
-
-      <ion-item-options>
-        <ion-item-option color="danger" (click)="removeAttendee(member)">
-          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
+    <ion-item *ngFor="let member of attendees">
+      <ion-label>
+        <h3>{{ member | member: "nickname" }}</h3>
+        <p><bo-member-item-detail [member]="member"></bo-member-item-detail></p>
+      </ion-label>
+      <ion-badge
+        slot="end"
+        mode="ios"
+        [style.background-color]="member.group | group: 'color'"
+        class="d-none d-xl-block"
+      >
+        {{ member.group }}
+      </ion-badge>
+      <ion-button fill="clear" [routerLink]="'/databaze/' + member._id" slot="end">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" color="danger" (click)="removeAttendee(member)" slot="end">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
   </ion-list>
 </ion-content>
