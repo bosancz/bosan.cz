@@ -15,6 +15,8 @@ export class PhotoGalleryComponent implements OnInit, AfterViewChecked, OnChange
 
   @Input() photos: Photo[] = [];
   @Input() maxHeight: number = 200;
+  @Input() clickable: boolean = false;
+
   margin: number = 5;
 
   @Output() click = new EventEmitter<CustomEvent<Photo>>();
@@ -90,6 +92,9 @@ export class PhotoGalleryComponent implements OnInit, AfterViewChecked, OnChange
   }
 
   onPhotoClick(event: MouseEvent, photo: Photo) {
+
+    if (!this.clickable) return;
+
     event.preventDefault();
     event.stopPropagation();
     const customEvent = new CustomEvent<Photo>("photoclick", { detail: photo });

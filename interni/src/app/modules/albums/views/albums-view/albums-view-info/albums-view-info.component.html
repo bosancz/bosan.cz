@@ -22,6 +22,7 @@
       *ngIf="album?.photos"
       [photos]="album!.photos"
       [maxHeight]="320"
+      [clickable]="true"
       (click)="onPhotoClick($event)"
     ></bo-photo-gallery>
   </div>

@@ -32,3 +32,11 @@
     padding: 0 5px;
   }
 }
+
+.photo.clickable {
+  cursor: pointer;
+  transition: transform 250ms;
+}
+.photo.clickable:hover {
+  transform: scale(1.01);
+}

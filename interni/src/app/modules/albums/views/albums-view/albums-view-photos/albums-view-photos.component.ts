@@ -36,7 +36,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   showCheckboxes = false;
   selectedPhotos: Photo[] = [];
 
-  modal?: HTMLIonModalElement;
+  photosModal?: HTMLIonModalElement;
+  uploadModal?: HTMLIonModalElement;
 
   constructor(
     private albumsService: AlbumsService,
@@ -57,22 +58,26 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       });
 
     this.route.queryParams.subscribe(params => {
-      if (params.photo && !this.modal) {
+      if (params.photo && !this.photosModal) {
         const photo = this.photos?.find(item => item._id);
         if (photo) this.openPhoto(photo);
+      }
+      if (!params.photo && this.photosModal) {
+        this.photosModal.dismiss();
       }
     });
   }
 
   ionViewWillLeave() {
-    this.modal?.dismiss();
+    this.photosModal?.dismiss();
+    this.uploadModal?.dismiss();
   }
 
   async loadPhotos(albumId: string) {
     this.photos = await this.albumsService.getPhotos(albumId);
     this.loadingPhotos = undefined;
 
-    if (this.route.snapshot.queryParams["photo"] && !this.modal) {
+    if (this.route.snapshot.queryParams["photo"] && !this.photosModal) {
       const photo = this.photos?.find(item => item._id);
       if (photo) this.openPhoto(photo);
     }
@@ -82,13 +87,13 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   onPhotoClick(photo: Photo, event: MouseEvent) {
     if (this.enableDeleting || this.enableOrdering) return;
 
-    this.router.navigate([], { queryParams: { photo: photo._id }, replaceUrl: true });
+    this.router.navigate([], { queryParams: { photo: photo._id } });
   }
 
   async openPhoto(photo: Photo) {
-    if (this.modal) this.modal.dismiss();
+    if (this.photosModal) this.photosModal.dismiss();
 
-    this.modal = await this.modalController.create({
+    this.photosModal = await this.modalController.create({
       component: PhotoViewComponent,
       componentProps: {
         "photos": this.photos
@@ -97,9 +102,9 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
     });
 
-    this.modal.onWillDismiss().then(() => this.modal = undefined);
+    this.photosModal.onWillDismiss().then(() => this.photosModal = undefined);
 
-    this.modal.present();
+    this.photosModal.present();
   }
 
   onPhotoCheck(photo: Photo, isChecked: boolean) {
@@ -216,9 +221,9 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   }
 
   private async uploadPhotos() {
-    if (this.modal) this.modal.dismiss();
+    if (this.uploadModal) this.uploadModal.dismiss();
 
-    this.modal = await this.modalController.create({
+    this.uploadModal = await this.modalController.create({
       component: PhotosUploadComponent,
       componentProps: {
         album: this.album
@@ -226,11 +231,9 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       backdropDismiss: false
     });
 
-    this.modal.onWillDismiss().then(() => this.modal = undefined);
+    this.uploadModal.present();
 
-    this.modal.present();
-
-    this.modal.onDidDismiss().then(saved => saved && this.albumsService.loadAlbum(this.album!._id));
+    this.uploadModal.onDidDismiss().then(saved => saved && this.albumsService.loadAlbum(this.album!._id));
   }
 
   private async saveOrdering() {
