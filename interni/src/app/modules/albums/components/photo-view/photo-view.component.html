@@ -6,8 +6,12 @@
   </ion-toolbar>
 
   <ion-slides *ngIf="sliderOptions" #slider [options]="sliderOptions" (ionSlideDidChange)="onSlideChange($any($event))">
-    <ion-slide *ngFor="let item of photos">
-      <div class="image" [style.background-image]="'url(' + item.sizes.big.url + ')'"></div>
+    <ion-slide *ngFor="let item of photos; let i = index">
+      <div
+        *ngIf="i <= currentPhoto + 1 && i >= currentPhoto - 1"
+        class="image"
+        [style.background-image]="'url(' + item.sizes.big.url + ')'"
+      ></div>
     </ion-slide>
   </ion-slides>
 

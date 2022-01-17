@@ -15,6 +15,8 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
 
   editingCaption = false;
 
+  currentPhoto: number = 0;
+
   @ViewChild("captionInput") captionInput!: IonInput;
 
   sliderOptions?: any;
@@ -38,8 +40,8 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
   }
 
   async onSlideChange(event: CustomEvent) {
-    const index = await this.slider.getActiveIndex();
-    this.photo = this.photos[index];
+    this.currentPhoto = await this.slider.getActiveIndex();
+    this.photo = this.photos[this.currentPhoto];
   }
 
   @HostListener('document:keyup', ['$event'])
