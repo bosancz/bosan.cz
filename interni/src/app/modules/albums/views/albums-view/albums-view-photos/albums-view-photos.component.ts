@@ -226,6 +226,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       backdropDismiss: false
     });
 
+    this.modal.onWillDismiss().then(() => this.modal = undefined);
+
     this.modal.present();
 
     this.modal.onDidDismiss().then(saved => saved && this.albumsService.loadAlbum(this.album!._id));

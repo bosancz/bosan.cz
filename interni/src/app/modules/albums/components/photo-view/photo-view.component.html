@@ -9,7 +9,7 @@
   <swiper #slider [config]="swiperConfig" (swiper)="onSwiper($event)" (slideChange)="onSlideChange($any($event))">
     <ng-template swiperSlide *ngFor="let item of photos; let i = index">
       <div
-        *ngIf="i <= currentPhoto + 1 && i >= currentPhoto - 1"
+        *ngIf="i <= currentIndex + 1 && i >= currentIndex - 1"
         class="image"
         [style.background-image]="'url(' + item.sizes.big.url + ')'"
       ></div>

@@ -17,7 +17,7 @@ export class PhotoViewComponent implements ViewWillLeave {
 
   editingCaption = false;
 
-  currentPhoto: number = 0;
+  currentIndex: number = 0;
 
   @ViewChild("captionInput") captionInput!: IonInput;
 
@@ -47,12 +47,14 @@ export class PhotoViewComponent implements ViewWillLeave {
     }
     console.log();
 
+    this.currentIndex = index;
     this.photo = this.photos[index];
   }
 
   async onSlideChange(swiper: Swiper) {
 
-    this.photo = this.photos[swiper.activeIndex];
+    this.currentIndex = swiper.activeIndex;
+    this.photo = this.photos[this.currentIndex];
 
     this.router.navigate([], { queryParams: { photo: this.photo._id }, replaceUrl: true });
   }
