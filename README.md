@@ -10,6 +10,6 @@
 
 Detaily k rozvoji jednotlivých částí webu najdeš v jejich složkách:
 
- - [Veřejná část (`./client`)](./client)
- - [Interní část (`./client-admin`)](./client-admin)
+ - [Veřejná část (`./web`)](./web)
+ - [Interní část (`./interni`)](./interni)
  - [Server (`./server`)](./server)
