@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - client/**
+      - web/**
       - ".github/workflows/deploy-web.yml"
       - ".github/workflows/build-docker.yml"
 
