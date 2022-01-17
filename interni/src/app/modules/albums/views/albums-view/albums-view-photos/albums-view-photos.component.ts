@@ -97,7 +97,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
     });
 
-    this.modal.onDidDismiss().then(() => this.modal = undefined);
+    this.modal.onWillDismiss().then(() => this.modal = undefined);
 
     this.modal.present();
   }

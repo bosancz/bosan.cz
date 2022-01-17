@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { Photo } from 'app/schema/photo';
 
 class PhotoRow {
@@ -16,6 +16,8 @@ export class PhotoGalleryComponent implements OnInit, AfterViewChecked, OnChange
   @Input() photos: Photo[] = [];
   @Input() maxHeight: number = 200;
   margin: number = 5;
+
+  @Output() click = new EventEmitter<CustomEvent<Photo>>();
 
   rows: PhotoRow[] = [];
 
@@ -87,6 +89,12 @@ export class PhotoGalleryComponent implements OnInit, AfterViewChecked, OnChange
 
   }
 
-
+  onPhotoClick(event: MouseEvent, photo: Photo) {
+    event.preventDefault();
+    event.stopPropagation();
+    const customEvent = new CustomEvent<Photo>("photoclick", { detail: photo });
+    this.click.emit(customEvent);
+    event.detail;
+  }
 
 }

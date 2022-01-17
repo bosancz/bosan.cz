@@ -1,5 +1,5 @@
 <div *ngFor="let row of rows" class="photo-row">
-  <div *ngFor="let photo of row.photos" class="photo">
+  <div *ngFor="let photo of row.photos" class="photo" (click)="onPhotoClick($event, photo)">
     <img
       [src]="photo.sizes.small.url"
       [style.height]="row.height + 'px'"

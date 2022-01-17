@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
 import { Album, Photo } from 'app/schema/album';
@@ -26,7 +26,8 @@ export class AlbumsViewInfoComponent implements OnInit {
     private router: Router,
     private albumsService: AlbumsService,
     private toastService: ToastService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private navController: NavController
   ) { }
 
   ngOnInit(): void {
@@ -84,6 +85,13 @@ export class AlbumsViewInfoComponent implements OnInit {
   private open() {
     if (!this.album) return;
     window.open("https://bosan.cz/fotogalerie/" + this.album._id);
+  }
+
+  onPhotoClick(event: CustomEvent<Photo>) {
+    console.log(event.detail._id);
+    if (event.detail && this.album) {
+      this.navController.navigateForward(`/galerie/${this.album._id}/fotky`, { queryParams: { photo: event.detail._id } });
+    }
   }
 
   private getActions(album: Album<Photo, string>): Action[] {

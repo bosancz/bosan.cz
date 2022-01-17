@@ -18,6 +18,11 @@
   <p>{{ album?.description }}</p>
 
   <div class="gallery">
-    <bo-photo-gallery *ngIf="album?.photos" [photos]="album!.photos" [maxHeight]="320"></bo-photo-gallery>
+    <bo-photo-gallery
+      *ngIf="album?.photos"
+      [photos]="album!.photos"
+      [maxHeight]="320"
+      (click)="onPhotoClick($event)"
+    ></bo-photo-gallery>
   </div>
 </ion-content>
