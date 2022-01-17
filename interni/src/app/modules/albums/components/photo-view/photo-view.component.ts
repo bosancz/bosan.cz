@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { IonInput, IonSlides, ModalController, ViewDidEnter } from '@ionic/angular';
+import { AlertController, IonInput, IonSlides, ModalController, ViewDidEnter } from '@ionic/angular';
 import { Photo } from 'app/schema/photo';
 import { AlbumsService } from '../../services/albums.service';
 
@@ -25,7 +25,8 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
 
   constructor(
     private modalController: ModalController,
-    private albumsService: AlbumsService
+    private albumsService: AlbumsService,
+    private alertController: AlertController
   ) { }
 
   ngOnInit(): void {
@@ -96,6 +97,31 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
 
   async close() {
     await this.modalController.dismiss();
+  }
+
+  async delete(photo: Photo) {
+    const alert = await this.alertController.create({
+      header: "Smazat fotku",
+      message: "Chcete opravdu smazat tuto fotku?",
+      buttons: [
+        { text: "Zrušit", role: "cancel" },
+        { text: "Smazat", role: "submit", handler: () => this.deleteConfirmed(photo) }
+      ]
+    });
+
+    alert.present();
+  }
+
+  async deleteConfirmed(photo: Photo) {
+    await this.albumsService.deletePhoto(photo._id);
+
+    const i = this.photos.findIndex(item => item._id === photo._id);
+    this.photos.splice(i, 1);
+
+    if (!this.photos.length) this.modalController.dismiss({ refresh: true });
+    else if (i > 0) this.openPhoto(i - 1);
+    else this.openPhoto(0);
+
   }
 
 }

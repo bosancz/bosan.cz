@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, Platform, ViewWillLeave } from '@ionic/angular';
-import { ItemReorderEventDetail } from '@ionic/core';
+import { ItemReorderEventDetail, OverlayEventDetail } from '@ionic/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
 import { PhotoViewComponent } from 'app/modules/albums/components/photo-view/photo-view.component';
@@ -50,7 +50,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       .subscribe(album => {
         this.album = album;
         this.actions = this.getActions(this.album);
-        this.loadPhotos(album);
+        this.loadPhotos(album._id);
       });
   }
 
@@ -58,8 +58,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.modal?.dismiss();
   }
 
-  async loadPhotos(album: Album<Photo, string>) {
-    this.photos = await this.albumsService.getPhotos(album);
+  async loadPhotos(albumId: string) {
+    this.photos = await this.albumsService.getPhotos(albumId);
     this.loadingPhotos = undefined;
   }
 
@@ -74,7 +74,12 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
         "photo": photo,
         "photos": this.photos
       },
-      backdropDismiss: false
+      backdropDismiss: false,
+
+    });
+
+    this.modal.onDidDismiss().then((event: OverlayEventDetail<{ refresh: boolean; }>) => {
+      if (event.data?.refresh) this.loadPhotos(this.album!._id);
     });
 
     this.modal.present();
@@ -184,7 +189,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       await this.albumsService.deletePhoto(photo._id);
     }
 
-    await this.loadPhotos(this.album!); // wouldnt be able to delete photos if no album was present
+    await this.loadPhotos(this.album!._id); // wouldnt be able to delete photos if no album was present
 
     toast.dismiss();
     this.toastService.toast("Fotky smazány");
@@ -219,7 +224,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
     await this.albumsService.updateAlbum(this.album._id, data);
 
-    await this.loadPhotos(this.album);
+    await this.loadPhotos(this.album._id);
 
     this.oldOrder = undefined;
 
@@ -235,6 +240,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       },
       {
         text: "Nahrát",
+        pinned: true,
         icon: "cloud-upload-outline",
         handler: () => this.uploadPhotos()
       },
