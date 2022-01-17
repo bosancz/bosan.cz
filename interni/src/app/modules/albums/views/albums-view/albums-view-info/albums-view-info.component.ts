@@ -90,7 +90,6 @@ export class AlbumsViewInfoComponent implements OnInit {
   }
 
   onPhotoClick(event: CustomEvent<Photo>) {
-    console.log(event.detail._id);
     if (event.detail && this.album) {
       this.navController.navigateForward(`/galerie/${this.album._id}/fotky`, { queryParams: { photo: event.detail._id } });
     }

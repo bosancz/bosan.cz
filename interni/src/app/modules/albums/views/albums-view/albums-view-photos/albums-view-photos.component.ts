@@ -59,7 +59,6 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.route.queryParams
       .pipe(untilDestroyed(this))
       .subscribe(params => {
-        console.log("params", params.photo, !this.photosModal);
         if (params.photo && !this.photosModal) {
           const photo = this.photos?.find(item => item._id);
           if (photo) this.openPhoto(photo);
@@ -121,7 +120,6 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     // if not checked, but in list, remove photo
     else if (!isChecked && i !== -1) this.selectedPhotos.splice(i, 1);
 
-    console.log(this.selectedPhotos);
   }
 
   onReorder(ev: CustomEvent<ItemReorderEventDetail>) {
