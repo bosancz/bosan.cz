@@ -25,13 +25,10 @@ export class AlbumsViewComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe(params => this.loadAlbum(params["album"]));
 
-    this.albumsService.album$
-      .pipe(untilDestroyed(this))
-      .subscribe(album => this.album = album);
   }
 
   async loadAlbum(id: string) {
-    await this.albumsService.loadAlbum(id);
+    this.album = await this.albumsService.loadAlbum(id);
   }
 
 }

@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
@@ -5,6 +6,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { ThematicBreak } from 'docx';
 import { AlbumsService } from '../../../services/albums.service';
 
 @UntilDestroy()
@@ -31,17 +33,17 @@ export class AlbumsViewInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.albumsService.album$
+    this.route.params
       .pipe(untilDestroyed(this))
-      .subscribe(album => this.updateAlbum(album));
+      .subscribe(params => this.loadAlbum(params["album"]));
   }
 
   ngOnDestroy() {
     this.alert?.dismiss();
   }
 
-  updateAlbum(album: Album<Photo, string>) {
-    this.album = album;
+  async loadAlbum(albumId: string) {
+    this.album = await this.albumsService.loadAlbum(albumId);;
     this.actions = this.getActions(this.album);
   }
 
@@ -106,7 +108,7 @@ export class AlbumsViewInfoComponent implements OnInit {
         text: "Otevřít na webu",
         icon: "open-outline",
         color: "success",
-        disabled: album.status !== "public",
+        hidden: album.status !== "public",
         handler: () => this.open(),
       },
       {

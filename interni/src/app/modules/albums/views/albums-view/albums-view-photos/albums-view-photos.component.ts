@@ -49,23 +49,25 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   ) { }
 
   ngOnInit(): void {
-    this.albumsService.album$
+
+    this.route.params
       .pipe(untilDestroyed(this))
-      .subscribe(album => {
-        this.album = album;
-        this.actions = this.getActions(this.album);
-        this.loadPhotos(album._id);
+      .subscribe(params => {
+        this.loadPhotos(params["album"]);
       });
 
-    this.route.queryParams.subscribe(params => {
-      if (params.photo && !this.photosModal) {
-        const photo = this.photos?.find(item => item._id);
-        if (photo) this.openPhoto(photo);
-      }
-      if (!params.photo && this.photosModal) {
-        this.photosModal.dismiss();
-      }
-    });
+    this.route.queryParams
+      .pipe(untilDestroyed(this))
+      .subscribe(params => {
+        console.log("params", params.photo, !this.photosModal);
+        if (params.photo && !this.photosModal) {
+          const photo = this.photos?.find(item => item._id);
+          if (photo) this.openPhoto(photo);
+        }
+        if (!params.photo && this.photosModal) {
+          this.photosModal.dismiss();
+        }
+      });
   }
 
   ionViewWillLeave() {
@@ -74,6 +76,9 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   }
 
   async loadPhotos(albumId: string) {
+    this.album = await this.albumsService.loadAlbum(albumId);
+    this.actions = this.getActions(this.album);
+
     this.photos = await this.albumsService.getPhotos(albumId);
     this.loadingPhotos = undefined;
 
@@ -201,7 +206,6 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.selectedPhotos = [];
   }
 
-
   private async deletePhotos() {
 
     const toast = await this.toastService.toast("Mažu fotky...");
@@ -216,10 +220,6 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.toastService.toast("Fotky smazány");
   }
 
-  private async deletePhoto(photo: Photo) {
-    await this.albumsService.deletePhoto(photo._id);
-  }
-
   private async uploadPhotos() {
     if (this.uploadModal) this.uploadModal.dismiss();
 
@@ -231,9 +231,11 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       backdropDismiss: false
     });
 
-    this.uploadModal.present();
+    this.uploadModal.onDidDismiss().then(saved => {
+      if (saved) this.loadPhotos(this.album!._id);
+    });
 
-    this.uploadModal.onDidDismiss().then(saved => saved && this.albumsService.loadAlbum(this.album!._id));
+    this.uploadModal.present();
   }
 
   private async saveOrdering() {

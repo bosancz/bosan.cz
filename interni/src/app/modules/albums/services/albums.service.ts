@@ -9,15 +9,11 @@ import { ReplaySubject } from 'rxjs';
 })
 export class AlbumsService {
 
-  album$ = new ReplaySubject<Album<Photo, string>>(1);
-
   constructor(private api: ApiService) {
   }
 
   async loadAlbum(albumId: Album["_id"]) {
-    const album = await this.api.get<Album<Photo, string>>(["album", albumId], { photos: 1 });
-    this.album$.next(album);
-    return album;
+    return this.api.get<Album<Photo, string>>(["album", albumId], { photos: 1 });
   }
 
   /** @deprecated Use updateAlbum instead */
