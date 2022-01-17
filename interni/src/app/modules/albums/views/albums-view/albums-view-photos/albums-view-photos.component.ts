@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform, ViewWillLeave } from '@ionic/angular';
-import { ItemReorderEventDetail, OverlayEventDetail } from '@ionic/core';
+import { ItemReorderEventDetail } from '@ionic/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
 import { PhotoViewComponent } from 'app/modules/albums/components/photo-view/photo-view.component';
