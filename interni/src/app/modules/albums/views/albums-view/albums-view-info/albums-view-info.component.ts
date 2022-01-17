@@ -48,14 +48,14 @@ export class AlbumsViewInfoComponent implements OnInit {
   private async publish() {
     if (!this.album?._actions?.publish) return;
     await this.albumsService.albumAction(this.album?._actions?.publish);
-    await this.albumsService.loadAlbum(this.album._id);
+    this.album = await this.albumsService.loadAlbum(this.album._id);
     this.toastService.toast("Publikováno.");
   }
 
   private async unpublish() {
     if (!this.album?._actions?.unpublish) return;
     await this.albumsService.albumAction(this.album?._actions?.unpublish);
-    await this.albumsService.loadAlbum(this.album._id);
+    this.album = await this.albumsService.loadAlbum(this.album._id);
     this.toastService.toast("Skryto.");
   }
 
