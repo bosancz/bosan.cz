@@ -1,22 +1,22 @@
 <ion-content>
   <ion-toolbar class="top-toolbar">
     <ion-buttons slot="end">
-      <ion-button color="danger" fill="clear" (click)="delete(photo)">Smazat</ion-button>
+      <ion-button *ngIf="photo" color="danger" fill="clear" (click)="delete(photo)">Smazat</ion-button>
       <ion-button fill="clear" (click)="close()">Zavřít</ion-button>
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-slides *ngIf="sliderOptions" #slider [options]="sliderOptions" (ionSlideDidChange)="onSlideChange($any($event))">
-    <ion-slide *ngFor="let item of photos; let i = index">
+  <swiper #slider [config]="swiperConfig" (swiper)="onSwiper($event)" (slideChange)="onSlideChange($any($event))">
+    <ng-template swiperSlide *ngFor="let item of photos; let i = index">
       <div
         *ngIf="i <= currentPhoto + 1 && i >= currentPhoto - 1"
         class="image"
         [style.background-image]="'url(' + item.sizes.big.url + ')'"
       ></div>
-    </ion-slide>
-  </ion-slides>
+    </ng-template>
+  </swiper>
 
-  <ion-toolbar class="bottom-toolbar">
+  <ion-toolbar *ngIf="photo" class="bottom-toolbar">
     <ion-item *ngIf="!editingCaption" lines="none">
       <ion-label [class.nocaption]="!photo.caption" (dblclick)="editCaption()">
         {{ photo.caption || "Bez popisku" }}

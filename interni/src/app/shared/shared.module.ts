@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { IonicModule } from "@ionic/angular";
+import { SwiperModule } from 'swiper/angular';
 /* COMPONENTS */
 import { ActionButtonsComponent } from "./components/action-buttons/action-buttons.component";
 import { AdminTableComponent } from './components/admin-table/admin-table.component';
@@ -41,6 +42,7 @@ import { DotComponent } from './components/dot/dot.component';
     RouterModule,
     HttpClientModule,
     IonicModule,
+    SwiperModule
   ],
   declarations: [
     AdminTableComponent,
@@ -73,6 +75,7 @@ import { DotComponent } from './components/dot/dot.component';
   exports: [
     FormsModule,
     IonicModule,
+    SwiperModule,
 
     /* COMPONENTS */
     AdminTableComponent,

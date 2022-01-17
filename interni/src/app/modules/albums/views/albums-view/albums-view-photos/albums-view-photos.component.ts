@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform, ViewWillLeave } from '@ionic/angular';
 import { ItemReorderEventDetail, OverlayEventDetail } from '@ionic/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -41,7 +42,9 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     private albumsService: AlbumsService,
     public platform: Platform,
     public modalController: ModalController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -52,6 +55,13 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
         this.actions = this.getActions(this.album);
         this.loadPhotos(album._id);
       });
+
+    this.route.queryParams.subscribe(params => {
+      if (params.photo && !this.modal) {
+        const photo = this.photos?.find(item => item._id);
+        if (photo) this.openPhoto(photo);
+      }
+    });
   }
 
   ionViewWillLeave() {
@@ -61,30 +71,36 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   async loadPhotos(albumId: string) {
     this.photos = await this.albumsService.getPhotos(albumId);
     this.loadingPhotos = undefined;
+
+    if (this.route.snapshot.queryParams["photo"] && !this.modal) {
+      const photo = this.photos?.find(item => item._id);
+      if (photo) this.openPhoto(photo);
+    }
+
   }
 
-  async onPhotoClick(photo: Photo, event: MouseEvent) {
+  onPhotoClick(photo: Photo, event: MouseEvent) {
     if (this.enableDeleting || this.enableOrdering) return;
 
+    this.router.navigate([], { queryParams: { photo: photo._id }, replaceUrl: true });
+  }
+
+  async openPhoto(photo: Photo) {
     if (this.modal) this.modal.dismiss();
 
     this.modal = await this.modalController.create({
       component: PhotoViewComponent,
       componentProps: {
-        "photo": photo,
         "photos": this.photos
       },
       backdropDismiss: false,
 
     });
 
-    this.modal.onDidDismiss().then((event: OverlayEventDetail<{ refresh: boolean; }>) => {
-      if (event.data?.refresh) this.loadPhotos(this.album!._id);
-    });
+    this.modal.onDidDismiss().then(() => this.modal = undefined);
 
     this.modal.present();
   }
-
 
   onPhotoCheck(photo: Photo, isChecked: boolean) {
     const i = this.selectedPhotos.indexOf(photo);

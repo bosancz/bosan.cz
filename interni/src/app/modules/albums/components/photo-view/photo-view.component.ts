@@ -1,6 +1,8 @@
-import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonInput, IonSlides, ModalController, ViewDidEnter } from '@ionic/angular';
+import { AfterViewInit, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, IonInput, IonSlides, ModalController, ViewDidEnter, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import { Photo } from 'app/schema/photo';
+import Swiper, { SwiperOptions } from 'swiper';
 import { AlbumsService } from '../../services/albums.service';
 
 @Component({
@@ -8,9 +10,9 @@ import { AlbumsService } from '../../services/albums.service';
   templateUrl: './photo-view.component.html',
   styleUrls: ['./photo-view.component.scss']
 })
-export class PhotoViewComponent implements OnInit, ViewDidEnter {
+export class PhotoViewComponent implements ViewWillLeave {
 
-  @Input() photo!: Photo;
+  photo?: Photo;
   @Input() photos!: Photo[];
 
   editingCaption = false;
@@ -19,30 +21,40 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
 
   @ViewChild("captionInput") captionInput!: IonInput;
 
-  sliderOptions?: any;
+  swiperConfig: SwiperOptions = {};
 
-  @ViewChild("slider") slider!: IonSlides;
+  swiper?: Swiper;
 
   constructor(
     private modalController: ModalController,
     private albumsService: AlbumsService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
-  ngOnInit(): void {
+  ionViewWillLeave(): void {
+    this.router.navigate([], { queryParams: { photo: undefined }, replaceUrl: true });
   }
 
-  async ionViewDidEnter() {
+  onSwiper(swiper: Swiper) {
+    this.swiper = swiper;
+    const photoId = this.route.snapshot.queryParams["photo"];
+    const index = this.photos.findIndex(item => item._id === photoId);
 
-    const index = this.photos.indexOf(this.photo);
-    this.sliderOptions = {
-      initialSlide: index
-    };
+    if (!this.photo || this.photo._id !== photoId) {
+      this.swiper?.slideTo(index, 0);
+    }
+    console.log();
+
+    this.photo = this.photos[index];
   }
 
-  async onSlideChange(event: CustomEvent) {
-    this.currentPhoto = await this.slider.getActiveIndex();
-    this.photo = this.photos[this.currentPhoto];
+  async onSlideChange(swiper: Swiper) {
+
+    this.photo = this.photos[swiper.activeIndex];
+
+    this.router.navigate([], { queryParams: { photo: this.photo._id }, replaceUrl: true });
   }
 
   @HostListener('document:keyup', ['$event'])
@@ -66,17 +78,20 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
   }
 
   async nextPhoto() {
-    const index = await this.slider.getActiveIndex();
+    if (!this.swiper) return;
+    const index = this.swiper.activeIndex;
     if (index + 1 <= this.photos.length - 1) await this.openPhoto(index + 1);
   }
 
   async previousPhoto() {
-    const index = await this.slider.getActiveIndex();
+    if (!this.swiper) return;
+    const index = this.swiper.activeIndex;
     if (index - 1 >= 0) await this.openPhoto(index - 1);
   }
 
   async openPhoto(index: number) {
-    await this.slider.slideTo(index);
+    if (!this.swiper) return;
+    this.swiper.slideTo(index);
   }
 
   editCaption() {
@@ -90,9 +105,9 @@ export class PhotoViewComponent implements OnInit, ViewDidEnter {
 
   async saveCaption(value: string | number | null | undefined) {
     value = String(value);
-    this.photo.caption = value;
+    this.photo!.caption = value;
     this.editingCaption = false;
-    await this.albumsService.savePhoto(this.photo._id, { caption: value });
+    await this.albumsService.savePhoto(this.photo!._id, { caption: value });
   }
 
   async close() {
