@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, IonInput, IonSlides, ModalController, ViewDidEnter, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
+import { AlertController, IonInput, ModalController, Platform, ViewWillLeave } from '@ionic/angular';
 import { Photo } from 'app/schema/photo';
 import Swiper, { SwiperOptions } from 'swiper';
 import { AlbumsService } from '../../services/albums.service';
@@ -22,7 +22,7 @@ export class PhotosEditComponent implements ViewWillLeave {
   @ViewChild("captionInput") captionInput!: IonInput;
 
   swiperConfig: SwiperOptions = {
-    navigation: true,
+    navigation: this.platform.isLandscape(),
   };
 
   swiper?: Swiper;
@@ -32,7 +32,8 @@ export class PhotosEditComponent implements ViewWillLeave {
     private albumsService: AlbumsService,
     private alertController: AlertController,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private platform: Platform
   ) { }
 
   ionViewWillLeave(): void {
