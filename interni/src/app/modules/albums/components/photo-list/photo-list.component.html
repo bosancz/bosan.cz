@@ -1,6 +1,11 @@
 <ion-reorder-group *ngIf="view === 'list'" (ionItemReorder)="onReorder($any($event))" [disabled]="!sortable">
   <ion-item *ngFor="let photo of photos" [button]="true" [detail]="false" (click)="onPhotoClick(photo, $event)">
-    <ion-checkbox *ngIf="selectable" slot="start" [ngModel]="false" (ngModelChange)="onPhotoCheck(photo, $event)">
+    <ion-checkbox
+      *ngIf="selectable"
+      slot="start"
+      [ngModel]="isPhotoChecked(photo)"
+      (ngModelChange)="onPhotoCheck(photo, $event)"
+    >
     </ion-checkbox>
     <ion-avatar slot="start">
       <img [src]="photo.sizes.small.url" [style.background-color]="photo.bg" />
