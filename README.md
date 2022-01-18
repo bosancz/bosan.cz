@@ -27,7 +27,7 @@ Web vznkl a funguje díky těmto skvělým lidem ([co znamená které emoji?](ht
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/Cita22"><img src="https://avatars.githubusercontent.com/u/83779206?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Cita22</b></sub></a><br /><a href="https://github.com/bosancz/bosan.cz/commits?author=Cita22" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Cita22"><img src="https://avatars.githubusercontent.com/u/83779206?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Cita22</b></sub></a><br /><a href="https://github.com/bosancz/bosan.cz/commits?author=Cita22" title="Code">💻</a> <a href="#design-Cita22" title="Design">🎨</a></td>
     <td align="center"><a href="https://github.com/Kobtul"><img src="https://avatars.githubusercontent.com/u/2563688?v=4?s=100" width="100px;" alt=""/><br /><sub><b>David Kubeša</b></sub></a><br /><a href="https://github.com/bosancz/bosan.cz/issues?q=author%3AKobtul" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/DavidTvrdy"><img src="https://avatars.githubusercontent.com/u/47000101?v=4?s=100" width="100px;" alt=""/><br /><sub><b>DavidTvrdy</b></sub></a><br /><a href="https://github.com/bosancz/bosan.cz/issues?q=author%3ADavidTvrdy" title="Bug reports">🐛</a> <a href="#userTesting-DavidTvrdy" title="User Testing">📓</a></td>
     <td align="center"><a href="https://github.com/Exogitaris"><img src="https://avatars.githubusercontent.com/u/58743433?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Exogitaris</b></sub></a><br /><a href="https://github.com/bosancz/bosan.cz/commits?author=Exogitaris" title="Code">💻</a></td>

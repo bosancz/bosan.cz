@@ -7,7 +7,7 @@
     "README.md"
   ],
   "imageSize": 100,
-  "commit": false,
+  "commit": true,
   "commitConvention": "angular",
   "contributorsSortAlphabetically": true,
   "contributors": [
@@ -67,7 +67,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/83779206?v=4",
       "profile": "https://github.com/Cita22",
       "contributions": [
-        "code"
+        "code",
+        "design"
       ]
     },
     {
