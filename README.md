@@ -4,13 +4,13 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 ![UptimeRobot](https://badgen.net/uptime-robot/month/m780824184-8fac7e7a5a41744ccbfa9e02)
 
-## Nahlášení chyby nebo návrh nové funkce
+## Nahlášení chyby nebo návrh nové funkce 🐛💡
 
 1) Pokud nemáš účet tak se [zaregistruj na GitHubu](https://github.com/join). (zabere asi 1 minutu)
 2) V záložce Issues [vytvoř nové hlášení](https://github.com/bosancz/bosan.cz/issues/new/choose), kde popíšeš, co je špatně nebo co by mohlo být lépe.
 3) Hotovo! Lidi co mají web na starosti to vyřeší a tobě přijde zpráva.
 
-## Rozvoj webu
+## Rozvoj webu 🚀
 
 Detaily k rozvoji jednotlivých částí webu najdeš v jejich složkách:
 
@@ -20,7 +20,7 @@ Detaily k rozvoji jednotlivých částí webu najdeš v jejich složkách:
 
 ## Kdo dělá web ✨
 
-Web vznkl a funguje díky těmto skvělým lidem ([co znamená které emoji?](https://allcontributors.org/docs/en/emoji-key)):
+Web vznikl a funguje díky těmto skvělým lidem ([co znamená které emoji?](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
