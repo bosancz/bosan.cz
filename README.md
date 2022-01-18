@@ -18,7 +18,7 @@ Detaily k rozvoji jednotlivých částí webu najdeš v jejich složkách:
  - [Interní část (`./interni`)](./interni)
  - [Server (`./server`)](./server)
 
-## Přispěvatelé ✨
+## Kdo dělá web ✨
 
 Web vznkl a funguje díky těmto skvělým lidem ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
