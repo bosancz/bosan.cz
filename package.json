@@ -1,0 +1,17 @@
+{
+  "name": "bosan.cz",
+  "description": "Webové stránky Dětské vodácké skupiny ŠÁN",
+  "main": "index.js",
+  "devDependencies": {
+    "all-contributors-cli": "^6.20.0"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bosancz/bosan.cz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bosancz/bosan.cz/issues"
+  },
+  "homepage": "https://github.com/bosancz/bosan.cz#readme"
+}

@@ -1,0 +1,176 @@
+{
+  "projectName": "bosan.cz",
+  "projectOwner": "bosancz",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributorsSortAlphabetically": true,
+  "contributors": [
+    {
+      "login": "SmallhillCZ",
+      "name": "Martin Kopeček",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1273865?v=4",
+      "profile": "https://www.smallhill.cz/",
+      "contributions": [
+        "code",
+        "design",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "Goliash2",
+      "name": "Petr Hnyk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/38349508?v=4",
+      "profile": "https://github.com/Goliash2",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    },
+    {
+      "login": "jhavelik",
+      "name": "jhavelik",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5928448?v=4",
+      "profile": "https://github.com/jhavelik",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    },
+    {
+      "login": "elenfant",
+      "name": "Michal Krkavec",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1541727?v=4",
+      "profile": "https://github.com/elenfant",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "krystofrezac",
+      "name": "Kryštof Řezáč",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39591095?v=4",
+      "profile": "https://github.com/krystofrezac",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Cita22",
+      "name": "Cita22",
+      "avatar_url": "https://avatars.githubusercontent.com/u/83779206?v=4",
+      "profile": "https://github.com/Cita22",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Exogitaris",
+      "name": "Exogitaris",
+      "avatar_url": "https://avatars.githubusercontent.com/u/58743433?v=4",
+      "profile": "https://github.com/Exogitaris",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "MichalPham",
+      "name": "MichalPham",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55764996?v=4",
+      "profile": "https://github.com/MichalPham",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "JakubRejzek",
+      "name": "JakubRejzek",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84807333?v=4",
+      "profile": "https://github.com/JakubRejzek",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Grejdy",
+      "name": "Grejdy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/82664677?v=4",
+      "profile": "https://github.com/Grejdy",
+      "contributions": [
+        "bug",
+        "userTesting"
+      ]
+    },
+    {
+      "login": "hla-bla",
+      "name": "Filip Hruška",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50456311?v=4",
+      "profile": "https://github.com/hla-bla",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "DavidTvrdy",
+      "name": "DavidTvrdy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47000101?v=4",
+      "profile": "https://github.com/DavidTvrdy",
+      "contributions": [
+        "bug",
+        "userTesting"
+      ]
+    },
+    {
+      "login": "TomasNeumann",
+      "name": "TomasNeumann",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45641694?v=4",
+      "profile": "https://github.com/TomasNeumann",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "Kobtul",
+      "name": "David Kubeša",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2563688?v=4",
+      "profile": "https://github.com/Kobtul",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "sv-ignac",
+      "name": "sv-ignac",
+      "avatar_url": "https://avatars.githubusercontent.com/u/82539505?v=4",
+      "profile": "https://github.com/sv-ignac",
+      "contributions": [
+        "userTesting"
+      ]
+    },
+    {
+      "login": "Tweety6",
+      "name": "Tweety6",
+      "avatar_url": "https://avatars.githubusercontent.com/u/82444329?v=4",
+      "profile": "https://github.com/Tweety6",
+      "contributions": [
+        "userTesting"
+      ]
+    },
+    {
+      "login": "annadanielova",
+      "name": "annadanielova",
+      "avatar_url": "https://avatars.githubusercontent.com/u/82390704?v=4",
+      "profile": "https://github.com/annadanielova",
+      "contributions": [
+        "userTesting"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
