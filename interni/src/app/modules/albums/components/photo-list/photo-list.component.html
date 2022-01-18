@@ -41,8 +41,9 @@
 
 <div *ngIf="view === 'grid'" class="grid" [class.selectable]="selectable">
   <div class="square" *ngFor="let photo of photos" [class.checked]="isPhotoChecked(photo)">
-    <div class="photo" (click)="onPhotoClick(photo, $event)">
+    <div class="photo ion-activatable ripple-parent" (click)="onPhotoClick(photo, $event)">
       <img [src]="photo.sizes.small.url" [style.background-color]="photo.bg" />
+      <ion-ripple-effect></ion-ripple-effect>
     </div>
     <ion-checkbox [ngModel]="isPhotoChecked(photo)" (ngModelChange)="onPhotoCheck(photo, $event)"></ion-checkbox>
   </div>

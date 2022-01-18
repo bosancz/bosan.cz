@@ -56,6 +56,7 @@
       height: 100%;
       padding: 5px;
       transition: transform 250ms, opacity 250ms;
+      cursor: pointer;
     }
 
     img {
@@ -73,6 +74,12 @@
   }
 }
 
+.grid:not(.selectable) {
+  .square:hover .photo {
+    opacity: 0.9;
+  }
+}
+
 .grid.selectable {
   .square {
     .photo {
@@ -85,6 +92,11 @@
       animation: inputShow 500ms linear;
     }
   }
+
+  .square:hover .photo {
+    opacity: 1;
+  }
+
   .square.checked {
     .photo {
       opacity: 1;
