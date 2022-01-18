@@ -1,0 +1,117 @@
+// X-Small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+.grid {
+  --square-size: calc(100% / 3);
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .grid {
+    --square-size: calc(100% / 4);
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+}
+
+// X-Large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .grid {
+    --square-size: calc(100% / 5);
+  }
+}
+
+// XX-Large devices (larger desktops, 1400px and up)
+@media (min-width: 1400px) {
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0 5px;
+
+  .square {
+    width: var(--square-size);
+    height: var(--square-size);
+    overflow: hidden;
+    position: relative;
+
+    ion-checkbox {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      opacity: 0;
+    }
+
+    .photo {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+      transition: transform 250ms, opacity 250ms;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .square:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+}
+
+.grid.selectable {
+  .square {
+    .photo {
+      opacity: 0.8;
+      transform: scale(0.9);
+    }
+    ion-checkbox {
+      display: block;
+      opacity: 1;
+      animation: inputShow 500ms linear;
+    }
+  }
+  .square.checked {
+    .photo {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.nocaption {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.info span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes inputShow {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

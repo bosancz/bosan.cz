@@ -15,6 +15,7 @@ import { AlbumsListComponent } from './views/albums-list/albums-list.component';
 import { AlbumsViewInfoComponent } from './views/albums-view/albums-view-info/albums-view-info.component';
 import { AlbumsViewPhotosComponent } from './views/albums-view/albums-view-photos/albums-view-photos.component';
 import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
+import { PhotoListComponent } from './components/photo-list/photo-list.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { AlbumsViewComponent } from './views/albums-view/albums-view.component';
     PhotoViewComponent,
     EventSelectorComponent,
     EventSelectorModalComponent,
+    PhotoListComponent,
   ],
   imports: [
     CommonModule,

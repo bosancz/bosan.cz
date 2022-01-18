@@ -20,13 +20,11 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
   album?: Album<Photo, string>;
 
-  photos?: Photo[] = [];
+  photos?: Photo[];
 
-  loadingPhotos?: any[] = Array(5).fill(true);
+  actions: Action[] = [];
 
-  actions: Action[] = [
-
-  ];
+  photosView: "list" | "grid" = "list";
 
   enableOrdering = false;
   enableDeleting = false;
@@ -79,7 +77,6 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.actions = this.getActions(this.album);
 
     this.photos = await this.albumsService.getPhotos(albumId);
-    this.loadingPhotos = undefined;
 
     if (this.route.snapshot.queryParams["photo"] && !this.photosModal) {
       const photo = this.photos?.find(item => item._id);
@@ -88,10 +85,12 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
   }
 
-  onPhotoClick(photo: Photo, event: MouseEvent) {
+  onPhotoClick(event: CustomEvent<Photo | undefined>) {
     if (this.enableDeleting || this.enableOrdering) return;
 
-    this.router.navigate([], { queryParams: { photo: photo._id } });
+    if (!event.detail) return;
+
+    this.router.navigate([], { queryParams: { photo: event.detail._id } });
   }
 
   async openPhoto(photo: Photo) {
@@ -111,22 +110,6 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.photosModal.present();
   }
 
-  onPhotoCheck(photo: Photo, isChecked: boolean) {
-    const i = this.selectedPhotos.indexOf(photo);
-
-    // if checked, but not in list, add photo 
-    if (isChecked && i === -1) this.selectedPhotos.push(photo);
-
-    // if not checked, but in list, remove photo
-    else if (!isChecked && i !== -1) this.selectedPhotos.splice(i, 1);
-
-  }
-
-  onReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    this.photos?.splice(ev.detail.to, 0, this.photos?.splice(ev.detail.from, 1)[0]);
-    ev.detail.complete();
-  }
-
   orderByDate() {
     this.photos?.sort((a, b) => a.date.localeCompare(b.date));
   }
@@ -137,6 +120,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
   startOrdering() {
     this.enableOrdering = true;
+    this.photosView = 'list';
     this.oldOrder = this.photos?.slice();
     this.actions = [
       {
@@ -187,11 +171,6 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.enableDeleting = false;
     this.stopSelecting();
     this.actions = this.getActions(this.album!);
-  }
-
-
-  getMpix(width: number, height: number) {
-    return Math.round(width * height / 1000000);
   }
 
   private startSelecting() {

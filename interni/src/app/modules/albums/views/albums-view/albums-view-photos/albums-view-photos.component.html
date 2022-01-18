@@ -15,44 +15,28 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-reorder-group (ionItemReorder)="onReorder($any($event))" [disabled]="!enableOrdering">
-    <ion-item *ngFor="let photo of photos" [button]="true" [detail]="false" (click)="onPhotoClick(photo, $event)">
-      <ion-checkbox *ngIf="showCheckboxes" slot="start" [ngModel]="false" (ngModelChange)="onPhotoCheck(photo, $event)">
-      </ion-checkbox>
-      <ion-avatar slot="start">
-        <img [src]="photo.sizes.small.url" [style.background-color]="photo.bg" />
-      </ion-avatar>
+<ion-content>
+  <div class="buttons">
+    <ion-button *ngIf="photosView === 'grid'" (click)="photosView = 'list'" fill="clear" slot="end">
+      <ion-icon slot="start" name="list-outline"></ion-icon> Zobrazit seznam
+    </ion-button>
+    <ion-button
+      *ngIf="photosView === 'list'"
+      [disabled]="enableOrdering"
+      (click)="photosView = 'grid'"
+      fill="clear"
+      slot="end"
+    >
+      <ion-icon slot="start" name="grid-outline"></ion-icon> Zobrazit čtverečky
+    </ion-button>
+  </div>
 
-      <ion-label>
-        <h2 [class.nocaption]="!photo.caption">{{ photo.caption || "Bez popisku" }}</h2>
-        <p class="row no-gutters info">
-          <span class="col-12 col-lg-4 col-xl-3">Datum: {{ photo.date | date: "d. M. y H:mm:ss" }}</span>
-          <span class="col-12 col-lg-4 col-xl-3 d-none d-lg-block">
-            Velikost: {{ photo.sizes.original.width }}×{{ photo.sizes.original.height }} ({{
-              getMpix(photo.sizes.original.width, photo.sizes.original.height)
-            }}
-            MP)
-          </span>
-          <span class="col-12 col-lg" [title]="photo.name">Název: {{ photo.name }}</span>
-          <span *ngIf="photo.uploadedBy" class="col-12 col-lg">
-            Nahrál/a: {{ photo.uploadedBy!.member!.nickname || photo.uploadedBy!.login }}
-          </span>
-        </p>
-      </ion-label>
-
-      <ion-reorder slot="end"></ion-reorder>
-    </ion-item>
-
-    <ion-item *ngFor="let item of loadingPhotos">
-      <ion-avatar slot="start">
-        <ion-skeleton-text></ion-skeleton-text>
-      </ion-avatar>
-
-      <ion-label>
-        <h2><ion-skeleton-text></ion-skeleton-text></h2>
-        <p class="row no-gutters info"><ion-skeleton-text></ion-skeleton-text></p>
-      </ion-label>
-    </ion-item>
-  </ion-reorder-group>
+  <bo-photo-list
+    [photos]="photos"
+    [view]="photosView"
+    [sortable]="enableOrdering"
+    [selectable]="enableDeleting"
+    [(selected)]="selectedPhotos"
+    (click)="onPhotoClick($event)"
+  ></bo-photo-list>
 </ion-content>
