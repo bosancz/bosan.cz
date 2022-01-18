@@ -208,8 +208,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       backdropDismiss: false
     });
 
-    this.uploadModal.onDidDismiss().then(saved => {
-      if (saved) this.loadPhotos(this.album!._id);
+    this.uploadModal.onDidDismiss().then(event => {
+      if (event.data) this.loadPhotos(this.album!._id);
     });
 
     this.uploadModal.present();
