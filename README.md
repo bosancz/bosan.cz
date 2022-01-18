@@ -20,7 +20,7 @@ Detaily k rozvoji jednotlivých částí webu najdeš v jejich složkách:
 
 ## Kdo dělá web ✨
 
-Web vznkl a funguje díky těmto skvělým lidem ([co znamená které emoji?](https://allcontributors.org/docs/en/emoji-key)):
+Web vznikl a funguje díky těmto skvělým lidem ([co znamená které emoji?](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
