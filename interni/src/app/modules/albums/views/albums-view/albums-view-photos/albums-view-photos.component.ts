@@ -4,7 +4,7 @@ import { ModalController, Platform, ViewWillLeave } from '@ionic/angular';
 import { ItemReorderEventDetail } from '@ionic/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
-import { PhotoViewComponent } from 'app/modules/albums/components/photo-view/photo-view.component';
+import { PhotosEditComponent } from 'app/modules/albums/components/photos-edit/photos-edit.component';
 import { PhotosUploadComponent } from 'app/modules/albums/components/photos-upload/photos-upload.component';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
@@ -97,7 +97,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     if (this.photosModal) this.photosModal.dismiss();
 
     this.photosModal = await this.modalController.create({
-      component: PhotoViewComponent,
+      component: PhotosEditComponent,
       componentProps: {
         "photos": this.photos
       },

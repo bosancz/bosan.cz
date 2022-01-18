@@ -7,7 +7,7 @@ import { AlbumsService } from './services/albums.service';
 /* COMPONENTS */
 import { EventSelectorModalComponent } from './components/event-selector-modal/event-selector-modal.component';
 import { EventSelectorComponent } from './components/event-selector/event-selector.component';
-import { PhotoViewComponent } from './components/photo-view/photo-view.component';
+import { PhotosEditComponent } from './components/photos-edit/photos-edit.component';
 import { PhotosUploadComponent } from './components/photos-upload/photos-upload.component';
 /* VIEWS */
 import { AlbumsEditComponent } from './views/albums-edit/albums-edit.component';
@@ -26,7 +26,7 @@ import { PhotoListComponent } from './components/photo-list/photo-list.component
     AlbumsViewComponent,
     AlbumsViewInfoComponent,
     AlbumsViewPhotosComponent,
-    PhotoViewComponent,
+    PhotosEditComponent,
     EventSelectorComponent,
     EventSelectorModalComponent,
     PhotoListComponent,

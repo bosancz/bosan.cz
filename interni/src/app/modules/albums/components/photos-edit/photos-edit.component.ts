@@ -6,11 +6,11 @@ import Swiper, { SwiperOptions } from 'swiper';
 import { AlbumsService } from '../../services/albums.service';
 
 @Component({
-  selector: 'bo-photo-view',
-  templateUrl: './photo-view.component.html',
-  styleUrls: ['./photo-view.component.scss']
+  selector: 'bo-photos-edit',
+  templateUrl: './photos-edit.component.html',
+  styleUrls: ['./photos-edit.component.scss']
 })
-export class PhotoViewComponent implements ViewWillLeave {
+export class PhotosEditComponent implements ViewWillLeave {
 
   photo?: Photo;
   @Input() photos!: Photo[];
