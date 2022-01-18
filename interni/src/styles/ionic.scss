@@ -38,3 +38,10 @@ ion-split-pane {
 ion-content {
   padding: 1em;
 }
+
+@media (min-width: 768px) {
+  .ion-modal-lg .modal-wrapper {
+    --width: 80%;
+    --height: 80%;
+  }
+}

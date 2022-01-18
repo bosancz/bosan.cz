@@ -103,7 +103,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
         "photos": this.photos
       },
       backdropDismiss: false,
-
+      cssClass: "ion-modal-lg"
     });
 
     this.photosModal.onWillDismiss().then(() => this.photosModal = undefined);
