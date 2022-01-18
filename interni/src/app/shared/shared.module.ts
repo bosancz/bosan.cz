@@ -28,10 +28,11 @@ import { JoinLeadersPipe } from './pipes/join-leaders.pipe';
 import { PrettyBytesPipe } from './pipes/pretty-bytes.pipe';
 import { MemberPipe } from './pipes/member.pipe';
 import { DotComponent } from './components/dot/dot.component';
+import SwiperCore, { Navigation } from 'swiper';
 
 
 
-
+SwiperCore.use([Navigation]);
 
 
 

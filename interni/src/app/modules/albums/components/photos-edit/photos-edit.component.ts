@@ -21,7 +21,9 @@ export class PhotosEditComponent implements ViewWillLeave {
 
   @ViewChild("captionInput") captionInput!: IonInput;
 
-  swiperConfig: SwiperOptions = {};
+  swiperConfig: SwiperOptions = {
+    navigation: true,
+  };
 
   swiper?: Swiper;
 
@@ -139,6 +141,10 @@ export class PhotosEditComponent implements ViewWillLeave {
     else if (i > 0) this.openPhoto(i - 1);
     else this.openPhoto(0);
 
+  }
+
+  getMpix(width: number, height: number) {
+    return Math.round(width * height / 1000000);
   }
 
 }

@@ -2,7 +2,7 @@
   background-color: #000;
 }
 
-ion-content {
+ion-content.modal-bg {
   --ion-background-color: #000;
 }
 
@@ -24,7 +24,8 @@ ion-toolbar {
   right: 0;
 }
 
-ion-item {
+ion-item.top-toolbar,
+ion-item.bottom-toolbar {
   --ion-background-color: transparent;
   --ion-item-color: #fff;
 }

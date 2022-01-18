@@ -40,7 +40,7 @@ ion-content {
 }
 
 @media (min-width: 768px) {
-  .ion-modal-lg .modal-wrapper {
+  ion-modal.ion-modal-lg::part(content) {
     --width: 80%;
     --height: 80%;
   }
