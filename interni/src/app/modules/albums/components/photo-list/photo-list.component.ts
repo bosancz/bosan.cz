@@ -39,6 +39,8 @@ export class PhotoListComponent implements OnInit {
 
   onPhotoClick(photo: Photo, event: MouseEvent) {
 
+    console.log("onPhotoClick");
+
     event.preventDefault();
     event.stopPropagation();
 
@@ -58,6 +60,7 @@ export class PhotoListComponent implements OnInit {
   }
 
   onPhotoCheck(photo: Photo, isChecked: boolean) {
+    console.log("onPhotoCheck", isChecked);
     const i = this.selected.indexOf(photo);
 
     // if checked, but not in list, add photo 
