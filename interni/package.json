@@ -23,7 +23,7 @@
     "@editorjs/image": "^2.6.1",
     "@editorjs/list": "^1.6.2",
     "@editorjs/marker": "^1.2.2",
-    "@ionic/angular": "^5.8.5",
+    "@ionic/angular": "^6.0.2",
     "@ngneat/until-destroy": "^8.1.4",
     "bootstrap": "^4.6.1",
     "chart.js": "^2.9.4",
