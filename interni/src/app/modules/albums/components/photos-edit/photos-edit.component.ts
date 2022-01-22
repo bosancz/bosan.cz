@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonInput, ModalController, Platform, ViewWillLeave } from '@ionic/angular';
 import { Photo } from 'app/schema/photo';
@@ -33,7 +33,8 @@ export class PhotosEditComponent implements ViewWillLeave {
     private alertController: AlertController,
     private route: ActivatedRoute,
     private router: Router,
-    private platform: Platform
+    private platform: Platform,
+    private ngZone: NgZone
   ) { }
 
   ionViewWillLeave(): void {
@@ -55,11 +56,15 @@ export class PhotosEditComponent implements ViewWillLeave {
   }
 
   async onSlideChange(swiper: Swiper) {
+    // event from swiper is outside of Angular
+    this.ngZone.run(() => {
+      this.currentIndex = swiper.activeIndex;
+      this.photo = this.photos[this.currentIndex];
 
-    this.currentIndex = swiper.activeIndex;
-    this.photo = this.photos[this.currentIndex];
 
-    this.router.navigate([], { queryParams: { photo: this.photo._id }, replaceUrl: true });
+      this.router.navigate([], { queryParams: { photo: this.photo._id }, replaceUrl: true });
+    });
+
   }
 
   @HostListener('document:keyup', ['$event'])
