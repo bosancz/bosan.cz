@@ -2,12 +2,20 @@
   <ion-toolbar class="top-toolbar">
     <ion-buttons slot="end">
       <ion-button *ngIf="photo" color="danger" fill="clear" (click)="delete(photo)">Smazat</ion-button>
-      <ion-button *ngIf="photo" fill="clear" id="info-trigger">Info</ion-button>
+      <ion-button *ngIf="photo" fill="clear" id="info-trigger" (keydown.enter)="$event.preventDefault()"
+        >Info</ion-button
+      >
       <ion-button fill="clear" (click)="close()">Zavřít</ion-button>
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-popover *ngIf="photo" trigger="info-trigger" alignment="center">
+  <ion-popover
+    *ngIf="photo"
+    trigger="info-trigger"
+    alignment="center"
+    (didDismiss)="infoOpen = false"
+    (willPresent)="infoOpen = true"
+  >
     <ng-template>
       <ion-content class="ion-padding">
         <ion-list>

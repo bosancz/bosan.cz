@@ -17,6 +17,8 @@ export class PhotosEditComponent implements ViewWillLeave {
 
   editingCaption = false;
 
+  infoOpen = false;
+
   currentIndex: number = 0;
 
   @ViewChild("captionInput") captionInput!: IonInput;
@@ -70,7 +72,7 @@ export class PhotosEditComponent implements ViewWillLeave {
   @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
 
-    if (!this.editingCaption) {
+    if (!this.editingCaption && !this.infoOpen) {
       switch (event.code) {
         case "ArrowLeft": return this.previousPhoto();
         case "ArrowRight": return this.nextPhoto();
