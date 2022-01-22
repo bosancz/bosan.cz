@@ -42,7 +42,7 @@ export class AlbumsViewInfoComponent implements OnInit {
 
   async loadAlbum(albumId: string) {
     this.album = await this.albumsService.loadAlbum(albumId);;
-    this.actions = this.getActions(this.album);
+    this.updateActions(this.album);
   }
 
   private async publish() {
@@ -50,6 +50,7 @@ export class AlbumsViewInfoComponent implements OnInit {
     await this.albumsService.albumAction(this.album?._actions?.publish);
     this.album = await this.albumsService.loadAlbum(this.album._id);
     this.toastService.toast("Publikováno.");
+    this.updateActions(this.album);
   }
 
   private async unpublish() {
@@ -57,6 +58,7 @@ export class AlbumsViewInfoComponent implements OnInit {
     await this.albumsService.albumAction(this.album?._actions?.unpublish);
     this.album = await this.albumsService.loadAlbum(this.album._id);
     this.toastService.toast("Skryto.");
+    this.updateActions(this.album);
   }
 
   private async delete() {
@@ -93,8 +95,8 @@ export class AlbumsViewInfoComponent implements OnInit {
     }
   }
 
-  private getActions(album: Album<Photo, string>): Action[] {
-    return [
+  private updateActions(album: Album<Photo, string>) {
+    this.actions = [
       {
         text: "Upravit",
         icon: "create-outline",
