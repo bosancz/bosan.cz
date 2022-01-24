@@ -46,12 +46,10 @@ export class AlbumsViewComponent implements OnInit, AfterViewInit {
     this.tabs.outlet.activateEvents
       .pipe(untilDestroyed(this))
       .subscribe((cmp: AlbumsViewInfoComponent | AlbumsViewPhotosComponent) => {
-        console.log('bind');
         this.actionsSubscription?.unsubscribe();
         this.changeSubscription?.unsubscribe();
 
         this.actionsSubscription = cmp.actions.subscribe(actions => {
-          console.log("set");
           this.actions = actions;
         });
 

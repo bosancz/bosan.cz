@@ -39,8 +39,6 @@ export class PhotoListComponent implements OnInit {
 
   onPhotoClick(photo: Photo, event: MouseEvent) {
 
-    console.log("onPhotoClick");
-
     event.preventDefault();
     event.stopPropagation();
 
