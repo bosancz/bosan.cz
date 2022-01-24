@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from 'app/core/services/api.service';
 import { Album, Photo } from 'app/schema/album';
 import { DocumentAction } from 'app/schema/api-document';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

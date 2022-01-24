@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { BehaviorSubject } from 'rxjs';
 import { AlbumsService } from '../../../services/albums.service';
 
 @UntilDestroy()
@@ -17,7 +18,8 @@ export class AlbumsViewInfoComponent implements OnInit {
 
   album?: Album<Photo, string>;
 
-  actions: Action[] = [];
+  @Output() actions = new BehaviorSubject<Action[]>([]);
+  @Output() change = new EventEmitter<void>();
 
   alert?: HTMLIonAlertElement;
 
@@ -96,7 +98,7 @@ export class AlbumsViewInfoComponent implements OnInit {
   }
 
   private updateActions(album: Album<Photo, string>) {
-    this.actions = [
+    this.actions.next([
       {
         text: "Upravit",
         icon: "create-outline",
@@ -129,6 +131,6 @@ export class AlbumsViewInfoComponent implements OnInit {
         color: "danger",
         handler: () => this.delete(),
       },
-    ];
+    ]);
   }
 }

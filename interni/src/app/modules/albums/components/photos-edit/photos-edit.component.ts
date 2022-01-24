@@ -63,7 +63,6 @@ export class PhotosEditComponent implements ViewWillLeave {
       this.currentIndex = swiper.activeIndex;
       this.photo = this.photos[this.currentIndex];
 
-
       this.router.navigate([], { queryParams: { photo: this.photo._id }, replaceUrl: true });
     });
 
@@ -146,8 +145,15 @@ export class PhotosEditComponent implements ViewWillLeave {
     this.photos.splice(i, 1);
 
     if (!this.photos.length) this.modalController.dismiss({ refresh: true });
-    else if (i > 0) this.openPhoto(i - 1);
-    else this.openPhoto(0);
+    else {
+      const newI = i > 0 ? i - 1 : 0;
+
+      this.photo = this.photos[newI];
+
+      this.router.navigate([], { queryParams: { photo: this.photo._id }, replaceUrl: true });
+
+      this.openPhoto(newI);
+    }
 
   }
 

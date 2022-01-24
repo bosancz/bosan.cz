@@ -1,20 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button *ngIf="!enableDeleting && !enableOrdering" defaultHref="/galerie"></ion-back-button>
-
-      <ion-button *ngIf="enableDeleting && platform.is('ios')" (click)="endDeleting()">Zrušit</ion-button>
-      <ion-button *ngIf="enableOrdering && platform.is('ios')" (click)="endOrdering()">Zrušit</ion-button>
-    </ion-buttons>
-
-    <ion-title pageTitle>{{ album?.name }}</ion-title>
-
-    <ion-buttons slot="end">
-      <bo-action-buttons [actions]="actions" header="Fotky"></bo-action-buttons>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <div class="buttons">
     <ion-button *ngIf="photosView === 'grid'" (click)="photosView = 'list'" fill="clear" slot="end">

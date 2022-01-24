@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform, ViewWillLeave } from '@ionic/angular';
-import { ItemReorderEventDetail } from '@ionic/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
 import { PhotosEditComponent } from 'app/modules/albums/components/photos-edit/photos-edit.component';
 import { PhotosUploadComponent } from 'app/modules/albums/components/photos-upload/photos-upload.component';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { BehaviorSubject } from 'rxjs';
 import { AlbumsService } from '../../../services/albums.service';
 
 @UntilDestroy()
@@ -22,7 +22,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
   photos?: Photo[];
 
-  actions: Action[] = [];
+  @Output() actions = new BehaviorSubject<Action[]>([]);
+  @Output() change = new EventEmitter<void>();
 
   photosView: "list" | "grid" = "list";
 
@@ -51,7 +52,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.route.params
       .pipe(untilDestroyed(this))
       .subscribe(params => {
-        this.loadPhotos(params["album"]);
+        if (this.album?._id !== params["album"]) this.loadPhotos(params["album"]);
       });
 
     this.route.queryParams
@@ -74,7 +75,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
   async loadPhotos(albumId: string) {
     this.album = await this.albumsService.loadAlbum(albumId);
-    this.actions = this.getActions(this.album);
+    this.actions.next(this.getActions(this.album));
 
     this.photos = await this.albumsService.getPhotos(albumId);
 
@@ -96,6 +97,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   async openPhoto(photo: Photo) {
     if (this.photosModal) this.photosModal.dismiss();
 
+    const originalCount = this.photos?.length;
+
     this.photosModal = await this.modalController.create({
       component: PhotosEditComponent,
       componentProps: {
@@ -105,7 +108,11 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       cssClass: "ion-modal-lg"
     });
 
-    this.photosModal.onWillDismiss().then(() => this.photosModal = undefined);
+    this.photosModal.onWillDismiss().then(() => {
+      this.photosModal = undefined;
+
+      if (this.photos?.length !== originalCount) this.change.emit();
+    });
 
     this.photosModal.present();
   }
@@ -122,7 +129,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.enableOrdering = true;
     this.photosView = 'list';
     this.oldOrder = this.photos?.slice();
-    this.actions = [
+    this.actions.next([
       {
         "text": "Uložit",
         color: "primary",
@@ -136,7 +143,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
         hidden: this.platform.is('ios'),
         handler: () => this.endOrdering()
       }
-    ];
+    ]);
   }
 
   endOrdering() {
@@ -144,14 +151,14 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       this.photos = this.oldOrder;
       this.oldOrder = undefined;
     }
-    this.actions = this.getActions(this.album!);
+    this.actions.next(this.getActions(this.album!));
     this.enableOrdering = false;
   }
 
   startDeleting() {
     this.startSelecting();
     this.enableDeleting = true;
-    this.actions = [
+    this.actions.next([
       {
         text: "Smazat",
         role: "destructive",
@@ -164,13 +171,13 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
         hidden: this.platform.is('ios'),
         handler: () => this.endDeleting()
       }
-    ];
+    ]);
   }
 
   endDeleting() {
     this.enableDeleting = false;
     this.stopSelecting();
-    this.actions = this.getActions(this.album!);
+    this.actions.next(this.getActions(this.album!));
   }
 
   private startSelecting() {
@@ -193,6 +200,8 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
     await this.loadPhotos(this.album!._id); // wouldnt be able to delete photos if no album was present
 
+    this.change.emit();
+
     toast.dismiss();
     this.toastService.toast("Fotky smazány");
   }
@@ -210,6 +219,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
     this.uploadModal.onDidDismiss().then(event => {
       if (event.data) this.loadPhotos(this.album!._id);
+      this.change.emit();
     });
 
     this.uploadModal.present();
