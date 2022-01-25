@@ -131,7 +131,7 @@ routes
     query: { status: { $in: ["public"] } },
   })
   .handle(async (req, res, next) => {
-    await Album.findOneAndUpdate({ _id: req.params.id }, { status: "draft" });
+    await Album.findOneAndUpdate({ _id: req.params.id }, { status: "draft", $unset: { datePublished: "" } });
     res.sendStatus(204);
   });
 

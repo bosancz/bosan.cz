@@ -2,7 +2,7 @@
   background-color: #000;
 }
 
-ion-content {
+ion-content.modal-bg {
   --ion-background-color: #000;
 }
 
@@ -24,14 +24,16 @@ ion-toolbar {
   right: 0;
 }
 
-ion-item {
+.top-toolbar ion-item,
+.bottom-toolbar ion-item {
   --ion-background-color: transparent;
   --ion-item-color: #fff;
-}
-.edit-caption {
-  --ion-background-color: #fff;
-  --ion-item-color: #000;
-  --ion-toolbar-color: #000;
+
+  .edit-caption {
+    --ion-background-color: #fff;
+    --ion-item-color: #000;
+    --ion-toolbar-color: #000;
+  }
 
   @media (prefers-color-scheme: dark) {
     --ion-item-color: #fff;
@@ -42,8 +44,7 @@ ion-item {
   font-style: italic;
 }
 
-ion-slides {
-  width: 100%;
+swiper {
   height: 100%;
 }
 

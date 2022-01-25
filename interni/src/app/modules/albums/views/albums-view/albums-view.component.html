@@ -1,5 +1,17 @@
-<ion-tabs>
-  <ion-tab-bar>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/galerie"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>{{ album?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Album"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-tabs #tabs>
+  <ion-tab-bar slot="bottom">
     <ion-tab-button tab="info">
       <ion-icon name="book-outline"></ion-icon>
       <ion-label>Album</ion-label>

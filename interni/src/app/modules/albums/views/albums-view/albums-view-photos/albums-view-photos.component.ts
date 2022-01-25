@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform, ViewWillLeave } from '@ionic/angular';
-import { ItemReorderEventDetail } from '@ionic/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
-import { PhotoViewComponent } from 'app/modules/albums/components/photo-view/photo-view.component';
+import { PhotosEditComponent } from 'app/modules/albums/components/photos-edit/photos-edit.component';
 import { PhotosUploadComponent } from 'app/modules/albums/components/photos-upload/photos-upload.component';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { BehaviorSubject } from 'rxjs';
 import { AlbumsService } from '../../../services/albums.service';
 
 @UntilDestroy()
@@ -19,13 +20,12 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
   album?: Album<Photo, string>;
 
-  photos?: Photo[] = [];
+  photos?: Photo[];
 
-  loadingPhotos?: any[] = Array(5).fill(true);
+  @Output() actions = new BehaviorSubject<Action[]>([]);
+  @Output() change = new EventEmitter<void>();
 
-  actions: Action[] = [
-
-  ];
+  photosView: "list" | "grid" = "list";
 
   enableOrdering = false;
   enableDeleting = false;
@@ -35,67 +35,86 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
   showCheckboxes = false;
   selectedPhotos: Photo[] = [];
 
-  modal?: HTMLIonModalElement;
+  photosModal?: HTMLIonModalElement;
+  uploadModal?: HTMLIonModalElement;
 
   constructor(
     private albumsService: AlbumsService,
     public platform: Platform,
     public modalController: ModalController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.albumsService.album$
+
+    this.route.params
       .pipe(untilDestroyed(this))
-      .subscribe(album => {
-        this.album = album;
-        this.actions = this.getActions(this.album);
-        this.loadPhotos(album);
+      .subscribe(params => {
+        if (this.album?._id !== params["album"]) this.loadPhotos(params["album"]);
+      });
+
+    this.route.queryParams
+      .pipe(untilDestroyed(this))
+      .subscribe(params => {
+        if (params.photo && !this.photosModal) {
+          const photo = this.photos?.find(item => item._id);
+          if (photo) this.openPhoto(photo);
+        }
+        if (!params.photo && this.photosModal) {
+          this.photosModal.dismiss();
+        }
       });
   }
 
   ionViewWillLeave() {
-    this.modal?.dismiss();
+    this.photosModal?.dismiss();
+    this.uploadModal?.dismiss();
   }
 
-  async loadPhotos(album: Album<Photo, string>) {
-    this.photos = await this.albumsService.getPhotos(album);
-    this.loadingPhotos = undefined;
+  async loadPhotos(albumId: string) {
+    this.album = await this.albumsService.loadAlbum(albumId);
+    this.actions.next(this.getActions(this.album));
+
+    this.photos = await this.albumsService.getPhotos(albumId);
+
+    if (this.route.snapshot.queryParams["photo"] && !this.photosModal) {
+      const photo = this.photos?.find(item => item._id);
+      if (photo) this.openPhoto(photo);
+    }
+
   }
 
-  async onPhotoClick(photo: Photo, event: MouseEvent) {
+  onPhotoClick(event: CustomEvent<Photo | undefined>) {
     if (this.enableDeleting || this.enableOrdering) return;
 
-    if (this.modal) this.modal.dismiss();
+    if (!event.detail) return;
 
-    this.modal = await this.modalController.create({
-      component: PhotoViewComponent,
+    this.router.navigate([], { queryParams: { photo: event.detail._id } });
+  }
+
+  async openPhoto(photo: Photo) {
+    if (this.photosModal) this.photosModal.dismiss();
+
+    const originalCount = this.photos?.length;
+
+    this.photosModal = await this.modalController.create({
+      component: PhotosEditComponent,
       componentProps: {
-        "photo": photo,
         "photos": this.photos
       },
-      backdropDismiss: false
+      backdropDismiss: false,
+      cssClass: "ion-modal-lg"
     });
 
-    this.modal.present();
-  }
+    this.photosModal.onWillDismiss().then(() => {
+      this.photosModal = undefined;
 
+      if (this.photos?.length !== originalCount) this.change.emit();
+    });
 
-  onPhotoCheck(photo: Photo, isChecked: boolean) {
-    const i = this.selectedPhotos.indexOf(photo);
-
-    // if checked, but not in list, add photo 
-    if (isChecked && i === -1) this.selectedPhotos.push(photo);
-
-    // if not checked, but in list, remove photo
-    else if (!isChecked && i !== -1) this.selectedPhotos.splice(i, 1);
-
-    console.log(this.selectedPhotos);
-  }
-
-  onReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    this.photos?.splice(ev.detail.to, 0, this.photos?.splice(ev.detail.from, 1)[0]);
-    ev.detail.complete();
+    this.photosModal.present();
   }
 
   orderByDate() {
@@ -108,8 +127,9 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
   startOrdering() {
     this.enableOrdering = true;
+    this.photosView = 'list';
     this.oldOrder = this.photos?.slice();
-    this.actions = [
+    this.actions.next([
       {
         "text": "Uložit",
         color: "primary",
@@ -123,7 +143,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
         hidden: this.platform.is('ios'),
         handler: () => this.endOrdering()
       }
-    ];
+    ]);
   }
 
   endOrdering() {
@@ -131,14 +151,14 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       this.photos = this.oldOrder;
       this.oldOrder = undefined;
     }
-    this.actions = this.getActions(this.album!);
+    this.actions.next(this.getActions(this.album!));
     this.enableOrdering = false;
   }
 
   startDeleting() {
     this.startSelecting();
     this.enableDeleting = true;
-    this.actions = [
+    this.actions.next([
       {
         text: "Smazat",
         role: "destructive",
@@ -151,18 +171,13 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
         hidden: this.platform.is('ios'),
         handler: () => this.endDeleting()
       }
-    ];
+    ]);
   }
 
   endDeleting() {
     this.enableDeleting = false;
     this.stopSelecting();
-    this.actions = this.getActions(this.album!);
-  }
-
-
-  getMpix(width: number, height: number) {
-    return Math.round(width * height / 1000000);
+    this.actions.next(this.getActions(this.album!));
   }
 
   private startSelecting() {
@@ -175,7 +190,6 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
     this.selectedPhotos = [];
   }
 
-
   private async deletePhotos() {
 
     const toast = await this.toastService.toast("Mažu fotky...");
@@ -184,20 +198,18 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       await this.albumsService.deletePhoto(photo._id);
     }
 
-    await this.loadPhotos(this.album!); // wouldnt be able to delete photos if no album was present
+    await this.loadPhotos(this.album!._id); // wouldnt be able to delete photos if no album was present
+
+    this.change.emit();
 
     toast.dismiss();
     this.toastService.toast("Fotky smazány");
   }
 
-  private async deletePhoto(photo: Photo) {
-    await this.albumsService.deletePhoto(photo._id);
-  }
-
   private async uploadPhotos() {
-    if (this.modal) this.modal.dismiss();
+    if (this.uploadModal) this.uploadModal.dismiss();
 
-    this.modal = await this.modalController.create({
+    this.uploadModal = await this.modalController.create({
       component: PhotosUploadComponent,
       componentProps: {
         album: this.album
@@ -205,9 +217,12 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       backdropDismiss: false
     });
 
-    this.modal.present();
+    this.uploadModal.onDidDismiss().then(event => {
+      if (event.data) this.loadPhotos(this.album!._id);
+      this.change.emit();
+    });
 
-    this.modal.onDidDismiss().then(saved => saved && this.albumsService.loadAlbum(this.album!._id));
+    this.uploadModal.present();
   }
 
   private async saveOrdering() {
@@ -219,7 +234,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
 
     await this.albumsService.updateAlbum(this.album._id, data);
 
-    await this.loadPhotos(this.album);
+    await this.loadPhotos(this.album._id);
 
     this.oldOrder = undefined;
 
@@ -235,6 +250,7 @@ export class AlbumsViewPhotosComponent implements OnInit, ViewWillLeave {
       },
       {
         text: "Nahrát",
+        pinned: true,
         icon: "cloud-upload-outline",
         handler: () => this.uploadPhotos()
       },

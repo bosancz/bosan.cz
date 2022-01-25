@@ -70,7 +70,7 @@ export class PhotosUploadComponent implements OnInit, AfterViewInit, OnDestroy {
   updateTags() {
     this.tags = [];
     this.album.photos.forEach(photo => {
-      photo.tags.filter(tag => this.tags.indexOf(tag) === -1).forEach(tag => this.tags.push(tag));
+      photo.tags?.filter(tag => this.tags.indexOf(tag) === -1).forEach(tag => this.tags.push(tag));
     });
   }
 

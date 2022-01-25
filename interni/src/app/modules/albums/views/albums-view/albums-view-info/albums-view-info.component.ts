@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastService } from 'app/core/services/toast.service';
 import { Album, Photo } from 'app/schema/album';
 import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
+import { BehaviorSubject } from 'rxjs';
 import { AlbumsService } from '../../../services/albums.service';
 
 @UntilDestroy()
@@ -17,7 +18,8 @@ export class AlbumsViewInfoComponent implements OnInit {
 
   album?: Album<Photo, string>;
 
-  actions: Action[] = [];
+  @Output() actions = new BehaviorSubject<Action[]>([]);
+  @Output() change = new EventEmitter<void>();
 
   alert?: HTMLIonAlertElement;
 
@@ -26,36 +28,39 @@ export class AlbumsViewInfoComponent implements OnInit {
     private router: Router,
     private albumsService: AlbumsService,
     private toastService: ToastService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private navController: NavController
   ) { }
 
   ngOnInit(): void {
-    this.albumsService.album$
+    this.route.params
       .pipe(untilDestroyed(this))
-      .subscribe(album => this.updateAlbum(album));
+      .subscribe(params => this.loadAlbum(params["album"]));
   }
 
   ngOnDestroy() {
     this.alert?.dismiss();
   }
 
-  updateAlbum(album: Album<Photo, string>) {
-    this.album = album;
-    this.actions = this.getActions(this.album);
+  async loadAlbum(albumId: string) {
+    this.album = await this.albumsService.loadAlbum(albumId);;
+    this.updateActions(this.album);
   }
 
   private async publish() {
     if (!this.album?._actions?.publish) return;
     await this.albumsService.albumAction(this.album?._actions?.publish);
-    await this.albumsService.loadAlbum(this.album._id);
+    this.album = await this.albumsService.loadAlbum(this.album._id);
     this.toastService.toast("Publikováno.");
+    this.updateActions(this.album);
   }
 
   private async unpublish() {
     if (!this.album?._actions?.unpublish) return;
     await this.albumsService.albumAction(this.album?._actions?.unpublish);
-    await this.albumsService.loadAlbum(this.album._id);
+    this.album = await this.albumsService.loadAlbum(this.album._id);
     this.toastService.toast("Skryto.");
+    this.updateActions(this.album);
   }
 
   private async delete() {
@@ -86,8 +91,14 @@ export class AlbumsViewInfoComponent implements OnInit {
     window.open("https://bosan.cz/fotogalerie/" + this.album._id);
   }
 
-  private getActions(album: Album<Photo, string>): Action[] {
-    return [
+  onPhotoClick(event: CustomEvent<Photo>) {
+    if (event.detail && this.album) {
+      this.navController.navigateForward(`/galerie/${this.album._id}/fotky`, { queryParams: { photo: event.detail._id } });
+    }
+  }
+
+  private updateActions(album: Album<Photo, string>) {
+    this.actions.next([
       {
         text: "Upravit",
         icon: "create-outline",
@@ -98,7 +109,7 @@ export class AlbumsViewInfoComponent implements OnInit {
         text: "Otevřít na webu",
         icon: "open-outline",
         color: "success",
-        disabled: album.status !== "public",
+        hidden: album.status !== "public",
         handler: () => this.open(),
       },
       {
@@ -120,6 +131,6 @@ export class AlbumsViewInfoComponent implements OnInit {
         color: "danger",
         handler: () => this.delete(),
       },
-    ];
+    ]);
   }
 }
