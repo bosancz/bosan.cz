@@ -10,13 +10,18 @@
   </ion-toolbar>
 </ion-header>
 
-<form #filterForm="ngForm" class="filter px-lg-3 py-1" [hidden]="!showFilter">
-  <div class="row">
-    <div class="col-12 col-xl">
-      <ion-searchbar type="text" name="search" ngModel (keydown.enter)="$event.preventDefault()"></ion-searchbar>
-    </div>
+<form #filterForm="ngForm" class="filter">
+  <ion-toolbar>
+    <ion-searchbar type="text" name="search" ngModel (keydown.enter)="$event.preventDefault()"></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="showFilter = !showFilter" [color]="showFilter ? 'primary' : 'default'">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 
-    <div class="col-12 col-md-3 col-xl-2">
+  <div class="row" [hidden]="!showFilter">
+    <div class="col-12 col-md-3">
       <ion-item lines="none">
         <ion-label position="stacked">Oddíl</ion-label>
         <ion-select multiple name="groups" ngModel placeholder="všechny">
@@ -27,7 +32,7 @@
       </ion-item>
     </div>
 
-    <div class="col-12 col-md-3 col-xl-2">
+    <div class="col-12 col-md-3">
       <ion-item lines="none">
         <ion-label position="stacked">Role</ion-label>
         <ion-select multiple name="roles" ngModel placeholder="všechny">
@@ -38,7 +43,7 @@
       </ion-item>
     </div>
 
-    <div class="col-12 col-md-3 col-xl-2">
+    <div class="col-12 col-md-3">
       <ion-item lines="none">
         <ion-label position="stacked">Aktivní člen</ion-label>
         <ion-select multiple name="activity" [ngModel]="['active']">
@@ -48,7 +53,7 @@
       </ion-item>
     </div>
 
-    <div class="col-12 col-md-3 col-xl-2">
+    <div class="col-12 col-md-3">
       <ion-item lines="none">
         <ion-label position="stacked">Zobrazené sloupce</ion-label>
         <ion-select multiple name="fields" [ngModel]="defaultFields">

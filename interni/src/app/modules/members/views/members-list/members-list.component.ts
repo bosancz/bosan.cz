@@ -53,11 +53,6 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
 
   actions: Action[] = [
     {
-      icon: "search-outline",
-      pinned: true,
-      handler: () => this.showFilter = !this.showFilter
-    },
-    {
       icon: "add-outline",
       pinned: true,
       handler: () => this.create()
