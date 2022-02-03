@@ -10,61 +10,61 @@
   </ion-toolbar>
 </ion-header>
 
-<form #filterForm="ngForm" class="filter">
-  <ion-toolbar>
-    <ion-searchbar type="text" name="search" ngModel (keydown.enter)="$event.preventDefault()"></ion-searchbar>
-    <ion-buttons slot="end">
-      <ion-button (click)="showFilter = !showFilter" [color]="showFilter ? 'primary' : 'default'">
-        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-
-  <div class="row" [hidden]="!showFilter">
-    <div class="col-12 col-md-3">
-      <ion-item lines="none">
-        <ion-label position="stacked">Oddíl</ion-label>
-        <ion-select multiple name="groups" ngModel placeholder="všechny">
-          <ion-select-option *ngFor="let group of groups | keyvalue" [value]="group.key">
-            {{ group.value.name }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-    </div>
-
-    <div class="col-12 col-md-3">
-      <ion-item lines="none">
-        <ion-label position="stacked">Role</ion-label>
-        <ion-select multiple name="roles" ngModel placeholder="všechny">
-          <ion-select-option *ngFor="let role of roles | keyvalue" [value]="role.key">
-            {{ role.value.title }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-    </div>
-
-    <div class="col-12 col-md-3">
-      <ion-item lines="none">
-        <ion-label position="stacked">Aktivní člen</ion-label>
-        <ion-select multiple name="activity" [ngModel]="['active']">
-          <ion-select-option value="active">Aktivní</ion-select-option>
-          <ion-select-option value="inactive">Neaktivní</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </div>
-
-    <div class="col-12 col-md-3">
-      <ion-item lines="none">
-        <ion-label position="stacked">Zobrazené sloupce</ion-label>
-        <ion-select multiple name="fields" [ngModel]="defaultFields">
-          <ion-select-option *ngFor="let field of fields" [value]="field.id">{{ field.name }}</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </div>
-  </div>
-</form>
-
 <ion-content>
+  <form #filterForm="ngForm" class="filter py-1">
+    <ion-toolbar>
+      <ion-searchbar type="text" name="search" ngModel (keydown.enter)="$event.preventDefault()"></ion-searchbar>
+      <ion-buttons slot="end">
+        <ion-button (click)="showFilter = !showFilter" [color]="showFilter ? 'primary' : 'default'">
+          <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <div class="row" [hidden]="!showFilter">
+      <div class="col-12 col-md-3">
+        <ion-item lines="none">
+          <ion-label position="stacked">Oddíl</ion-label>
+          <ion-select multiple name="groups" ngModel placeholder="všechny">
+            <ion-select-option *ngFor="let group of groups | keyvalue" [value]="group.key">
+              {{ group.value.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <ion-item lines="none">
+          <ion-label position="stacked">Role</ion-label>
+          <ion-select multiple name="roles" ngModel placeholder="všechny">
+            <ion-select-option *ngFor="let role of roles | keyvalue" [value]="role.key">
+              {{ role.value.title }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <ion-item lines="none">
+          <ion-label position="stacked">Aktivní člen</ion-label>
+          <ion-select multiple name="activity" [ngModel]="['active']">
+            <ion-select-option value="active">Aktivní</ion-select-option>
+            <ion-select-option value="inactive">Neaktivní</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <ion-item lines="none">
+          <ion-label position="stacked">Zobrazené sloupce</ion-label>
+          <ion-select multiple name="fields" [ngModel]="defaultFields">
+            <ion-select-option *ngFor="let field of fields" [value]="field.id">{{ field.name }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </div>
+  </form>
+
   <admin-table class="table table-hover">
     <thead>
       <tr>
