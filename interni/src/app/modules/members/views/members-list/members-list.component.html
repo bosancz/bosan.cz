@@ -10,104 +10,117 @@
   </ion-toolbar>
 </ion-header>
 
-<form #filterForm="ngForm" class="filter px-lg-3 py-1" [hidden]="!showFilter">
-  <div class="row">
-    <div class="col-12 col-xl">
-      <ion-searchbar type="text" name="search" ngModel (keydown.enter)="$event.preventDefault()"></ion-searchbar>
-    </div>
-
-    <div class="col-12 col-md-3 col-xl-2">
-      <ion-item lines="none">
-        <ion-label position="stacked">Oddíl</ion-label>
-        <ion-select multiple name="groups" ngModel placeholder="všechny">
-          <ion-select-option *ngFor="let group of groups | keyvalue" [value]="group.key">
-            {{ group.value.name }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-    </div>
-
-    <div class="col-12 col-md-3 col-xl-2">
-      <ion-item lines="none">
-        <ion-label position="stacked">Role</ion-label>
-        <ion-select multiple name="roles" ngModel placeholder="všechny">
-          <ion-select-option *ngFor="let role of roles | keyvalue" [value]="role.key">
-            {{ role.value.title }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-    </div>
-
-    <div class="col-12 col-md-3 col-xl-2">
-      <ion-item lines="none">
-        <ion-label position="stacked">Aktivní člen</ion-label>
-        <ion-select multiple name="activity" [ngModel]="['active']">
-          <ion-select-option value="active">Aktivní</ion-select-option>
-          <ion-select-option value="inactive">Neaktivní</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </div>
-
-    <div class="col-12 col-md-3 col-xl-2">
-      <ion-item lines="none">
-        <ion-label position="stacked">Zobrazené sloupce</ion-label>
-        <ion-select multiple name="fields" [ngModel]="defaultFields">
-          <ion-select-option *ngFor="let field of fields" [value]="field.id">{{ field.name }}</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </div>
-  </div>
-</form>
-
 <ion-content>
-  <admin-table class="table table-hover">
+  <form #filterForm="ngForm" class="filter py-1">
+    <ion-toolbar>
+      <ion-searchbar type="text" name="search" ngModel (keydown.enter)="$event.preventDefault()"></ion-searchbar>
+      <ion-buttons slot="end">
+        <ion-button (click)="showFilter = !showFilter" [color]="showFilter ? 'primary' : 'default'">
+          <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <div class="row" [hidden]="!showFilter">
+      <div class="col-12 col-md-3">
+        <ion-item lines="none">
+          <ion-label position="stacked">Oddíl</ion-label>
+          <ion-select multiple name="groups" [ngModel]="filter.groups" placeholder="všechny">
+            <ion-select-option *ngFor="let group of groups | keyvalue" [value]="group.key">
+              {{ group.value.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <ion-item lines="none">
+          <ion-label position="stacked">Role</ion-label>
+          <ion-select multiple name="roles" [ngModel]="filter.roles" placeholder="všechny">
+            <ion-select-option *ngFor="let role of roles | keyvalue" [value]="role.key">
+              {{ role.value.title }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <ion-item lines="none">
+          <ion-label position="stacked">Aktivní člen</ion-label>
+          <ion-select multiple name="activity" [ngModel]="filter.activity">
+            <ion-select-option value="active">Aktivní</ion-select-option>
+            <ion-select-option value="inactive">Neaktivní</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <ion-item lines="none">
+          <ion-label position="stacked">Zobrazené sloupce</ion-label>
+          <ion-select multiple name="fields" [ngModel]="filter.fields">
+            <ion-select-option *ngFor="let field of fields | keyvalue" [value]="field.key">
+              {{ field.value.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </div>
+  </form>
+
+  <admin-table>
     <thead>
       <tr>
-        <ng-container *ngIf="visibleFields$ | async as visibleFields">
-          <th *ngIf="visibleFields.nickname">Přezdívka</th>
-          <th *ngIf="visibleFields.group">Oddíl</th>
-          <th *ngIf="visibleFields.role">Role</th>
-          <th *ngIf="visibleFields.post">Funkce</th>
-          <th *ngIf="visibleFields.rank">Hodnost</th>
-          <th *ngIf="visibleFields.stars">Hvězdy</th>
-          <th *ngIf="visibleFields.name">Jméno</th>
-          <th *ngIf="visibleFields.birthday">Datum narození</th>
-          <th *ngIf="visibleFields.age">Věk</th>
-          <th *ngIf="visibleFields.email">Email</th>
-          <th *ngIf="visibleFields.mobile">Mobil</th>
-          <th *ngIf="visibleFields.city">Město</th>
-        </ng-container>
+        <th *ngIf="fields.nickname.visible">{{ fields.nickname.name }}</th>
+        <th *ngIf="fields.group.visible">{{ fields.group.name }}</th>
+        <th *ngIf="fields.role.visible">{{ fields.role.name }}</th>
+        <th *ngIf="fields.post.visible">{{ fields.post.name }}</th>
+        <th *ngIf="fields.rank.visible">{{ fields.rank.name }}</th>
+        <th *ngIf="fields.stars.visible">{{ fields.stars.name }}</th>
+        <th *ngIf="fields.name.visible">{{ fields.name.name }}</th>
+        <th *ngIf="fields.birthday.visible">{{ fields.birthday.name }}</th>
+        <th *ngIf="fields.age.visible">{{ fields.age.name }}</th>
+        <th *ngIf="fields.email.visible">{{ fields.email.name }}</th>
+        <th *ngIf="fields.mobile.visible">{{ fields.mobile.name }}</th>
+        <th *ngIf="fields.city.visible">{{ fields.city.name }}</th>
+        <th>&nbsp;</th>
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let member of filteredMembers$ | async">
-        <tr [routerLink]="member._id" class="member" [class.inactive]="member.inactive">
-          <ng-container *ngIf="visibleFields$ | async as visibleFields">
-            <th *ngIf="visibleFields.nickname">{{ member.nickname }}</th>
-            <td *ngIf="visibleFields.group">
-              <span class="group-badge" [style.color]="member.group | group: 'color'">
-                {{ member.group | group: "name" }}
-              </span>
-            </td>
-            <td *ngIf="visibleFields.role">{{ member.role }}</td>
-            <td *ngIf="visibleFields.post">{{ member.post }}</td>
-            <td *ngIf="visibleFields.rank">{{ member.rank }}</td>
-            <td *ngIf="visibleFields.stars">{{ member.stars }}</td>
-            <td *ngIf="visibleFields.name">{{ member.name?.first }} {{ member.name?.last }}</td>
-            <td *ngIf="visibleFields.birthday">{{ member.birthday | date: "d. M. y" }}</td>
-            <td *ngIf="visibleFields.age">{{ member.birthday ? getAge(member.birthday) : "" }}</td>
-            <td *ngIf="visibleFields.email">{{ member.contacts?.email }}</td>
-            <td *ngIf="visibleFields.mobile">
-              {{
-                member.contacts?.mobile ||
-                  (member.contacts?.mother ? member.contacts?.mother + " (matka)" : undefined) ||
-                  (member.contacts?.father ? member.contacts?.father + " (otec)" : undefined || "")
-              }}
-            </td>
-            <td *ngIf="visibleFields.city">{{ member.address?.city }}</td>
-          </ng-container>
-        </tr>
-      </ng-container>
+      <tr
+        *ngFor="let member of filteredMembers"
+        [routerLink]="member._id"
+        class="member"
+        [class.inactive]="member.inactive"
+      >
+        <th *ngIf="fields.nickname.visible">{{ member.nickname }}</th>
+        <td *ngIf="fields.group.visible">
+          <span class="group-badge" [style.color]="member.group | group: 'color'">
+            {{ member.group | group: "name" }}
+          </span>
+        </td>
+        <td *ngIf="fields.role.visible">{{ member.role }}</td>
+        <td *ngIf="fields.post.visible">{{ member.post }}</td>
+        <td *ngIf="fields.rank.visible">{{ member.rank }}</td>
+        <td *ngIf="fields.stars.visible">{{ member.stars }}</td>
+        <td *ngIf="fields.name.visible">{{ member.name?.first }} {{ member.name?.last }}</td>
+        <td *ngIf="fields.birthday.visible">{{ member.birthday | date: "d. M. y" }}</td>
+        <td *ngIf="fields.age.visible">{{ member.birthday ? getAge(member.birthday) : "" }}</td>
+        <td *ngIf="fields.email.visible">{{ member.contacts?.email }}</td>
+        <td *ngIf="fields.mobile.visible">
+          {{
+            member.contacts?.mobile ||
+              (member.contacts?.mother ? member.contacts?.mother + " (matka)" : undefined) ||
+              (member.contacts?.father ? member.contacts?.father + " (otec)" : undefined || "")
+          }}
+        </td>
+        <td *ngIf="fields.city.visible">{{ member.address?.city }}</td>
+
+        <td class="buttons">
+          <a class="clickable" (click)="copyRow(member); $event.stopPropagation()">
+            <ion-icon name="copy-outline"></ion-icon>
+          </a>
+        </td>
+      </tr>
     </tbody>
   </admin-table>
 </ion-content>

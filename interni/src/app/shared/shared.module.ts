@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -106,7 +106,7 @@ SwiperCore.use([Navigation]);
     EventStatusPipe,
     MemberPipe,
   ],
-  providers: []
+  providers: [DatePipe]
 
 })
 export class SharedModule { }
