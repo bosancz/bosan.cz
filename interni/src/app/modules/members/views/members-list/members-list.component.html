@@ -58,8 +58,8 @@
         <ion-item lines="none">
           <ion-label position="stacked">Zobrazené sloupce</ion-label>
           <ion-select multiple name="fields" [ngModel]="filter.fields">
-            <ion-select-option *ngFor="let field of fields | keyvalue" [value]="field.key">
-              {{ field.value.name }}
+            <ion-select-option *ngFor="let field of fields" [value]="field.id">
+              {{ field.title }}
             </ion-select-option>
           </ion-select>
         </ion-item>
@@ -67,60 +67,63 @@
     </div>
   </form>
 
-  <admin-table>
+  <admin-table *ngIf="style === 'table'">
     <thead>
       <tr>
-        <th *ngIf="fields.nickname.visible">{{ fields.nickname.name }}</th>
-        <th *ngIf="fields.group.visible">{{ fields.group.name }}</th>
-        <th *ngIf="fields.role.visible">{{ fields.role.name }}</th>
-        <th *ngIf="fields.post.visible">{{ fields.post.name }}</th>
-        <th *ngIf="fields.rank.visible">{{ fields.rank.name }}</th>
-        <th *ngIf="fields.stars.visible">{{ fields.stars.name }}</th>
-        <th *ngIf="fields.name.visible">{{ fields.name.name }}</th>
-        <th *ngIf="fields.birthday.visible">{{ fields.birthday.name }}</th>
-        <th *ngIf="fields.age.visible">{{ fields.age.name }}</th>
-        <th *ngIf="fields.email.visible">{{ fields.email.name }}</th>
-        <th *ngIf="fields.mobile.visible">{{ fields.mobile.name }}</th>
-        <th *ngIf="fields.city.visible">{{ fields.city.name }}</th>
+        <th *ngFor="let field of tableColumns">{{ field.title }}</th>
         <th>&nbsp;</th>
       </tr>
     </thead>
     <tbody>
       <tr
-        *ngFor="let member of filteredMembers"
-        [routerLink]="member._id"
+        *ngFor="let row of tableRows"
+        [routerLink]="row.member._id"
         class="member"
-        [class.inactive]="member.inactive"
+        [class.inactive]="row.member.inactive"
       >
-        <th *ngIf="fields.nickname.visible">{{ member.nickname }}</th>
-        <td *ngIf="fields.group.visible">
-          <span class="group-badge" [style.color]="member.group | group: 'color'">
-            {{ member.group | group: "name" }}
-          </span>
-        </td>
-        <td *ngIf="fields.role.visible">{{ member.role }}</td>
-        <td *ngIf="fields.post.visible">{{ member.post }}</td>
-        <td *ngIf="fields.rank.visible">{{ member.rank }}</td>
-        <td *ngIf="fields.stars.visible">{{ member.stars }}</td>
-        <td *ngIf="fields.name.visible">{{ member.name?.first }} {{ member.name?.last }}</td>
-        <td *ngIf="fields.birthday.visible">{{ member.birthday | date: "d. M. y" }}</td>
-        <td *ngIf="fields.age.visible">{{ member.birthday ? getAge(member.birthday) : "" }}</td>
-        <td *ngIf="fields.email.visible">{{ member.contacts?.email }}</td>
-        <td *ngIf="fields.mobile.visible">
-          {{
-            member.contacts?.mobile ||
-              (member.contacts?.mother ? member.contacts?.mother + " (matka)" : undefined) ||
-              (member.contacts?.father ? member.contacts?.father + " (otec)" : undefined || "")
-          }}
-        </td>
-        <td *ngIf="fields.city.visible">{{ member.address?.city }}</td>
+        <ng-container *ngFor="let field of tableColumns; let i = index" [ngSwitch]="field.id">
+          <th *ngSwitchCase="'nickname'">{{ row.cells[i] }}</th>
+          <td *ngSwitchCase="'group'" [style.color]="row.member.group | group: 'color'">
+            {{ row.member.group | group: "name" }}
+          </td>
+          <td *ngSwitchCase="'age'" class="ion-text-right">
+            <ng-container *ngIf="row.cells[i]">{{ row.cells[i] }} let</ng-container>
+          </td>
+          <td *ngSwitchDefault>{{ row.cells[i] }}</td>
+        </ng-container>
 
         <td class="buttons">
-          <a class="clickable" (click)="copyRow(member); $event.stopPropagation()">
+          <a class="clickable" (click)="copyRow(row.cells); $event.stopPropagation()">
             <ion-icon name="copy-outline"></ion-icon>
           </a>
         </td>
       </tr>
     </tbody>
   </admin-table>
+
+  <ion-list *ngIf="style === 'list'">
+    <ion-item *ngFor="let row of tableRows" [routerLink]="row.member._id" [detail]="true">
+      <ion-label>
+        <h2>{{ row.member.nickname || row.member.name?.first || row.member.name?.last }}</h2>
+        <p>
+          <ng-container
+            *ngFor="let field of tableColumns; let i = index; let isLast = last"
+            [ngSwitch]="field.id"
+            [ngSwitch]="field.id"
+          >
+            <span *ngSwitchCase="'nickname'"></span>
+            <span *ngSwitchCase="'group'">
+              <span [style.color]="row.member.group | group: 'color'">{{ row.member.group | group: "name" }}</span
+              ><ng-container *ngIf="!isLast">, </ng-container>
+            </span>
+            <span *ngSwitchCase="'age'"
+              >{{ row.cells[i] || "?" }} let<ng-container *ngIf="!isLast">, </ng-container></span
+            >
+
+            <span *ngSwitchDefault>{{ row.cells[i] }}<ng-container *ngIf="!isLast">, </ng-container></span>
+          </ng-container>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
