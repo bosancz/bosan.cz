@@ -1,9 +1,12 @@
 <div id="layout" [class.transparentMenu]="menuCollapsed && (menuService.transparent | async)">
-
   <!-- Navigation -->
   <header [class.top]="isTop">
     <div class="container px-0">
-      <page-menu *ngIf="menuService.visible | async" class="d-print-none" (collapse)="menuCollapsed = $event"></page-menu>
+      <page-menu
+        *ngIf="menuService.visible | async"
+        class="d-print-none"
+        (collapse)="menuCollapsed = $event"
+      ></page-menu>
     </div>
   </header>
 
@@ -14,3 +17,5 @@
     <page-footer *ngIf="footerService.visible | async" class="d-print-none"></page-footer>
   </div>
 </div>
+
+<ukraine-help></ukraine-help>
