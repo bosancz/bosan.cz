@@ -16,7 +16,7 @@ span.type .circle {
   display: inline-block;
   width: $size;
   height: $size;
-  border-radius: $size/2;
+  border-radius: calc($size/2);
 }
 
 span.type.selected {

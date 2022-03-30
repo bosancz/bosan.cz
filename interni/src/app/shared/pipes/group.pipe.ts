@@ -1,24 +1,21 @@
-import { Injectable, Pipe, PipeTransform } from '@angular/core';
-import { MemberGroupID, MemberGroups } from 'app/config/member-groups';
-
+import { Pipe, PipeTransform } from "@angular/core";
+import { MemberGroupID, MemberGroups } from "app/config/member-groups";
 
 export type GroupPipeProperty = "name" | "color";
 
 @Pipe({
-  name: 'group'
+  name: "group",
 })
 export class GroupPipe implements PipeTransform {
-
   groups = MemberGroups;
 
-  defaultValues: { [key: string]: any; } = {
-    "color": "#000"
+  defaultValues: { [key: string]: any } = {
+    color: "#000",
   };
 
-  constructor() { }
+  constructor() {}
 
   transform(groupId: MemberGroupID | undefined, property: GroupPipeProperty): string | undefined {
-
     // if group properties not loaded yet or not present for group, return default values
     if (!groupId) return this.defaultValues[property];
 
@@ -29,5 +26,4 @@ export class GroupPipe implements PipeTransform {
         return this.groups?.[groupId]?.[property];
     }
   }
-
 }
