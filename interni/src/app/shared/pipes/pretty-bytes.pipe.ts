@@ -1,13 +1,11 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import * as prettyBytes from 'pretty-bytes';
+import { Pipe, PipeTransform } from "@angular/core";
+import prettyBytes, { Options } from "pretty-bytes";
 
 @Pipe({
-  name: 'prettyBytes'
+  name: "prettyBytes",
 })
 export class PrettyBytesPipe implements PipeTransform {
-
-  transform(value: number, options?: prettyBytes.Options) {
+  transform(value: number, options?: Options) {
     return prettyBytes(value, options);
   }
-
 }
