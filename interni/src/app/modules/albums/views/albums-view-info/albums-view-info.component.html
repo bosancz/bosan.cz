@@ -1,3 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/galerie"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>{{ album?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Album"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
   <h2>{{ album?.name }}</h2>
 
@@ -18,3 +30,5 @@
     ></bo-photo-gallery>
   </div>
 </ion-content>
+
+<bo-albums-tabs [album]="album" selected="info"></bo-albums-tabs>

@@ -1,0 +1,12 @@
+<ion-tab-bar slot="bottom">
+  <ion-tab-button (click)="openTab('info')" [class.tab-selected]="selected === 'info'">
+    <ion-icon name="book-outline"></ion-icon>
+    <ion-label>Album</ion-label>
+    <!-- <ion-badge [color]="eventStatus?.color">&nbsp;&nbsp;</ion-badge> -->
+  </ion-tab-button>
+  <ion-tab-button (click)="openTab('fotky')" [class.tab-selected]="selected === 'fotky'">
+    <ion-icon name="images-outline"></ion-icon>
+    <ion-label>Fotky</ion-label>
+    <ion-badge>{{ album?.photos?.length }}</ion-badge>
+  </ion-tab-button>
+</ion-tab-bar>

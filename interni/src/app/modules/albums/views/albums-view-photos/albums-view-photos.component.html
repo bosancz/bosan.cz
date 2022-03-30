@@ -1,3 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/galerie"></ion-back-button>
+    </ion-buttons>
+    <ion-title pageTitle>{{ album?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <bo-action-buttons [actions]="actions" header="Album"></bo-action-buttons>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <div class="buttons">
     <ion-button *ngIf="photosView === 'grid'" (click)="photosView = 'list'" fill="clear" slot="end">
@@ -23,3 +35,5 @@
     (click)="onPhotoClick($event)"
   ></bo-photo-list>
 </ion-content>
+
+<bo-albums-tabs [album]="album" selected="fotky"></bo-albums-tabs>

@@ -1,25 +1,22 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, NavController } from '@ionic/angular';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ToastService } from 'app/core/services/toast.service';
-import { Album, Photo } from 'app/schema/album';
-import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { BehaviorSubject } from 'rxjs';
-import { AlbumsService } from '../../../services/albums.service';
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AlertController, NavController } from "@ionic/angular";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { ToastService } from "app/core/services/toast.service";
+import { Album, Photo } from "app/schema/album";
+import { Action } from "app/shared/components/action-buttons/action-buttons.component";
+import { AlbumsService } from "../../services/albums.service";
 
 @UntilDestroy()
 @Component({
-  selector: 'bo-albums-view-info',
-  templateUrl: './albums-view-info.component.html',
-  styleUrls: ['./albums-view-info.component.scss']
+  selector: "bo-albums-view-info",
+  templateUrl: "./albums-view-info.component.html",
+  styleUrls: ["./albums-view-info.component.scss"],
 })
 export class AlbumsViewInfoComponent implements OnInit {
-
   album?: Album<Photo, string>;
 
-  @Output() actions = new BehaviorSubject<Action[]>([]);
-  @Output() change = new EventEmitter<void>();
+  actions: Action[] = [];
 
   alert?: HTMLIonAlertElement;
 
@@ -30,12 +27,10 @@ export class AlbumsViewInfoComponent implements OnInit {
     private toastService: ToastService,
     private alertController: AlertController,
     private navController: NavController
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.route.params
-      .pipe(untilDestroyed(this))
-      .subscribe(params => this.loadAlbum(params["album"]));
+    this.route.params.pipe(untilDestroyed(this)).subscribe((params) => this.loadAlbum(params["album"]));
   }
 
   ngOnDestroy() {
@@ -43,7 +38,7 @@ export class AlbumsViewInfoComponent implements OnInit {
   }
 
   async loadAlbum(albumId: string) {
-    this.album = await this.albumsService.loadAlbum(albumId);;
+    this.album = await this.albumsService.loadAlbum(albumId);
     this.updateActions(this.album);
   }
 
@@ -68,9 +63,8 @@ export class AlbumsViewInfoComponent implements OnInit {
       message: `Opravdu chcete smazat album ${this.album?.name}?`,
       buttons: [
         { text: "Zrušit", role: "cancel" },
-        { text: "Smazat", handler: () => this.deleteConfirmed() }
-      ]
-
+        { text: "Smazat", handler: () => this.deleteConfirmed() },
+      ],
     });
 
     this.alert.present();
@@ -83,7 +77,6 @@ export class AlbumsViewInfoComponent implements OnInit {
 
     this.toastService.toast("Smazáno.");
     this.router.navigate(["/galerie"], { relativeTo: this.route, replaceUrl: true });
-
   }
 
   private open() {
@@ -93,17 +86,19 @@ export class AlbumsViewInfoComponent implements OnInit {
 
   onPhotoClick(event: CustomEvent<Photo>) {
     if (event.detail && this.album) {
-      this.navController.navigateForward(`/galerie/${this.album._id}/fotky`, { queryParams: { photo: event.detail._id } });
+      this.navController.navigateForward(`/galerie/${this.album._id}/fotky`, {
+        queryParams: { photo: event.detail._id },
+      });
     }
   }
 
   private updateActions(album: Album<Photo, string>) {
-    this.actions.next([
+    this.actions = [
       {
         text: "Upravit",
         icon: "create-outline",
         pinned: true,
-        handler: () => this.router.navigate(["../upravit"], { relativeTo: this.route })
+        handler: () => this.router.navigate(["../upravit"], { relativeTo: this.route }),
       },
       {
         text: "Otevřít na webu",
@@ -116,13 +111,13 @@ export class AlbumsViewInfoComponent implements OnInit {
         text: "Publikovat",
         icon: "eye-outline",
         hidden: album.status !== "draft",
-        handler: () => this.publish()
+        handler: () => this.publish(),
       },
       {
         text: "Zrušit publikaci",
         icon: "eye-off-outline",
         hidden: album.status !== "public",
-        handler: () => this.unpublish()
+        handler: () => this.unpublish(),
       },
       {
         text: "Smazat",
@@ -131,6 +126,6 @@ export class AlbumsViewInfoComponent implements OnInit {
         color: "danger",
         handler: () => this.delete(),
       },
-    ]);
+    ];
   }
 }
