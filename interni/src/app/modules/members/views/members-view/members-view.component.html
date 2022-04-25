@@ -23,7 +23,7 @@
       <p>
         {{ member.name?.first }} {{ member.name?.last }},
         <span [style.color]="member.group | group: 'color'">{{ member.group | group: "name" }}</span
-        >, {{ member.birthday | age }} let
+        >, {{ (member.birthday | age) || "?" }}&nbsp;let
       </p>
 
       <ion-slides [pager]="true" class="d-lg-none">

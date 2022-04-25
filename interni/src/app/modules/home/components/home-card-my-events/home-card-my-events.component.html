@@ -1,0 +1,22 @@
+<bo-home-card>
+  <bo-home-card-title>Moje akce</bo-home-card-title>
+  <bo-home-card-content>
+    <ion-list *ngIf="myEvents.length">
+      <ion-item *ngFor="let event of myEvents | slice: 0:3" [detail]="true" [routerLink]="'/akce/' + event._id">
+        <ion-label>
+          <h3>
+            <strong>{{ event.name }}</strong>
+          </h3>
+          <p>{{ event.dateFrom | date: "d. M. Y" }} ~ {{ event.dateTill | date: "d. M. Y" }}</p>
+          <p>{{ event.description }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <p *ngIf="!myEvents.length" class="m-0">Zatím jsi nevedl/a žádné akce.</p>
+
+    <p *ngIf="myEvents.length" class="text-center m-0">
+      <a routerLink="moje-akce">Zobrazit všechny moje akce</a>
+    </p>
+  </bo-home-card-content>
+</bo-home-card>

@@ -11,5 +11,15 @@
 <ion-content class="ion-padding">
   <!-- <bo-home-menu *ngIf="!isLg"></bo-home-menu> -->
 
-  <bo-home-dashboard></bo-home-dashboard>
+  <div class="row">
+    <div class="col-lg-6">
+      <bo-home-card-members class="my-3"></bo-home-card-members>
+      <bo-home-card-my-events class="mb-3"></bo-home-card-my-events>
+      <bo-noleader-events></bo-noleader-events>
+    </div>
+
+    <div class="col-lg-6">
+      <bo-home-calendar [months]="1" class="my-3"></bo-home-calendar>
+    </div>
+  </div>
 </ion-content>

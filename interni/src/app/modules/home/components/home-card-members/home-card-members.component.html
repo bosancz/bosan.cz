@@ -1,0 +1,25 @@
+<bo-home-card>
+  <bo-home-card-title> Členská databáze </bo-home-card-title>
+  <bo-home-card-content>
+    <ion-searchbar
+      ngModel
+      (ngModelChange)="loadMembers($event)"
+      (ionClear)="clearMembers()"
+      debounce="500"
+      placeholder="Vyhledat člena v databázi"
+    ></ion-searchbar>
+
+    <ion-list *ngIf="members.length">
+      <ion-item *ngFor="let member of members" [routerLink]="['/databaze', member._id]" [detail]="true">
+        <ion-label>
+          <h3>{{ member.nickname || member.name?.first || "?" }}</h3>
+          <p>
+            {{ member.name?.first }} {{ member.name?.last }},
+            <span [style.color]="member.group | group: 'color'">{{ member.group | group: "name" }}</span
+            >, {{ (member.birthday | age) || "?" }}&nbsp;let
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </bo-home-card-content>
+</bo-home-card>
