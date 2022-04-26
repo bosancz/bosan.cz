@@ -23,7 +23,7 @@ export class HomeCardMembersComponent implements OnInit {
   ngOnInit(): void {
     this.searchString
       .pipe(untilDestroyed(this))
-      .pipe(tap(() => (this.searching = true)))
+      .pipe(tap((searchString) => (this.searching = !!searchString)))
       .pipe(debounceTime(500))
       .subscribe((searchString) => this.loadMembers(searchString));
   }

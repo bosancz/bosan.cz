@@ -8,18 +8,19 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
   <!-- <bo-home-menu *ngIf="!isLg"></bo-home-menu> -->
+  <div class="p-1 p-lg-3">
+    <div class="row no-gutters">
+      <div class="col-lg-6 pr-lg-2">
+        <bo-home-card-members class="mb-1 mb-lg-3"></bo-home-card-members>
+        <bo-home-card-my-events class="mb-1 mb-lg-3"></bo-home-card-my-events>
+        <bo-noleader-events class="mb-1 mb-lg-3"></bo-noleader-events>
+      </div>
 
-  <div class="row no-gutters">
-    <div class="col-lg-6 pr-lg-2">
-      <bo-home-card-members class="my-3"></bo-home-card-members>
-      <bo-home-card-my-events class="mb-3"></bo-home-card-my-events>
-      <bo-noleader-events></bo-noleader-events>
-    </div>
-
-    <div class="col-lg-6 pl-lg-2">
-      <bo-home-calendar [months]="1" class="my-3"></bo-home-calendar>
+      <div class="col-lg-6 pl-lg-2">
+        <bo-home-calendar [months]="1" class="mb-1 mb-lg-3"></bo-home-calendar>
+      </div>
     </div>
   </div>
 </ion-content>
