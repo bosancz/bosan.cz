@@ -1,19 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
-import { EventsService } from 'app/modules/events/services/events.service';
-import { Event } from 'app/schema/event';
-import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { ProgramPrintComponent } from '../program-print/program-print.component';
-import { TrimesterDateRange } from '../../components/trimester-selector/trimester-selector.component';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ModalController, ViewWillEnter } from "@ionic/angular";
+import { EventsService } from "app/modules/events/services/events.service";
+import { Event } from "app/schema/event";
+import { Action } from "app/shared/components/action-buttons/action-buttons.component";
+import { TrimesterDateRange } from "../../components/trimester-selector/trimester-selector.component";
 
 @Component({
-  selector: 'bo-program-calendar',
-  templateUrl: './program-calendar.component.html',
-  styleUrls: ['./program-calendar.component.scss']
+  selector: "bo-program-calendar",
+  templateUrl: "./program-calendar.component.html",
+  styleUrls: ["./program-calendar.component.scss"],
 })
-export class ProgramCalendarComponent implements OnInit, OnDestroy {
-
+export class ProgramCalendarComponent implements OnInit, OnDestroy, ViewWillEnter {
   dateFrom?: string;
   dateTill?: string;
 
@@ -21,8 +19,7 @@ export class ProgramCalendarComponent implements OnInit, OnDestroy {
 
   showFilter: boolean = true;
 
-  actions: Action[] = [
-  ];
+  actions: Action[] = [];
 
   view: "list" | "calendar" = "calendar";
 
@@ -35,8 +32,7 @@ export class ProgramCalendarComponent implements OnInit, OnDestroy {
     private eventsService: EventsService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     const lgQuery = window.matchMedia("(min-width: 992px)");
@@ -44,18 +40,24 @@ export class ProgramCalendarComponent implements OnInit, OnDestroy {
     this.lg = lgQuery.matches;
     this.setActions();
 
-    lgQuery.addEventListener("change", event => {
+    lgQuery.addEventListener("change", (event) => {
       this.lg = event.matches;
       this.setActions();
     });
 
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.dateFrom = params["from"];
       this.dateTill = params["till"];
       if (this.dateFrom && this.dateTill) {
         this.loadCalendarEvents(this.dateFrom, this.dateTill);
       }
     });
+  }
+
+  ionViewWillEnter() {
+    if (this.dateFrom && this.dateTill) {
+      this.loadCalendarEvents(this.dateFrom, this.dateTill);
+    }
   }
 
   ngOnDestroy() {
@@ -71,13 +73,12 @@ export class ProgramCalendarComponent implements OnInit, OnDestroy {
   }
 
   async loadCalendarEvents(dateFrom: string, dateTill: string) {
-
     const options: any = {
       sort: "dateFrom",
       filter: {
         dateTill: { $gte: dateFrom },
-        dateFrom: { $lte: dateTill }
-      }
+        dateFrom: { $lte: dateTill },
+      },
     };
 
     this.calendarEvents = await this.eventsService.listEvents(options);
