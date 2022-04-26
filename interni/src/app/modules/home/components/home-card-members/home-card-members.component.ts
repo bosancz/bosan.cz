@@ -3,7 +3,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ApiService } from "app/core/services/api.service";
 import { Member } from "app/schema/member";
 import { Subject } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import { debounceTime, tap } from "rxjs/operators";
 
 @UntilDestroy()
 @Component({
@@ -14,19 +14,23 @@ import { debounceTime } from "rxjs/operators";
 export class HomeCardMembersComponent implements OnInit {
   searchString = new Subject<string>();
 
-  members: Member[] = [];
+  members?: Member[];
+
+  searching: boolean = false;
 
   constructor(private api: ApiService) {}
 
   ngOnInit(): void {
     this.searchString
       .pipe(untilDestroyed(this))
-      .pipe(debounceTime(250))
+      .pipe(tap(() => (this.searching = true)))
+      .pipe(debounceTime(500))
       .subscribe((searchString) => this.loadMembers(searchString));
   }
 
   async loadMembers(searchString: string) {
     console.log("search", searchString);
+    this.searching = false;
     if (searchString) {
       this.members = await this.api.get<Member[]>("members", { search: searchString, limit: 3 });
     } else {
@@ -35,6 +39,6 @@ export class HomeCardMembersComponent implements OnInit {
   }
 
   clearMembers() {
-    this.members = [];
+    this.members = undefined;
   }
 }
