@@ -3,7 +3,7 @@
 :host {
   display: block;
   padding: 1em;
-  background-color: $grey;
+  background-color: var(--lightGrey);
   border-radius: 0.5em;
 }
 bo-home-card-title {
