@@ -27,6 +27,50 @@ a.clickable {
   cursor: pointer;
   color: $blue;
 }
-:host {
-  --test-var: #f00;
+:host,
+body,
+html {
+  --colorPrimary: #{$colorPrimary};
+  --colorSecondary: #{$colorSecondary};
+  --colorTertiary: #{$colorTertiary};
+  --colorSuccess: #{$colorSuccess};
+  --colorWarning: #{$colorWarning};
+  --colorDanger: #{$colorDanger};
+  --colorDark: #{$colorDark};
+  --colorMedium: #{$colorMedium};
+  --colorLight: #{$colorLight};
+
+  --black: #{$black};
+  --black70: #{$black70};
+  --darkGrey: #{$darkGrey};
+  --grey: #{$grey};
+  --lightGrey: #{$lightGrey};
+  --white: #{$white};
+
+  --blue: #{$blue};
+  --lightBlue: #{$lightBlue};
+  --linkBlue: #{$linkBlue};
+
+  @media (prefers-color-scheme: dark) {
+    --colorPrimary: #{$colorPrimary};
+    --colorSecondary: #{$colorSecondary};
+    --colorTertiary: #{$colorTertiary};
+    --colorSuccess: #{$colorSuccess};
+    --colorWarning: #{$colorWarning};
+    --colorDanger: #{$colorDanger};
+    --colorDark: #{$colorLight};
+    --colorMedium: #{$colorMedium};
+    --colorLight: #{$colorDark};
+
+    --black: #{$white};
+    --black70: #{$black70};
+    --darkGrey: #{$lightGrey};
+    --grey: #{$grey};
+    --lightGrey: #{$darkGrey};
+    --white: #{$black};
+
+    --blue: #{$blue};
+    --lightBlue: #{$lightBlue};
+    --linkBlue: #{$linkBlue};
+  }
 }

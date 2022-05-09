@@ -4,15 +4,16 @@ $colorTertiary: #5260ff;
 $colorSuccess: #2dd36f;
 $colorWarning: #ffc409;
 $colorDanger: #eb445a;
-$colorDark: #222428;
 $colorMedium: #92949c;
+
+$colorDark: #222;
 $colorLight: #f4f5f8;
 
 $black: #0f0f0f;
 $black70: #3e3e3e;
-$darkGrey: #999;
+$darkGrey: $colorDark;
 $grey: #eee;
-$lightGrey: #f9f9f9;
+$lightGrey: #f2f2f2;
 $white: #fff;
 
 $blue: #006fff;

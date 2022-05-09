@@ -1,0 +1,10 @@
+@import "~styles/variables";
+
+:host {
+  display: block;
+  padding: 1em;
+  background-color: var(--lightGrey);
+  border-radius: 0.5em;
+}
+bo-home-card-title {
+}

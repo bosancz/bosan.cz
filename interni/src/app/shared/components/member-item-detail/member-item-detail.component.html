@@ -1,3 +1,3 @@
 <span>{{ member.group | group: "name" }}</span>
 <span *ngIf="member.name">, {{ member.name.first }}&nbsp;{{ member.name.last }}</span>
-<span *ngIf="member.birthday">, {{ member.birthday | age }}&nbsp;let</span>
+<span *ngIf="member.birthday">, {{ (member.birthday | age) || "?" }}&nbsp;let</span>
