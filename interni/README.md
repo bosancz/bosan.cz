@@ -40,7 +40,7 @@ npm install
 
 Pro vývoj budeš potřebovat i nějaká data o akcích ze serveru. Můžeš si spustit buď vlastní lokální server, nebo použít náš testovací server `test.bosan.cz`.
 
-### Chci vývíjet lokálně a použít `test.bosan.cz`
+### Chci vyvíjet lokálně a použít `test.bosan.cz`
 
 Vývoj interní sekce spusť v této složce následujícím příkazem:
 
