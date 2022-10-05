@@ -17,15 +17,13 @@ npm install
 
 Pro vývoj serveru si musíte spustit jednak samotný **server**, ale taky **databázi**. 
 
-### Server
+### Chci vyvíjet server lokálně
 
 Pro vývoj je možné použít script `dev`, který spustí server pomocí aplikace `nodemon` a bude zrestartován při každé změně kódu.
 
 ```sh
 npm run dev
 ```
-
-### Databáze
 
 Také je potřeba mít k dispozici MongoDB databázi. Tu můžete spustit buď vlastní dle [návodu na webu MongoDB](https://docs.mongodb.com/manual/), nebo třeba přiloženým docker-compose takto:
 
@@ -39,7 +37,11 @@ Pokud byste si chtěli ověřit, že API serveru funguje, jak má, můžete spus
 docker-compose up db client client-admin
 ```
 
-Veřejná sekce poběží na http://localhost:4200 a interní na http://localhost:4300.
+Veřejná sekce pak poběží na http://localhost:4200 a interní na http://localhost:4300.
+
+### Chci vyvíjet v devcontaineru nebo Github Codespaces
+
+Devcontainer je připraven tak, aby spustil databázi, prohlížeč databáze mongo-express a otevřel vývojový NodeJS kontejner. Jednotlivé části webu (interní, veřejná a server) si pak pro vývoj spustíš ručně příkazy `npm run dev` dle návodu pro lokální užití. Spuštění dalších částí pomocí docker compose zde nefunguje.
 
 ## Konfigurace
 
