@@ -43,6 +43,8 @@ Veřejná sekce pak poběží na http://localhost:4200 a interní na http://loca
 
 Devcontainer je připraven tak, aby spustil databázi, prohlížeč databáze mongo-express a otevřel vývojový NodeJS kontejner. Jednotlivé části webu (interní, veřejná a server) si pak pro vývoj spustíš ručně příkazy `npm run dev` dle návodu pro lokální užití. Spuštění dalších částí pomocí docker compose zde nefunguje.
 
+Při spuštění na Bošánovském serveru si ve složce `.devcontainer` vytvořte soubor .env s obsahem `COMPOSE_PROJECT_NAME=moje jméno` kde nastavíte svoje jméno bez diakritiky, aby se názvy kontejnerů různých lidí nebily.
+
 ## Konfigurace
 
 Konfigurace probíhá pomocí Environment variables. Klíče pro  Google a Vapid jsou pak načítány z adresáře keys (v Dockeru `/srv/keys`).
