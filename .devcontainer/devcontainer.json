@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "Bosan.cz Development",
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [4200, 4300, 9229, 3000],
+  "customizations": {
+    "vscode": {
+      "extensions": ["angular.ng-template", "esbenp.prettier-vscode", "wayou.vscode-todo-highlight", "github.copilot"]
+    }
+  }
+}
