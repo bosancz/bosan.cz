@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  devcontainer:
+    container_name: ${COMPOSE_PROJECT_NAME:-bosandev}-devcontainer
+    build: "."
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    user: node
+    volumes:
+      - ..:/workspace:cached
+    environment:
+      DATABASE_URI: mongodb://${COMPOSE_PROJECT_NAME:-bosandev}-db/bosan
+      CORS_ENABLE: "true"
+      CORS_ORIGINS: "http://localhost:4200,http://localhost:4300"
+
+  db:
+    container_name: ${COMPOSE_PROJECT_NAME:-bosandev}-db
+    image: mongo:4.2
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: bosan
+
+  mongoexpress:
+    container_name: ${COMPOSE_PROJECT_NAME:-bosandev}-mongoexpress
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: ${COMPOSE_PROJECT_NAME:-bosandev}-db
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
