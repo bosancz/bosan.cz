@@ -1,17 +1,17 @@
-name: Deploy interni
+name: Test Deploy
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - interni/**
-      - ".github/workflows/deploy-interni.yml"
-      - ".github/workflows/build-docker.yml"
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+  paths:
+    - web/**
+    - ".github/workflows/deploy-web.yml"
+    - ".github/workflows/build-docker.yml"
 
 jobs:
   build-docker:
-    name: Build and Push Docker Image
+    name: "web: Build and Push Docker Image"
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -29,6 +29,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: "./interni"
+          context: "./web"
           push: true
-          tags: bosancz/interni:latest
+          tags: bosancz/web:test
