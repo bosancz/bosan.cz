@@ -19,10 +19,10 @@
 
   <div class="row" *ngIf="member">
     <div class="col-12 col-lg-8">
-      <h1>{{ member?.nickname || member.name?.first || member.name?.last }}</h1>
+      <h1>{{ member.nickname || member.name?.first || member.name?.last }}</h1>
       <p>
         {{ member.name?.first }} {{ member.name?.last }},
-        <span [style.color]="member.group | group: 'color'">{{ member.group | group: "name" }}</span
+        <span [style.color]="member.group | group : 'color'">{{ member.group | group : "name" }}</span
         >, {{ (member.birthday | age) || "?" }}&nbsp;let
       </p>
 
@@ -86,7 +86,7 @@
           </tr>
           <tr>
             <th>Datum narození:</th>
-            <td>{{ member.birthday ? (member.birthday | date: "d. M. y") : "-" }}</td>
+            <td>{{ member.birthday ? (member.birthday | date : "d. M. y") : "-" }}</td>
           </tr>
           <tr>
             <th>Adresa:</th>
@@ -111,7 +111,7 @@
   <ion-card *ngIf="member">
     <ion-card-header>
       <ion-card-title>Alergie</ion-card-title>
-      <ion-card-subtitle *ngIf="!member.allergiesDate">{{ member.allergiesDate | date: "d. M. y" }}</ion-card-subtitle>
+      <ion-card-subtitle *ngIf="!member.allergiesDate">{{ member.allergiesDate | date : "d. M. y" }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <ul *ngIf="member.allergies && member.allergies.length">
@@ -177,7 +177,11 @@
         <tbody>
           <tr>
             <th>Člen:</th>
-            <td>{{ membershipTypes[member.membership]?.title }}</td>
+            <td>
+              <ng-container *ngIf="membershipTypes[member.membership]">{{
+                membershipTypes[member.membership].title
+              }}</ng-container>
+            </td>
           </tr>
           <tr>
             <th>Aktivní:</th>

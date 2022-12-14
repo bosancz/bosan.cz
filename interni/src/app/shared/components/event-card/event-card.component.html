@@ -1,7 +1,7 @@
 <ion-card *ngIf="event" class="event">
-  <ion-card-content class="statusNote" [style.background-color]="event.status | eventStatus: 'color'">
+  <ion-card-content class="statusNote" [style.background-color]="event.status | eventStatus : 'color'">
     <p>
-      <strong>{{ event.status | eventStatus: "name" }}</strong
+      <strong>{{ event.status | eventStatus : "name" }}</strong
       ><ng-container *ngIf="event.statusNote">: {{ event.statusNote }}</ng-container>
     </p>
   </ion-card-content>
@@ -18,13 +18,13 @@
     <div
       slot="start"
       class="icon"
-      [style.background-color]="(event | event: 'image') ? 'transparent' : (event | event: 'color') || '#ccc'"
+      [style.background-color]="(event | event : 'image') ? 'transparent' : (event | event : 'color') || '#ccc'"
     >
-      <img *ngIf="event | event: 'image'" class="img-fluid" [src]="event | event: 'image'" />
+      <img *ngIf="event | event : 'image'" class="img-fluid" [src]="event | event : 'image'" />
     </div>
 
     <ion-label>
-      <h3>{{ event?.name }}</h3>
+      <h3>{{ event.name }}</h3>
       <p>
         <ng-container *ngIf="event?.dateFrom">{{ [event.dateFrom, event.dateTill] | dateRange }}</ng-container>
         <ng-container *ngIf="event?.dateFrom && event?.place">, </ng-container>

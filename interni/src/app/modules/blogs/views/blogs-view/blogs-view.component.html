@@ -17,7 +17,7 @@
     <p class="text-muted">
       <ng-container *ngIf="!blog">&nbsp;</ng-container>
       <ng-container *ngIf="blog && blog.status === 'public'">
-        Publikováno {{ blog?.datePublished | date: "d. M. y" }}
+        Publikováno {{ blog.datePublished | date : "d. M. y" }}
       </ng-container>
       <ng-container *ngIf="blog && blog.status === 'draft'"> Nepublikováno </ng-container>
     </p>
