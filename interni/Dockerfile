@@ -1,4 +1,4 @@
-FROM node:14.16 as build
+FROM node:14.20 as build
 
 ARG NG_CONFIGURATION
 
