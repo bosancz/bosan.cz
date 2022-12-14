@@ -1,20 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import packageJson from "app/../../package.json";
-import { LoginService } from 'app/core/services/login.service';
-import { map } from 'rxjs/operators';
-
+import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { NavController } from "@ionic/angular";
+import { LoginService } from "app/core/services/login.service";
+import { map } from "rxjs/operators";
 
 @Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: "login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
-
-  expired = this.route.params.pipe(map(params => params.expired));
+  expired = this.route.params.pipe(map((params) => params.expired));
 
   status?: string;
 
@@ -24,43 +21,33 @@ export class LoginComponent implements OnInit {
 
   googleLoginAvailable = this.loginService.googleLoginAvailable;
 
-  version = packageJson.version;
+  version = "X.X.X";
 
-  constructor(
-    private navController: NavController,
-    private route: ActivatedRoute,
-    private loginService: LoginService,
-  ) { }
+  constructor(private navController: NavController, private route: ActivatedRoute, private loginService: LoginService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async login(loginForm: NgForm) {
     const result = await this.loginService.loginCredentials(loginForm.value);
 
     if (result.success) {
       return this.loginSuccess();
-    }
-    else {
+    } else {
       this.status = result.error;
     }
-
   }
 
   async loginGoogle() {
-
     const result = await this.loginService.loginGoogle();
 
     if (result) {
       return this.loginSuccess();
-    }
-    else {
+    } else {
       this.status = "googleFailed";
     }
   }
 
   async sendLoginLink(linkForm: NgForm) {
-
     this.status = "linkSending";
 
     const formData = linkForm.value;
@@ -71,15 +58,12 @@ export class LoginComponent implements OnInit {
   }
 
   async loginSuccess() {
-
     const return_url = this.route.snapshot.queryParams["return_url"];
 
     if (return_url) {
       this.navController.navigateBack([return_url]);
-    }
-    else {
+    } else {
       this.navController.navigateRoot(["/"]);
     }
   }
-
 }

@@ -1,0 +1,10 @@
+{
+  "name": "@bosancz/bosancz-interni",
+  "version": "3.2.5",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

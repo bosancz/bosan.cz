@@ -1,23 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { MenuController, Platform } from '@ionic/angular';
-import packageJson from "app/../../package.json";
-import { LoginService } from 'app/core/services/login.service';
-import { UserService } from 'app/core/services/user.service';
-import { filter, map, mergeMap } from 'rxjs/operators';
-import { ApiService } from './core/services/api.service';
-import { Environment } from './schema/environment';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { MenuController, Platform } from "@ionic/angular";
+import { LoginService } from "app/core/services/login.service";
+import { UserService } from "app/core/services/user.service";
+import { filter, map, mergeMap } from "rxjs/operators";
+import { ApiService } from "./core/services/api.service";
+import { Environment } from "./schema/environment";
 
 @Component({
-  selector: 'bo-app',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "bo-app",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
-
   environment?: Environment;
 
-  version = packageJson.version;
+  version = "X.X.X"; // packageJson.version;
 
   splitPaneWhen: boolean | string = false;
 
@@ -28,7 +26,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private menuController: MenuController,
     private api: ApiService,
-    public platform: Platform
+    public platform: Platform,
   ) {
     this.initUserService();
 
@@ -39,23 +37,18 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // get data of current child route
-    const routeData = this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        map(() => this.rootRoute(this.route)),
-        filter(route => route.outlet === 'primary'),
-        mergeMap(route => route.data)
-      );
+    const routeData = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => this.rootRoute(this.route)),
+      filter((route) => route.outlet === "primary"),
+      mergeMap((route) => route.data),
+    );
 
     // hide menu on some pages (e.g. login page)
-    routeData.subscribe(data => {
-
+    routeData.subscribe((data) => {
       if (data.hideMenu) this.splitPaneWhen = false;
       else this.splitPaneWhen = "lg";
-
     });
-
-
   }
 
   private rootRoute(route: ActivatedRoute) {
@@ -85,5 +78,4 @@ export class AppComponent implements OnInit {
   closeMenu() {
     this.menuController.close();
   }
-
 }

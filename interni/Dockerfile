@@ -37,6 +37,7 @@ WORKDIR /app
 # COPY FILES
 COPY --from=build-frontend /app ./frontend
 COPY --from=build-backend /app ./backend
+COPY package.json ./
 
 # RUN
 WORKDIR /app/backend
