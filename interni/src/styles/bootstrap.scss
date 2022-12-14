@@ -1,7 +1,7 @@
 // TODO: replacing bootstrap-grid.scss would save around 100kB from initial load
 // but somehow it breaks up ionic
 
-@import "~bootstrap/scss/bootstrap.scss";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
 
 @media (prefers-color-scheme: dark) {
   .table {

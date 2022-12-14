@@ -1,3 +1,6 @@
-@import "~styles/variables";
+@import "styles/variables";
 
-.numbers .number{display:block;font-size:$font-super-large;}
+.numbers .number {
+  display: block;
+  font-size: $font-super-large;
+}

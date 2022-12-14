@@ -3,11 +3,15 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "outDir": "./dist",
-    "lib": ["es2018", "dom"],
-    "typeRoots": ["node_modules/@types"],
-
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "module": "es2020",
-    "target": "es2015",
+    "target": "ES2022",
     "moduleResolution": "node",
     "importHelpers": true,
     "sourceMap": true,
@@ -17,7 +21,8 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
