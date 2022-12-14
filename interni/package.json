@@ -9,14 +9,14 @@
     "dev:test-server": "ng serve --configuration=test-server"
   },
   "dependencies": {
-    "@angular/animations": "^13.3.0",
-    "@angular/common": "^13.3.0",
-    "@angular/compiler": "^13.3.0",
-    "@angular/core": "^13.3.0",
-    "@angular/forms": "^13.3.0",
-    "@angular/platform-browser": "^13.3.0",
-    "@angular/router": "^13.3.0",
-    "@angular/service-worker": "^13.3.0",
+    "@angular/animations": "^15.0.3",
+    "@angular/common": "^15.0.3",
+    "@angular/compiler": "^15.0.3",
+    "@angular/core": "^15.0.3",
+    "@angular/forms": "^15.0.3",
+    "@angular/platform-browser": "^15.0.3",
+    "@angular/router": "^15.0.3",
+    "@angular/service-worker": "^15.0.3",
     "@editorjs/editorjs": "^2.23.2",
     "@editorjs/header": "^2.6.2",
     "@editorjs/image": "^2.6.2",
@@ -39,13 +39,13 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.3.0",
-    "@angular/cli": "^13.3.0",
-    "@angular/compiler-cli": "^13.3.0",
-    "@angular/language-service": "~13.3.0",
+    "@angular-devkit/build-angular": "^15.0.3",
+    "@angular/cli": "^15.0.3",
+    "@angular/compiler-cli": "^15.0.3",
+    "@angular/language-service": "^15.0.3",
     "@types/file-saver": "^2.0.5",
     "@types/inflected": "^1.1.29",
     "@types/luxon": "^2.3.1",
-    "typescript": "~4.4.4"
+    "typescript": "~4.8.4"
   }
 }
