@@ -2,8 +2,14 @@
   "name": "bosan.cz",
   "description": "Webové stránky Dětské vodácké skupiny ŠÁN",
   "main": "index.js",
+  "scripts": {
+    "prepare": "husky install"
+  },
   "devDependencies": {
-    "all-contributors-cli": "^6.20.0"
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "all-contributors-cli": "^6.20.0",
+    "husky": "^8.0.2"
   },
   "dependencies": {},
   "repository": {
