@@ -3,7 +3,7 @@
     <ion-tab-button tab="info">
       <ion-icon name="calendar"></ion-icon>
       <ion-label>Akce</ion-label>
-      <ion-badge [color]="event?.status | eventStatus: 'color'">&nbsp;&nbsp;</ion-badge>
+      <ion-badge [color]="event?.status | eventStatus : 'color'">&nbsp;&nbsp;</ion-badge>
     </ion-tab-button>
     <ion-tab-button tab="prihlaska">
       <ion-icon name="document-outline"></ion-icon>
@@ -14,7 +14,9 @@
     <ion-tab-button tab="ucastnici">
       <ion-icon name="people-outline"></ion-icon>
       <ion-label>Účastníci</ion-label>
-      <ion-badge [color]="event?.attendees?.length ? 'success' : 'danger'">{{ event?.attendees?.length }}</ion-badge>
+      <ion-badge [color]="event?.attendees?.length ? 'success' : 'danger'">
+        {{ (event?.leaders?.length || 0) + (event?.attendees?.length || 0) }}
+      </ion-badge>
     </ion-tab-button>
     <ion-tab-button tab="uctovani">
       <ion-icon name="cash-outline"></ion-icon>
