@@ -8,7 +8,7 @@ class EventResponseLinks {
   attendees!: DocumentLink;
 }
 
-export class EventResponseDto implements Document<"attendees", ""> {
+export class EventResponseDto implements Document<"attendees", string> {
   @ApiProperty()
   _id!: string;
 
