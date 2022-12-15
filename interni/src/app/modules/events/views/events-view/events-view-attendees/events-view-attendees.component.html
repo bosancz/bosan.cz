@@ -12,15 +12,38 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let member of attendees">
+    <!-- LEADERS -->
+    <ion-item *ngFor="let member of leaders">
       <ion-label>
-        <h3>{{ member | member: "nickname" }}</h3>
+        <h3>{{ member | member : "nickname" }}</h3>
         <p><bo-member-item-detail [member]="member"></bo-member-item-detail></p>
       </ion-label>
       <ion-badge
         slot="end"
         mode="ios"
-        [style.background-color]="member.group | group: 'color'"
+        [style.background-color]="member.group | group : 'color'"
+        class="d-none d-xl-block"
+      >
+        {{ member.group }}
+      </ion-badge>
+      <ion-button fill="clear" [routerLink]="'/databaze/' + member._id" slot="end">
+        <ion-icon name="information-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" color="primary" disabled slot="end">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    <!-- ATTENDEES -->
+    <ion-item *ngFor="let member of attendees">
+      <ion-label>
+        <h3>{{ member | member : "nickname" }}</h3>
+        <p><bo-member-item-detail [member]="member"></bo-member-item-detail></p>
+      </ion-label>
+      <ion-badge
+        slot="end"
+        mode="ios"
+        [style.background-color]="member.group | group : 'color'"
         class="d-none d-xl-block"
       >
         {{ member.group }}
