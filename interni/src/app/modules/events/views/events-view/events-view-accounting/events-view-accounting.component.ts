@@ -48,7 +48,7 @@ export class EventsViewAccountingComponent implements OnInit, OnDestroy {
   }
 
   private sortExpenes() {
-    this.expenses.sort((a, b) => a.id.localeCompare(b.id));
+    this.expenses.sort((a, b) => a.id.localeCompare(b.id, "cs", { numeric: true }));
   }
 
   async editExpenseModal(expense?: EventExpense) {
