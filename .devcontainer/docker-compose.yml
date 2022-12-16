@@ -1,4 +1,3 @@
-version: "3"
 
 services:
   devcontainer:
@@ -9,15 +8,24 @@ services:
     volumes:
       - ..:/workspace:cached
     environment:
-      DATABASE_URI: mongodb://${COMPOSE_PROJECT_NAME:-bosandev}-db/bosan
+      DB_HOST: ${COMPOSE_PROJECT_NAME:-bosandev}-postgres
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_DATABASE: postgres
+      DB_SCHEMA: public
+      DATABASE_URI: mongodb://${COMPOSE_PROJECT_NAME:-bosandev}-mongo/bosan
       CORS_ENABLE: "true"
       CORS_ORIGINS: "http://localhost:4200,http://localhost:4300"
 
-  db:
-    container_name: ${COMPOSE_PROJECT_NAME:-bosandev}-db
+  postgres:
+    container_name: ${COMPOSE_PROJECT_NAME:-bosandev}-postgres
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: password
+
+  mongo:
+    container_name: ${COMPOSE_PROJECT_NAME:-bosandev}-mongo
     image: mongo:4.2
-    ports:
-      - 27017:27017
     environment:
       MONGO_INITDB_DATABASE: bosan
 
@@ -25,5 +33,5 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME:-bosandev}-mongoexpress
     image: mongo-express
     environment:
-      ME_CONFIG_MONGODB_SERVER: ${COMPOSE_PROJECT_NAME:-bosandev}-db
+      ME_CONFIG_MONGODB_SERVER: ${COMPOSE_PROJECT_NAME:-bosandev}-mongo
       ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"

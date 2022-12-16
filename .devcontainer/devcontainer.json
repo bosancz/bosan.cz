@@ -5,10 +5,10 @@
   "service": "devcontainer",
   "workspaceFolder": "/workspace",
   "shutdownAction": "stopCompose",
-  "forwardPorts": [4200, 4300, 9229, 3000],
+  "forwardPorts": [4200, 9229, 3000],
   "customizations": {
     "vscode": {
-      "extensions": ["angular.ng-template", "esbenp.prettier-vscode", "wayou.vscode-todo-highlight", "github.copilot"]
+      "extensions": ["angular.ng-template", "esbenp.prettier-vscode", "wayou.vscode-todo-highlight"]
     }
   }
 }
