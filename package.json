@@ -3,7 +3,8 @@
   "description": "Webové stránky Dětské vodácké skupiny ŠÁN",
   "main": "index.js",
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "all-contributors:check": "all-contributors check"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
