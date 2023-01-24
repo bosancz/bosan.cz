@@ -20,6 +20,7 @@ Devcontainer je připraven tak, aby spustil databázi, prohlížeč databáze mo
 **Prerekvizity**:
  - [VSCode](https://code.visualstudio.com/download)
  - Rozšíření pro VSCode [Visual Studio Code Remote Development Extension Pack](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack).
+ - SSH přístup na bošánovský server
 
 **Postup**:
  1. Připoj se ve VSCode přes SSH k Bošánovskému serveru (přístupy ti zařídí Kopec)
