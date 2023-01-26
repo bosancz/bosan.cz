@@ -17,3 +17,11 @@
     display: block;
   }
 }
+
+@import "~styles/variables";
+
+.rot-a {
+    -ms-transform: rotate(-2deg); /* IE 9 */
+    -webkit-transform: rotate(-2deg); /* Safari 3-8 */
+    transform: rotate(-2deg);
+}
