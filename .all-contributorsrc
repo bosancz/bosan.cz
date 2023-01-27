@@ -13,9 +13,9 @@
   "contributors": [
     {
       "login": "SmallhillCZ",
-      "name": "Martin Kopeček",
+      "name": "Kopec",
       "avatar_url": "https://avatars.githubusercontent.com/u/1273865?v=4",
-      "profile": "https://www.smallhill.cz/",
+      "profile": "https://github.com/SmallhillCZ",
       "contributions": [
         "code",
         "maintenance",
@@ -24,7 +24,7 @@
     },
     {
       "login": "Goliash2",
-      "name": "Petr Hnyk",
+      "name": "Ufon",
       "avatar_url": "https://avatars.githubusercontent.com/u/38349508?v=4",
       "profile": "https://github.com/Goliash2",
       "contributions": [
@@ -34,7 +34,7 @@
     },
     {
       "login": "jhavelik",
-      "name": "jhavelik",
+      "name": "Jára",
       "avatar_url": "https://avatars.githubusercontent.com/u/5928448?v=4",
       "profile": "https://github.com/jhavelik",
       "contributions": [
@@ -44,7 +44,7 @@
     },
     {
       "login": "elenfant",
-      "name": "Michal Krkavec",
+      "name": "Slon",
       "avatar_url": "https://avatars.githubusercontent.com/u/1541727?v=4",
       "profile": "https://github.com/elenfant",
       "contributions": [
@@ -54,7 +54,7 @@
     },
     {
       "login": "krystofrezac",
-      "name": "Kryštof Řezáč",
+      "name": "Krys",
       "avatar_url": "https://avatars.githubusercontent.com/u/39591095?v=4",
       "profile": "https://github.com/krystofrezac",
       "contributions": [
@@ -63,7 +63,7 @@
     },
     {
       "login": "Cita22",
-      "name": "Cita22",
+      "name": "Čita",
       "avatar_url": "https://avatars.githubusercontent.com/u/83779206?v=4",
       "profile": "https://github.com/Cita22",
       "contributions": [
@@ -72,26 +72,8 @@
       ]
     },
     {
-      "login": "Exogitaris",
-      "name": "Exogitaris",
-      "avatar_url": "https://avatars.githubusercontent.com/u/58743433?v=4",
-      "profile": "https://github.com/Exogitaris",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "MichalPham",
-      "name": "MichalPham",
-      "avatar_url": "https://avatars.githubusercontent.com/u/55764996?v=4",
-      "profile": "https://github.com/MichalPham",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
       "login": "JakubRejzek",
-      "name": "JakubRejzek",
+      "name": "Žralok",
       "avatar_url": "https://avatars.githubusercontent.com/u/84807333?v=4",
       "profile": "https://github.com/JakubRejzek",
       "contributions": [
@@ -105,12 +87,13 @@
       "profile": "https://github.com/Grejdy",
       "contributions": [
         "bug",
-        "userTesting"
+        "userTesting",
+        "code"
       ]
     },
     {
       "login": "hla-bla",
-      "name": "Filip Hruška",
+      "name": "Fíla",
       "avatar_url": "https://avatars.githubusercontent.com/u/50456311?v=4",
       "profile": "https://github.com/hla-bla",
       "contributions": [
@@ -119,7 +102,7 @@
     },
     {
       "login": "DavidTvrdy",
-      "name": "DavidTvrdy",
+      "name": "Mazák",
       "avatar_url": "https://avatars.githubusercontent.com/u/47000101?v=4",
       "profile": "https://github.com/DavidTvrdy",
       "contributions": [
@@ -129,7 +112,7 @@
     },
     {
       "login": "TomasNeumann",
-      "name": "TomasNeumann",
+      "name": "X",
       "avatar_url": "https://avatars.githubusercontent.com/u/45641694?v=4",
       "profile": "https://github.com/TomasNeumann",
       "contributions": [
@@ -139,7 +122,7 @@
     },
     {
       "login": "Kobtul",
-      "name": "David Kubeša",
+      "name": "Kobi",
       "avatar_url": "https://avatars.githubusercontent.com/u/2563688?v=4",
       "profile": "https://github.com/Kobtul",
       "contributions": [
@@ -148,7 +131,7 @@
     },
     {
       "login": "sv-ignac",
-      "name": "sv-ignac",
+      "name": "Ignác",
       "avatar_url": "https://avatars.githubusercontent.com/u/82539505?v=4",
       "profile": "https://github.com/sv-ignac",
       "contributions": [
@@ -157,7 +140,7 @@
     },
     {
       "login": "Tweety6",
-      "name": "Tweety6",
+      "name": "Tweety",
       "avatar_url": "https://avatars.githubusercontent.com/u/82444329?v=4",
       "profile": "https://github.com/Tweety6",
       "contributions": [
@@ -166,7 +149,7 @@
     },
     {
       "login": "annadanielova",
-      "name": "annadanielova",
+      "name": "Foučko",
       "avatar_url": "https://avatars.githubusercontent.com/u/82390704?v=4",
       "profile": "https://github.com/annadanielova",
       "contributions": [
