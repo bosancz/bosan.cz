@@ -17,3 +17,15 @@
     display: block;
   }
 }
+
+.rot-a {
+    -ms-transform: rotate(-2deg); /* IE 9 */
+    -webkit-transform: rotate(-2deg); /* Safari 3-8 */
+    transform: rotate(-2deg);
+}
+
+.rot-b {
+  -ms-transform: rotate(1deg); /* IE 9 */
+  -webkit-transform: rotate(1deg); /* Safari 3-8 */
+  transform: rotate(1deg);
+}
