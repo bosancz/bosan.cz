@@ -23,3 +23,9 @@
     -webkit-transform: rotate(-2deg); /* Safari 3-8 */
     transform: rotate(-2deg);
 }
+
+.rot-b {
+  -ms-transform: rotate(3deg); /* IE 9 */
+  -webkit-transform: rotate(3deg); /* Safari 3-8 */
+  transform: rotate(3deg);
+}
