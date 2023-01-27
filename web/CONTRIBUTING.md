@@ -16,7 +16,7 @@ Návod má čtyři kapitoly:
 
 1) [NodeJS](https://nodejs.org/)  
 NodeJS je software, co spouští programy v jazyce JavaScript. A v tom je náš web napsaný. Respektive v TypeScriptu, ale o tom později. Při instalaci na Windows nezapomeň zaškrtnout "zahrnutí v cestě PATH".
-Pozor, aktuální verze (18) není kompatibilní s naším webem (ten používá verzi 14), takže buď najdi starší verzi, nebo se netrap s nějakou instalací a využij [codespaces](../.devcontainer/README.md)
+*Pozor, aktuální verze (18) není kompatibilní s naším webem (ten používá verzi 14), takže buď najdi starší verzi, nebo se netrap s nějakou instalací a využij [codespaces](../.devcontainer/README.md). V tom případě si otevři codespaces podle návodu a pokračuj bodem 2)8).*
 
 2) [Visual Studio Code](https://code.visualstudio.com/)  
 Editorů kódu je spousta. Já doporučuju Visual Studio Code. Je zdarma, má dobrou podporu pro technologie, co na našem webu požíváme, a má přímo v sobě hezké ovládání nástroje na verzování.
@@ -53,7 +53,7 @@ Git je nástroj na verzování, tj. správu různých verzí webu. Bude ti zpoč
     - *`worker` - Kód k úlohám, které se dělají na pozadí. Zatím tam nic moc není. Ale bude tam třeba nějaké zpracování fotek.*
     - *`.devcontainer` - Soubory související s třetím způsobem editu webu - přes devcontainer (aspoň myslím)*
 
-8) Spusť nyní v terminálu následující příkaz. Tím se otevře složka `web` ve složce `bosan.cz` v tom terminálu. To `cd` totiž znamená „change directory“. Otevřená složka vlevo v menu a v terminálu spolu nesouvisejí. Často totiž chceš měnit nějaký soubor někde, ale spouštět příkazy v hlavní složce.
+8) Spusť nyní v terminálu následující příkaz (v codespaces vynech „bosan.cz/”). Tím se otevře složka `web` ve složce `bosan.cz` v tom terminálu. To `cd` totiž znamená „change directory“. Otevřená složka vlevo v menu a v terminálu spolu nesouvisejí. Často totiž chceš měnit nějaký soubor někde, ale spouštět příkazy v hlavní složce.
 *Tajný tip: bude stačit napsat jen začátek každého (třeba jen `bo`) a zmáčknout klávesu TAB, automaticky se to doplní na `bosan.cz/`.*
     ```sh
     cd bosan.cz/web
