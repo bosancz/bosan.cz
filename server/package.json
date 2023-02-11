@@ -40,7 +40,7 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.20",
     "phpunserialize": "^1.0.1"
   },
   "engines": {
