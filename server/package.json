@@ -22,7 +22,7 @@
     "express-json-validator-middleware": "^1.2.3",
     "express-jwt": "^5.3.3",
     "fs-extra": "^7.0.1",
-    "googleapis": "^33.0.0",
+    "googleapis": "^39.1.0",
     "ical-generator": "^3.0.0",
     "is-plain-object": "^2.0.4",
     "luxon": "^1.28.1",
