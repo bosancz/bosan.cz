@@ -15,6 +15,6 @@
     "canvas": "^2.6.1",
     "face-api.js": "^0.22.1",
     "fs-extra": "^8.1.0",
-    "mongoose": "^5.8.12"
+    "mongoose": "^5.13.15"
   }
 }
