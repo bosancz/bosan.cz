@@ -1,6 +1,0 @@
-# dependencies
-/node_modules
-
-# production environments
-environment/environment.production.js
-environment/environment.development.js
