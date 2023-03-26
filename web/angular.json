@@ -50,11 +50,19 @@
                 }
               ]
             },
-            "test-server": {
+            "dev-test-server": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.test-server.ts"
+                  "with": "src/environments/environment.dev-test-server.ts"
+                }
+              ]
+            },
+            "dev-prod-server": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev-prod-server.ts"
                 }
               ]
             }
