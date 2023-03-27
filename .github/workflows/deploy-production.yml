@@ -29,7 +29,8 @@ jobs:
       - name: Build image and push it to the docker.bosan.cz repository
         uses: docker/build-push-action@v2
         with:
-          context: ./web
-          tag: " docker.bosan.cz/web:latest"
+          push: true
+          context: .
+          tags: "docker.bosan.cz/web:latest"
           cache-from: type=gha
           cache-to: type=gha,mode=max

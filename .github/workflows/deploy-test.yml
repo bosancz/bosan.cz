@@ -9,6 +9,9 @@ jobs:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout the updated source code
+        uses: actions/checkout@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -24,6 +27,6 @@ jobs:
         with:
           push: true
           context: .
-          tags: "docker.bosan.cz/web:latest"
+          tags: "docker.bosan.cz/web:test"
           cache-from: type=gha
           cache-to: type=gha,mode=max
