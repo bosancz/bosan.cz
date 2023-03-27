@@ -13,7 +13,7 @@ COPY ./web .
 RUN npx ng build --configuration="${NG_CONFIGURATION}"
 
 
-FROM nginx:1.19-alpine
+FROM nginx:alpine
 
 COPY nginx/default.conf /etc/nginx/conf.d/
 
