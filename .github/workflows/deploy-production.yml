@@ -1,0 +1,64 @@
+name: Deploy to PRODUCTION environment
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - frontend/**
+      - backend/**
+      - ".github/workflows/deploy-production.yml"
+
+jobs:
+  build-docker-frontend:
+    name: Build and Push Frontend Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the updated source code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to docker.bosan.cz registry
+        uses: docker/login-action@v2
+        with:
+          registry: docker.bosan.cz
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build image and push it to the docker.bosan.cz repository
+        uses: docker/build-push-action@v4
+        with:
+          build-args: NG_CONFIGURATION=production
+          push: true
+          context: ./interni
+          tags: "docker.bosan.cz/interni-sekce-frontend:latest"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  build-docker-backend:
+    name: Build and Push Backend Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the updated source code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to docker.bosan.cz registry
+        uses: docker/login-action@v2
+        with:
+          registry: docker.bosan.cz
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build image and push it to the docker.bosan.cz repository
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: ./backend
+          tags: "docker.bosan.cz/interni-sekce-backend:latest"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -4,7 +4,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "cross-env CORS_ENABLE=true nodemon src/server.js",
-    "create-admin": "node src/scripts/create-admin.js"
+    "create-admin": "node src/scripts/create-admin.js",
+    "deploy:production": "docker build -t docker.bosan.cz/interni-sekce-backend:latest . && docker push docker.bosan.cz/interni-sekce-backend:latest",
+    "deploy:test": "docker build -t docker.bosan.cz/interni-sekce-backend:test . && docker push docker.bosan.cz/interni-sekce-backend:test"
   },
   "dependencies": {
     "@smallhillcz/routesjs": "^1.4.3",

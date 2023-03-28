@@ -1,6 +1,6 @@
 FROM node:14.20 as build
 
-ARG NG_CONFIGURATION
+ARG NG_CONFIGURATION=production
 
 WORKDIR /srv/app
 
