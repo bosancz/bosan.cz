@@ -12,7 +12,7 @@
 Detaily k rozvoji jednotlivých částí webu najdeš v jejich složkách:
 
  - [Veřejná část (`./web`)](./web)
- - [Interní část (`./interni`)](./interni)
+ - [Interní část (`./frontend`)](./frontend)
  - [Server (`./server`)](./server)
 
 ## Kdo dělá web ✨

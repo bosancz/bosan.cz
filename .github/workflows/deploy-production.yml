@@ -32,7 +32,7 @@ jobs:
         with:
           build-args: NG_CONFIGURATION=production
           push: true
-          context: ./interni
+          context: ./frontend
           tags: "docker.bosan.cz/interni-sekce-frontend:latest"
           cache-from: type=gha
           cache-to: type=gha,mode=max
