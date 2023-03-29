@@ -85,7 +85,7 @@
               "sourceMap": true,
               "namedChunks": true
             },
-            "test-server": {
+            "dev-test": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -95,7 +95,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.test-server.ts"
+                  "with": "src/environments/environment.dev-test.ts"
                 }
               ]
             }
@@ -109,8 +109,11 @@
             "port": 4200
           },
           "configurations": {
-            "test-server": {
-              "browserTarget": "bosancz:build:test-server"
+            "development": {
+              "browserTarget": "bosancz:build:development"
+            },
+            "dev-test": {
+              "browserTarget": "bosancz:build:dev-test"
             }
           },
           "defaultConfiguration": "development"

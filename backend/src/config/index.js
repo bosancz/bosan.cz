@@ -13,4 +13,5 @@ module.exports = {
   server: require("./server"),
   storage: require("./storage"),
   uploads: require("./uploads"),
+  notifications: require("./notifications"),
 };

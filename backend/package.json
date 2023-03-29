@@ -1,6 +1,6 @@
 {
   "name": "bosancz-server",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "scripts": {
     "start": "node src/server.js",
     "dev": "cross-env CORS_ENABLE=true nodemon src/server.js",

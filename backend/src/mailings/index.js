@@ -6,11 +6,11 @@ require("../google.js");
 var config = require("../config");
 
 function convertToBase64(string) {
-  return Buffer.from(string.toString()).toString('base64');
+  return Buffer.from(string.toString()).toString("base64");
 }
 
 function convertToBase64Safe(string) {
-  return convertToBase64(string).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return convertToBase64(string).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
 function encodeAddress(string) {
@@ -33,20 +33,20 @@ ${options.message}`;
 }
 
 module.exports = async function (mailingId, params) {
-
   var mailing = require(`./${mailingId}/${mailingId}`);
 
-  const gmail = google.gmail({ version: 'v1' });
+  const gmail = google.gmail({ version: "v1" });
 
   var messageOptions = await mailing(params);
 
-  var rawBody = makeBody(messageOptions)
+  if (!messageOptions) return;
+
+  var rawBody = makeBody(messageOptions);
 
   var mail = await gmail.users.messages.send({
     userId: "me",
     resource: {
-      raw: rawBody
-    }
+      raw: rawBody,
+    },
   });
-
 };

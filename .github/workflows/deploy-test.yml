@@ -25,7 +25,7 @@ jobs:
       - name: Build image and push it to the docker.bosan.cz repository
         uses: docker/build-push-action@v4
         with:
-          build-args: NG_CONFIGURATION=production
+          build-args: NG_CONFIGURATION=test
           push: true
           context: ./frontend
           tags: "docker.bosan.cz/interni-sekce-frontend:test"

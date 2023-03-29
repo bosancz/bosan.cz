@@ -6,7 +6,7 @@
   "scripts": {
     "build": "ng build --configuration production",
     "dev": "ng serve",
-    "dev:test-server": "ng serve --configuration=test-server",
+    "dev:test": "ng serve --configuration=dev-test",
     "deploy:production": "docker build -t docker.bosan.cz/interni-sekce-frontend:latest . && docker push docker.bosan.cz/interni-sekce-frontend:latest",
     "deploy:test": "docker build --build-arg=\"NG_CONFIGURATION=test\" -t docker.bosan.cz/interni-sekce-frontend:test . && docker push docker.bosan.cz/interni-sekce-frontend:test"
   },
