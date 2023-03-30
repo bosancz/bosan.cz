@@ -98,6 +98,20 @@
                   "with": "src/environments/environment.dev-test.ts"
                 }
               ]
+            },
+            "dev-prod": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev-prod.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -106,7 +120,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "bosancz:build",
-            "port": 4200
+            "port": 4200,
+            "host": "127.0.0.1"
           },
           "configurations": {
             "development": {
@@ -114,6 +129,9 @@
             },
             "dev-test": {
               "browserTarget": "bosancz:build:dev-test"
+            },
+            "dev-prod": {
+              "browserTarget": "bosancz:build:dev-prod"
             }
           },
           "defaultConfiguration": "development"
