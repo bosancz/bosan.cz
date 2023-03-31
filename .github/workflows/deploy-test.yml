@@ -7,6 +7,7 @@ on:
 jobs:
   build-docker-frontend:
     name: Build and Push Frontend Docker Image
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the updated source code
@@ -34,6 +35,7 @@ jobs:
 
   build-docker-backend:
     name: Build and Push Backend Docker Image
+    if: ${{ github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the updated source code
