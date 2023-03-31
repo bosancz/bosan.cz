@@ -10,6 +10,11 @@ import { MembersListComponent } from './views/members-list/members-list.componen
 import { MembersViewComponent } from './views/members-view/members-view.component';
 import { MembersEditComponent } from './views/members-edit/members-edit.component';
 import { MembersCreateComponent } from './views/members-create/members-create.component';
+import { CardAllergiesComponent } from './components/card-allergies/card-allergies.component';
+import { CardPersonalInfoComponent } from './components/card-personal-info/card-personal-info.component';
+import { CardContactsComponent } from './components/card-contacts/card-contacts.component';
+import { CardInsuranceComponent } from './components/card-insurance/card-insurance.component';
+import { CardMembershipComponent } from './components/card-membership/card-membership.component';
 
 
 @NgModule({
@@ -17,7 +22,12 @@ import { MembersCreateComponent } from './views/members-create/members-create.co
     MembersListComponent,
     MembersViewComponent,
     MembersEditComponent,
-    MembersCreateComponent
+    MembersCreateComponent,
+    CardAllergiesComponent,
+    CardPersonalInfoComponent,
+    CardContactsComponent,
+    CardInsuranceComponent,
+    CardMembershipComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,32 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Osobní údaje</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <table class="table table-sm table-borderless">
+      <tbody>
+        <tr>
+          <th>Jméno:</th>
+          <td>{{ member.name?.first || "-" }} {{ member.name?.last || "-" }}</td>
+        </tr>
+        <tr>
+          <th>Datum narození:</th>
+          <td>{{ member.birthday ? (member.birthday | date : "d. M. y") : "-" }}</td>
+        </tr>
+        <tr>
+          <th>Adresa:</th>
+          <td *ngIf="!member.address">-</td>
+          <td *ngIf="member.address">
+            {{ member.address.street }} {{ member.address.streetNo }}<br />
+            {{ member.address.city }}<br />
+            {{ member.address.postalCode }}
+            <ng-container *ngIf="member.address.country"
+              ><br />
+              {{ member.address.country }}
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ion-card-content>
+</ion-card>

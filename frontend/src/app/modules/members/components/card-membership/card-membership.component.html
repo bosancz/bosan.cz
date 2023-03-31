@@ -1,0 +1,15 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Členství</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <table class="table table-sm table-borderless">
+      <tbody>
+        <tr>
+          <th>Aktivní:</th>
+          <td>{{ member.inactive === undefined ? "-" : member.inactive ? "Ne" : "Ano" }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ion-card-content>
+</ion-card>

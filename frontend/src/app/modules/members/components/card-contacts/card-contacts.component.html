@@ -1,0 +1,35 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Kontakty</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <table class="table table-sm table-borderless">
+      <tbody>
+        <tr>
+          <th>Mobil:</th>
+          <td>
+            <a *ngIf="member.contacts?.mobile" [href]="'tel:' + member.contacts?.mobile">
+              {{ member.contacts?.mobile }}</a
+            >
+          </td>
+        </tr>
+        <tr>
+          <th>E-mail:</th>
+          <td>
+            <a *ngIf="member.contacts?.email" [href]="'mailto:' + member.contacts?.email">
+              {{ member.contacts?.email }}
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th>Matka:</th>
+          <td>{{ member.contacts?.mother || "-" }}</td>
+        </tr>
+        <tr>
+          <th>Otec:</th>
+          <td>{{ member.contacts?.father || "-" }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ion-card-content>
+</ion-card>

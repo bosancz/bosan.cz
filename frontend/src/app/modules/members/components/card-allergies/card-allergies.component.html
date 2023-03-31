@@ -1,0 +1,13 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Alergie</ion-card-title>
+    <ion-card-subtitle *ngIf="!member.allergiesDate">{{ member.allergiesDate | date : "d. M. y" }}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ul *ngIf="member.allergies && member.allergies.length">
+      <li *ngFor="let allergy of member.allergies">{{ allergy }}</li>
+    </ul>
+    <p *ngIf="member.allergies && !member.allergies.length"><i>Žádné alergie</i></p>
+    <p *ngIf="!member.allergies"><i>Nevyplněno</i></p>
+  </ion-card-content>
+</ion-card>

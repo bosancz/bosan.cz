@@ -1,14 +1,3 @@
-ion-slides {
-  overflow: visible;
-  margin-left: calc(var(--ion-padding, 16px) * -1);
-  margin-right: calc(var(--ion-padding, 16px) * -1);
-  ion-slide {
-    height: auto;
-    padding-bottom: 0.3em;
-  }
-  ion-card {
-    width: 100%;
-    height: 100%;
-    text-align: left;
-  }
+.member-data {
+  user-select: text;
 }
