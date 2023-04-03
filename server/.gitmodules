@@ -1,6 +1,0 @@
-[submodule "lib/routes"]
-	path = lib/routes
-	url = https://github.com/smallhillcz/routes
-[submodule "lib/express-dynacl"]
-	path = lib/express-dynacl
-	url = https://github.com/SmallhillCZ/express-dynacl

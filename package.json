@@ -5,7 +5,9 @@
   "scripts": {
     "prepare": "husky install",
     "all-contributors:check": "all-contributors check",
-    "all-contributors:generate": "all-contributors generate"
+    "all-contributors:generate": "all-contributors generate",
+    "deploy:production": "docker build -t docker.bosan.cz/web:latest . && docker push docker.bosan.cz/web:latest",
+    "deploy:test": "docker build -t docker.bosan.cz/web:test . && docker push docker.bosan.cz/web:test"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",

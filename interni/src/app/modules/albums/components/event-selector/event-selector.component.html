@@ -1,9 +1,0 @@
-<ion-input
-  #eventInput
-  [ngModel]="event ? event.name + ' (' + ([event.dateFrom, event.dateTill] | dateRange) + ')' : undefined"
-  clearInput
-  (click)="openModal()"
-  (ionChange)="inputValueChanged($any($event).detail.value)"
-  [disabled]="disabled"
-  placeholder="Vybrat akci"
-></ion-input>

@@ -1,1 +1,0 @@
-export type WithSearchString<T> = T & { searchString?: string };

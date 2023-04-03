@@ -12,11 +12,7 @@
 
 ## Rozvoj webu 💻
 
-Detaily k rozvoji jednotlivých částí webu najdeš v jejich složkách:
-
- - [Veřejná část (`./web`)](./web)
- - [Interní část (`./interni`)](./interni)
- - [Server (`./server`)](./server)
+Detaily k rozvoji webu najdeš [v README ve složce `web`](./web)
 
 ## Kdo dělá web ✨
 
