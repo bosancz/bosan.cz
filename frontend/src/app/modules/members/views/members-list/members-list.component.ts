@@ -101,6 +101,11 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
       icon: "add-outline",
       pinned: true,
       handler: () => this.create()
+    },
+    {
+      icon: "download-outline",
+      pinned: true,
+      handler: () => this.export()
     }
   ];
 
@@ -168,6 +173,10 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
 
   private create() {
     this.router.navigate(["pridat"], { relativeTo: this.route });
+  }
+
+  private export() {
+
   }
 
   private filterData(filter: TableFilter) {
