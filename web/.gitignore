@@ -1,3 +1,6 @@
+# cache
+/.angular/cache
+
 # compiled output
 /dist
 /dist-www
@@ -12,5 +15,5 @@
 # logs
 npm-debug.log
 
-#idea
+# idea
 /idea
