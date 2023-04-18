@@ -5,8 +5,9 @@ ARG NG_CONFIGURATION
 WORKDIR /app
 
 # INSTALL DEPENDENCIES
+# the versions in package lock should be tested. force allows installing bad peer dependency despite being tested to be OK
 COPY ./web/package.json ./web/package-lock.json ./
-RUN npm ci
+RUN npm ci --force
 
 # BUILD
 COPY ./web .
