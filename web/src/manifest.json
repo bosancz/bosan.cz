@@ -1,11 +1,11 @@
 {
-  "name": "Bošán",
-  "short_name": "Bošán",
+  "$schema": "https://json.schemastore.org/web-manifest.json",
+  "name": "Dětská vodácká skupina ŠÁN vX.X.X (DEV)",
+  "short_name": "Dětská vodácká skupina ŠÁN",
   "theme_color": "#000000",
   "background_color": "#fafafa",
-  "display": "standalone",
+  "display": "browser",
   "scope": "/",
-  "start_url": "/interni",
   "icons": [
     {
       "src": "assets/icons/icon-16x16.png",

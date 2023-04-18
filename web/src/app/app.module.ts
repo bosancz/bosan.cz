@@ -1,52 +1,46 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LOCALE_ID, NgModule } from "@angular/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 /* MODULES */
-import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from "app/shared/shared.module";
+import { AppRoutingModule } from "./app-routing.module";
 
 // Locale
-import { registerLocaleData, CommonModule } from '@angular/common';
-import localeCs from '@angular/common/locales/cs';
-
+import { CommonModule, registerLocaleData } from "@angular/common";
+import localeCs from "@angular/common/locales/cs";
 
 // App Config
-import { environment } from "environments/environment";
 
 /* ROOT COMPONENT */
-import { AppComponent } from './app.component';
+import { AppComponent } from "./app.component";
 
 /* VIEWS */
-import { NotFoundComponent } from './views/not-found/not-found.component';
-import { AboutViewComponent } from './views/about-view/about-view.component';
-import { CampViewComponent } from './views/camp-view/camp-view.component';
-import { ContactsViewComponent } from './views/contacts-view/contacts-view.component';
-import { EventsViewComponent } from './views/events-view/events-view.component';
-import { GalleryViewComponent } from './views/gallery-view/gallery-view.component';
-import { NewsViewComponent } from './views/news-view/news-view.component';
+import { AboutViewComponent } from "./views/about-view/about-view.component";
+import { CampViewComponent } from "./views/camp-view/camp-view.component";
+import { ContactsViewComponent } from "./views/contacts-view/contacts-view.component";
+import { EventsViewComponent } from "./views/events-view/events-view.component";
+import { GalleryViewComponent } from "./views/gallery-view/gallery-view.component";
+import { NewsViewComponent } from "./views/news-view/news-view.component";
+import { NotFoundComponent } from "./views/not-found/not-found.component";
 
 /* CHILD VIEWS */
-import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
-import { GalleryViewTimelineComponent } from './views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
-import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
+import { GalleryViewAlbumComponent } from "./views/gallery-view/gallery-view-album/gallery-view-album.component";
+import { GalleryViewPhotosComponent } from "./views/gallery-view/gallery-view-photos/gallery-view-photos.component";
+import { GalleryViewTimelineComponent } from "./views/gallery-view/gallery-view-timeline/gallery-view-timeline.component";
 
 /* COMPONENTS */
-import { PageMenuComponent } from './components/page-menu/page-menu.component';
-import { PageFooterComponent } from './components/page-footer/page-footer.component';
+import { PageFooterComponent } from "./components/page-footer/page-footer.component";
+import { PageMenuComponent } from "./components/page-menu/page-menu.component";
 
 /* THIRD PARTY */
-import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
-import { PourFeliciterComponent } from './components/pour-feliciter/pour-feliciter.component';
-import { UkraineHelpComponent } from './components/ukraine-help/ukraine-help.component';
+import { ScrollToModule } from "@nicky-lenaers/ngx-scroll-to";
+import { PourFeliciterComponent } from "./components/pour-feliciter/pour-feliciter.component";
+import { UkraineHelpComponent } from "./components/ukraine-help/ukraine-help.component";
 
-
-console.log("Angular is running in " + (environment.production ? "production" : "development") + " environment");
-
-registerLocaleData(localeCs, 'cs');
+registerLocaleData(localeCs, "cs");
 
 @NgModule({
   declarations: [
-
     AppComponent,
 
     /* VIEWS */
@@ -68,19 +62,9 @@ registerLocaleData(localeCs, 'cs');
     PageFooterComponent,
     PourFeliciterComponent,
     UkraineHelpComponent,
-
   ],
-  imports: [
-    CommonModule,
-    AppRoutingModule,
-    SharedModule,
-
-    ScrollToModule,
-
-    BrowserAnimationsModule,
-
-  ],
+  imports: [CommonModule, AppRoutingModule, SharedModule, ScrollToModule, BrowserAnimationsModule],
   bootstrap: [AppComponent],
-  providers: [{ provide: LOCALE_ID, useValue: 'cs' }]
+  providers: [{ provide: LOCALE_ID, useValue: "cs" }],
 })
-export class AppModule { }
+export class AppModule {}

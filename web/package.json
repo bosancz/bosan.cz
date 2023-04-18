@@ -1,8 +1,9 @@
 {
-  "name": "bosan.cz-client",
-  "version": "2.0.1",
+  "name": "bosan.cz-web",
+  "private": true,
   "scripts": {
     "build": "ng build --configuration production",
+    "postbuild": "node ./scripts/manifest-update-version",
     "dev": "ng serve",
     "dev:test": "ng serve --configuration=dev-test",
     "dev:prod": "ng serve --configuration=dev-prod"
@@ -23,7 +24,7 @@
     "luxon": "^3.3.0",
     "ngx-bootstrap": "^10.2.0",
     "ngx-sharebuttons": "^12.0.0",
-    "rxjs": "^6.6.6",
+    "rxjs": "^7.8.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
