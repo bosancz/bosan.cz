@@ -1,4 +1,4 @@
-FROM node:14.16 as build
+FROM node:18-alpine as build
 
 ARG NG_CONFIGURATION
 
