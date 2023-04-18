@@ -4,8 +4,8 @@
   "scripts": {
     "build": "ng build --prod",
     "dev": "ng serve",
-    "dev:test-server": "ng serve --configuration=dev-test-server",
-    "dev:prod-server": "ng serve --configuration=dev-prod-server"
+    "dev:test": "ng serve --configuration=dev-test",
+    "dev:prod": "ng serve --configuration=dev-prod"
   },
   "dependencies": {
     "@angular/animations": "^11.2.6",

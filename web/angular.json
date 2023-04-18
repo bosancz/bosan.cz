@@ -17,9 +17,17 @@
             "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": ["src/assets", "src/manifest.json", "src/pf-2022.html"],
-            "styles": ["src/styles/styles.scss"],
-            "scripts": ["node_modules/hammerjs/hammer.min.js"]
+            "assets": [
+              "src/assets",
+              "src/manifest.json",
+              "src/pf-2022.html"
+            ],
+            "styles": [
+              "src/styles/styles.scss"
+            ],
+            "scripts": [
+              "node_modules/hammerjs/hammer.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -78,7 +86,7 @@
                 }
               ]
             },
-            "dev-test-server": {
+            "dev-test": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -86,11 +94,11 @@
                 }
               ]
             },
-            "dev-prod-server": {
+            "dev-prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev-prod-server.ts"
+                  "with": "src/environments/environment.dev-prod.ts"
                 }
               ]
             }
@@ -102,11 +110,11 @@
             "browserTarget": "bosancz:build"
           },
           "configurations": {
-            "test-server": {
-              "browserTarget": "bosancz:build:test-server"
+            "dev-test": {
+              "browserTarget": "bosancz:build:dev-test"
             },
-            "prod-server": {
-              "browserTarget": "bosancz:build:prod-server"
+            "dev-prod": {
+              "browserTarget": "bosancz:build:dev-prod"
             }
           }
         },
@@ -119,8 +127,12 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "src/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
