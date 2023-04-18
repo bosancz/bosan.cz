@@ -1,4 +1,4 @@
-@import "~styles/variables";
+@import "styles/variables";
 
 $date-height: 4rem;
 $circle-size: 2.5rem;
@@ -104,9 +104,9 @@ h5 {
 
   .event-header,
   .description {
-    position:relative;
+    position: relative;
     z-index: 10;
-    overflow:hidden;
+    overflow: hidden;
   }
 }
 

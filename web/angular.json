@@ -22,7 +22,7 @@
               "src/pf-2022.html"
             ],
             "styles": [
-              "src/styles/styles.scss"
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/hammerjs/hammer.min.js"
