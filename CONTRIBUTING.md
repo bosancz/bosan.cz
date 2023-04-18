@@ -90,8 +90,10 @@ Pro vývoj budeš muset nainstalovat balíčky, které web využívá. Spusť pr
 
 1. Nejdřív nainstalujem balíčky pro některé základní funkce repozitáře
 ```sh
-npm install
+npm ci
 ```
+
+*Tip: Pokud to bude hlásit nekonzistenci ("Could not resolve dependency"), zkus `npm ci --force`*
 
 2. Nyní si v terminálu otevřeme složku `web`
 ```sh
