@@ -1,3 +1,9 @@
-@import "~styles/variables";
+@import "styles/variables";
 
-a.scrollDown{color:$linkBlue;cursor:pointer;font-weight:bold;text-transform:uppercase;text-decoration:none;}
+a.scrollDown {
+  color: $linkBlue;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+}

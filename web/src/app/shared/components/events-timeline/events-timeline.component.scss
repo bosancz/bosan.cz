@@ -1,4 +1,4 @@
-@import "~styles/variables";
+@import "styles/variables";
 
 $date-height: 4rem;
 $circle-size: 2.5rem;
@@ -59,7 +59,7 @@ h5 {
     .circle {
       position: relative;
       top: 50%;
-      margin-top: -$circle-size/2;
+      margin-top: calc(-1 * $circle-size/2);
       width: $circle-size;
       height: $circle-size;
       border-radius: 50%;
@@ -81,8 +81,8 @@ h5 {
       right: 0;
       width: $arrow-size;
       height: $arrow-size;
-      margin-top: -$arrow-size/2;
-      margin-right: -$arrow-size/2;
+      margin-top: calc(-1 * $arrow-size/2);
+      margin-right: calc(-1 * $arrow-size/2);
 
       transform: rotate(45deg);
       -webkit-transform: rotate(45deg);
@@ -104,9 +104,9 @@ h5 {
 
   .event-header,
   .description {
-    position:relative;
+    position: relative;
     z-index: 10;
-    overflow:hidden;
+    overflow: hidden;
   }
 }
 

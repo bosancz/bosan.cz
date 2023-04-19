@@ -1,12 +1,14 @@
 <div class="container timeline">
-
   <p *ngIf="loading" class="loading">Načítám program&hellip;</p>
 
-  <ng-container *ngFor="let event of events;let i = index">
-
-    <div *ngIf="i === 0 || (i > 0 && (event.dateFrom | date:'M') !== (events[i-1].dateFrom | date:'M'))" class="month row" [class.first]="i === 0">
+  <ng-container *ngFor="let event of events; let i = index">
+    <div
+      *ngIf="i === 0 || (i > 0 && (event.dateFrom | date : 'M') !== (events[i - 1].dateFrom | date : 'M'))"
+      class="month row"
+      [class.first]="i === 0"
+    >
       <div class="col-4 col-lg-2 py-lg-3 px-0 px-lg-3 pt-1">
-        <h4>{{event.dateFrom | date:'MMMM'}}</h4>
+        <h4>{{ getMonth(event.dateFrom) }}</h4>
       </div>
       <div *ngIf="i > 0" class="timeline-container col-lg-1 px-lg-3 d-none d-lg-block">
         <div class="line"></div>
@@ -14,24 +16,28 @@
       <div class="col-4 col-lg-9 d-none d-lg-block"></div>
     </div>
 
-    <div [class]="'row h-100 event ' + (event | event:'class')" [class.cancelled]="event.status === 'cancelled'">
-
+    <div [class]="'row h-100 event ' + (event | event : 'class')" [class.cancelled]="event.status === 'cancelled'">
       <div class="date-container col-10 col-md-11 col-lg-2 order-2 order-lg-1 px-0 px-lg-3 py-3 py-lg-0">
-        <h5 *ngIf="(event.dateFrom | date:'d-M') !== (event.dateTill | date:'d-M'); else onlyDay">
-          {{event.dateFrom | date:"EEEEEE"}} - {{event.dateTill | date:"EEEEEE"}}
+        <h5 *ngIf="(event.dateFrom | date : 'd-M') !== (event.dateTill | date : 'd-M'); else onlyDay">
+          {{ event.dateFrom | date : "EEEEEE" }} - {{ event.dateTill | date : "EEEEEE" }}
           <div class="d-none d-lg-block"></div>
-          {{event.dateFrom | date:"d. M."}} - {{event.dateTill | date:"d. M."}}
+          {{ event.dateFrom | date : "d. M." }} - {{ event.dateTill | date : "d. M." }}
         </h5>
         <ng-template #onlyDay>
-          <h5>{{event.dateFrom | date:"EEEEEE d. M."}}</h5>
+          <h5>{{ event.dateFrom | date : "EEEEEE d. M." }}</h5>
         </ng-template>
       </div>
 
-      <div class="timeline-container col-2 col-md-1 col-lg-1 order-1 px-0 px-lg-3 order-lg-2 justify-content-center d-flex">
+      <div
+        class="timeline-container col-2 col-md-1 col-lg-1 order-1 px-0 px-lg-3 order-lg-2 justify-content-center d-flex"
+      >
         <div class="line"></div>
         <div class="circle-container">
-          <div class="circle mx-auto" [style.background-color]="(event | event:'image') ? 'transparent' : (event | event:'color') || '#ccc'">
-            <img *ngIf="event | event:'image'" class="img-fluid" [src]="event | event:'image'">
+          <div
+            class="circle mx-auto"
+            [style.background-color]="(event | event : 'image') ? 'transparent' : (event | event : 'color') || '#ccc'"
+          >
+            <img *ngIf="event | event : 'image'" class="img-fluid" [src]="event | event : 'image'" />
           </div>
           <div class="arrow-horizontal d-none d-lg-block"></div>
         </div>
@@ -41,27 +47,38 @@
         <div class="line"></div>
       </div>
 
-      <div class="event-container col-10 col-md-11 col-lg-9 order-3 mb-3 panel" [adminLink]="'/interni/obsah/akce/' + event._id + '/upravit'">
+      <div
+        class="event-container col-10 col-md-11 col-lg-9 order-3 mb-3 panel"
+        [adminLink]="'/interni/obsah/akce/' + event._id + '/upravit'"
+      >
         <div class="row event-header">
           <div class="col d-flex">
-            <h4><span *ngIf="event.status === 'cancelled'" class="cancelled">Zrušeno: </span> {{event.name}}</h4>
+            <h4><span *ngIf="event.status === 'cancelled'" class="cancelled">Zrušeno: </span> {{ event.name }}</h4>
           </div>
           <div class="d-none d-md-block col-auto justify-content-end group-badges">
-            <span *ngFor="let group of event.groups" [style.background-color]="(group | group:'color') || '#ccc'" [title]="group | group:'name'" class="group-badge ml-2">{{group}}</span>
+            <span
+              *ngFor="let group of event.groups"
+              [style.background-color]="(group | group : 'color') || '#ccc'"
+              [title]="group | group : 'name'"
+              class="group-badge ml-2"
+              >{{ group }}</span
+            >
           </div>
         </div>
         <div class="event-details">
           <div class="row">
             <div class="col">
-              <p *ngIf="event.description" class="description multiline">{{event.description}}</p>
+              <p *ngIf="event.description" class="description multiline">{{ event.description }}</p>
             </div>
           </div>
           <div class="row">
             <div class="col">
               <p *ngIf="event.meeting?.start || event.meeting?.end">
-                <ng-container *ngIf="event.meeting?.start"><strong>Sraz: </strong>{{event.meeting.start}}</ng-container>
+                <ng-container *ngIf="event.meeting?.start"
+                  ><strong>Sraz: </strong>{{ event.meeting.start }}</ng-container
+                >
                 <ng-container *ngIf="event.meeting?.start && event.meeting?.end">, </ng-container>
-                <ng-container *ngIf="event.meeting?.end"><strong>Konec: </strong>{{event.meeting.end}}</ng-container>
+                <ng-container *ngIf="event.meeting?.end"><strong>Konec: </strong>{{ event.meeting.end }}</ng-container>
               </p>
             </div>
           </div>
@@ -70,14 +87,18 @@
               <p *ngIf="event.leaders?.length" [innerHTML]="event.leaders | joinLeaders"></p>
             </div>
             <div class="col-12 col-md-auto justify-content-end mb-3">
-              <a *ngIf="event._links?.registration?.allowed?.GET" [href]="getEventRegistrationUrl(event) | safeurl" download="registration.pdf" class="flat" target="_blank">Přihláška</a>
+              <a
+                *ngIf="event._links?.registration?.allowed?.GET"
+                [href]="getEventRegistrationUrl(event) | safeurl"
+                download="registration.pdf"
+                class="flat"
+                target="_blank"
+                >Přihláška</a
+              >
             </div>
           </div>
         </div>
       </div>
-
     </div>
-
-
   </ng-container>
 </div>

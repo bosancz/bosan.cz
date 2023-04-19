@@ -1,5 +1,17 @@
 @import "./variables";
 
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0; /*font-family: Roboto, "Helvetica Neue", sans-serif; */
+}
+
+button:focus {
+  outline: 0 !important;
+}
+
 /* LAYOUT */
 body {
   font-family: $font-family;
@@ -224,7 +236,7 @@ textarea:invalid:not(.novalidate, [matInput]) {
   .circle {
     position: relative;
     top: 50%;
-    margin-top: -$circle-size/2;
+    margin-top: calc(-1 * $circle-size / 2);
     width: $circle-size;
     height: $circle-size;
     border-radius: 50%;

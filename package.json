@@ -1,7 +1,8 @@
 {
   "name": "bosan.cz",
+  "version": "2.1.0",
   "description": "Webové stránky Dětské vodácké skupiny ŠÁN",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "prepare": "husky install",
     "all-contributors:check": "all-contributors check",

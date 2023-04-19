@@ -60,8 +60,8 @@ Nejdřív zmíníme nějaké pojmy, které se v tomto dokumentu budou objevovat,
  1. Otevři si ve VSCode a v něm menu (F1) a zvol možnost `Dev Containers: Clone Repository in Container Volume`
  2. Vlož adresu repozitáře webu `https://github.com/bosancz/bosan.cz` a stiskni `Enter`
 
-
-### Vývoj v Dockeru na Bošánovském serveru
+<!-- Bošánovský server to nedává, když je spuštěn vývof frontendu a i backendu, killne to a možná killne třeba i něco jiného, jako třeba web nebo databázi, takže radši nic -->
+<!-- ### Vývoj v Dockeru na Bošánovském serveru
 
 **Prerekvizity**:
  - [VSCode](https://code.visualstudio.com/download)
@@ -72,7 +72,7 @@ Nejdřív zmíníme nějaké pojmy, které se v tomto dokumentu budou objevovat,
  1. Připoj se ve VSCode přes SSH k Bošánovskému serveru
  2. Otevři si ve VSCode složku repozitáře
  3. Ve složce `.devcontainer` vytvoř soubor .env s obsahem `COMPOSE_PROJECT_NAME=mojejmeno` kde nastavíš svoje jméno bez diakritiky -  aby se názvy kontejnerů různých lidí nebily.
- 4. Otevři menu (F1) a zvol možnost `Remote-Containers: Reopen Folder in Container`
+ 4. Otevři menu (F1) a zvol možnost `Remote-Containers: Reopen Folder in Container` -->
 
 ### Vývoj v Github Codespaces
 
@@ -90,15 +90,17 @@ Pro vývoj budeš muset nainstalovat balíčky, které web využívá. Spusť pr
 
 1. Nejdřív nainstalujem balíčky pro některé základní funkce repozitáře
 ```sh
-npm install
+npm ci
 ```
+
+*Tip: Pokud to bude hlásit nekonzistenci ("Could not resolve dependency"), zkus `npm ci --force`*
 
 2. Nyní si v terminálu otevřeme složku `web`
 ```sh
 cd web
 ```
 
-*Tajný tip: při psaní cest k souboům stačí napsat jen začátek každého (třeba jen `w`) a zmáčknout klávesu `TAB`, automaticky se to doplní na `web/`.*
+*Tip: při psaní cest k souboům stačí napsat jen začátek každého (třeba jen `w`) a zmáčknout klávesu `TAB`, automaticky se to doplní na `web/`.*
 
 3. A nainstalujeme balíčky pro vývoj webu
 ```sh
@@ -117,13 +119,13 @@ Po spuštění webu jedním z příkazů níže se web nejdřív bude chvilku ko
 #### Chci použít data z ostré interní sekce `https://interni.bosan.cz`
 
 ```sh
-npm run dev:prod-server
+npm run dev:prod
 ```
 
 #### Chci použít data z testovací interní sekce `https://interni.test.bosan.cz`
 
 ```sh
-npm run dev:test-server
+npm run dev:test
 ```
 
 #### Chci si spustit vlastní lokální interní sekci
