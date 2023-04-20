@@ -1,17 +1,18 @@
-import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { DatePipe } from "@angular/common";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { ActivatedRoute, Router } from '@angular/router';
-import { Platform, ViewWillEnter } from '@ionic/angular';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { MemberGroups } from 'app/config/member-groups';
-import { MemberRoles } from 'app/config/member-roles';
+import { ActivatedRoute, Router } from "@angular/router";
+import { Platform, ViewWillEnter } from "@ionic/angular";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { MemberGroups } from "app/config/member-groups";
+import { MemberRoles } from "app/config/member-roles";
 import { ApiService } from "app/core/services/api.service";
-import { ToastService } from 'app/core/services/toast.service';
+import { ToastService } from "app/core/services/toast.service";
 import { Member } from "app/schema/member";
-import { Action } from 'app/shared/components/action-buttons/action-buttons.component';
-import { DateTime } from 'luxon';
-import { debounceTime } from 'rxjs/operators';
+import { Action } from "app/shared/components/action-buttons/action-buttons.component";
+import { DateTime } from "luxon";
+import { debounceTime } from "rxjs/operators";
+import writeXlsxFile, { Schema } from "write-excel-file";
 
 
 type MemberWithSearchString = Member & { searchString: string; };
@@ -52,14 +53,14 @@ interface TableRow {
 
 @UntilDestroy()
 @Component({
-  selector: 'members-list',
-  templateUrl: './members-list.component.html',
-  styleUrls: ['./members-list.component.scss']
+  selector: "members-list",
+  templateUrl: "./members-list.component.html",
+  styleUrls: ["./members-list.component.scss"]
 })
 export class MembersListComponent implements OnInit, ViewWillEnter {
 
   members?: MemberWithSearchString[];
-
+  filteredMembers?: Member[];
 
   filter: TableFilter = {
     activity: "active",
@@ -91,7 +92,7 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
     { id: Fields.age, title: "Věk" },
     { id: Fields.email, title: "Email" },
     { id: Fields.mobile, title: "Mobil" },
-    { id: Fields.city, title: "Město" },
+    { id: Fields.city, title: "Město" }
   ];
 
   filteredFields: FieldData[] = [];
@@ -112,7 +113,7 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
   groups = MemberGroups;
   roles = MemberRoles;
 
-  @ViewChild('filterForm', { static: true }) filterForm?: NgForm;
+  @ViewChild("filterForm", { static: true }) filterForm?: NgForm;
 
   constructor(
     private api: ApiService,
@@ -121,7 +122,8 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
     private datePipe: DatePipe,
     private toasts: ToastService,
     private platform: Platform
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.platform.resize
@@ -175,16 +177,76 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
     this.router.navigate(["pridat"], { relativeTo: this.route });
   }
 
-  private export() {
+  private async export() {
+    const schema: Schema<Member> = [
+      {
+        column: 'Oddíl',
+        type: String,
+        value: member => MemberGroups[member.group]?.name || undefined
+      },
+      {
+        column: 'Přezdívka',
+        type: String,
+        value: member => member.nickname,
+        fontWeight: "bold"
+      },
+      {
+        column: 'Jméno',
+        type: String,
+        value: member => member.name?.first
+      },
+      {
+        column: 'Příjmení',
+        type: String,
+        value: member => member.name?.last
+      },
+      {
+        column: 'Datum narození',
+        type: String,
+        width: 15,
+        align: "right",
+        value: member => this.datePipe.transform(member.birthday, "d. M. yyyy") || undefined
+      },
+      {
+        column: 'Ulice a č. domu',
+        type: String,
+        width: 20,
+        value: member => [member.address?.street, member.address?.streetNo].filter(element => element).join(' ')
+      },
+      {
+        column: 'Obec',
+        type: String,
+        width: 20,
+        value: member => member.address?.city
+      },
+      {
+        column: 'PSČ',
+        type: String,
+        value: member => member.address?.postalCode
+      }
+    ]
 
+    await writeXlsxFile<Member>(
+      this.filteredMembers!,
+      {
+        schema,
+        headerStyle: {
+          fontWeight: "bold",
+          align: "center"
+        },
+        sheet: "Členská databáze",
+        stickyRowsCount: 1,
+        stickyColumnsCount: 2,
+        fileName: "export.xlsx"
+      });
   }
 
   private filterData(filter: TableFilter) {
 
     if (this.members) {
-      const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/ /g, "").replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), "i") : undefined;
+      const search_re = filter.search ? new RegExp("(^| )" + filter.search.replace(/ /g, "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i") : undefined;
 
-      const filteredMembers = this.members
+      this.filteredMembers = this.members
         .filter(member => {
           if (search_re && !search_re.test(member.searchString)) return false;
           if (filter.roles && filter.roles.length && filter.roles.indexOf(member.role) === -1) return false;
@@ -194,12 +256,11 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
           return true;
         });
 
-      this.tableRows = filteredMembers.map(member => ({
+      this.tableRows = this.filteredMembers.map(member => ({
         member,
         cells: filter.fields?.map(field => this.getFieldValue(member, field) || "")
       }));
-    }
-    else {
+    } else {
       this.tableRows = [];
     }
 
@@ -226,12 +287,17 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
 
   getFieldValue(member: Member, field: Fields) {
     switch (field) {
-      case "nickname": return member.nickname || member.name?.first;
-      case "name": return `${member.name?.first} ${member.name?.last}`;
-      case "birthday": return this.datePipe.transform(member.birthday, "d. M. y") || undefined;
-      case "age": return member.birthday ? this.getAge(member.birthday) : undefined;
+      case "nickname":
+        return member.nickname || member.name?.first;
+      case "name":
+        return `${member.name?.first} ${member.name?.last}`;
+      case "birthday":
+        return this.datePipe.transform(member.birthday, "d. M. y") || undefined;
+      case "age":
+        return member.birthday ? this.getAge(member.birthday) : undefined;
 
-      default: return (<any>member)[field];
+      default:
+        return (<any>member)[field];
     }
   }
 

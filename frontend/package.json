@@ -39,6 +39,7 @@
     "pretty-bytes": "^6.0.0",
     "rxjs": "^6.6.6",
     "swiper": "^8.4.5",
+    "write-excel-file": "^1.4.25",
     "zone.js": "^0.11.8"
   },
   "devDependencies": {
