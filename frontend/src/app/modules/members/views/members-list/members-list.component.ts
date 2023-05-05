@@ -223,6 +223,30 @@ export class MembersListComponent implements OnInit, ViewWillEnter {
         column: 'PSČ',
         type: String,
         value: member => member.address?.postalCode
+      },
+      {
+        column: 'Mobil otec',
+        type: String,
+        width: 15,
+        value: member => member.contacts?.father
+      },
+      {
+        column: 'Mobil matka',
+        type: String,
+        width: 15,
+        value: member => member.contacts?.mother
+      },
+      {
+        column: 'E-mail',
+        type: String,
+        width: 15,
+        value: member => member.contacts?.email
+      },
+      {
+        column: 'Mobil',
+        type: String,
+        width: 15,
+        value: member => member.contacts?.mobile
       }
     ]
 
