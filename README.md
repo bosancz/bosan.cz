@@ -12,7 +12,7 @@
 
 ## Rozvoj webu 💻
 
-Detaily k rozvoji webu najdeš [v README ve složce `web`](./web)
+Detaily k rozvoji webu najdeš [v souboru CONTRIBUTING](./CONTRIBUTING.md)
 
 ## Kdo dělá web ✨
 
