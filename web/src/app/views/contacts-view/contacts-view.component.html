@@ -1,10 +1,3 @@
-<section id="vedeni" class="py-4">
-  <div class="container">
-    <h2 class="text-center mb-4">Vedení skupiny</h2>
-    <contact-card [contacts]="contacts.leaders"></contact-card>
-  </div>
-</section>
-
 <section id="pondeli" class="py-4">
   <div class="container">
     <h2 class="text-center mb-4">Vedoucí oddílů - schůzky v pondělí</h2>
@@ -19,6 +12,13 @@
   </div>
 </section>
 
+<section id="vedeni" class="py-4">
+  <div class="container">
+    <h2 class="text-center mb-4">Vedení skupiny</h2>
+    <contact-card [contacts]="contacts.leaders"></contact-card>
+  </div>
+</section>
+
 <section id="map" class="pt-4">
   <div class="container-fluid">
     <h2 class="text-center mb-4">Přijď se podívat osobně</h2>
@@ -26,6 +26,6 @@
   </div>
 
   <div *ngIf="mapUrl" class="map">
-    <iframe style="border:none" [src]="mapUrl | safeurl:'SafeResourceUrl'" width="800" height="600" frameborder="0"></iframe>
+    <iframe style="border:none" [src]="mapUrl | safeurl:'SafeResourceUrl'" width="800" height="600"></iframe>
   </div>
 </section>

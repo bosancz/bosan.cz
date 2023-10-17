@@ -1,50 +1,54 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-/* ROOT VIEW */
-import { AppComponent } from './app.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
 /* MAIN VIEWS */
-import { AboutViewComponent } from './views/about-view/about-view.component';
-import { CampViewComponent } from './views/camp-view/camp-view.component';
-import { ContactsViewComponent } from './views/contacts-view/contacts-view.component';
-import { EventsViewComponent } from './views/events-view/events-view.component';
-import { GalleryViewComponent } from './views/gallery-view/gallery-view.component';
-import { NewsViewComponent } from './views/news-view/news-view.component';
+import { AboutViewComponent } from "./views/about-view/about-view.component";
+import { CampViewComponent } from "./views/camp-view/camp-view.component";
+import { ContactsViewComponent } from "./views/contacts-view/contacts-view.component";
+import { EventsViewComponent } from "./views/events-view/events-view.component";
+import { GalleryViewComponent } from "./views/gallery-view/gallery-view.component";
+import { NewsViewComponent } from "./views/news-view/news-view.component";
 
 /* CHILD VIEWS */
-import { GalleryViewAlbumComponent } from './views/gallery-view/gallery-view-album/gallery-view-album.component';
-import { GalleryViewTimelineComponent } from './views/gallery-view/gallery-view-timeline/gallery-view-timeline.component';
-import { GalleryViewPhotosComponent } from './views/gallery-view/gallery-view-photos/gallery-view-photos.component';
+import { GalleryViewAlbumComponent } from "./views/gallery-view/gallery-view-album/gallery-view-album.component";
+import {
+  GalleryViewTimelineComponent
+} from "./views/gallery-view/gallery-view-timeline/gallery-view-timeline.component";
+import { GalleryViewPhotosComponent } from "./views/gallery-view/gallery-view-photos/gallery-view-photos.component";
 
 
 const routes: Routes = [
 
-  { path: 'aktualne', component: NewsViewComponent },
+  { path: "aktualne", component: NewsViewComponent },
 
   {
-    path: 'fotogalerie', component: GalleryViewComponent,
+    path: "fotogalerie", component: GalleryViewComponent,
     children: [
-      { path: ':album/:photo', component: GalleryViewPhotosComponent },
-      { path: ':album', component: GalleryViewAlbumComponent },
-      { path: '', component: GalleryViewTimelineComponent }
+      { path: ":album/:photo", component: GalleryViewPhotosComponent },
+      { path: ":album", component: GalleryViewAlbumComponent },
+      { path: "", component: GalleryViewTimelineComponent }
     ]
   },
 
-  { path: 'kontakty', component: ContactsViewComponent },
+  { path: "kontakty", component: ContactsViewComponent },
 
-  { path: 'o-nas', component: AboutViewComponent },
+  { path: "o-nas", component: AboutViewComponent },
 
-  { path: 'program', component: EventsViewComponent },
+  { path: "program", component: EventsViewComponent },
 
-  { path: 'tabor', component: CampViewComponent },
+  { path: "tabor", component: CampViewComponent },
 
-  { path: '', redirectTo: "o-nas", pathMatch: "full" }
+  { path: "", redirectTo: "o-nas", pathMatch: "full" }
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
+  imports: [RouterModule.forRoot(routes, {
+    scrollPositionRestoration: "enabled",
+    anchorScrolling: "enabled",
+    scrollOffset: [0, 50]
+  })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
