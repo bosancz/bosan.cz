@@ -1,7 +1,7 @@
 @import "styles/variables";
 
 footer {
-  background-color: $black70;
+  background-color: $white;
 }
 
 footer img.logo {
@@ -9,7 +9,7 @@ footer img.logo {
 }
 
 footer h4 {
-  color: $white;
+  color: $black;
 }
 
 footer li {
@@ -17,7 +17,7 @@ footer li {
 }
 
 footer a {
-  color: $white;
+  color: $black;
   text-decoration: none;
   font-weight: bold;
 }
@@ -28,4 +28,9 @@ footer a:hover {
 
 footer i {
   font-size: 5vh;
+}
+
+footer img.sponsor{
+  max-width: 100%;
+  max-height: 100%;
 }
