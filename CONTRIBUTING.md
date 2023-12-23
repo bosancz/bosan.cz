@@ -19,13 +19,14 @@ Nejdřív zmíníme nějaké pojmy, které se v tomto dokumentu budou objevovat,
 - [Angular](https://angular.io/) - Stránky píšeme v frameworku Angular. Framework je prostě jen takový soubor nástrojů a pravidel, jak se web píše. Šel by psát i ručně od základu, ale to by bylo hrozně práce.
 - [Git](https://git-scm.com/) - Git je nástroj na verzování, tj. správu různých verzí webu. Bude ti zpočátku připadat strašně složitý a nesmyslný. Budeš si říkat, proč prostě neudělat složku, kam každý všechno nahraje. Ale časem pochopíš, že to bychom se v tom nevyznali, byl v tom bordel a web by nefungoval.
 - [HTML](https://en.wikipedia.org/wiki/HTML) - HTML je značkovací jazyk, kterým se popisuje struktura webu. Tj. co jsou nadpisy, odkazy, obrázky, atd.
-- [NodeJS](https://nodejs.org/) - NodeJS je software, co spouští programy v jazyce JavaScript. A v tom je náš web napsaný. Respektive v TypeScriptu, ale o tom později. Při instalaci na Windows nezapomeň zaškrtnout u Zahrnutí v cestě PATH (Add to PATH) možnost "Entire feature will be installed to local hard drive".  
-*Pozor: Aktuální verze (18) není kompatibilní s naším webem (ten používá verzi 14), takže buď najdi starší verzi, nebo se netrap s nějakou instalací a využij spuštění v codespaces, kde se NodeJS automaticky nainstaluje, viz sekce [Nastavení vývojového prostředí](#nastavení-vývojového-prostředí)*
+- [NodeJS](https://nodejs.org/) - NodeJS je software, co spouští programy v jazyce JavaScript. A v tom je náš web napsaný. Respektive v TypeScriptu, ale o tom později. Při instalaci na Windows nezapomeň zaškrtnout u Zahrnutí v cestě PATH (Add to PATH) možnost "Entire feature will be installed to local hard drive".
 - [SCSS](https://sass-lang.com/) - CSS je jazyk, kterým se popisuje vzhled webu. Tj. jaké barvy apod. mají nadpisy, odkazy, obrázky, atd. My používáme jeho rozšíření SCSS.
-- [TypeScript](https://www.typescriptlang.org/) - TypeScript je programovací jazyk, který se překládá do JavaScriptu. Je to jazyk, který má všechny výhody JavaScriptu, ale je o něco přehlednější a příjemnější k psaní. Používá se pro programování logiky webu, tedy jak co bude fungiovat.
+- [TypeScript](https://www.typescriptlang.org/) - TypeScript je programovací jazyk, který se překládá do JavaScriptu. Je to jazyk, který má všechny výhody JavaScriptu, ale je o něco přehlednější a příjemnější k psaní. Používá se pro programování logiky webu, tedy jak co bude fungovat.
 - [Visual Studio Code](https://code.visualstudio.com/) - Editorů kódu je spousta. My doporučujeme Visual Studio Code. Je zdarma, má dobrou podporu pro technologie, co na našem webu požíváme, a má přímo v sobě hezké ovládání nástroje na verzování.
 
 ## Nastavení vývojového prostředí
+
+Způsobů, jak si nastavit vývojové prostředí, je více. První možnost je stáhnout si celý web do svého počítače, pracovat s ním lokálně a změny synchronizovat na github. Další možností je vývoj v [Dockeru](https://cs.wikipedia.org/wiki/Docker) - to je taková light verze virtuálního počítače (tahle možnost bude pravděpodobně nejméně náchylná na problémy „někdo něco změnil a nejde mi spustit vývoj“, protože jí používá většina těch, co takové změny umí udělat:-)). Třetí možnost je nejjednodušší nastavení, protože se stačí v prohlížeči prokliknout do Codespaces a můžeš začít pracovat, ale zase třeba potřebné balíčky si musíš stáhnout pokaždé znova. Ještě existuje možnost rozjet si Docker na Bošánovském serveru, ale tahle možnost dělala takové problémy, že tu radši ani není uvedená.
 
 ### Lokální vývoj na svém počítači
 
@@ -39,14 +40,20 @@ Nejdřív zmíníme nějaké pojmy, které se v tomto dokumentu budou objevovat,
  2. Spusť Visual Studio Code
  3. Volbou File -> Open folder si otevři složku z 1). Bude zatím prázdná.
  4. Klávesovou zkratkou `` CTRL+` `` (`` ` `` je klávesa zpravidla vlevo od jedničky) si otevři Terminál. Ve Windows se tomu také říká příkazový řádek. Budeme jej občas na něco potřebovat, ale neboj, moc často to nebude.
- 5. Následující krok bude z celé práce s terminálem nejnáročnější. Bude potřeba nasměrovat terminál do právě vytvořené složky. To se dělá příkazem `cd <složka>`. Nejjednodušší způsob je zkopírovat do uvozovek celou cestu třeba z průzkumníku (pozor, někdy je v příkazovém řádku při kopírování potřeba zmáčknout navíc Shift, kromě klasického Ctrl+C/V). Druhá možnost je jít po složkách (tedy např. `cd Dokumenty` -> `cd <složka v dokumentech>` …) V tom případě je potřeba psát uvozovky, jenom pokud název složky obsahuje mezery. Do nadřazené složky se případně dostaneš příkazem cd .. a diskovou jednotku změníš napsáním <písmeno disku>:
- 5. Do Terminálu napiš (nebo spíš zkopíruj) následující příkaz. Ten ti z GitHubu stáhne aktuální kód webu.
+ 5. Následující krok bude z celé práce s terminálem nejnáročnější. Bude potřeba nasměrovat terminál do právě vytvořené složky. To se dělá příkazem `cd <složka>`. Nejjednodušší způsob je zkopírovat do uvozovek celou cestu třeba z průzkumníku (pozor, někdy je v příkazovém řádku při kopírování potřeba zmáčknout navíc Shift, kromě klasického Ctrl+C/V). Druhá možnost je jít po složkách (tedy např. `cd Dokumenty` -> `cd <složka v dokumentech>` …) V tom případě je potřeba psát uvozovky, jenom pokud název složky obsahuje mezery. Do nadřazené složky se případně dostaneš příkazem cd .. a diskovou jednotku změníš napsáním `<písmeno disku>:`
+ 6. Do Terminálu napiš (nebo spíš zkopíruj) následující příkaz. Ten ti z GitHubu stáhne aktuální kód webu.
 
     ```sh
     git clone https://github.com/bosancz/bosan.cz
     ```
 
     Jestli ti to nefunguje, asi jsi nějak špatně nainstaloval*a Git. Zkus to opravit, dokud to nebude fungovat. Možná taky budeš muset zrestartovat počítač, aby si terminál uvědomil, že příkaz `git` už umí.
+7. Aby jsi mohl publikovat změny musíš ještě VS říct kdo jsi, aby tě pod změny mohl podepsat. To se dělá příkazy:
+
+    ```sh
+    git config --global user.email "<tvůj e-mail>"
+    git config --global user.name "<tvoje jméno/přezdívka>"
+    ```
 
 ### Vývoj v Dockeru na svém počítači
 
@@ -60,7 +67,7 @@ Nejdřív zmíníme nějaké pojmy, které se v tomto dokumentu budou objevovat,
  1. Otevři si ve VSCode a v něm menu (F1) a zvol možnost `Dev Containers: Clone Repository in Container Volume`
  2. Vlož adresu repozitáře webu `https://github.com/bosancz/bosan.cz` a stiskni `Enter`
 
-<!-- Bošánovský server to nedává, když je spuštěn vývof frontendu a i backendu, killne to a možná killne třeba i něco jiného, jako třeba web nebo databázi, takže radši nic -->
+<!-- Bošánovský server to nedává, když je spuštěn vývoj frontendu a i backendu, killne to a možná killne třeba i něco jiného, jako třeba web nebo databázi, takže radši nic -->
 <!-- ### Vývoj v Dockeru na Bošánovském serveru
 
 **Prerekvizity**:
@@ -142,7 +149,7 @@ npm run dev
 
 Pomocí následujícího návodu si vyzkoušíš udělat první úpravu webu. Možná ti to bude za začátku připadat složité, ale spoustu kroků budeš dělat jen jednou a ty zbylé si brzy zapamatuješ a zautomatizuješ. Udělat správně záplatu na loď nebo uvázat dračák ti taky určitě nejdřív přišlo složité a teď už to zvládneš i poslepu.
 
-1. V levém menu si otevři složku `web` a pak `src`. V ní jsou veškeré soubory webu, zbytek jsou jen pomocné soubory a složky. V téhle složce je zase nejdůležitější složka `app`. Tu si taky otevři, v ní je kód webu. Pak je tam ještě složka assets, tam jsou různé obrázky, co se na webu zobrazují, ale to teď nepotřebujeme.
+1. V levém menu si otevři složku `web` a pak `src`. V ní jsou veškeré soubory webu, zbytek jsou jen pomocné soubory a složky. V téhle složce je zase nejdůležitější složka `app`. Tu si taky otevři, v ní je kód webu. Pak je tam ještě složka `assets`, tam jsou různé obrázky, co se na webu zobrazují, ale to teď nepotřebujeme.
 
 2. Teď to začíná být zajímavé. Otevřeš si složku `views` ale nejdřív si přečti, co která složka obsahuje:
     - `components` - součásti webu, které jsou společné pro celý web (v současnosti hlavička a patička)
@@ -167,13 +174,13 @@ Tak dejme tomu, že jsi něco změnil*a podle předešlého návodu a nebyla to 
 
 Pro ukládání této historie používáme server GitHub, kde máme účet. Tam je také systém schvalování, takže se na tu tvoji změnu ještě někdo podívá, než ji pustíme na web.
 
-Hqistorie změn se dá představit jako takový divný strom, kde se větve odpojují ale pak zas připojují. Vypadá to spíš jak kolejiště na nádraží. Ten strom má větve (`branch`). Každá `branch` vždy obsahuje kompletní kopii kódu webu. Je jedna hlavní větev (říká se ji `master`), to je ta, co obsahuje ten kód co běží na bosan.cz. Změny se dělají tak, že si uděláš svojí větev, pojmenuješ si jí třeba `fix/summer-camp-dates` (kdybys chtěl/a udělat opravu datumů tábora), tam uděláš změny a ty pak sloučíš zase do `master`u. Změny ve větvi uděláš normálně editací souboru, ale každou změnu zaeviduješ a napíšeš co měníš (změně se říká `commit`, tomu vysvětlení se říká `commit message`). No a když budeš mít hotovo, nahraješ tuhle změněnou větev na GitHub a požádáš o sloučení všech těch změn do `master`. Té žádosti se říká `pull request`. Někdo zkušenější se na to koukne a když mu to bude připadat v pohodě, sloučí to. Pak se to cca do hodiny objeví na webu.
+Historie změn se dá představit jako takový divný strom, kde se větve odpojují ale pak zas připojují. Vypadá to spíš jak kolejiště na nádraží. Ten strom má větve (`branch`). Každá `branch` vždy obsahuje kompletní kopii kódu webu. Je jedna hlavní větev (říká se ji `master`), to je ta, co obsahuje ten kód co běží na bosan.cz. Změny se dělají tak, že si uděláš svojí větev, pojmenuješ si jí třeba `fix/summer-camp-dates` (kdybys chtěl/a udělat opravu datumů tábora), tam uděláš změny a ty pak sloučíš zase do `master`u. Změny ve větvi uděláš normálně editací souboru, ale každou změnu zaeviduješ a napíšeš co měníš (změně se říká `commit`, tomu vysvětlení se říká `commit message`). No a když budeš mít hotovo, nahraješ tuhle změněnou větev na GitHub a požádáš o sloučení všech těch změn do `master`. Té žádosti se říká `pull request`. Někdo zkušenější se na to koukne a když mu to bude připadat v pohodě, sloučí to. Pak se to cca do hodiny objeví na webu.
 
 Takhle to vypadá hrozně složitě, ale v následujících krocích to bude jasný.
 
 Tak jdeme na to!
 
-0. Jestli ještě nemáš, zaregistruj se na GitHub.com a požádej správce našeho webu, aby ti přidal přístup k měnení kódu webu.
+0. Jestli ještě nemáš, zaregistruj se na GitHub.com a požádej správce našeho webu, aby ti přidal přístup k měnění kódu webu.
 
 1. Nejdřív si pro jistotu stáhneme nejnovější verzi webu. Dole by ti mělo vedle ikonky výhybky svítit `master`. Pokud je tam něco jiného, klikni na to a z vyskakovacího menu zvol `master`. Vedle toho vpravo bude ikona dvou šipek v kruhu. Ty zmáčkni. Tím se stáhne nejnovější verze webu. A taky nahrají změny od tebe, ale to později.
 
@@ -183,7 +190,7 @@ Tak jdeme na to!
 
 4. Teď udělej nějaké změny. Najdi si něco, co ti přijde blbě, nebo něco, co by šlo vylepšit. Třeba nové datum táborů. Uložíš je normálně `CTRL+S`.
 
-5. Teď změnu zaevidujeme. Vlevo klikni na velký znak výhybky (ten pod lupičkou). Měl by u něj být počet změněných souborů. U každého souboru, který se týká jedné změny (občas se ti stane, že změníš dvě věci a pak je jdeš teprve zaevidovat), klikni na znak plus (nebo na ten velký čudlík Potvrdit). Tím se ze sekce `Changes` dostanou do sekce `Staged changes`. To jsou ty, co právě evidujeme. Jakmile tam budou (třeba to bude jen ten jeden upravený soubor), zadej do políčka nad tím (resp. do prvního řádku „kódu”, co se ti otevře) popis změny. Třeba `fix: new summer camp dates`. To `feat:` je tam proto, aby se odlišily různé typy změn. Všechny typy jsou v [zde](https://www.conventionalcommits.org/en/v1.0.0/#summary). Pak zmáčkni `CTRL+Enter` (nebo tu nenápadnou fajfku v pravém horním rohu). Tím je změna zaevidována. Jenže jen u nás na počítači.
+5. Teď změnu zaevidujeme. Vlevo klikni na velký znak výhybky (ten pod lupičkou). Měl by u něj být počet změněných souborů. U každého souboru, který se týká jedné změny (občas se ti stane, že změníš dvě věci a pak je jdeš teprve zaevidovat), klikni na znak plus (nebo na ten velký čudlík Potvrdit). Tím se ze sekce `Changes` dostanou do sekce `Staged changes`. To jsou ty, co právě evidujeme. Jakmile tam budou (třeba to bude jen ten jeden upravený soubor), zadej do políčka nad tím (resp. do prvního řádku „kódu”, co se ti otevře, jestli se ti otevře) popis změny. Třeba `feat: new summer camp dates`. To `feat:` je tam proto, aby se odlišily různé typy změn. Všechny typy jsou v [zde](https://www.conventionalcommits.org/en/v1.0.0/#summary). Pak zmáčkni `CTRL+Enter` (nebo tu nenápadnou fajfku v pravém horním rohu). Tím je změna zaevidována. Jenže jen u nás na počítači.
 
 6. Dole vedle názvu tvé větve by měly být dvě šipky v kruhu a vedle nich `0↓` (to znamená, že nejsou žádné nové změny na GitHubu, které bys tu neměl*a) a `1↑` (to je ta tvoje jedna změna, co jsme teď zadali a není na GitHubu). Klikni na to (je jedno jestli na šipky nebo čísla) a počkej, až se to dotočí. Tak, tím se změny nahrály na GitHub. Ale neboj, furt jen v té tvé větvi, zatím jsme na bosan.cz nic nezměnili.
 *Jestli tam tu `1↑` a `0↓` nevidíš, nejsi jediný (nevím, zda to je novou verzí VS code, nebo prostředím codespades). V tom případě je to ještě jednodušší - najdeš je na stejném tlačítku, kde bylo předtím Potvrdit.*
