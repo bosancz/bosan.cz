@@ -1,5 +1,3 @@
-name: bosan_web_development
-
 services:
   devcontainer:
     container_name: ${COMPOSE_PROJECT_NAME:-bosan-web-dev}-devcontainer
