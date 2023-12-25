@@ -40,7 +40,7 @@ Způsobů, jak si nastavit vývojové prostředí, je více. První možnost je 
  2. Spusť Visual Studio Code
  3. Volbou File -> Open folder si otevři složku z 1). Bude zatím prázdná.
  4. Klávesovou zkratkou `` CTRL+` `` (`` ` `` je klávesa zpravidla vlevo od jedničky) si otevři Terminál. Ve Windows se tomu také říká příkazový řádek. Budeme jej občas na něco potřebovat, ale neboj, moc často to nebude.
- 5. Následující krok bude z celé práce s terminálem nejnáročnější. Bude potřeba nasměrovat terminál do právě vytvořené složky. To se dělá příkazem `cd <složka>`. Nejjednodušší způsob je zkopírovat do uvozovek celou cestu třeba z průzkumníku (pozor, někdy je v příkazovém řádku při kopírování potřeba zmáčknout navíc Shift, kromě klasického Ctrl+C/V). Druhá možnost je jít po složkách (tedy např. `cd Dokumenty` -> `cd <složka v dokumentech>` …) V tom případě je potřeba psát uvozovky, jenom pokud název složky obsahuje mezery. Do nadřazené složky se případně dostaneš příkazem cd .. a diskovou jednotku změníš napsáním `<písmeno disku>:`
+ 5. Pokud tam již nejsi, nasměruj terminál do právě vytvořené složky příkazy `cd <složka>` nebo `cd "<cesta>"` (pokud pracuješ s terminálem přímo ve VS code, už bys tam měl být).
  6. Do Terminálu napiš (nebo spíš zkopíruj) následující příkaz. Ten ti z GitHubu stáhne aktuální kód webu.
 
     ```sh
@@ -54,6 +54,7 @@ Způsobů, jak si nastavit vývojové prostředí, je více. První možnost je 
     git config --global user.email "<tvůj e-mail>"
     git config --global user.name "<tvoje jméno/přezdívka>"
     ```
+8. (Dál budem pracovat už jenom v právě vzniklé složce „bosan.cz“, takže následující krok bude jistojistě `cd bosan.cz`)
 
 ### Vývoj v Dockeru na svém počítači
 
@@ -93,14 +94,12 @@ Způsobů, jak si nastavit vývojové prostředí, je více. První možnost je 
 
 ## Instalace balíčků
 
-Pro vývoj budeš muset nainstalovat balíčky, které web využívá. Spusť proto následující příkazy v tomto adresáři.
+Pro vývoj budeš muset nainstalovat balíčky, které web využívá. Spusť proto následující příkazy v tomto adresáři (bosan.cz).
 
 1. Nejdřív nainstalujem balíčky pro některé základní funkce repozitáře
 ```sh
-npm ci
+npm install
 ```
-
-*Tip: Pokud to bude hlásit nekonzistenci ("Could not resolve dependency"), zkus `npm ci --force`*
 
 2. Nyní si v terminálu otevřeme složku `web`
 ```sh
@@ -111,8 +110,10 @@ cd web
 
 3. A nainstalujeme balíčky pro vývoj webu
 ```sh
-npm install
+npm ci
 ```
+
+*Tip: Pokud to bude hlásit nekonzistenci ("Could not resolve dependency"), zkus `npm ci --force`*
 
 ## Spuštění vývoje webu
 
