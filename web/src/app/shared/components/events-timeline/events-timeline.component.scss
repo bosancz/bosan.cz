@@ -9,6 +9,7 @@ $timeline-width: 0.2vh;
 h5 {
   margin-bottom: 0px !important;
 }
+
 .group-badges {
   z-index: 10;
 }
@@ -17,6 +18,7 @@ h5 {
   position: relative;
   min-height: 200px;
 }
+
 .timeline .loading {
   position: absolute;
   top: 50%;
@@ -59,7 +61,7 @@ h5 {
     .circle {
       position: relative;
       top: 50%;
-      margin-top: calc(-1 * $circle-size/2);
+      margin-top: calc(-1 * $circle-size / 2);
       width: $circle-size;
       height: $circle-size;
       border-radius: 50%;
@@ -74,6 +76,7 @@ h5 {
       z-index: 4;
       height: $date-height;
     }
+
     .arrow-horizontal::before {
       content: "";
       position: absolute;
@@ -81,8 +84,8 @@ h5 {
       right: 0;
       width: $arrow-size;
       height: $arrow-size;
-      margin-top: calc(-1 * $arrow-size/2);
-      margin-right: calc(-1 * $arrow-size/2);
+      margin-top: calc(-1 * $arrow-size / 2);
+      margin-right: calc(-1 * $arrow-size / 2);
 
       transform: rotate(45deg);
       -webkit-transform: rotate(45deg);
@@ -108,6 +111,10 @@ h5 {
     z-index: 10;
     overflow: hidden;
   }
+
+  .leaders {
+    z-index: 10;
+  }
 }
 
 .timeline .event.cancelled .event-details {
@@ -117,6 +124,7 @@ h5 {
 .timeline .event .event-header {
   padding-top: 1rem;
 }
+
 .timeline .event .panel {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   background-color: #fff;
