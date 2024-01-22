@@ -5,7 +5,7 @@ on:
     types: [opened, reopened, ready_for_review, synchronize]
 
 jobs:
-  build-docker:
+  build:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
     steps:
@@ -38,6 +38,6 @@ jobs:
     steps:
       - name: Call Watchtower to Update Docker Image
         run: |
-          curl -X POST "${{ env.WATCHTOWER_URL }}" \
+          curl -I --fail-with-body \
           -H "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}" \
-          -H "Content-Type: application/json"
+          ${{ vars.WATCHTOWER_URL }}
