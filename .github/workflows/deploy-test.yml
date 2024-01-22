@@ -38,8 +38,6 @@ jobs:
     steps:
       - name: Call Watchtower to Update Docker Image
         run: |
-          curl -X POST "$WATCHTOWER_URL" \
+          curl -X POST "${{ env.WATCHTOWER_URL }}" \
           -H "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}" \
           -H "Content-Type: application/json"
-        env:
-          WATCHTOWER_URL: ${{ secrets.WATCHTOWER_URL }}
