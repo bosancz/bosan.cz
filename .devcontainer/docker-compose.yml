@@ -1,8 +1,8 @@
+name: bosan_web_development
+
 services:
   devcontainer:
     container_name: ${COMPOSE_PROJECT_NAME:-bosan-web-dev}-devcontainer
     build: "."
-    command: /bin/sh -c "while sleep 1000; do :; done"
-    user: node
     volumes:
       - ..:/workspace:cached
