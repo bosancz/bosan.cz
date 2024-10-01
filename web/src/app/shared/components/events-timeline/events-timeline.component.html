@@ -84,7 +84,7 @@
           </div>
           <div class="row footer">
             <div class="col d-flex">
-              <p *ngIf="event.leaders?.length" [innerHTML]="event.leaders | joinLeaders"></p>
+              <p *ngIf="event.leaders?.length" [innerHTML]="event.leaders | joinLeaders" class="leaders"></p>
             </div>
             <div class="col-12 col-md-auto justify-content-end mb-3">
               <a
