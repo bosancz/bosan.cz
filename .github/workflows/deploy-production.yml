@@ -42,6 +42,6 @@ jobs:
     steps:
       - name: Call Watchtower to Update Docker Image
         run: |
-          curl -I --fail-with-body \
+          curl --request POST --header --fail-with-body \
           -H "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}" \
           ${{ vars.WATCHTOWER_URL }}
