@@ -23,7 +23,7 @@ export class EventPipe implements PipeTransform {
 
       case "color":
       case "image":
-        return EventTypes[event.subtype] && EventTypes[event.subtype][property] || "";
+        return EventTypes[event.type] && EventTypes[event.type][property] || "";
 
       default:
         return "?";
