@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TitleService } from "app/services/title.service";
-import { ConfigService } from "app/services/config.service";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { CalendarSyncManualComponent } from "app/components/calendar-sync-manual/calendar-sync-manual.component";
@@ -15,12 +12,12 @@ import { CalendarSyncManualComponent } from "app/components/calendar-sync-manual
 })
 export class EventsViewComponent implements OnInit {
 
-  public canalFormUrl: Observable<string> = this.configService.config.pipe(map(config => config.general.canalFormUrl));
-  public canalAttendeesUrl: Observable<string> = this.configService.config.pipe(map(config => config.general.canalAttendeesUrl));
+  public canalFormUrl: string = "https://docs.google.com/forms/d/e/1FAIpQLSe4ofwhrbqfCZxRVPTfHg939WXMTIMO7ioY-PP8ATLzdsHeYA/viewform?usp=sf_link";
+  public canalAttendeesUrl: string = "https://docs.google.com/spreadsheets/d/1xT0_pBiN2xG6xmc3m0smrCnc1XRgXV8kePeuSW-eJcQ/edit?usp=sharing";
 
   IcalManualRef:BsModalRef;
 
-  constructor(private titleService: TitleService, private configService: ConfigService, private IcalManualService: BsModalService) { }
+  constructor(private titleService: TitleService, private IcalManualService: BsModalService) { }
 
   ngOnInit() {
     this.titleService.setPageTitle("Program");

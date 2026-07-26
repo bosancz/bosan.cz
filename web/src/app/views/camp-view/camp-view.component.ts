@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { ConfigService } from "app/services/config.service";
 import { TitleService } from "app/services/title.service";
 import { MenuService } from 'app/services/menu.service';
 
@@ -11,30 +10,21 @@ import { MenuService } from 'app/services/menu.service';
 })
 export class CampViewComponent implements OnInit, OnDestroy {
 
-  mapUrl: string;
+  mapUrl: string = "https://frame.mapy.cz/s/kobujonagu";
 
   constructor(
     private menuService: MenuService,
-    private titleService: TitleService,
-    private configService: ConfigService
+    private titleService: TitleService
   ) {
     this.menuService.setTransparent(true);
   }
 
   ngOnInit() {
     this.titleService.setPageTitle("Tábor");
-
-    this.loadMapUrl();
   }
 
   ngOnDestroy() {
     this.menuService.reset();
-  }
-
-  loadMapUrl() {
-    this.configService.getConfig().then(config => {
-      this.mapUrl = config.general.campMapUrl;
-    });
   }
 
 }

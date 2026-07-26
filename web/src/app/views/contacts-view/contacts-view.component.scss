@@ -1,3 +1,9 @@
+@import "styles/variables";
+
+.contact a {
+  color: $black;
+}
+
 .map {
   iframe {
     height: 50vh;

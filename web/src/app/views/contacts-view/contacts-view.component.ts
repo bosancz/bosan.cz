@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TitleService } from "app/services/title.service";
-import { ConfigService } from "app/services/config.service";
 
 @Component({
   selector: 'contacts-view',
@@ -10,22 +9,12 @@ import { ConfigService } from "app/services/config.service";
 })
 export class ContactsViewComponent implements OnInit {
 
-  contacts:any = {};
-  
-  mapUrl:string;
-  
-  constructor(private titleService:TitleService, private configService:ConfigService) { }
+  mapUrl:string = "https://frame.mapy.cz/s/cefoluseru";
+
+  constructor(private titleService:TitleService) { }
 
   ngOnInit() {
     this.titleService.setPageTitle("Kontakty");
-    this.loadConfig();
-  }
-
-  loadConfig(){
-    this.configService.getConfig().then(config => {
-      this.contacts = config.contacts;
-      this.mapUrl = config.general.homeMapUrl;
-    });
   }
 
 }
