@@ -17,7 +17,6 @@ import { SharingModalComponent } from './modals/sharing-modal/sharing-modal.comp
 import { ShareUrlDirective } from './directives/share-url.directive';
 
 import { AlbumsRecentComponent } from './components/albums-recent/albums-recent.component';
-import { ContactCardComponent } from './components/contact-card/contact-card.component';
 import { EventsTimelineComponent } from './components/events-timeline/events-timeline.component';
 import { GalleryAlbumComponent } from './components/gallery-album/gallery-album.component';
 import { TimelineScrollComponent, TimelineScrollLabelComponent } from './components/timeline-scroll/timeline-scroll.component';
@@ -64,7 +63,6 @@ export function getTooltipConfig(): TooltipConfig {
     SharingModalComponent,
     TimelineScrollComponent, TimelineScrollLabelComponent,
     PhotoGalleryComponent,
-    ContactCardComponent,
     GalleryAlbumComponent,
     EventsTimelineComponent,
     AlbumsRecentComponent,
@@ -98,7 +96,6 @@ export function getTooltipConfig(): TooltipConfig {
     SharingModalComponent,
     TimelineScrollComponent, TimelineScrollLabelComponent,
     PhotoGalleryComponent,
-    ContactCardComponent,
     GalleryAlbumComponent,
     EventsTimelineComponent,
     AlbumsRecentComponent,

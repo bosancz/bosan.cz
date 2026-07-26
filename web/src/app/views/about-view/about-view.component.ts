@@ -2,11 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { TitleService } from "app/services/title.service";
 
-import { Contact } from "app/shared/schema/contact";
 import { MenuService } from 'app/services/menu.service';
-
-import { Contacts } from "config/contacts";
-import { General } from "config/general";
 
 @Component({
   selector: 'about-view',
@@ -15,9 +11,7 @@ import { General } from "config/general";
 })
 export class AboutViewComponent implements OnInit, OnDestroy {
 
-  contacts: Contact[] = Contacts.leaders;
-
-  mapUrl: string = General.homeMapUrl;
+  mapUrl: string = "https://frame.mapy.cz/s/cefoluseru";
 
   constructor(
     private menuService: MenuService,

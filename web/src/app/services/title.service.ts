@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { BehaviorSubject } from 'rxjs';
 
-import { General } from "config/general";
-
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +9,7 @@ export class TitleService {
 
   pageTitle: BehaviorSubject<string> = new BehaviorSubject(null);
 
-  private mainTitle: string = General.title;
+  private mainTitle: string = "Dětská vodácká skupina ŠÁN";
 
   constructor(private title: Title) {
     this.pageTitle.subscribe(() => this.updateWindowTitle());

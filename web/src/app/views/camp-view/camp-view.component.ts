@@ -3,8 +3,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TitleService } from "app/services/title.service";
 import { MenuService } from 'app/services/menu.service';
 
-import { General } from "config/general";
-
 @Component({
   selector: 'camp-view',
   templateUrl: './camp-view.component.html',
@@ -12,7 +10,7 @@ import { General } from "config/general";
 })
 export class CampViewComponent implements OnInit, OnDestroy {
 
-  mapUrl: string = General.campMapUrl;
+  mapUrl: string = "https://frame.mapy.cz/s/kobujonagu";
 
   constructor(
     private menuService: MenuService,
