@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TitleService } from "app/services/title.service";
-import { ConfigService } from "app/services/config.service";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { CalendarSyncManualComponent } from "app/components/calendar-sync-manual/calendar-sync-manual.component";
+
+import { General } from "config/general";
 
 @Component({
   selector: 'events-view',
@@ -15,12 +14,12 @@ import { CalendarSyncManualComponent } from "app/components/calendar-sync-manual
 })
 export class EventsViewComponent implements OnInit {
 
-  public canalFormUrl: Observable<string> = this.configService.config.pipe(map(config => config.general.canalFormUrl));
-  public canalAttendeesUrl: Observable<string> = this.configService.config.pipe(map(config => config.general.canalAttendeesUrl));
+  public canalFormUrl: string = General.canalFormUrl;
+  public canalAttendeesUrl: string = General.canalAttendeesUrl;
 
   IcalManualRef:BsModalRef;
 
-  constructor(private titleService: TitleService, private configService: ConfigService, private IcalManualService: BsModalService) { }
+  constructor(private titleService: TitleService, private IcalManualService: BsModalService) { }
 
   ngOnInit() {
     this.titleService.setPageTitle("Program");

@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform, Injectable } from '@angular/core';
 
-import { ConfigService } from "app/services/config.service";
 import { MemberGroups } from 'config/member-groups';
 
 export type GroupPipeProperty = "name" | "color";

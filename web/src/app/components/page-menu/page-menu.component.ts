@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
-import { ConfigService } from "app/services/config.service";
 import { TitleService } from 'app/services/title.service';
 
 import { MenuService } from 'app/services/menu.service';

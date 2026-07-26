@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { ConfigService } from "app/services/config.service";
 import { TitleService } from "app/services/title.service";
 
 import { Contact } from "app/shared/schema/contact";
 import { MenuService } from 'app/services/menu.service';
+
+import { Contacts } from "config/contacts";
+import { General } from "config/general";
 
 @Component({
   selector: 'about-view',
@@ -13,12 +15,11 @@ import { MenuService } from 'app/services/menu.service';
 })
 export class AboutViewComponent implements OnInit, OnDestroy {
 
-  contacts: Contact[] = [];
+  contacts: Contact[] = Contacts.leaders;
 
-  mapUrl: string;
+  mapUrl: string = General.homeMapUrl;
 
   constructor(
-    private configService: ConfigService,
     private menuService: MenuService,
     private titleService: TitleService
   ) {
@@ -28,15 +29,6 @@ export class AboutViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.titleService.setPageTitle("O nás");
-
-    this.loadConfig();
-  }
-
-  loadConfig() {
-    this.configService.getConfig().then(config => {
-      this.contacts = config.contacts.leaders;
-      this.mapUrl = config.general.homeMapUrl;
-    });
   }
 
   ngOnDestroy() {
