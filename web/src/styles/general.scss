@@ -226,15 +226,29 @@ a.badge,
 
 /* VALIDATION */
 
+/* The 5px accent is an inset shadow rather than a border-left: inputs are pill
+   shaped now ($input-border-radius), and a straight border renders as a
+   crescent sticking out of the rounded end. The :focus pairs re-state
+   Bootstrap's focus ring, which the accent would otherwise replace. */
 input:valid:not(.novalidate, [matInput]),
 select:valid:not(.novalidate, [matInput]),
 textarea:valid:not(.novalidate, [matInput]) {
-  border-left: 5px solid $san-green !important; /* green */
+  box-shadow: inset 5px 0 0 0 $san-green; /* green */
+}
+input:valid:not(.novalidate, [matInput]):focus,
+select:valid:not(.novalidate, [matInput]):focus,
+textarea:valid:not(.novalidate, [matInput]):focus {
+  box-shadow: inset 5px 0 0 0 $san-green, 0 0 0 0.2rem rgba($san-blue, 0.25);
 }
 input:invalid:not(.novalidate, [matInput]),
 select:invalid:not(.novalidate, [matInput]),
 textarea:invalid:not(.novalidate, [matInput]) {
-  border-left: 5px solid $san-red !important; /* red */
+  box-shadow: inset 5px 0 0 0 $san-red; /* red */
+}
+input:invalid:not(.novalidate, [matInput]):focus,
+select:invalid:not(.novalidate, [matInput]):focus,
+textarea:invalid:not(.novalidate, [matInput]):focus {
+  box-shadow: inset 5px 0 0 0 $san-red, 0 0 0 0.2rem rgba($san-blue, 0.25);
 }
 
 ::-moz-selection {
