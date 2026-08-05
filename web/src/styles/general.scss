@@ -1,5 +1,15 @@
 @import "./variables";
 
+/* ŠÁN DISPLAY FACE (San Grotesk) – short titles, event names, labels */
+@font-face {
+  font-family: "SAN";
+  src: url("/assets/fonts/san-regular.woff2") format("woff2"), url("/assets/fonts/san-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-017F; // latin + latin-ext (č, ř, ě, ů…)
+}
+
 html,
 body {
   height: 100%;
@@ -15,23 +25,45 @@ button:focus {
 /* LAYOUT */
 body {
   font-family: $font-family;
+  font-weight: 400;
   color: $black;
   background-color: #fff;
   font-size: $font-basic;
+  line-height: 1.6;
+  text-wrap: pretty;
 }
 
+/* The display face has no real bold – synthesising one falls apart, so the
+   weight rule is split: h1/h2 stay at 400, the rest is bold Nunito Sans. */
 h1,
-h2,
+h2 {
+  font-family: $font-family-display;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+
 h3,
 h4,
 h5,
 h6 {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 h1 {
   text-align: center;
   margin-top: 0.5rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+/* lead */
+h1 + * p,
+h2 + * p,
+p.subheading {
+  font-weight: 600;
 }
 
 p.multiline {
