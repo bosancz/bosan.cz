@@ -8,12 +8,16 @@ nav.navbar {
   color: $white;
 
   .navbar-toggler {
+    color: $san-yellow;
     border: none;
     outline: none;
   }
 
   .navbar-brand {
-    font-weight: bold;
+    font-family: $font-family-display;
+    font-size: 1.5rem;
+    letter-spacing: 0.01em;
+    text-transform: none; // the text-uppercase class stays in HTML, we override in CSS
     z-index: 9;
     white-space: nowrap;
     overflow: hidden;
@@ -26,12 +30,14 @@ nav.navbar {
   }
 
   .navbar-brand:hover {
-    color: $hover-yellow;
+    color: $hover-yellow; // = yellow, allowed on blue
   }
 
   .nav-link {
-    font-weight: bold;
-    color: $white !important;
+    font-family: $font-family;
+    font-weight: 700;
+    color: #fff !important; // never black on blue
+    letter-spacing: 0.02em;
     cursor: pointer;
     white-space: nowrap;
   }
@@ -39,7 +45,7 @@ nav.navbar {
   .nav-item.active > a,
   .nav-item:hover > a,
   .nav-link.active {
-    color: $linkBlue !important;
+    color: $san-yellow !important;
   }
 
   .dropdown {
@@ -51,12 +57,12 @@ nav.navbar {
     }
     .dropdown-item {
       cursor: pointer;
-      color: $white !important;
+      color: #fff !important;
     }
     .dropdown-item.active,
     .dropdown-item:active {
       background-color: transparent;
-      color: $linkBlue;
+      color: $san-yellow;
     }
     .dropdown-item:focus,
     .dropdown-item:hover {
@@ -65,7 +71,7 @@ nav.navbar {
   }
 
   .dropdown-menu {
-    background-color: $black70;
+    background-color: $san-blue;
     border: none;
 
     .nav-link {
@@ -74,12 +80,15 @@ nav.navbar {
     }
   }
 
+  /* the new mark is circular; +0.25rem balances it optically, and the manual's
+     clear space equals the logo radius */
   .logo-small {
-    height: 2rem;
+    height: 2.25rem;
+    margin-right: 1.125rem;
   }
 
   .environment {
-    color: #f00;
+    color: $san-yellow; // was #f00 – illegible on the blue bar
   }
 }
 

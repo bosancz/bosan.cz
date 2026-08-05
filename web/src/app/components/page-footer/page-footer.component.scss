@@ -1,15 +1,20 @@
 @import "styles/variables";
 
+/* The footer is the ideal place for the signature ŠÁN combination –
+   blue surface, yellow detail. */
 footer {
-  background-color: $white;
+  background-color: $san-blue;
+  color: #fff;
 }
 
 footer img.logo {
   height: 20vh;
+  max-height: 180px;
 }
 
 footer h4 {
-  color: $black;
+  color: $san-yellow;
+  font-weight: 700;
 }
 
 footer li {
@@ -17,20 +22,26 @@ footer li {
 }
 
 footer a {
-  color: $black;
+  color: #fff;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 footer a:hover {
-  color: $hover-yellow;
+  color: $san-yellow;
 }
 
 footer i {
   font-size: 5vh;
+  color: $san-yellow;
 }
 
-footer img.sponsor{
+/* Most sponsor logos are full-colour artwork on white – a white card keeps them
+   from floating on the blue as cut-out stickers. */
+footer img.sponsor {
   max-width: 100%;
   max-height: 100%;
+  background: #fff;
+  border-radius: $radius-sm;
+  padding: 0.5rem;
 }
