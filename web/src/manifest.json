@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/web-manifest.json",
   "name": "Dětská vodácká skupina ŠÁN vX.X.X (DEV)",
   "short_name": "Dětská vodácká skupina ŠÁN",
-  "theme_color": "#000000",
-  "background_color": "#fafafa",
+  "theme_color": "#2a3478",
+  "background_color": "#2a3478",
   "display": "browser",
   "scope": "/",
   "icons": [
