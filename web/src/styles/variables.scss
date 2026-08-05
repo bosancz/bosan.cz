@@ -1,25 +1,40 @@
-$black: #0f0f0f;
-$black70: #3e3e3e;
-$grey: #f1f1f1;
-$darkGrey: #999;
-$white: #f9f9f9;
-$blue: #006fff;
-$lightBlue: rgba(0, 111, 255, 0.05);
-$hover-yellow: #fec503;
-$red: #f00;
+/* ŠÁN IDENTITY */
+$san-blue: #2a3478;
+$san-blue-light: mix($san-blue, #fff, 80%); // TODO: replace with the official light blue
+$san-yellow: #e28f26;
+$san-green: #799f3d;
+$san-red: #d2232a;
 
-$font-small: 0.8rem;
+/* EXISTING VARIABLES – remapped onto the identity (do NOT rename!) */
+$black: #14141c; // neutral black with a blue undertone
+$black70: $san-blue; // header/navbar background – was #3e3e3e
+$grey: #f2f3f8; // alternating section stripes – was #f1f1f1
+$darkGrey: #7c7f96;
+$white: #fdfdfb;
+$blue: $san-blue; // was #006fff
+$lightBlue: rgba($san-blue, 0.06);
+$hover-yellow: $san-yellow; // was #fec503
+$red: $san-red; // was #f00
+$linkBlue: $san-blue; // was #00bfff – note: also used as $primary
+
+/* TYPOGRAPHY */
+$font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-display: "SAN", "Nunito Sans", Helvetica, sans-serif;
+
+$font-small: 0.875rem;
 $font-basic: 1rem;
 $font-medium: 1.5rem;
 $font-large: 2rem;
 $font-super-large: 3.5rem;
 
-$linkBlue: #00bfff;
+/* SHAPES – the manual prefers rounded corners */
+$radius-sm: 0.5rem;
+$radius-md: 1rem;
+$radius-lg: 1.75rem;
+$radius-pill: 999px;
 
-$shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+$shadow: 0 2px 12px rgba($san-blue, 0.18); // was 0 0 5px rgba(0, 0, 0, 0.2)
+
 $photo-height: 30vh;
 $photo-max-height: 200px;
-
-$font-family: "Roboto Condensed", Helvetica, Verdana, sans-serif;
-
 $circle-size: 2rem;
