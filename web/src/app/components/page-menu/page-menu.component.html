@@ -1,13 +1,13 @@
 <nav class="navbar primary navbar-expand-lg navbar-dark" [class.open]="!collapsed">
   <div class="navbar-brand text-uppercase">
-    <a routerLink="/"><img src="/assets/img/san_logo_barva.png" class="d-inline d-lg-none logo-small" /></a>
+    <a routerLink="/"><img src="/assets/img/san_logo_barva.svg" class="d-inline d-lg-none logo-small" alt="ŠÁN" /></a>
 
     <button class="navbar-toggler" (click)="setCollapsed(!collapsed)" type="button">
       <i class="fa fa-bars"></i>
     </button>
 
-    <span class="d-none d-lg-inline">Bosan.cz</span>
-    <span class="d-inline d-lg-none">{{ (titleService.pageTitle | async) || "Bosan.cz" }}</span>
+    <span class="d-none d-lg-inline"><img src="/assets/img/logo-san-text.svg" class="logo-text" alt="ŠÁN" /></span>
+    <span class="d-inline d-lg-none">{{ (titleService.pageTitle | async) || "ŠÁN" }}</span>
   </div>
 
   <div class="collapse navbar-collapse" [collapse]="collapsed">

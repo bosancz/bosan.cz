@@ -80,11 +80,17 @@ nav.navbar {
     }
   }
 
-  /* the new mark is circular; +0.25rem balances it optically, and the manual's
-     clear space equals the logo radius */
+  /* the mark is circular; the manual's clear space equals the logo radius,
+     i.e. half of the 2.25rem height */
   .logo-small {
     height: 2.25rem;
     margin-right: 1.125rem;
+  }
+
+  /* the ŠÁN wordmark replaces the "Bosan.cz" text on wide screens */
+  .logo-text {
+    height: 1.6rem;
+    vertical-align: middle;
   }
 
   .environment {
