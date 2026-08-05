@@ -1,10 +1,19 @@
 @import "styles/variables";
 
 .contact a {
-  color: $black;
+  color: $san-blue;
+}
+
+/* §9.3 – the new character illustrations sit on a soft rounded plate */
+.avatar img {
+  border-radius: $radius-lg;
+  background-color: rgba($san-blue, 0.06);
 }
 
 .map {
+  border-radius: $radius-md;
+  overflow: hidden;
+
   iframe {
     height: 50vh;
     width: 100%;

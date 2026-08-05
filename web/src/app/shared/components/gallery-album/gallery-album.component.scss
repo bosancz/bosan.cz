@@ -1,7 +1,7 @@
 @import "styles/variables";
 
 h4 a {
-  color: $black;
+  color: $san-blue;
   text-decoration: none;
 }
 
@@ -23,7 +23,7 @@ h4 a {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: #eee;
+  background-color: rgba($san-blue, 0.08);
 }
 
 .desc {

@@ -5,19 +5,19 @@
 }
 
 a {
-  color: $black;
+  color: $san-blue !important;
   text-decoration: none !important;
   cursor: pointer;
 }
 
 a.link {
-  color: $black !important;
+  color: $san-blue !important;
   cursor: pointer;
 }
 
 .btn-outline-primary {
   margin: 0.25rem;
-  border-radius: 22.5px;
+  border-radius: $radius-pill; // was 22.5px – same effect, now a token
   font-size: 1rem;
   text-transform: none;
 }

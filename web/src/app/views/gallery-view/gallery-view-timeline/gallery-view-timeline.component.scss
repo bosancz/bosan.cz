@@ -42,7 +42,7 @@ timeline-scroll {
   overflow: hidden;
 
   h4 a {
-    color: $black;
+    color: $san-blue;
     text-decoration: none;
   }
 
@@ -55,6 +55,6 @@ timeline-scroll {
     width: 100%;
     height: $photo-height;
     max-height: $photo-max-height;
-    background-color: #eee;
+    background-color: rgba($san-blue, 0.08);
   }
 }

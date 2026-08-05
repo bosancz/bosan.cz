@@ -5,7 +5,7 @@
 }
 
 .contact a {
-  color: $black;
+  color: $san-blue;
 }
 
 .card {
@@ -13,10 +13,22 @@
   background-color: transparent;
 }
 .card-img-top {
-  border-radius: 0rem;
+  border-radius: $radius-md;
+}
+.card-title {
+  font-weight: 700;
+}
+
+/* §9.3 – the new character illustrations sit on a soft rounded plate */
+.avatar img {
+  border-radius: $radius-lg;
+  background-color: rgba($san-blue, 0.06);
 }
 
 .map {
+  border-radius: $radius-md;
+  overflow: hidden;
+
   iframe {
     height: 50vh;
     width: 100%;

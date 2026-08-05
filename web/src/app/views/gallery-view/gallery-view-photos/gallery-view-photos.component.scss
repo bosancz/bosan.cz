@@ -12,7 +12,7 @@
 
 a,
 a:active {
-  color: $white;
+  color: #fff;
   text-decoration: none !important;
   cursor: pointer;
 }
@@ -50,7 +50,7 @@ a:active {
   right: 0;
   padding: 10px;
   font-size: 22px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(42, 52, 120, 0.7);
   z-index: 50;
 }
 .menu a {
@@ -102,10 +102,16 @@ a:active {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(42, 52, 120, 0.7);
   z-index: 20;
 }
 .footer .caption {
   font-size: 22px;
   padding: 10px 15px;
+}
+
+/* the viewer background stays #000 – nothing should compete with the photo */
+.menu a:hover,
+.footer a:hover {
+  color: $san-yellow;
 }

@@ -25,6 +25,9 @@
 }
 
 .map {
+  border-radius: $radius-md;
+  overflow: hidden;
+
   iframe {
     height: 50vh;
     width: 100%;
@@ -37,5 +40,10 @@
 }
 
 .a-black {
-  color: $black;
+  color: $san-blue;
+}
+
+/* turnus dates, head leaders, prices and discounts – key information */
+h4 {
+  color: $san-blue;
 }
