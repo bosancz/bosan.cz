@@ -14,7 +14,7 @@ const asMemberGroups = <T>(value: { [key in keyof T]: MemberGroup }) => value;
 export const MemberGroups = asMemberGroups({
   "1": {
     name: "1. oddíl",
-    color: "#BB0000",
+    color: "#d2232a",
     active: false,
     children: true,
     real: true,
@@ -22,7 +22,7 @@ export const MemberGroups = asMemberGroups({
   },
   "2": {
     name: "2. oddíl",
-    color: "#FEC503",
+    color: "#e28f26",
     active: false,
     children: true,
     real: true,
@@ -30,7 +30,7 @@ export const MemberGroups = asMemberGroups({
   },
   "3": {
     name: "3. oddíl",
-    color: "#36802D",
+    color: "#799f3d",
     active: true,
     children: true,
     event: true,
@@ -38,7 +38,7 @@ export const MemberGroups = asMemberGroups({
   },
   "4": {
     name: "4. oddíl",
-    color: "#3880ff",
+    color: "#2a3478",
     active: true,
     children: true,
     event: true,
@@ -46,7 +46,7 @@ export const MemberGroups = asMemberGroups({
   },
   "5": {
     name: "5. oddíl",
-    color: "#BB0000",
+    color: "#d2232a",
     active: true,
     children: true,
     event: true,
@@ -54,7 +54,7 @@ export const MemberGroups = asMemberGroups({
   },
   "6": {
     name: "6. oddíl",
-    color: "#36802D",
+    color: "#799f3d",
     active: true,
     children: true,
     event: true,
@@ -62,7 +62,7 @@ export const MemberGroups = asMemberGroups({
   },
   "7": {
     name: "7. oddíl",
-    color: "#3880ff",
+    color: "#2a3478",
     active: true,
     children: true,
     event: true,
@@ -70,7 +70,7 @@ export const MemberGroups = asMemberGroups({
   },
   "8": {
     name: "8. oddíl",
-    color: "#FEC503",
+    color: "#e28f26",
     active: true,
     children: true,
     event: true,
@@ -78,7 +78,7 @@ export const MemberGroups = asMemberGroups({
   },
   "22": {
     name: "22. oddíl",
-    color: "#FEC503",
+    color: "#e28f26",
     active: true,
     children: true,
     event: true,
@@ -86,7 +86,7 @@ export const MemberGroups = asMemberGroups({
   },
   "UH": {
     name: "Uhřínovští",
-    color: "#8B4513",
+    color: "#7c5a3a",
     children: true,
     real: true,
     event: true,
@@ -94,7 +94,7 @@ export const MemberGroups = asMemberGroups({
   },
   "KP": {
     name: "Klub přátel",
-    color: "#0F0F0F",
+    color: "#14141c",
     event: true,
     real: true,
     active: true,
@@ -102,7 +102,7 @@ export const MemberGroups = asMemberGroups({
   },
   "V": {
     name: "Vedoucí",
-    color: "#000000",
+    color: "#14141c",
     real: false,
     active: true,
     event: true,

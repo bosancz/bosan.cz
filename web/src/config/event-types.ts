@@ -57,10 +57,10 @@ export const EventTypes: { [key in EventTypeID]: EventType } = {
     "color": "#00000000"
   },
   "školení": {
-    "color": "#ccc",
+    "color": "#d8dae8",
   },
   "pro rodiče": {
-    "color": "#BB0000",
+    "color": "#d2232a",
   },
   "tvořivé": {
     "color": "#00000000",
