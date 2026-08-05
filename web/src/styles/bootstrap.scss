@@ -1,38 +1,88 @@
 @import "./variables";
 
-$primary: $linkBlue;
+/* THEME COLORS */
+$primary: $san-blue;
+$secondary: $san-yellow;
+$success: $san-green;
+$danger: $san-red;
+$warning: $san-yellow;
+$light: $grey;
+$dark: $black;
 
-$danger: $red;
+/* TYPO */
+$font-family-base: $font-family;
+$font-family-sans-serif: $font-family;
+$headings-font-weight: 700;
+$body-color: $black;
+$link-color: $san-blue;
+$link-hover-color: $san-yellow;
+
+/* SHAPES – rounded corners per the manual */
+$border-radius: $radius-sm;
+$border-radius-lg: $radius-md;
+$border-radius-sm: $radius-sm;
+$btn-border-radius: $radius-pill;
+$btn-border-radius-lg: $radius-pill;
+$btn-border-radius-sm: $radius-pill;
+$badge-pill-border-radius: $radius-pill;
+$input-border-radius: $radius-pill;
 
 @import "bootstrap/scss/bootstrap.scss";
 
 .bg-light {
-  background-color: #f1f1f1 !important;
+  background-color: $grey !important;
 }
 
 .form-control::placeholder {
-  color: #ddd;
+  color: $darkGrey; // was #ddd – illegible
 }
 
 .btn {
-  //   color:$white;
-  font-weight: bold;
+  font-family: $font-family;
+  font-weight: 700;
   text-transform: uppercase;
-  //   background-color: $blue;
+  letter-spacing: 0.02em;
+  border-width: 2px;
+  transition: background-color 150ms, color 150ms, border-color 150ms;
 }
 
+/* Primary CTA = yellow on blue (the signature ŠÁN combination) */
 .btn-primary {
-  color: $white;
-  font-weight: bold;
+  color: $san-blue;
+  background-color: $san-yellow;
+  border-color: $san-yellow;
+  font-weight: 700;
   text-transform: uppercase;
-  //background-color: $blue;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: #fff;
+    background-color: $san-blue;
+    border-color: $san-blue;
+  }
 }
 
+/* Was `color: $white !important` – unreadable on the yellow CTA. The
+   !important is dropped on purpose: source order already lets this blue win
+   over .btn-primary at rest, while .btn-primary:hover (higher specificity)
+   keeps its white-on-blue hover instead of turning blue on blue. */
 .btn-lg {
-  color: $white !important;
-  font-weight: bold;
+  color: $san-blue;
+  font-weight: 700;
   text-transform: uppercase;
   font-size: $font-medium;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.75rem;
   box-shadow: $shadow;
+}
+
+/* secondary variant for buttons sitting on a blue surface */
+.btn-outline-light {
+  color: $san-yellow;
+  border-color: $san-yellow;
+
+  &:hover {
+    color: $san-blue;
+    background-color: $san-yellow;
+  }
 }
