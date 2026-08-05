@@ -18,8 +18,9 @@ body {
   margin: 0; /*font-family: Roboto, "Helvetica Neue", sans-serif; */
 }
 
-button:focus {
-  outline: 0 !important;
+button:focus-visible {
+  outline: 2px solid $san-yellow;
+  outline-offset: 2px;
 }
 
 /* LAYOUT */
@@ -73,7 +74,7 @@ p.multiline {
 .header {
   background-position: center center;
   background-repeat: no-repeat;
-  background-color: #ccc;
+  background-color: $san-blue; // was #ccc – the placeholder while the photo loads
   background-size: cover;
   height: 85vh;
   text-align: center;
@@ -86,7 +87,7 @@ p.multiline {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to bottom, rgba($san-blue, 0.78), rgba($san-blue, 0.15) 60%, rgba($san-blue, 0) 100%);
   z-index: 1;
 }
 .header .content {
@@ -97,10 +98,13 @@ p.multiline {
   z-index: 2;
 }
 
+/* On photographic backgrounds the manual allows blue and yellow only – a blue
+   veil with a yellow title is exactly that combination. */
 .header h1 {
-  color: $white;
+  color: $san-yellow;
+  font-family: $font-family-display;
   font-size: $font-super-large;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 2px 10px rgba($san-blue, 0.6);
 }
 
 section:nth-child(odd) {
@@ -111,7 +115,8 @@ a.btn {
   display: inline-block;
 }
 a.flat {
-  font-weight: bold;
+  color: $san-blue;
+  font-weight: 700;
   text-transform: uppercase;
   text-decoration: none;
 }
@@ -121,13 +126,24 @@ a.flat {
   height: 30px;
   width: 30px;
   border-radius: 50%;
-  font-weight: bold;
+  font-family: $font-family;
+  font-weight: 700;
+  font-size: 0.8125rem;
   color: #fff;
   text-align: center;
   line-height: 30px;
   vertical-align: middle;
   text-decoration: none;
   opacity: 1;
+  box-shadow: 0 0 0 2px rgba(#fff, 0.9); // separation from photos/panels
+}
+
+/* The yellow squads need blue lettering – white on #e28f26 is ~2.1 : 1.
+   The selector rides the existing [title], filled from `group | group:'name'`. */
+.group-badges .group-badge[title*="2."],
+.group-badges .group-badge[title*="8."],
+.group-badges .group-badge[title*="22."] {
+  color: $san-blue;
 }
 .group-badges .group-badge:first-of-type {
   margin-left: 0;
@@ -147,15 +163,20 @@ h2 .back {
 }
 
 a {
-  color: $linkBlue;
+  color: $san-blue;
   cursor: pointer;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }
 a.link {
-  color: $linkBlue !important;
+  color: $san-blue !important;
   cursor: pointer;
 }
+/* The only place yellow lands on white – a transient state, so it carries an
+   underline (yellow on white is ~2.5 : 1 on its own). */
 a:not(.btn):hover {
-  color: $hover-yellow !important;
+  color: $san-yellow !important;
+  text-decoration: underline;
 }
 
 a.badge,
@@ -164,30 +185,37 @@ a.badge,
 }
 
 .footer-text {
-  color: $black;
+  color: #fff; // the footer is a blue surface now
 }
 
 .badge-pill {
-  color: $white;
-  font-size: 1rem;
-  background-color: $black;
-  padding: 0.5rem 1rem;
+  color: $san-yellow;
+  font-family: $font-family;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  background-color: $san-blue;
+  padding: 0.4rem 0.9rem;
 }
 
+/* SQUAD COLOR UTILITIES – text colour is explicit, never inherited */
 .red {
-  background-color: #bb0000;
+  background-color: $san-red;
+  color: #fff !important;
 }
 
 .green {
-  background-color: #36802d;
+  background-color: $san-green;
+  color: #fff !important;
 }
 
 .blue {
-  background-color: #012475;
+  background-color: $san-blue;
+  color: $san-yellow !important;
 }
 
 .yellow {
-  background-color: #fec503;
+  background-color: $san-yellow;
+  color: $san-blue !important;
 }
 
 @media (pointer: coarse) {
@@ -201,21 +229,23 @@ a.badge,
 input:valid:not(.novalidate, [matInput]),
 select:valid:not(.novalidate, [matInput]),
 textarea:valid:not(.novalidate, [matInput]) {
-  border-left: 5px solid #42a948 !important; /* green */
+  border-left: 5px solid $san-green !important; /* green */
 }
 input:invalid:not(.novalidate, [matInput]),
 select:invalid:not(.novalidate, [matInput]),
 textarea:invalid:not(.novalidate, [matInput]) {
-  border-left: 5px solid #a94442 !important; /* red */
+  border-left: 5px solid $san-red !important; /* red */
 }
 
 ::-moz-selection {
-  background: #00bfff;
+  background: rgba($san-yellow, 0.4);
+  color: $black;
   text-shadow: none;
 }
 
 ::selection {
-  background: #00bfff;
+  background: rgba($san-yellow, 0.4);
+  color: $black;
   text-shadow: none;
 }
 
@@ -230,6 +260,7 @@ textarea:invalid:not(.novalidate, [matInput]) {
   display: flex;
   flex-direction: column;
   border: none;
+  border-radius: $radius-md;
 }
 
 .modal-body {
@@ -272,7 +303,7 @@ textarea:invalid:not(.novalidate, [matInput]) {
     width: $circle-size;
     height: $circle-size;
     border-radius: 50%;
-    background-color: #ccc;
+    background-color: rgba($san-blue, 0.08);
     z-index: 5;
   }
 }
