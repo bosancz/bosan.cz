@@ -21,7 +21,7 @@ jobs:
   build:
     name: Build and publish
     needs: version
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/_build.yml
     with:
       context: .
       image-name: bosancz/web
@@ -45,6 +45,6 @@ jobs:
   tag:
     name: Tag release
     needs: build
-    uses: ./.github/workflows/tag.yml
+    uses: ./.github/workflows/_tag.yml
     with:
       tag: TEST

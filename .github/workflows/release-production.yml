@@ -21,14 +21,14 @@ concurrency:
 jobs:
   version:
     name: Resolve version
-    uses: ./.github/workflows/version.yml
+    uses: ./.github/workflows/_version.yml
     with:
       semver: ${{ github.event.inputs.semver }}
 
   build:
     name: Build and publish
     needs: version
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/_build.yml
     with:
       context: .
       image-name: bosancz/web
@@ -55,7 +55,7 @@ jobs:
     needs:
       - version
       - build
-    uses: ./.github/workflows/tag.yml
+    uses: ./.github/workflows/_tag.yml
     with:
       tag: PRODUCTION
       version: ${{ needs.version.outputs.new_tag }}
