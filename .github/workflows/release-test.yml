@@ -37,7 +37,7 @@ jobs:
   deploy:
     name: Deploy
     needs: build
-    uses: ./.github/workflows/deploy.yml
+    uses: ./.github/workflows/_deploy.yml
     with:
       images: ${{ needs.build.outputs.images }}
     secrets: inherit

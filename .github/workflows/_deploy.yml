@@ -1,12 +1,6 @@
 name: Deploy
 
 on:
-  workflow_dispatch:
-    inputs:
-      images:
-        description: "List of pushed images, separated by commas"
-        type: string
-        required: false
   workflow_call:
     inputs:
       images:
