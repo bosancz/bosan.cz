@@ -27,6 +27,10 @@ export class TimelineScrollLabelComponent {
   }
 
   ngAfterViewInit() {
+    this.updateTop();
+  }
+
+  updateTop() {
     this.top = this.el.nativeElement.offsetTop;
   }
 
@@ -58,6 +62,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   labels: TimelineScrollLabelComponent[] = [];
 
   containerDim: { top: number, height: number, scrollHeight: number };
+  containerWidth: number;
   timelineDim: { top: number, height: number };
   visibleDim = { from: 0, to: 0, mid: 0 };
 
@@ -103,6 +108,11 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
       scrollHeight: scrollElement.scrollHeight
     };
 
+    if (this.containerWidth !== rect.width) {
+      this.containerWidth = rect.width;
+      this.labels.forEach(label => label.updateTop());
+    }
+
     this.timelineDim = this.timeline.nativeElement.getBoundingClientRect();
 
     this.visibleDim = {
@@ -114,7 +124,8 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   }
 
   timelineMouseDown(event: TouchEvent | MouseEvent) {
-    window.addEventListener("touchmove", this.timelineMouseMoveHandler);
+    this.updateDimensions();
+    window.addEventListener("touchmove", this.timelineMouseMoveHandler, { passive: false });
     window.addEventListener("mousemove", this.timelineMouseMoveHandler);
     this.timelineMouseMove(event);
   }
@@ -125,6 +136,8 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
     const pointerY = event instanceof MouseEvent ? event.clientY : event.touches[0]?.clientY;
 
+    if (pointerY === undefined) return;
+
     const timelinePct = (pointerY - this.timelineDim.top) / (this.timelineDim.height);
 
     const containerTop = timelinePct * this.containerDim.scrollHeight - this.containerDim.height / 2;
@@ -134,8 +147,11 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   }
 
   @HostListener('window:mouseup', [])
+  @HostListener('window:touchend', [])
+  @HostListener('window:touchcancel', [])
   timelineMouseUp() {
     window.removeEventListener("mousemove", this.timelineMouseMoveHandler);
+    window.removeEventListener("touchmove", this.timelineMouseMoveHandler);
   }
 
   addLabel(label: TimelineScrollLabelComponent) {

@@ -24,27 +24,25 @@
 
   <div class="albums container pt-3">
 
-    <div *ngFor="let point of timeline;let i = index" class="album">
+    <div class="row">
 
-      <timeline-scroll-label *ngIf="!i || timeline[i-1].year !== point.year" [label]="point.year" [for]="scroll" align="right"></timeline-scroll-label>
+      <div *ngFor="let point of timeline;let i = index" class="album col-12 col-md-4">
 
-      <gallery-album *ngIf="point.album; else dummyAlbum" [album]="point.album"></gallery-album>
+        <timeline-scroll-label *ngIf="!i || timeline[i-1].year !== point.year" [label]="point.year" [for]="scroll" align="right"></timeline-scroll-label>
 
-      <ng-template #dummyAlbum>
-        <h4>{{point.name}} ({{[point.dateFrom,point.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}})</h4>
-        <div class="row photos">
-          <div class="col-sm-12 col-md-6 col-lg-4">
-            <div class="image"></div>
+        <gallery-album *ngIf="point.album; else dummyAlbum" [album]="point.album" [photoCount]="1"></gallery-album>
+
+        <ng-template #dummyAlbum>
+          <h4>{{point.name}} ({{[point.dateFrom,point.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}})</h4>
+          <div class="row photos">
+            <div class="col-12">
+              <div class="image"></div>
+            </div>
           </div>
-          <div class="col-sm-12 col-md-6 col-lg-4 d-lg-block d-none">
-            <div class="image"></div>
-          </div>
-          <div class="col-sm-12 col-md-6 col-lg-4 d-lg-block d-md-block d-none">
-            <div class="image"></div>
-          </div>
-        </div>
-        <p></p>
-      </ng-template>
+          <p></p>
+        </ng-template>
+
+      </div>
 
     </div>
 

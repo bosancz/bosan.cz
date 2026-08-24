@@ -10,7 +10,9 @@ import { Album } from "app/shared/schema/album";
 export class GalleryAlbumComponent {
 
   @Input() album:Album;
-  
+
+  @Input() photoCount:number = 3;
+
   constructor() { }
 
 }
