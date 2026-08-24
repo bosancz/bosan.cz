@@ -1,6 +1,7 @@
 name: Deploy to TEST environment
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [opened, reopened, ready_for_review, synchronize]
 
