@@ -1,6 +1,7 @@
 FROM node:18-alpine as build
 
 ARG NG_CONFIGURATION
+ARG VERSION
 
 WORKDIR /app
 
@@ -11,6 +12,8 @@ RUN npm ci --force
 
 # BUILD
 COPY ./web .
+ENV VERSION=$VERSION
+RUN node ./scripts/set-version.js
 RUN npx ng build --configuration="${NG_CONFIGURATION}"
 
 
