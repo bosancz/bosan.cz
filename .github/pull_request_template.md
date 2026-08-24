@@ -4,7 +4,7 @@
 
 # Testovací scénář
 
-0. Spusť [Release na TEST](https://github.com/bosancz/bosan.cz/actions/workflows/release-test.yml) → `Run workflow` → vyber tuhle větev. Bez toho na test.bosan.cz běží pořád předchozí verze.
+0. Spusť [Release to TEST](https://github.com/bosancz/bosan.cz/actions/workflows/release-test.yml) → `Run workflow` → vyber tuhle větev. Bez toho na test.bosan.cz běží pořád předchozí verze.
 1. Otevři si test.bosan.cz a obnov stránku.
     - Windows: `CTRL + F5`
     - Mac: `⌘ Cmd + ⇧ Shift + R`
