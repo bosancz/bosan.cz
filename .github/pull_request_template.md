@@ -4,6 +4,7 @@
 
 # Testovací scénář
 
+0. Vypusť tuhle větev na TEST — v záložce Actions workflow **Release to TEST** → `Run workflow` → vyber tuhle větev. Bez toho na test.bosan.cz běží pořád předchozí verze.
 1. Otevři si test.bosan.cz a obnov stránku.
     - Windows: `CTRL + F5`
     - Mac: `⌘ Cmd + ⇧ Shift + R`

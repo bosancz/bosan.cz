@@ -1,6 +1,6 @@
 ---
 name: release-test
-description: Release the current branch to the TEST environment by dispatching the "Deploy to TEST environment" GitHub Actions workflow (.github/workflows/deploy-test.yml) against that branch. Use when the user asks to release/deploy to TEST, ship the branch to TEST, or says "/release-test".
+description: Release the current branch to the TEST environment by dispatching the "Release to TEST" GitHub Actions workflow (.github/workflows/release-test.yml) against that branch. Use when the user asks to release/deploy to TEST, ship the branch to TEST, or says "/release-test".
 allowed-tools: Bash(git rev-parse:*), mcp__github__actions_run_trigger
 ---
 
@@ -16,7 +16,7 @@ mcp__github__actions_run_trigger
   method: run_workflow
   owner: bosancz
   repo: bosan.cz
-  workflow_id: deploy-test.yml
+  workflow_id: release-test.yml
   ref: <output of `git rev-parse --abbrev-ref HEAD`>
 ```
 
@@ -33,7 +33,7 @@ On workflow fail:
 On workflow success:
 
 - `Released to TEST.`
-- `Released commit: <git sha>` (use current commit's short SHA - `git rev-parse --short=7 HEAD`)
+- `Expected version: TEST-<git sha>` (use current commit's short SHA - `git rev-parse --short=7 HEAD`)
 - `Open: https://test.bosan.cz`
 
 4. Stop.

@@ -1,0 +1,48 @@
+name: Tag Release
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: "Push under this tag"
+        type: string
+        required: false
+      version:
+        description: "Version to tag"
+        type: string
+        required: false
+      ref:
+        description: "Git ref to tag (defaults to the triggering commit)"
+        type: string
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    name: Create Tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.ref }}
+
+      - name: Set up Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+
+      - name: Create Tag
+        if: inputs.tag
+        run: |
+          git tag --force ${{ inputs.tag }}
+          git push origin --force ${{ inputs.tag }}
+
+      - name: Create Version Tag
+        if: inputs.version
+        run: |
+          git tag --force ${{ inputs.version }}
+          git push origin --force ${{ inputs.version }}

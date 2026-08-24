@@ -1,0 +1,61 @@
+name: Release to PRODUCTION
+
+on:
+  workflow_dispatch:
+    inputs:
+      semver:
+        description: "Version bump"
+        required: true
+        type: choice
+        default: none
+        options:
+          - none
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  version:
+    name: Resolve version
+    uses: ./.github/workflows/version.yml
+    with:
+      semver: ${{ github.event.inputs.semver }}
+
+  build:
+    name: Build and publish
+    needs: version
+    uses: ./.github/workflows/build.yml
+    with:
+      context: .
+      image-name: bosancz/web
+      registry: ghcr.io
+      tag: latest
+      version: ${{ needs.version.outputs.new_tag }}
+      build-args: |
+        NG_CONFIGURATION=production
+        VERSION=${{ needs.version.outputs.new_tag }}
+    secrets:
+      username: ${{ github.actor }}
+      password: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy
+    needs: build
+    uses: ./.github/workflows/deploy.yml
+    with:
+      images: ${{ needs.build.outputs.images }}
+    secrets: inherit
+
+  tag:
+    name: Tag release
+    needs:
+      - version
+      - build
+    uses: ./.github/workflows/tag.yml
+    with:
+      tag: PRODUCTION
+      version: ${{ needs.version.outputs.new_tag }}
