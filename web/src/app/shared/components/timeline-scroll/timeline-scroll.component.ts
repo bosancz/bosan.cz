@@ -6,7 +6,8 @@ interface DOMScrollEvent extends Event {
 
 @Component({
   selector: 'timeline-scroll-label',
-  template: ''
+  template: '',
+  styles: [':host { display: block; height: 0; }']
 })
 export class TimelineScrollLabelComponent {
 
@@ -27,11 +28,13 @@ export class TimelineScrollLabelComponent {
   }
 
   ngAfterViewInit() {
-    this.updateTop();
+    this.updateTop(this.for.scrollElement);
   }
 
-  updateTop() {
-    this.top = this.el.nativeElement.offsetTop;
+  updateTop(scrollElement: HTMLElement) {
+    const scrollRect = scrollElement.getBoundingClientRect();
+    const scrollOffset = scrollElement === document.documentElement ? 0 : scrollElement.scrollTop;
+    this.top = this.el.nativeElement.getBoundingClientRect().top - scrollRect.top + scrollOffset;
   }
 
   ngOnDestroy() {
@@ -97,10 +100,20 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
     this.updateDimensions();
   }
 
+  get scrollElement(): HTMLElement {
+    return this.scrollTarget || document.documentElement;
+  }
+
   updateDimensions() {
 
-    const scrollElement = this.scrollTarget || document.documentElement;
+    const scrollElement = this.scrollElement;
     const rect = scrollElement.getBoundingClientRect();
+
+    const layoutChanged = !this.containerDim
+      || this.containerWidth !== rect.width
+      || this.containerDim.scrollHeight !== scrollElement.scrollHeight;
+
+    this.containerWidth = rect.width;
 
     this.containerDim = {
       height: rect.height,
@@ -108,10 +121,7 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
       scrollHeight: scrollElement.scrollHeight
     };
 
-    if (this.containerWidth !== rect.width) {
-      this.containerWidth = rect.width;
-      this.labels.forEach(label => label.updateTop());
-    }
+    if (layoutChanged) this.labels.forEach(label => label.updateTop(scrollElement));
 
     this.timelineDim = this.timeline.nativeElement.getBoundingClientRect();
 
