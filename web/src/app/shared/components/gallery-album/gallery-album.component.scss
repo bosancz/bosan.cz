@@ -1,5 +1,11 @@
 @import "styles/variables";
 
+h4 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 h4 a {
   color: $black;
   text-decoration: none;
