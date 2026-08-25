@@ -1,0 +1,50 @@
+name: Release to TEST
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  version:
+    name: Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set_short_sha.outputs.short_sha }}
+    steps:
+      - name: Set short SHA
+        id: set_short_sha
+        run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build and publish
+    needs: version
+    uses: ./.github/workflows/_build.yml
+    with:
+      context: .
+      image-name: bosancz/web
+      registry: ghcr.io
+      tag: test
+      build-args: |
+        NG_CONFIGURATION=test
+        VERSION=TEST-${{ needs.version.outputs.version }}
+    secrets:
+      username: ${{ github.actor }}
+      password: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy
+    needs: build
+    uses: ./.github/workflows/_deploy.yml
+    with:
+      images: ${{ needs.build.outputs.images }}
+    secrets: inherit
+
+  tag:
+    name: Tag release
+    needs: build
+    uses: ./.github/workflows/_tag.yml
+    with:
+      tag: TEST

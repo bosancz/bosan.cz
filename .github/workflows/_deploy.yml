@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+  workflow_call:
+    inputs:
+      images:
+        description: "List of pushed images, separated by commas"
+        type: string
+        required: true
+
+jobs:
+  deploy:
+    name: Notify Watchtower
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tell the watchtower server there is a new image
+        env:
+          WATCHTOWER_URL: ${{ vars.WATCHTOWER_URL }}?image=${{ inputs.images }}
+          WATCHTOWER_TOKEN: ${{ secrets.WATCHTOWER_TOKEN }}
+        run: 'curl --fail --request POST --header "Authorization: Bearer $WATCHTOWER_TOKEN" $WATCHTOWER_URL'
