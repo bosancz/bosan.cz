@@ -16,31 +16,55 @@ on:
       new_tag:
         description: "Resolved version tag"
         value: ${{ jobs.version.outputs.new_tag }}
+      new_sha:
+        description: "Commit SHA carrying the resolved package.json version"
+        value: ${{ jobs.version.outputs.new_sha }}
 
 jobs:
   version:
     name: Resolve version tag
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     outputs:
       new_tag: ${{ steps.version.outputs.new_tag }}
       old_tag: ${{ steps.version.outputs.old_tag }}
+      new_sha: ${{ steps.version.outputs.new_sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
         with:
           fetch-depth: "0"
 
-      - name: Resolve version tag
+      - name: Set up Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+
+      - name: Bump package.json version
         id: version
-        uses: anothrNick/github-tag-action@1.75.0
-        env:
-          TAG_PREFIX: v
-          PRERELEASE: ${{ inputs.prerelease }}
-          DEFAULT_BUMP: ${{ inputs.semver }}
-          PRERELEASE_SUFFIX: test
-          DRY_RUN: true
-          FORCE_WITHOUT_CHANGES: true
-          FORCE_WITHOUT_CHANGES_PRE: true
+        run: |
+          old_version="v$(node -p "require('./package.json').version")"
+          echo "old_tag=$old_version" >> "$GITHUB_OUTPUT"
+
+          if [ "${{ inputs.semver }}" = "none" ]; then
+            new_version="$old_version"
+          else
+            bump="${{ inputs.semver }}"
+            if [ "${{ inputs.prerelease }}" = "true" ]; then
+              bump="pre$bump"
+            fi
+            npm version --no-git-tag-version --preid=test "$bump" > /dev/null
+            new_version="v$(node -p "require('./package.json').version")"
+          fi
+          echo "new_tag=$new_version" >> "$GITHUB_OUTPUT"
+
+          if [ "$new_version" != "$old_version" ]; then
+            git add package.json
+            git commit -m "chore: bump version to $new_version"
+            git push origin HEAD:${{ github.ref }}
+          fi
+          echo "new_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Print resolved tags
         env:

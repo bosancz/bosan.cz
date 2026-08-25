@@ -35,6 +35,7 @@ jobs:
       registry: ghcr.io
       tag: latest
       version: ${{ needs.version.outputs.new_tag }}
+      ref: ${{ needs.version.outputs.new_sha }}
       build-args: |
         NG_CONFIGURATION=production
         VERSION=${{ needs.version.outputs.new_tag }}
@@ -59,3 +60,4 @@ jobs:
     with:
       tag: PRODUCTION
       version: ${{ needs.version.outputs.new_tag }}
+      ref: ${{ needs.version.outputs.new_sha }}
