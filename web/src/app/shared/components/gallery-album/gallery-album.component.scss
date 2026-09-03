@@ -1,14 +1,29 @@
 @import "styles/variables";
 
 h4 {
-  white-space: nowrap;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-h4 a {
+.album-title {
   color: $black;
   text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.album-date {
+  color: #888;
+  font-size: 0.85em;
+  font-weight: normal;
+  margin-left: auto;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 @media (max-width: 1199.98px) {
@@ -21,15 +36,57 @@ h4 a {
   height: $photo-height;
   max-height: $photo-max-height;
 }
+
 .image {
   display: block;
   width: 100%;
-  height: $photo-height;
-  max-height: $photo-max-height;
+  height: 100%;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #eee;
+  border-radius: 2px;
+}
+
+.photos .image {
+  height: $photo-height;
+  max-height: $photo-max-height;
+  border-radius: 0;
+}
+
+.album-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  align-items: stretch;
+}
+
+.album-cover {
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: $photo-max-height;
+}
+
+.album-strip {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .album-row.album-row-with-strip {
+    grid-template-columns: 260px 1fr;
+  }
+
+  .album-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 4px;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
 }
 
 .desc {
