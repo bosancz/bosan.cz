@@ -1,8 +1,9 @@
 <ng-container *ngIf="album">
   <h4>
-    <a [routerLink]="'/fotogalerie/' + album._id" [adminLink]="'/interni/galerie/' + album._id">
+    <a class="album-title" [routerLink]="'/fotogalerie/' + album._id" [adminLink]="'/interni/galerie/' + album._id">
       {{album.name}}
     </a>
+    <span class="album-date">{{[album.dateFrom,album.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}}</span>
   </h4>
   <ng-container *ngIf="previewCount; else legacyPhotos">
     <div class="album-row" [class.album-row-with-strip]="previewPhotos.length">
@@ -30,11 +31,7 @@
     </div>
   </ng-template>
   <div class="row my-2">
-
-    <div class="col d-flex justify-content-start text-truncate">
-      <p class="desc">{{[album.dateFrom,album.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}}</p>
-    </div>
-    <div class="col col-auto">
+    <div class="col col-auto ms-auto">
       <a [routerLink]="'/fotogalerie/' + album._id" class="flat">Otevřít album</a>
     </div>
   </div>

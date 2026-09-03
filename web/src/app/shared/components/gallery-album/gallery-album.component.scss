@@ -1,14 +1,29 @@
 @import "styles/variables";
 
 h4 {
-  white-space: nowrap;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-h4 a {
+.album-title {
   color: $black;
   text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.album-date {
+  color: #888;
+  font-size: 0.85em;
+  font-weight: normal;
+  margin-left: auto;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 @media (max-width: 1199.98px) {
@@ -43,13 +58,15 @@ h4 a {
   display: grid;
   grid-template-columns: 1fr;
   gap: 4px;
-  height: $photo-height;
-  max-height: $photo-max-height;
+  align-items: stretch;
 }
 
 .album-cover {
-  height: 100%;
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  height: auto;
   min-height: 0;
+  max-height: $photo-max-height;
 }
 
 .album-strip {
