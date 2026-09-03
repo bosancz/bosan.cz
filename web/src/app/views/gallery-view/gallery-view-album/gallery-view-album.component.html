@@ -1,4 +1,4 @@
-<section *ngIf="album" class="py-2">
+<section *ngIf="album" class="py-4">
   <div *ngIf="album" class="container">
     <div class="row">
       <div class="col-8 col-md-10">
@@ -14,7 +14,7 @@
           </a>
       </div>
     </div>
-    <div class="row">
+    <div class="row mb-4">
       <div class="col-12">
         <h5>
           <ng-container *ngIf="(album.dateFrom | date:'d. M.') !== (album.dateTill | date:'d. M.'); else oneDate">
