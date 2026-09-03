@@ -11,7 +11,7 @@ import { Album } from "app/shared/schema/album";
 import { FooterService } from 'app/services/footer.service';
 import { BehaviorSubject } from 'rxjs';
 
-const ALBUM_HEIGHT = 260;
+const ALBUM_HEIGHT = 260 + 12;
 const ALBUMS_OFFSET_TOP = 190;
 
 class TimelineAlbumContainer {
