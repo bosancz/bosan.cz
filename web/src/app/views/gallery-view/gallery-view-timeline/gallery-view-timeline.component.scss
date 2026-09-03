@@ -38,8 +38,9 @@ timeline-scroll {
 }
 
 .album {
-  height: 320px; // fixed height for faster loading and simple autoloading
+  height: 240px; // fixed height for faster loading and simple autoloading
   overflow: hidden;
+  margin-bottom: 12px;
 
   h4 {
     white-space: nowrap;
@@ -52,15 +53,21 @@ timeline-scroll {
     text-decoration: none;
   }
 
-  .photos {
-    height: $photo-height;
-    max-height: $photo-max-height;
+  .dummy-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    height: 180px;
   }
-  .image {
-    display: block;
-    width: 100%;
-    height: $photo-height;
-    max-height: $photo-max-height;
+  .dummy-cover,
+  .dummy-strip {
     background-color: #eee;
+    border-radius: 4px;
+  }
+
+  @media (min-width: 768px) {
+    .dummy-row {
+      grid-template-columns: 260px 1fr;
+    }
   }
 }

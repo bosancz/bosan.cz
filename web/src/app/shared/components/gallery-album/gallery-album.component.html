@@ -4,13 +4,31 @@
       {{album.name}}
     </a>
   </h4>
-  <div class="row photos">
-    <ng-container *ngFor="let photo of album.titlePhotos | slice:0:photoCount; let i = index">
-      <div class="col-12" [class.col-md-6]="photoCount > 1" [class.col-lg-4]="photoCount > 2" [class.d-none]="i>0" [class.d-lg-block]="i>0" [class.d-md-block]="i>1">
-        <a [routerLink]="'/fotogalerie/' + album._id" class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'"></a>
+  <ng-container *ngIf="previewCount; else legacyPhotos">
+    <div class="album-row" [class.album-row-with-strip]="previewPhotos.length">
+      <a *ngIf="album.titlePhotos?.[0] as titlePhoto"
+         [routerLink]="'/fotogalerie/' + album._id"
+         class="album-cover image"
+         [style.background-image]="'url(' + titlePhoto.sizes?.small?.url + ')'"
+         [style.background-color]="titlePhoto.bg || '#ccc'"></a>
+      <div class="album-strip" *ngIf="previewPhotos.length">
+        <a *ngFor="let photo of previewPhotos"
+           [routerLink]="'/fotogalerie/' + album._id"
+           class="image"
+           [style.background-image]="'url(' + photo.sizes?.small?.url + ')'"
+           [style.background-color]="photo.bg || '#ccc'"></a>
       </div>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
+  <ng-template #legacyPhotos>
+    <div class="row photos">
+      <ng-container *ngFor="let photo of album.titlePhotos | slice:0:photoCount; let i = index">
+        <div class="col-12" [class.col-md-6]="photoCount > 1" [class.col-lg-4]="photoCount > 2" [class.d-none]="i>0" [class.d-lg-block]="i>0" [class.d-md-block]="i>1">
+          <a [routerLink]="'/fotogalerie/' + album._id" class="image" [style.background-image]="'url(' + photo.sizes?.small?.url + ')'" [style.background-color]="photo.bg || '#ccc'"></a>
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
   <div class="row my-2">
 
     <div class="col d-flex justify-content-start text-truncate">

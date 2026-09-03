@@ -21,15 +21,55 @@ h4 a {
   height: $photo-height;
   max-height: $photo-max-height;
 }
+
 .image {
   display: block;
   width: 100%;
-  height: $photo-height;
-  max-height: $photo-max-height;
+  height: 100%;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #eee;
+  border-radius: 2px;
+}
+
+.photos .image {
+  height: $photo-height;
+  max-height: $photo-max-height;
+  border-radius: 0;
+}
+
+.album-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  height: $photo-height;
+  max-height: $photo-max-height;
+}
+
+.album-cover {
+  height: 100%;
+  min-height: 0;
+}
+
+.album-strip {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .album-row.album-row-with-strip {
+    grid-template-columns: 260px 1fr;
+  }
+
+  .album-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 4px;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
 }
 
 .desc {

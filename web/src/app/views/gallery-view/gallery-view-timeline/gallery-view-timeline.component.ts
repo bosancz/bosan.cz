@@ -11,10 +11,8 @@ import { Album } from "app/shared/schema/album";
 import { FooterService } from 'app/services/footer.service';
 import { BehaviorSubject } from 'rxjs';
 
-const ALBUM_HEIGHT = 320;
+const ALBUM_HEIGHT = 240;
 const ALBUMS_OFFSET_TOP = 190;
-const ALBUM_COLUMNS = 3;
-const ALBUM_COLUMNS_BREAKPOINT = 768;
 
 class TimelineAlbumContainer {
   _id: string;
@@ -116,17 +114,12 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
   }
 
-  get albumColumns(): number {
-    return window.innerWidth >= ALBUM_COLUMNS_BREAKPOINT ? ALBUM_COLUMNS : 1;
-  }
-
   updateScroll() {
     const scrollTop = this.scrollTop$.value;
     const scrollBottom = scrollTop + window.innerHeight;
-    const columns = this.albumColumns;
 
     this.timeline.forEach((item, i) => {
-      const top = Math.floor(i / columns) * ALBUM_HEIGHT + ALBUMS_OFFSET_TOP;
+      const top = i * ALBUM_HEIGHT + ALBUMS_OFFSET_TOP;
       const bottom = top + ALBUM_HEIGHT;
       if (bottom >= scrollTop && top <= scrollBottom) {
         this.loadAlbum(item);
@@ -162,7 +155,7 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
     point.loading = true;
 
-    let album = await this.api.get<Album>(["galleryalbum:preview", point._id]);
+    let album = await this.api.get<Album>(["galleryalbum", point._id]);
 
     point.album = album;
     point.loading = false;
