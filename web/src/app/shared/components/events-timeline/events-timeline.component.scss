@@ -157,10 +157,6 @@ h5 {
 }
 
 :host ::ng-deep .description {
-  > :last-child {
-    margin-bottom: 0;
-  }
-
   ul,
   ol {
     padding-left: 1.5rem;
