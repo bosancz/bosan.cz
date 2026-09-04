@@ -31,7 +31,10 @@
       <gallery-album *ngIf="point.album; else dummyAlbum" [album]="point.album" [photoCount]="1" [previewCount]="8"></gallery-album>
 
       <ng-template #dummyAlbum>
-        <h4>{{point.name}} ({{[point.dateFrom,point.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}})</h4>
+        <h4>
+          <span class="album-title">{{point.name}}</span>
+          <span class="album-date">{{[point.dateFrom,point.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}}</span>
+        </h4>
         <div class="dummy-row">
           <div class="dummy-cover"></div>
           <div class="dummy-strip"></div>
