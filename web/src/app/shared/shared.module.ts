@@ -11,6 +11,7 @@ import { DateRangePipe } from "./pipes/date-range.pipe";
 import { EventPipe } from "./pipes/event.pipe";
 import { FormatPhonePipe } from './pipes/format-phone.pipe';
 import { SafeurlPipe } from "./pipes/safeurl.pipe";
+import { MarkdownPipe } from "./pipes/markdown.pipe";
 
 /* COMPONENTS */
 import { SharingModalComponent } from './modals/sharing-modal/sharing-modal.component';
@@ -78,6 +79,7 @@ export function getTooltipConfig(): TooltipConfig {
     JoinLeadersPipe,
     EventPipe,
     FormatPhonePipe,
+    MarkdownPipe,
   ],
   exports: [
     /* MODULES */
@@ -111,6 +113,7 @@ export function getTooltipConfig(): TooltipConfig {
     JoinLeadersPipe,
     EventPipe,
     FormatPhonePipe,
+    MarkdownPipe,
   ],
   providers: [
     { provide: TooltipConfig, useFactory: getTooltipConfig }

@@ -155,3 +155,35 @@ h5 {
     page-break-before: always;
   }
 }
+
+:host ::ng-deep .description {
+  ul,
+  ol {
+    padding-left: 1.5rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+    margin-top: 0;
+    text-align: left;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  blockquote {
+    margin: 0 0 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid #ddd;
+  }
+
+  table {
+    max-width: 100%;
+  }
+}
