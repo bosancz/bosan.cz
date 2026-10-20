@@ -27,17 +27,7 @@ export class GalleryAlbumComponent implements OnChanges {
   private pickPreviewPhotos(): Photo[] {
     if (!this.album || !this.previewCount) return [];
 
-    if (this.album.previewPhotos) return this.album.previewPhotos.slice(0, this.previewCount);
-
-    const titleIds = new Set((this.album.titlePhotos ?? []).slice(0, 1).map((p: Photo) => p._id));
-    const pool = (this.album.photos ?? []).filter((p: Photo) => !titleIds.has(p._id));
-
-    for (let i = pool.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [pool[i], pool[j]] = [pool[j], pool[i]];
-    }
-
-    return pool.slice(0, this.previewCount);
+    return (this.album.previewPhotos ?? []).slice(0, this.previewCount);
   }
 
 }
