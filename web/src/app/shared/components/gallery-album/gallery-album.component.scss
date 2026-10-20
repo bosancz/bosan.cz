@@ -74,7 +74,7 @@ h4 {
 }
 
 @media (min-width: 768px) {
-  .album-row.album-row-with-strip {
+  .album-row {
     grid-template-columns: 260px 1fr;
   }
 
