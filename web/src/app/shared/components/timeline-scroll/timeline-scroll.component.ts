@@ -63,6 +63,9 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
   @Input() showPoints: boolean = true;
 
   labels: TimelineScrollLabelComponent[] = [];
+  visibleLabels: { label: TimelineScrollLabelComponent, top: number }[] = [];
+
+  labelHeight = 17;
 
   containerDim: { top: number, height: number, scrollHeight: number };
   containerWidth: number;
@@ -125,12 +128,42 @@ export class TimelineScrollComponent implements AfterViewInit, OnDestroy {
 
     this.timelineDim = this.timeline.nativeElement.getBoundingClientRect();
 
+    this.updateVisibleLabels();
+
     this.visibleDim = {
       from: (-1) * this.containerDim.top / this.containerDim.scrollHeight,
       to: ((-1) * this.containerDim.top + this.containerDim.height) / this.containerDim.scrollHeight,
       mid: ((-1) * this.containerDim.top + ((-1) * this.containerDim.top + this.containerDim.height)) / 2 / this.containerDim.scrollHeight
     }
 
+  }
+
+  updateVisibleLabels() {
+    const height = this.timelineDim.height;
+    const maxTop = Math.max(0, height - this.labelHeight);
+
+    const positioned = this.labels
+      .filter(label => typeof label.top === "number" && !isNaN(label.top))
+      .map(label => ({ label, top: Math.min(maxTop, Math.max(0, label.top / this.containerDim.scrollHeight * height)) }))
+      .sort((a, b) => a.top - b.top);
+
+    if (positioned.length <= 2) {
+      this.visibleLabels = positioned;
+      return;
+    }
+
+    const first = positioned[0];
+    const last = positioned[positioned.length - 1];
+    const visible = [first];
+
+    for (const item of positioned.slice(1, -1)) {
+      const previous = visible[visible.length - 1];
+      if (item.top - previous.top >= this.labelHeight && last.top - item.top >= this.labelHeight) visible.push(item);
+    }
+
+    if (last.top - first.top >= this.labelHeight) visible.push(last);
+
+    this.visibleLabels = visible;
   }
 
   timelineMouseDown(event: TouchEvent | MouseEvent) {
