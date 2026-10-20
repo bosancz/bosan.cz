@@ -5,7 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import { APP_VERSION } from './version';
 
-console.log(`bosan.cz ${APP_VERSION}`);
+console.log(`Dětská vodácká skupina ŠÁN ${APP_VERSION}`);
 
 // remove previous service workers for frontend only
 if (window.navigator && window.navigator.serviceWorker) {
