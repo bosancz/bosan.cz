@@ -6,7 +6,7 @@
     <span class="album-date">{{[album.dateFrom,album.dateTill] | dateRange:"d. M. y":"d. M.":"d.":" - "}}</span>
   </h4>
   <ng-container *ngIf="previewCount; else legacyPhotos">
-    <div class="album-row" [class.album-row-with-strip]="previewPhotos.length">
+    <div class="album-row">
       <a *ngIf="album.titlePhotos?.[0] as titlePhoto"
          [routerLink]="'/fotogalerie/' + album._id"
          class="album-cover image"
