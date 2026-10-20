@@ -155,7 +155,7 @@ export class GalleryViewTimelineComponent implements OnInit, OnDestroy {
 
     point.loading = true;
 
-    let album = await this.api.get<Album>(["galleryalbum", point._id]);
+    let album = await this.api.get<Album>(["galleryalbum:preview", point._id]);
 
     point.album = album;
     point.loading = false;

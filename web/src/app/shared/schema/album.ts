@@ -17,6 +17,7 @@ export class Album<P = Photo, TP = P> extends Document {
   
   titlePhotos: TP[];
   photos: P[];
+  previewPhotos?: P[];
 
   shareUrl?: string;
 }
