@@ -23,3 +23,12 @@ export function groupInfo(id: string): GroupInfo {
 		(id === FRIENDS_CLUB.id ? FRIENDS_CLUB : { id, name: id, color: "#5a6292", text: "#ffffff" })
 	);
 }
+
+export function sortGroupIds(ids: string[]): string[] {
+	const rank = (id: string) => {
+		const index = CHILD_GROUPS.findIndex((group) => group.id === id);
+		if (index >= 0) return index;
+		return id === FRIENDS_CLUB.id ? CHILD_GROUPS.length + 1000 : CHILD_GROUPS.length + (Number(id) || 999);
+	};
+	return [...ids].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, "cs"));
+}

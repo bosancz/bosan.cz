@@ -15,7 +15,7 @@ import { map } from "rxjs";
 import { ApiService } from "../../core/api.service";
 import { SeoService } from "../../core/seo.service";
 import { ProgramEvent } from "../../core/schema";
-import { CHILD_GROUPS, GroupInfo, groupInfo } from "../../core/groups";
+import { CHILD_GROUPS, GroupInfo, groupInfo, sortGroupIds } from "../../core/groups";
 import { eventTypeIcon } from "../../core/event-types";
 import { MarkdownPipe, markdownToText } from "../../core/markdown";
 import { formatDateRange, formatWeekdayRange, monthKey, monthName, parseDate } from "../../core/dates";
@@ -114,7 +114,7 @@ export class ProgramPage {
 	}
 
 	protected groupsOf(event: ProgramEvent): GroupInfo[] {
-		return event.groups.map(groupInfo);
+		return sortGroupIds(event.groups).map(groupInfo);
 	}
 
 	protected leaders(event: ProgramEvent): string {
