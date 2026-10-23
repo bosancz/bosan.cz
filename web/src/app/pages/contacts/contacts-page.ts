@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { groupInfo } from "../../core/groups";
 import { ORGANIZATION_LD, SeoService } from "../../core/seo.service";
+import { VenueMap } from "./venue-map";
 
 interface LeaderContact {
 	photo: string;
@@ -29,6 +30,7 @@ const ROTATIONS = [-2, 1.5, -1, 2];
 
 @Component({
 	selector: "bo-contacts-page",
+	imports: [VenueMap],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: "./contacts-page.html",
 	styleUrl: "./contacts-page.scss",

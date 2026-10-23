@@ -35,7 +35,8 @@
 						"outputPath": "dist",
 						"stylePreprocessorOptions": {
 							"includePaths": ["src"]
-						}
+						},
+						"allowedCommonJsDependencies": ["leaflet"]
 					},
 					"configurations": {
 						"production": {
@@ -47,7 +48,7 @@
 								},
 								{
 									"type": "anyComponentStyle",
-									"maximumWarning": "12kB",
+									"maximumWarning": "16kB",
 									"maximumError": "24kB"
 								}
 							],
@@ -73,7 +74,7 @@
 								},
 								{
 									"type": "anyComponentStyle",
-									"maximumWarning": "12kB",
+									"maximumWarning": "16kB",
 									"maximumError": "24kB"
 								}
 							],

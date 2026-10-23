@@ -1,0 +1,16 @@
+<div class="venue-map-canvas" #canvas role="region" aria-label="Mapa: loděnice, sídlo spolku a ostrov Šán"></div>
+@for (arrow of arrows(); track arrow.place.id) {
+	<button
+		type="button"
+		class="venue-map-arrow"
+		[style.left.px]="arrow.x"
+		[style.top.px]="arrow.y"
+		(click)="show(arrow.place)"
+		[attr.aria-label]="'Ukázat na mapě: ' + arrow.place.name"
+	>
+		<span class="venue-map-arrow-head" [style.transform]="'rotate(' + arrow.angle + 'deg)'" aria-hidden="true">
+			<svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 12h13M12 5l7 7-7 7" /></svg>
+		</span>
+		<span class="venue-map-arrow-label">{{ arrow.label }}</span>
+	</button>
+}
