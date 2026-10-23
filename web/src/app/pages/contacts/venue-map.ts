@@ -9,7 +9,7 @@ import {
 	signal,
 	viewChild,
 } from "@angular/core";
-import type { LatLngTuple, Map as LeafletMap } from "leaflet";
+import type { LatLngExpression, LatLngTuple, Map as LeafletMap } from "leaflet";
 import { environment } from "../../../environments/environment";
 
 interface Place {
@@ -18,6 +18,7 @@ interface Place {
 	short: string;
 	position: LatLngTuple;
 	zoom: number;
+	shiftX?: number;
 }
 
 interface EdgeArrow {
@@ -29,7 +30,14 @@ interface EdgeArrow {
 }
 
 const PLACES: Place[] = [
-	{ id: "lodenice", name: "Loděnice, V Náklích 445/1a", short: "Loděnice", position: [50.02395, 14.39831], zoom: 15 },
+	{
+		id: "lodenice",
+		name: "Loděnice, V Náklích 445/1a",
+		short: "Loděnice",
+		position: [50.02395, 14.39831],
+		zoom: 13,
+		shiftX: 0.18,
+	},
 	{
 		id: "sidlo",
 		name: "Sídlo spolku, Podolské nábřeží 1180/5",
@@ -116,12 +124,21 @@ export class VenueMap {
 			}
 
 			map.on("move zoom resize", () => this.updateArrows());
+			map.setView(this.viewCenter(home), home.zoom, { animate: false });
 			this.updateArrows();
 		});
 	}
 
 	protected show(place: Place): void {
-		this.map?.flyTo(place.position, place.zoom, { duration: 1.2 });
+		this.map?.flyTo(this.viewCenter(place), place.zoom, { duration: 1.2 });
+	}
+
+	private viewCenter(place: Place): LatLngExpression {
+		const map = this.map;
+		if (!map || !place.shiftX) return place.position;
+		const point = map.project(place.position, place.zoom);
+		point.x -= map.getSize().x * place.shiftX;
+		return map.unproject(point, place.zoom);
 	}
 
 	private updateArrows(): void {
