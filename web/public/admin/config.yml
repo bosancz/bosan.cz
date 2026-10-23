@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: bosancz/bosan.cz
-  branch: master
+  branch: claude/project-thread-q37x2x
   commit_messages:
     create: "docs(web): stránka {{slug}}"
     update: "docs(web): úprava stránky {{slug}}"
