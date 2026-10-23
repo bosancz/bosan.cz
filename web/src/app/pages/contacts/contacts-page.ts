@@ -21,6 +21,7 @@ interface BoardMember {
 	id: string;
 	photo: string;
 	nickname: string;
+	name: string;
 	role: string;
 	email: string | null;
 	phone: string | null;
@@ -78,6 +79,7 @@ export class ContactsPage {
 			id: member._id,
 			photo: member.profilePhoto ?? DEFAULT_PHOTO,
 			nickname: member.nickname,
+			name: [member.firstName, member.lastName].filter(Boolean).join(" "),
 			role: member.function ?? "člen vedení",
 			email: member.email || null,
 			phone: member.mobile ? formatPhone(member.mobile) : null,

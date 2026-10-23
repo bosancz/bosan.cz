@@ -97,6 +97,9 @@
 						<div class="member-name">
 							{{ member.nickname }} <span class="member-role">· {{ member.role }}</span>
 						</div>
+						@if (member.name) {
+							<div class="member-full-name">{{ member.name }}</div>
+						}
 						<div class="member-contact">
 							@if (member.email) {
 								<a [href]="'mailto:' + member.email">{{ member.email }}</a>
