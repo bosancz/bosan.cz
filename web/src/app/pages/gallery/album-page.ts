@@ -96,11 +96,16 @@ export class AlbumPage implements OnInit {
 		const dates = albumDates(album.dateFrom, album.dateTill);
 		const photos = (album.photos ?? []).filter((p) => p.sizes?.big);
 		const title = photos.length ? `${name} (${album.dateFrom.slice(0, 4)})` : name;
-		const lead = markdownToText(album.description) || `Fotoalbum ${name} z akce dětské vodácké skupiny ŠÁN.`;
+		const text =
+			markdownToText(album.description) ||
+			`Fotky z akce ${name} dětské vodácké skupiny ŠÁN, ${dates} ${album.dateFrom.slice(0, 4)}.`;
 		const description =
-			`${lead} ${dates} ${album.dateFrom.slice(0, 4)}, ${photoCount(photos.length)} v galerii ŠÁN.`
-				.replace(/\s+/g, " ")
-				.slice(0, 160);
+			text.length <= 160
+				? text
+				: text
+						.slice(0, 160)
+						.replace(/\s+\S*$/, "")
+						.replace(/[,.;:–-]+$/, "") + "…";
 		const path = `/fotogalerie/${album._id}`;
 		this.seo.set({
 			title,
