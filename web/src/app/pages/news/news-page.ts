@@ -6,6 +6,7 @@ import { eventTypeIcon } from "../../core/event-types";
 import { groupInfo } from "../../core/groups";
 import { Album, ProgramEvent } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
+import { markdownToText } from "../../core/markdown";
 
 const UPCOMING_LIMIT = 7;
 const PHOTO_ALBUMS = 5;
@@ -82,11 +83,7 @@ function longAlbumDates(album: Album): string {
 }
 
 function excerpt(text: string | null, max: number): string {
-	const first = (text ?? "")
-		.split(/\n\s*\n/)[0]
-		.replace(/[*_`#>]+/g, "")
-		.replace(/\s+/g, " ")
-		.trim();
+	const first = markdownToText((text ?? "").split(/\n\s*\n/)[0]);
 	if (first.length <= max) return first;
 	const cut = first.slice(0, max);
 	return cut.slice(0, Math.max(cut.lastIndexOf(" "), 40)).replace(/[,.;:–-]+$/, "") + "…";
@@ -169,7 +166,8 @@ export class NewsPage {
 			id: album._id,
 			name: album.name.trim(),
 			dates: compactRange(album.dateFrom.slice(0, 10), album.dateTill.slice(0, 10)),
-			text: album.description?.trim() || "Podívej se, jak to u nás vypadalo. Fotky z akce jsou v galerii.",
+			text:
+				markdownToText(album.description) || "Podívej se, jak to u nás vypadalo. Fotky z akce jsou v galerii.",
 			image: photo ? this.big(photo.sizes.big?.url ?? photo.sizes.small?.url ?? "") : null,
 		};
 	});

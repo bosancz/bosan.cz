@@ -184,7 +184,7 @@
 								}
 							</h3>
 							@if (event.description) {
-								<p class="desc">{{ event.description }}</p>
+								<div class="desc" [innerHTML]="event.description | markdown"></div>
 							}
 							@if (event.leaders.length) {
 								<div class="leaders"><strong>Vede:</strong> {{ leaders(event) }}</div>
@@ -225,7 +225,7 @@
 						<div class="m-body">
 							<div class="weekdays">{{ weekdays(event.dateFrom, event.dateTill) }}</div>
 							@if (event.description) {
-								<p class="desc">{{ event.description }}</p>
+								<div class="desc" [innerHTML]="event.description | markdown"></div>
 							}
 							@if (event.leaders.length) {
 								<div class="leaders"><strong>Vede:</strong> {{ leaders(event) }}</div>

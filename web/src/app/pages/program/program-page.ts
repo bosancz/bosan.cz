@@ -17,6 +17,7 @@ import { SeoService } from "../../core/seo.service";
 import { ProgramEvent } from "../../core/schema";
 import { CHILD_GROUPS, GroupInfo, groupInfo } from "../../core/groups";
 import { eventTypeIcon } from "../../core/event-types";
+import { MarkdownPipe, markdownToText } from "../../core/markdown";
 import { formatDateRange, formatWeekdayRange, monthKey, monthName, parseDate } from "../../core/dates";
 
 interface MonthSection {
@@ -28,7 +29,7 @@ interface MonthSection {
 @Component({
 	selector: "bo-program-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, NgTemplateOutlet],
+	imports: [RouterLink, NgTemplateOutlet, MarkdownPipe],
 	templateUrl: "./program-page.html",
 	styleUrl: "./program-page.scss",
 })
@@ -133,7 +134,7 @@ export class ProgramPage {
 			"@context": "https://schema.org",
 			"@type": "Event",
 			name: event.name,
-			description: event.description ?? undefined,
+			description: markdownToText(event.description) || undefined,
 			startDate: event.dateFrom.slice(0, 10),
 			endDate: event.dateTill.slice(0, 10),
 			eventStatus:

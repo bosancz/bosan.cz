@@ -37,7 +37,7 @@
 				}
 			</div>
 			@if (album.description) {
-				<p class="description">{{ album.description }}</p>
+				<div class="description" [innerHTML]="album.description | markdown"></div>
 			}
 		} @else if (failed()) {
 			<h1>Album nenalezeno</h1>

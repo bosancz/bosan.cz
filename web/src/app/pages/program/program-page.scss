@@ -229,10 +229,22 @@ h2 {
 	font-size: 16px;
 	line-height: 1.55;
 	color: var(--body-text);
-	display: -webkit-box;
-	-webkit-line-clamp: 3;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
+
+	:is(p, ul, ol) {
+		margin: 0 0 0.6em;
+	}
+
+	> :last-child {
+		margin-bottom: 0;
+	}
+
+	:is(ul, ol) {
+		padding-left: 1.3em;
+	}
+
+	a {
+		color: var(--navy);
+	}
 }
 
 .leaders {
@@ -540,7 +552,6 @@ h2 {
 		.desc {
 			font-size: 15px;
 			line-height: 1.5;
-			-webkit-line-clamp: 6;
 		}
 
 		.leaders {

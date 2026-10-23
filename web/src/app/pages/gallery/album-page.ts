@@ -17,6 +17,7 @@ import { Album, Photo } from "../../core/schema";
 import { SeoService } from "../../core/seo.service";
 import { albumDates, albumName } from "./gallery-dates";
 import { PhotoViewer } from "./photo-viewer";
+import { MarkdownPipe, markdownToText } from "../../core/markdown";
 
 const albumCache = new Map<string, Album>();
 
@@ -28,7 +29,7 @@ export function photoCount(count: number): string {
 
 @Component({
 	selector: "bo-album-page",
-	imports: [RouterLink, PhotoViewer],
+	imports: [RouterLink, PhotoViewer, MarkdownPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: "./album-page.html",
 	styleUrl: "./album-page.scss",
@@ -95,7 +96,7 @@ export class AlbumPage implements OnInit {
 		const dates = albumDates(album.dateFrom, album.dateTill);
 		const photos = (album.photos ?? []).filter((p) => p.sizes?.big);
 		const title = photos.length ? `${name} (${album.dateFrom.slice(0, 4)})` : name;
-		const lead = album.description?.trim() || `Fotoalbum ${name} z akce dětské vodácké skupiny ŠÁN.`;
+		const lead = markdownToText(album.description) || `Fotoalbum ${name} z akce dětské vodácké skupiny ŠÁN.`;
 		const description =
 			`${lead} ${dates} ${album.dateFrom.slice(0, 4)}, ${photoCount(photos.length)} v galerii ŠÁN.`
 				.replace(/\s+/g, " ")
@@ -112,7 +113,7 @@ export class AlbumPage implements OnInit {
 				"@context": "https://schema.org",
 				"@type": "ImageGallery",
 				name,
-				description: album.description?.trim() || description,
+				description: markdownToText(album.description) || description,
 				url: this.seo.absoluteUrl(path),
 				datePublished: album.datePublished ?? undefined,
 				dateCreated: album.dateFrom,
