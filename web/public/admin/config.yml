@@ -242,6 +242,24 @@ collections:
         file: web/src/content/aktualne.json
         preview_path: /
         fields:
+          - name: messages
+            label: Zprávy pro rodiče
+            label_singular: zprávu
+            hint: Zobrazí se nahoře v Aktualitách. Po datu „Zobrazovat do“ zmizí sama, nebo ji smaž.
+            widget: list
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: Nadpis, widget: string }
+              - { <<: *inline, name: text, label: Text, required: false }
+              - { name: date, label: Datum zprávy, widget: datetime, type: date, picker_utc: true, default: "{{now}}" }
+              - name: until
+                label: Zobrazovat do
+                hint: Včetně tohoto dne. Prázdné = dokud zprávu nesmažeš.
+                widget: datetime
+                type: date
+                picker_utc: true
+                required: false
           - name: join
             label: Pruh „Přijď se podívat“
             widget: object

@@ -67,7 +67,15 @@ export interface ContactsContent {
 	hours: string;
 }
 
+export interface NewsMessage {
+	title: string;
+	text: string;
+	date: string;
+	until: string | null;
+}
+
 export interface NewsContent {
+	messages: NewsMessage[];
 	join: { title: string; long: string; short: string };
 }
 
