@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from "@angular/core";
-import { NgTemplateOutlet } from "@angular/common";
+import {
+	ChangeDetectionStrategy,
+	Component,
+	Injector,
+	afterNextRender,
+	computed,
+	effect,
+	inject,
+	signal,
+} from "@angular/core";
+import { DOCUMENT, NgTemplateOutlet } from "@angular/common";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { map } from "rxjs";
@@ -27,6 +36,8 @@ export class ProgramPage {
 	private readonly api = inject(ApiService);
 	private readonly seo = inject(SeoService);
 	private readonly route = inject(ActivatedRoute);
+	private readonly document = inject(DOCUMENT);
+	private readonly injector = inject(Injector);
 
 	protected readonly program = this.api.program();
 	protected readonly icalUrl = this.api.icalUrl();
@@ -65,7 +76,29 @@ export class ProgramPage {
 
 	protected readonly firstEventId = computed(() => this.sections()[0]?.events[0]?._id);
 
+	private readonly fragment = toSignal(this.route.fragment, { initialValue: this.route.snapshot.fragment });
+	private scrolledTo: string | null = null;
+	protected readonly targetId = computed(() => {
+		const fragment = this.fragment();
+		return fragment?.startsWith("akce-") ? fragment.slice(5) : null;
+	});
+
 	constructor() {
+		effect(() => {
+			const id = this.targetId();
+			if (!id || id === this.scrolledTo || !this.sections().length) return;
+			this.scrolledTo = id;
+			afterNextRender(
+				() => {
+					const card = Array.from(this.document.querySelectorAll<HTMLElement>(`[data-event="${id}"]`)).find(
+						(element) => element.offsetParent !== null,
+					);
+					card?.scrollIntoView({ block: "center" });
+				},
+				{ injector: this.injector },
+			);
+		});
+
 		effect(() => {
 			this.seo.set({
 				title: "Program akcí",

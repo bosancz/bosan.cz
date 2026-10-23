@@ -148,7 +148,12 @@
 		@for (section of sections(); track section.key) {
 			<h2>{{ section.title }}</h2>
 			@for (event of section.events; track event._id; let i = $index) {
-				<article class="card" [style.border-radius]="radius(i)">
+				<article
+					class="card"
+					[style.border-radius]="radius(i)"
+					[attr.data-event]="event._id"
+					[class.targeted]="event._id === targetId()"
+				>
 					<div class="card-main">
 						<div class="when">
 							<img
@@ -191,8 +196,13 @@
 					</div>
 				</article>
 
-				<article class="m-card" [style.border-radius]="radius(i + 1)">
-					<details [open]="event._id === firstEventId()">
+				<article
+					class="m-card"
+					[style.border-radius]="radius(i + 1)"
+					[attr.data-event]="event._id"
+					[class.targeted]="event._id === targetId()"
+				>
+					<details [open]="event._id === (targetId() ?? firstEventId())">
 						<summary>
 							<img [src]="icon(event.type)" alt="" aria-hidden="true" width="34" height="34" />
 							<div class="m-head">

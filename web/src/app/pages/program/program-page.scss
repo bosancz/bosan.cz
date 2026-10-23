@@ -124,6 +124,17 @@ h2 {
 	display: flex;
 }
 
+.card,
+.m-card {
+	scroll-margin: 24px;
+
+	&.targeted {
+		outline: 3px solid var(--orange);
+		outline-offset: 3px;
+		box-shadow: 0 10px 28px rgba(226, 143, 38, 0.25);
+	}
+}
+
 .card-main {
 	flex: 1 1 auto;
 	min-width: 0;
