@@ -1,0 +1,342 @@
+<header class="hero" id="camp-top">
+	<div class="hero-inner">
+		<div class="hero-text">
+			<div class="hero-title">
+				<h1>tábor na ostrově šán</h1>
+				<svg class="hero-island" viewBox="42 0 128 610" aria-hidden="true" preserveAspectRatio="none">
+					<g transform="translate(18 4) scale(1.35 1)" fill="none" stroke-width="4" stroke-linejoin="round">
+						<path
+							d="M40 6 C55 70 64 170 62 260 C60 330 52 420 60 510 C64 555 72 582 80 596 C62 578 44 535 35 455 C25 360 22 220 28 120 C31 70 35 32 40 6 Z"
+							vector-effect="non-scaling-stroke"
+						/>
+						<path
+							d="M93 318 C105 326 109 380 107 440 C105 478 98 494 90 490 C80 484 77 430 79 380 C81 345 85 318 93 318 Z"
+							vector-effect="non-scaling-stroke"
+						/>
+					</g>
+				</svg>
+			</div>
+			<p class="hero-lead">
+				Letní vodácký tábor na ostrově na Labi nedaleko Roudnice nad Labem. Pro všechny od 7 do 15 let, kteří
+				mají rádi pohyb a umí aspoň základy plavání — na ostrově se vodě nevyhneš.
+			</p>
+		</div>
+		<img
+			class="hero-photo"
+			src="/img/camp/header.jpg"
+			alt="Tábořiště na ostrově Šán"
+			width="1100"
+			height="428"
+			fetchpriority="high"
+		/>
+	</div>
+</header>
+
+<nav class="toc" aria-label="Obsah stránky">
+	<div class="toc-desktop container">
+		<span class="toc-label">Obsah</span>
+		<ol>
+			@for (item of toc; track item.id) {
+				<li>
+					<a
+						[href]="'#' + item.id"
+						[class.active]="activeId() === item.id"
+						[attr.aria-current]="activeId() === item.id ? 'location' : null"
+						>{{ item.label }}</a
+					>
+				</li>
+			}
+		</ol>
+		<a class="toc-top" href="#camp-top">↑ nahoru</a>
+	</div>
+	<details class="toc-mobile" [open]="tocOpen()" (toggle)="toggleToc($event)">
+		<summary>
+			<span class="toc-label">Obsah</span>
+			<span class="toc-current">{{ activeLabel() }}</span>
+			<svg viewBox="0 0 24 24" aria-hidden="true">
+				<path
+					d="M6 9l6 6 6-6"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.6"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</svg>
+		</summary>
+		<ol>
+			@for (item of toc; track item.id) {
+				<li>
+					<a [href]="'#' + item.id" [class.active]="activeId() === item.id" (click)="closeToc()">{{
+						item.label
+					}}</a>
+				</li>
+			}
+		</ol>
+	</details>
+</nav>
+
+<main class="main">
+	<section class="turnusy container" aria-labelledby="t-turnusy">
+		<h2 id="t-turnusy" class="h2">tábory</h2>
+		<p class="turnusy-lead">
+			Na Šán jezdíme každé léto na dva turnusy. Termíny na další rok zatím nevíme, ohlásíme je v Aktuálně, jakmile
+			budou.
+		</p>
+		<div class="turnusy-grid">
+			@for (turnus of turnusy; track turnus.id) {
+				<article class="turnus">
+					<div class="turnus-dates">
+						<time [attr.datetime]="turnus.from + '/' + turnus.to"
+							>{{ turnus.label[0] }}<br />{{ turnus.label[1] }}</time
+						>
+					</div>
+					<div class="turnus-body">
+						<span class="notch notch-left" aria-hidden="true"></span>
+						<span class="notch notch-right" aria-hidden="true"></span>
+						<ul class="oddily" aria-label="Oddíly">
+							@for (id of turnus.groups; track id) {
+								<li [style.background]="group(id).color" [style.color]="group(id).text">
+									{{ group(id).name }}
+								</li>
+							}
+						</ul>
+						<div class="leader">
+							<span class="leader-pill">Hlavní vedoucí</span>
+							<div>
+								<div class="leader-nick">{{ turnus.leader.nickname }}</div>
+								<div class="leader-name">{{ turnus.leader.name }}</div>
+							</div>
+							<div class="leader-contacts">
+								<a [href]="'mailto:' + turnus.leader.email" [title]="turnus.leader.email">
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<rect
+											x="3"
+											y="5"
+											width="18"
+											height="14"
+											rx="3"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2.2"
+										/>
+										<path
+											d="M4 7l8 6 8-6"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2.2"
+											stroke-linejoin="round"
+										/>
+									</svg>
+									{{ turnus.leader.email }}
+								</a>
+								<a [href]="'tel:+420' + turnus.leader.phone.replaceAll(' ', '')">
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<path
+											d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2.2"
+											stroke-linejoin="round"
+										/>
+									</svg>
+									{{ turnus.leader.phone }}
+								</a>
+							</div>
+						</div>
+					</div>
+				</article>
+			}
+		</div>
+	</section>
+
+	<section class="zivot container" aria-labelledby="t-zivot">
+		<div class="zivot-text">
+			<h2 id="t-zivot" class="h2">táborový život</h2>
+			<p>
+				Obou táborů se zúčastní padesát šest dětí rozdělených do čtyř oddílů po dvou posádkách. Každá posádka se
+				stará o svou devítikánoi, na které se plavíme po okolí Šánu a hrajeme většinu celotáborových her. K
+				výcviku slouží i deblovky, kajaky a singlkanoe; nováčkům zapůjčíme kompletní vodácké vybavení.
+			</p>
+			<p>
+				Během tábora se naučíme uzly, morseovku, topografii i zdravovědu a nechybí tradiční šánovské specialitky
+				jako legendární Poseidonské hry.
+			</p>
+			<p>
+				Děti pomáhají s chodem tábora — připravují dříví, člunaři vozí suroviny a vodu z druhého břehu. Tábor
+				končí slavnostním táborákem, na který zveme rodiče a přátele.
+			</p>
+		</div>
+		<div class="zivot-photos">
+			<img
+				class="wide"
+				src="/img/camp/ships.jpg"
+				alt="Devítikánoe na Labi"
+				width="600"
+				height="382"
+				loading="lazy"
+			/>
+			<img src="/img/camp/poseidon.jpg" alt="Poseidonské hry" width="400" height="253" loading="lazy" />
+			<img src="/img/camp/tent.jpg" alt="Stany na tábořišti" width="473" height="315" loading="lazy" />
+		</div>
+	</section>
+
+	<section class="den container" aria-labelledby="t-den">
+		<h2 id="t-den" class="h2 h2-den">jeden den na Šánu</h2>
+		<p class="den-lead">Jak vypadá běžný táborový den, od budíčku až po čtení na dobrou noc.</p>
+		<div class="chapters">
+			@for (chapter of chapters; track chapter.title; let odd = $odd) {
+				<article class="chapter" [class.reverse]="odd">
+					<div class="chapter-photos" [attr.data-layout]="chapter.layout">
+						@for (photo of chapter.photos; track photo.file) {
+							<img
+								[src]="'/img/camp/' + photo.file + '.jpg'"
+								[alt]="photo.alt"
+								width="1200"
+								height="800"
+								loading="lazy"
+							/>
+						}
+					</div>
+					<div class="chapter-text">
+						<div class="chapter-part">{{ chapter.part }}</div>
+						<h3>{{ chapter.title }}</h3>
+						<p>{{ chapter.text }}</p>
+					</div>
+				</article>
+			}
+		</div>
+	</section>
+
+	<section class="special container" aria-label="Výjimečné dny">
+		<div class="special-grid">
+			@for (day of specialDays; track day.title) {
+				<article class="special-card">
+					<img
+						[src]="'/img/camp/' + day.photo.file + '.jpg'"
+						[alt]="day.photo.alt"
+						width="1200"
+						height="800"
+						loading="lazy"
+					/>
+					<div class="special-body">
+						<h3>{{ day.title }}</h3>
+						<p>{{ day.text }}</p>
+					</div>
+				</article>
+			}
+		</div>
+	</section>
+
+	<section class="cena" aria-labelledby="t-cena">
+		<div class="cena-inner container">
+			<div>
+				<h2 id="t-cena" class="h2 h2-cena">kolik to stojí</h2>
+				<div class="price-row">
+					<div class="price">5 100 Kč</div>
+					<div>pro členy skupiny ŠÁN</div>
+				</div>
+				<div class="price-row">
+					<div class="price">5 600 Kč</div>
+					<div>pro nečleny</div>
+				</div>
+				<p class="price-note">
+					Záloha 500 Kč do 14 dní od vydání přihlášky, doplatek do konce května. Účastníci tábora mají členské
+					příspěvky od září do prosince zdarma. Sleva 500 Kč pro sourozence a 200 Kč za dar na projekt Women
+					for Women.
+				</p>
+			</div>
+			<div class="included">
+				<h3>V ceně</h3>
+				<ul>
+					@for (item of included; track item) {
+						<li>{{ item }}</li>
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section class="ostrov" aria-labelledby="t-ostrov">
+		<div class="ostrov-inner container">
+			<div class="ostrov-map">
+				<svg
+					viewBox="0 0 340 660"
+					role="img"
+					aria-label="Mapka: ostrov Šán s tábořištěm a sousední ostrov Án na Labi u Hrobců, sever nahoře"
+					class="map"
+				>
+					<path
+						d="M100 0 C92 160 108 330 98 500 C92 580 100 630 96 660 L262 660 C258 600 268 480 262 330 C256 180 266 80 258 0 Z"
+						fill="#f6d3a5"
+					/>
+					<g transform="translate(92 28) scale(1.35 1)">
+						<path
+							d="M40 6 C55 70 64 170 62 260 C60 330 52 420 60 510 C64 555 72 582 80 596 C62 578 44 535 35 455 C25 360 22 220 28 120 C31 70 35 32 40 6 Z"
+							fill="#799f3d"
+							stroke="#2a3478"
+							stroke-width="2.5"
+							stroke-linejoin="round"
+							vector-effect="non-scaling-stroke"
+						/>
+						<path
+							d="M93 318 C105 326 109 380 107 440 C105 478 98 494 90 490 C80 484 77 430 79 380 C81 345 85 318 93 318 Z"
+							fill="#799f3d"
+							stroke="#2a3478"
+							stroke-width="2.5"
+							stroke-linejoin="round"
+							vector-effect="non-scaling-stroke"
+						/>
+					</g>
+					<path d="M84 244 L128 244 M246 432 L270 432" stroke="#2a3478" stroke-width="2" />
+					<text
+						x="78"
+						y="254"
+						font-family="'San Grotesk', sans-serif"
+						font-size="34"
+						fill="#2a3478"
+						text-anchor="end"
+					>
+						Šán
+					</text>
+					<text x="276" y="441" font-family="'San Grotesk', sans-serif" font-size="26" fill="#2a3478">
+						Án
+					</text>
+					<text x="282" y="150" font-family="'San Grotesk', sans-serif" font-size="22" fill="#2a3478">
+						Labe
+					</text>
+					<text
+						x="8"
+						y="640"
+						font-family="'San Grotesk', sans-serif"
+						font-size="18"
+						fill="#2a3478"
+						opacity="0.75"
+					>
+						Hrobce
+					</text>
+					<g fill="#2a3478">
+						<path d="M312 16 L322 44 L312 38 L302 44 Z" />
+						<text
+							x="312"
+							y="66"
+							font-family="'San Grotesk', sans-serif"
+							font-size="18"
+							text-anchor="middle"
+						>
+							S
+						</text>
+					</g>
+				</svg>
+			</div>
+			<div class="ostrov-text">
+				<h2 id="t-ostrov">kde tábor je</h2>
+				<p>
+					LVT ostrov Šán, Hrobce u Roudnice nad Labem, 411 83. Ostrov na 805. říčním kilometru Labe, asi
+					kilometr dlouhý a 60 metrů široký.
+				</p>
+			</div>
+			<a class="ostrov-link" routerLink="/kontakty">Chci vědět víc</a>
+		</div>
+	</section>
+</main>
