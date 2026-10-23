@@ -101,6 +101,7 @@ export class NewsPage {
 	private readonly seo = inject(SeoService);
 	private readonly program = this.api.program();
 	private readonly albums = this.api.recentAlbums(PHOTO_ALBUMS);
+	private readonly reports = this.api.recentReports(1);
 	private readonly today = isoDay(new Date());
 
 	private readonly events = computed(() => this.program.value() ?? []);
@@ -159,11 +160,27 @@ export class NewsPage {
 	);
 
 	protected readonly lead = computed(() => {
+		const report = [...(this.reports.value() ?? [])].sort((a, b) =>
+			b.reportPublishedAt.localeCompare(a.reportPublishedAt),
+		)[0];
+		if (report) {
+			const photo = report.album?.titlePhoto;
+			const url = photo?.sizes.big?.url ?? photo?.sizes.small?.url;
+			return {
+				reportId: report._id,
+				albumId: report.album?._id ?? null,
+				name: report.name.trim(),
+				dates: compactRange(report.dateFrom.slice(0, 10), report.dateTill.slice(0, 10)),
+				text: excerpt(report.report, 320),
+				image: url ? this.big(url) : null,
+			};
+		}
 		const album = this.sortedAlbums().find((a) => a.year >= 2000);
 		if (!album) return null;
 		const photo = album.titlePhotos[0];
 		return {
-			id: album._id,
+			reportId: null,
+			albumId: album._id,
 			name: album.name.trim(),
 			dates: compactRange(album.dateFrom.slice(0, 10), album.dateTill.slice(0, 10)),
 			text:

@@ -3,7 +3,7 @@ import { Injectable, PLATFORM_ID, Signal, inject, signal } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../environments/environment";
-import { Album, ProgramEvent, PublicBoardMember, PublicGroup } from "./schema";
+import { Album, ProgramEvent, PublicBoardMember, PublicGroup, PublicReport } from "./schema";
 import { HydrationState } from "./hydration-state";
 
 export interface LiveData<T> {
@@ -80,6 +80,18 @@ export class ApiService {
 		return this.live<PublicBoardMember[]>("/public/board-members");
 	}
 
+	reports(): LiveData<PublicReport[]> {
+		return this.live<PublicReport[]>("/public/reports", { limit: 1000 });
+	}
+
+	recentReports(limit: number): LiveData<PublicReport[]> {
+		return this.live<PublicReport[]>("/public/reports", { limit });
+	}
+
+	report(id: string): LiveData<PublicReport> {
+		return this.live<PublicReport>(`/public/reports/${encodeURIComponent(id)}`);
+	}
+
 	icalUrl(): string {
 		return this.url("/public/program/ical");
 	}
@@ -87,5 +99,16 @@ export class ApiService {
 	async fetchGalleryAlbumIds(): Promise<string[]> {
 		const albums = await firstValueFrom(this.http.get<Album[]>(this.url("/public/gallery")));
 		return albums.map((album) => album._id);
+	}
+
+	async fetchReportIds(): Promise<string[]> {
+		try {
+			const reports = await firstValueFrom(
+				this.http.get<PublicReport[]>(this.url("/public/reports"), { params: { limit: 1000 } }),
+			);
+			return reports.map((report) => report._id);
+		} catch {
+			return [];
+		}
 	}
 }

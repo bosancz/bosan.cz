@@ -27,7 +27,15 @@
 						<h3 class="lead-title">byli jsme na akci {{ item.name.toLowerCase() }}</h3>
 						<p class="lead-body">{{ item.text }}</p>
 						<div class="links">
-							<a [routerLink]="['/fotogalerie', item.id]">Fotky z akce</a>
+							@if (item.reportId) {
+								<a [routerLink]="['/reporty', item.reportId]">Celý report</a>
+							}
+							@if (item.albumId) {
+								<a [routerLink]="['/fotogalerie', item.albumId]">Fotky z akce</a>
+							}
+							@if (item.reportId) {
+								<a routerLink="/reporty">Všechny reporty</a>
+							}
 						</div>
 					</div>
 				</article>

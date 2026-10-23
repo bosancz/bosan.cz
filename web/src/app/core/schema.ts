@@ -86,3 +86,18 @@ export interface PublicGroup {
 export interface PublicBoardMember extends PublicGroupLeader {
 	function: string | null;
 }
+
+export interface PublicReport {
+	_id: string;
+	name: string;
+	type: string | null;
+	dateFrom: string;
+	dateTill: string;
+	groups: string[];
+	leaders: { nickname: string }[];
+	report: string;
+	reportPublishedAt: string;
+	river: string | null;
+	waterKm: number | null;
+	album: { _id: string; name: string; titlePhoto: Photo | null } | null;
+}
