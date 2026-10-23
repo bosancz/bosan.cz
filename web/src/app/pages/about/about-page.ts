@@ -91,7 +91,7 @@ const TIMELINE: TimelineItem[] = [
 	{
 		year: "dnes",
 		title: "584 alb ve fotogalerii",
-		text: "Sedm oddílů — 3., 4., 5., 6., 7., 8. a 22. — a každý rok dva tábory na ostrově. Doufáme, že se jednou vrátíme do loděnice mezi botelem Racek a novým Dvoreckým mostem.",
+		text: "Sedm oddílů — 3, 4, 5, 6, 7, 8 a 22 — a každý rok dva tábory na ostrově. Doufáme, že se jednou vrátíme do loděnice mezi botelem Racek a novým Dvoreckým mostem.",
 		tone: "today",
 		photos: [],
 	},
