@@ -47,3 +47,16 @@ a {
 		text-decoration: underline;
 	}
 }
+
+.version {
+	margin-left: auto;
+	align-self: flex-end;
+	font-size: 12px;
+	line-height: 1;
+	color: #8f96c4;
+
+	@include bp.mobile {
+		margin-left: 0;
+		align-self: flex-start;
+	}
+}

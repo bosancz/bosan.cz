@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
+import { APP_VERSION } from "../../../environments/version";
 
 @Component({
 	selector: "bo-site-footer",
@@ -8,4 +9,6 @@ import { RouterLink } from "@angular/router";
 	templateUrl: "./site-footer.html",
 	styleUrl: "./site-footer.scss",
 })
-export class SiteFooter {}
+export class SiteFooter {
+	protected readonly version = APP_VERSION;
+}
