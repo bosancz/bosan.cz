@@ -8,7 +8,8 @@ export function renderMarkdown(text: string | null | undefined): string {
 
 export function markdownToText(text: string | null | undefined): string {
 	return renderMarkdown(text)
-		.replace(/<[^>]*>/g, " ")
+		.replace(/<\/(p|li|h[1-6]|blockquote|pre)>|<br\s*\/?>/g, " ")
+		.replace(/<[^>]*>/g, "")
 		.replace(/&nbsp;/g, " ")
 		.replace(/&amp;/g, "&")
 		.replace(/&lt;/g, "<")

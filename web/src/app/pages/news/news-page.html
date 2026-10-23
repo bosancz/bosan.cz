@@ -53,7 +53,7 @@
 				</article>
 			}
 			@for (item of published(); track item.id) {
-				<article class="note note-new">
+				<a class="note note-new" routerLink="/program" [fragment]="'akce-' + item.id">
 					<img class="note-fire" [src]="item.icon" alt="" aria-hidden="true" width="52" height="52" />
 					<div class="note-text">
 						<div class="meta">{{ item.dates }}</div>
@@ -62,7 +62,7 @@
 							<p class="note-body note-more">{{ item.text }}</p>
 						}
 					</div>
-				</article>
+				</a>
 			}
 		</section>
 

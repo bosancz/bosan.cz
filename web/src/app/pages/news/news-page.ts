@@ -3,7 +3,7 @@ import { RouterLink } from "@angular/router";
 import { ApiService } from "../../core/api.service";
 import { formatDateRange, formatWeekdayRange, monthName, parseDate } from "../../core/dates";
 import { eventTypeIcon } from "../../core/event-types";
-import { groupInfo } from "../../core/groups";
+import { groupInfo, sortGroupIds } from "../../core/groups";
 import { Album, ProgramEvent } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
 import { InlineMarkdownPipe, markdownToText } from "../../core/markdown";
@@ -121,7 +121,7 @@ export class NewsPage {
 				dates: formatDateRange(e.dateFrom, e.dateTill),
 				weekdays: formatWeekdayRange(e.dateFrom, e.dateTill),
 				from: e.dateFrom,
-				groups: e.groups.map((id) => groupInfo(id)),
+				groups: sortGroupIds(e.groups).map((id) => groupInfo(id)),
 			})),
 	);
 
@@ -132,11 +132,11 @@ export class NewsPage {
 				(a, b) =>
 					(b.cancelledAt ?? "").localeCompare(a.cancelledAt ?? "") || a.dateFrom.localeCompare(b.dateFrom),
 			);
-		return list.slice(0, 2).map((e) => ({
+		return list.map((e) => ({
 			id: e._id,
 			name: e.name,
 			date: formatDateRange(e.dateFrom, e.dateTill),
-			groups: e.groups.length ? "oddíl " + e.groups.join(", ") : "",
+			groups: e.groups.length ? "oddíl " + sortGroupIds(e.groups).join(", ") : "",
 		}));
 	});
 
