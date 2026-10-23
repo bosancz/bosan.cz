@@ -11,6 +11,7 @@ backend:
 
 publish_mode: preview
 
+app_title: Úprava webu ŠÁN
 site_url: https://bosan.cz
 display_url: https://bosan.cz
 logo:
