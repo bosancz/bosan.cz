@@ -435,8 +435,8 @@ h1 {
 }
 
 .groups {
-	background: var(--navy);
-	color: #fff;
+	background: var(--light);
+	color: var(--navy);
 }
 
 .groups-inner {
@@ -452,14 +452,14 @@ h1 {
 	h2 {
 		margin: 0 0 14px;
 		font: 400 56px/1.2 var(--font-display);
-		color: #fff;
+		color: var(--navy);
 	}
 
 	p {
 		margin: 0 0 14px;
 		font-size: 18px;
 		line-height: 1.6;
-		color: #dfe3f5;
+		color: var(--body-text);
 	}
 
 	p:last-of-type {
@@ -485,7 +485,7 @@ h1 {
 		padding: 0 10px;
 		box-sizing: border-box;
 		border-radius: 999px;
-		border: 2px solid #fff;
+		border: 2px solid transparent;
 		font-weight: 800;
 		font-size: 16px;
 	}
@@ -493,7 +493,8 @@ h1 {
 	.friends {
 		padding: 0 16px;
 		background: transparent;
-		color: #fff;
+		border-color: var(--navy);
+		color: var(--navy);
 	}
 }
 
