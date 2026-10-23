@@ -10,7 +10,7 @@ RUN npm ci
 
 COPY ./web .
 ENV VERSION=$VERSION
-RUN node scripts/set-version.mjs && npx ng build --configuration="${NG_CONFIGURATION}" && node scripts/seo-files.mjs "${NG_CONFIGURATION}"
+RUN node scripts/set-version.mjs && npx ng build --configuration="${NG_CONFIGURATION}" && node scripts/seo-files.mjs "${NG_CONFIGURATION}" && node scripts/og-images.mjs
 
 
 FROM nginx:alpine

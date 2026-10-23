@@ -14,7 +14,7 @@ import { ApiService, LiveData } from "../../core/api.service";
 import { groupInfo, sortGroupIds } from "../../core/groups";
 import { MarkdownPipe, markdownToText } from "../../core/markdown";
 import { PublicReport } from "../../core/schema";
-import { SeoService } from "../../core/seo.service";
+import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
 import { reportDates, reportPhoto, reportWater } from "./report-format";
 
 @Component({
@@ -78,7 +78,8 @@ export class ReportPage implements OnInit {
 			title: `${name} – report z akce`,
 			description: text.slice(0, 160),
 			path,
-			image: reportPhoto(report, "big") ?? "/img/og-default.jpg",
+			image: `/og/report-${report._id}.jpg`,
+			imageSize: OG_IMAGE_SIZE,
 			imageAlt: name,
 			jsonLd: {
 				"@context": "https://schema.org",

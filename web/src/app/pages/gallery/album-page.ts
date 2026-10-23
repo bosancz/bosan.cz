@@ -14,7 +14,7 @@ import {
 import { RouterLink } from "@angular/router";
 import { ApiService, LiveData } from "../../core/api.service";
 import { Album, Photo } from "../../core/schema";
-import { SeoService } from "../../core/seo.service";
+import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
 import { albumDates, albumName } from "./gallery-dates";
 import { PhotoViewer } from "./photo-viewer";
 import { MarkdownPipe, markdownToText } from "../../core/markdown";
@@ -101,13 +101,13 @@ export class AlbumPage implements OnInit {
 			`${lead} ${dates} ${album.dateFrom.slice(0, 4)}, ${photoCount(photos.length)} v galerii ŠÁN.`
 				.replace(/\s+/g, " ")
 				.slice(0, 160);
-		const cover = album.titlePhotos?.[0]?.sizes?.big ?? photos[0]?.sizes?.big;
 		const path = `/fotogalerie/${album._id}`;
 		this.seo.set({
 			title,
 			description,
 			path,
-			image: cover?.url,
+			image: `/og/album-${album._id}.jpg`,
+			imageSize: OG_IMAGE_SIZE,
 			imageAlt: name,
 			jsonLd: {
 				"@context": "https://schema.org",

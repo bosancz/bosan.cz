@@ -9,6 +9,7 @@ export interface PageSeo {
 	path: string;
 	image?: string;
 	imageAlt?: string;
+	imageSize?: { width: number; height: number };
 	type?: "website" | "article";
 	jsonLd?: object | object[];
 	noindex?: boolean;
@@ -16,7 +17,7 @@ export interface PageSeo {
 
 export const SITE_NAME = "Dětská vodácká skupina ŠÁN";
 export const DEFAULT_IMAGE = "/img/og-default.jpg";
-const DEFAULT_IMAGE_SIZE = { width: 1200, height: 630 };
+export const OG_IMAGE_SIZE = { width: 1200, height: 630 };
 
 @Injectable({ providedIn: "root" })
 export class SeoService {
@@ -46,7 +47,7 @@ export class SeoService {
 		this.tag("property", "og:url", url);
 		this.tag("property", "og:image", image);
 		this.tag("property", "og:image:alt", page.imageAlt ?? page.title);
-		this.imageSize((page.image ?? DEFAULT_IMAGE) === DEFAULT_IMAGE ? DEFAULT_IMAGE_SIZE : null);
+		this.imageSize(page.imageSize ?? ((page.image ?? DEFAULT_IMAGE) === DEFAULT_IMAGE ? OG_IMAGE_SIZE : null));
 		this.tag("name", "twitter:card", "summary_large_image");
 		this.tag("name", "twitter:title", page.title);
 		this.tag("name", "twitter:description", page.description);
