@@ -6,7 +6,8 @@ import { eventTypeIcon } from "../../core/event-types";
 import { groupInfo } from "../../core/groups";
 import { Album, ProgramEvent } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
-import { markdownToText } from "../../core/markdown";
+import { InlineMarkdownPipe, markdownToText } from "../../core/markdown";
+import { NEWS_CONTENT } from "../../../content/content";
 
 const UPCOMING_LIMIT = 7;
 const PHOTO_ALBUMS = 5;
@@ -92,7 +93,7 @@ function excerpt(text: string | null, max: number): string {
 @Component({
 	selector: "bo-news-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink],
+	imports: [RouterLink, InlineMarkdownPipe],
 	templateUrl: "./news-page.html",
 	styleUrl: "./news-page.scss",
 })
@@ -102,6 +103,8 @@ export class NewsPage {
 	private readonly program = this.api.program();
 	private readonly albums = this.api.recentAlbums(PHOTO_ALBUMS);
 	private readonly today = isoDay(new Date());
+
+	protected readonly join = NEWS_CONTENT.join;
 
 	private readonly events = computed(() => this.program.value() ?? []);
 

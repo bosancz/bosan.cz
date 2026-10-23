@@ -2,23 +2,10 @@
 	<div class="container hero-inner">
 		<div class="hero-text">
 			<h1>o nás</h1>
-			<p class="lead">
-				Jsme skupina sedmi dětských vodáckých oddílů pro kluky i holky od 7 do 15 let. Na vodu jezdíme
-				nepřetržitě od roku 1969 a patříme pod dětskou organizaci KONDOR.
-			</p>
-			<p class="sub">
-				Každý týden se scházíme v pondělí nebo ve středu v loděnici v Hodkovičkách, zhruba každý druhý víkend
-				jezdíme na akce — na vodu, na hory, po Praze — a v létě na tři týdny na ostrov Šán na Labi.
-			</p>
+			<p class="lead" [innerHTML]="content.hero.lead | inlineMarkdown"></p>
+			<p class="sub" [innerHTML]="content.hero.sub | inlineMarkdown"></p>
 		</div>
-		<img
-			class="hero-photo"
-			src="/img/about/hero-group.jpg"
-			alt="Skupinová fotka dětí a vedoucích na kopci"
-			width="453"
-			height="340"
-			fetchpriority="high"
-		/>
+		<img class="hero-photo" [src]="content.hero.photo.src" [alt]="content.hero.photo.alt" fetchpriority="high" />
 	</div>
 </header>
 
@@ -70,10 +57,9 @@
 		<div class="history-head">
 			<div class="history-intro">
 				<h2 id="o-hist">z historie</h2>
-				<p>
-					Na vodu jezdíme nepřetržitě od roku 1969. Fotky z prvních let ve fotogalerii zatím chybí, proto tu
-					jsou mezery — kdo má doma staré fotky nebo vzpomínky, ať napíše na info&#64;bosan.cz.
-				</p>
+				@for (paragraph of content.history.intro | paragraphs; track $index) {
+					<p [innerHTML]="paragraph"></p>
+				}
 			</div>
 			<svg class="shirt" viewBox="0 0 200 192" role="img" aria-label="Modrá krojová košile">
 				<path
@@ -149,25 +135,25 @@
 		</div>
 
 		<ol class="timeline">
-			@for (item of timeline; track item.year) {
+			@for (item of content.history.items; track $index) {
 				<li class="entry" [class.has-photos]="item.photos.length">
 					<div class="year" [class]="'year ' + (item.tone ?? '')">{{ item.year }}</div>
 					<div class="entry-text">
 						<h3>{{ item.title }}</h3>
-						<p>{{ item.text }}</p>
+						@for (paragraph of item.text | paragraphs; track $index) {
+							<p [innerHTML]="paragraph"></p>
+						}
 						@if (item.note) {
-							<p class="note">{{ item.note }}</p>
+							<p class="note" [innerHTML]="item.note | inlineMarkdown"></p>
 						}
 					</div>
 					@if (item.photos.length) {
 						<div class="photos" [class]="'photos n' + item.photos.length">
-							@for (photo of item.photos; track photo.src) {
+							@for (photo of item.photos; track $index) {
 								<img
 									[src]="photo.src"
 									[alt]="photo.alt"
 									[attr.aria-hidden]="photo.alt ? null : 'true'"
-									[width]="photo.width"
-									[height]="photo.height"
 									loading="lazy"
 								/>
 							}
@@ -183,14 +169,7 @@
 	<div class="container island-inner">
 		<div class="island-photo">
 			<img class="blob" src="/img/about/blob-light.svg" alt="" aria-hidden="true" width="300" height="300" />
-			<img
-				class="photo"
-				src="/img/about/ostrov-san-aerial.jpg"
-				alt="Ostrov Šán na Labi z výšky"
-				width="1600"
-				height="1201"
-				loading="lazy"
-			/>
+			<img class="photo" [src]="content.island.photo.src" [alt]="content.island.photo.alt" loading="lazy" />
 		</div>
 		<div class="island-text">
 			<div class="island-title">
@@ -214,15 +193,9 @@
 				</svg>
 				<h2 id="o-ostrov">ostrov šán</h2>
 			</div>
-			<p>
-				Leží na 805. říčním kilometru Labe u vesnice Hrobce, nedaleko Roudnice nad Labem. Do roku 2008 to byl
-				32. říční kilometr. Je asi kilometr dlouhý a v nejširším místě asi 60 metrů široký. Hned vedle leží
-				menší sousední ostrov Án.
-			</p>
-			<p>
-				Spíme ve stanech, jíme v laminátové jídelně u zděné kuchyně a na vodu vyrážíme na devítikánoích. Tábor
-				každý rok končí táborákem, na který zveme rodiče.
-			</p>
+			@for (paragraph of content.island.text | paragraphs; track $index) {
+				<p [innerHTML]="paragraph"></p>
+			}
 			<a class="button" routerLink="/tabor">O táboře</a>
 		</div>
 	</div>
@@ -232,14 +205,9 @@
 	<div class="container groups-inner">
 		<div class="groups-text">
 			<h2 id="o-oddily">oddíly</h2>
-			<p>
-				Šán tvoří sedm dětských oddílů: 3, 4, 5, 6, 7, 8 a 22. Každý má své vedoucí, vlastní schůzky a výpravy a
-				v létě jezdíme všichni společně na tábor na ostrov.
-			</p>
-			<p>
-				Z dětí se časem stávají instruktoři a pak vedoucí. Starší vedoucí, kteří už u oddílu aktivně nevedou, se
-				Šánem nekončí a scházejí se v Klubu přátel.
-			</p>
+			@for (paragraph of content.groups.text | paragraphs; track $index) {
+				<p [innerHTML]="paragraph"></p>
+			}
 			<ul class="pills" aria-label="Oddíly">
 				@for (group of groups; track group.id) {
 					<li [style.background]="group.color" [style.color]="group.text" [title]="group.name">

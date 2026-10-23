@@ -16,19 +16,9 @@
 					</g>
 				</svg>
 			</div>
-			<p class="hero-lead">
-				Letní vodácký tábor na ostrově na Labi nedaleko Roudnice nad Labem. Pro všechny od 7 do 15 let, kteří
-				mají rádi pohyb a umí aspoň základy plavání — na ostrově se vodě nevyhneš.
-			</p>
+			<p class="hero-lead" [innerHTML]="content.hero.lead | inlineMarkdown"></p>
 		</div>
-		<img
-			class="hero-photo"
-			src="/img/camp/header.jpg"
-			alt="Tábořiště na ostrově Šán"
-			width="1100"
-			height="428"
-			fetchpriority="high"
-		/>
+		<img class="hero-photo" [src]="content.hero.photo.src" [alt]="content.hero.photo.alt" fetchpriority="high" />
 	</div>
 </header>
 
@@ -79,12 +69,9 @@
 <main class="main">
 	<section class="turnusy container" aria-labelledby="t-turnusy">
 		<h2 id="t-turnusy" class="h2">tábory</h2>
-		<p class="turnusy-lead">
-			Na Šán jezdíme každé léto na dva turnusy. Termíny na další rok zatím nevíme, ohlásíme je v Aktuálně, jakmile
-			budou.
-		</p>
+		<p class="turnusy-lead" [innerHTML]="content.sessions.lead | inlineMarkdown"></p>
 		<div class="turnusy-grid">
-			@for (turnus of turnusy; track turnus.id) {
+			@for (turnus of sessions; track turnus.id) {
 				<article class="turnus">
 					<div class="turnus-dates">
 						<time [attr.datetime]="turnus.from + '/' + turnus.to"
@@ -153,55 +140,34 @@
 	<section class="zivot container" aria-labelledby="t-zivot">
 		<div class="zivot-text">
 			<h2 id="t-zivot" class="h2">táborový život</h2>
-			<p>
-				Obou táborů se zúčastní padesát šest dětí rozdělených do čtyř oddílů po dvou posádkách. Každá posádka se
-				stará o svou devítikánoi, na které se plavíme po okolí Šánu a hrajeme většinu celotáborových her. K
-				výcviku slouží i deblovky, kajaky a singlkanoe; nováčkům zapůjčíme kompletní vodácké vybavení.
-			</p>
-			<p>
-				Během tábora se naučíme uzly, morseovku, topografii i zdravovědu a nechybí tradiční šánovské specialitky
-				jako legendární Poseidonské hry.
-			</p>
-			<p>
-				Děti pomáhají s chodem tábora — připravují dříví, člunaři vozí suroviny a vodu z druhého břehu. Tábor
-				končí slavnostním táborákem, na který zveme rodiče a přátele.
-			</p>
+			@for (paragraph of content.life.text | paragraphs; track $index) {
+				<p [innerHTML]="paragraph"></p>
+			}
 		</div>
 		<div class="zivot-photos">
-			<img
-				class="wide"
-				src="/img/camp/ships.jpg"
-				alt="Devítikánoe na Labi"
-				width="600"
-				height="382"
-				loading="lazy"
-			/>
-			<img src="/img/camp/poseidon.jpg" alt="Poseidonské hry" width="400" height="253" loading="lazy" />
-			<img src="/img/camp/tent.jpg" alt="Stany na tábořišti" width="473" height="315" loading="lazy" />
+			@for (photo of content.life.photos; track $index; let first = $first) {
+				<img [class.wide]="first" [src]="photo.src" [alt]="photo.alt" loading="lazy" />
+			}
 		</div>
 	</section>
 
 	<section class="den container" aria-labelledby="t-den">
 		<h2 id="t-den" class="h2 h2-den">jeden den na Šánu</h2>
-		<p class="den-lead">Jak vypadá běžný táborový den, od budíčku až po čtení na dobrou noc.</p>
+		<p class="den-lead" [innerHTML]="content.day.lead | inlineMarkdown"></p>
 		<div class="chapters">
-			@for (chapter of chapters; track chapter.title; let odd = $odd) {
+			@for (chapter of content.day.chapters; track $index; let odd = $odd) {
 				<article class="chapter" [class.reverse]="odd">
-					<div class="chapter-photos" [attr.data-layout]="chapter.layout">
-						@for (photo of chapter.photos; track photo.file) {
-							<img
-								[src]="'/img/camp/' + photo.file + '.jpg'"
-								[alt]="photo.alt"
-								width="1200"
-								height="800"
-								loading="lazy"
-							/>
+					<div class="chapter-photos" [attr.data-layout]="chapterLayout(chapter)">
+						@for (photo of chapter.photos; track $index) {
+							<img [src]="photo.src" [alt]="photo.alt" loading="lazy" />
 						}
 					</div>
 					<div class="chapter-text">
 						<div class="chapter-part">{{ chapter.part }}</div>
 						<h3>{{ chapter.title }}</h3>
-						<p>{{ chapter.text }}</p>
+						@for (paragraph of chapter.text | paragraphs; track $index) {
+							<p [innerHTML]="paragraph"></p>
+						}
 					</div>
 				</article>
 			}
@@ -210,18 +176,14 @@
 
 	<section class="special container" aria-label="Výjimečné dny">
 		<div class="special-grid">
-			@for (day of specialDays; track day.title) {
+			@for (day of content.specialDays; track $index) {
 				<article class="special-card">
-					<img
-						[src]="'/img/camp/' + day.photo.file + '.jpg'"
-						[alt]="day.photo.alt"
-						width="1200"
-						height="800"
-						loading="lazy"
-					/>
+					<img [src]="day.photo.src" [alt]="day.photo.alt" loading="lazy" />
 					<div class="special-body">
 						<h3>{{ day.title }}</h3>
-						<p>{{ day.text }}</p>
+						@for (paragraph of day.text | paragraphs; track $index) {
+							<p [innerHTML]="paragraph"></p>
+						}
 					</div>
 				</article>
 			}
@@ -233,23 +195,21 @@
 			<div>
 				<h2 id="t-cena" class="h2 h2-cena">kolik to stojí</h2>
 				<div class="price-row">
-					<div class="price">5 100 Kč</div>
+					<div class="price">{{ prices.members }}</div>
 					<div>pro členy skupiny ŠÁN</div>
 				</div>
 				<div class="price-row">
-					<div class="price">5 600 Kč</div>
+					<div class="price">{{ prices.nonMembers }}</div>
 					<div>pro nečleny</div>
 				</div>
-				<p class="price-note">
-					Záloha 500 Kč do 14 dní od vydání přihlášky, doplatek do konce května. Účastníci tábora mají členské
-					příspěvky od září do prosince zdarma. Sleva 500 Kč pro sourozence a 200 Kč za dar na projekt Women
-					for Women.
-				</p>
+				@for (paragraph of content.price.note | paragraphs; track $index) {
+					<p class="price-note" [innerHTML]="paragraph"></p>
+				}
 			</div>
 			<div class="included">
 				<h3>V ceně</h3>
 				<ul>
-					@for (item of included; track item) {
+					@for (item of content.price.included; track $index) {
 						<li>{{ item }}</li>
 					}
 				</ul>
@@ -331,10 +291,9 @@
 			</div>
 			<div class="ostrov-text">
 				<h2 id="t-ostrov">kde tábor je</h2>
-				<p>
-					LVT ostrov Šán, Hrobce u Roudnice nad Labem, 411 83. Ostrov na 805. říčním kilometru Labe, asi
-					kilometr dlouhý a 60 metrů široký.
-				</p>
+				@for (paragraph of content.location.text | paragraphs; track $index) {
+					<p [innerHTML]="paragraph"></p>
+				}
 			</div>
 			<a class="ostrov-link" routerLink="/kontakty">Chci vědět víc</a>
 		</div>

@@ -4,6 +4,8 @@ import { PublicGroup } from "../../core/schema";
 import { groupInfo } from "../../core/groups";
 import { ORGANIZATION_LD, SeoService } from "../../core/seo.service";
 import { VenueMap } from "./venue-map";
+import { InlineMarkdownPipe } from "../../core/markdown";
+import { CONTACTS_CONTENT } from "../../../content/content";
 
 interface LeaderContact {
 	photo: string;
@@ -44,13 +46,15 @@ const ROTATIONS = [-2, 1.5, -1, 2];
 
 @Component({
 	selector: "bo-contacts-page",
-	imports: [VenueMap],
+	imports: [VenueMap, InlineMarkdownPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: "./contacts-page.html",
 	styleUrl: "./contacts-page.scss",
 })
 export class ContactsPage {
 	private readonly seo = inject(SeoService);
+
+	protected readonly content = CONTACTS_CONTENT;
 
 	private readonly groups = inject(ApiService).groups();
 
