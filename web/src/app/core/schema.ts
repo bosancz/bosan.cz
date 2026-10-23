@@ -82,3 +82,7 @@ export interface PublicGroup {
 	meetingDay: "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | null;
 	leader: PublicGroupLeader | null;
 }
+
+export interface PublicBoardMember extends PublicGroupLeader {
+	function: string | null;
+}

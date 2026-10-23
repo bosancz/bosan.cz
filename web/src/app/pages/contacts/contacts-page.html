@@ -83,22 +83,30 @@
 	<div class="board-inner">
 		<h2 id="vedeni-title">vedení skupiny</h2>
 		<ul class="members">
-			@for (member of board; track member.nickname) {
+			@for (member of board(); track member.id) {
 				<li class="member">
 					<img
-						[src]="'/img/contacts/foto-' + member.photo + '.jpg'"
+						[src]="member.photo"
 						[alt]="member.nickname"
 						width="56"
 						height="56"
 						loading="lazy"
+						(error)="photoError($event)"
 					/>
 					<div class="member-text">
 						<div class="member-name">
 							{{ member.nickname }} <span class="member-role">· {{ member.role }}</span>
 						</div>
 						<div class="member-contact">
-							<a [href]="'mailto:' + member.email">{{ member.email }}</a> ·
-							<a [href]="tel(member.phone)">{{ member.phone }}</a>
+							@if (member.email) {
+								<a [href]="'mailto:' + member.email">{{ member.email }}</a>
+							}
+							@if (member.email && member.phone) {
+								·
+							}
+							@if (member.phone) {
+								<a [href]="tel(member.phone)">{{ member.phone }}</a>
+							}
 						</div>
 					</div>
 				</li>

@@ -15,11 +15,12 @@ interface LeaderContact {
 }
 
 interface BoardMember {
+	id: string;
 	photo: string;
 	nickname: string;
 	role: string;
-	email: string;
-	phone: string;
+	email: string | null;
+	phone: string | null;
 }
 
 interface Section {
@@ -65,23 +66,24 @@ export class ContactsPage {
 
 	protected readonly loadFailed = computed(() => !!this.groups.error() && !this.groups.value());
 
-	protected readonly board: BoardMember[] = [
-		{ photo: "jara", nickname: "Jára", role: "hlavní vedoucí", email: "jara@bosan.cz", phone: "721 833 194" },
-		{ photo: "tycka", nickname: "Tyčka", role: "hospodář", email: "tycka@bosan.cz", phone: "606 939 753" },
-		{ photo: "masa", nickname: "Máša", role: "člen vedení", email: "masa@bosan.cz", phone: "732 649 157" },
-		{ photo: "fila", nickname: "Fíla", role: "člen vedení", email: "fila@bosan.cz", phone: "774 533 358" },
-		{ photo: "sumak", nickname: "Šumák", role: "člen vedení", email: "sumak@bosan.cz", phone: "703 126 142" },
-		{ photo: "pasik", nickname: "Pašík", role: "člen vedení", email: "pasik@bosan.cz", phone: "731 651 145" },
-		{ photo: "vokurka", nickname: "Vokurka", role: "člen vedení", email: "vokurka@bosan.cz", phone: "725 739 088" },
-		{ photo: "mazak", nickname: "Mazák", role: "revizor", email: "mazak@bosan.cz", phone: "731 041 415" },
-		{ photo: "zabis", nickname: "Žabiš", role: "mluvčí za KONDOR", email: "zabis@bosan.cz", phone: "777 840 316" },
-	];
+	private readonly boardMembers = inject(ApiService).boardMembers();
+
+	protected readonly board = computed<BoardMember[]>(() =>
+		(this.boardMembers.value() ?? []).map((member) => ({
+			id: member._id,
+			photo: member.profilePhoto ?? DEFAULT_PHOTO,
+			nickname: member.nickname,
+			role: member.function ?? "člen vedení",
+			email: member.email || null,
+			phone: member.mobile ? this.formatPhone(member.mobile) : null,
+		})),
+	);
 
 	constructor() {
-		effect(() => this.setSeo(this.sections()));
+		effect(() => this.setSeo(this.sections(), this.board()));
 	}
 
-	private setSeo(sections: Section[]): void {
+	private setSeo(sections: Section[], board: BoardMember[]): void {
 		const contactPoints = [
 			{
 				"@type": "ContactPoint",
@@ -89,7 +91,7 @@ export class ContactsPage {
 				email: "info@bosan.cz",
 				availableLanguage: "cs",
 			},
-			...this.board.slice(0, 1).map((member) => this.contactPoint(member, "hlavní vedoucí")),
+			...board.slice(0, 1).map((member) => this.contactPoint(member, member.role)),
 			...sections.flatMap((section) =>
 				section.leaders.map((leader) => this.contactPoint(leader, `oddílový vedoucí, ${leader.group}. oddíl`)),
 			),
