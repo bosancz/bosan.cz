@@ -1,50 +1,87 @@
-:root {
-	color-scheme: light dark;
-	--bg: #f6f5f2;
-	--surface: #ffffff;
-	--surface-2: #e7e4de;
-	--text: #1c1b19;
-	--muted: #8a867e;
-	--accent: #d9822b;
-	--good: #2f9e5b;
-	--good-soft: rgba(47, 158, 91, 0.25);
-	--radius: 14px;
-	font-family:
-		system-ui,
-		-apple-system,
-		"Segoe UI",
-		Roboto,
-		sans-serif;
+@font-face {
+	font-family: "San Grotesk";
+	src: url("/fonts/SanGrotesk-Regular.otf") format("opentype");
+	font-display: swap;
 }
 
-@media (prefers-color-scheme: dark) {
+:root {
+	--navy: #2a3478;
+	--navy-text: #1d2452;
+	--orange: #e28f26;
+	--light: #eef0f8;
+	--light-2: #f3f4fa;
+	--tile: #3d478f;
+	--muted: #5a6292;
+	--body-text: #3a416b;
+	--red: #d2232a;
+	--page-width: 1240px;
+	--gutter: 32px;
+	--font-display: "San Grotesk", "Nunito Sans", sans-serif;
+	--font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@media (max-width: 860px) {
 	:root {
-		--bg: #121211;
-		--surface: #1d1c1a;
-		--surface-2: #2e2c29;
-		--text: #f1efe9;
-		--muted: #7d7970;
-		--accent: #f0a050;
-		--good: #4cc97c;
-		--good-soft: rgba(76, 201, 124, 0.22);
+		--gutter: 16px;
 	}
 }
 
-* {
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 }
 
-html,
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
 body {
 	margin: 0;
-	min-height: 100%;
-	background: var(--bg);
-	color: var(--text);
+	background: var(--navy);
+	color: var(--navy-text);
+	font-family: var(--font-body);
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--navy);
+}
+
+a:hover {
+	color: var(--red);
+}
+
+img {
+	max-width: 100%;
 }
 
 button {
 	font: inherit;
-	color: inherit;
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.container {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding-left: var(--gutter);
+	padding-right: var(--gutter);
+}
+
+.display {
+	font-family: var(--font-display);
+	font-weight: 400;
 }

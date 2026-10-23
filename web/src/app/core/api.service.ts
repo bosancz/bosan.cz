@@ -1,0 +1,83 @@
+import { HttpClient } from "@angular/common/http";
+import { Injectable, PLATFORM_ID, Signal, inject, signal } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
+import { firstValueFrom } from "rxjs";
+import { environment } from "../../environments/environment";
+import { Album, ProgramEvent } from "./schema";
+import { HydrationState } from "./hydration-state";
+
+export interface LiveData<T> {
+	value: Signal<T | undefined>;
+	error: Signal<unknown>;
+	loading: Signal<boolean>;
+}
+
+type Params = Record<string, string | number | boolean>;
+
+@Injectable({ providedIn: "root" })
+export class ApiService {
+	private readonly http = inject(HttpClient);
+	private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
+	private readonly hydration = inject(HydrationState);
+
+	readonly root = environment.apiRoot;
+
+	url(path: string): string {
+		return this.root + path;
+	}
+
+	live<T>(path: string, params?: Params): LiveData<T> {
+		const value = signal<T | undefined>(undefined);
+		const error = signal<unknown>(undefined);
+		const loading = signal(true);
+		const url = this.url(path);
+		const refresh = this.browser && !this.hydration.done;
+
+		this.http.get<T>(url, { params }).subscribe({
+			next: (data) => {
+				value.set(data);
+				loading.set(false);
+				if (refresh) {
+					this.http
+						.get<T>(url, { params, transferCache: false })
+						.subscribe({ next: (fresh) => value.set(fresh), error: () => undefined });
+				}
+			},
+			error: (err) => {
+				error.set(err);
+				loading.set(false);
+			},
+		});
+
+		return { value: value.asReadonly(), error: error.asReadonly(), loading: loading.asReadonly() };
+	}
+
+	program(): LiveData<ProgramEvent[]> {
+		return this.live<ProgramEvent[]>("/public/program");
+	}
+
+	gallery(): LiveData<Album[]> {
+		return this.live<Album[]>("/public/gallery", { sort: "-dateFrom" });
+	}
+
+	recentAlbums(limit: number): LiveData<Album[]> {
+		return this.live<Album[]>("/public/gallery/recent", { limit });
+	}
+
+	album(id: string): LiveData<Album> {
+		return this.live<Album>(`/public/gallery/${encodeURIComponent(id)}`);
+	}
+
+	albumPreview(id: string): LiveData<Album> {
+		return this.live<Album>(`/public/gallery/${encodeURIComponent(id)}/preview`);
+	}
+
+	icalUrl(): string {
+		return this.url("/public/program/ical");
+	}
+
+	async fetchGalleryAlbumIds(): Promise<string[]> {
+		const albums = await firstValueFrom(this.http.get<Album[]>(this.url("/public/gallery")));
+		return albums.map((album) => album._id);
+	}
+}

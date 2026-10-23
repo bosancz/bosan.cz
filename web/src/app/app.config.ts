@@ -1,12 +1,18 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, isDevMode } from "@angular/core";
-import { provideServiceWorker } from "@angular/service-worker";
+import { provideHttpClient, withFetch } from "@angular/common/http";
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from "@angular/core";
+import { provideClientHydration, withEventReplay } from "@angular/platform-browser";
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from "@angular/router";
+import { routes } from "./app.routes";
 
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideBrowserGlobalErrorListeners(),
-		provideServiceWorker("ngsw-worker.js", {
-			enabled: !isDevMode(),
-			registrationStrategy: "registerWhenStable:30000",
-		}),
+		provideRouter(
+			routes,
+			withComponentInputBinding(),
+			withInMemoryScrolling({ anchorScrolling: "enabled", scrollPositionRestoration: "enabled" }),
+		),
+		provideHttpClient(withFetch()),
+		provideClientHydration(withEventReplay()),
 	],
 };

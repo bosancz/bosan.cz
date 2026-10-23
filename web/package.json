@@ -3,32 +3,37 @@
 	"version": "3.0.0",
 	"scripts": {
 		"ng": "ng",
-		"start": "ng serve",
 		"dev": "ng serve",
-		"build": "ng build",
-		"watch": "ng build --watch --configuration development",
-		"test": "ng test"
+		"start": "ng serve",
+		"build": "node scripts/set-version.mjs && ng build",
+		"build:test": "node scripts/set-version.mjs && ng build --configuration test",
+		"format": "prettier --write ."
 	},
 	"private": true,
 	"packageManager": "npm@11.19.0",
 	"dependencies": {
-		"@angular/common": "^22.2.0",
-		"@angular/compiler": "^22.2.0",
-		"@angular/core": "^22.2.0",
-		"@angular/forms": "^22.2.0",
-		"@angular/platform-browser": "^22.2.0",
-		"@angular/router": "^22.2.0",
-		"@angular/service-worker": "^22.2.0",
+		"@angular/common": "^22.2.3",
+		"@angular/compiler": "^22.2.3",
+		"@angular/core": "^22.2.3",
+		"@angular/forms": "^22.2.3",
+		"@angular/platform-browser": "^22.2.3",
+		"@angular/platform-server": "^22.2.3",
+		"@angular/router": "^22.2.3",
+		"@angular/ssr": "^22.2.4",
 		"rxjs": "~7.8.0",
 		"tslib": "^2.3.0"
 	},
 	"devDependencies": {
-		"@angular/build": "^22.2.1",
-		"@angular/cli": "^22.2.1",
-		"@angular/compiler-cli": "^22.2.0",
+		"@angular/build": "^22.2.4",
+		"@angular/cli": "^22.2.4",
+		"@angular/compiler-cli": "^22.2.3",
+		"@types/node": "^24.19.2",
 		"jsdom": "^30.0.0",
 		"prettier": "^3.8.1",
 		"typescript": "~6.0.2",
 		"vitest": "^5.0.0"
+	},
+	"engines": {
+		"node": ">=22.22.3"
 	}
 }
