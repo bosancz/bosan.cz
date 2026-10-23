@@ -59,6 +59,11 @@
 					</li>
 				}
 			</ul>
+			@if (hasMore()) {
+				<button class="more" type="button" [disabled]="loadingMore()" (click)="loadMore()">
+					{{ loadingMore() ? "Načítám…" : "Starší reporty" }}
+				</button>
+			}
 		} @else if (failed()) {
 			<p class="status">Reporty se nepodařilo načíst. Zkus to prosím za chvíli znovu.</p>
 		} @else if (loading()) {

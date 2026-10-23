@@ -164,7 +164,9 @@ export class NewsPage {
 			b.reportPublishedAt.localeCompare(a.reportPublishedAt),
 		)[0];
 		if (report) {
-			const photo = report.album?.titlePhoto;
+			const photo =
+				report.album?.titlePhoto ??
+				this.sortedAlbums().find((album) => album._id === report.album?._id)?.titlePhotos[0];
 			const url = photo?.sizes.big?.url ?? photo?.sizes.small?.url;
 			return {
 				reportId: report._id,

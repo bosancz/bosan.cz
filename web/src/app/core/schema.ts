@@ -99,5 +99,5 @@ export interface PublicReport {
 	reportPublishedAt: string;
 	river: string | null;
 	waterKm: number | null;
-	album: { _id: string; name: string; titlePhoto: Photo | null } | null;
+	album: { _id: string; name: string; titlePhoto?: Photo | null } | null;
 }
