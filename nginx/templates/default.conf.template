@@ -1,3 +1,7 @@
+js_import cms_auth from /etc/nginx/njs/cms-auth.js;
+js_fetch_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
+resolver ${NGINX_LOCAL_RESOLVERS} ipv6=off;
+
 server {
 
   listen 80;
@@ -21,6 +25,14 @@ server {
 
   location /reporty/ {
     try_files $uri $uri/index.html /index.csr.html;
+  }
+
+  location = /cms-auth/auth {
+    js_content cms_auth.auth;
+  }
+
+  location = /cms-auth/callback {
+    js_content cms_auth.callback;
   }
 
   location / {

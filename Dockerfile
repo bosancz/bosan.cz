@@ -15,6 +15,10 @@ RUN node scripts/set-version.mjs && npx ng build --configuration="${NG_CONFIGURA
 
 FROM nginx:alpine
 
-COPY nginx/default.conf /etc/nginx/conf.d/
+ENV NGINX_ENTRYPOINT_LOCAL_RESOLVERS=1
+
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/templates /etc/nginx/templates
+COPY nginx/cms-auth.js /etc/nginx/njs/cms-auth.js
 
 COPY --from=build /app/dist/browser /usr/share/nginx/html
