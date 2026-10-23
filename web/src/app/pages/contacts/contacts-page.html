@@ -21,7 +21,7 @@
 								width="240"
 								height="240"
 								loading="lazy"
-								(error)="photoError($event, leader)"
+								(error)="photoError($event)"
 							/>
 							<span
 								class="group"
@@ -33,54 +33,39 @@
 						<div class="role">oddílový vedoucí</div>
 						<h3 class="nickname">{{ leader.nickname }}</h3>
 						<div class="name">{{ leader.name }}</div>
-						<div class="actions">
+						<ul class="contact">
 							@if (leader.email) {
-								<a
-									class="action primary"
-									[href]="'mailto:' + leader.email"
-									[attr.aria-label]="'E-mail ' + leader.email"
-									[title]="leader.email"
-								>
-									<svg viewBox="0 0 24 24" aria-hidden="true">
-										<rect
-											x="3"
-											y="5"
-											width="18"
-											height="14"
-											rx="3"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2.2"
-										/>
-										<path
-											d="M4 7l8 6 8-6"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2.2"
-											stroke-linejoin="round"
-										/>
-									</svg>
-								</a>
+								<li>
+									<span class="value">{{ leader.email }}</span>
+									<a
+										class="icon"
+										[href]="'mailto:' + leader.email"
+										[attr.aria-label]="'Napsat e-mail ' + leader.nickname"
+									>
+										<svg viewBox="0 0 24 24" aria-hidden="true">
+											<rect x="3" y="5" width="18" height="14" rx="3" />
+											<path d="M4 7l8 6 8-6" />
+										</svg>
+									</a>
+								</li>
 							}
 							@if (leader.phone) {
-								<a
-									class="action"
-									[href]="tel(leader.phone)"
-									[attr.aria-label]="'Telefon ' + leader.phone"
-									[title]="leader.phone"
-								>
-									<svg viewBox="0 0 24 24" aria-hidden="true">
-										<path
-											d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2.2"
-											stroke-linejoin="round"
-										/>
-									</svg>
-								</a>
+								<li>
+									<span class="value">{{ leader.phone }}</span>
+									<a
+										class="icon"
+										[href]="tel(leader.phone)"
+										[attr.aria-label]="'Zavolat ' + leader.nickname"
+									>
+										<svg viewBox="0 0 24 24" aria-hidden="true">
+											<path
+												d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
+											/>
+										</svg>
+									</a>
+								</li>
 							}
-						</div>
+						</ul>
 					</li>
 				}
 			</ul>

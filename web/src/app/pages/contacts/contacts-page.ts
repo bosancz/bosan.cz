@@ -7,7 +7,6 @@ import { VenueMap } from "./venue-map";
 
 interface LeaderContact {
 	photo: string;
-	fallbackPhoto: string;
 	nickname: string;
 	name: string;
 	group: string;
@@ -38,7 +37,6 @@ const DAYS: Pick<Section, "id" | "day" | "title">[] = [
 	{ id: "patek", day: "friday", title: "schůzky v pátek" },
 ];
 
-const LOCAL_PHOTOS = ["cica", "cip", "johanka", "ksilt", "lef", "rammstein", "redkvicka"];
 const DEFAULT_PHOTO = "/img/contacts/leader-placeholder.svg";
 
 const ROTATIONS = [-2, 1.5, -1, 2];
@@ -101,8 +99,6 @@ export class ContactsPage {
 			description:
 				"Kontakty na vedení dětské vodácké skupiny ŠÁN a oddílové vedoucí. Schůzky v pondělí a ve středu 16:00–18:00 na loděnici v Praze 4 – Hodkovičkách.",
 			path: "/kontakty",
-			image: "/img/contacts/foto-johanka.jpg",
-			imageAlt: "Oddílová vedoucí Johanka",
 			jsonLd: {
 				...ORGANIZATION_LD,
 				address: {
@@ -119,11 +115,8 @@ export class ContactsPage {
 
 	private leaderContact(group: PublicGroup): LeaderContact {
 		const leader = group.leader!;
-		const local = this.slug(leader.nickname);
-		const fallbackPhoto = LOCAL_PHOTOS.includes(local) ? `/img/contacts/foto-${local}.jpg` : DEFAULT_PHOTO;
 		return {
-			photo: leader.profilePhoto ?? fallbackPhoto,
-			fallbackPhoto,
+			photo: leader.profilePhoto ?? DEFAULT_PHOTO,
 			nickname: leader.nickname,
 			name: [leader.firstName, leader.lastName].filter(Boolean).join(" "),
 			group: group.shortName,
@@ -132,23 +125,14 @@ export class ContactsPage {
 		};
 	}
 
-	private slug(text: string): string {
-		return text
-			.normalize("NFD")
-			.replace(/[\u0300-\u036f]/g, "")
-			.toLowerCase()
-			.replace(/[^a-z0-9]+/g, "-");
-	}
-
 	private formatPhone(phone: string): string {
 		const digits = phone.replace(/\D/g, "").replace(/^(00)?420(?=\d{9}$)/, "");
 		return digits.length === 9 ? digits.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3") : phone.trim();
 	}
 
-	protected photoError(event: Event, leader: LeaderContact): void {
+	protected photoError(event: Event): void {
 		const image = event.target as HTMLImageElement;
-		const next = image.src.endsWith(leader.fallbackPhoto) ? DEFAULT_PHOTO : leader.fallbackPhoto;
-		if (!image.src.endsWith(next)) image.src = next;
+		if (!image.src.endsWith(DEFAULT_PHOTO)) image.src = DEFAULT_PHOTO;
 	}
 
 	protected group(id: string) {

@@ -145,41 +145,54 @@ h1 {
 	text-align: center;
 }
 
-.actions {
+.contact {
+	list-style: none;
+	margin: 2px 0 0;
+	padding: 0;
 	display: flex;
-	justify-content: center;
-	gap: 8px;
+	flex-direction: column;
+	gap: 4px;
+
+	li {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		min-width: 0;
+	}
 }
 
-.action {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background: #eef0f8;
+.value {
+	min-width: 0;
+	font-size: 13px;
+	font-weight: 700;
 	color: var(--navy);
+	overflow-wrap: anywhere;
+	user-select: all;
+}
+
+.icon {
+	flex-shrink: 0;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: var(--navy);
+	color: #fff;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
-	&.primary {
-		background: var(--navy);
-		color: #fff;
-	}
-
 	svg {
-		width: 18px;
-		height: 18px;
-		display: block;
-		flex-shrink: 0;
+		width: 14px;
+		height: 14px;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2.4;
+		stroke-linejoin: round;
 	}
 
 	&:hover {
-		color: var(--red);
-	}
-
-	&.primary:hover {
-		background: var(--red);
-		color: #fff;
+		background: var(--orange);
 	}
 }
 
