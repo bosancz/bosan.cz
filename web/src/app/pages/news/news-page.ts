@@ -129,7 +129,7 @@ export class NewsPage {
 				(a, b) =>
 					(b.cancelledAt ?? "").localeCompare(a.cancelledAt ?? "") || a.dateFrom.localeCompare(b.dateFrom),
 			);
-		return list.slice(0, 2).map((e) => ({
+		return list.map((e) => ({
 			id: e._id,
 			name: e.name,
 			date: formatDateRange(e.dateFrom, e.dateTill),

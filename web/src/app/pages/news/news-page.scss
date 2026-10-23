@@ -251,6 +251,19 @@
 
 .note-new {
 	background: #eef0f8;
+	color: inherit;
+	text-decoration: none;
+	transition: background-color 0.15s;
+
+	&:hover {
+		background: #e4e7f3;
+	}
+
+	&:focus-visible {
+		outline: 3px solid var(--navy);
+		outline-offset: 3px;
+	}
+
 	border-radius: 20px 28px 18px 30px;
 	flex-direction: column;
 	gap: 8px;
