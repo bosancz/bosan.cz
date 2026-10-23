@@ -13,8 +13,6 @@ backend:
 publish_mode: preview
 
 app_title: bosan.cz
-site_url: https://bosan.cz
-display_url: https://bosan.cz
 logo:
   src: /img/emblem.svg
 
