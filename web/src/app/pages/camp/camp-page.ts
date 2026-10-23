@@ -121,8 +121,14 @@ export class CampPage {
 		return this.toc.find((item) => item.id === this.activeId())?.label ?? "";
 	}
 
-	protected closeToc(): void {
+	protected go(event: Event, id: string | null): void {
+		event.preventDefault();
 		this.tocOpen.set(false);
+		const target = id ? this.host.nativeElement.querySelector<HTMLElement>("#" + id) : null;
+		if (target) {
+			target.scrollIntoView({ behavior: "smooth", block: "start" });
+			this.activeId.set(target.id);
+		} else window.scrollTo({ top: 0, behavior: "smooth" });
 	}
 
 	protected toggleToc(event: Event): void {

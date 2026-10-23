@@ -21,4 +21,8 @@
 
 main {
 	display: block;
+
+	&:focus {
+		outline: none;
+	}
 }

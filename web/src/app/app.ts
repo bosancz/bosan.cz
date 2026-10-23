@@ -15,4 +15,11 @@ export class App {
 	constructor() {
 		inject(HydrationState);
 	}
+
+	protected skip(event: Event): void {
+		event.preventDefault();
+		const main = document.getElementById("obsah");
+		main?.focus();
+		main?.scrollIntoView();
+	}
 }

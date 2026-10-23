@@ -32,12 +32,13 @@
 						[href]="'#' + item.id"
 						[class.active]="activeId() === item.id"
 						[attr.aria-current]="activeId() === item.id ? 'location' : null"
+						(click)="go($event, item.id)"
 						>{{ item.label }}</a
 					>
 				</li>
 			}
 		</ol>
-		<a class="toc-top" href="#camp-top">↑ nahoru</a>
+		<a class="toc-top" href="#camp-top" (click)="go($event, null)">↑ nahoru</a>
 	</div>
 	<details class="toc-mobile" [open]="tocOpen()" (toggle)="toggleToc($event)">
 		<summary>
@@ -57,7 +58,7 @@
 		<ol>
 			@for (item of toc; track item.id) {
 				<li>
-					<a [href]="'#' + item.id" [class.active]="activeId() === item.id" (click)="closeToc()">{{
+					<a [href]="'#' + item.id" [class.active]="activeId() === item.id" (click)="go($event, item.id)">{{
 						item.label
 					}}</a>
 				</li>
