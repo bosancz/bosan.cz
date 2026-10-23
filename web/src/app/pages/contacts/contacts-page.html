@@ -112,10 +112,7 @@
 				</li>
 			}
 		</ul>
-		<p class="governance">
-			Šán je zapsaný spolek. O běžném chodu skupiny rozhoduje hlasováním vedení skupiny. Nejvyšším orgánem spolku
-			je ale členská schůze, na které hlasují všichni vedoucí a instruktoři.
-		</p>
+		<p class="governance" [innerHTML]="content.governance | inlineMarkdown"></p>
 	</div>
 </section>
 
@@ -123,7 +120,7 @@
 	<div class="venue-text">
 		<h2 id="lodenice-title">loděnice</h2>
 		<p class="address">V Náklích 445/1a<br />Praha 4 – Hodkovičky, 147 00</p>
-		<p class="hours">Každé pondělí a středu od 16:00 do 18:00. Nováčci mají první měsíc na zkoušku zdarma.</p>
+		<p class="hours" [innerHTML]="content.hours | inlineMarkdown"></p>
 		<div class="legal">
 			KONDOR Skupina ŠÁN z.s.<br />Sídlo: Podolské nábřeží 1180/5, Praha 4<br />IČ 47610727 · datová schránka
 			gfwhx3g<br /><a href="mailto:info@bosan.cz">info@bosan.cz</a>

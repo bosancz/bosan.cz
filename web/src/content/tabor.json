@@ -1,0 +1,244 @@
+{
+	"seo": {
+		"description": "Letní vodácký tábor ŠÁN na ostrově na Labi u Roudnice nad Labem: dva turnusy pro děti od 7 do 15 let, devítikánoe, celotáborová hra, cena i den na Šánu."
+	},
+	"hero": {
+		"lead": "Letní vodácký tábor na ostrově na Labi nedaleko Roudnice nad Labem. Pro všechny od 7 do 15 let, kteří mají rádi pohyb a umí aspoň základy plavání — na ostrově se vodě nevyhneš.",
+		"photo": {
+			"src": "/img/camp/header.jpg",
+			"alt": "Tábořiště na ostrově Šán"
+		}
+	},
+	"sessions": {
+		"lead": "Na Šán jezdíme každé léto na dva turnusy. Termíny na další rok zatím nevíme, ohlásíme je v Aktuálně, jakmile budou.",
+		"items": [
+			{
+				"from": "2026-07-04",
+				"to": "2026-07-24",
+				"groups": [
+					"3",
+					"4",
+					"8",
+					"22"
+				],
+				"leader": {
+					"nickname": "Pašík",
+					"name": "Václav Čechmánek",
+					"email": "pasik@bosan.cz",
+					"phone": "731 651 145"
+				}
+			},
+			{
+				"from": "2026-07-25",
+				"to": "2026-08-14",
+				"groups": [
+					"5",
+					"6",
+					"7"
+				],
+				"leader": {
+					"nickname": "Perla",
+					"name": "Valentýna Tyllová",
+					"email": "perla@bosan.cz",
+					"phone": "732 229 605"
+				}
+			}
+		]
+	},
+	"life": {
+		"text": "Obou táborů se zúčastní padesát šest dětí rozdělených do čtyř oddílů po dvou posádkách. Každá posádka se stará o svou devítikánoi, na které se plavíme po okolí Šánu a hrajeme většinu celotáborových her. K výcviku slouží i deblovky, kajaky a singlkanoe; nováčkům zapůjčíme kompletní vodácké vybavení.\n\nBěhem tábora se naučíme uzly, morseovku, topografii i zdravovědu a nechybí tradiční šánovské specialitky jako legendární Poseidonské hry.\n\nDěti pomáhají s chodem tábora — připravují dříví, člunaři vozí suroviny a vodu z druhého břehu. Tábor končí slavnostním táborákem, na který zveme rodiče a přátele.",
+		"photos": [
+			{
+				"src": "/img/camp/ships.jpg",
+				"alt": "Devítikánoe na Labi"
+			},
+			{
+				"src": "/img/camp/poseidon.jpg",
+				"alt": "Poseidonské hry"
+			},
+			{
+				"src": "/img/camp/tent.jpg",
+				"alt": "Stany na tábořišti"
+			}
+		]
+	},
+	"day": {
+		"lead": "Jak vypadá běžný táborový den, od budíčku až po čtení na dobrou noc.",
+		"chapters": [
+			{
+				"part": "ráno",
+				"title": "budíček a rozcvička",
+				"text": "Den na Šánu začíná budíčkem. Ještě rozespalí se všichni seběhneme na rozcvičku, a pak přijde to hlavní: stezka. Kus běhu po ostrově, shyby na hrazdě, házení granátů na terč a šplh po laně. Každý den se dá zkusit překonat svůj včerejší výkon.",
+				"photos": [
+					{
+						"src": "/img/camp/stezka-shyby.jpg",
+						"alt": "Shyby na hrazdě"
+					},
+					{
+						"src": "/img/camp/stezka-granat.jpg",
+						"alt": "Házení granátem na terč"
+					},
+					{
+						"src": "/img/camp/stezka-splh.jpg",
+						"alt": "Šplh po laně"
+					}
+				]
+			},
+			{
+				"part": "ráno",
+				"title": "nástup",
+				"text": "Po snídani se celý tábor seřadí na nástup v modrých krojových košilích. Vztyčíme vlajku a řekneme si, co nás ten den čeká.",
+				"photos": [
+					{
+						"src": "/img/camp/nastup.jpg",
+						"alt": "Ranní nástup v krojích"
+					}
+				]
+			},
+			{
+				"part": "ráno",
+				"title": "posádkový závod kolem ánu",
+				"text": "Pak usednou posádky do svých devítikánoí a závodí kolem sousedního ostrova Án. Je to asi kilometr a vyhrává ta posádka, která pádluje nejvíc společně.",
+				"photos": [
+					{
+						"src": "/img/camp/zavod-posadky.jpg",
+						"alt": "Posádky nastupují do devítikánoí"
+					},
+					{
+						"src": "/img/camp/zavod-an.jpg",
+						"alt": "Závod kolem Ánu"
+					}
+				]
+			},
+			{
+				"part": "dopoledne",
+				"title": "dopolední program",
+				"text": "Dopoledne se oddíly učí věci, které se na vodě i v přírodě hodí: uzly, zdravovědu a další dovednosti. Jindy si jen hrajeme na vodě na malých lodích, deblovkách a kajacích.",
+				"photos": [
+					{
+						"src": "/img/camp/program-uzly.jpg",
+						"alt": "Učíme se uzly"
+					},
+					{
+						"src": "/img/camp/program-kajak.jpg",
+						"alt": "Na kajaku"
+					}
+				]
+			},
+			{
+				"part": "poledne",
+				"title": "oběd a polední klid",
+				"text": "Po obědě přichází polední klid. Někdo si odpočine ve stanu, jiný si čte nebo luští ve stínu.",
+				"photos": [
+					{
+						"src": "/img/camp/obed.jpg",
+						"alt": "Oběd v jídelně"
+					},
+					{
+						"src": "/img/camp/poledni-klid.jpg",
+						"alt": "Polední klid"
+					}
+				]
+			},
+			{
+				"part": "odpoledne",
+				"title": "celotáborová hra",
+				"text": "Odpoledne patří celotáborové hře. Má svůj příběh, který nás provází celým táborem, a posádky v ní soutěží proti sobě na ostrově i na vodě.",
+				"photos": [
+					{
+						"src": "/img/camp/hra-plaz.jpg",
+						"alt": "Celotáborová hra na pláži"
+					},
+					{
+						"src": "/img/camp/hra-vylodeni.jpg",
+						"alt": "Posádka se chystá k vylodění"
+					}
+				]
+			},
+			{
+				"part": "večer",
+				"title": "večeře a večerní nástup",
+				"text": "Den uzavírá večeře a večerní nástup, na kterém stáhneme vlajku a zhodnotíme, jak se komu dařilo.",
+				"photos": [
+					{
+						"src": "/img/camp/vecerni-nastup.jpg",
+						"alt": "Stahování vlajky na večerním nástupu"
+					}
+				]
+			},
+			{
+				"part": "večer",
+				"title": "volný čas",
+				"text": "Zbytek večera má každý pro sebe. Někdo si čte, jiný vyřezává ze dřeva a další hrají s ostatními fotbal.",
+				"photos": [
+					{
+						"src": "/img/camp/volny-cas.jpg",
+						"alt": "Večerní fotbálek"
+					}
+				]
+			},
+			{
+				"part": "noc",
+				"title": "na dobrou noc",
+				"text": "Před spaním ještě čteme nebo hrajeme na dobrou noc. Pak už tábor usíná a ostrov ztichne.",
+				"photos": [
+					{
+						"src": "/img/camp/dobrou-noc.jpg",
+						"alt": "Hraní na dobrou noc"
+					}
+				]
+			}
+		]
+	},
+	"specialDays": [
+		{
+			"title": "kanál",
+			"text": "Jeden den vyrážíme na divokovodní kanál. Kdo si troufne, sjíždí peřeje na lodi nebo se nechá unášet vodou v plovací vestě a helmě. Kdo ne, pádluje v klidnější vodě pod ním.",
+			"photo": {
+				"src": "/img/camp/kanal.jpg",
+				"alt": "Splouvání kanálu"
+			}
+		},
+		{
+			"title": "pochod",
+			"text": "Jiný den opustíme ostrov a vyrazíme na celodenní pochod okolím. Batohy na záda a hurá do lesů.",
+			"photo": {
+				"src": "/img/camp/pochod.jpg",
+				"alt": "Pochod lesem"
+			}
+		},
+		{
+			"title": "hospůdka",
+			"text": "Ve čtvrtek před koncem tábora otevíráme hospůdku. Role se obrátí: vedoucí v kostýmech obsluhují a děti si u stolů objednávají a platí penězi, které si během tábora vydělaly.",
+			"photo": {
+				"src": "/img/camp/hospudka.jpg",
+				"alt": "Vedoucí za barem hospůdky"
+			}
+		},
+		{
+			"title": "závěrečný táborák",
+			"text": "Tábor končí v pátek slavnostním táborákem. Přijet mohou i rodiče, oceníme nejlepší a naposledy si spolu zazpíváme.",
+			"photo": {
+				"src": "/img/camp/taborak.jpg",
+				"alt": "Závěrečný táborák"
+			}
+		}
+	],
+	"price": {
+		"members": 5100,
+		"nonMembers": 5600,
+		"note": "Záloha 500 Kč do 14 dní od vydání přihlášky, doplatek do konce května. Účastníci tábora mají členské příspěvky od září do prosince zdarma. Sleva 500 Kč pro sourozence a 200 Kč za dar na projekt Women for Women.",
+		"included": [
+			"doprava autobusem z naší loděnice v Praze",
+			"stravování pětkrát denně",
+			"ubytování ve stanech s podsadou",
+			"zázemí v laminátové jídelně a zděné kuchyni",
+			"úrazové pojištění a odborní zdravotníci",
+			"hlavní vedoucí certifikovaný MŠMT ČR",
+			"možnost příspěvku od zaměstnavatele"
+		]
+	},
+	"location": {
+		"text": "LVT ostrov Šán, Hrobce u Roudnice nad Labem, 411 83. Ostrov na 805. říčním kilometru Labe, asi kilometr dlouhý a 60 metrů široký."
+	}
+}

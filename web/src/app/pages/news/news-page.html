@@ -171,14 +171,9 @@
 	<div class="container join-inner">
 		<img class="join-kayak" src="/img/news/kajak-blue.svg" alt="" aria-hidden="true" width="110" height="110" />
 		<div class="join-text">
-			<h2>přijď se podívat</h2>
-			<p class="join-long">
-				Schůzky v pondělí nebo ve středu 16:00–18:00 v loděnici V Náklích 445/1a, Praha 4. Pro kluky i holky od
-				7 do 15 let, první měsíc na zkoušku zdarma.
-			</p>
-			<p class="join-short">
-				Po nebo St 16:00–18:00, loděnice V Náklích 445/1a. Pro děti 7–15 let, první měsíc zdarma.
-			</p>
+			<h2>{{ join.title }}</h2>
+			<p class="join-long" [innerHTML]="join.long | inlineMarkdown"></p>
+			<p class="join-short" [innerHTML]="join.short | inlineMarkdown"></p>
 		</div>
 		<a class="join-button" routerLink="/kontakty">Kontakty na vedoucí</a>
 	</div>
