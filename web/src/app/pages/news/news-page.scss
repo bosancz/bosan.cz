@@ -480,14 +480,15 @@
 
 .event-name {
 	margin: 0;
-	font-size: 19px;
-	line-height: 1.25;
-	font-weight: 800;
+	font-family: var(--font-display);
+	font-size: 22px;
+	line-height: 1.15;
+	font-weight: 400;
 	color: var(--navy);
 	overflow-wrap: anywhere;
 
 	@include bp.mobile {
-		font-size: 17px;
+		font-size: 19px;
 	}
 }
 
