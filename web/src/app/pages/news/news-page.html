@@ -10,6 +10,24 @@
 	<div class="container top-inner">
 		<section class="news" aria-labelledby="news-heading">
 			<h2 id="news-heading" class="label">Aktuality</h2>
+			@for (message of messages; track $index) {
+				<article class="note note-message">
+					<svg class="note-icon" viewBox="0 0 24 24" aria-hidden="true">
+						<circle cx="12" cy="12" r="11" fill="#e28f26" />
+						<path d="M12 6.5v7" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" />
+						<circle cx="12" cy="17.4" r="1.6" fill="#ffffff" />
+					</svg>
+					<div class="note-text">
+						@if (message.date) {
+							<time class="meta" [attr.datetime]="message.from">{{ message.date }}</time>
+						}
+						<h3 class="note-title">{{ message.title }}</h3>
+						@for (paragraph of message.text | paragraphs; track $index) {
+							<p class="note-body" [innerHTML]="paragraph"></p>
+						}
+					</div>
+				</article>
+			}
 			@if (lead(); as item) {
 				<article class="lead">
 					@if (item.image) {

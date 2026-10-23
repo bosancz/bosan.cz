@@ -247,6 +247,20 @@
 	}
 }
 
+.note-message {
+	background: #fcf0dc;
+	border-radius: 18px 30px 20px 26px;
+
+	@include bp.mobile {
+		border-radius: 16px 26px 18px 24px;
+	}
+
+	.note-body a {
+		color: var(--navy);
+		font-weight: 700;
+	}
+}
+
 .note-new {
 	background: #eef0f8;
 	color: inherit;

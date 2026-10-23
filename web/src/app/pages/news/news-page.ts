@@ -6,7 +6,7 @@ import { eventTypeIcon } from "../../core/event-types";
 import { groupInfo, sortGroupIds } from "../../core/groups";
 import { Album, ProgramEvent } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
-import { InlineMarkdownPipe, markdownToText } from "../../core/markdown";
+import { InlineMarkdownPipe, ParagraphsPipe, markdownToText } from "../../core/markdown";
 import { NEWS_CONTENT } from "../../../content/content";
 
 const UPCOMING_LIMIT = 7;
@@ -93,7 +93,7 @@ function excerpt(text: string | null, max: number): string {
 @Component({
 	selector: "bo-news-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, InlineMarkdownPipe],
+	imports: [RouterLink, InlineMarkdownPipe, ParagraphsPipe],
 	templateUrl: "./news-page.html",
 	styleUrl: "./news-page.scss",
 })
@@ -106,6 +106,16 @@ export class NewsPage {
 	private readonly today = isoDay(new Date());
 
 	protected readonly join = NEWS_CONTENT.join;
+
+	protected readonly messages = (NEWS_CONTENT.messages ?? [])
+		.filter((message) => message.title && (!message.until || message.until.slice(0, 10) >= this.today))
+		.sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""))
+		.map((message) => ({
+			title: message.title,
+			text: message.text,
+			date: message.date ? compactRange(message.date.slice(0, 10), message.date.slice(0, 10)) : "",
+			from: message.date?.slice(0, 10) ?? "",
+		}));
 
 	private readonly events = computed(() => this.program.value() ?? []);
 
