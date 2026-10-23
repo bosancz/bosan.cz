@@ -375,18 +375,19 @@
 	display: flex;
 	color: inherit;
 	text-decoration: none;
-	transition:
-		box-shadow 0.15s,
-		transform 0.15s;
+	transition: background-color 0.15s;
+
+	.event-when {
+		transition: background-color 0.15s;
+	}
 
 	&:hover,
 	&:focus-visible {
-		box-shadow: 0 6px 18px rgba(42, 52, 120, 0.16);
-		transform: translateY(-1px);
-	}
+		background: #e4e7f3;
 
-	&:hover .event-name {
-		color: var(--red);
+		.event-when {
+			background: #fbecd8;
+		}
 	}
 
 	&.alt {
