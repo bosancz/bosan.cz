@@ -1,5 +1,5 @@
 <ng-template #panel let-event>
-	@if (event.meeting?.start || event.meeting?.end || event._links?.registration) {
+	@if (event.meeting?.start || event.meeting?.end || event.leaders.length || event._links?.registration) {
 		<div class="panel-row">
 			@if (event.meeting?.start) {
 				<div class="meet">
@@ -11,6 +11,29 @@
 				<div class="meet">
 					<div class="meet-label">Návrat</div>
 					<div class="meet-value">{{ event.meeting.end }}</div>
+				</div>
+			}
+			@if (event.leaders.length) {
+				<div class="meet">
+					<div class="meet-label">Vedoucí</div>
+					<ul class="leaders">
+						@for (leader of leadersOf(event); track leader.id) {
+							<li>
+								<span class="leader-name">{{ leader.nickname }}</span>
+								@if (leader.phone) {
+									<a class="leader-phone" [href]="leader.href">
+										<svg viewBox="0 0 24 24" aria-hidden="true">
+											<path
+												d="M6.6 3.5l2.6 3.4-1.7 2.4a12 12 0 0 0 7.2 7.2l2.4-1.7 3.4 2.6-1.6 3.1C11 21 3 13 3.5 5.1z"
+												fill="currentColor"
+											/>
+										</svg>
+										{{ leader.phone }}
+									</a>
+								}
+							</li>
+						}
+					</ul>
 				</div>
 			}
 			@if (event._links?.registration; as registration) {
@@ -186,9 +209,6 @@
 							@if (event.description) {
 								<div class="desc" [innerHTML]="event.description | markdown"></div>
 							}
-							@if (event.leaders.length) {
-								<div class="leaders"><strong>Vede:</strong> {{ leaders(event) }}</div>
-							}
 						</div>
 					</div>
 					<div class="panel">
@@ -226,9 +246,6 @@
 							<div class="weekdays">{{ weekdays(event.dateFrom, event.dateTill) }}</div>
 							@if (event.description) {
 								<div class="desc" [innerHTML]="event.description | markdown"></div>
-							}
-							@if (event.leaders.length) {
-								<div class="leaders"><strong>Vede:</strong> {{ leaders(event) }}</div>
 							}
 							<span class="pills"
 								><ng-container
