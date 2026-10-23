@@ -5,7 +5,7 @@ import { formatDateRange, formatWeekdayRange, monthName, parseDate } from "../..
 import { eventTypeIcon } from "../../core/event-types";
 import { groupInfo } from "../../core/groups";
 import { Album, ProgramEvent } from "../../core/schema";
-import { ORGANIZATION_LD, SeoService } from "../../core/seo.service";
+import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
 
 const UPCOMING_LIMIT = 7;
 const PHOTO_ALBUMS = 5;
@@ -190,9 +190,9 @@ export class NewsPage {
 
 	constructor() {
 		this.seo.set({
-			title: "Aktuálně",
+			title: SITE_NAME,
 			description:
-				"Nejnovější zprávy z dětské vodácké skupiny ŠÁN: nejbližší akce a výpravy, zrušené akce a čerstvé fotky z posledních akcí pražských oddílů.",
+				"Sedm dětských vodáckých oddílů z Prahy pro kluky a holky od 7 do 15 let: schůzky v Podolí, víkendové výpravy, vodácké akce a letní tábor na ostrově Šán.",
 			path: "/",
 			image: "/img/og-default.jpg",
 			imageAlt: "Dětská vodácká skupina ŠÁN",

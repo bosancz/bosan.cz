@@ -1,0 +1,19 @@
+<a class="card" [routerLink]="['/fotogalerie', album()._id]">
+	<span class="thumb" [style.background]="cover()?.bg ?? null">
+		@if (cover(); as photo) {
+			@if (photo.sizes.small; as size) {
+				<img
+					[src]="size.url"
+					[attr.width]="size.width"
+					[attr.height]="size.height"
+					alt=""
+					[attr.loading]="eager() ? null : 'lazy'"
+				/>
+			}
+		}
+	</span>
+	<span class="text">
+		<span class="name">{{ name() }}</span>
+		<time class="date" [attr.datetime]="album().dateFrom.slice(0, 10)">{{ dates() }}</time>
+	</span>
+</a>

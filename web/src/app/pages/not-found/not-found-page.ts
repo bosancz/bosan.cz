@@ -13,7 +13,8 @@ export class NotFoundPage {
 	constructor() {
 		inject(SeoService).set({
 			title: "Stránka nenalezena",
-			description: "Tahle stránka na webu skupiny ŠÁN neexistuje. Zkus program, fotogalerii nebo informace o táboře.",
+			description:
+				"Tahle stránka na webu skupiny ŠÁN neexistuje. Zkus program, fotogalerii nebo informace o táboře.",
 			path: "/404",
 			noindex: true,
 		});

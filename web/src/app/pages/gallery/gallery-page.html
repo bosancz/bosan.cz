@@ -1,0 +1,53 @@
+<section class="hero">
+	<div class="hero-inner">
+		<h1>fotogalerie</h1>
+	</div>
+</section>
+
+<main class="main">
+	<nav class="rail" aria-label="Roky">
+		<div class="rail-sticky">
+			<div
+				class="rail-body"
+				#rail
+				(pointerdown)="onRailPointerDown($event)"
+				(pointermove)="onRailPointerMove($event)"
+			>
+				<span class="track" aria-hidden="true"></span>
+				@for (group of groups(); track group.year) {
+					<span
+						class="row"
+						[style.flex-grow]="group.weight"
+						[attr.data-year]="group.year"
+						[class.active]="group.year === current()"
+					>
+						<span class="dot" aria-hidden="true"></span>
+						<a
+							[href]="'#rok-' + group.year"
+							(click)="onRailLink($event, group.year)"
+							[attr.aria-current]="group.year === current() ? 'true' : null"
+							>{{ group.year }}</a
+						>
+					</span>
+				}
+			</div>
+		</div>
+	</nav>
+
+	<div class="years">
+		@for (group of visibleGroups(); track group.year; let first = $first) {
+			<section class="year" [id]="'rok-' + group.year" [attr.data-year-section]="group.year">
+				<h2>{{ group.year }}</h2>
+				<div class="grid">
+					@for (album of group.albums; track album._id; let i = $index) {
+						<bo-album-card [album]="album" [eager]="first && i < 4" />
+					}
+				</div>
+			</section>
+		}
+		@if (albums.error() && !groups().length) {
+			<p class="status">Fotogalerii se nepodařilo načíst. Zkuste to prosím později.</p>
+		}
+		<div class="sentinel" #sentinel aria-hidden="true"></div>
+	</div>
+</main>
