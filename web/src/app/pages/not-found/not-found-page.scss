@@ -1,0 +1,58 @@
+@use "styles/breakpoints" as bp;
+
+.hero {
+	background: var(--navy);
+	color: #fff;
+	padding: 24px 0 96px;
+
+	@include bp.mobile {
+		background: #fff;
+		color: var(--navy);
+		padding: 28px 0 56px;
+	}
+}
+
+h1 {
+	margin: 0 0 20px;
+	font-family: var(--font-display);
+	font-weight: 400;
+	font-size: 88px;
+	line-height: 0.9;
+	color: var(--orange);
+
+	@include bp.mobile {
+		font-size: 50px;
+		color: var(--navy);
+	}
+}
+
+p {
+	max-width: 620px;
+	font-size: 18px;
+	line-height: 1.6;
+	margin: 0 0 24px;
+}
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+a {
+	display: inline-block;
+	background: var(--orange);
+	color: var(--navy);
+	text-decoration: none;
+	font-weight: 800;
+	padding: 12px 20px;
+	border-radius: 24px;
+
+	&:hover {
+		color: var(--navy);
+		filter: brightness(1.05);
+	}
+}
