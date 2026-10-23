@@ -10,6 +10,16 @@
 	<body>
 		<script>
 			window.CMS_MANUAL_INIT = true;
+			try {
+				const key = "sveltia-cms.prefs";
+				const prefs = JSON.parse(localStorage.getItem(key) ?? "{}");
+				if (!prefs.bosanDefaults) {
+					if (!prefs.theme || prefs.theme === "auto") prefs.theme = "dark";
+					if (!prefs.locale || prefs.locale === "auto") prefs.locale = "cs";
+					prefs.bosanDefaults = 1;
+					localStorage.setItem(key, JSON.stringify(prefs));
+				}
+			} catch {}
 		</script>
 		<script src="https://unpkg.com/@sveltia/cms@0.250.2/dist/sveltia-cms.js"></script>
 		<script>
