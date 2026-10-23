@@ -12,7 +12,7 @@
 .hero-inner {
 	max-width: var(--page-width);
 	margin: 0 auto;
-	padding: 44px var(--gutter) 36px;
+	padding: 24px var(--gutter) 36px;
 }
 
 .hero-top {
@@ -28,8 +28,8 @@ h1 {
 	margin: 0;
 	font-family: var(--font-display);
 	font-weight: 400;
-	font-size: 72px;
-	line-height: 1;
+	font-size: 88px;
+	line-height: 0.9;
 	color: var(--orange);
 }
 
@@ -354,7 +354,7 @@ h2 {
 	}
 
 	.hero-inner {
-		padding: 24px var(--gutter) 28px;
+		padding: 28px var(--gutter) 28px;
 	}
 
 	.hero-top {
@@ -362,8 +362,7 @@ h2 {
 	}
 
 	h1 {
-		font-size: 58px;
-		line-height: 0.95;
+		font-size: 50px;
 		color: var(--navy);
 	}
 

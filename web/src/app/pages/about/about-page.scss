@@ -17,9 +17,9 @@
 .hero-inner {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
+	align-items: flex-start;
 	gap: 32px 56px;
-	padding-top: 32px;
+	padding-top: 24px;
 	padding-bottom: 64px;
 }
 

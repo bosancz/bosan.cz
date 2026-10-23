@@ -11,7 +11,6 @@
 
 	@include bp.mobile {
 		background: #ffffff;
-		padding-top: 14px;
 	}
 }
 
@@ -21,7 +20,7 @@
 	padding-bottom: 56px;
 
 	@include bp.mobile {
-		padding-top: 30px;
+		padding-top: 28px;
 		padding-bottom: 28px;
 	}
 }
@@ -37,8 +36,7 @@
 
 	@include bp.mobile {
 		z-index: 1;
-		font-size: min(50px, 14vw);
-		line-height: 0.95;
+		font-size: 50px;
 		color: var(--navy);
 	}
 }
