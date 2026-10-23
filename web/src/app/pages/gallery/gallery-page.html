@@ -24,6 +24,7 @@
 						<span class="dot" aria-hidden="true"></span>
 						<a
 							[href]="'#rok-' + group.year"
+							draggable="false"
 							(click)="onRailLink($event, group.year)"
 							[attr.aria-current]="group.year === current() ? 'true' : null"
 							>{{ group.year }}</a

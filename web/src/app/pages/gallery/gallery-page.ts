@@ -117,13 +117,14 @@ export class GalleryPage {
 		if (this.hasMore()) this.loadedYears.update((n) => n + 1);
 	}
 
-	protected onRailLink(event: Event, year: number): void {
+	protected onRailLink(event: MouseEvent, year: number): void {
 		event.preventDefault();
-		this.goTo(year);
+		if (event.detail === 0) this.goTo(year, 0);
 	}
 
 	protected onRailPointerDown(event: PointerEvent): void {
 		if (event.button) return;
+		event.preventDefault();
 		const body = event.currentTarget as HTMLElement;
 		body.setPointerCapture(event.pointerId);
 		this.goToPointer(event);
@@ -144,22 +145,30 @@ export class GalleryPage {
 				break;
 			}
 		}
-		const year = Number(hit.dataset["year"]);
-		if (year !== this.activeYear()) this.goTo(year);
+		const rect = hit.getBoundingClientRect();
+		const fraction = Math.min(1, Math.max(0, (event.clientY - rect.top) / rect.height));
+		this.goTo(Number(hit.dataset["year"]), fraction);
 	}
 
-	private goTo(year: number): void {
+	private goTo(year: number, fraction: number): void {
 		const index = this.groups().findIndex((group) => group.year === year);
 		if (index < 0) return;
 		this.activeYear.set(year);
-		if (index >= this.loadedYears()) this.loadedYears.set(index + 1);
-		afterNextRender(
-			() => {
-				const element = this.document.getElementById(`rok-${year}`);
-				if (element) window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY - 24 });
-			},
-			{ injector: this.injector },
-		);
+		if (index >= this.loadedYears()) {
+			this.loadedYears.set(index + 1);
+			afterNextRender(() => this.scrollToYear(year, fraction), { injector: this.injector });
+		} else {
+			this.scrollToYear(year, fraction);
+		}
+	}
+
+	private scrollToYear(year: number, fraction: number): void {
+		const element = this.document.getElementById(`rok-${year}`);
+		if (!element) return;
+		const rect = element.getBoundingClientRect();
+		window.scrollTo({
+			top: rect.top + window.scrollY - 24 + fraction * Math.max(0, rect.height - window.innerHeight / 2),
+		});
 	}
 
 	private updateActive(): void {
