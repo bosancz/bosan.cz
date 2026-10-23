@@ -17,6 +17,7 @@ import { SeoService } from "../../core/seo.service";
 import { ProgramEvent } from "../../core/schema";
 import { CHILD_GROUPS, GroupInfo, groupInfo, sortGroupIds } from "../../core/groups";
 import { eventTypeIcon } from "../../core/event-types";
+import { formatPhone, phoneHref } from "../../core/phone";
 import { MarkdownPipe, markdownToText } from "../../core/markdown";
 import { formatDateRange, formatWeekdayRange, monthKey, monthName, parseDate } from "../../core/dates";
 
@@ -117,8 +118,16 @@ export class ProgramPage {
 		return sortGroupIds(event.groups).map(groupInfo);
 	}
 
-	protected leaders(event: ProgramEvent): string {
-		return event.leaders.map((leader) => leader.nickname).join(", ");
+	protected leadersOf(event: ProgramEvent) {
+		return event.leaders.map((leader) => {
+			const mobile = leader.contacts?.mobile?.trim();
+			return {
+				id: leader._id,
+				nickname: leader.nickname,
+				phone: mobile ? formatPhone(mobile) : null,
+				href: mobile ? phoneHref(mobile) : null,
+			};
+		});
 	}
 
 	protected radius(index: number): string {

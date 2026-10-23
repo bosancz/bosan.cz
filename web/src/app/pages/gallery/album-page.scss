@@ -85,24 +85,35 @@ h1 {
 	font-size: 17px;
 	line-height: 1.6;
 
-	:is(p, ul, ol) {
-		margin: 0 0 0.6em;
-	}
+	::ng-deep {
+		:is(p, ul, ol) {
+			margin: 0 0 0.6em;
+		}
 
-	> :last-child {
-		margin-bottom: 0;
-	}
+		> :last-child {
+			margin-bottom: 0;
+		}
 
-	:is(ul, ol) {
-		padding-left: 1.3em;
-	}
+		:is(ul, ol) {
+			padding-left: 1.3em;
+		}
 
-	a {
-		color: var(--navy);
+		a {
+			color: #fff;
+			text-decoration: underline;
+
+			&:hover {
+				color: var(--orange);
+			}
+		}
 	}
 }
 
 @include bp.mobile {
+	.description ::ng-deep a {
+		color: var(--navy);
+	}
+
 	.hero {
 		background: #fff;
 		color: var(--body-text);

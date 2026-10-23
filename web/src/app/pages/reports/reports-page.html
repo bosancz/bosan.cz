@@ -1,0 +1,75 @@
+<section class="hero">
+	<div class="hero-inner">
+		<h1>reporty</h1>
+		<p class="lead">Jak to na akcích vypadalo, z pohledu vedoucích.</p>
+	</div>
+</section>
+
+<main class="main">
+	<div class="inner">
+		@if (reports().length) {
+			<ul class="list">
+				@for (report of reports(); track report.id) {
+					<li>
+						<article class="report">
+							<a
+								class="photo"
+								[routerLink]="['/reporty', report.id]"
+								[style.background]="report.bg"
+								tabindex="-1"
+							>
+								@if (report.photo) {
+									<img [src]="report.photo" [alt]="'Fotka z akce ' + report.name" loading="lazy" />
+								}
+							</a>
+							<div class="text">
+								<div class="meta">
+									<time [attr.datetime]="report.from">{{ report.dates }}</time>
+									@if (report.water) {
+										<span class="water">{{ report.water }}</span>
+									}
+									@if (report.groups.length) {
+										<span class="groups">
+											@for (group of report.groups; track group.id) {
+												<span
+													class="group"
+													[style.background]="group.color"
+													[style.color]="group.text"
+													[title]="group.name"
+													>{{ group.id }}</span
+												>
+											}
+										</span>
+									}
+								</div>
+								<h2>
+									<a [routerLink]="['/reporty', report.id]">{{ report.name }}</a>
+								</h2>
+								@if (report.text) {
+									<p class="excerpt">{{ report.text }}</p>
+								}
+								<div class="links">
+									<a [routerLink]="['/reporty', report.id]">Celý report</a>
+									@if (report.albumId) {
+										<a [routerLink]="['/fotogalerie', report.albumId]">Fotky z akce</a>
+									}
+								</div>
+							</div>
+						</article>
+					</li>
+				}
+			</ul>
+			@if (hasMore()) {
+				<button class="more" type="button" [disabled]="loadingMore()" (click)="loadMore()">
+					{{ loadingMore() ? "Načítám…" : "Starší reporty" }}
+				</button>
+			}
+		} @else if (failed()) {
+			<p class="status">Reporty se nepodařilo načíst. Zkus to prosím za chvíli znovu.</p>
+		} @else if (loading()) {
+			<p class="status">Načítám reporty…</p>
+		} @else {
+			<p class="status">Zatím tu žádný report není.</p>
+		}
+	</div>
+</main>

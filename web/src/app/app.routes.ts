@@ -16,6 +16,11 @@ export const routes: Routes = [
 		path: "fotogalerie/:album/:photo",
 		loadComponent: () => import("./pages/gallery/album-page").then((m) => m.AlbumPage),
 	},
+	{ path: "reporty", loadComponent: () => import("./pages/reports/reports-page").then((m) => m.ReportsPage) },
+	{
+		path: "reporty/:report",
+		loadComponent: () => import("./pages/reports/report-page").then((m) => m.ReportPage),
+	},
 	{ path: "tabor", loadComponent: () => import("./pages/camp/camp-page").then((m) => m.CampPage) },
 	{ path: "o-nas", loadComponent: () => import("./pages/about/about-page").then((m) => m.AboutPage) },
 	{ path: "kontakty", loadComponent: () => import("./pages/contacts/contacts-page").then((m) => m.ContactsPage) },

@@ -6,6 +6,7 @@ import { ORGANIZATION_LD, SeoService } from "../../core/seo.service";
 import { VenueMap } from "./venue-map";
 import { InlineMarkdownPipe } from "../../core/markdown";
 import { CONTACTS_CONTENT } from "../../../content/content";
+import { formatPhone } from "../../core/phone";
 
 interface LeaderContact {
 	photo: string;
@@ -79,7 +80,7 @@ export class ContactsPage {
 			nickname: member.nickname,
 			role: member.function ?? "člen vedení",
 			email: member.email || null,
-			phone: member.mobile ? this.formatPhone(member.mobile) : null,
+			phone: member.mobile ? formatPhone(member.mobile) : null,
 		})),
 	);
 
@@ -127,13 +128,8 @@ export class ContactsPage {
 			name: [leader.firstName, leader.lastName].filter(Boolean).join(" "),
 			group: group.shortName,
 			email: leader.email || null,
-			phone: leader.mobile ? this.formatPhone(leader.mobile) : null,
+			phone: leader.mobile ? formatPhone(leader.mobile) : null,
 		};
-	}
-
-	private formatPhone(phone: string): string {
-		const digits = phone.replace(/\D/g, "").replace(/^(00)?420(?=\d{9}$)/, "");
-		return digits.length === 9 ? digits.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3") : phone.trim();
 	}
 
 	protected photoError(event: Event): void {

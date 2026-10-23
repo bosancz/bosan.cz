@@ -3,7 +3,9 @@ import { Injectable, PLATFORM_ID, Signal, inject, signal } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../environments/environment";
-import { Album, ProgramEvent, PublicBoardMember, PublicGroup } from "./schema";
+import { Album, ProgramEvent, PublicBoardMember, PublicGroup, PublicReport } from "./schema";
+
+export const REPORTS_PAGE = 100;
 import { HydrationState } from "./hydration-state";
 
 export interface LiveData<T> {
@@ -80,6 +82,27 @@ export class ApiService {
 		return this.live<PublicBoardMember[]>("/public/board-members");
 	}
 
+	reports(): LiveData<PublicReport[]> {
+		return this.live<PublicReport[]>("/public/reports", { limit: REPORTS_PAGE });
+	}
+
+	fetchReports(offset: number): Promise<PublicReport[]> {
+		return firstValueFrom(
+			this.http.get<PublicReport[]>(this.url("/public/reports"), {
+				params: { limit: REPORTS_PAGE, offset },
+				transferCache: false,
+			}),
+		);
+	}
+
+	recentReports(limit: number): LiveData<PublicReport[]> {
+		return this.live<PublicReport[]>("/public/reports", { limit });
+	}
+
+	report(id: string): LiveData<PublicReport> {
+		return this.live<PublicReport>(`/public/reports/${encodeURIComponent(id)}`);
+	}
+
 	icalUrl(): string {
 		return this.url("/public/program/ical");
 	}
@@ -87,5 +110,18 @@ export class ApiService {
 	async fetchGalleryAlbumIds(): Promise<string[]> {
 		const albums = await firstValueFrom(this.http.get<Album[]>(this.url("/public/gallery")));
 		return albums.map((album) => album._id);
+	}
+
+	async fetchReportIds(): Promise<string[]> {
+		const ids: string[] = [];
+		try {
+			for (let offset = 0; ; offset += REPORTS_PAGE) {
+				const page = await this.fetchReports(offset);
+				ids.push(...page.map((report) => report._id));
+				if (page.length < REPORTS_PAGE) return ids;
+			}
+		} catch {
+			return ids;
+		}
 	}
 }
