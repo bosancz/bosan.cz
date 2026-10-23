@@ -1,5 +1,50 @@
-/* IMPORTS */
+:root {
+	color-scheme: light dark;
+	--bg: #f6f5f2;
+	--surface: #ffffff;
+	--surface-2: #e7e4de;
+	--text: #1c1b19;
+	--muted: #8a867e;
+	--accent: #d9822b;
+	--good: #2f9e5b;
+	--good-soft: rgba(47, 158, 91, 0.25);
+	--radius: 14px;
+	font-family:
+		system-ui,
+		-apple-system,
+		"Segoe UI",
+		Roboto,
+		sans-serif;
+}
 
-@import "styles/bootstrap";
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #121211;
+		--surface: #1d1c1a;
+		--surface-2: #2e2c29;
+		--text: #f1efe9;
+		--muted: #7d7970;
+		--accent: #f0a050;
+		--good: #4cc97c;
+		--good-soft: rgba(76, 201, 124, 0.22);
+	}
+}
 
-@import "styles/general";
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+	background: var(--bg);
+	color: var(--text);
+}
+
+button {
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
