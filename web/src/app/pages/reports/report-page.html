@@ -1,6 +1,6 @@
 <section class="hero">
 	<div class="hero-inner">
-		<a class="back" routerLink="/reporty">
+		<a class="back" routerLink="/kroniky">
 			<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16">
 				<path
 					d="M15 6l-6 6 6 6"
@@ -11,10 +11,10 @@
 					stroke-linejoin="round"
 				/>
 			</svg>
-			Reporty
+			Kroniky
 		</a>
 		@if (data(); as report) {
-			<div class="kicker">report z akce</div>
+			<div class="kicker">kronika akce</div>
 			<h1>{{ report.name.trim() }}</h1>
 			<div class="meta">
 				<time [attr.datetime]="report.dateFrom.slice(0, 10)">{{ dates() }}</time>
@@ -36,7 +36,7 @@
 				}
 			</div>
 		} @else if (failed()) {
-			<h1>Report nenalezen</h1>
+			<h1>Kronika nenalezena</h1>
 		} @else {
 			<h1 class="placeholder">&nbsp;</h1>
 		}
@@ -64,12 +64,12 @@
 						@if (report.album; as album) {
 							<a class="button" [routerLink]="['/fotogalerie', album._id]">Fotky z akce</a>
 						}
-						<a routerLink="/reporty">Další reporty</a>
+						<a routerLink="/kroniky">Další kroniky</a>
 					</div>
 				</footer>
 			</article>
 		} @else if (failed()) {
-			<p class="status">Tenhle report jsme nenašli. <a routerLink="/reporty">Zpět na všechny reporty</a></p>
+			<p class="status">Tuhle kroniku jsme nenašli. <a routerLink="/kroniky">Zpět na všechny kroniky</a></p>
 		}
 	</div>
 </main>

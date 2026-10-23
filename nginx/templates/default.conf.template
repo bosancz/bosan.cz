@@ -23,7 +23,7 @@ server {
     try_files $uri $uri/index.html /index.csr.html;
   }
 
-  location /reporty/ {
+  location /kroniky/ {
     try_files $uri $uri/index.html /index.csr.html;
   }
 

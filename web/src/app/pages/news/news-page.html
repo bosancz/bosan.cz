@@ -46,13 +46,13 @@
 						<p class="lead-body">{{ item.text }}</p>
 						<div class="links">
 							@if (item.reportId) {
-								<a [routerLink]="['/reporty', item.reportId]">Celý report</a>
+								<a [routerLink]="['/kroniky', item.reportId]">Celá kronika</a>
 							}
 							@if (item.albumId) {
 								<a [routerLink]="['/fotogalerie', item.albumId]">Fotky z akce</a>
 							}
 							@if (item.reportId) {
-								<a routerLink="/reporty">Všechny reporty</a>
+								<a routerLink="/kroniky">Všechny kroniky</a>
 							}
 						</div>
 					</div>

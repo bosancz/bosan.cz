@@ -60,9 +60,9 @@ export class ReportPage implements OnInit {
 				if (report) this.setSeo(report);
 				else if (failed) {
 					this.seo.set({
-						title: "Report nenalezen",
-						description: "Požadovaný report z akce dětské vodácké skupiny ŠÁN se nepodařilo najít.",
-						path: `/reporty/${this.report()}`,
+						title: "Kronika nenalezena",
+						description: "Požadovanou kroniku akce dětské vodácké skupiny ŠÁN se nepodařilo najít.",
+						path: `/kroniky/${this.report()}`,
 						noindex: true,
 					});
 				}
@@ -73,9 +73,9 @@ export class ReportPage implements OnInit {
 	private setSeo(report: PublicReport): void {
 		const name = report.name.trim();
 		const text = markdownToText(report.report);
-		const path = `/reporty/${report._id}`;
+		const path = `/kroniky/${report._id}`;
 		this.seo.set({
-			title: `${name} – report z akce`,
+			title: `${name} – kronika akce`,
 			description: text.slice(0, 160),
 			path,
 			image: `/og/report-${report._id}.jpg`,
@@ -84,7 +84,7 @@ export class ReportPage implements OnInit {
 			jsonLd: {
 				"@context": "https://schema.org",
 				"@type": "Article",
-				headline: `${name} – report z akce`,
+				headline: `${name} – kronika akce`,
 				datePublished: report.reportPublishedAt,
 				articleBody: text,
 				image: reportPhoto(report, "big") ?? undefined,

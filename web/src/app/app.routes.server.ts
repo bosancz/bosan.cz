@@ -13,7 +13,7 @@ export const serverRoutes: ServerRoute[] = [
 	},
 	{ path: "fotogalerie/:album/:photo", renderMode: RenderMode.Client },
 	{
-		path: "reporty/:report",
+		path: "kroniky/:report",
 		renderMode: RenderMode.Prerender,
 		async getPrerenderParams() {
 			const reports = await inject(ApiService).fetchReportIds();

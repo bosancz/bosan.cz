@@ -56,10 +56,9 @@ export class ReportsPage {
 
 	constructor() {
 		inject(SeoService).set({
-			title: "Reporty z akcí",
-			description:
-				"Jak jsme si užili výpravy, vodu i tábor: reporty z akcí dětské vodácké skupiny ŠÁN psané vedoucími.",
-			path: "/reporty",
+			title: "Kroniky akcí",
+			description: "O čem byly výpravy, vodácké akce a tábory dětské vodácké skupiny ŠÁN.",
+			path: "/kroniky",
 			image: "/img/og-default.jpg",
 			imageAlt: "Dětská vodácká skupina ŠÁN",
 		});

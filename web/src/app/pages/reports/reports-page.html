@@ -1,7 +1,7 @@
 <section class="hero">
 	<div class="hero-inner">
-		<h1>reporty</h1>
-		<p class="lead">Jak to na akcích vypadalo, z pohledu vedoucích.</p>
+		<h1>kroniky</h1>
+		<p class="lead">O čem byly naše výpravy, vodácké akce a tábory.</p>
 	</div>
 </section>
 
@@ -14,7 +14,7 @@
 						<article class="report">
 							<a
 								class="photo"
-								[routerLink]="['/reporty', report.id]"
+								[routerLink]="['/kroniky', report.id]"
 								[style.background]="report.bg"
 								tabindex="-1"
 							>
@@ -43,13 +43,13 @@
 									}
 								</div>
 								<h2>
-									<a [routerLink]="['/reporty', report.id]">{{ report.name }}</a>
+									<a [routerLink]="['/kroniky', report.id]">{{ report.name }}</a>
 								</h2>
 								@if (report.text) {
 									<p class="excerpt">{{ report.text }}</p>
 								}
 								<div class="links">
-									<a [routerLink]="['/reporty', report.id]">Celý report</a>
+									<a [routerLink]="['/kroniky', report.id]">Celá kronika</a>
 									@if (report.albumId) {
 										<a [routerLink]="['/fotogalerie', report.albumId]">Fotky z akce</a>
 									}
@@ -61,15 +61,15 @@
 			</ul>
 			@if (hasMore()) {
 				<button class="more" type="button" [disabled]="loadingMore()" (click)="loadMore()">
-					{{ loadingMore() ? "Načítám…" : "Starší reporty" }}
+					{{ loadingMore() ? "Načítám…" : "Starší kroniky" }}
 				</button>
 			}
 		} @else if (failed()) {
-			<p class="status">Reporty se nepodařilo načíst. Zkus to prosím za chvíli znovu.</p>
+			<p class="status">Kroniky se nepodařilo načíst. Zkus to prosím za chvíli znovu.</p>
 		} @else if (loading()) {
-			<p class="status">Načítám reporty…</p>
+			<p class="status">Načítám kroniky…</p>
 		} @else {
-			<p class="status">Zatím tu žádný report není.</p>
+			<p class="status">Zatím tu žádná kronika není.</p>
 		}
 	</div>
 </main>

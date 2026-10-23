@@ -16,9 +16,9 @@ export const routes: Routes = [
 		path: "fotogalerie/:album/:photo",
 		loadComponent: () => import("./pages/gallery/album-page").then((m) => m.AlbumPage),
 	},
-	{ path: "reporty", loadComponent: () => import("./pages/reports/reports-page").then((m) => m.ReportsPage) },
+	{ path: "kroniky", loadComponent: () => import("./pages/reports/reports-page").then((m) => m.ReportsPage) },
 	{
-		path: "reporty/:report",
+		path: "kroniky/:report",
 		loadComponent: () => import("./pages/reports/report-page").then((m) => m.ReportPage),
 	},
 	{ path: "tabor", loadComponent: () => import("./pages/camp/camp-page").then((m) => m.CampPage) },

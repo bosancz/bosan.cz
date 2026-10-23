@@ -178,11 +178,11 @@ async function main() {
 			item: albums.get(id) && { ...albums.get(id), label: "FOTOGALERIE" },
 			photo: () => albumPhoto(albums.get(id), id),
 		})),
-		...routeIds("reporty").map((id) => {
+		...routeIds("kroniky").map((id) => {
 			const report = reports.get(id);
 			return {
 				file: `report-${id}.jpg`,
-				item: report && { ...report, label: "REPORT Z AKCE" },
+				item: report && { ...report, label: "KRONIKA AKCE" },
 				photo: async () =>
 					report?.album
 						? (photoUrl(report.album.titlePhoto) ??
