@@ -16,6 +16,7 @@ export interface PageSeo {
 
 export const SITE_NAME = "Dětská vodácká skupina ŠÁN";
 export const DEFAULT_IMAGE = "/img/og-default.jpg";
+const DEFAULT_IMAGE_SIZE = { width: 1200, height: 630 };
 
 @Injectable({ providedIn: "root" })
 export class SeoService {
@@ -45,12 +46,38 @@ export class SeoService {
 		this.tag("property", "og:url", url);
 		this.tag("property", "og:image", image);
 		this.tag("property", "og:image:alt", page.imageAlt ?? page.title);
+		this.imageSize((page.image ?? DEFAULT_IMAGE) === DEFAULT_IMAGE ? DEFAULT_IMAGE_SIZE : null);
 		this.tag("name", "twitter:card", "summary_large_image");
 		this.tag("name", "twitter:title", page.title);
 		this.tag("name", "twitter:description", page.description);
 		this.tag("name", "twitter:image", image);
 		this.canonical(url);
 		this.jsonLd(page.jsonLd);
+		this.hoist();
+	}
+
+	private imageSize(size: { width: number; height: number } | null): void {
+		if (size) {
+			this.tag("property", "og:image:width", String(size.width));
+			this.tag("property", "og:image:height", String(size.height));
+		} else {
+			this.meta.removeTag('property="og:image:width"');
+			this.meta.removeTag('property="og:image:height"');
+		}
+	}
+
+	private hoist(): void {
+		const head = this.document.head;
+		const anchor = head.querySelector("title");
+		if (!anchor) return;
+		const tags = head.querySelectorAll(
+			'meta[name="description"], meta[name="robots"], meta[property^="og:"], meta[name^="twitter:"], link[rel="canonical"]',
+		);
+		let after: Element = anchor;
+		tags.forEach((tag) => {
+			after.after(tag);
+			after = tag;
+		});
 	}
 
 	private tag(attr: "name" | "property", key: string, content: string): void {
