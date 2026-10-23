@@ -3,7 +3,7 @@ import { Injectable, PLATFORM_ID, Signal, inject, signal } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../environments/environment";
-import { Album, ProgramEvent } from "./schema";
+import { Album, ProgramEvent, PublicGroup } from "./schema";
 import { HydrationState } from "./hydration-state";
 
 export interface LiveData<T> {
@@ -70,6 +70,10 @@ export class ApiService {
 
 	albumPreview(id: string): LiveData<Album> {
 		return this.live<Album>(`/public/gallery/${encodeURIComponent(id)}/preview`);
+	}
+
+	groups(): LiveData<PublicGroup[]> {
+		return this.live<PublicGroup[]>("/public/groups");
 	}
 
 	icalUrl(): string {

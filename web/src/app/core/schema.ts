@@ -61,3 +61,24 @@ export interface Album {
 	photos?: Photo[];
 	_links?: { self?: ApiLink; download?: ApiLink };
 }
+
+export interface PublicGroupLeader {
+	_id: string;
+	nickname: string;
+	firstName: string | null;
+	lastName: string | null;
+	email: string | null;
+	mobile: string | null;
+	profilePhoto: string | null;
+}
+
+export interface PublicGroup {
+	_id: string;
+	shortName: string;
+	name: string;
+	color: string | null;
+	darkColor: string | null;
+	children: boolean;
+	meetingDay: "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | null;
+	leader: PublicGroupLeader | null;
+}

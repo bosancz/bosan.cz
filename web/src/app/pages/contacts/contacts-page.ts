@@ -1,15 +1,18 @@
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from "@angular/core";
+import { ApiService } from "../../core/api.service";
+import { PublicGroup } from "../../core/schema";
 import { groupInfo } from "../../core/groups";
 import { ORGANIZATION_LD, SeoService } from "../../core/seo.service";
 import { VenueMap } from "./venue-map";
 
 interface LeaderContact {
 	photo: string;
+	fallbackPhoto: string;
 	nickname: string;
 	name: string;
 	group: string;
-	email: string;
-	phone: string;
+	email: string | null;
+	phone: string | null;
 }
 
 interface BoardMember {
@@ -22,9 +25,21 @@ interface BoardMember {
 
 interface Section {
 	id: string;
+	day: NonNullable<PublicGroup["meetingDay"]>;
 	title: string;
 	leaders: LeaderContact[];
 }
+
+const DAYS: Pick<Section, "id" | "day" | "title">[] = [
+	{ id: "pondeli", day: "monday", title: "schůzky v pondělí" },
+	{ id: "utery", day: "tuesday", title: "schůzky v úterý" },
+	{ id: "streda", day: "wednesday", title: "schůzky ve středu" },
+	{ id: "ctvrtek", day: "thursday", title: "schůzky ve čtvrtek" },
+	{ id: "patek", day: "friday", title: "schůzky v pátek" },
+];
+
+const LOCAL_PHOTOS = ["cica", "cip", "johanka", "ksilt", "lef", "rammstein", "redkvicka"];
+const DEFAULT_PHOTO = "/img/contacts/leader-placeholder.svg";
 
 const ROTATIONS = [-2, 1.5, -1, 2];
 
@@ -38,76 +53,19 @@ const ROTATIONS = [-2, 1.5, -1, 2];
 export class ContactsPage {
 	private readonly seo = inject(SeoService);
 
-	protected readonly sections: Section[] = [
-		{
-			id: "pondeli",
-			title: "schůzky v pondělí",
-			leaders: [
-				{
-					photo: "johanka",
-					nickname: "Johanka",
-					name: "Johana Štěchová",
-					group: "5",
-					email: "johanka@bosan.cz",
-					phone: "608 929 829",
-				},
-				{
-					photo: "ksilt",
-					nickname: "Kšilt",
-					name: "Vít Suchomel",
-					group: "7",
-					email: "ksilt@bosan.cz",
-					phone: "792 369 583",
-				},
-				{
-					photo: "cica",
-					nickname: "Číča",
-					name: "Amálie Peláková",
-					group: "8",
-					email: "cica@bosan.cz",
-					phone: "737 461 023",
-				},
-				{
-					photo: "lef",
-					nickname: "Lef",
-					name: "Jiří Kubíček",
-					group: "22",
-					email: "lef@bosan.cz",
-					phone: "605 340 502",
-				},
-			],
-		},
-		{
-			id: "streda",
-			title: "schůzky ve středu",
-			leaders: [
-				{
-					photo: "cip",
-					nickname: "Čip",
-					name: "Kateřina Sazimová",
-					group: "3",
-					email: "cip@bosan.cz",
-					phone: "733 374 326",
-				},
-				{
-					photo: "redkvicka",
-					nickname: "Ředkvička",
-					name: "Emma Hrdličková",
-					group: "4",
-					email: "redkvicka@bosan.cz",
-					phone: "605 498 958",
-				},
-				{
-					photo: "rammstein",
-					nickname: "Rammstein",
-					name: "Jana Nováková",
-					group: "6",
-					email: "rammstein@bosan.cz",
-					phone: "605 900 368",
-				},
-			],
-		},
-	];
+	private readonly groups = inject(ApiService).groups();
+
+	protected readonly sections = computed<Section[]>(() => {
+		const groups = (this.groups.value() ?? [])
+			.filter((group) => group.children && group.meetingDay && group.leader)
+			.sort((a, b) => Number(a.shortName) - Number(b.shortName) || a.shortName.localeCompare(b.shortName));
+		return DAYS.map((day) => ({
+			...day,
+			leaders: groups.filter((group) => group.meetingDay === day.day).map((group) => this.leaderContact(group)),
+		})).filter((section) => section.leaders.length);
+	});
+
+	protected readonly loadFailed = computed(() => !!this.groups.error() && !this.groups.value());
 
 	protected readonly board: BoardMember[] = [
 		{ photo: "jara", nickname: "Jára", role: "hlavní vedoucí", email: "jara@bosan.cz", phone: "721 833 194" },
@@ -122,6 +80,10 @@ export class ContactsPage {
 	];
 
 	constructor() {
+		effect(() => this.setSeo(this.sections()));
+	}
+
+	private setSeo(sections: Section[]): void {
 		const contactPoints = [
 			{
 				"@type": "ContactPoint",
@@ -130,7 +92,7 @@ export class ContactsPage {
 				availableLanguage: "cs",
 			},
 			...this.board.slice(0, 1).map((member) => this.contactPoint(member, "hlavní vedoucí")),
-			...this.sections.flatMap((section) =>
+			...sections.flatMap((section) =>
 				section.leaders.map((leader) => this.contactPoint(leader, `oddílový vedoucí, ${leader.group}. oddíl`)),
 			),
 		];
@@ -155,6 +117,40 @@ export class ContactsPage {
 		});
 	}
 
+	private leaderContact(group: PublicGroup): LeaderContact {
+		const leader = group.leader!;
+		const local = this.slug(leader.nickname);
+		const fallbackPhoto = LOCAL_PHOTOS.includes(local) ? `/img/contacts/foto-${local}.jpg` : DEFAULT_PHOTO;
+		return {
+			photo: leader.profilePhoto ?? fallbackPhoto,
+			fallbackPhoto,
+			nickname: leader.nickname,
+			name: [leader.firstName, leader.lastName].filter(Boolean).join(" "),
+			group: group.shortName,
+			email: leader.email || null,
+			phone: leader.mobile ? this.formatPhone(leader.mobile) : null,
+		};
+	}
+
+	private slug(text: string): string {
+		return text
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "")
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, "-");
+	}
+
+	private formatPhone(phone: string): string {
+		const digits = phone.replace(/\D/g, "").replace(/^(00)?420(?=\d{9}$)/, "");
+		return digits.length === 9 ? digits.replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3") : phone.trim();
+	}
+
+	protected photoError(event: Event, leader: LeaderContact): void {
+		const image = event.target as HTMLImageElement;
+		const next = image.src.endsWith(leader.fallbackPhoto) ? DEFAULT_PHOTO : leader.fallbackPhoto;
+		if (!image.src.endsWith(next)) image.src = next;
+	}
+
 	protected group(id: string) {
 		return groupInfo(id);
 	}
@@ -167,13 +163,16 @@ export class ContactsPage {
 		return "tel:+420" + phone.replace(/\s/g, "");
 	}
 
-	private contactPoint(person: { nickname: string; email: string; phone: string }, contactType: string) {
+	private contactPoint(
+		person: { nickname: string; email: string | null; phone: string | null },
+		contactType: string,
+	) {
 		return {
 			"@type": "ContactPoint",
 			name: person.nickname,
 			contactType,
-			email: person.email,
-			telephone: "+420" + person.phone.replace(/\s/g, ""),
+			...(person.email ? { email: person.email } : {}),
+			...(person.phone ? { telephone: "+420" + person.phone.replace(/\s/g, "") } : {}),
 			availableLanguage: "cs",
 		};
 	}

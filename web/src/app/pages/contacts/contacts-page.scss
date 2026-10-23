@@ -386,3 +386,11 @@ h1 {
 		gap: 28px 24px;
 	}
 }
+
+.load-failed {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding: 0 var(--gutter) 40px;
+	font-weight: 700;
+	color: var(--muted);
+}

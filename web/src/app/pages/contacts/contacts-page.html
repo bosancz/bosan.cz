@@ -5,7 +5,7 @@
 </div>
 
 <section class="meetings-wrap">
-	@for (section of sections; track section.id) {
+	@for (section of sections(); track section.id) {
 		<section class="meetings" [id]="section.id" [attr.aria-labelledby]="section.id + '-title'">
 			<div class="heading">
 				<h2 [id]="section.id + '-title'">{{ section.title }}</h2>
@@ -16,11 +16,12 @@
 					<li class="polaroid" [style.--rotation]="rotation(i)">
 						<div class="photo">
 							<img
-								[src]="'/img/contacts/foto-' + leader.photo + '.jpg'"
+								[src]="leader.photo"
 								[alt]="leader.nickname"
 								width="240"
 								height="240"
 								loading="lazy"
+								(error)="photoError($event, leader)"
 							/>
 							<span
 								class="group"
@@ -33,53 +34,63 @@
 						<h3 class="nickname">{{ leader.nickname }}</h3>
 						<div class="name">{{ leader.name }}</div>
 						<div class="actions">
-							<a
-								class="action primary"
-								[href]="'mailto:' + leader.email"
-								[attr.aria-label]="'E-mail ' + leader.email"
-								[title]="leader.email"
-							>
-								<svg viewBox="0 0 24 24" aria-hidden="true">
-									<rect
-										x="3"
-										y="5"
-										width="18"
-										height="14"
-										rx="3"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2.2"
-									/>
-									<path
-										d="M4 7l8 6 8-6"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2.2"
-										stroke-linejoin="round"
-									/>
-								</svg>
-							</a>
-							<a
-								class="action"
-								[href]="tel(leader.phone)"
-								[attr.aria-label]="'Telefon ' + leader.phone"
-								[title]="leader.phone"
-							>
-								<svg viewBox="0 0 24 24" aria-hidden="true">
-									<path
-										d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2.2"
-										stroke-linejoin="round"
-									/>
-								</svg>
-							</a>
+							@if (leader.email) {
+								<a
+									class="action primary"
+									[href]="'mailto:' + leader.email"
+									[attr.aria-label]="'E-mail ' + leader.email"
+									[title]="leader.email"
+								>
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<rect
+											x="3"
+											y="5"
+											width="18"
+											height="14"
+											rx="3"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2.2"
+										/>
+										<path
+											d="M4 7l8 6 8-6"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2.2"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</a>
+							}
+							@if (leader.phone) {
+								<a
+									class="action"
+									[href]="tel(leader.phone)"
+									[attr.aria-label]="'Telefon ' + leader.phone"
+									[title]="leader.phone"
+								>
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<path
+											d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2.2"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</a>
+							}
 						</div>
 					</li>
 				}
 			</ul>
 		</section>
+	}
+	@if (loadFailed()) {
+		<p class="load-failed">
+			Kontakty na oddílové vedoucí se nepodařilo načíst. Napiš nám na
+			<a href="mailto:info@bosan.cz">info@bosan.cz</a>.
+		</p>
 	}
 </section>
 
