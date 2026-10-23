@@ -230,20 +230,22 @@ h2 {
 	line-height: 1.55;
 	color: var(--body-text);
 
-	:is(p, ul, ol) {
-		margin: 0 0 0.6em;
-	}
+	::ng-deep {
+		:is(p, ul, ol) {
+			margin: 0 0 0.6em;
+		}
 
-	> :last-child {
-		margin-bottom: 0;
-	}
+		> :last-child {
+			margin-bottom: 0;
+		}
 
-	:is(ul, ol) {
-		padding-left: 1.3em;
-	}
+		:is(ul, ol) {
+			padding-left: 1.3em;
+		}
 
-	a {
-		color: var(--navy);
+		a {
+			color: var(--navy);
+		}
 	}
 }
 
