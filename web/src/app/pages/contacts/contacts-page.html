@@ -1,0 +1,138 @@
+<div class="hero">
+	<div class="hero-inner">
+		<h1>kontakty</h1>
+	</div>
+</div>
+
+<section class="meetings-wrap">
+	@for (section of sections; track section.id) {
+		<section class="meetings" [id]="section.id" [attr.aria-labelledby]="section.id + '-title'">
+			<div class="heading">
+				<h2 [id]="section.id + '-title'">{{ section.title }}</h2>
+				<span class="time">16:00–18:00</span>
+			</div>
+			<ul class="polaroids">
+				@for (leader of section.leaders; track leader.nickname; let i = $index) {
+					<li class="polaroid" [style.--rotation]="rotation(i)">
+						<div class="photo">
+							<img
+								[src]="'/img/contacts/foto-' + leader.photo + '.jpg'"
+								[alt]="leader.nickname"
+								width="240"
+								height="240"
+								loading="lazy"
+							/>
+							<span
+								class="group"
+								[style.background]="group(leader.group).color"
+								[style.color]="group(leader.group).text"
+								>{{ leader.group }}. oddíl</span
+							>
+						</div>
+						<div class="role">oddílový vedoucí</div>
+						<h3 class="nickname">{{ leader.nickname }}</h3>
+						<div class="name">{{ leader.name }}</div>
+						<div class="actions">
+							<a
+								class="action primary"
+								[href]="'mailto:' + leader.email"
+								[attr.aria-label]="'E-mail ' + leader.email"
+								[title]="leader.email"
+							>
+								<svg viewBox="0 0 24 24" aria-hidden="true">
+									<rect
+										x="3"
+										y="5"
+										width="18"
+										height="14"
+										rx="3"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2.2"
+									/>
+									<path
+										d="M4 7l8 6 8-6"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2.2"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</a>
+							<a
+								class="action"
+								[href]="tel(leader.phone)"
+								[attr.aria-label]="'Telefon ' + leader.phone"
+								[title]="leader.phone"
+							>
+								<svg viewBox="0 0 24 24" aria-hidden="true">
+									<path
+										d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2.2"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</a>
+						</div>
+					</li>
+				}
+			</ul>
+		</section>
+	}
+</section>
+
+<section class="board" id="vedeni" aria-labelledby="vedeni-title">
+	<div class="board-inner">
+		<h2 id="vedeni-title">vedení skupiny</h2>
+		<ul class="members">
+			@for (member of board; track member.nickname) {
+				<li class="member">
+					<img
+						[src]="'/img/contacts/foto-' + member.photo + '.jpg'"
+						[alt]="member.nickname"
+						width="56"
+						height="56"
+						loading="lazy"
+					/>
+					<div class="member-text">
+						<div class="member-name">
+							{{ member.nickname }} <span class="member-role">· {{ member.role }}</span>
+						</div>
+						<div class="member-contact">
+							<a [href]="'mailto:' + member.email">{{ member.email }}</a> ·
+							<a [href]="tel(member.phone)">{{ member.phone }}</a>
+						</div>
+					</div>
+				</li>
+			}
+		</ul>
+		<p class="governance">
+			Šán je zapsaný spolek. O běžném chodu skupiny rozhoduje hlasováním vedení skupiny. Nejvyšším orgánem spolku
+			je ale členská schůze, na které hlasují všichni vedoucí a instruktoři.
+		</p>
+	</div>
+</section>
+
+<section class="venue" aria-labelledby="lodenice-title">
+	<div class="venue-text">
+		<h2 id="lodenice-title">loděnice</h2>
+		<p class="address">V Náklích 445/1a<br />Praha 4 – Hodkovičky, 147 00</p>
+		<p class="hours">Každé pondělí a středu od 16:00 do 18:00. Nováčci mají první měsíc na zkoušku zdarma.</p>
+		<div class="legal">
+			KONDOR Skupina ŠÁN z.s.<br />Sídlo: Podolské nábřeží 1180/5, Praha 4<br />IČ 47610727 · datová schránka
+			gfwhx3g<br /><a href="mailto:info@bosan.cz">info@bosan.cz</a>
+		</div>
+	</div>
+	<a
+		class="map"
+		href="https://mapy.cz/zakladni?q=V%20N%C3%A1kl%C3%ADch%20445%2F1a%2C%20Praha"
+		target="_blank"
+		rel="noopener"
+		aria-label="Loděnice na Mapy.cz"
+	>
+		<img src="/img/contacts/emblem.svg" alt="" aria-hidden="true" width="64" height="64" />
+		<span>[mapa — Mapy.cz]</span>
+	</a>
+</section>
