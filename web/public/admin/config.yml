@@ -2,6 +2,7 @@ backend:
   name: github
   repo: bosancz/bosan.cz
   branch: claude/project-thread-q37x2x
+  auth_endpoint: cms-auth/auth
   commit_messages:
     create: "docs(web): stránka {{slug}}"
     update: "docs(web): úprava stránky {{slug}}"
@@ -11,6 +12,7 @@ backend:
 
 publish_mode: preview
 
+app_title: bosan.cz
 site_url: https://bosan.cz
 display_url: https://bosan.cz
 logo:

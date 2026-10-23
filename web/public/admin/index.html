@@ -8,6 +8,12 @@
 		<link rel="icon" href="/img/emblem.svg" type="image/svg+xml" />
 	</head>
 	<body>
+		<script>
+			window.CMS_MANUAL_INIT = true;
+		</script>
 		<script src="https://unpkg.com/@sveltia/cms@0.250.2/dist/sveltia-cms.js"></script>
+		<script>
+			CMS.init({ config: { backend: { base_url: location.origin } } });
+		</script>
 	</body>
 </html>
