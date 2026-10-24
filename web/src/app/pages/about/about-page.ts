@@ -1,14 +1,15 @@
-import { ChangeDetectionStrategy, Component, DOCUMENT, afterNextRender, inject, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, DOCUMENT, Injector, afterNextRender, inject, signal } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { ORGANIZATION_LD, SeoService } from "../../core/seo.service";
 import { InlineMarkdownPipe, ParagraphsPipe } from "../../core/markdown";
 import { ABOUT_CONTENT } from "../../../content/content";
+import { goToSection } from "../../core/page-sections";
 import { CHILD_GROUPS, FRIENDS_CLUB } from "../../core/groups";
 
 const SECTIONS = [
-	{ id: "o-hist", label: "z historie" },
-	{ id: "o-ostrov", label: "ostrov Šán" },
-	{ id: "o-oddily", label: "oddíly" },
+	{ id: "z-historie", label: "z historie" },
+	{ id: "ostrov-san", label: "ostrov Šán" },
+	{ id: "oddily", label: "oddíly" },
 ];
 
 @Component({
@@ -20,6 +21,7 @@ const SECTIONS = [
 })
 export class AboutPage {
 	private readonly document = inject(DOCUMENT);
+	private readonly injector = inject(Injector);
 
 	protected readonly content = ABOUT_CONTENT;
 	protected readonly sections = SECTIONS;
@@ -69,13 +71,8 @@ export class AboutPage {
 	protected go(event: Event, id: string | null): void {
 		event.preventDefault();
 		this.tocOpen.set(false);
-		const target = id ? this.document.getElementById(id) : null;
-		const view = this.document.defaultView;
-		if (!view) return;
-		if (target) {
-			target.scrollIntoView({ behavior: "smooth", block: "start" });
-			if (id) this.active.set(id);
-		} else view.scrollTo({ top: 0, behavior: "smooth" });
+		afterNextRender(() => goToSection(this.document, id), { injector: this.injector });
+		if (id) this.active.set(id);
 	}
 
 	protected activeLabel(): string {

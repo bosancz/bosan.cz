@@ -1,8 +1,10 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
+	DOCUMENT,
 	DestroyRef,
 	ElementRef,
+	Injector,
 	afterNextRender,
 	inject,
 	signal,
@@ -10,6 +12,7 @@ import {
 import { RouterLink } from "@angular/router";
 import { SeoService } from "../../core/seo.service";
 import { groupInfo } from "../../core/groups";
+import { goToSection } from "../../core/page-sections";
 import { InlineMarkdownPipe, ParagraphsPipe } from "../../core/markdown";
 import { CAMP_CONTENT, CampChapter } from "../../../content/content";
 
@@ -50,11 +53,11 @@ interface TocItem {
 }
 
 const TOC: TocItem[] = [
-	{ id: "t-turnusy", label: "tábory" },
-	{ id: "t-zivot", label: "táborový život" },
-	{ id: "t-den", label: "jeden den na Šánu" },
-	{ id: "t-cena", label: "kolik to stojí" },
-	{ id: "t-ostrov", label: "kde tábor je" },
+	{ id: "tabory", label: "tábory" },
+	{ id: "taborovy-zivot", label: "táborový život" },
+	{ id: "jeden-den-na-sanu", label: "jeden den na Šánu" },
+	{ id: "kolik-to-stoji", label: "kolik to stojí" },
+	{ id: "kde-tabor-je", label: "kde tábor je" },
 ];
 
 @Component({
@@ -66,6 +69,8 @@ const TOC: TocItem[] = [
 })
 export class CampPage {
 	private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+	private readonly document = inject(DOCUMENT);
+	private readonly injector = inject(Injector);
 	private readonly destroyRef = inject(DestroyRef);
 	private readonly seo = inject(SeoService);
 
@@ -124,11 +129,8 @@ export class CampPage {
 	protected go(event: Event, id: string | null): void {
 		event.preventDefault();
 		this.tocOpen.set(false);
-		const target = id ? this.host.nativeElement.querySelector<HTMLElement>("#" + id) : null;
-		if (target) {
-			target.scrollIntoView({ behavior: "smooth", block: "start" });
-			this.activeId.set(target.id);
-		} else window.scrollTo({ top: 0, behavior: "smooth" });
+		afterNextRender(() => goToSection(this.document, id), { injector: this.injector });
+		if (id) this.activeId.set(id);
 	}
 
 	protected toggleToc(event: Event): void {
