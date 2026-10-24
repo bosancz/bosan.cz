@@ -86,26 +86,26 @@
 			</a>
 		</div>
 
-		<div class="filter" role="group" aria-label="Filtr podle oddílu">
+		<div class="filter" role="group" aria-label="Filtr podle oddílů">
 			<a
 				class="all"
-				[class.active]="!selectedGroup()"
+				[class.active]="!selectedGroups().length"
 				routerLink="/program"
-				[attr.aria-current]="!selectedGroup() ? 'true' : null"
+				[attr.aria-current]="!selectedGroups().length ? 'true' : null"
 				>Všechny oddíly</a
 			>
 			@for (group of groups; track group.id) {
 				<a
 					class="chip"
-					[class.active]="selectedGroup()?.id === group.id"
-					[class.dim]="selectedGroup() && selectedGroup()?.id !== group.id"
+					[class.active]="isSelected(group)"
+					[class.dim]="selectedGroups().length && !isSelected(group)"
 					[style.background]="group.color"
 					[style.border-color]="group.color"
 					[style.color]="group.text"
 					routerLink="/program"
-					[queryParams]="{ oddil: group.id }"
+					[queryParams]="toggleParams(group)"
 					[title]="group.name"
-					[attr.aria-current]="selectedGroup()?.id === group.id ? 'true' : null"
+					[attr.aria-current]="isSelected(group) ? 'true' : null"
 					>{{ group.id }}</a
 				>
 			}
@@ -113,9 +113,13 @@
 
 		<div class="select">
 			<button type="button" class="select-button" [attr.aria-expanded]="menuOpen()" (click)="toggleMenu()">
-				@if (selectedGroup(); as group) {
-					<span class="dot" [style.background]="group.color"></span>
-					<span class="select-label">{{ group.name }}</span>
+				@if (selectedGroups().length) {
+					<span class="dots" aria-hidden="true">
+						@for (group of selectedGroups(); track group.id) {
+							<span class="dot" [style.background]="group.color"></span>
+						}
+					</span>
+					<span class="select-label">{{ selectedLabel() }}</span>
 				} @else {
 					<span class="dots" aria-hidden="true">
 						@for (group of [groups[0], groups[1], groups[2], groups[5]]; track group.id) {
@@ -138,7 +142,11 @@
 			@if (menuOpen()) {
 				<ul class="options">
 					<li>
-						<a routerLink="/program" [class.selected]="!selectedGroup()" (click)="menuOpen.set(false)">
+						<a
+							routerLink="/program"
+							[class.selected]="!selectedGroups().length"
+							(click)="menuOpen.set(false)"
+						>
 							<span class="dots" aria-hidden="true">
 								@for (group of [groups[0], groups[1], groups[2], groups[5]]; track group.id) {
 									<span class="dot" [style.background]="group.color"></span>
@@ -151,12 +159,26 @@
 						<li>
 							<a
 								routerLink="/program"
-								[queryParams]="{ oddil: group.id }"
-								[class.selected]="selectedGroup()?.id === group.id"
-								(click)="menuOpen.set(false)"
+								[queryParams]="toggleParams(group)"
+								[class.selected]="isSelected(group)"
+								[attr.aria-current]="isSelected(group) ? 'true' : null"
 							>
 								<span class="dot" [style.background]="group.color"></span>
 								{{ group.name }}
+								<span class="check" aria-hidden="true">
+									@if (isSelected(group)) {
+										<svg viewBox="0 0 24 24">
+											<path
+												d="M5 12.5l4.5 4.5L19 7.5"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="3"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+									}
+								</span>
 							</a>
 						</li>
 					}

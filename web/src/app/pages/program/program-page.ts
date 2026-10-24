@@ -50,19 +50,25 @@ export class ProgramPage {
 	protected readonly weekdays = formatWeekdayRange;
 	protected readonly icon = eventTypeIcon;
 
-	protected readonly selected = toSignal(this.route.queryParamMap.pipe(map((params) => params.get("oddil") ?? "")), {
-		initialValue: this.route.snapshot.queryParamMap.get("oddil") ?? "",
+	private readonly selected = toSignal(this.route.queryParamMap.pipe(map((params) => params.get("oddil"))), {
+		initialValue: this.route.snapshot.queryParamMap.get("oddil"),
 	});
 
-	protected readonly selectedGroup = computed<GroupInfo | null>(() => {
-		const id = this.selected();
-		return this.groups.find((group) => group.id === id) ?? null;
+	protected readonly selectedGroups = computed<GroupInfo[]>(() => {
+		const ids = (this.selected() ?? "").split(",").map((id) => id.trim());
+		return this.groups.filter((group) => ids.includes(group.id));
+	});
+
+	protected readonly selectedLabel = computed(() => {
+		const groups = this.selectedGroups();
+		if (groups.length === 1) return groups[0].name;
+		return `Oddíly ${groups.map((group) => group.id).join(", ")}`;
 	});
 
 	protected readonly sections = computed<MonthSection[]>(() => {
-		const id = this.selectedGroup()?.id;
+		const ids = this.selectedGroups().map((group) => group.id);
 		const events = (this.program.value() ?? [])
-			.filter((event) => !id || event.groups.includes(id))
+			.filter((event) => !ids.length || ids.some((id) => event.groups.includes(id)))
 			.sort((a, b) => a.dateFrom.localeCompare(b.dateFrom));
 		const sections: MonthSection[] = [];
 		for (const event of events) {
@@ -113,6 +119,18 @@ export class ProgramPage {
 				jsonLd: this.jsonLd(),
 			});
 		});
+	}
+
+	protected isSelected(group: GroupInfo): boolean {
+		return this.selectedGroups().includes(group);
+	}
+
+	protected toggleParams(group: GroupInfo): { oddil: string | null } {
+		const selected = this.selectedGroups();
+		const groups = selected.includes(group)
+			? selected.filter((item) => item !== group)
+			: this.groups.filter((item) => item === group || selected.includes(item));
+		return { oddil: groups.map((item) => item.id).join(",") || null };
 	}
 
 	protected groupsOf(event: ProgramEvent): GroupInfo[] {
