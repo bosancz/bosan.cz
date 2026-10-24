@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { AfterViewInit, Directive, ElementRef, inject, Pipe, PipeTransform } from "@angular/core";
 import type { MarkedExtension, Token, Tokens } from "marked";
 import { fixTypos } from "typopo";
 
@@ -113,4 +113,23 @@ export class TypographyPipe implements PipeTransform {
 	transform(text: string | null | undefined): string {
 		return fixTypography(text) ?? "";
 	}
+}
+
+@Directive({ selector: "[boTypography]" })
+export class TypographyDirective implements AfterViewInit {
+	private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
+
+	ngAfterViewInit(): void {
+		fixNodeTypography(this.element.nativeElement);
+	}
+}
+
+function fixNodeTypography(node: Node): void {
+	if (node.nodeType === 3) {
+		const text = node.nodeValue ?? "";
+		const fixed = fixTypography(text.trim());
+		if (fixed) node.nodeValue = text.match(/^\s*/)![0] + fixed + text.match(/\s*$/)![0];
+		return;
+	}
+	node.childNodes.forEach(fixNodeTypography);
 }
