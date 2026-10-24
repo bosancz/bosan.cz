@@ -145,20 +145,21 @@
 	}
 }
 
+.entry > h3 {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	min-height: 84px;
+	margin: 0 0 -8px;
+	font-size: 26px;
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--navy);
+	text-wrap: balance;
+}
+
 .entry-main {
 	min-width: 0;
-
-	h3 {
-		display: flex;
-		align-items: center;
-		min-height: 84px;
-		margin: 0 0 8px;
-		font-size: 26px;
-		font-weight: 800;
-		line-height: 1.2;
-		color: var(--navy);
-		text-wrap: balance;
-	}
 
 	.entry-text {
 		margin: 0;
@@ -267,7 +268,7 @@
 		}
 	}
 
-	.entry-main h3 {
+	.entry > h3 {
 		min-height: 52px;
 		font-size: 21px;
 	}
