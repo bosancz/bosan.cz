@@ -1,0 +1,267 @@
+backend:
+  name: github
+  repo: bosancz/bosan.cz
+  branch: claude/project-thread-q37x2x
+  auth_endpoint: cms-auth/auth
+  commit_messages:
+    create: "docs(web): stránka {{slug}}"
+    update: "docs(web): úprava stránky {{slug}}"
+    delete: "docs(web): smazání stránky {{slug}}"
+    uploadMedia: "docs(web): nahrání obrázku {{path}}"
+    deleteMedia: "docs(web): smazání obrázku {{path}}"
+
+publish_mode: preview
+
+app_title: bosan.cz
+logo:
+  src: /img/emblem.svg
+
+media_folder: web/public/img
+public_folder: /img
+
+media_libraries:
+  default:
+    config:
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2048
+          height: 2048
+
+output:
+  json:
+    indent_style: tab
+
+collections:
+  - name: pages
+    label: Stránky webu
+    description: Texty, fotky a seznamy na stránkách bosan.cz. Každé uložení otevře pull request, změna se na webu objeví po jeho sloučení a dalším buildu.
+    format: json
+    editor:
+      preview: false
+    files:
+      - name: o-nas
+        label: O nás
+        icon: groups
+        file: web/src/content/o-nas.json
+        media_folder: /web/public/img/about
+        public_folder: /img/about
+        preview_path: /o-nas
+        fields:
+          - name: seo
+            label: Vyhledávače
+            widget: object
+            collapsed: true
+            fields:
+              - { name: description, label: Popis stránky ve vyhledávání, widget: text }
+          - name: hero
+            label: Úvod
+            widget: object
+            fields:
+              - &inline {
+                  name: lead,
+                  label: Perex,
+                  widget: richtext,
+                  modes: [rich_text],
+                  buttons: [bold, italic, link],
+                  editor_components: [],
+                }
+              - { <<: *inline, name: sub, label: Druhý odstavec }
+              - &photo
+                name: photo
+                label: Fotka
+                widget: object
+                fields:
+                  - { name: src, label: Obrázek, widget: image }
+                  - { name: alt, label: Popis fotky (pro nevidomé), widget: string, required: false }
+          - name: history
+            label: Historie
+            widget: object
+            fields:
+              - { <<: *inline, name: intro, label: Úvodní text }
+              - name: items
+                label: Body historie
+                label_singular: bod historie
+                widget: list
+                collapsed: true
+                summary: "{{year}} – {{title}}"
+                fields:
+                  - { name: year, label: Rok, widget: string }
+                  - { name: title, label: Nadpis, widget: string }
+                  - { <<: *inline, name: text, label: Text }
+                  - { <<: *inline, name: note, label: Poznámka, required: false }
+                  - name: tone
+                    label: Barva kolečka s rokem
+                    widget: select
+                    required: false
+                    hint: Bez výběru je kolečko modré.
+                    options:
+                      - { label: Červená, value: red }
+                      - { label: Zelená, value: green }
+                      - { label: Oranžová (dnešek), value: today }
+                  - &photos
+                    name: photos
+                    label: Fotky
+                    label_singular: fotka
+                    widget: list
+                    required: false
+                    max: 3
+                    summary: "{{alt}}"
+                    thumbnail: src
+                    fields:
+                      - { name: src, label: Obrázek, widget: image }
+                      - { name: alt, label: Popis fotky (pro nevidomé), widget: string, required: false }
+          - name: island
+            label: Ostrov
+            widget: object
+            fields:
+              - { <<: *inline, name: text, label: Text }
+              - *photo
+          - name: groups
+            label: Oddíly
+            widget: object
+            fields:
+              - { <<: *inline, name: text, label: Text }
+
+      - name: tabor
+        label: Tábor
+        icon: camping
+        file: web/src/content/tabor.json
+        media_folder: /web/public/img/camp
+        public_folder: /img/camp
+        preview_path: /tabor
+        fields:
+          - name: seo
+            label: Vyhledávače
+            widget: object
+            collapsed: true
+            fields:
+              - { name: description, label: Popis stránky ve vyhledávání, widget: text }
+          - name: hero
+            label: Úvod
+            widget: object
+            fields:
+              - { <<: *inline, name: lead, label: Perex }
+              - *photo
+          - name: sessions
+            label: Turnusy
+            widget: object
+            fields:
+              - { <<: *inline, name: lead, label: Úvodní text }
+              - name: items
+                label: Turnusy
+                label_singular: turnus
+                widget: list
+                summary: "{{from | date('D. M.')}} – {{to | date('D. M. YYYY')}}"
+                fields:
+                  - { name: from, label: Od, widget: datetime, type: date, picker_utc: true }
+                  - { name: to, label: Do, widget: datetime, type: date, picker_utc: true }
+                  - name: groups
+                    label: Oddíly
+                    widget: select
+                    multiple: true
+                    options: ["3", "4", "5", "6", "7", "8", "22"]
+                  - name: leader
+                    label: Hlavní vedoucí
+                    widget: object
+                    summary: "{{nickname}}"
+                    fields:
+                      - { name: nickname, label: Přezdívka, widget: string }
+                      - { name: name, label: Jméno a příjmení, widget: string }
+                      - { name: email, label: E-mail, widget: string }
+                      - { name: phone, label: Telefon, widget: string }
+          - name: life
+            label: Táborový život
+            widget: object
+            fields:
+              - { <<: *inline, name: text, label: Text }
+              - { <<: *photos, label: "Fotky (první je velká)", required: true, min: 3, max: 3 }
+          - name: day
+            label: Jeden den na Šánu
+            widget: object
+            fields:
+              - { <<: *inline, name: lead, label: Úvodní text }
+              - name: chapters
+                label: Body dne
+                label_singular: bod dne
+                widget: list
+                collapsed: true
+                summary: "{{part}} – {{title}}"
+                fields:
+                  - { name: part, label: Část dne, widget: string, hint: "Např. ráno, dopoledne, večer" }
+                  - { name: title, label: Nadpis, widget: string }
+                  - { <<: *inline, name: text, label: Text }
+                  - {
+                      <<: *photos,
+                      hint: "Podle počtu fotek se mění rozložení: žádná, jedna, dvě vedle sebe, nebo tři.",
+                    }
+          - name: specialDays
+            label: Výjimečné dny
+            label_singular: výjimečný den
+            widget: list
+            collapsed: true
+            summary: "{{title}}"
+            thumbnail: photo.src
+            fields:
+              - { name: title, label: Nadpis, widget: string }
+              - { <<: *inline, name: text, label: Text }
+              - *photo
+          - name: price
+            label: Cena
+            widget: object
+            fields:
+              - { name: members, label: Cena pro členy (Kč), widget: number, value_type: int }
+              - { name: nonMembers, label: Cena pro nečleny (Kč), widget: number, value_type: int }
+              - { <<: *inline, name: note, label: Poznámka k platbě }
+              - name: included
+                label: V ceně je
+                label_singular: položka
+                widget: list
+                field: { name: item, label: Položka, widget: string }
+          - name: location
+            label: Kde tábor je
+            widget: object
+            fields:
+              - { <<: *inline, name: text, label: Text }
+
+      - name: kontakty
+        label: Kontakty
+        icon: call
+        file: web/src/content/kontakty.json
+        preview_path: /kontakty
+        fields:
+          - { <<: *inline, name: governance, label: Text pod vedením skupiny }
+          - { <<: *inline, name: hours, label: Kdy jsou schůzky (loděnice) }
+
+      - name: aktualne
+        label: Aktuálně
+        icon: campaign
+        file: web/src/content/aktualne.json
+        preview_path: /
+        fields:
+          - name: messages
+            label: Zprávy pro rodiče
+            label_singular: zprávu
+            hint: Zobrazí se nahoře v Aktualitách. Po datu „Zobrazovat do“ zmizí sama, nebo ji smaž.
+            widget: list
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: Nadpis, widget: string }
+              - { <<: *inline, name: text, label: Text, required: false }
+              - { name: date, label: Datum zprávy, widget: datetime, type: date, picker_utc: true, default: "{{now}}" }
+              - name: until
+                label: Zobrazovat do
+                hint: Včetně tohoto dne. Prázdné = dokud zprávu nesmažeš.
+                widget: datetime
+                type: date
+                picker_utc: true
+                required: false
+          - name: join
+            label: Pruh „Přijď se podívat“
+            widget: object
+            fields:
+              - { name: title, label: Nadpis, widget: string }
+              - { <<: *inline, name: long, label: Text na počítači }
+              - { <<: *inline, name: short, label: Text na mobilu }

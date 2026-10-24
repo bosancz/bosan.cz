@@ -1,0 +1,28 @@
+:host {
+	display: block;
+	min-height: 100vh;
+}
+
+.skip-link {
+	position: absolute;
+	left: 8px;
+	top: -48px;
+	z-index: 100;
+	background: var(--orange);
+	color: var(--navy);
+	font-weight: 800;
+	padding: 10px 16px;
+	border-radius: 12px;
+
+	&:focus {
+		top: 8px;
+	}
+}
+
+main {
+	display: block;
+
+	&:focus {
+		outline: none;
+	}
+}

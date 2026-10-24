@@ -1,0 +1,51 @@
+<header class="bar">
+	<div class="bar-inner">
+		<a class="logo" routerLink="/" aria-label="ŠÁN – úvodní stránka">
+			<img src="/img/logo.svg" alt="ŠÁN" width="139" height="52" />
+		</a>
+		<nav class="nav-desktop" aria-label="Hlavní menu">
+			@for (item of items; track item.path) {
+				<a
+					[routerLink]="item.path"
+					routerLinkActive="active"
+					ariaCurrentWhenActive="page"
+					[routerLinkActiveOptions]="{ exact: item.path === '/' }"
+					>{{ item.label }}</a
+				>
+			}
+			<a class="lock" [href]="internalUrl" aria-label="Interní sekce" title="Interní sekce">
+				<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+					<rect x="4" y="11" width="16" height="10" rx="2" />
+					<path d="M8 11V7a4 4 0 0 1 8 0v4" />
+				</svg>
+			</a>
+		</nav>
+		<a class="lock lock-mobile" [href]="internalUrl" aria-label="Interní sekce">
+			<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+				<rect x="4" y="11" width="16" height="10" rx="2" />
+				<path d="M8 11V7a4 4 0 0 1 8 0v4" />
+			</svg>
+		</a>
+	</div>
+	<nav class="nav-mobile" aria-label="Hlavní menu">
+		<details [open]="menuOpen()" (toggle)="toggle($event)">
+			<summary>
+				<span>{{ current()?.label ?? "Menu" }}</span>
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+			</summary>
+			<ul>
+				@for (item of items; track item.path) {
+					<li>
+						<a
+							[routerLink]="item.path"
+							routerLinkActive="active"
+							ariaCurrentWhenActive="page"
+							[routerLinkActiveOptions]="{ exact: item.path === '/' }"
+							>{{ item.label }}</a
+						>
+					</li>
+				}
+			</ul>
+		</details>
+	</nav>
+</header>

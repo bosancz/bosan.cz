@@ -1,0 +1,130 @@
+@use "leaflet/dist/leaflet";
+
+bo-venue-map {
+	position: relative;
+	display: block;
+	flex: 2 1 520px;
+	min-width: 0;
+	min-height: 380px;
+	border-radius: 26px;
+	overflow: hidden;
+	background: #e1e4f2;
+	isolation: isolate;
+
+	.leaflet-container {
+		font-family: var(--font-body);
+		background: #e1e4f2;
+	}
+
+	.leaflet-control-attribution {
+		font-size: 11px;
+		padding: 0 14px 2px 6px;
+		border-top-left-radius: 8px;
+	}
+
+	.leaflet-control-zoom {
+		border: 0;
+		box-shadow: 0 4px 14px rgba(42, 52, 120, 0.18);
+		border-radius: 12px;
+		overflow: hidden;
+
+		a {
+			color: var(--navy);
+		}
+	}
+
+	.leaflet-popup-content {
+		font-weight: 700;
+		color: var(--navy);
+	}
+}
+
+.venue-map-canvas {
+	position: absolute;
+	inset: 0;
+}
+
+.venue-map-logo {
+	display: block;
+	line-height: 0;
+}
+
+.venue-map-pin {
+	position: relative;
+}
+
+.venue-map-pin-dot {
+	position: absolute;
+	left: -11px;
+	top: -30px;
+	width: 22px;
+	height: 22px;
+	border-radius: 50% 50% 50% 0;
+	transform: rotate(-45deg);
+	background: var(--navy);
+	border: 3px solid #fff;
+	box-shadow: 0 3px 10px rgba(29, 36, 82, 0.35);
+}
+
+.venue-map-pin-label {
+	position: absolute;
+	left: 16px;
+	top: -32px;
+	padding: 3px 9px;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--navy);
+	font-size: 13px;
+	font-weight: 800;
+	white-space: nowrap;
+	box-shadow: 0 3px 10px rgba(29, 36, 82, 0.2);
+}
+
+.venue-map-arrow {
+	position: absolute;
+	z-index: 500;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	padding: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+	font: inherit;
+}
+
+.venue-map-arrow-head {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: var(--navy);
+	box-shadow: 0 4px 14px rgba(29, 36, 82, 0.35);
+
+	svg {
+		fill: none;
+		stroke: #fff;
+		stroke-width: 2.6;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+}
+
+.venue-map-arrow-label {
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--navy);
+	font-size: 12px;
+	font-weight: 800;
+	white-space: nowrap;
+	box-shadow: 0 3px 10px rgba(29, 36, 82, 0.2);
+}
+
+.venue-map-arrow:hover .venue-map-arrow-head,
+.venue-map-arrow:focus-visible .venue-map-arrow-head {
+	background: var(--orange);
+}

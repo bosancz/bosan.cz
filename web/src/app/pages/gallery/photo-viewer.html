@@ -1,0 +1,100 @@
+<div class="viewer" role="dialog" aria-modal="true" [attr.aria-label]="'Fotografie z alba ' + albumName()">
+	<div
+		class="stage"
+		(pointerdown)="onPointerDown($event)"
+		(pointermove)="onPointerMove($event)"
+		(pointerup)="onPointerUp($event)"
+		(pointercancel)="onPointerUp($event)"
+	>
+		<img
+			class="photo"
+			[class.dragging]="dragging()"
+			[src]="size().url"
+			[attr.width]="size().width"
+			[attr.height]="size().height"
+			[alt]="alt()"
+			[style.background]="current().bg"
+			[style.transform]="'translateX(' + dragX() + 'px)'"
+			draggable="false"
+		/>
+	</div>
+
+	<div class="bar">
+		<a class="close" [href]="'/fotogalerie/' + albumId()" (click)="close($event)" aria-label="Zavřít fotografii">
+			<svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+				<path
+					d="M6 6l12 12M18 6L6 18"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.6"
+					stroke-linecap="round"
+				/>
+			</svg>
+		</a>
+		<span class="album">{{ albumName() }}</span>
+		<span class="counter">{{ index() + 1 }} / {{ photos().length }}</span>
+		@if (current().sizes.original; as original) {
+			<a
+				class="download"
+				[href]="original.url"
+				download
+				target="_blank"
+				rel="noopener"
+				aria-label="Stáhnout fotografii v originální kvalitě"
+				title="Stáhnout fotografii v originální kvalitě"
+			>
+				<svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+					<path
+						d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.4"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+			</a>
+		}
+	</div>
+
+	<a
+		class="arrow prev"
+		[routerLink]="['/fotogalerie', albumId(), previous()._id]"
+		[state]="state"
+		replaceUrl
+		aria-label="Předchozí fotografie"
+	>
+		<svg aria-hidden="true" viewBox="0 0 24 24" width="26" height="26">
+			<path
+				d="M15 5l-7 7 7 7"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.6"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	</a>
+	<a
+		class="arrow next"
+		[routerLink]="['/fotogalerie', albumId(), next()._id]"
+		[state]="state"
+		replaceUrl
+		aria-label="Další fotografie"
+	>
+		<svg aria-hidden="true" viewBox="0 0 24 24" width="26" height="26">
+			<path
+				d="M9 5l7 7-7 7"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.6"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	</a>
+
+	@if (current().caption; as caption) {
+		<p class="caption">{{ caption }}</p>
+	}
+</div>

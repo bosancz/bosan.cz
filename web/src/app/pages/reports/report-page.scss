@@ -1,0 +1,284 @@
+@use "styles/breakpoints" as bp;
+
+:host {
+	display: block;
+}
+
+.hero {
+	background: var(--navy);
+	color: #c9cee9;
+}
+
+.hero-inner {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding: 16px var(--gutter) 40px;
+}
+
+.back {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 40px;
+	padding: 0 16px 0 12px;
+	background: var(--tile);
+	color: #fff;
+	border-radius: 12px;
+	font-weight: 800;
+	font-size: 15px;
+	text-decoration: none;
+
+	&:hover {
+		background: var(--orange);
+		color: var(--navy);
+	}
+}
+
+h1 {
+	margin: 24px 0 0;
+	font-family: var(--font-display);
+	font-weight: 400;
+	font-size: clamp(40px, 7vw, 76px);
+	line-height: 0.95;
+	color: var(--orange);
+	overflow-wrap: anywhere;
+}
+
+.meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px 20px;
+	margin-top: 20px;
+	font-weight: 800;
+	font-size: 17px;
+	color: #fff;
+
+	.water {
+		font-weight: 700;
+		color: #c9cee9;
+	}
+}
+
+.kicker {
+	margin-top: 24px;
+	font-weight: 800;
+	font-size: 15px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #c9cee9;
+
+	+ h1 {
+		margin-top: 8px;
+	}
+}
+
+.groups {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.group {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	font-weight: 800;
+	font-size: 12px;
+	line-height: 1;
+}
+
+@include bp.mobile {
+	.hero {
+		background: #fff;
+		color: var(--body-text);
+	}
+
+	.hero-inner {
+		padding-bottom: 28px;
+	}
+
+	.back {
+		background: var(--light);
+		color: var(--navy);
+	}
+
+	.kicker {
+		margin-top: 20px;
+		color: var(--muted);
+	}
+
+	h1 {
+		margin-top: 20px;
+		color: var(--navy);
+		font-size: clamp(34px, 11vw, 50px);
+	}
+
+	.meta {
+		color: var(--navy);
+
+		.water {
+			color: var(--muted);
+		}
+	}
+}
+
+.main {
+	background: var(--light-2);
+	min-height: 40vh;
+}
+
+.inner {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding: 40px var(--gutter) 56px;
+
+	@include bp.mobile {
+		padding: 0 0 40px;
+	}
+}
+
+.article {
+	max-width: 820px;
+	background: #fff;
+	border-radius: 26px 18px 30px 16px;
+	overflow: hidden;
+
+	@include bp.mobile {
+		border-radius: 0;
+	}
+}
+
+.cover {
+	display: block;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+}
+
+.body {
+	padding: 32px 40px 8px;
+	font-size: 18px;
+	line-height: 1.65;
+	color: var(--body-text);
+
+	@include bp.mobile {
+		padding: 22px var(--gutter) 4px;
+		font-size: 16px;
+	}
+
+	::ng-deep {
+		:is(p, ul, ol, blockquote) {
+			margin: 0 0 1em;
+		}
+
+		:is(ul, ol) {
+			padding-left: 1.3em;
+		}
+
+		:is(h1, h2, h3, h4) {
+			margin: 1.2em 0 0.4em;
+			font-family: var(--font-display);
+			font-weight: 400;
+			line-height: 1.15;
+			color: var(--navy);
+		}
+
+		h1,
+		h2 {
+			font-size: 28px;
+		}
+
+		:is(h3, h4) {
+			font-size: 22px;
+		}
+
+		> :first-child {
+			margin-top: 0;
+		}
+
+		img {
+			max-width: 100%;
+			height: auto;
+			border-radius: 12px;
+		}
+
+		a {
+			color: var(--navy);
+			font-weight: 700;
+		}
+	}
+}
+
+.footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px 24px;
+	margin: 0 40px;
+	padding: 20px 0 32px;
+	border-top: 2px dashed #d5d9ee;
+
+	@include bp.mobile {
+		margin: 0 var(--gutter);
+	}
+}
+
+.leaders {
+	font-size: 15px;
+	color: var(--body-text);
+
+	strong {
+		color: var(--navy);
+	}
+}
+
+.links {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 18px;
+
+	a {
+		font-weight: 800;
+		font-size: 15px;
+		color: var(--navy);
+
+		&:hover {
+			color: var(--orange);
+		}
+	}
+
+	.button {
+		display: inline-flex;
+		align-items: center;
+		min-height: 40px;
+		padding: 0 18px;
+		border-radius: 12px;
+		background: var(--orange);
+		text-decoration: none;
+
+		&:hover {
+			background: var(--navy);
+			color: #fff;
+		}
+	}
+}
+
+.status {
+	margin: 0;
+	font-weight: 700;
+	color: var(--muted);
+
+	@include bp.mobile {
+		padding: 24px var(--gutter) 0;
+	}
+
+	a {
+		color: var(--navy);
+	}
+}

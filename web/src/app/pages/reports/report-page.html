@@ -1,0 +1,75 @@
+<section class="hero">
+	<div class="hero-inner">
+		<a class="back" routerLink="/kroniky">
+			<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16">
+				<path
+					d="M15 6l-6 6 6 6"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.6"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</svg>
+			Kroniky
+		</a>
+		@if (data(); as report) {
+			<div class="kicker">kronika akce</div>
+			<h1>{{ report.name.trim() }}</h1>
+			<div class="meta">
+				<time [attr.datetime]="report.dateFrom.slice(0, 10)">{{ dates() }}</time>
+				@if (water()) {
+					<span class="water">{{ water() }}</span>
+				}
+				@if (groups().length) {
+					<span class="groups">
+						@for (group of groups(); track group.id) {
+							<span
+								class="group"
+								[style.background]="group.color"
+								[style.color]="group.text"
+								[title]="group.name"
+								>{{ group.id }}</span
+							>
+						}
+					</span>
+				}
+			</div>
+		} @else if (failed()) {
+			<h1>Kronika nenalezena</h1>
+		} @else {
+			<h1 class="placeholder">&nbsp;</h1>
+		}
+	</div>
+</section>
+
+<main class="main">
+	<div class="inner">
+		@if (data(); as report) {
+			<article class="article">
+				@if (photo(); as url) {
+					<img
+						class="cover"
+						[src]="url"
+						[alt]="'Fotka z akce ' + report.name.trim()"
+						[style.background]="report.album?.titlePhoto?.bg ?? '#c9cee9'"
+					/>
+				}
+				<div class="body" [innerHTML]="report.report | markdown"></div>
+				<footer class="footer">
+					@if (leaders()) {
+						<div class="leaders"><strong>Vedli:</strong> {{ leaders() }}</div>
+					}
+					<div class="links">
+						@if (report.album; as album) {
+							<a class="button" [routerLink]="['/fotogalerie', album._id]">Fotky z akce</a>
+						}
+						<a routerLink="/kroniky">Další kroniky</a>
+					</div>
+				</footer>
+			</article>
+		} @else if (failed()) {
+			<p class="status">Tuhle kroniku jsme nenašli. <a routerLink="/kroniky">Zpět na všechny kroniky</a></p>
+		}
+	</div>
+</main>

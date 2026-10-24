@@ -1,0 +1,86 @@
+<section class="hero">
+	<div class="hero-inner">
+		<a class="back" routerLink="/fotogalerie">
+			<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16">
+				<path
+					d="M15 6l-6 6 6 6"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.6"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</svg>
+			Fotogalerie
+		</a>
+		@if (data(); as album) {
+			<h1>{{ name() }}</h1>
+			<div class="meta">
+				<time [attr.datetime]="album.dateFrom.slice(0, 10)">{{ dates() }} {{ year() }}</time>
+				@if (photos().length) {
+					<span class="count">{{ countLabel() }}</span>
+				}
+				@if (downloadHref(); as href) {
+					<a class="download" [href]="href" download>
+						<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+							<path
+								d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2.4"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+						Stáhnout album
+					</a>
+				}
+			</div>
+			@if (album.description) {
+				<div class="description" [innerHTML]="album.description | markdown"></div>
+			}
+		} @else if (failed()) {
+			<h1>Album nenalezeno</h1>
+		} @else {
+			<h1 class="placeholder">&nbsp;</h1>
+		}
+	</div>
+</section>
+
+<main class="main">
+	<div class="inner">
+		@if (photos().length) {
+			<ul class="photos">
+				@for (photo of photos(); track photo._id; let i = $index) {
+					<li [style.flex-grow]="ratio(photo) * 100" [style.flex-basis.px]="ratio(photo) * 220">
+						<a
+							[routerLink]="['/fotogalerie', album(), photo._id]"
+							[state]="{ fromAlbum: true }"
+							[attr.aria-label]="photo.caption || 'Fotografie ' + (i + 1) + ' z ' + photos().length"
+						>
+							<i [style.padding-bottom.%]="100 / ratio(photo)"></i>
+							<img
+								[src]="photo.sizes.small!.url"
+								[attr.width]="photo.sizes.small!.width"
+								[attr.height]="photo.sizes.small!.height"
+								[alt]="photo.caption || name() + ', fotografie ' + (i + 1)"
+								[style.background]="photo.bg"
+								[attr.loading]="i < 8 ? null : 'lazy'"
+							/>
+						</a>
+					</li>
+				}
+			</ul>
+		} @else if (data()) {
+			<p class="status">V tomto albu zatím nejsou žádné fotografie.</p>
+		} @else if (failed()) {
+			<p class="status">Album se nepodařilo načíst. <a routerLink="/fotogalerie">Zpět do fotogalerie</a></p>
+		}
+	</div>
+</main>
+
+@if (photo(); as photoId) {
+	@if (photos().length) {
+		<bo-photo-viewer [albumId]="album()" [albumName]="name()" [photos]="photos()" [photoId]="photoId" />
+	}
+}

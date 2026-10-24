@@ -1,5 +1,89 @@
-/* IMPORTS */
+@font-face {
+	font-family: "San Grotesk";
+	src: url("/fonts/SanGrotesk-Regular.otf") format("opentype");
+	font-display: swap;
+}
 
-@import "styles/bootstrap";
+:root {
+	--navy: #2a3478;
+	--navy-text: #1d2452;
+	--orange: #e28f26;
+	--light: #eef0f8;
+	--light-2: #f3f4fa;
+	--tile: #3d478f;
+	--muted: #5a6292;
+	--body-text: #3a416b;
+	--red: #d2232a;
+	--page-width: 1240px;
+	--gutter: 32px;
+	--radius-button: 24px;
+	--font-display: "San Grotesk", "Nunito Sans", sans-serif;
+	--font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
 
-@import "styles/general";
+@media (max-width: 860px) {
+	:root {
+		--gutter: 16px;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	overflow-y: scroll;
+}
+
+body {
+	margin: 0;
+	background: var(--navy);
+	color: var(--navy-text);
+	font-family: var(--font-body);
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--navy);
+}
+
+a:hover {
+	color: var(--red);
+}
+
+img {
+	max-width: 100%;
+}
+
+button {
+	font: inherit;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.container {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding-left: var(--gutter);
+	padding-right: var(--gutter);
+}
+
+.display {
+	font-family: var(--font-display);
+	font-weight: 400;
+}
