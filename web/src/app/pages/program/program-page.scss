@@ -341,9 +341,15 @@ h2 {
 	color: var(--navy);
 }
 
-.registration {
-	align-self: flex-start;
+.actions {
 	margin-top: auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+
+.registration {
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
@@ -636,7 +642,7 @@ h2 {
 			font-size: 14px;
 		}
 
-		.registration {
+		.actions {
 			margin-top: 0;
 		}
 	}
@@ -693,21 +699,5 @@ h2 {
 		font-size: 14px;
 		padding: 8px 16px;
 		border-radius: var(--radius-button);
-	}
-
-	.howto {
-		font-size: 14px;
-		color: #4a5185;
-
-		summary {
-			cursor: pointer;
-			font-weight: 700;
-			color: var(--navy);
-		}
-
-		p {
-			margin-top: 8px;
-			overflow-wrap: anywhere;
-		}
 	}
 }

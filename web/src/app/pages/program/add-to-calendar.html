@@ -1,0 +1,49 @@
+<button
+	type="button"
+	class="toggle"
+	aria-label="Přidat do kalendáře"
+	title="Přidat do kalendáře"
+	[attr.aria-expanded]="open()"
+	aria-haspopup="true"
+	(click)="toggle()"
+>
+	<svg
+		viewBox="0 0 24 24"
+		aria-hidden="true"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2.4"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	>
+		<rect x="3" y="5" width="18" height="16" rx="3" />
+		<path d="M16 3v4M8 3v4M3 10h18M12 13v5M9.5 15.5h5" />
+	</svg>
+</button>
+@if (open()) {
+	<ul class="menu">
+		<li>
+			<a [href]="googleUrl()" target="_blank" rel="noopener" (click)="open.set(false)">Google Kalendář</a>
+		</li>
+		<li>
+			<a href="#" [attr.download]="fileName()" (click)="downloadIcs($event)"
+				>Apple Kalendář <span class="note">iPhone, Mac</span></a
+			>
+		</li>
+		<li>
+			<a [href]="outlookUrl()" target="_blank" rel="noopener" (click)="open.set(false)"
+				>Outlook <span class="note">Outlook.com</span></a
+			>
+		</li>
+		<li>
+			<a [href]="office365Url()" target="_blank" rel="noopener" (click)="open.set(false)"
+				>Outlook <span class="note">Microsoft 365</span></a
+			>
+		</li>
+		<li>
+			<a href="#" [attr.download]="fileName()" (click)="downloadIcs($event)"
+				>Jiný kalendář <span class="note">soubor .ics</span></a
+			>
+		</li>
+	</ul>
+}
