@@ -18,8 +18,9 @@ import { ProgramEvent } from "../../core/schema";
 import { CHILD_GROUPS, GroupInfo, groupInfo, sortGroupIds } from "../../core/groups";
 import { eventTypeIcon } from "../../core/event-types";
 import { formatPhone, phoneHref } from "../../core/phone";
-import { MarkdownPipe, markdownToText } from "../../core/markdown";
+import { InlineMarkdownPipe, MarkdownPipe, markdownToText } from "../../core/markdown";
 import { formatDateRange, formatWeekdayRange, monthKey, monthName, parseDate } from "../../core/dates";
+import { TypographyPipe } from "../../core/typography";
 
 interface MonthSection {
 	key: string;
@@ -30,7 +31,7 @@ interface MonthSection {
 @Component({
 	selector: "bo-program-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, NgTemplateOutlet, MarkdownPipe],
+	imports: [RouterLink, NgTemplateOutlet, MarkdownPipe, InlineMarkdownPipe, TypographyPipe],
 	templateUrl: "./program-page.html",
 	styleUrl: "./program-page.scss",
 })
@@ -153,7 +154,7 @@ export class ProgramPage {
 			eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
 			location: {
 				"@type": "Place",
-				name: event.meeting?.start ?? "Praha",
+				name: markdownToText(event.meeting?.start) || "Praha",
 				address: { "@type": "PostalAddress", addressLocality: "Praha", addressCountry: "CZ" },
 			},
 			organizer: { "@type": "Organization", name: "KONDOR Skupina ŠÁN z.s.", url: "https://bosan.cz" },

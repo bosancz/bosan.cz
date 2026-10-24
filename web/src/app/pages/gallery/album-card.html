@@ -13,7 +13,7 @@
 		}
 	</span>
 	<span class="text">
-		<span class="name">{{ name() }}</span>
+		<span class="name">{{ name() | typography }}</span>
 		<time class="date" [attr.datetime]="album().dateFrom.slice(0, 10)">{{ dates() }}</time>
 	</span>
 </a>

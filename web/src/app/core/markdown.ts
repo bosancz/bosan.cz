@@ -1,9 +1,12 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { marked } from "marked";
+import { Marked } from "marked";
+import { typographyExtension } from "./typography";
+
+const marked = new Marked({ async: false, breaks: true, gfm: true }, typographyExtension);
 
 export function renderMarkdown(text: string | null | undefined): string {
 	if (!text) return "";
-	return marked.parse(text, { async: false, breaks: true, gfm: true });
+	return marked.parse(text) as string;
 }
 
 export function markdownToText(text: string | null | undefined): string {
@@ -16,7 +19,7 @@ export function markdownToText(text: string | null | undefined): string {
 		.replace(/&gt;/g, ">")
 		.replace(/&quot;/g, '"')
 		.replace(/&#39;/g, "'")
-		.replace(/\s+/g, " ")
+		.replace(/[^\S\u00a0]+/g, " ")
 		.trim();
 }
 
@@ -26,7 +29,7 @@ export function markdownParagraphs(text: string | null | undefined): string[] {
 		.split(/\n\s*\n/)
 		.map((paragraph) => paragraph.trim())
 		.filter(Boolean)
-		.map((paragraph) => marked.parseInline(paragraph, { async: false, breaks: true, gfm: true }));
+		.map((paragraph) => marked.parseInline(paragraph) as string);
 }
 
 @Pipe({ name: "paragraphs" })

@@ -15,7 +15,7 @@
 		</a>
 		@if (data(); as report) {
 			<div class="kicker">kronika akce</div>
-			<h1>{{ report.name.trim() }}</h1>
+			<h1>{{ report.name.trim() | typography }}</h1>
 			<div class="meta">
 				<time [attr.datetime]="report.dateFrom.slice(0, 10)">{{ dates() }}</time>
 				@if (water()) {
