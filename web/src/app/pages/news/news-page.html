@@ -42,7 +42,7 @@
 					}
 					<div class="lead-text">
 						<div class="meta">akce {{ item.dates }}</div>
-						<h3 class="lead-title">byli jsme na akci {{ item.name.toLowerCase() }}</h3>
+						<h3 class="lead-title">byli jsme na akci {{ item.name.toLowerCase() | typography }}</h3>
 						<p class="lead-body">{{ item.text }}</p>
 						<div class="links">
 							@if (item.reportId) {
@@ -72,7 +72,7 @@
 							}
 						</div>
 						<h3 class="note-title">
-							<s>{{ item.name }}</s>
+							<s>{{ item.name | typography }}</s>
 						</h3>
 						<p class="note-body">Akce se nekoná.<span class="note-more"> Ostatní program platí.</span></p>
 					</div>
@@ -83,7 +83,7 @@
 					<img class="note-fire" [src]="item.icon" alt="" aria-hidden="true" width="52" height="52" />
 					<div class="note-text">
 						<div class="meta">{{ item.dates }}</div>
-						<h3 class="note-title">{{ item.name }}</h3>
+						<h3 class="note-title">{{ item.name | typography }}</h3>
 						@if (item.text) {
 							<p class="note-body note-more">{{ item.text }}</p>
 						}
@@ -117,7 +117,7 @@
 								</div>
 							</div>
 							<div class="event-main">
-								<h3 class="event-name">{{ event.name }}</h3>
+								<h3 class="event-name">{{ event.name | typography }}</h3>
 								@if (event.groups.length) {
 									<span class="groups">
 										@for (group of event.groups; track group.id) {
@@ -170,12 +170,12 @@
 					}
 					@if (i === 0) {
 						<span class="tile-caption-main">
-							<span class="tile-title-main">{{ tile.name }}</span>
+							<span class="tile-title-main">{{ tile.name | typography }}</span>
 							<span class="tile-date-main">{{ tile.dates }}</span>
 						</span>
 					} @else {
 						<span class="tile-caption">
-							<span class="tile-title">{{ tile.name }}</span>
+							<span class="tile-title">{{ tile.name | typography }}</span>
 							<span class="tile-date">{{ tile.dates }}</span>
 						</span>
 					}

@@ -8,6 +8,7 @@ import { Album, ProgramEvent } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
 import { InlineMarkdownPipe, ParagraphsPipe, markdownToText } from "../../core/markdown";
 import { NEWS_CONTENT } from "../../../content/content";
+import { TypographyPipe } from "../../core/typography";
 
 const UPCOMING_LIMIT = 7;
 const PHOTO_ALBUMS = 5;
@@ -93,7 +94,7 @@ function excerpt(text: string | null, max: number): string {
 @Component({
 	selector: "bo-news-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, InlineMarkdownPipe, ParagraphsPipe],
+	imports: [RouterLink, InlineMarkdownPipe, ParagraphsPipe, TypographyPipe],
 	templateUrl: "./news-page.html",
 	styleUrl: "./news-page.scss",
 })

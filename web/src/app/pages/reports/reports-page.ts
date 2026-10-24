@@ -5,11 +5,12 @@ import { PublicReport } from "../../core/schema";
 import { groupInfo, sortGroupIds } from "../../core/groups";
 import { SeoService } from "../../core/seo.service";
 import { reportDates, reportExcerpt, reportPhoto, reportWater } from "./report-format";
+import { TypographyPipe } from "../../core/typography";
 
 @Component({
 	selector: "bo-reports-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink],
+	imports: [RouterLink, TypographyPipe],
 	templateUrl: "./reports-page.html",
 	styleUrl: "./reports-page.scss",
 })

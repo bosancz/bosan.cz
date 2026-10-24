@@ -31,7 +31,7 @@
 				/>
 			</svg>
 		</a>
-		<span class="album">{{ albumName() }}</span>
+		<span class="album">{{ albumName() | typography }}</span>
 		<span class="counter">{{ index() + 1 }} / {{ photos().length }}</span>
 		@if (current().sizes.original; as original) {
 			<a
@@ -95,6 +95,6 @@
 	</a>
 
 	@if (current().caption; as caption) {
-		<p class="caption">{{ caption }}</p>
+		<p class="caption">{{ caption | typography }}</p>
 	}
 </div>

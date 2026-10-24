@@ -16,11 +16,12 @@ import { MarkdownPipe, markdownToText } from "../../core/markdown";
 import { PublicReport } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
 import { reportDates, reportPhoto, reportWater } from "./report-format";
+import { TypographyPipe } from "../../core/typography";
 
 @Component({
 	selector: "bo-report-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, MarkdownPipe],
+	imports: [RouterLink, MarkdownPipe, TypographyPipe],
 	templateUrl: "./report-page.html",
 	styleUrl: "./report-page.scss",
 })
