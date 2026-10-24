@@ -5,6 +5,7 @@ import { InlineMarkdownPipe, ParagraphsPipe } from "../../core/markdown";
 import { ABOUT_CONTENT } from "../../../content/content";
 import { goToSection } from "../../core/page-sections";
 import { CHILD_GROUPS, FRIENDS_CLUB } from "../../core/groups";
+import { AboutHistory } from "./about-history";
 
 const SECTIONS = [
 	{ id: "z-historie", label: "z historie" },
@@ -15,7 +16,7 @@ const SECTIONS = [
 @Component({
 	selector: "bo-about-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, ParagraphsPipe, InlineMarkdownPipe],
+	imports: [RouterLink, ParagraphsPipe, InlineMarkdownPipe, AboutHistory],
 	templateUrl: "./about-page.html",
 	styleUrl: "./about-page.scss",
 })
