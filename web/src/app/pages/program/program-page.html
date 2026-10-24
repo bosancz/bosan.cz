@@ -3,13 +3,13 @@
 		@if (event.meeting?.start) {
 			<div class="meet">
 				<div class="meet-label">Sraz</div>
-				<div class="meet-value">{{ event.meeting.start }}</div>
+				<div class="meet-value" [innerHTML]="event.meeting.start | inlineMarkdown"></div>
 			</div>
 		}
 		@if (event.meeting?.end) {
 			<div class="meet">
 				<div class="meet-label">Návrat</div>
-				<div class="meet-value">{{ event.meeting.end }}</div>
+				<div class="meet-value" [innerHTML]="event.meeting.end | inlineMarkdown"></div>
 			</div>
 		}
 		@if (event.leaders.length) {
@@ -202,7 +202,7 @@
 						</div>
 						<div class="what">
 							<h3>
-								{{ event.name }}
+								{{ event.name | typography }}
 								@if (event.status === "cancelled") {
 									<span class="cancelled">Zrušeno</span>
 								}
@@ -230,7 +230,7 @@
 								<time class="m-range" [attr.datetime]="event.dateFrom.slice(0, 10)">{{
 									dateRange(event.dateFrom, event.dateTill)
 								}}</time>
-								<h3>{{ event.name }}</h3>
+								<h3>{{ event.name | typography }}</h3>
 							</div>
 							<svg class="m-chev" viewBox="0 0 24 24" aria-hidden="true">
 								<path

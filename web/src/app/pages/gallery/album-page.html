@@ -14,7 +14,7 @@
 			Fotogalerie
 		</a>
 		@if (data(); as album) {
-			<h1>{{ name() }}</h1>
+			<h1>{{ name() | typography }}</h1>
 			<div class="meta">
 				<time [attr.datetime]="album.dateFrom.slice(0, 10)">{{ dates() }} {{ year() }}</time>
 				@if (photos().length) {

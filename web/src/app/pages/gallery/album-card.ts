@@ -13,10 +13,11 @@ import { RouterLink } from "@angular/router";
 import { ApiService, LiveData } from "../../core/api.service";
 import { Album } from "../../core/schema";
 import { albumDates, albumName } from "./gallery-dates";
+import { TypographyPipe } from "../../core/typography";
 
 @Component({
 	selector: "bo-album-card",
-	imports: [RouterLink],
+	imports: [RouterLink, TypographyPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: "./album-card.html",
 	styleUrl: "./album-card.scss",

@@ -18,10 +18,11 @@ import { ProgramEvent } from "../../core/schema";
 import { CHILD_GROUPS, GroupInfo, groupInfo, sortGroupIds } from "../../core/groups";
 import { eventTypeIcon } from "../../core/event-types";
 import { formatPhone, phoneHref } from "../../core/phone";
-import { MarkdownPipe, markdownToText } from "../../core/markdown";
+import { InlineMarkdownPipe, MarkdownPipe, markdownToText } from "../../core/markdown";
 import { CalendarSubscribeDialog } from "./calendar-subscribe-dialog";
 import { AddToCalendar } from "./add-to-calendar";
 import { formatDateRange, formatWeekdayRange, monthKey, monthName, parseDate } from "../../core/dates";
+import { TypographyPipe } from "../../core/typography";
 
 interface MonthSection {
 	key: string;
@@ -32,7 +33,15 @@ interface MonthSection {
 @Component({
 	selector: "bo-program-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, NgTemplateOutlet, MarkdownPipe, CalendarSubscribeDialog, AddToCalendar],
+	imports: [
+		RouterLink,
+		NgTemplateOutlet,
+		MarkdownPipe,
+		InlineMarkdownPipe,
+		TypographyPipe,
+		CalendarSubscribeDialog,
+		AddToCalendar,
+	],
 	templateUrl: "./program-page.html",
 	styleUrl: "./program-page.scss",
 })

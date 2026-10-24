@@ -29,9 +29,11 @@ function compact(day: string): string {
 
 export function calendarEventData(event: ProgramEvent): CalendarEventData {
 	const url = `${environment.siteUrl}/program#akce-${event._id}`;
+	const meetingStart = markdownToText(event.meeting?.start);
+	const meetingEnd = markdownToText(event.meeting?.end);
 	const lines = [
-		event.meeting?.start ? `Sraz: ${event.meeting.start}` : null,
-		event.meeting?.end ? `Návrat: ${event.meeting.end}` : null,
+		meetingStart ? `Sraz: ${meetingStart}` : null,
+		meetingEnd ? `Návrat: ${meetingEnd}` : null,
 		event.leaders.length ? `Vedoucí: ${event.leaders.map((leader) => leader.nickname).join(", ")}` : null,
 	].filter((line): line is string => !!line);
 	const text = markdownToText(event.description);
@@ -42,7 +44,7 @@ export function calendarEventData(event: ProgramEvent): CalendarEventData {
 		title: event.status === "cancelled" ? `Zrušeno: ${event.name}` : event.name,
 		start: isoDay(event.dateFrom),
 		end: nextDay(event.dateTill || event.dateFrom),
-		location: event.meeting?.start ?? "",
+		location: meetingStart,
 		details,
 		url,
 	};

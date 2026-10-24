@@ -12,12 +12,13 @@ import {
 import { DOCUMENT } from "@angular/common";
 import { Router, RouterLink } from "@angular/router";
 import { Photo } from "../../core/schema";
+import { TypographyPipe } from "../../core/typography";
 
 const SWIPE_DISTANCE = 60;
 
 @Component({
 	selector: "bo-photo-viewer",
-	imports: [RouterLink],
+	imports: [RouterLink, TypographyPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: "./photo-viewer.html",
 	styleUrl: "./photo-viewer.scss",
