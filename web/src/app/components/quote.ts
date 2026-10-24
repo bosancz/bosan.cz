@@ -17,17 +17,15 @@ import { TypographyDirective } from "../core/typography";
 		:host {
 			display: block;
 			position: relative;
-			padding: 22px 24px 16px 52px;
-			background: #fff;
-			border-radius: 14px;
-			box-shadow: 0 6px 20px rgba(42, 52, 120, 0.09);
+			padding: 0 0 0 40px;
 		}
 
 		:host::before {
 			content: "„";
 			position: absolute;
-			left: 16px;
-			top: -6px;
+			left: 0;
+			top: 0;
+			transform: translateY(-0.5em);
 			font: 400 64px/1 var(--font-display);
 			color: var(--orange);
 		}
@@ -57,11 +55,10 @@ import { TypographyDirective } from "../core/typography";
 
 		@include bp.mobile {
 			:host {
-				padding: 18px 18px 14px 40px;
+				padding: 0 0 0 32px;
 			}
 
 			:host::before {
-				left: 10px;
 				font-size: 52px;
 			}
 

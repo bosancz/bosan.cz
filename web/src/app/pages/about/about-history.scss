@@ -117,7 +117,7 @@
 
 	bo-quote {
 		break-inside: avoid;
-		margin: 0 0 20px;
+		margin: 0 0 28px;
 	}
 }
 
@@ -142,21 +142,6 @@
 		font-size: 19px;
 		line-height: 1.05;
 		padding: 0 8px;
-	}
-
-	&.red {
-		background: var(--red);
-		color: #fff;
-	}
-
-	&.green {
-		background: #799f3d;
-		color: #fff;
-	}
-
-	&.today {
-		background: var(--orange);
-		color: var(--navy);
 	}
 }
 
@@ -225,11 +210,7 @@
 	min-width: 0;
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
-
-	bo-quote:nth-child(even) {
-		margin-left: 24px;
-	}
+	gap: 28px;
 }
 
 @include bp.mobile {
@@ -263,10 +244,6 @@
 
 	.entry:not(:has(.entry-text, .photos)) .quotes {
 		columns: 1;
-	}
-
-	.quotes bo-quote:nth-child(even) {
-		margin-left: 0;
 	}
 
 	.entry,
