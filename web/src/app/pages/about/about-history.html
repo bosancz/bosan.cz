@@ -1,0 +1,153 @@
+<section class="history" aria-labelledby="z-historie">
+	<div class="history-inner">
+		<div class="history-head">
+			<div class="history-intro">
+				<h2 id="z-historie">z historie</h2>
+				<p>
+					{{
+						"Na vodu jezdíme nepřetržitě od roku 1969 a skoro stejně dlouho táboříme na ostrově Šán. Historii vyprávějí pamětníci, kteří své vzpomínky sepsali ke 40. výročí v roce 2009."
+							| typography
+					}}
+				</p>
+				<p class="call">
+					{{ "Kdo má doma staré fotky nebo vzpomínky, ať napíše na" | typography }}
+					<a href="mailto:info@bosan.cz">info&#64;bosan.cz</a>.
+				</p>
+			</div>
+			<svg class="shirt" viewBox="0 0 200 192" role="img" aria-label="Modrá krojová košile">
+				<path
+					d="M60 20 L82 12 Q100 26 118 12 L140 20 L182 48 L164 88 L148 80 L148 178 Q100 186 52 178 L52 80 L36 88 L18 48 Z"
+					fill="#3d63b8"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<path d="M27 44 L45 84 M173 44 L155 84" stroke="#2c4c99" stroke-width="7" stroke-linecap="round" />
+				<path
+					d="M18 48 L36 88 M182 48 L164 88 M100 40 L100 180 M64 24 L84 30 M136 24 L116 30"
+					fill="none"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<path
+					d="M82 12 L100 40 L86 50 L70 20 Z M118 12 L100 40 L114 50 L130 20 Z"
+					fill="#5a80d2"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<rect
+					x="62"
+					y="72"
+					width="28"
+					height="32"
+					rx="3"
+					fill="#4a70c4"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M62 72 h28 v9 l-14 5 l-14 -5 z"
+					fill="#5a80d2"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<rect
+					x="110"
+					y="72"
+					width="28"
+					height="32"
+					rx="3"
+					fill="#4a70c4"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M110 72 h28 v9 l-14 5 l-14 -5 z"
+					fill="#5a80d2"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<circle cx="107" cy="58" r="3.2" fill="#dfe3f5" />
+				<circle cx="107" cy="92" r="3.2" fill="#dfe3f5" />
+				<circle cx="107" cy="124" r="3.2" fill="#dfe3f5" />
+				<circle cx="107" cy="156" r="3.2" fill="#dfe3f5" />
+				<circle cx="160" cy="58" r="10" fill="#e28f26" stroke="#1d2452" stroke-width="3" />
+				<path d="M155 58 h10 M160 53 v10" stroke="#1d2452" stroke-width="2" />
+			</svg>
+		</div>
+
+		@for (era of eras; track era.label) {
+			<div class="era">
+				<header class="era-head">
+					<span class="era-label">{{ era.label }}</span>
+					<h3 class="era-title">{{ era.title | typography }}</h3>
+				</header>
+
+				<ol class="timeline">
+					@for (entry of era.entries; track entry.year) {
+						<li
+							class="entry"
+							[class.with-quotes]="cardQuotes(entry).length"
+							[class.bare]="!entry.text && !entry.photos.length"
+						>
+							<div class="year" [class]="'year ' + entry.tone" [class.long]="entry.year.length > 4">
+								{{ entry.year }}
+							</div>
+
+							<div class="entry-main">
+								<h4>{{ entry.title | typography }}</h4>
+								@if (entry.text) {
+									<p class="entry-text">{{ entry.text | typography }}</p>
+								}
+								@if (entry.note) {
+									<p class="note">{{ entry.note }}</p>
+								}
+								@if (entry.photos.length) {
+									<div class="photos" [class]="'photos n' + entry.photos.length">
+										@for (photo of entry.photos; track photo.src) {
+											<img
+												[src]="photo.src"
+												[alt]="photo.alt"
+												[attr.aria-hidden]="photo.alt ? null : 'true'"
+												loading="lazy"
+											/>
+										}
+									</div>
+								}
+							</div>
+
+							@if (cardQuotes(entry).length) {
+								<div class="quotes">
+									@for (quote of cardQuotes(entry); track $index) {
+										<figure class="quote">
+											<blockquote>{{ quote.text | typography }}</blockquote>
+											<figcaption>{{ quote.author }}</figcaption>
+										</figure>
+									}
+								</div>
+							}
+
+							@if (featuredQuote(entry); as quote) {
+								<figure class="pull">
+									<blockquote>{{ quote.text | typography }}</blockquote>
+									<figcaption>{{ quote.author }}</figcaption>
+								</figure>
+							}
+						</li>
+					}
+				</ol>
+			</div>
+		}
+	</div>
+</section>

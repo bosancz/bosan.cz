@@ -75,43 +75,6 @@ collections:
                 fields:
                   - { name: src, label: Obrázek, widget: image }
                   - { name: alt, label: Popis fotky (pro nevidomé), widget: string, required: false }
-          - name: history
-            label: Historie
-            widget: object
-            fields:
-              - { <<: *inline, name: intro, label: Úvodní text }
-              - name: items
-                label: Body historie
-                label_singular: bod historie
-                widget: list
-                collapsed: true
-                summary: "{{year}} – {{title}}"
-                fields:
-                  - { name: year, label: Rok, widget: string }
-                  - { name: title, label: Nadpis, widget: string }
-                  - { <<: *inline, name: text, label: Text }
-                  - { <<: *inline, name: note, label: Poznámka, required: false }
-                  - name: tone
-                    label: Barva kolečka s rokem
-                    widget: select
-                    required: false
-                    hint: Bez výběru je kolečko modré.
-                    options:
-                      - { label: Červená, value: red }
-                      - { label: Zelená, value: green }
-                      - { label: Oranžová (dnešek), value: today }
-                  - &photos
-                    name: photos
-                    label: Fotky
-                    label_singular: fotka
-                    widget: list
-                    required: false
-                    max: 3
-                    summary: "{{alt}}"
-                    thumbnail: src
-                    fields:
-                      - { name: src, label: Obrázek, widget: image }
-                      - { name: alt, label: Popis fotky (pro nevidomé), widget: string, required: false }
           - name: island
             label: Ostrov
             widget: object
@@ -176,7 +139,21 @@ collections:
             widget: object
             fields:
               - { <<: *inline, name: text, label: Text }
-              - { <<: *photos, label: "Fotky (první je velká)", required: true, min: 3, max: 3 }
+              - <<: &photos
+                  name: photos
+                  label: Fotky
+                  label_singular: fotka
+                  widget: list
+                  required: false
+                  max: 3
+                  summary: "{{alt}}"
+                  thumbnail: src
+                  fields:
+                    - { name: src, label: Obrázek, widget: image }
+                    - { name: alt, label: Popis fotky (pro nevidomé), widget: string, required: false }
+                label: "Fotky (první je velká)"
+                required: true
+                min: 3
           - name: day
             label: Jeden den na Šánu
             widget: object

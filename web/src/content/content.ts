@@ -12,21 +12,9 @@ export interface Seo {
 	description: string;
 }
 
-export type TimelineTone = "red" | "green" | "today" | "" | null;
-
-export interface TimelineItem {
-	year: string;
-	title: string;
-	text: string;
-	note: string;
-	tone: TimelineTone;
-	photos: ContentPhoto[];
-}
-
 export interface AboutContent {
 	seo: Seo;
 	hero: { lead: string; sub: string; photo: ContentPhoto };
-	history: { intro: string; items: TimelineItem[] };
 	island: { text: string; photo: ContentPhoto };
 	groups: { text: string };
 }
