@@ -3,14 +3,12 @@
 		<div class="history-head">
 			<div class="history-intro">
 				<h2 id="z-historie">z historie</h2>
-				<p>
-					{{
-						"Na vodu jezdíme nepřetržitě od roku 1969 a skoro stejně dlouho táboříme na ostrově Šán. Historii vyprávějí pamětníci, kteří své vzpomínky sepsali ke 40. výročí v roce 2009."
-							| typography
-					}}
+				<p boTypography>
+					Na vodu jezdíme nepřetržitě od roku 1969 a skoro stejně dlouho táboříme na ostrově Šán. Historii
+					vyprávějí pamětníci, kteří své vzpomínky sepsali ke 40. výročí v roce 2009.
 				</p>
-				<p class="call">
-					{{ "Kdo má doma staré fotky nebo vzpomínky, ať napíše na" | typography }}
+				<p class="call" boTypography>
+					Kdo má doma staré fotky nebo vzpomínky, ať napíše na
 					<a href="mailto:info@bosan.cz">info&#64;bosan.cz</a>.
 				</p>
 			</div>
@@ -87,67 +85,436 @@
 			</svg>
 		</div>
 
-		@for (era of eras; track era.label) {
-			<div class="era">
-				<header class="era-head">
-					<span class="era-label">{{ era.label }}</span>
-					<h3 class="era-title">{{ era.title | typography }}</h3>
-				</header>
+		<div class="era">
+			<p class="era-label">1968–1973</p>
+			<ol class="timeline">
+				<li class="entry">
+					<div class="year">1968</div>
+					<div class="entry-main">
+						<h3>Začátky</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Tarzan">
+							Chodili jsme na schůzky do Thalmanovy ul. v Dejvicích, tam byla taky poradní skála za
+							Bubenečským nádražím a podnikaly se nedělní výpravy. To ještě u toho ani nebyl Patron a jako
+							skautský oddíl chlapecký jsme spadali pod Středisko Bílý Los.
+						</bo-quote>
+						<bo-quote author="Vyzvědač">
+							Úplně první klubovna byla v dnešní Verdunské ulici v Praze 6. Byla to sklepní místnost.
+							<bo-omission
+								>Některé schůzky v období 68-69 se konaly v atelieru Jurgena v ulici Nikoly
+								Tesly.</bo-omission
+							>
+							Pak následovala Šlikovka.
+						</bo-quote>
+						<bo-quote author="Igor">
+							Šlikovka, to byla klubovna jak z Foglarových knížek.
+							<bo-omission
+								>Sama Šlikova ulice v Břevnově stoupá do kopce. Skoro uprostřed toho stoupání se vlevo
+								vešlo do domu. Domem se prošlo na nevelký dvorek. Dvorek byl lemován několika patry
+								pavlačí, jen v čelní straně o pár metrů nad dvorkem byl malý domeček. Vedly k němu úzké
+								schody. Po otevření dveří se vešlo do malé předsíňky kde byl špalek na štípání dřeva do
+								kamen. Z předsíňky se vcházelo do dvou místností, ta menší měla okno do
+								dvora.</bo-omission
+							>
+							Pamatuji si do dnes na šero zimních odpolední a černo večerů, podivnou a až magickou vůni
+							tohoto domečku, která spojovala vůni vlhkého zdiva a čoudících kamen. Pro mne byla Šlikovka
+							kouskem Stínadel.
+						</bo-quote>
+					</div>
+				</li>
 
-				<ol class="timeline">
-					@for (entry of era.entries; track entry.year) {
-						<li
-							class="entry"
-							[class.with-quotes]="cardQuotes(entry).length"
-							[class.bare]="!entry.text && !entry.photos.length"
+				<li class="entry">
+					<div class="year">1969</div>
+					<div class="entry-main">
+						<h3>První tábor na Šánu</h3>
+						<p class="entry-text">
+							Na fotkách je album ze 70. let, nejstarší, které ve fotogalerii zatím máme.
+						</p>
+						<div class="photos n3">
+							<img src="/img/about/history-1970-a.jpg" alt="" aria-hidden="true" loading="lazy" />
+							<img src="/img/about/history-1970-b.jpg" alt="" aria-hidden="true" loading="lazy" />
+							<img src="/img/about/history-1970-c.jpg" alt="" aria-hidden="true" loading="lazy" />
+						</div>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Tarzan">
+							Vše se změnilo až s příchodem Patrona v r. 1969 a hlavně uspořádáním 1. tábora na ostrově
+							pod Roudnicí. Tenkrát asi vznikla většina pojmenování a tradic, jako souostroví Ešán,&#8288;
+							„čibu“.
+							<bo-omission
+								>Tohoto prvního tábora jsem se bohužel nezúčastnil, ale vím, že po něm začala díky
+								Patronovi u oddílu větší aktivita a taky jsem se stal už Skautem a současně i rádcem
+								družiny a později člunařem 2. posádky, člunařem 1. posádky byl Zajíc.</bo-omission
+							>
+							Patron také přinesl do oddílu vodáctví a měli jsme první dvě zteřelé pramičky – Babičku a
+							Tetičku.
+						</bo-quote>
+						<bo-quote author="Pája">
+							<bo-omission>Když jsem přišla do oddílu, vysvětlili nám, že</bo-omission> Šán je název
+							ostrova u Roudnice – tento název vznikl obráceným přečtením slova náš, je součástí
+							souostroví Ešan tj naše, kam patří ještě Án a En, který je velký a malý.
+						</bo-quote>
+						<bo-quote author="Bejby"
+							>Pak Patron volil mezi ostrovem na Žernosekách a tímto. Šán se stal Náš.</bo-quote
 						>
-							<div class="year" [class]="'year ' + entry.tone" [class.long]="entry.year.length > 4">
-								{{ entry.year }}
-							</div>
+					</div>
+				</li>
 
-							<div class="entry-main">
-								<h4>{{ entry.title | typography }}</h4>
-								@if (entry.text) {
-									<p class="entry-text">{{ entry.text | typography }}</p>
-								}
-								@if (entry.note) {
-									<p class="note">{{ entry.note }}</p>
-								}
-								@if (entry.photos.length) {
-									<div class="photos" [class]="'photos n' + entry.photos.length">
-										@for (photo of entry.photos; track photo.src) {
-											<img
-												[src]="photo.src"
-												[alt]="photo.alt"
-												[attr.aria-hidden]="photo.alt ? null : 'true'"
-												loading="lazy"
-											/>
-										}
-									</div>
-								}
-							</div>
+				<li class="entry">
+					<div class="year">1970</div>
+					<div class="entry-main">
+						<h3>Ze skautů pionýři</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Tarzan">
+							Stihl jsem ještě na táboře složit skautský slib, ale pak hned v září bohužel došlo díky
+							tehdejší politické situaci ke zrušení Junáka. Patron zareagoval okamžitě a byla založena 90.
+							pionýrská skupina. V zimě jsme už pak začali nosit rudé šátky a modré zůstaly jen jako
+							pracovní.
+						</bo-quote>
+						<bo-quote author="Igor">
+							Skupina si dlouho zachovává i mnoho původních skautských symbolů. Některé mírně skrytě, jiné
+							hrdě, třeba jako tmavomodrý kroj vodních skautů.
+						</bo-quote>
+					</div>
+				</li>
 
-							@if (cardQuotes(entry).length) {
-								<div class="quotes">
-									@for (quote of cardQuotes(entry); track $index) {
-										<figure class="quote">
-											<blockquote>{{ quote.text | typography }}</blockquote>
-											<figcaption>{{ quote.author }}</figcaption>
-										</figure>
-									}
-								</div>
-							}
+				<li class="entry">
+					<div class="year">1973</div>
+					<div class="entry-main">
+						<h3>Velký nábor</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Pája">
+							<bo-omission
+								>Do oddílu jsem přišla stejně s Ivou, byly jsme stejně staré (dělilo nás 14
+								dní),</bo-omission
+							>
+							patřily jsme do velkého náboru, který Patron udělal v roce 1973, kdy se rozhodl zkusit i
+							dívčí oddíl.
+						</bo-quote>
+						<bo-quote author="Pája">
+							Pro vodu se tenkrát jezdilo s velkými 25-litrovými hliníkovými bandaskami od mléka – pro
+							dívčí oddíl to byla makačka ty plné bandy dostat do lodě a na Šán.
+						</bo-quote>
+						<bo-quote author="Igor">
+							Kopřivy byly dvoumetrové a po topolech jsme šplhali jako po tyči. Kuchyň s jídelnou plátěné,
+							stany s dřevěnou podsadou.
+						</bo-quote>
+						<bo-quote author="Bejby">
+							Jen si představte – po vodní hladině pluje ladná Isabela a kolem ní se rojí množství malých
+							plavidel. Isabela byla kuchyň, zásobovací loď, bezpečí, jistota.
+						</bo-quote>
+					</div>
+				</li>
+			</ol>
+		</div>
 
-							@if (featuredQuote(entry); as quote) {
-								<figure class="pull">
-									<blockquote>{{ quote.text | typography }}</blockquote>
-									<figcaption>{{ quote.author }}</figcaption>
-								</figure>
-							}
-						</li>
-					}
-				</ol>
-			</div>
-		}
+		<div class="era">
+			<p class="era-label">70. léta</p>
+			<ol class="timeline">
+				<li class="entry">
+					<div class="year long">70. léta</div>
+					<div class="entry-main">
+						<h3>Vyšehradská plovárna</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Igor">
+							Pořízení bývalé Vyšehradské plovárny byla nádhera. Každý oddíl mohl mít svojí klubovnu.
+							Všichni velkou dílnu.
+						</bo-quote>
+						<bo-quote author="Igor">
+							Pak se ozvalo vždyť to bude takový BotelŠán, od tohohle už byl kousek k BOŠÁN. V uších to
+							zaznělo a bylo nám jasno, to jméno spojovalo Boat a Šán.
+							<bo-omission
+								>Všechno co šánovská loděnice potřebuje No jo, ale teď k tomu vymyslet nějakou legendu.
+								Ono to totiž Patronovi moc nesedělo. Zaprvé to nebylo podle způsobu označení souostroví
+								a našeho ostrova, za druhé to obsahovalo anglické slovo. Prosazoval proto Ďolešán.
+								Dokonce se tento název několikrát objevil i v psaných dokumentech. Naše loď byl název
+								sice český, ale Ďolešán do ucha ani do pusy moc nešel. A my ostatní jsme už Bošán
+								používali. Nastala znovu potřeba vytvořit legendu k názvu, aby bylo jasno.</bo-omission
+							>
+							Boat jsme teda zmiňovat nemohli a pak přišel jednoduchý nápad. Náš objekt.
+						</bo-quote>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year">1976</div>
+					<div class="entry-main">
+						<h3>Studna a kuchyně</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Želva">
+							Pak někdy kolem roku 1976 nebo 77 přišel Hobby (i se synem Ponnym), byl tu Jirka
+							<bo-omission
+								>Svoboda (myslím táta Bejby a Lucky) a odešlo pár starších instruktorů. Voda v Labi byla
+								tenkrát šíleně smradlavá.</bo-omission
+							>
+							S Jirkou se někdy v roce 1976 začala hloubit studna,
+							<bo-omission>můj táta na Šán zajistil převoz betonových skruží</bo-omission> a celý tábor
+							jsme se bavili vyhrabováním písku a zapouštěli skruže, skoro až do 10m.
+							<bo-omission
+								>Vedle studny jsme postavili věž se sudem na vodu ze studny a čerpadlo. Jirka to
+								technicky zajišťoval. Když si tak vzpomínám, s Jirkou Svobodou jsem si rozuměl asi
+								nejlépe z vedoucích. Hobby byl super, mám dojem, že si ale moc nesedli s
+								Patronem.</bo-omission
+							>
+							Hobby začal na táboře vyrábět amulety a barevné provázky, vymýšlet více her.
+						</bo-quote>
+						<bo-quote author="Tarzan">
+							Nikdy nezapomenu na brigádu v cihelně, kdy se Patron rozhodl o stavbě kuchyně
+							<bo-omission
+								>a mě s Miliardou tam poslal s tím, že cihly jsou zadarmo, jen ať je
+								naložíme.</bo-omission
+							>
+							Nikdo nám ovšem neřekl, že budeme celou noc vytahovat ještě horké cihly rovnou z pece na
+							palety, kterých bylo tak asi 12, zkrátka na celou kuchyň.
+						</bo-quote>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year">1978</div>
+					<div class="entry-main">
+						<h3>První Poseidonky</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Igor">
+							Za nápadem stál Hobby s Jirkou.
+							<bo-omission
+								>Poseidonky mají po celou dobu stejný formát. Některé disciplíny se jen trošku
+								dopracovaly. Co se změnilo, snad jen Poseidon na počátku přijížděl z jungle, ale velmi
+								brzo se příjezd změnil na vodní.</bo-omission
+							>
+							Poseidon přinášel oheň, který po celou dobu her hořel. Co se určitě nezměnilo, Poseidon vždy
+							mluvil rybí řečí.
+							<bo-omission
+								>První Poseidon 1. turnusu se jmenoval Vilda, guvernérem ostrova Šán byl Jirka. Na
+								druhém turnusu Poseidon skrýval moje jméno.</bo-omission
+							>
+						</bo-quote>
+						<bo-quote author="Igor">První Poseidonské hry proběhly v neděli 16. 7. 1978.</bo-quote>
+					</div>
+				</li>
+			</ol>
+		</div>
+
+		<div class="era">
+			<p class="era-label">80. léta</p>
+			<ol class="timeline">
+				<li class="entry">
+					<div class="year">1979</div>
+					<div class="entry-main">
+						<h3>Loděnice v Podolí</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Bejby">
+							V roce 1979, po několika letech bojů Jirky <bo-omission>Svobody</bo-omission>, jsme získali
+							pozemek a začali kopat základy pro naši novou loděnici v Podolí. Postavil se nový barák,
+							stará loděnice zpod Vyšehradu se rozebrala a postavila na souš.
+						</bo-quote>
+						<bo-quote author="Kidd">
+							Na Bošánu byla osmdesátá léta časem úpravy terénu. Vysekávali jsme keře, přesýpali hromady
+							hlíny, rozváželi navážku, kam bylo třeba a nakonec rovnali a překopávali tvrdou jalovou půdu
+							a osívali ji travou. Tehdy vznikla z nasypané skládky špíny naše krásná loděnice.
+						</bo-quote>
+						<bo-quote author="Igor">A ze zbytků Vyšehradské plovárny jsou dneska Komplexy.</bo-quote>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year">1981</div>
+					<div class="entry-main">
+						<h3>Celotáborové hry</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Bejby">
+							Pod taktovkou Hobbyho jsme vymýšleli náměty her, cestovali časem, doprovázeli Marca Pola,
+							hostili mimozemšťany, luštili klínové písmo.
+							<bo-omission
+								>V převlecích pirátů či vědecké expedice jsme děti motivovali ke sportovním výkonům i
+								kamarádskému soutěžení.</bo-omission
+							>
+							Dřevěná bleděmodrá bedna, která s námi léta jezdila na Šán coby skříň, byla rekvizitou první
+							celotáborovky Cestování časem.
+						</bo-quote>
+						<bo-quote author="Bejby">
+							<bo-omission>Aby se vám oživila paměť –</bo-omission> 81 Oddyseus, 82 Albert, 83 Harant, 84
+							Klínové písmo, 85 Stroj času, 86 Prašánovci, 87 Řecké báje, 88 Alfaůfani, 90 Marco Polo, 91
+							Harant, 92 Pětina pro krále, 93 klínové písmo, 94 Stroj času, 95 Alvarez, 96 Poklad černého
+							delfína, 97 Olympiáda. Dál nevím.
+						</bo-quote>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year">1985</div>
+					<div class="entry-main">
+						<h3>Devítky</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Žluťák">
+							<bo-omission
+								>Jak tu Kidd kousek vejš píše „lodi byly dřív veselejší“ řeč je samo o pramičkách. Je to
+								fakt, ale jen do určitý míry, ono</bo-omission
+							>
+							když se na Bošánu objevily první devítky, tak jsme z nich byli všichni paf. Byly tak lehký,
+							tak rychlý, tak elegantní.
+							<bo-omission
+								>První byly legendy Pajcr a Prdlajs s černými borty a se špičatou zádí i přídí. To až
+								naše vlastní vyrobené lodičky umožňovaly připojit motor, zasadit kormidlo i kormidelník
+								seděl o něco níž což usnadňovalo ovládání lodi.</bo-omission
+							>
+							První naše bylo zelené Achjo později přejmenované na Cyklon.
+							<bo-omission>Nevím jestli si to pamatuju přesně, ale myslím, že</bo-omission> v 1983 byly na
+							táboře ty prvně dvě jmenované, tak nějak na zkoušku a jezdili na tom jen vedoucí. 1984 byly
+							lodě napůl půlka pramic půl devítek
+							<bo-omission>a už fakt nevím jestli jsme si je nějak střídali??</bo-omission> A 1985 byl
+							první tábor čistě s devítkama a taky byl poprvé na devítkách i puťák.
+						</bo-quote>
+						<bo-quote author="Bejby">
+							To bylo překvapení pro vedoucí, kteří vždy pramice doprovázeli na kánoích. Na devítky prostě
+							neměli, děti jim ujížděly.
+						</bo-quote>
+					</div>
+				</li>
+			</ol>
+		</div>
+
+		<div class="era">
+			<p class="era-label">90. léta</p>
+			<ol class="timeline">
+				<li class="entry">
+					<div class="year">1990</div>
+					<div class="entry-main">
+						<h3>Kondor</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Kidd">
+							Taky to byla doba, kdy jsme museli volit, jakou cestou se naše skupina vydá po rozpadu
+							pionýrské organizace. Přesto že tu byly i myšlenky na začlenění do skautské organizace,
+							myslím že zvítězila ta nejlepší volba, vstup do Kondora, která akcentuje svébytnost a
+							výjimečnost naší skupiny.
+							<bo-omission
+								>Zatímco v osmdesátých se budovalo a ledacos se rodilo, spoustu věcí jsme teprve
+								osahávali, stavěli a dodělávali,</bo-omission
+							>
+							devadesátá léta jsou takovou dobou rozletu.
+						</bo-quote>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year">1999</div>
+					<div class="entry-main">
+						<h3>30 let na Šánu</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Igor">
+							<bo-omission>Noc byla dlouhá, ale</bo-omission> sobotní ráno zastihlo všechny přítomné v
+							plném nadšení, a přijela jich téměř stovka, na slavnostním nástupu k zahájení dne.
+							Následovalo spontánní rozdělení do posádek, kdy každé 1 až 2 lodě zastupovaly přibližně
+							jedno desetiletí v historii skupiny.
+						</bo-quote>
+					</div>
+				</li>
+			</ol>
+		</div>
+
+		<div class="era">
+			<p class="era-label">2002–dnes</p>
+			<ol class="timeline">
+				<li class="entry">
+					<div class="year red">2002</div>
+					<div class="entry-main">
+						<h3>Šán po záplavě</h3>
+						<div class="photos n2">
+							<img src="/img/about/flood-2002-river.jpg" alt="Labe u ostrova po povodni" loading="lazy" />
+							<img src="/img/about/flood-2002-ruins.jpg" alt="Trosky staveb po povodni" loading="lazy" />
+						</div>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Bejby">
+							Velká voda v roce 2002 mnohé vzala. Vlastně skoro vše. Kuchyň spadla, lamináty jídelny se
+							omotaly okolo stromů, mnohé stromy byly podemlety, po opadnutí vody jsme měli z ostrova
+							písečnou pláž.
+						</bo-quote>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year green">2003</div>
+					<div class="entry-main">
+						<div class="photos n2">
+							<img
+								src="/img/about/rebuild-2003-spring.jpg"
+								alt="Stavba budovy na ostrově, jaro 2003"
+								loading="lazy"
+							/>
+							<img
+								src="/img/about/rebuild-2003-august.jpg"
+								alt="Opravené stavby na tábořišti, srpen 2003"
+								loading="lazy"
+							/>
+						</div>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Igor">
+							Velký Čibu-čibu zapálil znovu ohýnky v srdcích Šánovců. Celý podzim se uklízelo, zasypávali
+							díry a plánovalo. Celé jaro budovalo. 1. turnus 2003 je na Šánu.
+						</bo-quote>
+						<bo-quote author="Bejby"
+							>Ale duch Šánu to nevzdal. A mládí překvapilo. S vervou se pustilo do obnovy Šánu.</bo-quote
+						>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year">2009</div>
+					<div class="entry-main">
+						<h3>40 let na Šánu</h3>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Kidd">
+							Nebylo to vzpomínání na něco dávno zmizelého. Prostě jsem přijel na Šán a hrál si a bavil se
+							jako před x&#8288; lety.
+						</bo-quote>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year red">2013</div>
+					<div class="entry-main">
+						<h3>Povodeň</h3>
+						<p class="entry-text">
+							První turnus nakonec tábořil na louce na Smrkovci u Jindřichova Hradce, druhý už na Šánu,
+							jen bez jídelny.
+						</p>
+					</div>
+					<div class="quotes">
+						<bo-quote author="Igor">
+							Stalo se v červnu 2013. Najednou před námi stojí stejné úkoly jako před jedenácti lety. Jsem
+							však rád, že Šánovci se zase s chutí chopí práce. I když poprvé od roku 1969 budou letní
+							tábory jinde než na ostrově, věřím v tábory 2014 opět na našem Šánu.
+						</bo-quote>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year">2017</div>
+					<div class="entry-main">
+						<h3>Stěhování do Hodkoviček</h3>
+						<p class="entry-text">Tady jsme dodnes.</p>
+						<p class="note">Doplnit.</p>
+					</div>
+				</li>
+
+				<li class="entry">
+					<div class="year today">dnes</div>
+				</li>
+			</ol>
+		</div>
 	</div>
 </section>
