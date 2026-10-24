@@ -1,0 +1,14 @@
+{
+	"name": "Dětská vodácká skupina ŠÁN",
+	"short_name": "ŠÁN",
+	"lang": "cs",
+	"theme_color": "#2a3478",
+	"background_color": "#2a3478",
+	"display": "browser",
+	"scope": "/",
+	"start_url": "/",
+	"icons": [
+		{ "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" },
+		{ "src": "/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png" }
+	]
+}

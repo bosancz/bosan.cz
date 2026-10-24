@@ -1,0 +1,174 @@
+@use "../../../styles/breakpoints" as bp;
+
+:host {
+	display: block;
+	background: var(--navy);
+	color: #fff;
+}
+
+.bar-inner {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding: 20px var(--gutter);
+	display: flex;
+	align-items: center;
+	gap: 24px;
+
+	@include bp.mobile {
+		padding: 14px var(--gutter);
+		justify-content: space-between;
+	}
+}
+
+.logo {
+	display: block;
+	line-height: 0;
+
+	img {
+		height: 52px;
+		width: auto;
+
+		@include bp.mobile {
+			height: 40px;
+		}
+	}
+}
+
+.nav-desktop {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-left: auto;
+	align-items: center;
+
+	@include bp.mobile {
+		display: none;
+	}
+
+	a:not(.lock) {
+		background: var(--tile);
+		color: #fff;
+		text-decoration: none;
+		font-weight: 800;
+		font-size: 16px;
+		padding: 12px 20px;
+		border-radius: var(--radius-button);
+		transition: background 0.15s;
+
+		&:hover {
+			background: #4a559f;
+			color: #fff;
+		}
+
+		&.active {
+			background: var(--orange);
+			color: var(--navy);
+		}
+	}
+}
+
+.lock {
+	color: #fff;
+	padding: 10px;
+	display: flex;
+	opacity: 0.7;
+
+	&:hover {
+		opacity: 1;
+		color: #fff;
+	}
+
+	svg {
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+}
+
+.lock-mobile {
+	display: none;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	align-items: center;
+	justify-content: center;
+
+	@include bp.mobile {
+		display: flex;
+	}
+}
+
+.nav-mobile {
+	display: none;
+	padding: 0 var(--gutter) 12px;
+
+	@include bp.mobile {
+		display: block;
+	}
+
+	summary {
+		list-style: none;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		min-height: 44px;
+		padding: 0 14px;
+		background: var(--tile);
+		border-radius: 12px;
+		cursor: pointer;
+		font-size: 15px;
+		font-weight: 800;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+
+		svg {
+			width: 18px;
+			height: 18px;
+			margin-left: auto;
+			fill: none;
+			stroke: #fff;
+			stroke-width: 2.6;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			transition: transform 0.15s;
+		}
+	}
+
+	details[open] summary svg {
+		transform: rotate(180deg);
+	}
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 8px 0 0;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 40px;
+		background: var(--tile);
+		color: #fff;
+		border: 2px solid var(--tile);
+		text-decoration: none;
+		font-weight: 800;
+		font-size: 14px;
+		border-radius: 12px;
+		padding: 0 6px;
+
+		&.active {
+			background: var(--orange);
+			border-color: var(--orange);
+			color: var(--navy);
+		}
+	}
+}

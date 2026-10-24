@@ -1,0 +1,269 @@
+<header class="hero">
+	<div class="container hero-inner">
+		<div class="hero-text">
+			<h1>o nás</h1>
+			<p class="lead" [innerHTML]="content.hero.lead | inlineMarkdown"></p>
+			<p class="sub" [innerHTML]="content.hero.sub | inlineMarkdown"></p>
+		</div>
+		<img class="hero-photo" [src]="content.hero.photo.src" [alt]="content.hero.photo.alt" fetchpriority="high" />
+	</div>
+</header>
+
+<nav class="toc" aria-label="Obsah stránky">
+	<div class="toc-desktop container">
+		<span class="toc-label">Obsah</span>
+		<ol>
+			@for (section of sections; track section.id) {
+				<li>
+					<a
+						[href]="'#' + section.id"
+						[class.active]="active() === section.id"
+						[attr.aria-current]="active() === section.id ? 'location' : null"
+						(click)="go($event, section.id)"
+						>{{ section.label }}</a
+					>
+				</li>
+			}
+		</ol>
+		<a class="to-top" href="#" (click)="go($event, null)">↑ nahoru</a>
+	</div>
+	<div class="toc-mobile">
+		<button type="button" class="toc-summary" [attr.aria-expanded]="tocOpen()" (click)="tocOpen.set(!tocOpen())">
+			<span class="toc-label">Obsah</span>
+			<span class="toc-current">{{ activeLabel() }}</span>
+			<svg viewBox="0 0 24 24" aria-hidden="true" [class.open]="tocOpen()">
+				<path d="M6 9l6 6 6-6" />
+			</svg>
+		</button>
+		@if (tocOpen()) {
+			<ol>
+				@for (section of sections; track section.id) {
+					<li>
+						<a
+							[href]="'#' + section.id"
+							[class.active]="active() === section.id"
+							(click)="go($event, section.id)"
+							>{{ section.label }}</a
+						>
+					</li>
+				}
+			</ol>
+		}
+	</div>
+</nav>
+
+<section class="history" aria-labelledby="o-hist">
+	<div class="history-inner">
+		<div class="history-head">
+			<div class="history-intro">
+				<h2 id="o-hist">z historie</h2>
+				@for (paragraph of content.history.intro | paragraphs; track $index) {
+					<p [innerHTML]="paragraph"></p>
+				}
+			</div>
+			<svg class="shirt" viewBox="0 0 200 192" role="img" aria-label="Modrá krojová košile">
+				<path
+					d="M60 20 L82 12 Q100 26 118 12 L140 20 L182 48 L164 88 L148 80 L148 178 Q100 186 52 178 L52 80 L36 88 L18 48 Z"
+					fill="#3d63b8"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<path d="M27 44 L45 84 M173 44 L155 84" stroke="#2c4c99" stroke-width="7" stroke-linecap="round" />
+				<path
+					d="M18 48 L36 88 M182 48 L164 88 M100 40 L100 180 M64 24 L84 30 M136 24 L116 30"
+					fill="none"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<path
+					d="M82 12 L100 40 L86 50 L70 20 Z M118 12 L100 40 L114 50 L130 20 Z"
+					fill="#5a80d2"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<rect
+					x="62"
+					y="72"
+					width="28"
+					height="32"
+					rx="3"
+					fill="#4a70c4"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M62 72 h28 v9 l-14 5 l-14 -5 z"
+					fill="#5a80d2"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<rect
+					x="110"
+					y="72"
+					width="28"
+					height="32"
+					rx="3"
+					fill="#4a70c4"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+				/>
+				<path
+					d="M110 72 h28 v9 l-14 5 l-14 -5 z"
+					fill="#5a80d2"
+					stroke="#1d2452"
+					stroke-width="3"
+					stroke-linejoin="round"
+					stroke-linecap="round"
+				/>
+				<circle cx="107" cy="58" r="3.2" fill="#dfe3f5" />
+				<circle cx="107" cy="92" r="3.2" fill="#dfe3f5" />
+				<circle cx="107" cy="124" r="3.2" fill="#dfe3f5" />
+				<circle cx="107" cy="156" r="3.2" fill="#dfe3f5" />
+				<circle cx="160" cy="58" r="10" fill="#e28f26" stroke="#1d2452" stroke-width="3" />
+				<path d="M155 58 h10 M160 53 v10" stroke="#1d2452" stroke-width="2" />
+			</svg>
+		</div>
+
+		<ol class="timeline">
+			@for (item of content.history.items; track $index) {
+				<li class="entry" [class.has-photos]="item.photos.length">
+					<div class="year" [class]="'year ' + (item.tone ?? '')">{{ item.year }}</div>
+					<div class="entry-text">
+						<h3>{{ item.title }}</h3>
+						@for (paragraph of item.text | paragraphs; track $index) {
+							<p [innerHTML]="paragraph"></p>
+						}
+						@if (item.note) {
+							<p class="note" [innerHTML]="item.note | inlineMarkdown"></p>
+						}
+					</div>
+					@if (item.photos.length) {
+						<div class="photos" [class]="'photos n' + item.photos.length">
+							@for (photo of item.photos; track $index) {
+								<img
+									[src]="photo.src"
+									[alt]="photo.alt"
+									[attr.aria-hidden]="photo.alt ? null : 'true'"
+									loading="lazy"
+								/>
+							}
+						</div>
+					}
+				</li>
+			}
+		</ol>
+	</div>
+</section>
+
+<section class="island" aria-labelledby="o-ostrov">
+	<div class="container island-inner">
+		<div class="island-photo">
+			<img class="blob" src="/img/about/blob-light.svg" alt="" aria-hidden="true" width="300" height="300" />
+			<img class="photo" [src]="content.island.photo.src" [alt]="content.island.photo.alt" loading="lazy" />
+		</div>
+		<div class="island-text">
+			<div class="island-title">
+				<svg viewBox="42 0 128 610" aria-hidden="true" preserveAspectRatio="none">
+					<g
+						transform="translate(18 4) scale(1.35 1)"
+						fill="none"
+						stroke="#2a3478"
+						stroke-width="4"
+						stroke-linejoin="round"
+					>
+						<path
+							d="M40 6 C55 70 64 170 62 260 C60 330 52 420 60 510 C64 555 72 582 80 596 C62 578 44 535 35 455 C25 360 22 220 28 120 C31 70 35 32 40 6 Z"
+							vector-effect="non-scaling-stroke"
+						/>
+						<path
+							d="M93 318 C105 326 109 380 107 440 C105 478 98 494 90 490 C80 484 77 430 79 380 C81 345 85 318 93 318 Z"
+							vector-effect="non-scaling-stroke"
+						/>
+					</g>
+				</svg>
+				<h2 id="o-ostrov">ostrov šán</h2>
+			</div>
+			@for (paragraph of content.island.text | paragraphs; track $index) {
+				<p [innerHTML]="paragraph"></p>
+			}
+			<a class="button" routerLink="/tabor">O táboře</a>
+		</div>
+	</div>
+</section>
+
+<section class="groups" aria-labelledby="o-oddily">
+	<div class="container groups-inner">
+		<div class="groups-text">
+			<h2 id="o-oddily">oddíly</h2>
+			@for (paragraph of content.groups.text | paragraphs; track $index) {
+				<p [innerHTML]="paragraph"></p>
+			}
+			<ul class="pills" aria-label="Oddíly">
+				@for (group of groups; track group.id) {
+					<li [style.background]="group.color" [style.color]="group.text" [title]="group.name">
+						{{ group.id }}
+					</li>
+				}
+				<li class="friends">{{ friends.name }}</li>
+			</ul>
+		</div>
+		<ol class="growth">
+			<li>
+				<svg viewBox="0 0 120 140" aria-hidden="true">
+					<circle cx="50" cy="81.5" r="7.5" fill="#e28f26" />
+					<rect x="40.1" y="92.1" width="19.7" height="24.4" rx="6.9" fill="#e28f26" />
+					<rect x="41.1" y="112.4" width="5.9" height="19.6" rx="3.0" fill="#e28f26" />
+					<rect x="52.9" y="112.4" width="5.9" height="19.6" rx="3.0" fill="#e28f26" />
+					<path d="M6 133 H114" stroke="#9aa1c8" stroke-width="3" stroke-linecap="round" opacity="0.5" />
+				</svg>
+			</li>
+			<li>
+				<svg viewBox="0 0 120 140" aria-hidden="true">
+					<circle cx="50" cy="62.4" r="10.4" fill="#799f3d" />
+					<rect x="36.4" y="75.8" width="27.2" height="33.6" rx="9.5" fill="#799f3d" />
+					<rect x="37.4" y="105.4" width="8.2" height="26.6" rx="4.1" fill="#799f3d" />
+					<rect x="54.4" y="105.4" width="8.2" height="26.6" rx="4.1" fill="#799f3d" />
+					<path d="M6 133 H114" stroke="#9aa1c8" stroke-width="3" stroke-linecap="round" opacity="0.5" />
+				</svg>
+			</li>
+			<li>
+				<svg viewBox="0 0 120 140" aria-hidden="true">
+					<circle cx="50" cy="43.3" r="13.3" fill="#e28f26" />
+					<rect x="32.7" y="59.5" width="34.7" height="42.8" rx="12.1" fill="#e28f26" />
+					<rect x="33.7" y="98.4" width="10.4" height="33.6" rx="5.2" fill="#e28f26" />
+					<rect x="55.9" y="98.4" width="10.4" height="33.6" rx="5.2" fill="#e28f26" />
+					<path d="M6 133 H114" stroke="#9aa1c8" stroke-width="3" stroke-linecap="round" opacity="0.5" />
+				</svg>
+			</li>
+			<li>
+				<svg viewBox="0 0 120 140" aria-hidden="true">
+					<circle cx="50" cy="24.1" r="16.1" fill="#3d63b8" />
+					<rect x="28.9" y="43.2" width="42.2" height="52.1" rx="14.8" fill="#3d63b8" />
+					<path
+						d="M43 44.24 L50 53.24 L57 44.24"
+						fill="none"
+						stroke="#dfe3f5"
+						stroke-width="3"
+						stroke-linejoin="round"
+					/>
+					<circle cx="64.1" cy="57.2" r="4" fill="#e28f26" />
+					<rect x="29.9" y="91.3" width="12.6" height="40.7" rx="6.3" fill="#3d63b8" />
+					<rect x="57.4" y="91.3" width="12.6" height="40.7" rx="6.3" fill="#3d63b8" />
+					<path d="M92 14 L84 130" stroke="#9aa1c8" stroke-width="5" stroke-linecap="round" />
+					<path d="M92 12 C101 22 101 40 93 50 C86 42 85 22 92 12 Z" fill="#9aa1c8" />
+					<path d="M6 133 H114" stroke="#9aa1c8" stroke-width="3" stroke-linecap="round" opacity="0.5" />
+				</svg>
+			</li>
+		</ol>
+	</div>
+</section>

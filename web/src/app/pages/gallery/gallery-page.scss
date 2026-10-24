@@ -1,0 +1,252 @@
+@use "styles/breakpoints" as bp;
+
+:host {
+	display: block;
+}
+
+.hero {
+	background: var(--navy);
+}
+
+.hero-inner {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding: 24px var(--gutter) 40px;
+}
+
+h1 {
+	margin: 0;
+	font-family: var(--font-display);
+	font-weight: 400;
+	font-size: clamp(56px, 12vw, 88px);
+	line-height: 0.9;
+	color: var(--orange);
+}
+
+@include bp.mobile {
+	.hero {
+		background: #fff;
+	}
+
+	.hero-inner {
+		padding-top: 28px;
+	}
+
+	h1 {
+		font-size: 50px;
+		color: var(--navy);
+	}
+}
+
+.main {
+	position: relative;
+	background: var(--light-2);
+	min-height: 60vh;
+}
+
+.years {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding: 48px var(--gutter) 48px;
+
+	@media (max-width: 1439.98px) {
+		padding-right: 110px;
+	}
+
+	@include bp.mobile {
+		padding-top: 40px;
+		padding-right: 64px;
+		padding-bottom: 44px;
+	}
+}
+
+.year {
+	padding-bottom: 32px;
+}
+
+h2 {
+	margin: 0 0 20px;
+	font-family: var(--font-display);
+	font-weight: 400;
+	font-size: 52px;
+	color: var(--navy);
+
+	@include bp.mobile {
+		font-size: 34px;
+	}
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 20px;
+
+	@media (max-width: 1100px) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	@media (max-width: 860px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+	}
+
+	@media (max-width: 560px) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.status {
+	color: var(--muted);
+	font-weight: 700;
+}
+
+.sentinel {
+	height: 1px;
+}
+
+.rail {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 14px;
+	width: 82px;
+	z-index: 2;
+	pointer-events: none;
+
+	@include bp.mobile {
+		right: 6px;
+		width: 50px;
+	}
+}
+
+.rail-sticky {
+	position: sticky;
+	top: 16px;
+	height: min(calc(100dvh - 32px), 820px);
+	margin-top: 48px;
+	background: #fff;
+	border-radius: 22px 18px 24px 16px;
+	padding: 18px 12px 34px 14px;
+	pointer-events: auto;
+	box-shadow: 0 6px 24px rgba(42, 52, 120, 0.08);
+
+	@include bp.mobile {
+		margin-top: 24px;
+		border-radius: 16px 12px 18px 12px;
+		padding: 14px 6px 26px 8px;
+	}
+}
+
+.rail-body {
+	position: relative;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	touch-action: none;
+	user-select: none;
+	cursor: pointer;
+}
+
+.track {
+	position: absolute;
+	left: 6px;
+	top: 0;
+	bottom: 0;
+	width: 4px;
+	border-radius: 2px;
+	background: #e3e6f3;
+
+	@include bp.mobile {
+		left: 4px;
+		width: 3px;
+	}
+}
+
+.row {
+	position: relative;
+	flex: 1 1 0;
+	min-height: 14px;
+
+	@include bp.mobile {
+		min-height: 13px;
+	}
+
+	a {
+		position: absolute;
+		left: 20px;
+		top: 0;
+		font-size: 13px;
+		line-height: 14px;
+		font-weight: 700;
+		color: #5a6292;
+		text-decoration: none;
+
+		@include bp.mobile {
+			left: 12px;
+			font-size: 11px;
+			line-height: 13px;
+		}
+	}
+
+	&:hover a {
+		color: var(--red);
+	}
+}
+
+.dot {
+	position: absolute;
+	left: 5px;
+	top: 4px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: #9aa1c8;
+
+	@include bp.mobile {
+		left: 3px;
+		width: 5px;
+		height: 5px;
+	}
+}
+
+.row.active {
+	a {
+		font-size: 14px;
+		font-weight: 800;
+		color: var(--navy);
+
+		@include bp.mobile {
+			font-size: 11px;
+		}
+	}
+
+	.dot {
+		left: 4px;
+		width: 8px;
+		height: 8px;
+		top: 3px;
+		background: var(--orange);
+
+		@include bp.mobile {
+			left: 2px;
+			width: 7px;
+			height: 7px;
+		}
+	}
+
+	&::before {
+		content: "";
+		position: absolute;
+		left: 6px;
+		top: 0;
+		bottom: 0;
+		width: 4px;
+		border-radius: 2px;
+		background: var(--orange);
+
+		@include bp.mobile {
+			left: 4px;
+			width: 3px;
+		}
+	}
+}

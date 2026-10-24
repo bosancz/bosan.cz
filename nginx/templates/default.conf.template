@@ -1,0 +1,42 @@
+js_import cms_auth from /etc/nginx/njs/cms-auth.js;
+js_fetch_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
+resolver ${NGINX_LOCAL_RESOLVERS} ipv6=off;
+
+server {
+
+  listen 80;
+
+  gzip on;
+  gzip_types application/json application/javascript text/javascript text/css image/svg+xml application/xml text/plain;
+
+  root /usr/share/nginx/html;
+
+  error_page 404 /404/index.html;
+
+  location ~* \.(js|css|woff2?|otf)$ {
+    expires 1y;
+    add_header Cache-Control "public, immutable";
+    try_files $uri =404;
+  }
+
+  location /fotogalerie/ {
+    try_files $uri $uri/index.html /index.csr.html;
+  }
+
+  location /kroniky/ {
+    try_files $uri $uri/index.html /index.csr.html;
+  }
+
+  location = /cms-auth/auth {
+    js_content cms_auth.auth;
+  }
+
+  location = /cms-auth/callback {
+    js_content cms_auth.callback;
+  }
+
+  location / {
+    try_files $uri $uri/index.html =404;
+  }
+
+}

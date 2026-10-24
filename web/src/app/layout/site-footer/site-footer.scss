@@ -1,0 +1,62 @@
+@use "../../../styles/breakpoints" as bp;
+
+:host {
+	display: block;
+	background: var(--navy);
+	color: #c9cee9;
+}
+
+.inner {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding: 48px var(--gutter) 56px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 32px 64px;
+	font-size: 15px;
+	line-height: 1.7;
+
+	@include bp.mobile {
+		padding: 28px var(--gutter) 40px;
+		gap: 20px;
+		font-size: 14px;
+		flex-direction: column;
+	}
+}
+
+.logo img {
+	height: 44px;
+	width: auto;
+
+	@include bp.mobile {
+		height: 36px;
+	}
+}
+
+.heading {
+	color: var(--orange);
+	font-weight: 800;
+}
+
+a {
+	color: #c9cee9;
+	text-decoration: none;
+
+	&:hover {
+		color: #fff;
+		text-decoration: underline;
+	}
+}
+
+.version {
+	margin-left: auto;
+	align-self: flex-end;
+	font-size: 12px;
+	line-height: 1;
+	color: #8f96c4;
+
+	@include bp.mobile {
+		margin-left: 0;
+		align-self: flex-start;
+	}
+}
