@@ -52,11 +52,11 @@
 	</div>
 </nav>
 
-<section class="history" aria-labelledby="o-hist">
+<section class="history" aria-labelledby="z-historie">
 	<div class="history-inner">
 		<div class="history-head">
 			<div class="history-intro">
-				<h2 id="o-hist">z historie</h2>
+				<h2 id="z-historie">z historie</h2>
 				@for (paragraph of content.history.intro | paragraphs; track $index) {
 					<p [innerHTML]="paragraph"></p>
 				}
@@ -165,7 +165,7 @@
 	</div>
 </section>
 
-<section class="island" aria-labelledby="o-ostrov">
+<section class="island" aria-labelledby="ostrov-san">
 	<div class="container island-inner">
 		<div class="island-photo">
 			<img class="blob" src="/img/about/blob-light.svg" alt="" aria-hidden="true" width="300" height="300" />
@@ -191,7 +191,7 @@
 						/>
 					</g>
 				</svg>
-				<h2 id="o-ostrov">ostrov šán</h2>
+				<h2 id="ostrov-san">ostrov šán</h2>
 			</div>
 			@for (paragraph of content.island.text | paragraphs; track $index) {
 				<p [innerHTML]="paragraph"></p>
@@ -201,10 +201,10 @@
 	</div>
 </section>
 
-<section class="groups" aria-labelledby="o-oddily">
+<section class="groups" aria-labelledby="oddily">
 	<div class="container groups-inner">
 		<div class="groups-text">
-			<h2 id="o-oddily">oddíly</h2>
+			<h2 id="oddily">oddíly</h2>
 			@for (paragraph of content.groups.text | paragraphs; track $index) {
 				<p [innerHTML]="paragraph"></p>
 			}

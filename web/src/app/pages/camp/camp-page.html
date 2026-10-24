@@ -1,4 +1,4 @@
-<header class="hero" id="camp-top">
+<header class="hero">
 	<div class="hero-inner">
 		<div class="hero-text">
 			<div class="hero-title">
@@ -38,7 +38,7 @@
 				</li>
 			}
 		</ol>
-		<a class="toc-top" href="#camp-top" (click)="go($event, null)">↑ nahoru</a>
+		<a class="toc-top" href="#" (click)="go($event, null)">↑ nahoru</a>
 	</div>
 	<details class="toc-mobile" [open]="tocOpen()" (toggle)="toggleToc($event)">
 		<summary>
@@ -68,8 +68,8 @@
 </nav>
 
 <main class="main">
-	<section class="turnusy container" aria-labelledby="t-turnusy">
-		<h2 id="t-turnusy" class="h2">tábory</h2>
+	<section class="turnusy container" aria-labelledby="tabory">
+		<h2 id="tabory" class="h2">tábory</h2>
 		<p class="turnusy-lead" [innerHTML]="content.sessions.lead | inlineMarkdown"></p>
 		<div class="turnusy-grid">
 			@for (turnus of sessions; track turnus.id) {
@@ -138,9 +138,9 @@
 		</div>
 	</section>
 
-	<section class="zivot container" aria-labelledby="t-zivot">
+	<section class="zivot container" aria-labelledby="taborovy-zivot">
 		<div class="zivot-text">
-			<h2 id="t-zivot" class="h2">táborový život</h2>
+			<h2 id="taborovy-zivot" class="h2">táborový život</h2>
 			@for (paragraph of content.life.text | paragraphs; track $index) {
 				<p [innerHTML]="paragraph"></p>
 			}
@@ -152,8 +152,8 @@
 		</div>
 	</section>
 
-	<section class="den container" aria-labelledby="t-den">
-		<h2 id="t-den" class="h2 h2-den">jeden den na Šánu</h2>
+	<section class="den container" aria-labelledby="jeden-den-na-sanu">
+		<h2 id="jeden-den-na-sanu" class="h2 h2-den">jeden den na Šánu</h2>
 		<p class="den-lead" [innerHTML]="content.day.lead | inlineMarkdown"></p>
 		<div class="chapters">
 			@for (chapter of content.day.chapters; track $index; let odd = $odd) {
@@ -191,10 +191,10 @@
 		</div>
 	</section>
 
-	<section class="cena" aria-labelledby="t-cena">
+	<section class="cena" aria-labelledby="kolik-to-stoji">
 		<div class="cena-inner container">
 			<div>
-				<h2 id="t-cena" class="h2 h2-cena">kolik to stojí</h2>
+				<h2 id="kolik-to-stoji" class="h2 h2-cena">kolik to stojí</h2>
 				<div class="price-row">
 					<div class="price">{{ prices.members }}</div>
 					<div>pro členy skupiny ŠÁN</div>
@@ -218,7 +218,7 @@
 		</div>
 	</section>
 
-	<section class="ostrov" aria-labelledby="t-ostrov">
+	<section class="ostrov" aria-labelledby="kde-tabor-je">
 		<div class="ostrov-inner container">
 			<div class="ostrov-map">
 				<svg
@@ -291,7 +291,7 @@
 				</svg>
 			</div>
 			<div class="ostrov-text">
-				<h2 id="t-ostrov">kde tábor je</h2>
+				<h2 id="kde-tabor-je">kde tábor je</h2>
 				@for (paragraph of content.location.text | paragraphs; track $index) {
 					<p [innerHTML]="paragraph"></p>
 				}
