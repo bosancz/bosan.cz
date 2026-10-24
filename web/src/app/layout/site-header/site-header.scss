@@ -52,7 +52,7 @@
 		font-weight: 800;
 		font-size: 16px;
 		padding: 12px 20px;
-		border-radius: 12px;
+		border-radius: var(--radius-button);
 		transition: background 0.15s;
 
 		&:hover {

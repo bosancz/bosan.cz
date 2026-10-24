@@ -155,7 +155,7 @@ h1 {
 		font-weight: 800;
 		font-size: 15px;
 		padding: 9px 16px;
-		border-radius: 20px;
+		border-radius: var(--radius-button);
 		color: var(--navy);
 
 		&:hover {
