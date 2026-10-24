@@ -545,7 +545,7 @@
 	font-weight: 800;
 	font-size: 15px;
 	padding: 12px 22px;
-	border-radius: 24px;
+	border-radius: var(--radius-button);
 
 	&:hover {
 		color: #ffffff;
