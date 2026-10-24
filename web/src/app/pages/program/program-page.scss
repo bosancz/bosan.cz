@@ -54,6 +54,7 @@ h1 {
 .filter {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	gap: 10px;
 }
 
@@ -80,6 +81,14 @@ h1 {
 }
 
 .chip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 41px;
+	height: 41px;
+	padding: 0;
+	border-radius: 50%;
+
 	&:hover {
 		filter: brightness(1.1);
 	}
