@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: bosancz/bosan.cz
-  branch: claude/project-thread-q37x2x
+  branch: redesign
   auth_endpoint: cms-auth/auth
   commit_messages:
     create: "docs(web): stránka {{slug}}"
