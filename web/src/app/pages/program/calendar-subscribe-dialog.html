@@ -1,0 +1,146 @@
+<dialog #dialog class="dialog" aria-labelledby="calendar-dialog-title" (click)="onDialogClick($event)">
+	<div class="sheet">
+		<header class="head">
+			<span class="icon">
+				<svg
+					viewBox="0 0 24 24"
+					width="22"
+					height="22"
+					aria-hidden="true"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.4"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<rect x="3" y="5" width="18" height="16" rx="3" />
+					<path d="M16 3v4M8 3v4M3 10h18" />
+				</svg>
+			</span>
+			<div class="titles">
+				<h2 id="calendar-dialog-title">Program v kalendáři</h2>
+				<p>Přidej si program jako odběr. Nové akce i změny se ti v kalendáři objeví samy.</p>
+			</div>
+			<button type="button" class="close" aria-label="Zavřít" (click)="close()">
+				<svg
+					viewBox="0 0 24 24"
+					width="20"
+					height="20"
+					aria-hidden="true"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.6"
+					stroke-linecap="round"
+				>
+					<path d="M6 6l12 12M18 6L6 18" />
+				</svg>
+			</button>
+		</header>
+
+		<div class="body">
+			<h3 class="step">Vyber svůj kalendář</h3>
+			<div class="apps">
+				<a class="app" [href]="googleUrl()" target="_blank" rel="noopener">
+					<span class="app-name">Google Kalendář</span>
+					<span class="app-note">Android, Gmail</span>
+				</a>
+				<a class="app" [href]="webcalUrl()">
+					<span class="app-name">Apple Kalendář</span>
+					<span class="app-note">iPhone, iPad, Mac</span>
+				</a>
+				<a class="app" [href]="outlookUrl()" target="_blank" rel="noopener">
+					<span class="app-name">Outlook</span>
+					<span class="app-note">Outlook.com, Hotmail</span>
+				</a>
+			</div>
+
+			<h3 class="step">Nebo zkopíruj odkaz</h3>
+			<div class="copy">
+				<input
+					#urlInput
+					class="url"
+					type="text"
+					readonly
+					[value]="url()"
+					aria-label="Odkaz na odběr kalendáře"
+					(focus)="selectUrl($event)"
+				/>
+				<button type="button" class="copy-button" [class.done]="copied()" (click)="copy()">
+					{{ copied() ? "Zkopírováno" : "Kopírovat" }}
+				</button>
+			</div>
+			<p class="hint" aria-live="polite">
+				Odkaz vlož do kalendáře jako <strong>odběr z internetu (z adresy URL)</strong>. Soubor .ics nestahuj,
+				ten se přidá jen jednou a sám se neaktualizuje.
+			</p>
+
+			<h3 class="step">Návod krok za krokem</h3>
+			<div class="howto">
+				<details>
+					<summary>Google Kalendář</summary>
+					<ol>
+						<li>
+							Na počítači otevři
+							<a href="https://calendar.google.com" target="_blank" rel="noopener">calendar.google.com</a
+							>. V mobilní aplikaci Google Kalendáře odběr přidat nejde, na telefonu proto otevři stránku
+							v prohlížeči.
+						</li>
+						<li>
+							Vlevo u <strong>Další kalendáře</strong> klikni na <strong>+</strong> a zvol
+							<strong>Z adresy URL</strong>.
+						</li>
+						<li>Vlož zkopírovaný odkaz a klikni na <strong>Přidat kalendář</strong>.</li>
+						<li>
+							Na telefonu se kalendář objeví sám. Když ne, zapni ho v aplikaci v
+							<strong>Nastavení</strong> u svého účtu.
+						</li>
+					</ol>
+					<p>Google odběr obnovuje sám, změny se projeví zhruba do jednoho dne.</p>
+				</details>
+				<details>
+					<summary>Apple Kalendář (iPhone, iPad)</summary>
+					<ol>
+						<li>
+							Otevři <strong>Nastavení</strong> → <strong>Aplikace</strong> → <strong>Kalendář</strong> →
+							<strong>Účty kalendářů</strong> → <strong>Přidat účet</strong> → <strong>Jiné</strong>.
+						</li>
+						<li>
+							Zvol <strong>Přidat odebíraný kalendář</strong>, vlož odkaz a potvrď
+							<strong>Další</strong> a <strong>Uložit</strong>.
+						</li>
+					</ol>
+					<p>Na iPhonu stačí i ťuknout na tlačítko Apple Kalendář výše a odběr potvrdit.</p>
+				</details>
+				<details>
+					<summary>Apple Kalendář (Mac)</summary>
+					<ol>
+						<li>
+							V aplikaci Kalendář zvol v menu <strong>Soubor</strong> →
+							<strong>Nový odběr kalendáře…</strong>
+						</li>
+						<li>Vlož odkaz a klikni na <strong>Odebírat</strong>.</li>
+						<li>
+							U <strong>Automaticky obnovovat</strong> nastav třeba <strong>Každý den</strong> a dej
+							<strong>OK</strong>.
+						</li>
+					</ol>
+				</details>
+				<details>
+					<summary>Outlook</summary>
+					<ol>
+						<li>
+							Na webu Outlooku otevři Kalendář a zvol <strong>Přidat kalendář</strong> →
+							<strong>Odebírat z webu</strong>.
+						</li>
+						<li>Vlož odkaz, pojmenuj kalendář a klikni na <strong>Importovat</strong>.</li>
+					</ol>
+					<p>
+						Máš pracovní nebo školní účet Microsoft 365? Použij
+						<a [href]="office365Url()" target="_blank" rel="noopener">tenhle odkaz</a>. V aplikaci Outlook
+						na počítači je to <strong>Přidat kalendář</strong> → <strong>Z internetu</strong>.
+					</p>
+				</details>
+			</div>
+		</div>
+	</div>
+</dialog>

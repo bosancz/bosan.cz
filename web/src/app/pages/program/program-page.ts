@@ -19,6 +19,8 @@ import { CHILD_GROUPS, GroupInfo, groupInfo, sortGroupIds } from "../../core/gro
 import { eventTypeIcon } from "../../core/event-types";
 import { formatPhone, phoneHref } from "../../core/phone";
 import { MarkdownPipe, markdownToText } from "../../core/markdown";
+import { CalendarSubscribeDialog } from "./calendar-subscribe-dialog";
+import { AddToCalendar } from "./add-to-calendar";
 import { formatDateRange, formatWeekdayRange, monthKey, monthName, parseDate } from "../../core/dates";
 
 interface MonthSection {
@@ -30,7 +32,7 @@ interface MonthSection {
 @Component({
 	selector: "bo-program-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, NgTemplateOutlet, MarkdownPipe],
+	imports: [RouterLink, NgTemplateOutlet, MarkdownPipe, CalendarSubscribeDialog, AddToCalendar],
 	templateUrl: "./program-page.html",
 	styleUrl: "./program-page.scss",
 })

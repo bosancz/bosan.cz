@@ -1,41 +1,41 @@
 <ng-template #panel let-event>
-	@if (event.meeting?.start || event.meeting?.end || event.leaders.length || event._links?.registration) {
-		<div class="panel-row">
-			@if (event.meeting?.start) {
-				<div class="meet">
-					<div class="meet-label">Sraz</div>
-					<div class="meet-value">{{ event.meeting.start }}</div>
-				</div>
-			}
-			@if (event.meeting?.end) {
-				<div class="meet">
-					<div class="meet-label">Návrat</div>
-					<div class="meet-value">{{ event.meeting.end }}</div>
-				</div>
-			}
-			@if (event.leaders.length) {
-				<div class="meet">
-					<div class="meet-label">Vedoucí</div>
-					<ul class="leaders">
-						@for (leader of leadersOf(event); track leader.id) {
-							<li>
-								<span class="leader-name">{{ leader.nickname }}</span>
-								@if (leader.phone) {
-									<a class="leader-phone" [href]="leader.href">
-										<svg viewBox="0 0 24 24" aria-hidden="true">
-											<path
-												d="M6.6 3.5l2.6 3.4-1.7 2.4a12 12 0 0 0 7.2 7.2l2.4-1.7 3.4 2.6-1.6 3.1C11 21 3 13 3.5 5.1z"
-												fill="currentColor"
-											/>
-										</svg>
-										{{ leader.phone }}
-									</a>
-								}
-							</li>
-						}
-					</ul>
-				</div>
-			}
+	<div class="panel-row">
+		@if (event.meeting?.start) {
+			<div class="meet">
+				<div class="meet-label">Sraz</div>
+				<div class="meet-value">{{ event.meeting.start }}</div>
+			</div>
+		}
+		@if (event.meeting?.end) {
+			<div class="meet">
+				<div class="meet-label">Návrat</div>
+				<div class="meet-value">{{ event.meeting.end }}</div>
+			</div>
+		}
+		@if (event.leaders.length) {
+			<div class="meet">
+				<div class="meet-label">Vedoucí</div>
+				<ul class="leaders">
+					@for (leader of leadersOf(event); track leader.id) {
+						<li>
+							<span class="leader-name">{{ leader.nickname }}</span>
+							@if (leader.phone) {
+								<a class="leader-phone" [href]="leader.href">
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<path
+											d="M6.6 3.5l2.6 3.4-1.7 2.4a12 12 0 0 0 7.2 7.2l2.4-1.7 3.4 2.6-1.6 3.1C11 21 3 13 3.5 5.1z"
+											fill="currentColor"
+										/>
+									</svg>
+									{{ leader.phone }}
+								</a>
+							}
+						</li>
+					}
+				</ul>
+			</div>
+		}
+		<div class="actions">
 			@if (event._links?.registration; as registration) {
 				<a class="registration" [href]="registration.href">
 					<svg viewBox="0 0 24 24" aria-hidden="true">
@@ -51,8 +51,9 @@
 					Přihláška
 				</a>
 			}
+			<bo-add-to-calendar [event]="event" />
 		</div>
-	}
+	</div>
 </ng-template>
 
 <ng-template #pills let-event>
@@ -67,7 +68,7 @@
 	<div class="hero-inner">
 		<div class="hero-top">
 			<h1>program</h1>
-			<a class="ical-button" [href]="icalUrl">
+			<a class="ical-button" [href]="icalUrl" (click)="calendarDialog.open($event)">
 				<svg
 					viewBox="0 0 24 24"
 					width="18"
@@ -82,7 +83,7 @@
 					<rect x="3" y="5" width="18" height="16" rx="3" />
 					<path d="M16 3v4M8 3v4M3 10h18" />
 				</svg>
-				Odebírat v kalendáři (iCal)
+				Odebírat v kalendáři
 			</a>
 		</div>
 
@@ -293,15 +294,9 @@
 					<p>Nové akce se ti samy objeví v telefonu.</p>
 				</div>
 			</div>
-			<a class="calendar-button" [href]="icalUrl">Odebírat v kalendáři (iCal)</a>
-			<details class="howto">
-				<summary>Jak odběr nastavit</summary>
-				<p>
-					V kalendářové aplikaci najdi přidání kalendáře z internetu (z adresy URL) a vlož odkaz
-					<a [href]="icalUrl">{{ icalUrl }}</a
-					>. U Google Kalendáře se to dělá v prohlížeči a pak je potřeba kalendář v aplikaci zapnout.
-				</p>
-			</details>
+			<a class="calendar-button" [href]="icalUrl" (click)="calendarDialog.open($event)">Odebírat v kalendáři</a>
 		</aside>
 	</div>
 </main>
+
+<bo-calendar-subscribe-dialog #calendarDialog [url]="icalUrl" />
