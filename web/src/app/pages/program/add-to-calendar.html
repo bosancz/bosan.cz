@@ -1,4 +1,12 @@
-<button type="button" class="toggle" [attr.aria-expanded]="open()" aria-haspopup="true" (click)="toggle()">
+<button
+	type="button"
+	class="toggle"
+	aria-label="Přidat do kalendáře"
+	title="Přidat do kalendáře"
+	[attr.aria-expanded]="open()"
+	aria-haspopup="true"
+	(click)="toggle()"
+>
 	<svg
 		viewBox="0 0 24 24"
 		aria-hidden="true"
@@ -11,7 +19,6 @@
 		<rect x="3" y="5" width="18" height="16" rx="3" />
 		<path d="M16 3v4M8 3v4M3 10h18M12 13v5M9.5 15.5h5" />
 	</svg>
-	Do kalendáře
 </button>
 @if (open()) {
 	<ul class="menu">
