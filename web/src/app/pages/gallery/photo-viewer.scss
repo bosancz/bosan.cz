@@ -11,11 +11,35 @@
 .stage {
 	position: absolute;
 	inset: 64px 0 0;
+	overflow: hidden;
+	touch-action: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+
+	&.zoomed {
+		cursor: grab;
+	}
+
+	&.gesturing {
+		.slide,
+		.photo {
+			transition: none;
+		}
+
+		&.zoomed {
+			cursor: grabbing;
+		}
+	}
+}
+
+.slide {
+	position: absolute;
+	inset: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	touch-action: pan-y pinch-zoom;
 	padding: 0 64px 16px;
+	transition: transform 0.25s ease-out;
 }
 
 .photo {
@@ -28,10 +52,7 @@
 	border-radius: 8px;
 	user-select: none;
 	-webkit-user-drag: none;
-
-	&:not(.dragging) {
-		transition: transform 0.2s ease;
-	}
+	transition: transform 0.25s ease-out;
 }
 
 .bar {
@@ -113,7 +134,7 @@
 }
 
 @media (max-width: 860px) {
-	.stage {
+	.slide {
 		padding: 0 0 12px;
 	}
 
