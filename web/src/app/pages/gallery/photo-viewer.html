@@ -1,22 +1,35 @@
 <div class="viewer" role="dialog" aria-modal="true" [attr.aria-label]="'Fotografie z alba ' + albumName()">
 	<div
+		#stage
 		class="stage"
+		[class.gesturing]="gesturing()"
+		[class.zoomed]="zoomed()"
 		(pointerdown)="onPointerDown($event)"
 		(pointermove)="onPointerMove($event)"
 		(pointerup)="onPointerUp($event)"
 		(pointercancel)="onPointerUp($event)"
+		(transitionend)="onTransitionEnd($event)"
+		(transitioncancel)="onTransitionEnd($event)"
 	>
-		<img
-			class="photo"
-			[class.dragging]="dragging()"
-			[src]="size().url"
-			[attr.width]="size().width"
-			[attr.height]="size().height"
-			[alt]="alt()"
-			[style.background]="current().bg"
-			[style.transform]="'translateX(' + dragX() + 'px)'"
-			draggable="false"
-		/>
+		@for (slide of slides(); track slide.photo._id) {
+			<div
+				class="slide"
+				[class.current]="slide.pos === 0"
+				[style.transform]="slideTransform(slide.pos)"
+				[attr.aria-hidden]="slide.pos === 0 ? null : 'true'"
+			>
+				<img
+					class="photo"
+					[src]="slide.size.url"
+					[attr.width]="slide.size.width"
+					[attr.height]="slide.size.height"
+					[alt]="slide.alt"
+					[style.background]="slide.photo.bg"
+					[style.transform]="slide.pos === 0 ? zoomTransform() : null"
+					draggable="false"
+				/>
+			</div>
+		}
 	</div>
 
 	<div class="bar">
