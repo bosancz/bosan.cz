@@ -12,6 +12,7 @@ import { DOCUMENT, NgTemplateOutlet } from "@angular/common";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { map } from "rxjs";
+import { AccountService } from "../../core/account.service";
 import { ApiService } from "../../core/api.service";
 import { SeoService } from "../../core/seo.service";
 import { ProgramEvent } from "../../core/schema";
@@ -51,6 +52,7 @@ export class ProgramPage {
 	private readonly route = inject(ActivatedRoute);
 	private readonly document = inject(DOCUMENT);
 	private readonly injector = inject(Injector);
+	protected readonly account = inject(AccountService);
 
 	protected readonly program = this.api.program();
 	protected readonly icalUrl = this.api.icalUrl();

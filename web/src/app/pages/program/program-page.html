@@ -1,3 +1,29 @@
+<ng-template #interniLink let-event>
+	@if (account.isLeader()) {
+		<a
+			class="interni-link"
+			[href]="account.eventUrl(event._id)"
+			target="_blank"
+			rel="noopener"
+			aria-label="Otevřít v interní sekci"
+			title="Otevřít v interní sekci"
+		>
+			<svg
+				viewBox="0 0 24 24"
+				aria-hidden="true"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.4"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d="M4 20h4L19 9l-4-4L4 16z" />
+				<path d="M13.5 6.5l4 4" />
+			</svg>
+		</a>
+	}
+</ng-template>
+
 <ng-template #panel let-event>
 	<div class="panel-row">
 		@if (event.meeting?.start) {
@@ -52,6 +78,7 @@
 				</a>
 			}
 			<bo-add-to-calendar [event]="event" />
+			<ng-container [ngTemplateOutlet]="interniLink" [ngTemplateOutletContext]="{ $implicit: event }" />
 		</div>
 	</div>
 </ng-template>
