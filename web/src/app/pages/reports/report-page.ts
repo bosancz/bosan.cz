@@ -15,7 +15,7 @@ import { groupInfo, sortGroupIds } from "../../core/groups";
 import { MarkdownPipe, markdownToText } from "../../core/markdown";
 import { PublicReport } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
-import { reportDates, reportPhoto, reportWater } from "./report-format";
+import { chronicleSize, reportDates, reportPhoto, reportWater } from "./report-format";
 import { TypographyPipe } from "../../core/typography";
 
 @Component({
@@ -32,6 +32,7 @@ export class ReportPage implements OnInit {
 	private readonly seo = inject(SeoService);
 	private readonly source = signal<LiveData<PublicReport> | undefined>(undefined);
 
+	protected readonly chronicleSize = chronicleSize;
 	protected readonly data = computed(() => this.source()?.value());
 	protected readonly failed = computed(() => !this.data() && !!this.source()?.error());
 	protected readonly dates = computed(() => {
@@ -77,7 +78,7 @@ export class ReportPage implements OnInit {
 		const path = `/kroniky/${report._id}`;
 		this.seo.set({
 			title: `${name} – kronika akce`,
-			description: text.slice(0, 160),
+			description: (text || `Kronika akce ${name} v PDF ke stažení.`).slice(0, 160),
 			path,
 			image: `/og/report-${report._id}.jpg`,
 			imageSize: OG_IMAGE_SIZE,
