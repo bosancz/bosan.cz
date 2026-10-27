@@ -29,6 +29,7 @@ jobs:
       tag: test
       build-args: |
         NG_CONFIGURATION=test
+        BASIC_AUTH=bosan:bosan
         VERSION=TEST-${{ needs.version.outputs.version }}
     secrets:
       username: ${{ github.actor }}

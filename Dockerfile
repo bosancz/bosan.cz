@@ -15,7 +15,19 @@ RUN node scripts/set-version.mjs && npx ng build --configuration="${NG_CONFIGURA
 
 FROM nginx:alpine
 
+ARG NG_CONFIGURATION=production
+ARG BASIC_AUTH
+
 ENV NGINX_ENTRYPOINT_LOCAL_RESOLVERS=1
+
+RUN { \
+		if [ "$NG_CONFIGURATION" != "production" ]; then echo 'add_header X-Robots-Tag "noindex, nofollow" always;'; fi; \
+		if [ -n "$BASIC_AUTH" ]; then \
+			printf '%s:{PLAIN}%s\n' "${BASIC_AUTH%%:*}" "${BASIC_AUTH#*:}" > /etc/nginx/htpasswd; \
+			echo 'auth_basic "bosan.cz";'; \
+			echo 'auth_basic_user_file /etc/nginx/htpasswd;'; \
+		fi; \
+	} > /etc/nginx/site-access.conf
 
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/templates /etc/nginx/templates

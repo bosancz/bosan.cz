@@ -11,6 +11,8 @@ server {
 
   root /usr/share/nginx/html;
 
+  include /etc/nginx/site-access.conf;
+
   error_page 404 /404/index.html;
 
   location ~* \.(js|css|woff2?|otf)$ {
@@ -25,6 +27,10 @@ server {
 
   location /kroniky/ {
     try_files $uri $uri/index.html /index.csr.html;
+  }
+
+  location = /robots.txt {
+    auth_basic off;
   }
 
   location = /cms-auth/auth {
