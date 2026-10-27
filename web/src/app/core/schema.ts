@@ -95,9 +95,17 @@ export interface PublicReport {
 	dateTill: string;
 	groups: string[];
 	leaders: { nickname: string }[];
-	report: string;
+	report: string | null;
 	reportPublishedAt: string;
 	river: string | null;
 	waterKm: number | null;
 	album: { _id: string; name: string; titlePhoto?: Photo | null } | null;
+	chronicle?: ReportChronicle | null;
+}
+
+export interface ReportChronicle {
+	fileName: string;
+	size: number;
+	updatedAt: string;
+	url: string;
 }

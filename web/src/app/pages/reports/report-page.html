@@ -55,7 +55,11 @@
 						[style.background]="report.album?.titlePhoto?.bg ?? '#c9cee9'"
 					/>
 				}
-				<div class="body" [innerHTML]="report.report | markdown"></div>
+				@if (report.report) {
+					<div class="body" [innerHTML]="report.report | markdown"></div>
+				} @else if (report.chronicle) {
+					<div class="body"><p>Kroniku z akce najdete v PDF ke stažení.</p></div>
+				}
 				<footer class="footer">
 					@if (leaders()) {
 						<div class="leaders"><strong>Vedli:</strong> {{ leaders() }}</div>
@@ -63,6 +67,15 @@
 					<div class="links">
 						@if (report.album; as album) {
 							<a class="button" [routerLink]="['/fotogalerie', album._id]">Fotky z akce</a>
+						}
+						@if (report.chronicle; as chronicle) {
+							<a
+								class="button"
+								[class.secondary]="report.album"
+								[href]="chronicle.url + '?download'"
+								download
+								>Kronika v PDF ({{ chronicleSize(chronicle) }})</a
+							>
 						}
 						<a routerLink="/kroniky">Další kroniky</a>
 					</div>
