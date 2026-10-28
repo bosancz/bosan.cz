@@ -152,13 +152,6 @@ h1 {
 	}
 }
 
-.cover {
-	display: block;
-	width: 100%;
-	aspect-ratio: 16 / 9;
-	object-fit: cover;
-}
-
 .body {
 	padding: 32px 40px 8px;
 	font-size: 18px;
@@ -267,7 +260,6 @@ h1 {
 		}
 	}
 
-	.cover + &,
 	&:first-child {
 		padding-top: 32px;
 	}

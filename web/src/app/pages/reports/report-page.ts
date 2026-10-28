@@ -51,10 +51,6 @@ export class ReportPage implements OnInit {
 		return report ? reportWater(report) : "";
 	});
 	protected readonly leaders = computed(() => (this.data()?.leaders ?? []).map((l) => l.nickname).join(", "));
-	protected readonly photo = computed(() => {
-		const report = this.data();
-		return report ? reportPhoto(report, "big") : null;
-	});
 
 	protected readonly photos = computed<Photo[]>(() =>
 		(this.albumSource()?.value()?.photos ?? []).filter((p) => p.sizes?.small),

@@ -7,9 +7,11 @@ export function reportDates(report: PublicReport): string {
 }
 
 export function reportExcerpt(text: string | null, max: number): string {
-	const first = markdownToText((text ?? "").split(/\n\s*\n/)[0]);
-	if (first.length <= max) return first;
-	const cut = first.slice(0, max);
+	const plain = markdownToText(text ?? "")
+		.replace(/\s+/g, " ")
+		.trim();
+	if (plain.length <= max) return plain;
+	const cut = plain.slice(0, max);
 	return cut.slice(0, Math.max(cut.lastIndexOf(" "), 40)).replace(/[,.;:–-]+$/, "") + "…";
 }
 

@@ -47,14 +47,6 @@
 	<div class="inner">
 		@if (data(); as report) {
 			<article class="article">
-				@if (photo(); as url) {
-					<img
-						class="cover"
-						[src]="url"
-						[alt]="'Fotka z akce ' + report.name.trim()"
-						[style.background]="report.album?.titlePhoto?.bg ?? '#c9cee9'"
-					/>
-				}
 				@if (report.report) {
 					<div class="body" [innerHTML]="report.report | markdown"></div>
 				}

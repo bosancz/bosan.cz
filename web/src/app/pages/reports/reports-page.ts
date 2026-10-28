@@ -40,8 +40,6 @@ export class ReportsPage {
 				text: reportExcerpt(report.report, 260),
 				photo: reportPhoto(report, "small"),
 				bg: report.album?.titlePhoto?.bg ?? "#c9cee9",
-				albumId: report.album?._id ?? null,
-				chronicleUrl: report.chronicle ? report.chronicle.url : null,
 			})),
 	);
 
