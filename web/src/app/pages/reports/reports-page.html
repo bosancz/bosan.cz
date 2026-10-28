@@ -1,7 +1,6 @@
 <section class="hero">
 	<div class="hero-inner">
-		<h1>kroniky</h1>
-		<p class="lead">O čem byly naše výpravy, vodácké akce a tábory.</p>
+		<h1>jak jsme se měli</h1>
 	</div>
 </section>
 
@@ -11,17 +10,12 @@
 			<ul class="list">
 				@for (report of reports(); track report.id) {
 					<li>
-						<article class="report">
-							<a
-								class="photo"
-								[routerLink]="['/kroniky', report.id]"
-								[style.background]="report.bg"
-								tabindex="-1"
-							>
+						<a class="report" [routerLink]="['/kroniky', report.id]">
+							<div class="photo" [style.background]="report.bg">
 								@if (report.photo) {
 									<img [src]="report.photo" [alt]="'Fotka z akce ' + report.name" loading="lazy" />
 								}
-							</a>
+							</div>
 							<div class="text">
 								<div class="meta">
 									<time [attr.datetime]="report.from">{{ report.dates }}</time>
@@ -42,23 +36,12 @@
 										</span>
 									}
 								</div>
-								<h2>
-									<a [routerLink]="['/kroniky', report.id]">{{ report.name | typography }}</a>
-								</h2>
+								<h2>{{ report.name | typography }}</h2>
 								@if (report.text) {
 									<p class="excerpt">{{ report.text }}</p>
 								}
-								<div class="links">
-									<a [routerLink]="['/kroniky', report.id]">Celá kronika</a>
-									@if (report.albumId) {
-										<a [routerLink]="['/fotogalerie', report.albumId]">Fotky z akce</a>
-									}
-									@if (report.chronicleUrl) {
-										<a [href]="report.chronicleUrl" target="_blank" rel="noopener">Kronika v PDF</a>
-									}
-								</div>
 							</div>
-						</article>
+						</a>
 					</li>
 				}
 			</ul>

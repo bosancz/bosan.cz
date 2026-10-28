@@ -14,3 +14,9 @@ export function albumDates(from: string, till?: string | null): string {
 export function albumName(name: string): string {
 	return name.trim();
 }
+
+export function photoCount(count: number): string {
+	if (count === 1) return "1 fotografie";
+	if (count >= 2 && count <= 4) return `${count} fotografie`;
+	return `${count} fotografií`;
+}

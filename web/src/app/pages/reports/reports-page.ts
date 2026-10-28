@@ -40,8 +40,6 @@ export class ReportsPage {
 				text: reportExcerpt(report.report, 260),
 				photo: reportPhoto(report, "small"),
 				bg: report.album?.titlePhoto?.bg ?? "#c9cee9",
-				albumId: report.album?._id ?? null,
-				chronicleUrl: report.chronicle ? report.chronicle.url : null,
 			})),
 	);
 
@@ -58,7 +56,7 @@ export class ReportsPage {
 
 	constructor() {
 		inject(SeoService).set({
-			title: "Kroniky akcí",
+			title: "Jak jsme se měli",
 			description: "O čem byly výpravy, vodácké akce a tábory dětské vodácké skupiny ŠÁN.",
 			path: "/kroniky",
 			image: "/img/og-default.jpg",

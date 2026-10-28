@@ -13,15 +13,17 @@ import { RouterLink } from "@angular/router";
 import { ApiService, LiveData } from "../../core/api.service";
 import { groupInfo, sortGroupIds } from "../../core/groups";
 import { MarkdownPipe, markdownToText } from "../../core/markdown";
-import { PublicReport } from "../../core/schema";
+import { Album, Photo, PublicReport } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
 import { chronicleSize, reportDates, reportPhoto, reportWater } from "./report-format";
 import { TypographyPipe } from "../../core/typography";
+import { photoCount } from "../gallery/gallery-dates";
+import { PhotoGrid } from "../gallery/photo-grid";
 
 @Component({
 	selector: "bo-report-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, MarkdownPipe, TypographyPipe],
+	imports: [RouterLink, MarkdownPipe, TypographyPipe, PhotoGrid],
 	templateUrl: "./report-page.html",
 	styleUrl: "./report-page.scss",
 })
@@ -32,7 +34,11 @@ export class ReportPage implements OnInit {
 	private readonly seo = inject(SeoService);
 	private readonly source = signal<LiveData<PublicReport> | undefined>(undefined);
 
+	private readonly albumSource = signal<LiveData<Album> | undefined>(undefined);
+	private albumId?: string;
+
 	protected readonly chronicleSize = chronicleSize;
+	protected readonly photoCount = photoCount;
 	protected readonly data = computed(() => this.source()?.value());
 	protected readonly failed = computed(() => !this.data() && !!this.source()?.error());
 	protected readonly dates = computed(() => {
@@ -45,16 +51,26 @@ export class ReportPage implements OnInit {
 		return report ? reportWater(report) : "";
 	});
 	protected readonly leaders = computed(() => (this.data()?.leaders ?? []).map((l) => l.nickname).join(", "));
-	protected readonly photo = computed(() => {
-		const report = this.data();
-		return report ? reportPhoto(report, "big") : null;
-	});
+
+	protected readonly photos = computed<Photo[]>(() =>
+		(this.albumSource()?.value()?.photos ?? []).filter((p) => p.sizes?.small),
+	);
+	protected readonly albumFailed = computed(() => !!this.albumSource()?.error());
 
 	ngOnInit(): void {
 		this.source.set(this.api.report(this.report()));
 	}
 
 	constructor() {
+		effect(() => {
+			const albumId = this.data()?.album?._id;
+			untracked(() => {
+				if (!albumId || albumId === this.albumId) return;
+				this.albumId = albumId;
+				this.albumSource.set(this.api.album(albumId));
+			});
+		});
+
 		effect(() => {
 			const report = this.data();
 			const failed = this.failed();
