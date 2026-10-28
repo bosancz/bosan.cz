@@ -11,7 +11,7 @@
 					stroke-linejoin="round"
 				/>
 			</svg>
-			Kroniky
+			Jak jsme se měli
 		</a>
 		@if (data(); as report) {
 			<div class="kicker">kronika akce</div>
@@ -57,33 +57,55 @@
 				}
 				@if (report.report) {
 					<div class="body" [innerHTML]="report.report | markdown"></div>
-				} @else if (report.chronicle) {
-					<div class="body"><p>Kroniku z akce najdete v PDF ke stažení.</p></div>
 				}
-				<footer class="footer">
-					@if (leaders()) {
-						<div class="leaders"><strong>Vedli:</strong> {{ leaders() }}</div>
-					}
-					<div class="links">
-						@if (report.album; as album) {
-							<a class="button" [routerLink]="['/fotogalerie', album._id]">Fotky z akce</a>
-						}
-						@if (report.chronicle; as chronicle) {
-							<a
-								class="button"
-								[class.secondary]="report.album"
-								[href]="chronicle.url"
-								target="_blank"
-								rel="noopener"
-								>Kronika v PDF ({{ chronicleSize(chronicle) }})</a
-							>
-						}
-						<a routerLink="/kroniky">Další kroniky</a>
+				@if (report.chronicle; as chronicle) {
+					<div class="chronicle">
+						<a class="button" [href]="chronicle.url" target="_blank" rel="noopener">
+							<svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+								<path
+									d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2.2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+							Otevřít kroniku
+						</a>
+						<span class="size">PDF, {{ chronicleSize(chronicle) }}</span>
 					</div>
-				</footer>
+				}
+				@if (leaders()) {
+					<footer class="footer">
+						<div class="leaders"><strong>Vedli:</strong> {{ leaders() }}</div>
+					</footer>
+				}
 			</article>
+
+			@if (report.album; as album) {
+				<section class="gallery">
+					<div class="gallery-head">
+						<h2>Fotogalerie</h2>
+						@if (photos().length) {
+							<span class="count">{{ photoCount(photos().length) }}</span>
+						}
+						<a class="album-link" [routerLink]="['/fotogalerie', album._id]">Otevřít album</a>
+					</div>
+					@if (photos().length) {
+						<bo-photo-grid
+							[albumId]="album._id"
+							[albumName]="report.name.trim()"
+							[photos]="photos()"
+							[eager]="0"
+						/>
+					} @else if (albumFailed()) {
+						<p class="status">Fotky se nepodařilo načíst.</p>
+					}
+				</section>
+			}
 		} @else if (failed()) {
-			<p class="status">Tuhle kroniku jsme nenašli. <a routerLink="/kroniky">Zpět na všechny kroniky</a></p>
+			<p class="status">Tuhle kroniku jsme nenašli. <a routerLink="/kroniky">Zpět na Jak jsme se měli</a></p>
 		}
 	</div>
 </main>

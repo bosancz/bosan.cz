@@ -15,22 +15,17 @@ import { RouterLink } from "@angular/router";
 import { ApiService, LiveData } from "../../core/api.service";
 import { Album, Photo } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
-import { albumDates, albumName } from "./gallery-dates";
+import { albumDates, albumName, photoCount } from "./gallery-dates";
+import { PhotoGrid } from "./photo-grid";
 import { PhotoViewer } from "./photo-viewer";
 import { MarkdownPipe, markdownToText } from "../../core/markdown";
 import { TypographyPipe } from "../../core/typography";
 
 const albumCache = new Map<string, Album>();
 
-export function photoCount(count: number): string {
-	if (count === 1) return "1 fotografie";
-	if (count >= 2 && count <= 4) return `${count} fotografie`;
-	return `${count} fotografií`;
-}
-
 @Component({
 	selector: "bo-album-page",
-	imports: [RouterLink, PhotoViewer, MarkdownPipe, TypographyPipe],
+	imports: [RouterLink, PhotoGrid, PhotoViewer, MarkdownPipe, TypographyPipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: "./album-page.html",
 	styleUrl: "./album-page.scss",
@@ -85,11 +80,6 @@ export class AlbumPage implements OnInit {
 				}
 			});
 		});
-	}
-
-	protected ratio(photo: Photo): number {
-		const size = photo.sizes.small!;
-		return size.width / size.height;
 	}
 
 	private setSeo(album: Album): void {

@@ -23,13 +23,6 @@ h1 {
 	color: var(--orange);
 }
 
-.lead {
-	margin: 16px 0 0;
-	font-size: 18px;
-	font-weight: 700;
-	color: #c9cee9;
-}
-
 @include bp.mobile {
 	.hero {
 		background: #fff;
@@ -43,11 +36,6 @@ h1 {
 	h1 {
 		font-size: 50px;
 		color: var(--navy);
-	}
-
-	.lead {
-		font-size: 16px;
-		color: var(--muted);
 	}
 }
 
