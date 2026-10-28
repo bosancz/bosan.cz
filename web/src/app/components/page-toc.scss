@@ -1,0 +1,145 @@
+@use "styles/breakpoints" as bp;
+
+:host {
+	display: block;
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	background: #fff;
+	border-bottom: 1px solid #e3e6f3;
+	box-shadow: 0 6px 18px rgba(42, 52, 120, 0.08);
+}
+
+.toc-label {
+	font-size: 12px;
+	line-height: 1;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--muted);
+	padding-top: 2px;
+}
+
+ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.toc-desktop {
+	display: flex;
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding-left: var(--gutter);
+	padding-right: var(--gutter);
+	align-items: center;
+	gap: 16px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+
+	ol {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+	}
+
+	li a {
+		display: block;
+		text-decoration: none;
+		font-weight: 800;
+		font-size: 15px;
+		padding: 9px 16px;
+		border-radius: 20px;
+		color: var(--navy);
+
+		&.active {
+			background: var(--navy);
+			color: #fff;
+		}
+	}
+}
+
+.to-top {
+	margin-left: auto;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--muted);
+	text-decoration: none;
+}
+
+.toc-mobile {
+	display: none;
+}
+
+.toc-summary {
+	all: unset;
+	box-sizing: border-box;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 48px;
+	padding: 0 16px;
+	cursor: pointer;
+
+	.toc-label {
+		font-size: 11px;
+	}
+
+	.toc-current {
+		font-size: 15px;
+		font-weight: 800;
+		color: var(--navy);
+	}
+
+	svg {
+		width: 18px;
+		height: 18px;
+		margin-left: auto;
+		flex-shrink: 0;
+		fill: none;
+		stroke: var(--navy);
+		stroke-width: 2.6;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+
+		&.open {
+			transform: rotate(180deg);
+		}
+	}
+}
+
+.toc-mobile ol {
+	padding-bottom: 6px;
+
+	a {
+		display: flex;
+		align-items: center;
+		min-height: 44px;
+		padding: 0 16px;
+		text-decoration: none;
+		font-weight: 800;
+		font-size: 15px;
+		color: var(--navy);
+		border-top: 1px solid #e3e6f3;
+
+		&.active {
+			color: var(--orange);
+		}
+	}
+}
+
+@include bp.mobile {
+	:host {
+		box-shadow: 0 6px 18px rgba(42, 52, 120, 0.12);
+		border-bottom: 0;
+	}
+
+	.toc-desktop {
+		display: none;
+	}
+
+	.toc-mobile {
+		display: block;
+	}
+}
