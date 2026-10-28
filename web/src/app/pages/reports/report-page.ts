@@ -64,6 +64,7 @@ export class ReportPage implements OnInit {
 			{ id: "fotogalerie", label: "fotogalerie" },
 		];
 	});
+	protected readonly downloadHref = computed(() => this.albumSource()?.value()?._links?.download?.href);
 	protected readonly albumFailed = computed(() => !!this.albumSource()?.error());
 
 	ngOnInit(): void {

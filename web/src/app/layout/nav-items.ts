@@ -6,7 +6,7 @@ export interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
 	{ label: "Aktuálně", path: "/" },
 	{ label: "Program", path: "/program" },
-	{ label: "Fotogalerie", path: "/fotogalerie" },
+	{ label: "Jak jsme se měli", path: "/fotogalerie" },
 	{ label: "Tábor", path: "/tabor" },
 	{ label: "O nás", path: "/o-nas" },
 	{ label: "Kontakty", path: "/kontakty" },

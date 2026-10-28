@@ -1,18 +1,8 @@
-import { markdownToText } from "../../core/markdown";
 import { PublicReport, ReportChronicle } from "../../core/schema";
 import { albumDates } from "../gallery/gallery-dates";
 
 export function reportDates(report: PublicReport): string {
 	return `${albumDates(report.dateFrom, report.dateTill)} ${report.dateFrom.slice(0, 4)}`;
-}
-
-export function reportExcerpt(text: string | null, max: number): string {
-	const plain = markdownToText(text ?? "")
-		.replace(/\s+/g, " ")
-		.trim();
-	if (plain.length <= max) return plain;
-	const cut = plain.slice(0, max);
-	return cut.slice(0, Math.max(cut.lastIndexOf(" "), 40)).replace(/[,.;:–-]+$/, "") + "…";
 }
 
 export function reportWater(report: PublicReport): string {

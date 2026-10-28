@@ -1,6 +1,6 @@
 <section class="hero">
 	<div class="hero-inner">
-		<a class="back" routerLink="/kroniky">
+		<a class="back" routerLink="/fotogalerie">
 			<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16">
 				<path
 					d="M15 6l-6 6 6 6"
@@ -84,7 +84,9 @@
 						@if (photos().length) {
 							<span class="count">{{ photoCount(photos().length) }}</span>
 						}
-						<a class="album-link" [routerLink]="['/fotogalerie', album._id]">Otevřít album</a>
+						@if (downloadHref(); as href) {
+							<a class="album-link" [href]="href" download>Stáhnout album</a>
+						}
 					</div>
 					@if (photos().length) {
 						<bo-photo-grid
@@ -99,7 +101,7 @@
 				</section>
 			}
 		} @else if (failed()) {
-			<p class="status">Tuhle kroniku jsme nenašli. <a routerLink="/kroniky">Zpět na Jak jsme se měli</a></p>
+			<p class="status">Tuhle kroniku jsme nenašli. <a routerLink="/fotogalerie">Zpět na Jak jsme se měli</a></p>
 		}
 	</div>
 </main>

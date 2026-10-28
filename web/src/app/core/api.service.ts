@@ -109,19 +109,24 @@ export class ApiService {
 
 	async fetchGalleryAlbumIds(): Promise<string[]> {
 		const albums = await firstValueFrom(this.http.get<Album[]>(this.url("/public/gallery")));
-		return albums.map((album) => album._id);
+		const reported = new Set((await this.fetchAllReports()).map((report) => report.album?._id));
+		return albums.map((album) => album._id).filter((id) => !reported.has(id));
 	}
 
 	async fetchReportIds(): Promise<string[]> {
-		const ids: string[] = [];
+		return (await this.fetchAllReports()).map((report) => report._id);
+	}
+
+	private async fetchAllReports(): Promise<PublicReport[]> {
+		const reports: PublicReport[] = [];
 		try {
 			for (let offset = 0; ; offset += REPORTS_PAGE) {
 				const page = await this.fetchReports(offset);
-				ids.push(...page.map((report) => report._id));
-				if (page.length < REPORTS_PAGE) return ids;
+				reports.push(...page);
+				if (page.length < REPORTS_PAGE) return reports;
 			}
 		} catch {
-			return ids;
+			return reports;
 		}
 	}
 }

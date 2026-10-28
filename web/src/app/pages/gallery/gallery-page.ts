@@ -12,15 +12,36 @@ import {
 } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import { ApiService } from "../../core/api.service";
-import { Album } from "../../core/schema";
+import { Album, PublicReport } from "../../core/schema";
 import { parseDate } from "../../core/dates";
 import { SeoService } from "../../core/seo.service";
 import { AlbumCard } from "./album-card";
 
+interface GalleryItem {
+	key: string;
+	album: Album;
+	reportId: string | null;
+	hasAlbum: boolean;
+}
+
 interface YearGroup {
 	year: number;
-	albums: Album[];
+	items: GalleryItem[];
 	weight: number;
+}
+
+function reportAlbum(report: PublicReport): Album {
+	return {
+		_id: report._id,
+		year: Number(report.dateFrom.slice(0, 4)),
+		status: "public",
+		name: report.name,
+		description: null,
+		datePublished: report.reportPublishedAt,
+		dateFrom: report.dateFrom,
+		dateTill: report.dateTill,
+		titlePhotos: [],
+	};
 }
 
 const INITIAL_YEARS = 2;
@@ -41,33 +62,51 @@ export class GalleryPage {
 	private readonly sentinel = viewChild<ElementRef<HTMLElement>>("sentinel");
 
 	protected readonly albums = this.api.gallery();
+	private readonly reports = this.api.reports();
 	protected readonly loadedYears = signal(INITIAL_YEARS);
 	protected readonly activeYear = signal<number | undefined>(undefined);
 
 	protected readonly groups = computed<YearGroup[]>(() => {
-		const byYear = new Map<number, Album[]>();
-		for (const album of this.albums.value() ?? []) {
-			if (!album.dateFrom) continue;
-			const year = parseDate(album.dateFrom).getUTCFullYear();
-			byYear.set(year, [...(byYear.get(year) ?? []), album]);
+		const reports = this.reports.value() ?? [];
+		const reportByAlbum = new Map(reports.filter((r) => r.album).map((r) => [r.album!._id, r._id]));
+		const items: GalleryItem[] = [
+			...(this.albums.value() ?? []).map((album) => ({
+				key: `album-${album._id}`,
+				album,
+				reportId: reportByAlbum.get(album._id) ?? null,
+				hasAlbum: true,
+			})),
+			...reports
+				.filter((r) => !r.album)
+				.map((r) => ({ key: `report-${r._id}`, album: reportAlbum(r), reportId: r._id, hasAlbum: false })),
+		];
+		const byYear = new Map<number, GalleryItem[]>();
+		for (const item of items) {
+			if (!item.album.dateFrom) continue;
+			const year = parseDate(item.album.dateFrom).getUTCFullYear();
+			byYear.set(year, [...(byYear.get(year) ?? []), item]);
 		}
 		return [...byYear.entries()]
 			.sort((a, b) => b[0] - a[0])
-			.map(([year, albums]) => ({ year, albums, weight: albums.length + 4 }));
+			.map(([year, items]) => ({
+				year,
+				items: items.sort((a, b) => b.album.dateFrom.localeCompare(a.album.dateFrom)),
+				weight: items.length + 4,
+			}));
 	});
 	protected readonly visibleGroups = computed(() => this.groups().slice(0, this.loadedYears()));
 	protected readonly current = computed(() => this.activeYear() ?? this.groups()[0]?.year);
 
 	constructor() {
 		inject(SeoService).set({
-			title: "Fotogalerie",
+			title: "Jak jsme se měli",
 			description:
-				"Fotogalerie dětské vodácké skupiny ŠÁN: alba z výprav, táborů, puťáků, závodů i oddílových akcí od roku 1996 až po dnešek.",
+				"Fotky a kroniky dětské vodácké skupiny ŠÁN: alba z výprav, táborů, puťáků, závodů i oddílových akcí od roku 1987 až po dnešek.",
 			path: "/fotogalerie",
 			jsonLd: {
 				"@context": "https://schema.org",
 				"@type": "CollectionPage",
-				name: "Fotogalerie ŠÁN",
+				name: "Jak jsme se měli – ŠÁN",
 				url: "https://bosan.cz/fotogalerie",
 			},
 		});

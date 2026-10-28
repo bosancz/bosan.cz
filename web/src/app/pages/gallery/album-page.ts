@@ -11,7 +11,7 @@ import {
 	input,
 	untracked,
 } from "@angular/core";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { ApiService, LiveData } from "../../core/api.service";
 import { Album, Photo } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
@@ -38,6 +38,8 @@ export class AlbumPage implements OnInit {
 	private readonly seo = inject(SeoService);
 	private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
 
+	private readonly router = inject(Router);
+	private readonly reports = this.browser ? this.api.reports() : undefined;
 	private readonly source = signal<LiveData<Album> | undefined>(undefined);
 
 	protected readonly data = computed<Album | undefined>(() => {
@@ -60,6 +62,11 @@ export class AlbumPage implements OnInit {
 	}
 
 	constructor() {
+		effect(() => {
+			const report = this.reports?.value()?.find((r) => r.album?._id === this.album());
+			if (report && !this.photo()) void this.router.navigate(["/kroniky", report._id], { replaceUrl: true });
+		});
+
 		effect(() => {
 			const album = this.data();
 			if (album && this.browser) albumCache.set(album._id, album);
