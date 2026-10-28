@@ -72,8 +72,9 @@
 							<a
 								class="button"
 								[class.secondary]="report.album"
-								[href]="chronicle.url + '?download'"
-								download
+								[href]="chronicle.url"
+								target="_blank"
+								rel="noopener"
 								>Kronika v PDF ({{ chronicleSize(chronicle) }})</a
 							>
 						}
