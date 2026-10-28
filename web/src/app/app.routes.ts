@@ -5,20 +5,19 @@ export const routes: Routes = [
 	{ path: "aktualne", redirectTo: "", pathMatch: "full" },
 	{ path: "program", loadComponent: () => import("./pages/program/program-page").then((m) => m.ProgramPage) },
 	{
-		path: "fotogalerie",
+		path: "jak-jsme-se-meli",
 		loadComponent: () => import("./pages/gallery/gallery-page").then((m) => m.GalleryPage),
 	},
 	{
-		path: "fotogalerie/:album",
+		path: "jak-jsme-se-meli/album/:album",
 		loadComponent: () => import("./pages/gallery/album-page").then((m) => m.AlbumPage),
 	},
 	{
-		path: "fotogalerie/:album/:photo",
+		path: "jak-jsme-se-meli/album/:album/:photo",
 		loadComponent: () => import("./pages/gallery/album-page").then((m) => m.AlbumPage),
 	},
-	{ path: "kroniky", redirectTo: "fotogalerie", pathMatch: "full" },
 	{
-		path: "kroniky/:report",
+		path: "jak-jsme-se-meli/:report",
 		loadComponent: () => import("./pages/reports/report-page").then((m) => m.ReportPage),
 	},
 	{ path: "tabor", loadComponent: () => import("./pages/camp/camp-page").then((m) => m.CampPage) },

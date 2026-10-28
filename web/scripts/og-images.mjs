@@ -173,12 +173,12 @@ async function main() {
 	const reports = new Map((await fetchReports()).map((report) => [report._id, report]));
 
 	const jobs = [
-		...routeIds("fotogalerie").map((id) => ({
+		...routeIds("jak-jsme-se-meli/album").map((id) => ({
 			file: `album-${id}.jpg`,
-			item: albums.get(id) && { ...albums.get(id), label: "FOTOGALERIE" },
+			item: albums.get(id) && { ...albums.get(id), label: "JAK JSME SE MĚLI" },
 			photo: () => albumPhoto(albums.get(id), id),
 		})),
-		...routeIds("kroniky").map((id) => {
+		...routeIds("jak-jsme-se-meli").map((id) => {
 			const report = reports.get(id);
 			return {
 				file: `report-${id}.jpg`,

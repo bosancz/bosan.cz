@@ -2,7 +2,7 @@
 	@for (photo of photos(); track photo._id; let i = $index) {
 		<li [style.flex-grow]="ratio(photo) * 100" [style.flex-basis.px]="ratio(photo) * 220">
 			<a
-				[routerLink]="['/fotogalerie', albumId(), photo._id]"
+				[routerLink]="['/jak-jsme-se-meli/album', albumId(), photo._id]"
 				[state]="state"
 				[attr.aria-label]="photo.caption || 'Fotografie ' + (i + 1) + ' z ' + photos().length"
 			>
