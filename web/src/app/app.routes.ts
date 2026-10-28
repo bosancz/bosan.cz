@@ -16,7 +16,7 @@ export const routes: Routes = [
 		path: "fotogalerie/:album/:photo",
 		loadComponent: () => import("./pages/gallery/album-page").then((m) => m.AlbumPage),
 	},
-	{ path: "kroniky", loadComponent: () => import("./pages/reports/reports-page").then((m) => m.ReportsPage) },
+	{ path: "kroniky", redirectTo: "fotogalerie", pathMatch: "full" },
 	{
 		path: "kroniky/:report",
 		loadComponent: () => import("./pages/reports/report-page").then((m) => m.ReportPage),

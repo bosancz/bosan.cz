@@ -1,6 +1,6 @@
 <section class="hero">
 	<div class="hero-inner">
-		<h1>fotogalerie</h1>
+		<h1>jak jsme se měli</h1>
 	</div>
 </section>
 
@@ -40,14 +40,19 @@
 			<section class="year" [id]="'rok-' + group.year" [attr.data-year-section]="group.year">
 				<h2>{{ group.year }}</h2>
 				<div class="grid">
-					@for (album of group.albums; track album._id; let i = $index) {
-						<bo-album-card [album]="album" [eager]="first && i < 4" />
+					@for (item of group.items; track item.key; let i = $index) {
+						<bo-album-card
+							[album]="item.album"
+							[reportId]="item.reportId"
+							[preview]="item.hasAlbum"
+							[eager]="first && i < 4"
+						/>
 					}
 				</div>
 			</section>
 		}
 		@if (albums.error() && !groups().length) {
-			<p class="status">Fotogalerii se nepodařilo načíst. Zkuste to prosím později.</p>
+			<p class="status">Alba se nepodařilo načíst. Zkuste to prosím později.</p>
 		}
 		<div class="sentinel" #sentinel aria-hidden="true"></div>
 	</div>

@@ -24,6 +24,8 @@ import { TypographyPipe } from "../../core/typography";
 })
 export class AlbumCard {
 	readonly album = input.required<Album>();
+	readonly reportId = input<string | null>(null);
+	readonly preview = input(true);
 	readonly eager = input(false);
 
 	private readonly api = inject(ApiService);
@@ -41,12 +43,16 @@ export class AlbumCard {
 			undefined
 		);
 	});
+	protected readonly link = computed(() => {
+		const reportId = this.reportId();
+		return reportId ? ["/kroniky", reportId] : ["/fotogalerie", this.album()._id];
+	});
 	protected readonly name = computed(() => albumName(this.album().name));
 	protected readonly dates = computed(() => albumDates(this.album().dateFrom, this.album().dateTill));
 
 	constructor() {
 		afterNextRender(() => {
-			if (this.cover() || typeof IntersectionObserver === "undefined") return;
+			if (this.cover() || !this.preview() || typeof IntersectionObserver === "undefined") return;
 			const observer = new IntersectionObserver(
 				(entries) => {
 					if (!entries.some((entry) => entry.isIntersecting)) return;

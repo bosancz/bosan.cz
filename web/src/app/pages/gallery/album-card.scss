@@ -29,6 +29,13 @@
 	}
 }
 
+.doc {
+	display: block;
+	margin: auto;
+	height: 100%;
+	color: #8c93c4;
+}
+
 .card:hover .thumb img {
 	transform: scale(1.03);
 }
