@@ -26,6 +26,7 @@ export class AlbumCard {
 	readonly album = input.required<Album>();
 	readonly reportId = input<string | null>(null);
 	readonly preview = input(true);
+	readonly badges = input<string[]>([]);
 	readonly eager = input(false);
 
 	private readonly api = inject(ApiService);

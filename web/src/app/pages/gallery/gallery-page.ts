@@ -6,11 +6,13 @@ import {
 	Injector,
 	afterNextRender,
 	computed,
+	effect,
 	inject,
 	signal,
 	viewChild,
 } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
+import { Router } from "@angular/router";
 import { ApiService } from "../../core/api.service";
 import { Album, PublicReport } from "../../core/schema";
 import { parseDate } from "../../core/dates";
@@ -22,6 +24,12 @@ interface GalleryItem {
 	album: Album;
 	reportId: string | null;
 	hasAlbum: boolean;
+	badges: string[];
+}
+
+function reportBadges(report: PublicReport | undefined): string[] {
+	if (!report) return [];
+	return [...(report.report ? ["Shrnutí"] : []), ...(report.chronicle ? ["Kronika"] : [])];
 }
 
 interface YearGroup {
@@ -46,6 +54,8 @@ function reportAlbum(report: PublicReport): Album {
 
 const INITIAL_YEARS = 2;
 
+let savedView: { loadedYears: number; scrollY: number } | null = null;
+
 @Component({
 	selector: "bo-gallery-page",
 	imports: [AlbumCard],
@@ -68,17 +78,24 @@ export class GalleryPage {
 
 	protected readonly groups = computed<YearGroup[]>(() => {
 		const reports = this.reports.value() ?? [];
-		const reportByAlbum = new Map(reports.filter((r) => r.album).map((r) => [r.album!._id, r._id]));
+		const reportByAlbum = new Map(reports.filter((r) => r.album).map((r) => [r.album!._id, r]));
 		const items: GalleryItem[] = [
 			...(this.albums.value() ?? []).map((album) => ({
 				key: `album-${album._id}`,
 				album,
-				reportId: reportByAlbum.get(album._id) ?? null,
+				reportId: reportByAlbum.get(album._id)?._id ?? null,
 				hasAlbum: true,
+				badges: reportBadges(reportByAlbum.get(album._id)),
 			})),
 			...reports
 				.filter((r) => !r.album)
-				.map((r) => ({ key: `report-${r._id}`, album: reportAlbum(r), reportId: r._id, hasAlbum: false })),
+				.map((r) => ({
+					key: `report-${r._id}`,
+					album: reportAlbum(r),
+					reportId: r._id,
+					hasAlbum: false,
+					badges: reportBadges(r),
+				})),
 		];
 		const byYear = new Map<number, GalleryItem[]>();
 		for (const item of items) {
@@ -98,6 +115,17 @@ export class GalleryPage {
 	protected readonly current = computed(() => this.activeYear() ?? this.groups()[0]?.year);
 
 	constructor() {
+		const router = inject(Router);
+		const restore = router.currentNavigation()?.trigger === "popstate" ? savedView : null;
+		if (restore) {
+			this.loadedYears.set(restore.loadedYears);
+			const restoreEffect = effect(() => {
+				if (this.albums.value() === undefined || this.reports.value() === undefined) return;
+				restoreEffect.destroy();
+				afterNextRender(() => window.scrollTo({ top: restore.scrollY }), { injector: this.injector });
+			});
+		}
+
 		inject(SeoService).set({
 			title: "Jak jsme se měli",
 			description:
@@ -114,6 +142,8 @@ export class GalleryPage {
 		afterNextRender(() => {
 			let frame = 0;
 			const onScroll = () => {
+				if (!router.currentNavigation())
+					savedView = { loadedYears: this.loadedYears(), scrollY: window.scrollY };
 				if (frame) return;
 				frame = requestAnimationFrame(() => {
 					frame = 0;

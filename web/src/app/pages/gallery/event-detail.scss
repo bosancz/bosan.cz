@@ -61,16 +61,33 @@ h1 {
 	}
 }
 
-.kicker {
-	margin-top: 24px;
-	font-weight: 800;
-	font-size: 15px;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: #c9cee9;
+.description {
+	max-width: 70ch;
+	margin: 20px 0 0;
+	font-size: 17px;
+	line-height: 1.6;
 
-	+ h1 {
-		margin-top: 8px;
+	::ng-deep {
+		:is(p, ul, ol) {
+			margin: 0 0 0.6em;
+		}
+
+		> :last-child {
+			margin-bottom: 0;
+		}
+
+		:is(ul, ol) {
+			padding-left: 1.3em;
+		}
+
+		a {
+			color: #fff;
+			text-decoration: underline;
+
+			&:hover {
+				color: var(--orange);
+			}
+		}
 	}
 }
 
@@ -93,6 +110,10 @@ h1 {
 }
 
 @include bp.mobile {
+	.description ::ng-deep a {
+		color: var(--navy);
+	}
+
 	.hero {
 		background: #fff;
 		color: var(--body-text);
@@ -105,11 +126,6 @@ h1 {
 	.back {
 		background: var(--light);
 		color: var(--navy);
-	}
-
-	.kicker {
-		margin-top: 20px;
-		color: var(--muted);
 	}
 
 	h1 {
@@ -253,11 +269,16 @@ h1 {
 }
 
 .gallery {
-	margin-top: 40px;
+	:is(.article, .chronicle) + & {
+		margin-top: 40px;
+	}
 
 	@include bp.mobile {
-		margin-top: 32px;
-		padding: 0 var(--gutter);
+		padding: 24px var(--gutter) 0;
+
+		:is(.article, .chronicle) + & {
+			margin-top: 8px;
+		}
 	}
 }
 

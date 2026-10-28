@@ -9,24 +9,19 @@ import {
 	signal,
 	untracked,
 } from "@angular/core";
-import { RouterLink } from "@angular/router";
 import { ApiService, LiveData } from "../../core/api.service";
 import { groupInfo, sortGroupIds } from "../../core/groups";
-import { MarkdownPipe, markdownToText } from "../../core/markdown";
+import { markdownToText } from "../../core/markdown";
 import { Album, Photo, PublicReport } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
-import { chronicleSize, reportDates, reportPhoto, reportWater } from "./report-format";
-import { TypographyPipe } from "../../core/typography";
-import { photoCount } from "../gallery/gallery-dates";
-import { PhotoGrid } from "../gallery/photo-grid";
-import { PageToc, PageTocSection } from "../../components/page-toc";
+import { reportDates, reportPhoto, reportWater } from "./report-format";
+import { EventDetail } from "../gallery/event-detail";
 
 @Component({
 	selector: "bo-report-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, MarkdownPipe, TypographyPipe, PhotoGrid, PageToc],
+	imports: [EventDetail],
 	templateUrl: "./report-page.html",
-	styleUrl: "./report-page.scss",
 })
 export class ReportPage implements OnInit {
 	readonly report = input.required<string>();
@@ -35,11 +30,9 @@ export class ReportPage implements OnInit {
 	private readonly seo = inject(SeoService);
 	private readonly source = signal<LiveData<PublicReport> | undefined>(undefined);
 
-	private readonly albumSource = signal<LiveData<Album> | undefined>(undefined);
+	protected readonly albumSource = signal<LiveData<Album> | undefined>(undefined);
 	private albumId?: string;
 
-	protected readonly chronicleSize = chronicleSize;
-	protected readonly photoCount = photoCount;
 	protected readonly data = computed(() => this.source()?.value());
 	protected readonly failed = computed(() => !this.data() && !!this.source()?.error());
 	protected readonly dates = computed(() => {
@@ -56,14 +49,6 @@ export class ReportPage implements OnInit {
 	protected readonly photos = computed<Photo[]>(() =>
 		(this.albumSource()?.value()?.photos ?? []).filter((p) => p.sizes?.small),
 	);
-	protected readonly tocSections = computed<PageTocSection[] | null>(() => {
-		const report = this.data();
-		if (!report?.report || !report.album) return null;
-		return [
-			{ id: "shrnuti", label: "shrnutí" },
-			{ id: "fotogalerie", label: "fotogalerie" },
-		];
-	});
 	protected readonly downloadHref = computed(() => this.albumSource()?.value()?._links?.download?.href);
 	protected readonly albumFailed = computed(() => !!this.albumSource()?.error());
 
