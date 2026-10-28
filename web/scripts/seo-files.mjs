@@ -9,7 +9,7 @@ const dist = new URL("../dist/", import.meta.url);
 const { routes } = JSON.parse(readFileSync(new URL("prerendered-routes.json", dist), "utf8"));
 
 const excluded = new Set(["/aktualne", "/404"]);
-const priority = (route) => (route === "/" ? "1.0" : route.startsWith("/fotogalerie/") ? "0.5" : "0.8");
+const priority = (route) => (route === "/" ? "1.0" : route.startsWith("/jak-jsme-se-meli/album/") ? "0.5" : "0.8");
 const urls = Object.keys(routes)
 	.filter((route) => !excluded.has(route))
 	.sort()

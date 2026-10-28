@@ -31,7 +31,9 @@
 			@if (lead(); as item) {
 				<a
 					class="lead"
-					[routerLink]="item.reportId ? ['/kroniky', item.reportId] : ['/fotogalerie', item.albumId]"
+					[routerLink]="
+						item.reportId ? ['/jak-jsme-se-meli', item.reportId] : ['/jak-jsme-se-meli/album', item.albumId]
+					"
 				>
 					@if (item.image) {
 						<img
@@ -139,14 +141,16 @@
 	<div class="container photos-inner">
 		<div class="photos-head">
 			<h2 id="photos-heading">nové fotky</h2>
-			<a routerLink="/fotogalerie"><span class="long">Jak jsme se měli</span><span class="short">Vše</span></a>
+			<a routerLink="/jak-jsme-se-meli"
+				><span class="long">Jak jsme se měli</span><span class="short">Vše</span></a
+			>
 		</div>
 		<div class="grid">
 			@for (tile of tiles(); track tile.id; let i = $index) {
 				<a
 					class="tile"
 					[class.tile-main]="i === 0"
-					[routerLink]="['/fotogalerie', tile.id]"
+					[routerLink]="['/jak-jsme-se-meli/album', tile.id]"
 					[style.background]="tile.bg"
 				>
 					@if (tile.url) {

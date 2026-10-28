@@ -138,11 +138,11 @@ export class PhotoViewer {
 	protected close(event?: Event): void {
 		event?.preventDefault();
 		if (history.state?.fromAlbum) history.back();
-		else void this.router.navigate(["/fotogalerie", this.albumId()]);
+		else void this.router.navigate(["/jak-jsme-se-meli/album", this.albumId()]);
 	}
 
 	protected go(photo: Photo): void {
-		void this.router.navigate(["/fotogalerie", this.albumId(), photo._id], {
+		void this.router.navigate(["/jak-jsme-se-meli/album", this.albumId(), photo._id], {
 			replaceUrl: true,
 			state: this.state,
 		});

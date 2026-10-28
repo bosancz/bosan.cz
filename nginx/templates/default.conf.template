@@ -19,11 +19,7 @@ server {
     try_files $uri =404;
   }
 
-  location /fotogalerie/ {
-    try_files $uri $uri/index.html /index.csr.html;
-  }
-
-  location /kroniky/ {
+  location /jak-jsme-se-meli/ {
     try_files $uri $uri/index.html /index.csr.html;
   }
 

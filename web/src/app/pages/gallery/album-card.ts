@@ -45,7 +45,7 @@ export class AlbumCard {
 	});
 	protected readonly link = computed(() => {
 		const reportId = this.reportId();
-		return reportId ? ["/kroniky", reportId] : ["/fotogalerie", this.album()._id];
+		return reportId ? ["/jak-jsme-se-meli", reportId] : ["/jak-jsme-se-meli/album", this.album()._id];
 	});
 	protected readonly name = computed(() => albumName(this.album().name));
 	protected readonly dates = computed(() => albumDates(this.album().dateFrom, this.album().dateTill));

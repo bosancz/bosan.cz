@@ -90,7 +90,7 @@ export class ReportPage implements OnInit {
 					this.seo.set({
 						title: "Kronika nenalezena",
 						description: "Požadovanou kroniku akce dětské vodácké skupiny ŠÁN se nepodařilo najít.",
-						path: `/kroniky/${this.report()}`,
+						path: `/jak-jsme-se-meli/${this.report()}`,
 						noindex: true,
 					});
 				}
@@ -101,7 +101,7 @@ export class ReportPage implements OnInit {
 	private setSeo(report: PublicReport): void {
 		const name = report.name.trim();
 		const text = markdownToText(report.report);
-		const path = `/kroniky/${report._id}`;
+		const path = `/jak-jsme-se-meli/${report._id}`;
 		this.seo.set({
 			title: `${name} – kronika akce`,
 			description: (text || `Kronika akce ${name} v PDF ke stažení.`).slice(0, 160),
