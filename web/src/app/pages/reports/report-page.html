@@ -34,6 +34,9 @@
 						}
 					</span>
 				}
+				@if (leaders()) {
+					<span class="leaders">Vedli: {{ leaders() }}</span>
+				}
 			</div>
 		} @else if (failed()) {
 			<h1>Kronika nenalezena</h1>
@@ -46,34 +49,29 @@
 <main class="main">
 	<div class="inner">
 		@if (data(); as report) {
-			<article class="article">
-				@if (report.report) {
+			@if (report.report) {
+				<article class="article">
 					<div class="body" [innerHTML]="report.report | markdown"></div>
-				}
-				@if (report.chronicle; as chronicle) {
-					<div class="chronicle">
-						<a class="button" [href]="chronicle.url" target="_blank" rel="noopener">
-							<svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
-								<path
-									d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2.2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/>
-							</svg>
-							Otevřít kroniku
-						</a>
-						<span class="size">PDF, {{ chronicleSize(chronicle) }}</span>
-					</div>
-				}
-				@if (leaders()) {
-					<footer class="footer">
-						<div class="leaders"><strong>Vedli:</strong> {{ leaders() }}</div>
-					</footer>
-				}
-			</article>
+				</article>
+			}
+			@if (report.chronicle; as chronicle) {
+				<div class="chronicle">
+					<a class="button" [href]="chronicle.url" target="_blank" rel="noopener">
+						<svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+							<path
+								d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2.2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+						Otevřít kroniku
+					</a>
+					<span class="size">PDF, {{ chronicleSize(chronicle) }}</span>
+				</div>
+			}
 
 			@if (report.album; as album) {
 				<section class="gallery">

@@ -54,7 +54,8 @@ h1 {
 	font-size: 17px;
 	color: #fff;
 
-	.water {
+	.water,
+	.leaders {
 		font-weight: 700;
 		color: #c9cee9;
 	}
@@ -120,7 +121,8 @@ h1 {
 	.meta {
 		color: var(--navy);
 
-		.water {
+		.water,
+		.leaders {
 			color: var(--muted);
 		}
 	}
@@ -206,39 +208,22 @@ h1 {
 	}
 }
 
-.footer {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	gap: 16px 24px;
-	margin: 0 40px;
-	padding: 20px 0 32px;
-	border-top: 2px dashed #d5d9ee;
-
-	@include bp.mobile {
-		margin: 0 var(--gutter);
-	}
-}
-
-.leaders {
-	font-size: 15px;
-	color: var(--body-text);
-
-	strong {
-		color: var(--navy);
-	}
-}
-
 .chronicle {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 12px 16px;
-	padding: 8px 40px 28px;
+
+	.article + & {
+		margin-top: 24px;
+	}
 
 	@include bp.mobile {
-		padding: 8px var(--gutter) 24px;
+		padding: 24px var(--gutter) 0;
+
+		.article + & {
+			margin-top: 0;
+		}
 	}
 
 	.button {
@@ -258,10 +243,6 @@ h1 {
 			background: var(--navy);
 			color: #fff;
 		}
-	}
-
-	&:first-child {
-		padding-top: 32px;
 	}
 
 	.size {
