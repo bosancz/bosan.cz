@@ -41,7 +41,7 @@ export class ReportsPage {
 				photo: reportPhoto(report, "small"),
 				bg: report.album?.titlePhoto?.bg ?? "#c9cee9",
 				albumId: report.album?._id ?? null,
-				chronicleUrl: report.chronicle ? `${report.chronicle.url}?download` : null,
+				chronicleUrl: report.chronicle ? report.chronicle.url : null,
 			})),
 	);
 

@@ -54,7 +54,7 @@
 										<a [routerLink]="['/fotogalerie', report.albumId]">Fotky z akce</a>
 									}
 									@if (report.chronicleUrl) {
-										<a [href]="report.chronicleUrl" download>Kronika v PDF</a>
+										<a [href]="report.chronicleUrl" target="_blank" rel="noopener">Kronika v PDF</a>
 									}
 								</div>
 							</div>
