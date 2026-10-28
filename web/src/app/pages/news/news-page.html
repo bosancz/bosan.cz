@@ -29,7 +29,10 @@
 				</article>
 			}
 			@if (lead(); as item) {
-				<article class="lead">
+				<a
+					class="lead"
+					[routerLink]="item.reportId ? ['/kroniky', item.reportId] : ['/fotogalerie', item.albumId]"
+				>
 					@if (item.image) {
 						<img
 							class="lead-photo"
@@ -44,19 +47,8 @@
 						<div class="meta">akce {{ item.dates }}</div>
 						<h3 class="lead-title">byli jsme na akci {{ item.name.toLowerCase() | typography }}</h3>
 						<p class="lead-body">{{ item.text }}</p>
-						<div class="links">
-							@if (item.reportId) {
-								<a [routerLink]="['/kroniky', item.reportId]">Celá kronika</a>
-							}
-							@if (item.albumId) {
-								<a [routerLink]="['/fotogalerie', item.albumId]">Fotky z akce</a>
-							}
-							@if (item.reportId) {
-								<a routerLink="/kroniky">Jak jsme se měli</a>
-							}
-						</div>
 					</div>
-				</article>
+				</a>
 			}
 			@for (item of cancelled(); track item.id) {
 				<article class="note note-cancelled">

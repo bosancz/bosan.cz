@@ -19,11 +19,12 @@ import { chronicleSize, reportDates, reportPhoto, reportWater } from "./report-f
 import { TypographyPipe } from "../../core/typography";
 import { photoCount } from "../gallery/gallery-dates";
 import { PhotoGrid } from "../gallery/photo-grid";
+import { PageToc, PageTocSection } from "../../components/page-toc";
 
 @Component({
 	selector: "bo-report-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, MarkdownPipe, TypographyPipe, PhotoGrid],
+	imports: [RouterLink, MarkdownPipe, TypographyPipe, PhotoGrid, PageToc],
 	templateUrl: "./report-page.html",
 	styleUrl: "./report-page.scss",
 })
@@ -55,6 +56,14 @@ export class ReportPage implements OnInit {
 	protected readonly photos = computed<Photo[]>(() =>
 		(this.albumSource()?.value()?.photos ?? []).filter((p) => p.sizes?.small),
 	);
+	protected readonly tocSections = computed<PageTocSection[] | null>(() => {
+		const report = this.data();
+		if (!report?.report || !report.album) return null;
+		return [
+			{ id: "shrnuti", label: "shrnutí" },
+			{ id: "fotogalerie", label: "fotogalerie" },
+		];
+	});
 	protected readonly albumFailed = computed(() => !!this.albumSource()?.error());
 
 	ngOnInit(): void {

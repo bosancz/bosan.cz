@@ -1,0 +1,40 @@
+<div class="toc-desktop">
+	<span class="toc-label">Obsah</span>
+	<ol>
+		@for (section of sections(); track section.id) {
+			<li>
+				<a
+					[href]="'#' + section.id"
+					[class.active]="active() === section.id"
+					[attr.aria-current]="active() === section.id ? 'location' : null"
+					(click)="go($event, section.id)"
+					>{{ section.label }}</a
+				>
+			</li>
+		}
+	</ol>
+	<a class="to-top" href="#" (click)="go($event, null)">↑ nahoru</a>
+</div>
+<div class="toc-mobile">
+	<button type="button" class="toc-summary" [attr.aria-expanded]="open()" (click)="open.set(!open())">
+		<span class="toc-label">Obsah</span>
+		<span class="toc-current">{{ activeLabel() }}</span>
+		<svg viewBox="0 0 24 24" aria-hidden="true" [class.open]="open()">
+			<path d="M6 9l6 6 6-6" />
+		</svg>
+	</button>
+	@if (open()) {
+		<ol>
+			@for (section of sections(); track section.id) {
+				<li>
+					<a
+						[href]="'#' + section.id"
+						[class.active]="active() === section.id"
+						(click)="go($event, section.id)"
+						>{{ section.label }}</a
+					>
+				</li>
+			}
+		</ol>
+	}
+</div>

@@ -46,11 +46,15 @@
 	</div>
 </section>
 
+@if (tocSections(); as sections) {
+	<bo-page-toc [sections]="sections" />
+}
+
 <main class="main">
 	<div class="inner">
 		@if (data(); as report) {
 			@if (report.report) {
-				<article class="article">
+				<article id="shrnuti" class="article">
 					<div class="body" [innerHTML]="report.report | markdown"></div>
 				</article>
 			}
@@ -74,7 +78,7 @@
 			}
 
 			@if (report.album; as album) {
-				<section class="gallery">
+				<section id="fotogalerie" class="gallery">
 					<div class="gallery-head">
 						<h2>Fotogalerie</h2>
 						@if (photos().length) {
