@@ -10,6 +10,7 @@
 }
 
 .hero-inner {
+	position: relative;
 	max-width: var(--page-width);
 	margin: 0 auto;
 	padding: 16px var(--gutter) 40px;
@@ -31,6 +32,31 @@
 	&:hover {
 		background: var(--orange);
 		color: var(--navy);
+	}
+}
+
+.interni-link {
+	position: absolute;
+	top: 20px;
+	right: var(--gutter);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	color: inherit;
+	opacity: 0.5;
+	border-radius: 50%;
+	transition: opacity 0.15s;
+
+	svg {
+		width: 18px;
+		height: 18px;
+	}
+
+	&:hover,
+	&:focus-visible {
+		opacity: 1;
 	}
 }
 

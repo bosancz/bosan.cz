@@ -10,6 +10,7 @@ import {
 	untracked,
 } from "@angular/core";
 import { ApiService, LiveData } from "../../core/api.service";
+import { AccountService } from "../../core/account.service";
 import { groupInfo, sortGroupIds } from "../../core/groups";
 import { markdownToText } from "../../core/markdown";
 import { Album, Photo, PublicReport } from "../../core/schema";
@@ -26,6 +27,7 @@ import { EventDetail } from "../gallery/event-detail";
 export class ReportPage implements OnInit {
 	readonly report = input.required<string>();
 
+	protected readonly account = inject(AccountService);
 	private readonly api = inject(ApiService);
 	private readonly seo = inject(SeoService);
 	private readonly source = signal<LiveData<PublicReport> | undefined>(undefined);

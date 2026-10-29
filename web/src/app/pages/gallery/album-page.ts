@@ -13,6 +13,7 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { ApiService, LiveData } from "../../core/api.service";
+import { AccountService } from "../../core/account.service";
 import { Album, Photo } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
 import { albumDates, albumName } from "./gallery-dates";
@@ -32,6 +33,7 @@ export class AlbumPage implements OnInit {
 	readonly album = input.required<string>();
 	readonly photo = input<string>();
 
+	protected readonly account = inject(AccountService);
 	private readonly api = inject(ApiService);
 	private readonly seo = inject(SeoService);
 	private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));

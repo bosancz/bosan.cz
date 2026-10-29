@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, inject, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
+import { AccountService } from "../../core/account.service";
 import { GroupInfo } from "../../core/groups";
 import { MarkdownPipe } from "../../core/markdown";
 import { Photo, ReportChronicle } from "../../core/schema";
@@ -34,6 +35,9 @@ export class EventDetail {
 	readonly failed = input(false);
 	readonly failedTitle = input("");
 	readonly failedText = input("");
+	readonly interniHref = input<string | null>(null);
+
+	protected readonly account = inject(AccountService);
 
 	protected readonly chronicleSize = chronicleSize;
 	protected readonly photoCount = photoCount;

@@ -26,4 +26,12 @@ export class AccountService {
 	eventUrl(eventId: string): string {
 		return `${environment.interniUrl}/akce/${encodeURIComponent(eventId)}`;
 	}
+
+	reportUrl(eventId: string): string {
+		return `${this.eventUrl(eventId)}?tab=report`;
+	}
+
+	albumUrl(albumId: string): string {
+		return `${environment.interniUrl}/galerie/alba/${encodeURIComponent(albumId)}`;
+	}
 }
