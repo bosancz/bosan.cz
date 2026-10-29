@@ -10,6 +10,7 @@
 	[failed]="failed()"
 	failedTitle="Album nenalezeno"
 	failedText="Album se nepodařilo načíst."
+	[interniHref]="data() ? account.albumUrl(album()) : null"
 />
 
 @if (photo(); as photoId) {
