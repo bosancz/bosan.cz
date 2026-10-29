@@ -16,7 +16,7 @@ import { ApiService, LiveData } from "../../core/api.service";
 import { AccountService } from "../../core/account.service";
 import { Album, Photo } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
-import { albumDates, albumName } from "./gallery-dates";
+import { albumDatesWithYear, albumName } from "./gallery-dates";
 import { EventDetail } from "./event-detail";
 import { PhotoViewer } from "./photo-viewer";
 import { markdownToText } from "../../core/markdown";
@@ -51,7 +51,7 @@ export class AlbumPage implements OnInit {
 	protected readonly name = computed(() => albumName(this.data()?.name ?? ""));
 	protected readonly dates = computed(() => {
 		const album = this.data();
-		return album ? `${albumDates(album.dateFrom, album.dateTill)} ${album.dateFrom.slice(0, 4)}` : "";
+		return album ? albumDatesWithYear(album.dateFrom, album.dateTill) : "";
 	});
 	protected readonly downloadHref = computed(() => this.data()?._links?.download?.href);
 
@@ -90,12 +90,10 @@ export class AlbumPage implements OnInit {
 
 	private setSeo(album: Album): void {
 		const name = albumName(album.name);
-		const dates = albumDates(album.dateFrom, album.dateTill);
+		const dates = albumDatesWithYear(album.dateFrom, album.dateTill);
 		const photos = (album.photos ?? []).filter((p) => p.sizes?.big);
 		const title = photos.length ? `${name} (${album.dateFrom.slice(0, 4)})` : name;
-		const text =
-			markdownToText(album.description) ||
-			`Fotky z akce ${name} dětské vodácké skupiny ŠÁN, ${dates} ${album.dateFrom.slice(0, 4)}.`;
+		const text = markdownToText(album.description) || `Fotky z akce ${name} dětské vodácké skupiny ŠÁN, ${dates}.`;
 		const description =
 			text.length <= 160
 				? text

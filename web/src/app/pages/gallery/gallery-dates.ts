@@ -11,6 +11,16 @@ export function albumDates(from: string, till?: string | null): string {
 	return `${day(a)} – ${day(b)}`;
 }
 
+export function albumDatesWithYear(from: string, till?: string | null): string {
+	const a = parseDate(from);
+	const b = till ? parseDate(till) : a;
+	if (a.getUTCFullYear() !== b.getUTCFullYear()) {
+		const day = (d: Date) => `${d.getUTCDate()}. ${d.getUTCMonth() + 1}. ${d.getUTCFullYear()}`;
+		return `${day(a)} – ${day(b)}`;
+	}
+	return `${albumDates(from, till)} ${a.getUTCFullYear()}`;
+}
+
 export function albumName(name: string): string {
 	return name.trim();
 }
