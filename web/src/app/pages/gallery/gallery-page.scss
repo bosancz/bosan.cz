@@ -12,51 +12,72 @@
 	max-width: var(--page-width);
 	margin: 0 auto;
 	padding: 24px var(--gutter) 40px;
+}
+
+.search-bar {
 	display: flex;
-	flex-direction: column;
-	gap: 24px;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 8px;
+	margin: -24px 0 4px;
+
+	@include bp.mobile {
+		margin: -20px 0 16px;
+	}
+}
+
+.search-toggle {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: none;
+	color: var(--muted);
+	opacity: 0.5;
+	cursor: pointer;
+	transition: opacity 0.15s;
+
+	&:hover,
+	&:focus-visible,
+	&.open {
+		opacity: 1;
+	}
+
+	svg {
+		width: 22px;
+		height: 22px;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 2.2;
+		stroke-linecap: round;
+	}
 }
 
 .search {
-	position: relative;
 	width: 100%;
-	max-width: 420px;
-	display: flex;
-	align-items: center;
+	max-width: 360px;
+	height: 40px;
+	padding: 0 18px;
+	border: 2px solid transparent;
+	border-radius: var(--radius-button);
+	background: #fff;
+	font: inherit;
+	font-weight: 600;
+	font-size: 16px;
+	color: var(--navy-text);
+	outline: none;
 
-	svg {
-		position: absolute;
-		left: 16px;
-		width: 20px;
-		height: 20px;
-		fill: none;
-		stroke: var(--muted);
-		stroke-width: 2.4;
-		stroke-linecap: round;
-		pointer-events: none;
+	&::placeholder {
+		color: var(--muted);
+		font-weight: 400;
 	}
 
-	input {
-		width: 100%;
-		height: 48px;
-		padding: 0 18px 0 46px;
-		border: 2px solid transparent;
-		border-radius: var(--radius-button);
-		background: #fff;
-		font: inherit;
-		font-weight: 600;
-		font-size: 16px;
-		color: var(--navy-text);
-		outline: none;
-
-		&::placeholder {
-			color: var(--muted);
-			font-weight: 400;
-		}
-
-		&:focus-visible {
-			border-color: var(--orange);
-		}
+	&:focus-visible {
+		border-color: var(--orange);
 	}
 }
 
@@ -85,10 +106,7 @@ h1 {
 
 	.search {
 		max-width: none;
-
-		input {
-			background: var(--light-2);
-		}
+		flex: 1;
 	}
 }
 

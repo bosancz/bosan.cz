@@ -1,20 +1,6 @@
 <section class="hero">
 	<div class="hero-inner">
 		<h1>jak jsme se měli</h1>
-		<label class="search">
-			<svg viewBox="0 0 24 24" aria-hidden="true">
-				<circle cx="10.5" cy="10.5" r="6.5" />
-				<path d="M15.5 15.5 21 21" />
-			</svg>
-			<input
-				type="search"
-				placeholder="Hledat akci nebo album"
-				aria-label="Hledat akci nebo album"
-				autocomplete="off"
-				[value]="query()"
-				(input)="onSearch($any($event.target).value)"
-			/>
-		</label>
 	</div>
 </section>
 
@@ -50,6 +36,36 @@
 	</nav>
 
 	<div class="years">
+		<div class="search-bar">
+			@if (searchOpen()) {
+				<input
+					#searchInput
+					class="search"
+					type="search"
+					placeholder="Hledat akci nebo album"
+					aria-label="Hledat akci nebo album"
+					autocomplete="off"
+					[value]="query()"
+					(input)="onSearch($any($event.target).value)"
+					(keydown.escape)="closeSearch()"
+					(blur)="query().trim() || closeSearch()"
+				/>
+			}
+			<button
+				type="button"
+				class="search-toggle"
+				[class.open]="searchOpen()"
+				aria-label="Hledat"
+				[attr.aria-expanded]="searchOpen()"
+				(pointerdown)="$event.preventDefault()"
+				(click)="toggleSearch()"
+			>
+				<svg viewBox="0 0 24 24" aria-hidden="true">
+					<circle cx="10.5" cy="10.5" r="6.5" />
+					<path d="M15.5 15.5 21 21" />
+				</svg>
+			</button>
+		</div>
 		@for (group of visibleGroups(); track group.year; let first = $first) {
 			<section class="year" [id]="'rok-' + group.year" [attr.data-year-section]="group.year">
 				<h2>{{ group.year }}</h2>

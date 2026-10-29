@@ -84,6 +84,8 @@ export class GalleryPage {
 	protected readonly loadedYears = signal(INITIAL_YEARS);
 	protected readonly activeYear = signal<number | undefined>(undefined);
 	protected readonly query = signal("");
+	protected readonly searchOpen = signal(false);
+	private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>("searchInput");
 
 	protected readonly groups = computed<YearGroup[]>(() => {
 		const reports = this.reports.value() ?? [];
@@ -190,6 +192,20 @@ export class GalleryPage {
 				this.destroyRef.onDestroy(() => observer.disconnect());
 			}
 		});
+	}
+
+	protected toggleSearch(): void {
+		if (this.searchOpen()) {
+			this.closeSearch();
+			return;
+		}
+		this.searchOpen.set(true);
+		afterNextRender(() => this.searchInput()?.nativeElement.focus(), { injector: this.injector });
+	}
+
+	protected closeSearch(): void {
+		this.searchOpen.set(false);
+		if (this.query()) this.onSearch("");
 	}
 
 	protected onSearch(value: string): void {
