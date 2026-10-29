@@ -62,6 +62,18 @@ export interface Album {
 	_links?: { self?: ApiLink; download?: ApiLink };
 }
 
+export interface JournalItem {
+	reportId: string | null;
+	albumId: string | null;
+	name: string;
+	dateFrom: string;
+	dateTill: string;
+	publishedAt: string | null;
+	summary: boolean;
+	chronicle: boolean;
+	photo: Photo | null;
+}
+
 export interface PublicGroupLeader {
 	_id: string;
 	nickname: string;

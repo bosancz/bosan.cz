@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, untracked } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { ApiService } from "../../core/api.service";
+import { ApiService, LiveData } from "../../core/api.service";
 import { formatDateRange, formatWeekdayRange, monthName, parseDate } from "../../core/dates";
 import { eventTypeIcon } from "../../core/event-types";
 import { groupInfo, sortGroupIds } from "../../core/groups";
-import { Album, ProgramEvent } from "../../core/schema";
+import { Album, ProgramEvent, PublicReport } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
 import { InlineMarkdownPipe, ParagraphsPipe, markdownToText } from "../../core/markdown";
 import { NEWS_CONTENT } from "../../../content/content";
@@ -103,7 +103,10 @@ export class NewsPage {
 	private readonly seo = inject(SeoService);
 	private readonly program = this.api.program();
 	private readonly albums = this.api.recentAlbums(PHOTO_ALBUMS);
-	private readonly reports = this.api.recentReports(1);
+	private readonly latest = this.api.latestJournal();
+	private readonly leadReport = signal<LiveData<PublicReport> | undefined>(undefined);
+	private readonly leadAlbum = signal<LiveData<Album> | undefined>(undefined);
+	private leadKey?: string;
 	private readonly today = isoDay(new Date());
 
 	protected readonly join = NEWS_CONTENT.join;
@@ -174,34 +177,19 @@ export class NewsPage {
 	);
 
 	protected readonly lead = computed(() => {
-		const report = [...(this.reports.value() ?? [])].sort((a, b) =>
-			b.reportPublishedAt.localeCompare(a.reportPublishedAt),
-		)[0];
-		if (report) {
-			const photo =
-				report.album?.titlePhoto ??
-				this.sortedAlbums().find((album) => album._id === report.album?._id)?.titlePhotos[0];
-			const url = photo?.sizes.big?.url ?? photo?.sizes.small?.url;
-			return {
-				reportId: report._id,
-				albumId: report.album?._id ?? null,
-				name: report.name.trim(),
-				dates: compactRange(report.dateFrom.slice(0, 10), report.dateTill.slice(0, 10)),
-				text: excerpt(report.report, 320),
-				image: url ? this.big(url) : null,
-			};
-		}
-		const album = this.sortedAlbums().find((a) => a.year >= 2000);
-		if (!album) return null;
-		const photo = album.titlePhotos[0];
+		const item = this.latest.value()?.[0];
+		if (!item) return null;
+		const url = item.photo?.sizes.small?.url;
 		return {
-			reportId: null,
-			albumId: album._id,
-			name: album.name.trim(),
-			dates: compactRange(album.dateFrom.slice(0, 10), album.dateTill.slice(0, 10)),
-			text:
-				markdownToText(album.description) || "Podívej se, jak to u nás vypadalo. Fotky z akce jsou v galerii.",
-			image: photo ? this.big(photo.sizes.big?.url ?? photo.sizes.small?.url ?? "") : null,
+			reportId: item.reportId,
+			albumId: item.albumId,
+			name: item.name.trim(),
+			dates: compactRange(item.dateFrom.slice(0, 10), item.dateTill.slice(0, 10)),
+			text: item.reportId
+				? excerpt(this.leadReport()?.value()?.report ?? null, 320)
+				: markdownToText(this.leadAlbum()?.value()?.description ?? null) ||
+					"Podívej se, jak to u nás vypadalo. Fotky z akce jsou v galerii.",
+			image: url ? this.big(url) : null,
 		};
 	});
 
@@ -220,6 +208,21 @@ export class NewsPage {
 	);
 
 	constructor() {
+		effect(() => {
+			const item = this.latest.value()?.[0];
+			const key = item?.reportId
+				? `report-${item.reportId}`
+				: item?.albumId
+					? `album-${item.albumId}`
+					: undefined;
+			if (!item || key === this.leadKey) return;
+			this.leadKey = key;
+			untracked(() => {
+				if (item.reportId) this.leadReport.set(this.api.report(item.reportId));
+				else if (item.albumId) this.leadAlbum.set(this.api.albumPreview(item.albumId));
+			});
+		});
+
 		this.seo.set({
 			title: SITE_NAME,
 			description:

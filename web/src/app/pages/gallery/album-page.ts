@@ -39,7 +39,7 @@ export class AlbumPage implements OnInit {
 	private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
 
 	private readonly router = inject(Router);
-	private readonly reports = this.browser ? this.api.reports() : undefined;
+	private readonly journal = this.browser ? this.api.journal() : undefined;
 	private readonly source = signal<LiveData<Album> | undefined>(undefined);
 
 	protected readonly data = computed<Album | undefined>(() => {
@@ -61,9 +61,9 @@ export class AlbumPage implements OnInit {
 
 	constructor() {
 		effect(() => {
-			const report = this.reports?.value()?.find((r) => r.album?._id === this.album());
-			if (report && !this.photo())
-				void this.router.navigate(["/jak-jsme-se-meli", report._id], { replaceUrl: true });
+			const item = this.journal?.value()?.find((i) => i.albumId === this.album() && i.reportId);
+			if (item && !this.photo())
+				void this.router.navigate(["/jak-jsme-se-meli", item.reportId], { replaceUrl: true });
 		});
 
 		effect(() => {

@@ -3,9 +3,7 @@ import { Injectable, PLATFORM_ID, Signal, inject, signal } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../environments/environment";
-import { Album, ProgramEvent, PublicBoardMember, PublicGroup, PublicReport } from "./schema";
-
-export const REPORTS_PAGE = 100;
+import { Album, JournalItem, ProgramEvent, PublicBoardMember, PublicGroup, PublicReport } from "./schema";
 import { HydrationState } from "./hydration-state";
 
 export interface LiveData<T> {
@@ -23,6 +21,7 @@ export class ApiService {
 	private readonly hydration = inject(HydrationState);
 
 	readonly root = environment.apiRoot;
+	private journalRequest?: Promise<JournalItem[]>;
 
 	url(path: string): string {
 		return this.root + path;
@@ -58,8 +57,12 @@ export class ApiService {
 		return this.live<ProgramEvent[]>("/public/program");
 	}
 
-	gallery(): LiveData<Album[]> {
-		return this.live<Album[]>("/public/gallery", { sort: "-dateFrom" });
+	journal(): LiveData<JournalItem[]> {
+		return this.live<JournalItem[]>("/public/journal");
+	}
+
+	latestJournal(): LiveData<JournalItem[]> {
+		return this.live<JournalItem[]>("/public/journal", { sort: "publishedAt", limit: 1 });
 	}
 
 	recentAlbums(limit: number): LiveData<Album[]> {
@@ -82,23 +85,6 @@ export class ApiService {
 		return this.live<PublicBoardMember[]>("/public/board-members");
 	}
 
-	reports(): LiveData<PublicReport[]> {
-		return this.live<PublicReport[]>("/public/reports", { limit: REPORTS_PAGE });
-	}
-
-	fetchReports(offset: number): Promise<PublicReport[]> {
-		return firstValueFrom(
-			this.http.get<PublicReport[]>(this.url("/public/reports"), {
-				params: { limit: REPORTS_PAGE, offset },
-				transferCache: false,
-			}),
-		);
-	}
-
-	recentReports(limit: number): LiveData<PublicReport[]> {
-		return this.live<PublicReport[]>("/public/reports", { limit });
-	}
-
 	report(id: string): LiveData<PublicReport> {
 		return this.live<PublicReport>(`/public/reports/${encodeURIComponent(id)}`);
 	}
@@ -108,25 +94,17 @@ export class ApiService {
 	}
 
 	async fetchGalleryAlbumIds(): Promise<string[]> {
-		const albums = await firstValueFrom(this.http.get<Album[]>(this.url("/public/gallery")));
-		const reported = new Set((await this.fetchAllReports()).map((report) => report.album?._id));
-		return albums.map((album) => album._id).filter((id) => !reported.has(id));
+		return (await this.fetchJournal()).flatMap((item) => (item.albumId && !item.reportId ? [item.albumId] : []));
 	}
 
 	async fetchReportIds(): Promise<string[]> {
-		return (await this.fetchAllReports()).map((report) => report._id);
+		return (await this.fetchJournal()).flatMap((item) => (item.reportId ? [item.reportId] : []));
 	}
 
-	private async fetchAllReports(): Promise<PublicReport[]> {
-		const reports: PublicReport[] = [];
-		try {
-			for (let offset = 0; ; offset += REPORTS_PAGE) {
-				const page = await this.fetchReports(offset);
-				reports.push(...page);
-				if (page.length < REPORTS_PAGE) return reports;
-			}
-		} catch {
-			return reports;
-		}
+	private fetchJournal(): Promise<JournalItem[]> {
+		this.journalRequest ??= firstValueFrom(
+			this.http.get<JournalItem[]>(this.url("/public/journal"), { transferCache: false }),
+		);
+		return this.journalRequest;
 	}
 }
