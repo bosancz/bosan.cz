@@ -94,11 +94,13 @@ export class ApiService {
 	}
 
 	async fetchGalleryAlbumIds(): Promise<string[]> {
-		return (await this.fetchJournal()).flatMap((item) => (item.albumId && !item.reportId ? [item.albumId] : []));
+		return (await this.fetchJournal()).flatMap((item) =>
+			item.albumId && !item.reportId ? [String(item.albumId)] : [],
+		);
 	}
 
 	async fetchReportIds(): Promise<string[]> {
-		return (await this.fetchJournal()).flatMap((item) => (item.reportId ? [item.reportId] : []));
+		return (await this.fetchJournal()).flatMap((item) => (item.reportId ? [String(item.reportId)] : []));
 	}
 
 	private fetchJournal(): Promise<JournalItem[]> {

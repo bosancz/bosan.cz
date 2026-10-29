@@ -1,15 +1,13 @@
 <a class="card" [routerLink]="link()">
-	<span class="thumb" [style.background]="cover()?.bg ?? null">
-		@if (cover(); as photo) {
-			@if (photo.sizes.small; as size) {
-				<img
-					[src]="size.url"
-					[attr.width]="size.width"
-					[attr.height]="size.height"
-					alt=""
-					[attr.loading]="eager() ? null : 'lazy'"
-				/>
-			}
+	<span class="thumb" [style.background]="item().photo?.bg ?? null">
+		@if (item().photo; as photo) {
+			<img
+				[src]="photo.url"
+				[attr.width]="photo.width"
+				[attr.height]="photo.height"
+				alt=""
+				[attr.loading]="eager() ? null : 'lazy'"
+			/>
 		} @else if (!item().albumId) {
 			<svg class="doc" aria-hidden="true" viewBox="0 0 24 24" width="56" height="56">
 				<path

@@ -179,7 +179,7 @@ export class NewsPage {
 	protected readonly lead = computed(() => {
 		const item = this.latest.value()?.[0];
 		if (!item) return null;
-		const url = item.photo?.sizes.small?.url;
+		const url = item.photo?.url;
 		return {
 			reportId: item.reportId,
 			albumId: item.albumId,
@@ -218,8 +218,8 @@ export class NewsPage {
 			if (!item || key === this.leadKey) return;
 			this.leadKey = key;
 			untracked(() => {
-				if (item.reportId) this.leadReport.set(this.api.report(item.reportId));
-				else if (item.albumId) this.leadAlbum.set(this.api.albumPreview(item.albumId));
+				if (item.reportId) this.leadReport.set(this.api.report(String(item.reportId)));
+				else if (item.albumId) this.leadAlbum.set(this.api.albumPreview(String(item.albumId)));
 			});
 		});
 

@@ -61,7 +61,7 @@ export class AlbumPage implements OnInit {
 
 	constructor() {
 		effect(() => {
-			const item = this.journal?.value()?.find((i) => i.albumId === this.album() && i.reportId);
+			const item = this.journal?.value()?.find((i) => String(i.albumId) === this.album() && i.reportId);
 			if (item && !this.photo())
 				void this.router.navigate(["/jak-jsme-se-meli", item.reportId], { replaceUrl: true });
 		});

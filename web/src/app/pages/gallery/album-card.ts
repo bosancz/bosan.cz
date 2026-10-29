@@ -15,7 +15,6 @@ export class AlbumCard {
 	readonly item = input.required<JournalItem>();
 	readonly eager = input(false);
 
-	protected readonly cover = computed(() => this.item().photo ?? undefined);
 	protected readonly link = computed(() => {
 		const { reportId, albumId } = this.item();
 		return reportId ? ["/jak-jsme-se-meli", reportId] : ["/jak-jsme-se-meli/album", albumId];
