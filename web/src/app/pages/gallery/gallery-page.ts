@@ -27,6 +27,14 @@ interface GalleryItem {
 	badges: string[];
 }
 
+function searchText(value: string): string {
+	return value
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.toLowerCase()
+		.trim();
+}
+
 function reportBadges(report: PublicReport | undefined): string[] {
 	if (!report) return [];
 	return [...(report.report ? ["Shrnutí"] : []), ...(report.chronicle ? ["Kronika"] : [])];
@@ -75,6 +83,9 @@ export class GalleryPage {
 	private readonly reports = this.api.reports();
 	protected readonly loadedYears = signal(INITIAL_YEARS);
 	protected readonly activeYear = signal<number | undefined>(undefined);
+	protected readonly query = signal("");
+	protected readonly searchOpen = signal(false);
+	private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>("searchInput");
 
 	protected readonly groups = computed<YearGroup[]>(() => {
 		const reports = this.reports.value() ?? [];
@@ -82,7 +93,7 @@ export class GalleryPage {
 		const items: GalleryItem[] = [
 			...(this.albums.value() ?? []).map((album) => ({
 				key: `album-${album._id}`,
-				album,
+				album: reportByAlbum.has(album._id) ? { ...album, name: reportByAlbum.get(album._id)!.name } : album,
 				reportId: reportByAlbum.get(album._id)?._id ?? null,
 				hasAlbum: true,
 				badges: reportBadges(reportByAlbum.get(album._id)),
@@ -97,8 +108,10 @@ export class GalleryPage {
 					badges: reportBadges(r),
 				})),
 		];
+		const query = searchText(this.query());
 		const byYear = new Map<number, GalleryItem[]>();
 		for (const item of items) {
+			if (query && !searchText(item.album.name).includes(query)) continue;
 			if (!item.album.dateFrom) continue;
 			const year = parseDate(item.album.dateFrom).getUTCFullYear();
 			byYear.set(year, [...(byYear.get(year) ?? []), item]);
@@ -111,7 +124,10 @@ export class GalleryPage {
 				weight: items.length + 4,
 			}));
 	});
-	protected readonly visibleGroups = computed(() => this.groups().slice(0, this.loadedYears()));
+	protected readonly visibleGroups = computed(() =>
+		this.query().trim() ? this.groups() : this.groups().slice(0, this.loadedYears()),
+	);
+	protected readonly loaded = computed(() => this.albums.value() !== undefined && this.reports.value() !== undefined);
 	protected readonly current = computed(() => this.activeYear() ?? this.groups()[0]?.year);
 
 	constructor() {
@@ -176,6 +192,26 @@ export class GalleryPage {
 				this.destroyRef.onDestroy(() => observer.disconnect());
 			}
 		});
+	}
+
+	protected toggleSearch(): void {
+		if (this.searchOpen()) {
+			this.closeSearch();
+			return;
+		}
+		this.searchOpen.set(true);
+		afterNextRender(() => this.searchInput()?.nativeElement.focus(), { injector: this.injector });
+	}
+
+	protected closeSearch(): void {
+		this.searchOpen.set(false);
+		if (this.query()) this.onSearch("");
+	}
+
+	protected onSearch(value: string): void {
+		this.query.set(value);
+		this.activeYear.set(undefined);
+		afterNextRender(() => this.updateActive(), { injector: this.injector });
 	}
 
 	protected hasMore(): boolean {
