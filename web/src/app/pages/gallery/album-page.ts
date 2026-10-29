@@ -93,9 +93,7 @@ export class AlbumPage implements OnInit {
 		const dates = albumDatesWithYear(album.dateFrom, album.dateTill);
 		const photos = (album.photos ?? []).filter((p) => p.sizes?.big);
 		const title = photos.length ? `${name} (${album.dateFrom.slice(0, 4)})` : name;
-		const text =
-			markdownToText(album.description) ||
-			`Fotky z akce ${name} dětské vodácké skupiny ŠÁN, ${dates}.`;
+		const text = markdownToText(album.description) || `Fotky z akce ${name} dětské vodácké skupiny ŠÁN, ${dates}.`;
 		const description =
 			text.length <= 160
 				? text

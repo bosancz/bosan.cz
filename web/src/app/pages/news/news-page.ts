@@ -56,7 +56,8 @@ function albumDates(album: Album): string {
 	const b = parseDate(till);
 	const year = a.getUTCFullYear();
 	if (b.getTime() - a.getTime() >= 6 * DAY) return `od ${a.getUTCDate()}. ${a.getUTCMonth() + 1}. ${year}`;
-	if (year !== b.getUTCFullYear()) return `${compactRange(from, from)} ${year} – ${compactRange(till, till)} ${b.getUTCFullYear()}`;
+	if (year !== b.getUTCFullYear())
+		return `${compactRange(from, from)} ${year} – ${compactRange(till, till)} ${b.getUTCFullYear()}`;
 	return `${compactRange(from, till)} ${year}`;
 }
 
