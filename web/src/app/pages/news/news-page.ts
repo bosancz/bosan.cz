@@ -56,6 +56,7 @@ function albumDates(album: Album): string {
 	const b = parseDate(till);
 	const year = a.getUTCFullYear();
 	if (b.getTime() - a.getTime() >= 6 * DAY) return `od ${a.getUTCDate()}. ${a.getUTCMonth() + 1}. ${year}`;
+	if (year !== b.getUTCFullYear()) return `${compactRange(from, from)} ${year} – ${compactRange(till, till)} ${b.getUTCFullYear()}`;
 	return `${compactRange(from, till)} ${year}`;
 }
 
@@ -81,7 +82,8 @@ function longAlbumDates(album: Album): string {
 		return `${a.getUTCDate()}. ${genitive[a.getUTCMonth()]} ${year}`;
 	if (a.getUTCMonth() === b.getUTCMonth())
 		return `${a.getUTCDate()}.–${b.getUTCDate()}. ${genitive[b.getUTCMonth()]} ${year}`;
-	return `${a.getUTCDate()}. ${genitive[a.getUTCMonth()]} – ${b.getUTCDate()}. ${genitive[b.getUTCMonth()]} ${year}`;
+	const yearFrom = a.getUTCFullYear() !== year ? ` ${a.getUTCFullYear()}` : "";
+	return `${a.getUTCDate()}. ${genitive[a.getUTCMonth()]}${yearFrom} – ${b.getUTCDate()}. ${genitive[b.getUTCMonth()]} ${year}`;
 }
 
 function excerpt(text: string | null, max: number): string {
