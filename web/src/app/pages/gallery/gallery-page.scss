@@ -13,15 +13,14 @@
 	margin: 0 auto;
 	padding: 24px var(--gutter) 40px;
 	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: 20px 32px;
+	flex-direction: column;
+	gap: 24px;
 }
 
 .search {
 	position: relative;
-	flex: 0 1 340px;
+	width: 100%;
+	max-width: 420px;
 	display: flex;
 	align-items: center;
 
@@ -85,7 +84,7 @@ h1 {
 	}
 
 	.search {
-		flex-basis: 100%;
+		max-width: none;
 
 		input {
 			background: var(--light-2);
