@@ -1,17 +1,11 @@
-export interface ApiLink {
-	href: string;
-	method?: string;
-	allowed?: boolean | Record<string, boolean>;
-}
-
-export interface Leader {
-	_id: string;
+export interface ProgramLeader {
+	id: number;
 	nickname: string;
-	contacts?: { mobile?: string; email?: string };
+	mobile: string | null;
 }
 
 export interface ProgramEvent {
-	_id: string;
+	id: number;
 	status: "public" | "cancelled" | string;
 	name: string;
 	type: string | null;
@@ -20,53 +14,41 @@ export interface ProgramEvent {
 	dateTill: string;
 	timeFrom: string | null;
 	timeTill: string | null;
+	meetingStart: string | null;
+	meetingEnd: string | null;
+	publishedAt: string | null;
+	cancelledAt: string | null;
 	groups: string[];
 	leadersEvent: boolean;
-	meeting?: { start?: string | null; end?: string | null };
-	leaders: Leader[];
-	publishedAt?: string | null;
-	cancelledAt?: string | null;
-	_links?: { registration?: ApiLink };
-}
-
-export interface PhotoSize {
-	url: string;
-	width: number;
-	height: number;
+	leaders: ProgramLeader[];
+	registrationUrl: string | null;
 }
 
 export interface Photo {
-	_id: string;
-	album?: string;
-	name?: string;
-	caption?: string | null;
-	width?: number;
-	height?: number;
-	bg?: string;
-	date?: string;
-	sizes: { small?: PhotoSize; big?: PhotoSize; original?: PhotoSize };
+	id: number;
+	width: number | null;
+	height: number | null;
+	bg: string | null;
+	urls: { small: string; big: string; original: string };
+}
+
+export interface AlbumPhoto extends Photo {
+	caption: string | null;
+	takenAt: string;
 }
 
 export interface Album {
-	_id: string;
-	year: number;
-	status: string;
+	id: number;
 	name: string;
-	description: string | null;
-	datePublished: string | null;
 	dateFrom: string;
 	dateTill: string;
-	titlePhotos: Photo[];
-	previewPhotos?: Photo[];
-	photos?: Photo[];
-	_links?: { self?: ApiLink; download?: ApiLink };
+	publishedAt: string | null;
+	coverPhoto: Photo | null;
 }
 
-export interface JournalPhoto {
-	url: string;
-	width: number;
-	height: number;
-	bg: string | null;
+export interface AlbumDetail extends Album {
+	description: string | null;
+	downloadUrl: string;
 }
 
 export interface JournalItem {
@@ -78,21 +60,21 @@ export interface JournalItem {
 	publishedAt: string | null;
 	summary: boolean;
 	chronicle: boolean;
-	photo: JournalPhoto | null;
+	photo: Photo | null;
 }
 
 export interface PublicGroupLeader {
-	_id: string;
+	id: number;
 	nickname: string;
 	firstName: string | null;
 	lastName: string | null;
 	email: string | null;
 	mobile: string | null;
-	profilePhoto: string | null;
+	profilePhotoUrl: string | null;
 }
 
 export interface PublicGroup {
-	_id: string;
+	id: number;
 	shortName: string;
 	name: string;
 	color: string | null;
@@ -102,24 +84,32 @@ export interface PublicGroup {
 	leader: PublicGroupLeader | null;
 }
 
-export interface PublicBoardMember extends PublicGroupLeader {
+export interface PublicBoardMember {
+	memberId: number;
 	function: string | null;
+	nickname: string;
+	firstName: string | null;
+	lastName: string | null;
+	email: string | null;
+	mobile: string | null;
+	profilePhotoUrl: string | null;
 }
 
 export interface PublicReport {
-	_id: string;
+	id: number;
 	name: string;
 	type: string | null;
 	dateFrom: string;
 	dateTill: string;
 	groups: string[];
-	leaders: { nickname: string }[];
-	report: string | null;
-	reportPublishedAt: string;
+	leadersEvent: boolean;
+	leaders: { id: number; nickname: string }[];
+	summary: string | null;
+	publishedAt: string;
 	river: string | null;
 	waterKm: number | null;
-	album: { _id: string; name: string; titlePhoto?: Photo | null } | null;
-	chronicle?: ReportChronicle | null;
+	chronicle: ReportChronicle | null;
+	albumId: number | null;
 }
 
 export interface ReportChronicle {

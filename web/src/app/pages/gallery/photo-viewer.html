@@ -11,7 +11,7 @@
 		(transitionend)="onTransitionEnd($event)"
 		(transitioncancel)="onTransitionEnd($event)"
 	>
-		@for (slide of slides(); track slide.photo._id) {
+		@for (slide of slides(); track slide.photo.id) {
 			<div
 				class="slide"
 				[class.current]="slide.pos === 0"
@@ -51,10 +51,10 @@
 		</a>
 		<span class="album">{{ albumName() | typography }}</span>
 		<span class="counter">{{ index() + 1 }} / {{ photos().length }}</span>
-		@if (current().sizes.original; as original) {
+		@if (current(); as photo) {
 			<a
 				class="download"
-				[href]="original.url"
+				[href]="photo.urls.original"
 				download
 				target="_blank"
 				rel="noopener"
@@ -77,7 +77,7 @@
 
 	<a
 		class="arrow prev"
-		[routerLink]="['/jak-jsme-se-meli/album', albumId(), previous()._id]"
+		[routerLink]="['/jak-jsme-se-meli/album', albumId(), previous().id]"
 		[state]="state"
 		replaceUrl
 		aria-label="Předchozí fotografie"
@@ -95,7 +95,7 @@
 	</a>
 	<a
 		class="arrow next"
-		[routerLink]="['/jak-jsme-se-meli/album', albumId(), next()._id]"
+		[routerLink]="['/jak-jsme-se-meli/album', albumId(), next().id]"
 		[state]="state"
 		replaceUrl
 		aria-label="Další fotografie"

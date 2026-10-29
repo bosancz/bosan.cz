@@ -4,7 +4,7 @@ import { ApiService, LiveData } from "../../core/api.service";
 import { formatDateRange, formatWeekdayRange, monthName, parseDate } from "../../core/dates";
 import { eventTypeIcon } from "../../core/event-types";
 import { groupInfo, sortGroupIds } from "../../core/groups";
-import { Album, ProgramEvent, PublicReport } from "../../core/schema";
+import { Album, AlbumDetail, ProgramEvent, PublicReport } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
 import { InlineMarkdownPipe, ParagraphsPipe, markdownToText } from "../../core/markdown";
 import { NEWS_CONTENT } from "../../../content/content";
@@ -16,7 +16,7 @@ const NEWS_DAYS = 45;
 const DAY = 86400000;
 
 interface EventCard {
-	id: string;
+	id: number;
 	name: string;
 	icon: string;
 	iconLabel: string;
@@ -27,7 +27,7 @@ interface EventCard {
 }
 
 interface PhotoTile {
-	id: string;
+	id: number;
 	name: string;
 	dates: string;
 	url: string | null;
@@ -48,10 +48,14 @@ function compactRange(from: string, till: string): string {
 	return `${dm(a)}–${dm(b)}`;
 }
 
+function albumYear(album: Album): number {
+	return Number(album.dateFrom.slice(0, 4));
+}
+
 function albumDates(album: Album): string {
 	const from = album.dateFrom.slice(0, 10);
 	const till = album.dateTill.slice(0, 10);
-	if (album.year < 2000) return "z archivu";
+	if (albumYear(album) < 2000) return "z archivu";
 	const a = parseDate(from);
 	const b = parseDate(till);
 	const year = a.getUTCFullYear();
@@ -105,7 +109,7 @@ export class NewsPage {
 	private readonly albums = this.api.recentAlbums(PHOTO_ALBUMS);
 	private readonly latest = this.api.latestJournal();
 	private readonly leadReport = signal<LiveData<PublicReport> | undefined>(undefined);
-	private readonly leadAlbum = signal<LiveData<Album> | undefined>(undefined);
+	private readonly leadAlbum = signal<LiveData<AlbumDetail> | undefined>(undefined);
 	private leadKey?: string;
 	private readonly today = isoDay(new Date());
 
@@ -129,7 +133,7 @@ export class NewsPage {
 			.sort((a, b) => a.dateFrom.localeCompare(b.dateFrom))
 			.slice(0, UPCOMING_LIMIT)
 			.map((e) => ({
-				id: e._id,
+				id: e.id,
 				name: e.name,
 				icon: eventTypeIcon(e.type),
 				iconLabel: e.type ?? "schůzka",
@@ -148,7 +152,7 @@ export class NewsPage {
 					(b.cancelledAt ?? "").localeCompare(a.cancelledAt ?? "") || a.dateFrom.localeCompare(b.dateFrom),
 			);
 		return list.map((e) => ({
-			id: e._id,
+			id: e.id,
 			name: e.name,
 			date: formatDateRange(e.dateFrom, e.dateTill),
 			groups: e.groups.length ? "oddíl " + sortGroupIds(e.groups).join(", ") : "",
@@ -164,7 +168,7 @@ export class NewsPage {
 		const fallback = [...events].sort((a, b) => b.dateFrom.localeCompare(a.dateFrom));
 		const pick: ProgramEvent[] = fresh.length ? fresh : fallback;
 		return pick.slice(0, 1).map((e) => ({
-			id: e._id,
+			id: e.id,
 			name: e.name,
 			icon: "/img/news/taborak-red.svg",
 			dates: compactRange(e.dateFrom.slice(0, 10), e.dateTill.slice(0, 10)),
@@ -179,29 +183,28 @@ export class NewsPage {
 	protected readonly lead = computed(() => {
 		const item = this.latest.value()?.[0];
 		if (!item) return null;
-		const url = item.photo?.url;
+		const url = item.photo?.urls.big;
 		return {
 			reportId: item.reportId,
 			albumId: item.albumId,
 			name: item.name.trim(),
 			dates: compactRange(item.dateFrom.slice(0, 10), item.dateTill.slice(0, 10)),
 			text: item.reportId
-				? excerpt(this.leadReport()?.value()?.report ?? null, 320)
+				? excerpt(this.leadReport()?.value()?.summary ?? null, 320)
 				: markdownToText(this.leadAlbum()?.value()?.description ?? null) ||
 					"Podívej se, jak to u nás vypadalo. Fotky z akce jsou v galerii.",
-			image: url ? this.big(url) : null,
+			image: url ?? null,
 		};
 	});
 
 	protected readonly tiles = computed<PhotoTile[]>(() =>
 		this.sortedAlbums().map((album, index) => {
-			const photo = album.titlePhotos[0];
-			const url = photo?.sizes.big?.url ?? photo?.sizes.small?.url ?? null;
+			const photo = album.coverPhoto;
 			return {
-				id: album._id,
+				id: album.id,
 				name: album.name.trim(),
-				dates: index === 0 && album.year >= 2000 ? longAlbumDates(album) : albumDates(album),
-				url: url ? (index === 0 ? this.big(url) : url) : null,
+				dates: index === 0 && albumYear(album) >= 2000 ? longAlbumDates(album) : albumDates(album),
+				url: photo ? (index === 0 ? photo.urls.big : photo.urls.small) : null,
 				bg: photo?.bg ?? "#c9cee9",
 			};
 		}),
@@ -218,8 +221,8 @@ export class NewsPage {
 			if (!item || key === this.leadKey) return;
 			this.leadKey = key;
 			untracked(() => {
-				if (item.reportId) this.leadReport.set(this.api.report(String(item.reportId)));
-				else if (item.albumId) this.leadAlbum.set(this.api.albumPreview(String(item.albumId)));
+				if (item.reportId) this.leadReport.set(this.api.report(item.reportId));
+				else if (item.albumId) this.leadAlbum.set(this.api.album(item.albumId));
 			});
 		});
 
@@ -245,9 +248,5 @@ export class NewsPage {
 
 	protected month(value: string): string {
 		return monthName(value);
-	}
-
-	private big(url: string): string {
-		return url.replace(/\/small$/, "/big");
 	}
 }

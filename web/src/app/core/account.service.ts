@@ -23,7 +23,7 @@ export class AccountService {
 			});
 	}
 
-	eventUrl(eventId: string): string {
+	eventUrl(eventId: string | number): string {
 		return `${environment.interniUrl}/akce/${encodeURIComponent(eventId)}`;
 	}
 

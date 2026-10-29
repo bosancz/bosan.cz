@@ -2,7 +2,7 @@
 	<span class="thumb" [style.background]="item().photo?.bg ?? null">
 		@if (item().photo; as photo) {
 			<img
-				[src]="photo.url"
+				[src]="photo.urls.small"
 				[attr.width]="photo.width"
 				[attr.height]="photo.height"
 				alt=""

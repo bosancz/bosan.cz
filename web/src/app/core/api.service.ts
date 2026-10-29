@@ -3,7 +3,16 @@ import { Injectable, PLATFORM_ID, Signal, inject, signal } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../environments/environment";
-import { Album, JournalItem, ProgramEvent, PublicBoardMember, PublicGroup, PublicReport } from "./schema";
+import {
+	Album,
+	AlbumDetail,
+	AlbumPhoto,
+	JournalItem,
+	ProgramEvent,
+	PublicBoardMember,
+	PublicGroup,
+	PublicReport,
+} from "./schema";
 import { HydrationState } from "./hydration-state";
 
 export interface LiveData<T> {
@@ -20,7 +29,7 @@ export class ApiService {
 	private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
 	private readonly hydration = inject(HydrationState);
 
-	readonly root = environment.apiRoot;
+	readonly root = `${environment.apiRoot}/public/v2`;
 	private journalRequest?: Promise<JournalItem[]>;
 
 	url(path: string): string {
@@ -54,43 +63,43 @@ export class ApiService {
 	}
 
 	program(): LiveData<ProgramEvent[]> {
-		return this.live<ProgramEvent[]>("/public/program");
+		return this.live<ProgramEvent[]>("/program");
 	}
 
 	journal(): LiveData<JournalItem[]> {
-		return this.live<JournalItem[]>("/public/journal");
+		return this.live<JournalItem[]>("/journal");
 	}
 
 	latestJournal(): LiveData<JournalItem[]> {
-		return this.live<JournalItem[]>("/public/journal", { sort: "publishedAt", limit: 1 });
+		return this.live<JournalItem[]>("/journal", { sort: "publishedAt", limit: 1 });
 	}
 
 	recentAlbums(limit: number): LiveData<Album[]> {
-		return this.live<Album[]>("/public/gallery/recent", { limit });
+		return this.live<Album[]>("/albums/recent", { limit });
 	}
 
-	album(id: string): LiveData<Album> {
-		return this.live<Album>(`/public/gallery/${encodeURIComponent(id)}`);
+	album(id: string | number): LiveData<AlbumDetail> {
+		return this.live<AlbumDetail>(`/albums/${encodeURIComponent(id)}`);
 	}
 
-	albumPreview(id: string): LiveData<Album> {
-		return this.live<Album>(`/public/gallery/${encodeURIComponent(id)}/preview`);
+	albumPhotos(id: string | number): LiveData<AlbumPhoto[]> {
+		return this.live<AlbumPhoto[]>(`/albums/${encodeURIComponent(id)}/photos`);
 	}
 
 	groups(): LiveData<PublicGroup[]> {
-		return this.live<PublicGroup[]>("/public/groups");
+		return this.live<PublicGroup[]>("/groups");
 	}
 
 	boardMembers(): LiveData<PublicBoardMember[]> {
-		return this.live<PublicBoardMember[]>("/public/board-members");
+		return this.live<PublicBoardMember[]>("/board-members");
 	}
 
-	report(id: string): LiveData<PublicReport> {
-		return this.live<PublicReport>(`/public/reports/${encodeURIComponent(id)}`);
+	report(id: string | number): LiveData<PublicReport> {
+		return this.live<PublicReport>(`/reports/${encodeURIComponent(id)}`);
 	}
 
 	icalUrl(): string {
-		return this.url("/public/program/ical");
+		return this.url("/program/ical");
 	}
 
 	async fetchGalleryAlbumIds(): Promise<string[]> {
@@ -105,7 +114,7 @@ export class ApiService {
 
 	private fetchJournal(): Promise<JournalItem[]> {
 		this.journalRequest ??= firstValueFrom(
-			this.http.get<JournalItem[]>(this.url("/public/journal"), { transferCache: false }),
+			this.http.get<JournalItem[]>(this.url("/journal"), { transferCache: false }),
 		);
 		return this.journalRequest;
 	}
