@@ -1,6 +1,20 @@
 <section class="hero">
 	<div class="hero-inner">
 		<h1>jak jsme se měli</h1>
+		<label class="mobile-search">
+			<svg viewBox="0 0 24 24" aria-hidden="true">
+				<circle cx="10.5" cy="10.5" r="6.5" />
+				<path d="M15.5 15.5 21 21" />
+			</svg>
+			<input
+				type="search"
+				placeholder="Hledat akci nebo album"
+				aria-label="Hledat akci nebo album"
+				autocomplete="off"
+				[value]="query()"
+				(input)="onSearch($any($event.target).value)"
+			/>
+		</label>
 	</div>
 </section>
 
