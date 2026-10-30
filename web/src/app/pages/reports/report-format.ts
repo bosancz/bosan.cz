@@ -1,8 +1,8 @@
 import { PublicReport, ReportChronicle } from "../../core/schema";
-import { albumDates } from "../gallery/gallery-dates";
+import { albumDatesWithYear } from "../gallery/gallery-dates";
 
 export function reportDates(report: PublicReport): string {
-	return `${albumDates(report.dateFrom, report.dateTill)} ${report.dateFrom.slice(0, 4)}`;
+	return albumDatesWithYear(report.dateFrom, report.dateTill);
 }
 
 export function reportWater(report: PublicReport): string {
