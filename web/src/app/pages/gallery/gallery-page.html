@@ -84,14 +84,8 @@
 			<section class="year" [id]="'rok-' + group.year" [attr.data-year-section]="group.year">
 				<h2>{{ group.year }}</h2>
 				<div class="grid">
-					@for (item of group.items; track item.key; let i = $index) {
-						<bo-album-card
-							[album]="item.album"
-							[reportId]="item.reportId"
-							[preview]="item.hasAlbum"
-							[badges]="item.badges"
-							[eager]="first && i < 4"
-						/>
+					@for (item of group.items; track item.reportId ?? "album-" + item.albumId; let i = $index) {
+						<bo-album-card [item]="item" [eager]="first && i < 4" />
 					}
 				</div>
 			</section>
@@ -99,7 +93,7 @@
 		@if (query().trim() && loaded() && !groups().length) {
 			<p class="status">Nic jsme nenašli. Zkuste jiné slovo.</p>
 		}
-		@if (albums.error() && !groups().length) {
+		@if (journal.error() && !groups().length) {
 			<p class="status">Alba se nepodařilo načíst. Zkuste to prosím později.</p>
 		}
 		<div class="sentinel" #sentinel aria-hidden="true"></div>

@@ -95,13 +95,13 @@ export class ProgramPage {
 		return sections;
 	});
 
-	protected readonly firstEventId = computed(() => this.sections()[0]?.events[0]?._id);
+	protected readonly firstEventId = computed(() => this.sections()[0]?.events[0]?.id);
 
 	private readonly fragment = toSignal(this.route.fragment, { initialValue: this.route.snapshot.fragment });
-	private scrolledTo: string | null = null;
+	private scrolledTo: number | null = null;
 	protected readonly targetId = computed(() => {
 		const fragment = this.fragment();
-		return fragment?.startsWith("akce-") ? fragment.slice(5) : null;
+		return fragment?.startsWith("akce-") ? Number(fragment.slice(5)) : null;
 	});
 
 	constructor() {
@@ -151,9 +151,9 @@ export class ProgramPage {
 
 	protected leadersOf(event: ProgramEvent) {
 		return event.leaders.map((leader) => {
-			const mobile = leader.contacts?.mobile?.trim();
+			const mobile = leader.mobile?.trim();
 			return {
-				id: leader._id,
+				id: leader.id,
 				nickname: leader.nickname,
 				phone: mobile ? formatPhone(mobile) : null,
 				href: mobile ? phoneHref(mobile) : null,
@@ -184,7 +184,7 @@ export class ProgramPage {
 			eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
 			location: {
 				"@type": "Place",
-				name: event.meeting?.start ?? "Praha",
+				name: event.meetingStart ?? "Praha",
 				address: { "@type": "PostalAddress", addressLocality: "Praha", addressCountry: "CZ" },
 			},
 			organizer: { "@type": "Organization", name: "KONDOR Skupina ŠÁN z.s.", url: "https://bosan.cz" },

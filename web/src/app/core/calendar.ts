@@ -28,9 +28,9 @@ function compact(day: string): string {
 }
 
 export function calendarEventData(event: ProgramEvent): CalendarEventData {
-	const url = `${environment.siteUrl}/program#akce-${event._id}`;
-	const meetingStart = markdownToText(event.meeting?.start);
-	const meetingEnd = markdownToText(event.meeting?.end);
+	const url = `${environment.siteUrl}/program#akce-${event.id}`;
+	const meetingStart = markdownToText(event.meetingStart);
+	const meetingEnd = markdownToText(event.meetingEnd);
 	const lines = [
 		meetingStart ? `Sraz: ${meetingStart}` : null,
 		meetingEnd ? `Návrat: ${meetingEnd}` : null,
@@ -40,7 +40,7 @@ export function calendarEventData(event: ProgramEvent): CalendarEventData {
 	const description = text.length > DESCRIPTION_LIMIT ? text.slice(0, DESCRIPTION_LIMIT).trimEnd() + "…" : text;
 	const details = [lines.join("\n"), description, url].filter(Boolean).join("\n\n");
 	return {
-		uid: `event-${event._id}@bosan.cz`,
+		uid: `event-${event.id}@bosan.cz`,
 		title: event.status === "cancelled" ? `Zrušeno: ${event.name}` : event.name,
 		start: isoDay(event.dateFrom),
 		end: nextDay(event.dateTill || event.dateFrom),

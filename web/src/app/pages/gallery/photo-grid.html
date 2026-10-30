@@ -1,16 +1,16 @@
 <ul class="photos">
-	@for (photo of photos(); track photo._id; let i = $index) {
+	@for (photo of photos(); track photo.id; let i = $index) {
 		<li [style.flex-grow]="ratio(photo) * 100" [style.flex-basis.px]="ratio(photo) * 220">
 			<a
-				[routerLink]="['/jak-jsme-se-meli/album', albumId(), photo._id]"
+				[routerLink]="['/jak-jsme-se-meli/album', albumId(), photo.id]"
 				[state]="state"
 				[attr.aria-label]="photo.caption || 'Fotografie ' + (i + 1) + ' z ' + photos().length"
 			>
 				<i [style.padding-bottom.%]="100 / ratio(photo)"></i>
 				<img
-					[src]="photo.sizes.small!.url"
-					[attr.width]="photo.sizes.small!.width"
-					[attr.height]="photo.sizes.small!.height"
+					[src]="photo.urls.small"
+					[attr.width]="photo.width"
+					[attr.height]="photo.height"
 					[alt]="photo.caption || albumName() + ', fotografie ' + (i + 1)"
 					[style.background]="photo.bg"
 					[attr.loading]="i < eager() ? null : 'lazy'"

@@ -2,7 +2,7 @@ import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import opentype from "opentype.js";
 import sharp from "sharp";
 
-const apiRoot = "https://interni.bosan.cz/api";
+const apiRoot = "https://interni.bosan.cz/api/public/v2";
 const WIDTH = 1200;
 const HEIGHT = 630;
 const PHOTO_WIDTH = 760;
@@ -139,57 +139,20 @@ const getJson = (path) =>
 		res.ok ? res.json() : Promise.reject(new Error(`${res.status} ${path}`)),
 	);
 
-function photoUrl(photo) {
-	return photo?.sizes?.big?.url ?? photo?.sizes?.small?.url ?? null;
-}
-
-async function albumPhoto(album, id) {
-	const listed = photoUrl(album?.titlePhotos?.[0]);
-	if (listed) return listed;
-	const preview = await getJson(`/public/gallery/${id}/preview`).catch(() => null);
-	return photoUrl(preview?.titlePhotos?.[0] ?? preview?.previewPhotos?.[0]);
-}
-
-async function fetchReports() {
-	const reports = [];
-	try {
-		for (let offset = 0; ; offset += 100) {
-			const page = await getJson(`/public/reports?limit=100&offset=${offset}`);
-			reports.push(...page);
-			if (page.length < 100) return reports;
-		}
-	} catch {
-		return reports;
-	}
-}
-
 async function main() {
 	const { routes } = JSON.parse(readFileSync(new URL("../prerendered-routes.json", dist), "utf8"));
 	const routeIds = (prefix) =>
 		Object.keys(routes)
 			.map((route) => route.match(new RegExp(`^/${prefix}/([^/]+)$`))?.[1])
 			.filter(Boolean);
-	const albums = new Map((await getJson("/public/gallery")).map((album) => [album._id, album]));
-	const reports = new Map((await fetchReports()).map((report) => [report._id, report]));
+	const journal = await getJson("/journal");
+	const albums = new Map(journal.filter((item) => !item.reportId).map((item) => [String(item.albumId), item]));
+	const reports = new Map(journal.filter((item) => item.reportId).map((item) => [String(item.reportId), item]));
+	const job = (file, item, label) => ({ file, item: item && { ...item, label }, photo: item?.photo?.urls.big });
 
 	const jobs = [
-		...routeIds("jak-jsme-se-meli/album").map((id) => ({
-			file: `album-${id}.jpg`,
-			item: albums.get(id) && { ...albums.get(id), label: "JAK JSME SE MĚLI" },
-			photo: () => albumPhoto(albums.get(id), id),
-		})),
-		...routeIds("jak-jsme-se-meli").map((id) => {
-			const report = reports.get(id);
-			return {
-				file: `report-${id}.jpg`,
-				item: report && { ...report, label: "KRONIKA AKCE" },
-				photo: async () =>
-					report?.album
-						? (photoUrl(report.album.titlePhoto) ??
-							albumPhoto(albums.get(report.album._id), report.album._id))
-						: null,
-			};
-		}),
+		...routeIds("jak-jsme-se-meli/album").map((id) => job(`album-${id}.jpg`, albums.get(id), "JAK JSME SE MĚLI")),
+		...routeIds("jak-jsme-se-meli").map((id) => job(`report-${id}.jpg`, reports.get(id), "KRONIKA AKCE")),
 	];
 
 	const out = new URL("og/", dist);
@@ -202,7 +165,7 @@ async function main() {
 		for (let job = queue.shift(); job; job = queue.shift()) {
 			const file = new URL(job.file, out);
 			try {
-				const url = job.item ? await job.photo() : null;
+				const url = job.item ? job.photo : null;
 				if (!url) {
 					copyFileSync(fallback, file);
 					continue;

@@ -18,7 +18,7 @@ interface LeaderContact {
 }
 
 interface BoardMember {
-	id: string;
+	id: number;
 	photo: string;
 	nickname: string;
 	name: string;
@@ -76,8 +76,8 @@ export class ContactsPage {
 
 	protected readonly board = computed<BoardMember[]>(() =>
 		(this.boardMembers.value() ?? []).map((member) => ({
-			id: member._id,
-			photo: member.profilePhoto ?? DEFAULT_PHOTO,
+			id: member.memberId,
+			photo: member.profilePhotoUrl ?? DEFAULT_PHOTO,
 			nickname: member.nickname,
 			name: [member.firstName, member.lastName].filter(Boolean).join(" "),
 			role: member.function ?? "člen vedení",
@@ -125,7 +125,7 @@ export class ContactsPage {
 	private leaderContact(group: PublicGroup): LeaderContact {
 		const leader = group.leader!;
 		return {
-			photo: leader.profilePhoto ?? DEFAULT_PHOTO,
+			photo: leader.profilePhotoUrl ?? DEFAULT_PHOTO,
 			nickname: leader.nickname,
 			name: [leader.firstName, leader.lastName].filter(Boolean).join(" "),
 			group: group.shortName,

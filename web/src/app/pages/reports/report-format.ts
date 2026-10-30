@@ -15,8 +15,3 @@ export function chronicleSize(chronicle: ReportChronicle): string {
 	if (mb >= 1) return `${mb.toLocaleString("cs-CZ", { maximumFractionDigits: 1 })} MB`;
 	return `${Math.max(1, Math.round(chronicle.size / 1e3)).toLocaleString("cs-CZ")} kB`;
 }
-
-export function reportPhoto(report: PublicReport, size: "small" | "big"): string | null {
-	const sizes = report.album?.titlePhoto?.sizes;
-	return (size === "big" ? (sizes?.big ?? sizes?.small) : (sizes?.small ?? sizes?.big))?.url ?? null;
-}

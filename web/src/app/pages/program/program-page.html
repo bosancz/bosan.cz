@@ -2,7 +2,7 @@
 	@if (account.isLeader()) {
 		<a
 			class="interni-link"
-			[href]="account.eventUrl(event._id)"
+			[href]="account.eventUrl(event.id)"
 			target="_blank"
 			rel="noopener"
 			aria-label="Otevřít v interní sekci"
@@ -26,16 +26,16 @@
 
 <ng-template #panel let-event>
 	<div class="panel-row">
-		@if (event.meeting?.start) {
+		@if (event.meetingStart; as meetingStart) {
 			<div class="meet">
 				<div class="meet-label">Sraz</div>
-				<div class="meet-value" [innerHTML]="event.meeting.start | inlineMarkdown"></div>
+				<div class="meet-value" [innerHTML]="meetingStart | inlineMarkdown"></div>
 			</div>
 		}
-		@if (event.meeting?.end) {
+		@if (event.meetingEnd; as meetingEnd) {
 			<div class="meet">
 				<div class="meet-label">Návrat</div>
-				<div class="meet-value" [innerHTML]="event.meeting.end | inlineMarkdown"></div>
+				<div class="meet-value" [innerHTML]="meetingEnd | inlineMarkdown"></div>
 			</div>
 		}
 		@if (event.leaders.length) {
@@ -62,8 +62,8 @@
 			</div>
 		}
 		<div class="actions">
-			@if (event._links?.registration; as registration) {
-				<a class="registration" [href]="registration.href">
+			@if (event.registrationUrl; as registrationUrl) {
+				<a class="registration" [href]="registrationUrl">
 					<svg viewBox="0 0 24 24" aria-hidden="true">
 						<path
 							d="M12 4v11M7 10l5 5 5-5M5 20h14"
@@ -220,12 +220,12 @@
 	<div class="main-inner">
 		@for (section of sections(); track section.key) {
 			<h2>{{ section.title }}</h2>
-			@for (event of section.events; track event._id; let i = $index) {
+			@for (event of section.events; track event.id; let i = $index) {
 				<article
 					class="card"
 					[style.border-radius]="radius(i)"
-					[attr.data-event]="event._id"
-					[class.targeted]="event._id === targetId()"
+					[attr.data-event]="event.id"
+					[class.targeted]="event.id === targetId()"
 				>
 					<div class="card-main">
 						<div class="when">
@@ -269,10 +269,10 @@
 				<article
 					class="m-card"
 					[style.border-radius]="radius(i + 1)"
-					[attr.data-event]="event._id"
-					[class.targeted]="event._id === targetId()"
+					[attr.data-event]="event.id"
+					[class.targeted]="event.id === targetId()"
 				>
-					<details [open]="event._id === (targetId() ?? firstEventId())">
+					<details [open]="event.id === (targetId() ?? firstEventId())">
 						<summary>
 							<img [src]="icon(event.type)" alt="" aria-hidden="true" width="34" height="34" />
 							<div class="m-head">

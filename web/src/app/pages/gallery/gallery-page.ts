@@ -14,18 +14,10 @@ import {
 import { DOCUMENT } from "@angular/common";
 import { Router } from "@angular/router";
 import { ApiService } from "../../core/api.service";
-import { Album, PublicReport } from "../../core/schema";
+import { JournalItem } from "../../core/schema";
 import { parseDate } from "../../core/dates";
 import { SeoService } from "../../core/seo.service";
 import { AlbumCard } from "./album-card";
-
-interface GalleryItem {
-	key: string;
-	album: Album;
-	reportId: string | null;
-	hasAlbum: boolean;
-	badges: string[];
-}
 
 function searchText(value: string): string {
 	return value
@@ -35,29 +27,10 @@ function searchText(value: string): string {
 		.trim();
 }
 
-function reportBadges(report: PublicReport | undefined): string[] {
-	if (!report) return [];
-	return [...(report.report ? ["Shrnutí"] : []), ...(report.chronicle ? ["Kronika"] : [])];
-}
-
 interface YearGroup {
 	year: number;
-	items: GalleryItem[];
+	items: JournalItem[];
 	weight: number;
-}
-
-function reportAlbum(report: PublicReport): Album {
-	return {
-		_id: report._id,
-		year: Number(report.dateFrom.slice(0, 4)),
-		status: "public",
-		name: report.name,
-		description: null,
-		datePublished: report.reportPublishedAt,
-		dateFrom: report.dateFrom,
-		dateTill: report.dateTill,
-		titlePhotos: [],
-	};
 }
 
 const INITIAL_YEARS = 2;
@@ -79,8 +52,7 @@ export class GalleryPage {
 	private readonly rail = viewChild<ElementRef<HTMLElement>>("rail");
 	private readonly sentinel = viewChild<ElementRef<HTMLElement>>("sentinel");
 
-	protected readonly albums = this.api.gallery();
-	private readonly reports = this.api.reports();
+	protected readonly journal = this.api.journal();
 	protected readonly loadedYears = signal(INITIAL_YEARS);
 	protected readonly activeYear = signal<number | undefined>(undefined);
 	protected readonly query = signal("");
@@ -88,46 +60,26 @@ export class GalleryPage {
 	private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>("searchInput");
 
 	protected readonly groups = computed<YearGroup[]>(() => {
-		const reports = this.reports.value() ?? [];
-		const reportByAlbum = new Map(reports.filter((r) => r.album).map((r) => [r.album!._id, r]));
-		const items: GalleryItem[] = [
-			...(this.albums.value() ?? []).map((album) => ({
-				key: `album-${album._id}`,
-				album: reportByAlbum.has(album._id) ? { ...album, name: reportByAlbum.get(album._id)!.name } : album,
-				reportId: reportByAlbum.get(album._id)?._id ?? null,
-				hasAlbum: true,
-				badges: reportBadges(reportByAlbum.get(album._id)),
-			})),
-			...reports
-				.filter((r) => !r.album)
-				.map((r) => ({
-					key: `report-${r._id}`,
-					album: reportAlbum(r),
-					reportId: r._id,
-					hasAlbum: false,
-					badges: reportBadges(r),
-				})),
-		];
 		const query = searchText(this.query());
-		const byYear = new Map<number, GalleryItem[]>();
-		for (const item of items) {
-			if (query && !searchText(item.album.name).includes(query)) continue;
-			if (!item.album.dateFrom) continue;
-			const year = parseDate(item.album.dateFrom).getUTCFullYear();
+		const byYear = new Map<number, JournalItem[]>();
+		for (const item of this.journal.value() ?? []) {
+			if (query && !searchText(item.name).includes(query)) continue;
+			if (!item.dateFrom) continue;
+			const year = parseDate(item.dateFrom).getUTCFullYear();
 			byYear.set(year, [...(byYear.get(year) ?? []), item]);
 		}
 		return [...byYear.entries()]
 			.sort((a, b) => b[0] - a[0])
 			.map(([year, items]) => ({
 				year,
-				items: items.sort((a, b) => b.album.dateFrom.localeCompare(a.album.dateFrom)),
+				items: items.sort((a, b) => b.dateFrom.localeCompare(a.dateFrom)),
 				weight: items.length + 4,
 			}));
 	});
 	protected readonly visibleGroups = computed(() =>
 		this.query().trim() ? this.groups() : this.groups().slice(0, this.loadedYears()),
 	);
-	protected readonly loaded = computed(() => this.albums.value() !== undefined && this.reports.value() !== undefined);
+	protected readonly loaded = computed(() => this.journal.value() !== undefined);
 	protected readonly current = computed(() => this.activeYear() ?? this.groups()[0]?.year);
 
 	constructor() {
@@ -136,7 +88,7 @@ export class GalleryPage {
 		if (restore) {
 			this.loadedYears.set(restore.loadedYears);
 			const restoreEffect = effect(() => {
-				if (this.albums.value() === undefined || this.reports.value() === undefined) return;
+				if (this.journal.value() === undefined) return;
 				restoreEffect.destroy();
 				afterNextRender(() => window.scrollTo({ top: restore.scrollY }), { injector: this.injector });
 			});

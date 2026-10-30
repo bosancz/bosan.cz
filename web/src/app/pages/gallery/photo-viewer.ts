@@ -13,7 +13,7 @@ import {
 } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import { Router, RouterLink } from "@angular/router";
-import { Photo } from "../../core/schema";
+import { AlbumPhoto } from "../../core/schema";
 import { TypographyPipe } from "../../core/typography";
 
 const SWIPE_DISTANCE = 60;
@@ -62,7 +62,7 @@ function clamp(value: number, a: number, b: number): number {
 export class PhotoViewer {
 	readonly albumId = input.required<string>();
 	readonly albumName = input.required<string>();
-	readonly photos = input.required<Photo[]>();
+	readonly photos = input.required<AlbumPhoto[]>();
 	readonly photoId = input.required<string>();
 
 	private readonly router = inject(Router);
@@ -87,12 +87,12 @@ export class PhotoViewer {
 	private startZoom = NO_ZOOM;
 	private startDistance = 1;
 	private lastTap: { time: number; point: Point } | null = null;
-	private committing: Photo | null = null;
+	private committing: AlbumPhoto | null = null;
 
 	protected readonly index = computed(() =>
 		Math.max(
 			0,
-			this.photos().findIndex((p) => p._id === this.photoId()),
+			this.photos().findIndex((p) => String(p.id) === this.photoId()),
 		),
 	);
 	protected readonly current = computed(() => this.photos()[this.index()]);
@@ -110,7 +110,7 @@ export class PhotoViewer {
 			return {
 				photo,
 				pos,
-				size: photo.sizes.big ?? photo.sizes.small!,
+				size: { url: photo.urls.big, width: photo.width, height: photo.height },
 				alt: photo.caption || `${this.albumName()}, fotografie ${((i + count) % count) + 1}`,
 			};
 		};
@@ -141,8 +141,8 @@ export class PhotoViewer {
 		else void this.router.navigate(["/jak-jsme-se-meli/album", this.albumId()]);
 	}
 
-	protected go(photo: Photo): void {
-		void this.router.navigate(["/jak-jsme-se-meli/album", this.albumId(), photo._id], {
+	protected go(photo: AlbumPhoto): void {
+		void this.router.navigate(["/jak-jsme-se-meli/album", this.albumId(), photo.id], {
 			replaceUrl: true,
 			state: this.state,
 		});
@@ -272,7 +272,7 @@ export class PhotoViewer {
 		this.mode = "pinch";
 	}
 
-	private commit(photo: Photo, offset: number): void {
+	private commit(photo: AlbumPhoto, offset: number): void {
 		this.committing = photo;
 		this.offset.set(offset);
 	}
