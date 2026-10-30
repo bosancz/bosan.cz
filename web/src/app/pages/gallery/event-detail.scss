@@ -224,13 +224,20 @@ h1 {
 			color: var(--navy);
 		}
 
-		h1,
-		h2 {
+		h1 {
 			font-size: 28px;
 		}
 
-		:is(h3, h4) {
-			font-size: 22px;
+		h2 {
+			font-size: 24px;
+		}
+
+		h3 {
+			font-size: 21px;
+		}
+
+		h4 {
+			font-size: 19px;
 		}
 
 		> :first-child {
