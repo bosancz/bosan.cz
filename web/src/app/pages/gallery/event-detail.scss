@@ -218,26 +218,28 @@ h1 {
 
 		:is(h1, h2, h3, h4) {
 			margin: 1.2em 0 0.4em;
-			font-family: var(--font-display);
-			font-weight: 400;
+			font-family: var(--font-body);
+			font-weight: 800;
 			line-height: 1.15;
 			color: var(--navy);
 		}
 
 		h1 {
+			font-family: var(--font-display);
+			font-weight: 400;
 			font-size: 28px;
 		}
 
 		h2 {
-			font-size: 24px;
+			font-size: 22px;
 		}
 
 		h3 {
-			font-size: 21px;
+			font-size: 20px;
 		}
 
 		h4 {
-			font-size: 19px;
+			font-size: 18px;
 		}
 
 		> :first-child {
