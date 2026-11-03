@@ -20,7 +20,7 @@ interface SessionView {
 	id: string;
 	from: string;
 	to: string;
-	label: [string, string];
+	label: string;
 	groups: string[];
 	leader: { nickname: string; name: string; email: string; phone: string };
 }
@@ -29,7 +29,7 @@ const CHAPTER_LAYOUTS = ["single", "single", "pair", "trio"] as const;
 
 function dayMonth(date: string): string {
 	const [, month, day] = date.split("-").map(Number);
-	return `${day}. ${month}.`;
+	return `${day}.\u00a0${month}.`;
 }
 
 function sessionView(session: (typeof CAMP_CONTENT.sessions.items)[number], index: number): SessionView {
@@ -37,7 +37,7 @@ function sessionView(session: (typeof CAMP_CONTENT.sessions.items)[number], inde
 		id: `turnus-${index + 1}`,
 		from: session.from,
 		to: session.to,
-		label: [`${dayMonth(session.from)} –`, `${dayMonth(session.to)} ${session.to.slice(0, 4)}`],
+		label: `${dayMonth(session.from)} – ${dayMonth(session.to)}\u00a0${session.to.slice(0, 4)}`,
 		groups: session.groups,
 		leader: session.leader,
 	};

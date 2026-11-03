@@ -75,9 +75,7 @@
 			@for (turnus of sessions; track turnus.id) {
 				<article class="turnus">
 					<div class="turnus-dates">
-						<time [attr.datetime]="turnus.from + '/' + turnus.to"
-							>{{ turnus.label[0] }}<br />{{ turnus.label[1] }}</time
-						>
+						<time [attr.datetime]="turnus.from + '/' + turnus.to">{{ turnus.label }}</time>
 					</div>
 					<div class="turnus-body">
 						<span class="notch notch-left" aria-hidden="true"></span>
