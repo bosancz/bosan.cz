@@ -8,8 +8,8 @@ import { CHILD_GROUPS, FRIENDS_CLUB } from "../../core/groups";
 import { AboutHistory } from "./about-history";
 
 const SECTIONS = [
-	{ id: "ostrov-san", label: "ostrov Šán" },
 	{ id: "oddily", label: "oddíly" },
+	{ id: "ostrov-san", label: "ostrov Šán" },
 	{ id: "z-historie", label: "z historie" },
 ];
 
