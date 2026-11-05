@@ -75,15 +75,11 @@
 .top-inner {
 	display: flex;
 	flex-direction: column;
-	gap: 40px;
-	padding-top: 56px;
-	padding-bottom: 72px;
+	padding-top: 48px;
 
 	@include bp.mobile {
-		flex-direction: column;
-		gap: 4px;
 		padding-top: 0;
-		padding-bottom: 32px;
+		padding-bottom: 8px;
 	}
 }
 
@@ -97,27 +93,6 @@
 	min-width: 0;
 	display: flex;
 	flex-direction: column;
-}
-
-.label {
-	margin: 0;
-	font-size: 15px;
-	font-weight: 800;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: var(--muted);
-
-	@include bp.mobile {
-		font-size: 13px;
-	}
-}
-
-.program .label {
-	margin-bottom: 18px;
-
-	@include bp.mobile {
-		margin-bottom: 16px;
-	}
 }
 
 .meta {
@@ -478,6 +453,20 @@
 }
 
 .photos-inner {
+	padding-top: 56px;
+	padding-bottom: 40px;
+
+	@include bp.mobile {
+		padding-top: 28px;
+		padding-bottom: 32px;
+	}
+}
+
+.program-band {
+	background: #ffffff;
+}
+
+.program-inner {
 	padding-top: 16px;
 	padding-bottom: 72px;
 
@@ -487,11 +476,7 @@
 	}
 }
 
-.photos-head {
-	display: flex;
-	align-items: baseline;
-	justify-content: space-between;
-	gap: 16px;
+.section-head {
 	margin-bottom: 20px;
 
 	h2 {
@@ -502,38 +487,11 @@
 		color: var(--navy);
 	}
 
-	a {
-		font-weight: 700;
-		font-size: 15px;
-		color: var(--navy);
-
-		&:hover {
-			color: var(--red);
-		}
-	}
-
-	.short {
-		display: none;
-	}
-
 	@include bp.mobile {
 		margin-bottom: 12px;
 
 		h2 {
 			font-size: 34px;
-		}
-
-		a {
-			font-weight: 800;
-			font-size: 14px;
-		}
-
-		.long {
-			display: none;
-		}
-
-		.short {
-			display: inline;
 		}
 	}
 }
@@ -569,7 +527,7 @@
 	@include bp.mobile {
 		border-radius: 16px;
 
-		&:nth-child(n + 5) {
+		&:nth-child(n + 3):not(.tile-more) {
 			display: none;
 		}
 	}
@@ -665,6 +623,57 @@
 
 	@include bp.mobile {
 		display: none;
+	}
+}
+
+.tile-more {
+	background: var(--navy);
+	color: #ffffff;
+	padding: 18px 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 8px;
+	transition: background-color 0.15s;
+
+	&:hover,
+	&:focus-visible {
+		background: var(--tile);
+		color: #ffffff;
+	}
+
+	@include bp.mobile {
+		padding: 12px 14px;
+	}
+}
+
+.tile-more-text {
+	font-family: var(--font-display);
+	font-size: 26px;
+	line-height: 1.1;
+
+	strong {
+		display: block;
+		font-weight: 400;
+		font-size: 40px;
+		color: var(--orange);
+	}
+
+	@include bp.mobile {
+		font-size: 18px;
+
+		strong {
+			font-size: 28px;
+		}
+	}
+}
+
+.tile-more-link {
+	font-weight: 800;
+	font-size: 15px;
+
+	@include bp.mobile {
+		font-size: 13px;
 	}
 }
 

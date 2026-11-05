@@ -11,7 +11,7 @@ import { NEWS_CONTENT } from "../../../content/content";
 import { TypographyPipe } from "../../core/typography";
 
 const UPCOMING_LIMIT = 7;
-const PHOTO_ALBUMS = 5;
+const PHOTO_ALBUMS = 4;
 const NEWS_DAYS = 45;
 const DAY = 86400000;
 
@@ -114,6 +114,7 @@ export class NewsPage {
 	private readonly seo = inject(SeoService);
 	private readonly program = this.api.program();
 	private readonly albums = this.api.recentAlbums(PHOTO_ALBUMS);
+	private readonly stats = this.api.galleryStats();
 	private readonly today = isoDay(new Date());
 
 	protected readonly join = NEWS_CONTENT.join;
@@ -157,6 +158,11 @@ export class NewsPage {
 	private readonly sortedAlbums = computed(() =>
 		[...(this.albums.value() ?? [])].sort((a, b) => b.dateFrom.localeCompare(a.dateFrom)),
 	);
+
+	protected readonly morePhotos = computed(() => {
+		const photos = this.stats.value()?.photos;
+		return photos ? photos.toLocaleString("cs-CZ") : null;
+	});
 
 	protected readonly tiles = computed<PhotoTile[]>(() =>
 		this.sortedAlbums().map((album, index) => {

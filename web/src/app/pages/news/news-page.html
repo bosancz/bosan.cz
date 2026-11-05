@@ -6,9 +6,9 @@
 	</div>
 </section>
 
-<div class="top">
-	<div class="container top-inner">
-		@if (messages.length) {
+@if (messages.length) {
+	<div class="top">
+		<div class="container top-inner">
 			<section class="messages" aria-label="Oznámení">
 				@for (message of messages; track $index) {
 					<article class="note note-message">
@@ -29,10 +29,61 @@
 					</article>
 				}
 			</section>
-		}
+		</div>
+	</div>
+}
 
+<section class="photos" aria-labelledby="photos-heading">
+	<div class="container photos-inner">
+		<div class="section-head"><h2 id="photos-heading">nové fotky</h2></div>
+		<div class="grid">
+			@for (tile of tiles(); track tile.id; let i = $index) {
+				<a
+					class="tile"
+					[class.tile-main]="i === 0"
+					[routerLink]="['/jak-jsme-se-meli/album', tile.id]"
+					[style.background]="tile.bg"
+				>
+					@if (tile.url) {
+						<img
+							[src]="tile.url"
+							[alt]="'Album ' + tile.name"
+							[attr.width]="i === 0 ? 1000 : 480"
+							[attr.height]="i === 0 ? 700 : 340"
+							[attr.loading]="i === 0 ? null : 'lazy'"
+						/>
+					}
+					@if (i === 0) {
+						<span class="tile-caption-main">
+							<span class="tile-title-main">{{ tile.name | typography }}</span>
+							<span class="tile-date-main">{{ tile.dates }}</span>
+						</span>
+					} @else {
+						<span class="tile-caption">
+							<span class="tile-title">{{ tile.name | typography }}</span>
+							<span class="tile-date">{{ tile.dates }}</span>
+						</span>
+					}
+				</a>
+			}
+			<a class="tile tile-more" routerLink="/jak-jsme-se-meli">
+				<span class="tile-more-text">
+					@if (morePhotos(); as count) {
+						dalších <strong>{{ count }}</strong> fotek
+					} @else {
+						další fotky
+					}
+				</span>
+				<span class="tile-more-link">Fotogalerie <span aria-hidden="true">→</span></span>
+			</a>
+		</div>
+	</div>
+</section>
+
+<div class="program-band">
+	<div class="container program-inner">
 		<section class="program" aria-labelledby="program-heading">
-			<h2 id="program-heading" class="label">Nejbližší akce</h2>
+			<div class="section-head"><h2 id="program-heading">nejbližší akce</h2></div>
 			<ul class="events">
 				@for (event of upcoming(); track event.id; let i = $index) {
 					<li>
@@ -105,48 +156,6 @@
 		</section>
 	</div>
 </div>
-
-<section class="photos" aria-labelledby="photos-heading">
-	<div class="container photos-inner">
-		<div class="photos-head">
-			<h2 id="photos-heading">nové fotky</h2>
-			<a routerLink="/jak-jsme-se-meli"
-				><span class="long">Jak jsme se měli</span><span class="short">Vše</span></a
-			>
-		</div>
-		<div class="grid">
-			@for (tile of tiles(); track tile.id; let i = $index) {
-				<a
-					class="tile"
-					[class.tile-main]="i === 0"
-					[routerLink]="['/jak-jsme-se-meli/album', tile.id]"
-					[style.background]="tile.bg"
-				>
-					@if (tile.url) {
-						<img
-							[src]="tile.url"
-							[alt]="'Album ' + tile.name"
-							[attr.width]="i === 0 ? 1000 : 480"
-							[attr.height]="i === 0 ? 700 : 340"
-							[attr.loading]="i === 0 ? null : 'lazy'"
-						/>
-					}
-					@if (i === 0) {
-						<span class="tile-caption-main">
-							<span class="tile-title-main">{{ tile.name | typography }}</span>
-							<span class="tile-date-main">{{ tile.dates }}</span>
-						</span>
-					} @else {
-						<span class="tile-caption">
-							<span class="tile-title">{{ tile.name | typography }}</span>
-							<span class="tile-date">{{ tile.dates }}</span>
-						</span>
-					}
-				</a>
-			}
-		</div>
-	</div>
-</section>
 
 <section class="join" aria-label="Přidej se">
 	<div class="container join-inner">

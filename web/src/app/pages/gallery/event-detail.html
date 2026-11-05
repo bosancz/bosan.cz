@@ -11,7 +11,7 @@
 					stroke-linejoin="round"
 				/>
 			</svg>
-			Jak jsme se měli
+			Fotogalerie
 		</a>
 		@if (account.isLeader() && interniHref(); as href) {
 			<a
@@ -123,7 +123,7 @@
 				</section>
 			}
 		} @else if (failed()) {
-			<p class="status">{{ failedText() }} <a routerLink="/jak-jsme-se-meli">Zpět na Jak jsme se měli</a></p>
+			<p class="status">{{ failedText() }} <a routerLink="/jak-jsme-se-meli">Zpět na fotogalerii</a></p>
 		}
 	</div>
 </main>
