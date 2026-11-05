@@ -8,78 +8,28 @@
 
 <div class="top">
 	<div class="container top-inner">
-		<section class="news" aria-labelledby="news-heading">
-			<h2 id="news-heading" class="label">Aktuality</h2>
-			@for (message of messages; track $index) {
-				<article class="note note-message">
-					<svg class="note-icon" viewBox="0 0 24 24" aria-hidden="true">
-						<circle cx="12" cy="12" r="11" fill="#e28f26" />
-						<path d="M12 6.5v7" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" />
-						<circle cx="12" cy="17.4" r="1.6" fill="#ffffff" />
-					</svg>
-					<div class="note-text">
-						@if (message.date) {
-							<time class="meta" [attr.datetime]="message.from">{{ message.date }}</time>
-						}
-						<h3 class="note-title">{{ message.title }}</h3>
-						@for (paragraph of message.text | paragraphs; track $index) {
-							<p class="note-body" [innerHTML]="paragraph"></p>
-						}
-					</div>
-				</article>
-			}
-			@if (lead(); as item) {
-				<a class="lead" [routerLink]="['/jak-jsme-se-meli/album', item.albumId]">
-					@if (item.image) {
-						<img
-							class="lead-photo"
-							[src]="item.image"
-							[alt]="'Fotka z akce ' + item.name"
-							width="520"
-							height="280"
-							fetchpriority="high"
-						/>
-					}
-					<div class="lead-text">
-						<div class="meta">akce {{ item.dates }}</div>
-						<h3 class="lead-title">byli jsme na akci {{ item.name.toLowerCase() | typography }}</h3>
-						<p class="lead-body">{{ item.text }}</p>
-					</div>
-				</a>
-			}
-			@for (item of cancelled(); track item.id) {
-				<article class="note note-cancelled">
-					<svg class="note-icon" viewBox="0 0 24 24" aria-hidden="true">
-						<circle cx="12" cy="12" r="11" fill="#d2232a" />
-						<path d="M8 8l8 8M16 8l-8 8" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" />
-					</svg>
-					<div class="note-text">
-						<div class="meta">
-							<span class="badge">zrušeno</span>{{ item.date }}
-							@if (item.groups) {
-								<span class="note-groups"> · {{ item.groups }}</span>
+		@if (messages.length) {
+			<section class="messages" aria-label="Oznámení">
+				@for (message of messages; track $index) {
+					<article class="note note-message">
+						<svg class="note-icon" viewBox="0 0 24 24" aria-hidden="true">
+							<circle cx="12" cy="12" r="11" fill="#e28f26" />
+							<path d="M12 6.5v7" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" />
+							<circle cx="12" cy="17.4" r="1.6" fill="#ffffff" />
+						</svg>
+						<div class="note-text">
+							@if (message.date) {
+								<time class="meta" [attr.datetime]="message.from">{{ message.date }}</time>
+							}
+							<h3 class="note-title">{{ message.title }}</h3>
+							@for (paragraph of message.text | paragraphs; track $index) {
+								<p class="note-body" [innerHTML]="paragraph"></p>
 							}
 						</div>
-						<h3 class="note-title">
-							<s>{{ item.name | typography }}</s>
-						</h3>
-						<p class="note-body">Akce se nekoná.<span class="note-more"> Ostatní program platí.</span></p>
-					</div>
-				</article>
-			}
-			@for (item of published(); track item.id) {
-				<a class="note note-new" routerLink="/program" [fragment]="'akce-' + item.id">
-					<img class="note-fire" [src]="item.icon" alt="" aria-hidden="true" width="52" height="52" />
-					<div class="note-text">
-						<div class="meta">{{ item.dates }}</div>
-						<h3 class="note-title">{{ item.name | typography }}</h3>
-						@if (item.text) {
-							<p class="note-body note-more">{{ item.text }}</p>
-						}
-					</div>
-				</a>
-			}
-		</section>
+					</article>
+				}
+			</section>
+		}
 
 		<section class="program" aria-labelledby="program-heading">
 			<h2 id="program-heading" class="label">Nejbližší akce</h2>
@@ -114,7 +64,20 @@
 								height="40"
 							/>
 							<div class="event-main">
-								<h3 class="event-name">{{ event.name | typography }}</h3>
+								<div class="event-head">
+									<h3 class="event-name">
+										@if (event.cancelled) {
+											<s>{{ event.name | typography }}</s>
+										} @else {
+											{{ event.name | typography }}
+										}
+									</h3>
+									@if (event.cancelled) {
+										<span class="badge badge-cancelled">zrušeno</span>
+									} @else if (event.isNew) {
+										<span class="badge badge-new">nově v programu</span>
+									}
+								</div>
 								@if (event.groups.length) {
 									<span class="groups">
 										@for (group of event.groups; track group.id) {
@@ -127,6 +90,9 @@
 											>
 										}
 									</span>
+								}
+								@if (event.text) {
+									<p class="event-text">{{ event.text }}</p>
 								}
 							</div>
 						</a>
