@@ -33,9 +33,7 @@ interface YearGroup {
 	weight: number;
 }
 
-const INITIAL_YEARS = 2;
-
-let savedView: { loadedYears: number; scrollY: number } | null = null;
+let savedView: { scrollY: number } | null = null;
 
 @Component({
 	selector: "bo-gallery-page",
@@ -50,10 +48,8 @@ export class GalleryPage {
 	private readonly injector = inject(Injector);
 	private readonly destroyRef = inject(DestroyRef);
 	private readonly rail = viewChild<ElementRef<HTMLElement>>("rail");
-	private readonly sentinel = viewChild<ElementRef<HTMLElement>>("sentinel");
 
 	protected readonly journal = this.api.journal();
-	protected readonly loadedYears = signal(INITIAL_YEARS);
 	protected readonly activeYear = signal<number | undefined>(undefined);
 	protected readonly query = signal("");
 	protected readonly searchOpen = signal(false);
@@ -76,9 +72,6 @@ export class GalleryPage {
 				weight: items.length + 4,
 			}));
 	});
-	protected readonly visibleGroups = computed(() =>
-		this.query().trim() ? this.groups() : this.groups().slice(0, this.loadedYears()),
-	);
 	protected readonly loaded = computed(() => this.journal.value() !== undefined);
 	protected readonly current = computed(() => this.activeYear() ?? this.groups()[0]?.year);
 
@@ -86,7 +79,6 @@ export class GalleryPage {
 		const router = inject(Router);
 		const restore = router.currentNavigation()?.trigger === "popstate" ? savedView : null;
 		if (restore) {
-			this.loadedYears.set(restore.loadedYears);
 			const restoreEffect = effect(() => {
 				if (this.journal.value() === undefined) return;
 				restoreEffect.destroy();
@@ -110,8 +102,7 @@ export class GalleryPage {
 		afterNextRender(() => {
 			let frame = 0;
 			const onScroll = () => {
-				if (!router.currentNavigation())
-					savedView = { loadedYears: this.loadedYears(), scrollY: window.scrollY };
+				if (!router.currentNavigation()) savedView = { scrollY: window.scrollY };
 				if (frame) return;
 				frame = requestAnimationFrame(() => {
 					frame = 0;
@@ -127,22 +118,6 @@ export class GalleryPage {
 			});
 			this.updateActive();
 
-			const target = this.sentinel()?.nativeElement;
-			if (target && typeof IntersectionObserver !== "undefined") {
-				const observer = new IntersectionObserver(
-					(entries) => {
-						if (!entries.some((entry) => entry.isIntersecting)) return;
-						this.loadMore();
-						setTimeout(() => {
-							observer.unobserve(target);
-							observer.observe(target);
-						}, 80);
-					},
-					{ rootMargin: "900px 0px" },
-				);
-				observer.observe(target);
-				this.destroyRef.onDestroy(() => observer.disconnect());
-			}
 		});
 	}
 
@@ -164,14 +139,6 @@ export class GalleryPage {
 		this.query.set(value);
 		this.activeYear.set(undefined);
 		afterNextRender(() => this.updateActive(), { injector: this.injector });
-	}
-
-	protected hasMore(): boolean {
-		return this.loadedYears() < this.groups().length;
-	}
-
-	protected loadMore(): void {
-		if (this.hasMore()) this.loadedYears.update((n) => n + 1);
 	}
 
 	protected onRailLink(event: MouseEvent, year: number): void {
@@ -211,12 +178,7 @@ export class GalleryPage {
 		const index = this.groups().findIndex((group) => group.year === year);
 		if (index < 0) return;
 		this.activeYear.set(year);
-		if (index >= this.loadedYears()) {
-			this.loadedYears.set(index + 1);
-			afterNextRender(() => this.scrollToYear(year, fraction), { injector: this.injector });
-		} else {
-			this.scrollToYear(year, fraction);
-		}
+		this.scrollToYear(year, fraction);
 	}
 
 	private scrollToYear(year: number, fraction: number): void {
