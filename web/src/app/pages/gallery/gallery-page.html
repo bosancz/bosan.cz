@@ -93,7 +93,7 @@
 		@if (query().trim() && loaded() && !groups().length) {
 			<p class="status">Nic jsme nenašli. Zkuste jiné slovo.</p>
 		}
-		@if (journal.error() && !groups().length) {
+		@if (gallery.error() && !groups().length) {
 			<p class="status">Alba se nepodařilo načíst. Zkuste to prosím později.</p>
 		}
 	</div>

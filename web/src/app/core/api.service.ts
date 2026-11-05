@@ -8,7 +8,7 @@ import {
 	AlbumDetail,
 	AlbumPhoto,
 	GalleryStats,
-	JournalItem,
+	GalleryItem,
 	ProgramEvent,
 	PublicBoardMember,
 	PublicGroup,
@@ -30,7 +30,7 @@ export class ApiService {
 	private readonly hydration = inject(HydrationState);
 
 	readonly root = `${environment.apiRoot}/public/v2`;
-	private journalRequest?: Promise<JournalItem[]>;
+	private galleryRequest?: Promise<GalleryItem[]>;
 
 	url(path: string): string {
 		return this.root + path;
@@ -66,12 +66,12 @@ export class ApiService {
 		return this.live<ProgramEvent[]>("/program");
 	}
 
-	journal(): LiveData<JournalItem[]> {
-		return this.live<JournalItem[]>("/journal");
+	gallery(): LiveData<GalleryItem[]> {
+		return this.live<GalleryItem[]>("/gallery");
 	}
 
-	latestJournal(): LiveData<JournalItem[]> {
-		return this.live<JournalItem[]>("/journal", { sort: "publishedAt", limit: 1 });
+	latestAlbum(): LiveData<GalleryItem[]> {
+		return this.live<GalleryItem[]>("/gallery", { sort: "publishedAt", limit: 1 });
 	}
 
 	galleryStats(): LiveData<GalleryStats> {
@@ -103,13 +103,13 @@ export class ApiService {
 	}
 
 	async fetchGalleryAlbumIds(): Promise<string[]> {
-		return (await this.fetchJournal()).map((item) => String(item.albumId));
+		return (await this.fetchGallery()).map((item) => String(item.albumId));
 	}
 
-	private fetchJournal(): Promise<JournalItem[]> {
-		this.journalRequest ??= firstValueFrom(
-			this.http.get<JournalItem[]>(this.url("/journal"), { transferCache: false }),
+	private fetchGallery(): Promise<GalleryItem[]> {
+		this.galleryRequest ??= firstValueFrom(
+			this.http.get<GalleryItem[]>(this.url("/gallery"), { transferCache: false }),
 		);
-		return this.journalRequest;
+		return this.galleryRequest;
 	}
 }

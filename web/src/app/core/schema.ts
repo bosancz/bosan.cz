@@ -66,7 +66,7 @@ export interface AlbumEvent {
 	waterKm: number | null;
 }
 
-export interface JournalItem {
+export interface GalleryItem {
 	albumId: number;
 	name: string;
 	dateFrom: string;
