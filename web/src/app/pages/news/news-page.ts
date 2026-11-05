@@ -21,6 +21,7 @@ interface EventCard {
 	icon: string;
 	iconLabel: string;
 	dates: string;
+	dateParts: string[];
 	weekdays: string;
 	from: string;
 	groups: { id: string; name: string; color: string; text: string }[];
@@ -140,6 +141,7 @@ export class NewsPage {
 				icon: eventTypeIcon(e.type),
 				iconLabel: e.type ?? "schůzka",
 				dates: formatDateRange(e.dateFrom, e.dateTill),
+				dateParts: formatDateRange(e.dateFrom, e.dateTill).split(" – "),
 				weekdays: formatWeekdayRange(e.dateFrom, e.dateTill),
 				from: e.dateFrom,
 				groups: sortGroupIds(e.groups).map((id) => groupInfo(id)),
