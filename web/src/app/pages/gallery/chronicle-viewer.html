@@ -1,0 +1,27 @@
+@if (failed()) {
+	<p class="status">
+		Kroniku se nepodařilo zobrazit. <a [href]="url()" target="_blank" rel="noopener">Otevřít PDF</a>
+	</p>
+} @else if (pages().length) {
+	<div class="pages">
+		@for (page of shownPages(); track page.number) {
+			<div class="page" [style.aspect-ratio]="page.ratio">
+				<canvas
+					#canvas
+					[attr.data-page]="page.number"
+					role="img"
+					[attr.aria-label]="'Kronika ' + name() + ', strana ' + page.number"
+				></canvas>
+			</div>
+		}
+	</div>
+	@if (hiddenCount() > 0) {
+		<button type="button" class="more" (click)="expand()">
+			Zobrazit celou kroniku ({{ pagesLabel(pages().length) }})
+		</button>
+	}
+} @else {
+	<div class="pages">
+		<div class="page loading" aria-busy="true"></div>
+	</div>
+}

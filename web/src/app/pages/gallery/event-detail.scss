@@ -260,46 +260,18 @@ h1 {
 }
 
 .chronicle {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 12px 16px;
+	max-width: 820px;
 
 	.article + & {
-		margin-top: 24px;
+		margin-top: 40px;
 	}
 
 	@include bp.mobile {
 		padding: 24px var(--gutter) 0;
 
 		.article + & {
-			margin-top: 0;
+			margin-top: 8px;
 		}
-	}
-
-	.button {
-		display: inline-flex;
-		align-items: center;
-		gap: 10px;
-		min-height: 48px;
-		padding: 0 22px;
-		border-radius: 14px;
-		background: var(--orange);
-		color: var(--navy);
-		font-weight: 800;
-		font-size: 17px;
-		text-decoration: none;
-
-		&:hover {
-			background: var(--navy);
-			color: #fff;
-		}
-	}
-
-	.size {
-		font-weight: 700;
-		font-size: 15px;
-		color: var(--muted);
 	}
 }
 
@@ -317,7 +289,7 @@ h1 {
 	}
 }
 
-.gallery-head {
+.section-head {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: baseline;
@@ -365,6 +337,7 @@ h1 {
 }
 
 #shrnuti,
+#kronika,
 #fotogalerie {
 	scroll-margin-top: 80px;
 }
