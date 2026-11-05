@@ -146,17 +146,13 @@ export class NewsPage {
 			})),
 	);
 
-	private readonly sortedAlbums = computed(() =>
-		[...(this.albums.value() ?? [])].sort((a, b) => b.dateFrom.localeCompare(a.dateFrom)),
-	);
-
 	protected readonly morePhotos = computed(() => {
 		const photos = this.stats.value()?.photos;
 		return photos ? photos.toLocaleString("cs-CZ") : null;
 	});
 
 	protected readonly tiles = computed<PhotoTile[]>(() =>
-		this.sortedAlbums().map((album, index) => {
+		(this.albums.value() ?? []).map((album, index) => {
 			const photo = album.coverPhoto;
 			return {
 				id: album.id,
