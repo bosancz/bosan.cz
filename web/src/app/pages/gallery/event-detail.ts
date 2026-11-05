@@ -9,10 +9,11 @@ import { PageToc, PageTocSection } from "../../components/page-toc";
 import { chronicleSize } from "./event-format";
 import { photoCount } from "./gallery-dates";
 import { PhotoGrid } from "./photo-grid";
+import { ChronicleViewer } from "./chronicle-viewer";
 
 @Component({
 	selector: "bo-event-detail",
-	imports: [RouterLink, MarkdownPipe, TypographyPipe, PhotoGrid, PageToc],
+	imports: [RouterLink, MarkdownPipe, TypographyPipe, PhotoGrid, PageToc, ChronicleViewer],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: "./event-detail.html",
 	styleUrl: "./event-detail.scss",
@@ -41,11 +42,14 @@ export class EventDetail {
 
 	protected readonly chronicleSize = chronicleSize;
 	protected readonly photoCount = photoCount;
+	protected readonly showGallery = computed(
+		() => !!this.albumId() && (this.photos().length > 0 || this.photosFailed() || !this.photosLoaded()),
+	);
 	protected readonly tocSections = computed<PageTocSection[] | null>(() => {
-		if (!this.summary() || !this.albumId()) return null;
-		return [
-			{ id: "shrnuti", label: "shrnutí" },
-			{ id: "fotogalerie", label: "fotogalerie" },
-		];
+		const sections: PageTocSection[] = [];
+		if (this.summary()) sections.push({ id: "shrnuti", label: "shrnutí" });
+		if (this.chronicle()) sections.push({ id: "kronika", label: "kronika" });
+		if (this.showGallery()) sections.push({ id: "fotogalerie", label: "fotogalerie" });
+		return sections.length > 1 ? sections : null;
 	});
 }
