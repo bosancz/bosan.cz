@@ -52,42 +52,6 @@
 	</div>
 </nav>
 
-<section class="island" aria-labelledby="ostrov-san">
-	<div class="container island-inner">
-		<div class="island-photo">
-			<img class="blob" src="/img/about/blob-light.svg" alt="" aria-hidden="true" width="300" height="300" />
-			<img class="photo" [src]="content.island.photo.src" [alt]="content.island.photo.alt" loading="lazy" />
-		</div>
-		<div class="island-text">
-			<div class="island-title">
-				<svg viewBox="42 0 128 610" aria-hidden="true" preserveAspectRatio="none">
-					<g
-						transform="translate(18 4) scale(1.35 1)"
-						fill="none"
-						stroke="#2a3478"
-						stroke-width="4"
-						stroke-linejoin="round"
-					>
-						<path
-							d="M40 6 C55 70 64 170 62 260 C60 330 52 420 60 510 C64 555 72 582 80 596 C62 578 44 535 35 455 C25 360 22 220 28 120 C31 70 35 32 40 6 Z"
-							vector-effect="non-scaling-stroke"
-						/>
-						<path
-							d="M93 318 C105 326 109 380 107 440 C105 478 98 494 90 490 C80 484 77 430 79 380 C81 345 85 318 93 318 Z"
-							vector-effect="non-scaling-stroke"
-						/>
-					</g>
-				</svg>
-				<h2 id="ostrov-san">ostrov šán</h2>
-			</div>
-			@for (paragraph of content.island.text | paragraphs; track $index) {
-				<p [innerHTML]="paragraph"></p>
-			}
-			<a class="button" routerLink="/tabor">O táboře</a>
-		</div>
-	</div>
-</section>
-
 <section class="groups" aria-labelledby="oddily">
 	<div class="container groups-inner">
 		<div class="groups-text">
@@ -152,6 +116,42 @@
 				</svg>
 			</li>
 		</ol>
+	</div>
+</section>
+
+<section class="island" aria-labelledby="ostrov-san">
+	<div class="container island-inner">
+		<div class="island-photo">
+			<img class="blob" src="/img/about/blob-light.svg" alt="" aria-hidden="true" width="300" height="300" />
+			<img class="photo" [src]="content.island.photo.src" [alt]="content.island.photo.alt" loading="lazy" />
+		</div>
+		<div class="island-text">
+			<div class="island-title">
+				<svg viewBox="42 0 128 610" aria-hidden="true" preserveAspectRatio="none">
+					<g
+						transform="translate(18 4) scale(1.35 1)"
+						fill="none"
+						stroke="#2a3478"
+						stroke-width="4"
+						stroke-linejoin="round"
+					>
+						<path
+							d="M40 6 C55 70 64 170 62 260 C60 330 52 420 60 510 C64 555 72 582 80 596 C62 578 44 535 35 455 C25 360 22 220 28 120 C31 70 35 32 40 6 Z"
+							vector-effect="non-scaling-stroke"
+						/>
+						<path
+							d="M93 318 C105 326 109 380 107 440 C105 478 98 494 90 490 C80 484 77 430 79 380 C81 345 85 318 93 318 Z"
+							vector-effect="non-scaling-stroke"
+						/>
+					</g>
+				</svg>
+				<h2 id="ostrov-san">ostrov šán</h2>
+			</div>
+			@for (paragraph of content.island.text | paragraphs; track $index) {
+				<p [innerHTML]="paragraph"></p>
+			}
+			<a class="button" routerLink="/tabor">O táboře</a>
+		</div>
 	</div>
 </section>
 

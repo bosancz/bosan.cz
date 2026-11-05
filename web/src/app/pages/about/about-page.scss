@@ -183,7 +183,7 @@ h1 {
 }
 
 .island {
-	background: #fff;
+	background: var(--light);
 }
 
 .island-inner {
@@ -201,6 +201,7 @@ h1 {
 	position: relative;
 
 	.blob {
+		filter: brightness(0) invert(1);
 		position: absolute;
 		left: -40px;
 		top: -30px;
@@ -272,7 +273,7 @@ h1 {
 }
 
 .groups {
-	background: var(--light);
+	background: #fff;
 	color: var(--navy);
 }
 
