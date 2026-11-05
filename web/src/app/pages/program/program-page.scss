@@ -71,50 +71,50 @@ h2 {
 	color: var(--navy);
 }
 
-.card {
-	background: #fff;
-	overflow: hidden;
+.timeline {
+	position: relative;
 	display: flex;
+	flex-direction: column;
+	gap: 22px;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: 8px;
+		bottom: 8px;
+		left: calc(var(--when-width) + 30px);
+		border-left: 3px dashed #e7c08a;
+	}
 }
 
-.card,
-.m-card {
+.timeline,
+.event {
+	--when-width: 220px;
+}
+
+.event {
+	position: relative;
+	display: grid;
+	grid-template-columns: var(--when-width) 64px minmax(0, 1fr);
+	align-items: start;
 	scroll-margin: 24px;
 
-	&.targeted {
+	&.targeted .card {
 		outline: 3px solid var(--orange);
 		outline-offset: 3px;
 		box-shadow: 0 10px 28px rgba(226, 143, 38, 0.25);
 	}
 }
 
-.card-main {
-	flex: 1 1 auto;
-	min-width: 0;
-	padding: 26px 30px;
-	display: flex;
-	gap: 20px 32px;
-}
-
 .when {
-	width: 274px;
-	flex-shrink: 0;
-	display: flex;
-	gap: 14px;
-	align-items: flex-start;
-
-	img {
-		width: 46px;
-		height: 46px;
-		flex-shrink: 0;
-		display: block;
-	}
+	padding: 12px 18px 0 0;
+	text-align: right;
 }
 
 .range {
 	display: block;
 	font-family: var(--font-display);
-	font-size: 28px;
+	font-size: 27px;
 	line-height: 1;
 	color: var(--navy);
 	white-space: nowrap;
@@ -124,14 +124,45 @@ h2 {
 	font-size: 14px;
 	font-weight: 700;
 	color: var(--muted);
+	margin-top: 6px;
+}
+
+.bullet {
+	position: relative;
+	justify-self: center;
 	margin-top: 4px;
+	width: 54px;
+	height: 54px;
+	display: block;
+	border-radius: 50%;
+	background: var(--light);
+	box-shadow: 0 0 0 5px var(--light);
+}
+
+.card {
+	position: relative;
+	margin-left: 14px;
+	background: #fff;
+	display: flex;
+	overflow: hidden;
+}
+
+.event::after {
+	content: "";
+	position: absolute;
+	left: calc(var(--when-width) + 64px + 5px);
+	top: 22px;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	transform: rotate(45deg);
+	border-radius: 3px;
 }
 
 .pills {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 4px;
-	margin-top: 12px;
 }
 
 .pill {
@@ -148,8 +179,10 @@ h2 {
 }
 
 .what {
-	flex: 1 1 360px;
+	position: relative;
+	flex: 1 1 auto;
 	min-width: 0;
+	padding: 24px 30px 26px;
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
@@ -157,10 +190,22 @@ h2 {
 	h3 {
 		margin: 0;
 		font-family: var(--font-display);
-		font-size: 28px;
-		line-height: 1.15;
+		font-size: 30px;
+		line-height: 1.1;
 		font-weight: 400;
 		color: var(--navy);
+	}
+}
+
+.what-head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 8px 20px;
+
+	.pills {
+		padding-top: 4px;
+		flex-wrap: nowrap;
 	}
 }
 
@@ -249,10 +294,10 @@ h2 {
 }
 
 .panel {
-	flex: 0 0 300px;
+	flex: 0 0 250px;
 	background: #fdf3e6;
 	border-left: 2px dashed #e7c08a;
-	padding: 24px 26px;
+	padding: 22px 22px;
 	display: flex;
 	flex-direction: column;
 }
@@ -317,7 +362,7 @@ h2 {
 	}
 }
 
-.m-card {
+.m-event {
 	display: none;
 }
 
@@ -359,16 +404,27 @@ h2 {
 }
 
 @media (max-width: 1100px) {
+	.timeline,
+	.event {
+		--when-width: 170px;
+	}
+
+	.range {
+		font-size: 22px;
+	}
+
 	.card {
 		flex-wrap: wrap;
 	}
-	.card-main {
-		flex-wrap: wrap;
-	}
+
 	.panel {
 		flex: 1 1 100%;
 		border-left: 0;
 		border-top: 2px dashed #e7c08a;
+	}
+
+	.leaders {
+		max-width: 320px;
 	}
 }
 
@@ -399,12 +455,67 @@ h2 {
 		font-size: 34px;
 	}
 
-	.card {
+	.timeline {
+		gap: 14px;
+
+		&::before {
+			left: 18px;
+			top: 20px;
+			bottom: 0;
+		}
+	}
+
+	.event {
 		display: none;
 	}
 
+	.m-event {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		scroll-margin: 24px;
+
+		&.targeted .m-card {
+			outline: 3px solid var(--orange);
+			outline-offset: 3px;
+			box-shadow: 0 10px 28px rgba(226, 143, 38, 0.25);
+		}
+	}
+
+	.m-when {
+		position: relative;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 4px 12px;
+
+		img {
+			width: 40px;
+			height: 40px;
+			flex-shrink: 0;
+			display: block;
+			border-radius: 50%;
+			background: var(--light);
+			box-shadow: 0 0 0 4px var(--light);
+		}
+	}
+
+	.m-range {
+		font-family: var(--font-display);
+		font-size: 23px;
+		line-height: 1;
+		color: var(--navy);
+		white-space: nowrap;
+	}
+
+	.m-weekdays {
+		font-size: 13px;
+		font-weight: 700;
+		color: var(--muted);
+	}
+
 	.m-card {
-		display: block;
+		margin-left: 52px;
 		background: #fff;
 		overflow: hidden;
 
@@ -412,23 +523,27 @@ h2 {
 			list-style: none;
 			display: flex;
 			align-items: center;
-			gap: 12px;
-			padding: 14px 16px 14px 14px;
+			gap: 10px;
+			padding: 14px 14px 14px 16px;
 			cursor: pointer;
 
 			&::-webkit-details-marker {
 				display: none;
 			}
-
-			img {
-				width: 34px;
-				height: 34px;
-				flex-shrink: 0;
-				display: block;
-			}
 		}
 
-		details[open] .m-chev {
+		h3 {
+			margin: 0;
+			flex: 1 1 auto;
+			min-width: 0;
+			font-family: var(--font-display);
+			font-size: 21px;
+			line-height: 1.15;
+			font-weight: 400;
+			color: var(--navy);
+		}
+
+		&[open] .m-chev {
 			transform: rotate(180deg);
 		}
 
@@ -437,75 +552,40 @@ h2 {
 		}
 	}
 
-	.m-head {
-		min-width: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-
-		h3 {
-			margin: 0;
-			font-family: var(--font-display);
-			font-size: 20px;
-			line-height: 1.15;
-			font-weight: 400;
-			color: var(--navy);
-		}
-	}
-
-	.m-range {
-		font-family: var(--font-display);
-		font-size: 21px;
-		line-height: 1;
-		color: var(--navy);
-		white-space: nowrap;
-	}
-
 	.m-chev {
 		width: 20px;
 		height: 20px;
 		flex-shrink: 0;
-		margin-left: auto;
 		color: var(--navy);
 		transition: transform 0.2s;
 	}
 
 	.m-body {
-		padding: 2px 18px 18px;
+		padding: 0 16px 16px;
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
-		border-top: 1px solid var(--light);
-
-		.weekdays {
-			font-size: 13px;
-			padding-top: 10px;
-			margin: 0;
-		}
+		gap: 12px;
 
 		.desc {
 			font-size: 15px;
 			line-height: 1.5;
 		}
 
-		.pills {
-			margin: 0;
+		.pill {
+			width: 22px;
+			height: 22px;
+			font-size: 10px;
 		}
 	}
 
 	.m-panel {
 		background: #fdf3e6;
-		border-top: 2px dashed #e7c08a;
-		margin: 4px -18px -18px;
-		padding: 16px 18px 18px;
-
-		&:empty,
-		&:not(:has(.panel-row)) {
-			display: none;
-		}
+		border: 2px dashed #e7c08a;
+		border-radius: 16px;
+		padding: 14px;
 
 		.panel-row {
-			gap: 12px;
+			gap: 10px;
 		}
 
 		.meet-value {
@@ -513,7 +593,7 @@ h2 {
 		}
 
 		.actions {
-			margin-top: 0;
+			margin-top: 4px;
 		}
 	}
 

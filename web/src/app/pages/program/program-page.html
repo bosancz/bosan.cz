@@ -120,98 +120,103 @@
 	<div class="main-inner">
 		@for (section of sections(); track section.key) {
 			<h2>{{ section.title }}</h2>
-			@for (event of section.events; track event.id; let i = $index) {
-				<article
-					class="card"
-					[style.border-radius]="radius(i)"
-					[attr.data-event]="event.id"
-					[class.targeted]="event.id === targetId()"
-				>
-					<div class="card-main">
+			<div class="timeline">
+				@for (event of section.events; track event.id; let i = $index) {
+					<article class="event" [attr.data-event]="event.id" [class.targeted]="event.id === targetId()">
 						<div class="when">
-							<img
-								[src]="icon(event.type)"
-								[alt]="event.type ?? 'akce'"
-								[title]="event.type ?? ''"
-								width="46"
-								height="46"
-							/>
-							<div>
-								<time class="range" [attr.datetime]="event.dateFrom.slice(0, 10)">{{
-									dateRange(event.dateFrom, event.dateTill)
-								}}</time>
-								<div class="weekdays">{{ weekdays(event.dateFrom, event.dateTill) }}</div>
-								<div class="pills">
-									<ng-container
-										[ngTemplateOutlet]="pills"
-										[ngTemplateOutletContext]="{ $implicit: event }"
-									/>
-								</div>
-							</div>
-						</div>
-						<div class="what">
-							<h3>
-								{{ event.name | typography }}
-								@if (event.status === "cancelled") {
-									<span class="cancelled">Zrušeno</span>
-								}
-							</h3>
-							@if (event.description) {
-								<div class="desc" [innerHTML]="event.description | markdown"></div>
-							}
-						</div>
-					</div>
-					<div class="panel">
-						<ng-container [ngTemplateOutlet]="panel" [ngTemplateOutletContext]="{ $implicit: event }" />
-					</div>
-				</article>
-
-				<article
-					class="m-card"
-					[style.border-radius]="radius(i + 1)"
-					[attr.data-event]="event.id"
-					[class.targeted]="event.id === targetId()"
-				>
-					<details [open]="event.id === (targetId() ?? firstEventId())">
-						<summary>
-							<img [src]="icon(event.type)" alt="" aria-hidden="true" width="34" height="34" />
-							<div class="m-head">
-								<time class="m-range" [attr.datetime]="event.dateFrom.slice(0, 10)">{{
-									dateRange(event.dateFrom, event.dateTill)
-								}}</time>
-								<h3>{{ event.name | typography }}</h3>
-							</div>
-							<svg class="m-chev" viewBox="0 0 24 24" aria-hidden="true">
-								<path
-									d="M6 9l6 6 6-6"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2.6"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/>
-							</svg>
-						</summary>
-						<div class="m-body">
+							<time class="range" [attr.datetime]="event.dateFrom.slice(0, 10)">{{
+								dateRange(event.dateFrom, event.dateTill)
+							}}</time>
 							<div class="weekdays">{{ weekdays(event.dateFrom, event.dateTill) }}</div>
-							@if (event.description) {
-								<div class="desc" [innerHTML]="event.description | markdown"></div>
-							}
-							<span class="pills"
-								><ng-container
-									[ngTemplateOutlet]="pills"
-									[ngTemplateOutletContext]="{ $implicit: event }"
-							/></span>
-							<div class="m-panel">
+						</div>
+						<img
+							class="bullet"
+							[src]="icon(event.type)"
+							[alt]="event.type ?? 'akce'"
+							[title]="event.type ?? ''"
+							width="54"
+							height="54"
+						/>
+						<div class="card" [style.border-radius]="radius(i)">
+							<div class="what">
+								<div class="what-head">
+									<h3>
+										{{ event.name | typography }}
+										@if (event.status === "cancelled") {
+											<span class="cancelled">Zrušeno</span>
+										}
+									</h3>
+									<div class="pills">
+										<ng-container
+											[ngTemplateOutlet]="pills"
+											[ngTemplateOutletContext]="{ $implicit: event }"
+										/>
+									</div>
+								</div>
+								@if (event.description) {
+									<div class="desc" [innerHTML]="event.description | markdown"></div>
+								}
+							</div>
+							<div class="panel">
 								<ng-container
 									[ngTemplateOutlet]="panel"
 									[ngTemplateOutletContext]="{ $implicit: event }"
 								/>
 							</div>
 						</div>
-					</details>
-				</article>
-			}
+					</article>
+
+					<article class="m-event" [attr.data-event]="event.id" [class.targeted]="event.id === targetId()">
+						<div class="m-when">
+							<img [src]="icon(event.type)" alt="" aria-hidden="true" width="40" height="40" />
+							<time class="m-range" [attr.datetime]="event.dateFrom.slice(0, 10)">{{
+								dateRange(event.dateFrom, event.dateTill)
+							}}</time>
+							<span class="m-weekdays">{{ weekdays(event.dateFrom, event.dateTill) }}</span>
+						</div>
+						<details
+							class="m-card"
+							[style.border-radius]="radius(i + 1)"
+							[open]="event.id === (targetId() ?? firstEventId())"
+						>
+							<summary>
+								<h3>
+									{{ event.name | typography }}
+									@if (event.status === "cancelled") {
+										<span class="cancelled">Zrušeno</span>
+									}
+								</h3>
+								<svg class="m-chev" viewBox="0 0 24 24" aria-hidden="true">
+									<path
+										d="M6 9l6 6 6-6"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2.6"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</summary>
+							<div class="m-body">
+								<span class="pills"
+									><ng-container
+										[ngTemplateOutlet]="pills"
+										[ngTemplateOutletContext]="{ $implicit: event }"
+								/></span>
+								@if (event.description) {
+									<div class="desc" [innerHTML]="event.description | markdown"></div>
+								}
+								<div class="m-panel">
+									<ng-container
+										[ngTemplateOutlet]="panel"
+										[ngTemplateOutletContext]="{ $implicit: event }"
+									/>
+								</div>
+							</div>
+						</details>
+					</article>
+				}
+			</div>
 		} @empty {
 			@if (program.loading()) {
 				<p class="empty">Načítám program…</p>
