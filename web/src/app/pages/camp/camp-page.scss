@@ -46,7 +46,7 @@
 
 	@include bp.mobile {
 		padding-top: 28px;
-		padding-bottom: 44px;
+		padding-bottom: 20px;
 		gap: 28px 24px;
 	}
 }
@@ -107,7 +107,7 @@ h1 {
 	border-radius: 52% 48% 44% 56% / 46% 54% 46% 54%;
 
 	@include bp.mobile {
-		height: 240px;
+		display: none;
 	}
 }
 
