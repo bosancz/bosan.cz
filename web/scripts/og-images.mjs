@@ -146,13 +146,11 @@ async function main() {
 			.map((route) => route.match(new RegExp(`^/${prefix}/([^/]+)$`))?.[1])
 			.filter(Boolean);
 	const journal = await getJson("/journal");
-	const albums = new Map(journal.filter((item) => !item.reportId).map((item) => [String(item.albumId), item]));
-	const reports = new Map(journal.filter((item) => item.reportId).map((item) => [String(item.reportId), item]));
+	const albums = new Map(journal.map((item) => [String(item.albumId), item]));
 	const job = (file, item, label) => ({ file, item: item && { ...item, label }, photo: item?.photo?.urls.big });
 
 	const jobs = [
 		...routeIds("jak-jsme-se-meli/album").map((id) => job(`album-${id}.jpg`, albums.get(id), "JAK JSME SE MĚLI")),
-		...routeIds("jak-jsme-se-meli").map((id) => job(`report-${id}.jpg`, reports.get(id), "KRONIKA AKCE")),
 	];
 
 	const out = new URL("og/", dist);

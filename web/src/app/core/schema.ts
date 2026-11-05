@@ -48,12 +48,26 @@ export interface Album {
 
 export interface AlbumDetail extends Album {
 	description: string | null;
+	chronicle: AlbumChronicle | null;
+	event: AlbumEvent | null;
 	downloadUrl: string;
 }
 
+export interface AlbumEvent {
+	id: number;
+	name: string;
+	type: string | null;
+	dateFrom: string;
+	dateTill: string;
+	groups: string[];
+	leadersEvent: boolean;
+	leaders: { id: number; nickname: string }[];
+	river: string | null;
+	waterKm: number | null;
+}
+
 export interface JournalItem {
-	reportId: number | null;
-	albumId: number | null;
+	albumId: number;
 	name: string;
 	dateFrom: string;
 	dateTill: string;
@@ -95,24 +109,7 @@ export interface PublicBoardMember {
 	profilePhotoUrl: string | null;
 }
 
-export interface PublicReport {
-	id: number;
-	name: string;
-	type: string | null;
-	dateFrom: string;
-	dateTill: string;
-	groups: string[];
-	leadersEvent: boolean;
-	leaders: { id: number; nickname: string }[];
-	summary: string | null;
-	publishedAt: string;
-	river: string | null;
-	waterKm: number | null;
-	chronicle: ReportChronicle | null;
-	albumId: number | null;
-}
-
-export interface ReportChronicle {
+export interface AlbumChronicle {
 	fileName: string;
 	size: number;
 	updatedAt: string;

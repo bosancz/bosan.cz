@@ -11,13 +11,14 @@ import {
 	input,
 	untracked,
 } from "@angular/core";
-import { Router } from "@angular/router";
 import { ApiService, LiveData } from "../../core/api.service";
 import { AccountService } from "../../core/account.service";
+import { groupInfo, sortGroupIds } from "../../core/groups";
 import { AlbumDetail, AlbumPhoto } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
 import { albumDatesWithYear, albumName } from "./gallery-dates";
 import { EventDetail } from "./event-detail";
+import { eventWater } from "./event-format";
 import { PhotoViewer } from "./photo-viewer";
 import { markdownToText } from "../../core/markdown";
 
@@ -38,8 +39,6 @@ export class AlbumPage implements OnInit {
 	private readonly seo = inject(SeoService);
 	private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
 
-	private readonly router = inject(Router);
-	private readonly journal = this.browser ? this.api.journal() : undefined;
 	private readonly source = signal<LiveData<AlbumDetail> | undefined>(undefined);
 	private readonly photosSource = signal<LiveData<AlbumPhoto[]> | undefined>(undefined);
 	private readonly cached = computed(() => (this.browser ? albumCache.get(this.album()) : undefined));
@@ -56,6 +55,14 @@ export class AlbumPage implements OnInit {
 		return album ? albumDatesWithYear(album.dateFrom, album.dateTill) : "";
 	});
 	protected readonly downloadHref = computed(() => this.data()?.downloadUrl);
+	protected readonly water = computed(() => {
+		const event = this.data()?.event;
+		return event ? eventWater(event) : "";
+	});
+	protected readonly groups = computed(() => sortGroupIds(this.data()?.event?.groups ?? []).map(groupInfo));
+	protected readonly leaders = computed(() =>
+		(this.data()?.event?.leaders ?? []).map((leader) => leader.nickname).join(", "),
+	);
 
 	ngOnInit(): void {
 		if (this.cached()) return;
@@ -64,12 +71,6 @@ export class AlbumPage implements OnInit {
 	}
 
 	constructor() {
-		effect(() => {
-			const item = this.journal?.value()?.find((i) => String(i.albumId) === this.album() && i.reportId);
-			if (item && !this.photo())
-				void this.router.navigate(["/jak-jsme-se-meli", item.reportId], { replaceUrl: true });
-		});
-
 		effect(() => {
 			const album = this.source()?.value();
 			const photos = this.photosSource()?.value();

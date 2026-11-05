@@ -3,10 +3,10 @@ import { RouterLink } from "@angular/router";
 import { AccountService } from "../../core/account.service";
 import { GroupInfo } from "../../core/groups";
 import { MarkdownPipe } from "../../core/markdown";
-import { AlbumPhoto, ReportChronicle } from "../../core/schema";
+import { AlbumChronicle, AlbumPhoto } from "../../core/schema";
 import { TypographyPipe } from "../../core/typography";
 import { PageToc, PageTocSection } from "../../components/page-toc";
-import { chronicleSize } from "../reports/report-format";
+import { chronicleSize } from "./event-format";
 import { photoCount } from "./gallery-dates";
 import { PhotoGrid } from "./photo-grid";
 
@@ -26,7 +26,7 @@ export class EventDetail {
 	readonly leaders = input("");
 	readonly description = input<string | null>(null);
 	readonly summary = input<string | null>(null);
-	readonly chronicle = input<ReportChronicle | null>(null);
+	readonly chronicle = input<AlbumChronicle | null>(null);
 	readonly albumId = input<string | null>(null);
 	readonly photos = input<AlbumPhoto[]>([]);
 	readonly photosLoaded = input(false);

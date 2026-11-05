@@ -29,12 +29,7 @@
 				</article>
 			}
 			@if (lead(); as item) {
-				<a
-					class="lead"
-					[routerLink]="
-						item.reportId ? ['/jak-jsme-se-meli', item.reportId] : ['/jak-jsme-se-meli/album', item.albumId]
-					"
-				>
+				<a class="lead" [routerLink]="['/jak-jsme-se-meli/album', item.albumId]">
 					@if (item.image) {
 						<img
 							class="lead-photo"
