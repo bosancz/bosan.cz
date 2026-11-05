@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { JournalItem } from "../../core/schema";
+import { GalleryItem } from "../../core/schema";
 import { albumDates, albumName } from "./gallery-dates";
 import { TypographyPipe } from "../../core/typography";
 
@@ -12,7 +12,7 @@ import { TypographyPipe } from "../../core/typography";
 	styleUrl: "./album-card.scss",
 })
 export class AlbumCard {
-	readonly item = input.required<JournalItem>();
+	readonly item = input.required<GalleryItem>();
 	readonly eager = input(false);
 
 	protected readonly link = computed(() => ["/jak-jsme-se-meli/album", this.item().albumId]);

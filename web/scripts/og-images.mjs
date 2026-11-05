@@ -145,8 +145,8 @@ async function main() {
 		Object.keys(routes)
 			.map((route) => route.match(new RegExp(`^/${prefix}/([^/]+)$`))?.[1])
 			.filter(Boolean);
-	const journal = await getJson("/journal");
-	const albums = new Map(journal.map((item) => [String(item.albumId), item]));
+	const gallery = await getJson("/gallery");
+	const albums = new Map(gallery.map((item) => [String(item.albumId), item]));
 	const job = (file, item, label) => ({ file, item: item && { ...item, label }, photo: item?.photo?.urls.big });
 
 	const jobs = [

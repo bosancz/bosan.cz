@@ -14,7 +14,7 @@ import {
 import { DOCUMENT } from "@angular/common";
 import { Router } from "@angular/router";
 import { ApiService } from "../../core/api.service";
-import { JournalItem } from "../../core/schema";
+import { GalleryItem } from "../../core/schema";
 import { parseDate } from "../../core/dates";
 import { SeoService } from "../../core/seo.service";
 import { AlbumCard } from "./album-card";
@@ -29,7 +29,7 @@ function searchText(value: string): string {
 
 interface YearGroup {
 	year: number;
-	items: JournalItem[];
+	items: GalleryItem[];
 	weight: number;
 }
 
@@ -49,7 +49,7 @@ export class GalleryPage {
 	private readonly destroyRef = inject(DestroyRef);
 	private readonly rail = viewChild<ElementRef<HTMLElement>>("rail");
 
-	protected readonly journal = this.api.journal();
+	protected readonly gallery = this.api.gallery();
 	protected readonly activeYear = signal<number | undefined>(undefined);
 	protected readonly query = signal("");
 	protected readonly searchOpen = signal(false);
@@ -57,8 +57,8 @@ export class GalleryPage {
 
 	protected readonly groups = computed<YearGroup[]>(() => {
 		const query = searchText(this.query());
-		const byYear = new Map<number, JournalItem[]>();
-		for (const item of this.journal.value() ?? []) {
+		const byYear = new Map<number, GalleryItem[]>();
+		for (const item of this.gallery.value() ?? []) {
 			if (query && !searchText(item.name).includes(query)) continue;
 			if (!item.dateFrom) continue;
 			const year = parseDate(item.dateFrom).getUTCFullYear();
@@ -72,7 +72,7 @@ export class GalleryPage {
 				weight: items.length + 4,
 			}));
 	});
-	protected readonly loaded = computed(() => this.journal.value() !== undefined);
+	protected readonly loaded = computed(() => this.gallery.value() !== undefined);
 	protected readonly current = computed(() => this.activeYear() ?? this.groups()[0]?.year);
 
 	constructor() {
@@ -80,7 +80,7 @@ export class GalleryPage {
 		const restore = router.currentNavigation()?.trigger === "popstate" ? savedView : null;
 		if (restore) {
 			const restoreEffect = effect(() => {
-				if (this.journal.value() === undefined) return;
+				if (this.gallery.value() === undefined) return;
 				restoreEffect.destroy();
 				afterNextRender(() => window.scrollTo({ top: restore.scrollY }), { injector: this.injector });
 			});
