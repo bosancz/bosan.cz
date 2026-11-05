@@ -131,7 +131,7 @@ export class AlbumPage implements OnInit {
 				})),
 				isPartOf: {
 					"@type": "CollectionPage",
-					name: "Jak jsme se měli – ŠÁN",
+					name: "Fotogalerie – ŠÁN",
 					url: this.seo.absoluteUrl("/jak-jsme-se-meli"),
 				},
 			},

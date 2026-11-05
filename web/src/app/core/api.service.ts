@@ -3,7 +3,16 @@ import { Injectable, PLATFORM_ID, Signal, inject, signal } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../environments/environment";
-import { Album, AlbumDetail, AlbumPhoto, JournalItem, ProgramEvent, PublicBoardMember, PublicGroup } from "./schema";
+import {
+	Album,
+	AlbumDetail,
+	AlbumPhoto,
+	GalleryStats,
+	JournalItem,
+	ProgramEvent,
+	PublicBoardMember,
+	PublicGroup,
+} from "./schema";
 import { HydrationState } from "./hydration-state";
 
 export interface LiveData<T> {
@@ -63,6 +72,10 @@ export class ApiService {
 
 	latestJournal(): LiveData<JournalItem[]> {
 		return this.live<JournalItem[]>("/journal", { sort: "publishedAt", limit: 1 });
+	}
+
+	galleryStats(): LiveData<GalleryStats> {
+		return this.live<GalleryStats>("/gallery/stats");
 	}
 
 	recentAlbums(limit: number): LiveData<Album[]> {

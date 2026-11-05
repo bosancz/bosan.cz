@@ -95,14 +95,14 @@ export class GalleryPage {
 		}
 
 		inject(SeoService).set({
-			title: "Jak jsme se měli",
+			title: "Fotogalerie",
 			description:
 				"Fotky a kroniky dětské vodácké skupiny ŠÁN: alba z výprav, táborů, puťáků, závodů i oddílových akcí od roku 1987 až po dnešek.",
 			path: "/jak-jsme-se-meli",
 			jsonLd: {
 				"@context": "https://schema.org",
 				"@type": "CollectionPage",
-				name: "Jak jsme se měli – ŠÁN",
+				name: "Fotogalerie – ŠÁN",
 				url: "https://bosan.cz/jak-jsme-se-meli",
 			},
 		});

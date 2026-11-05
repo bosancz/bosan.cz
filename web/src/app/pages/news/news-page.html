@@ -6,140 +6,36 @@
 	</div>
 </section>
 
-<div class="top">
-	<div class="container top-inner">
-		<section class="news" aria-labelledby="news-heading">
-			<h2 id="news-heading" class="label">Aktuality</h2>
-			@for (message of messages; track $index) {
-				<article class="note note-message">
-					<svg class="note-icon" viewBox="0 0 24 24" aria-hidden="true">
-						<circle cx="12" cy="12" r="11" fill="#e28f26" />
-						<path d="M12 6.5v7" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" />
-						<circle cx="12" cy="17.4" r="1.6" fill="#ffffff" />
-					</svg>
-					<div class="note-text">
-						@if (message.date) {
-							<time class="meta" [attr.datetime]="message.from">{{ message.date }}</time>
-						}
-						<h3 class="note-title">{{ message.title }}</h3>
-						@for (paragraph of message.text | paragraphs; track $index) {
-							<p class="note-body" [innerHTML]="paragraph"></p>
-						}
-					</div>
-				</article>
-			}
-			@if (lead(); as item) {
-				<a class="lead" [routerLink]="['/jak-jsme-se-meli/album', item.albumId]">
-					@if (item.image) {
-						<img
-							class="lead-photo"
-							[src]="item.image"
-							[alt]="'Fotka z akce ' + item.name"
-							width="520"
-							height="280"
-							fetchpriority="high"
-						/>
-					}
-					<div class="lead-text">
-						<div class="meta">akce {{ item.dates }}</div>
-						<h3 class="lead-title">byli jsme na akci {{ item.name.toLowerCase() | typography }}</h3>
-						<p class="lead-body">{{ item.text }}</p>
-					</div>
-				</a>
-			}
-			@for (item of cancelled(); track item.id) {
-				<article class="note note-cancelled">
-					<svg class="note-icon" viewBox="0 0 24 24" aria-hidden="true">
-						<circle cx="12" cy="12" r="11" fill="#d2232a" />
-						<path d="M8 8l8 8M16 8l-8 8" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" />
-					</svg>
-					<div class="note-text">
-						<div class="meta">
-							<span class="badge">zrušeno</span>{{ item.date }}
-							@if (item.groups) {
-								<span class="note-groups"> · {{ item.groups }}</span>
+@if (messages.length) {
+	<div class="top">
+		<div class="container top-inner">
+			<section class="messages" aria-label="Oznámení">
+				@for (message of messages; track $index) {
+					<article class="note note-message">
+						<svg class="note-icon" viewBox="0 0 24 24" aria-hidden="true">
+							<circle cx="12" cy="12" r="11" fill="#e28f26" />
+							<path d="M12 6.5v7" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" />
+							<circle cx="12" cy="17.4" r="1.6" fill="#ffffff" />
+						</svg>
+						<div class="note-text">
+							@if (message.date) {
+								<time class="meta" [attr.datetime]="message.from">{{ message.date }}</time>
+							}
+							<h3 class="note-title">{{ message.title }}</h3>
+							@for (paragraph of message.text | paragraphs; track $index) {
+								<p class="note-body" [innerHTML]="paragraph"></p>
 							}
 						</div>
-						<h3 class="note-title">
-							<s>{{ item.name | typography }}</s>
-						</h3>
-						<p class="note-body">Akce se nekoná.<span class="note-more"> Ostatní program platí.</span></p>
-					</div>
-				</article>
-			}
-			@for (item of published(); track item.id) {
-				<a class="note note-new" routerLink="/program" [fragment]="'akce-' + item.id">
-					<img class="note-fire" [src]="item.icon" alt="" aria-hidden="true" width="52" height="52" />
-					<div class="note-text">
-						<div class="meta">{{ item.dates }}</div>
-						<h3 class="note-title">{{ item.name | typography }}</h3>
-						@if (item.text) {
-							<p class="note-body note-more">{{ item.text }}</p>
-						}
-					</div>
-				</a>
-			}
-		</section>
-
-		<section class="program" aria-labelledby="program-heading">
-			<h2 id="program-heading" class="label">Nejbližší akce</h2>
-			<ul class="events">
-				@for (event of upcoming(); track event.id; let i = $index) {
-					<li>
-						<a
-							class="event"
-							[class.alt]="i % 2 === 1"
-							routerLink="/program"
-							[fragment]="'akce-' + event.id"
-						>
-							<div class="event-when">
-								<img
-									[src]="event.icon"
-									[alt]="event.iconLabel"
-									[title]="event.iconLabel"
-									width="36"
-									height="36"
-								/>
-								<div class="event-when-text">
-									<time class="event-dates" [attr.datetime]="event.from">{{ event.dates }}</time>
-									<span class="event-weekdays">{{ event.weekdays }}</span>
-								</div>
-							</div>
-							<div class="event-main">
-								<h3 class="event-name">{{ event.name | typography }}</h3>
-								@if (event.groups.length) {
-									<span class="groups">
-										@for (group of event.groups; track group.id) {
-											<span
-												class="group"
-												[style.background]="group.color"
-												[style.color]="group.text"
-												[title]="group.name"
-												>{{ group.id }}</span
-											>
-										}
-									</span>
-								}
-							</div>
-						</a>
-					</li>
+					</article>
 				}
-			</ul>
-			<a class="more" routerLink="/program"
-				>Celý program, detaily a přihlášky <span aria-hidden="true">→</span></a
-			>
-		</section>
+			</section>
+		</div>
 	</div>
-</div>
+}
 
 <section class="photos" aria-labelledby="photos-heading">
 	<div class="container photos-inner">
-		<div class="photos-head">
-			<h2 id="photos-heading">nové fotky</h2>
-			<a routerLink="/jak-jsme-se-meli"
-				><span class="long">Jak jsme se měli</span><span class="short">Vše</span></a
-			>
-		</div>
+		<div class="section-head"><h2 id="photos-heading">nové fotky</h2></div>
 		<div class="grid">
 			@for (tile of tiles(); track tile.id; let i = $index) {
 				<a
@@ -170,9 +66,93 @@
 					}
 				</a>
 			}
+			<a class="tile tile-more" routerLink="/jak-jsme-se-meli">
+				<span class="tile-more-text">
+					@if (morePhotos(); as count) {
+						dalších <strong>{{ count }}</strong> fotek
+					} @else {
+						další fotky
+					}
+				</span>
+				<span class="tile-more-link">Fotogalerie <span aria-hidden="true">→</span></span>
+			</a>
 		</div>
 	</div>
 </section>
+
+<div class="program-band">
+	<div class="container program-inner">
+		<section class="program" aria-labelledby="program-heading">
+			<div class="section-head"><h2 id="program-heading">nejbližší akce</h2></div>
+			<ul class="events">
+				@for (event of upcoming(); track event.id; let i = $index) {
+					<li>
+						<a
+							class="event"
+							[class.alt]="i % 2 === 1"
+							routerLink="/program"
+							[fragment]="'akce-' + event.id"
+						>
+							<div class="event-when">
+								<time class="event-dates" [attr.datetime]="event.from" [attr.aria-label]="event.dates">
+									@for (part of event.dateParts; track $index) {
+										<span class="event-date-part">
+											@if (!$first) {
+												–
+											}
+											{{ part }}</span
+										>
+									}
+								</time>
+								<span class="event-weekdays">{{ event.weekdays }}</span>
+							</div>
+							<img
+								class="event-bullet"
+								[src]="event.icon"
+								[alt]="event.iconLabel"
+								[title]="event.iconLabel"
+								width="40"
+								height="40"
+							/>
+							<div class="event-main">
+								<div class="event-head">
+									<h3 class="event-name">
+										@if (event.cancelled) {
+											<s>{{ event.name | typography }}</s>
+										} @else {
+											{{ event.name | typography }}
+										}
+									</h3>
+									@if (event.cancelled) {
+										<span class="badge badge-cancelled">zrušeno</span>
+									} @else if (event.isNew) {
+										<span class="badge badge-new">nově v programu</span>
+									}
+								</div>
+								@if (event.groups.length) {
+									<span class="groups">
+										@for (group of event.groups; track group.id) {
+											<span
+												class="group"
+												[style.background]="group.color"
+												[style.color]="group.text"
+												[title]="group.name"
+												>{{ group.id }}</span
+											>
+										}
+									</span>
+								}
+							</div>
+						</a>
+					</li>
+				}
+			</ul>
+			<a class="more" routerLink="/program"
+				>Celý program, detaily a přihlášky <span aria-hidden="true">→</span></a
+			>
+		</section>
+	</div>
+</div>
 
 <section class="join" aria-label="Přidej se">
 	<div class="container join-inner">

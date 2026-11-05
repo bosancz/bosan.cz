@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, untracked } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { ApiService, LiveData } from "../../core/api.service";
+import { ApiService } from "../../core/api.service";
 import { formatDateRange, formatWeekdayRange, monthName, parseDate } from "../../core/dates";
 import { eventTypeIcon } from "../../core/event-types";
 import { groupInfo, sortGroupIds } from "../../core/groups";
-import { Album, AlbumDetail, ProgramEvent } from "../../core/schema";
+import { Album } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
-import { InlineMarkdownPipe, ParagraphsPipe, markdownToText } from "../../core/markdown";
+import { InlineMarkdownPipe, ParagraphsPipe } from "../../core/markdown";
 import { NEWS_CONTENT } from "../../../content/content";
 import { TypographyPipe } from "../../core/typography";
 
 const UPCOMING_LIMIT = 7;
-const PHOTO_ALBUMS = 5;
+const PHOTO_ALBUMS = 4;
 const NEWS_DAYS = 45;
 const DAY = 86400000;
 
@@ -21,6 +21,9 @@ interface EventCard {
 	icon: string;
 	iconLabel: string;
 	dates: string;
+	dateParts: string[];
+	cancelled: boolean;
+	isNew: boolean;
 	weekdays: string;
 	from: string;
 	groups: { id: string; name: string; color: string; text: string }[];
@@ -91,13 +94,6 @@ function longAlbumDates(album: Album): string {
 	return `${a.getUTCDate()}. ${genitive[a.getUTCMonth()]}${yearFrom} – ${b.getUTCDate()}. ${genitive[b.getUTCMonth()]} ${year}`;
 }
 
-function excerpt(text: string | null, max: number): string {
-	const first = markdownToText((text ?? "").split(/\n\s*\n/)[0]);
-	if (first.length <= max) return first;
-	const cut = first.slice(0, max);
-	return cut.slice(0, Math.max(cut.lastIndexOf(" "), 40)).replace(/[,.;:–-]+$/, "") + "…";
-}
-
 @Component({
 	selector: "bo-news-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -110,9 +106,7 @@ export class NewsPage {
 	private readonly seo = inject(SeoService);
 	private readonly program = this.api.program();
 	private readonly albums = this.api.recentAlbums(PHOTO_ALBUMS);
-	private readonly latest = this.api.latestJournal();
-	private readonly leadAlbum = signal<LiveData<AlbumDetail> | undefined>(undefined);
-	private leadAlbumId?: number;
+	private readonly stats = this.api.galleryStats();
 	private readonly today = isoDay(new Date());
 
 	protected readonly join = NEWS_CONTENT.join;
@@ -131,7 +125,7 @@ export class NewsPage {
 
 	protected readonly upcoming = computed<EventCard[]>(() =>
 		this.events()
-			.filter((e) => e.status === "public" && e.dateTill.slice(0, 10) >= this.today)
+			.filter((e) => (e.status === "public" || e.status === "cancelled") && e.dateTill.slice(0, 10) >= this.today)
 			.sort((a, b) => a.dateFrom.localeCompare(b.dateFrom))
 			.slice(0, UPCOMING_LIMIT)
 			.map((e) => ({
@@ -140,65 +134,25 @@ export class NewsPage {
 				icon: eventTypeIcon(e.type),
 				iconLabel: e.type ?? "schůzka",
 				dates: formatDateRange(e.dateFrom, e.dateTill),
+				dateParts: formatDateRange(e.dateFrom, e.dateTill).split(" – "),
 				weekdays: formatWeekdayRange(e.dateFrom, e.dateTill),
 				from: e.dateFrom,
+				cancelled: e.status === "cancelled",
+				isNew:
+					e.status === "public" &&
+					!!e.publishedAt &&
+					new Date(e.publishedAt).getTime() >= Date.now() - NEWS_DAYS * DAY,
 				groups: sortGroupIds(e.groups).map((id) => groupInfo(id)),
 			})),
 	);
 
-	protected readonly cancelled = computed(() => {
-		const list = this.events()
-			.filter((e) => e.status === "cancelled" && e.dateTill.slice(0, 10) >= this.today)
-			.sort(
-				(a, b) =>
-					(b.cancelledAt ?? "").localeCompare(a.cancelledAt ?? "") || a.dateFrom.localeCompare(b.dateFrom),
-			);
-		return list.map((e) => ({
-			id: e.id,
-			name: e.name,
-			date: formatDateRange(e.dateFrom, e.dateTill),
-			groups: e.groups.length ? "oddíl " + sortGroupIds(e.groups).join(", ") : "",
-		}));
-	});
-
-	protected readonly published = computed(() => {
-		const events = this.events().filter((e) => e.status === "public" && e.dateTill.slice(0, 10) >= this.today);
-		const limit = Date.now() - NEWS_DAYS * DAY;
-		const fresh = events
-			.filter((e) => e.publishedAt && new Date(e.publishedAt).getTime() >= limit)
-			.sort((a, b) => b.publishedAt!.localeCompare(a.publishedAt!));
-		const fallback = [...events].sort((a, b) => b.dateFrom.localeCompare(a.dateFrom));
-		const pick: ProgramEvent[] = fresh.length ? fresh : fallback;
-		return pick.slice(0, 1).map((e) => ({
-			id: e.id,
-			name: e.name,
-			icon: "/img/news/taborak-red.svg",
-			dates: compactRange(e.dateFrom.slice(0, 10), e.dateTill.slice(0, 10)),
-			text: excerpt(e.description, 150),
-		}));
-	});
-
-	private readonly sortedAlbums = computed(() =>
-		[...(this.albums.value() ?? [])].sort((a, b) => b.dateFrom.localeCompare(a.dateFrom)),
-	);
-
-	protected readonly lead = computed(() => {
-		const item = this.latest.value()?.[0];
-		if (!item) return null;
-		const url = item.photo?.urls.big;
-		return {
-			albumId: item.albumId,
-			name: item.name.trim(),
-			dates: compactRange(item.dateFrom.slice(0, 10), item.dateTill.slice(0, 10)),
-			text:
-				excerpt(this.leadAlbum()?.value()?.description ?? null, 320) ||
-				"Podívej se, jak to u nás vypadalo. Fotky z akce jsou v galerii.",
-			image: url ?? null,
-		};
+	protected readonly morePhotos = computed(() => {
+		const photos = this.stats.value()?.photos;
+		return photos ? photos.toLocaleString("cs-CZ") : null;
 	});
 
 	protected readonly tiles = computed<PhotoTile[]>(() =>
-		this.sortedAlbums().map((album, index) => {
+		(this.albums.value() ?? []).map((album, index) => {
 			const photo = album.coverPhoto;
 			return {
 				id: album.id,
@@ -211,13 +165,6 @@ export class NewsPage {
 	);
 
 	constructor() {
-		effect(() => {
-			const item = this.latest.value()?.[0];
-			if (!item || item.albumId === this.leadAlbumId) return;
-			this.leadAlbumId = item.albumId;
-			untracked(() => this.leadAlbum.set(this.api.album(item.albumId)));
-		});
-
 		this.seo.set({
 			title: SITE_NAME,
 			description:

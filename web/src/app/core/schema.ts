@@ -115,3 +115,8 @@ export interface AlbumChronicle {
 	updatedAt: string;
 	url: string;
 }
+
+export interface GalleryStats {
+	albums: number;
+	photos: number;
+}
