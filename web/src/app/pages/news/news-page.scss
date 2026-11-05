@@ -16,8 +16,12 @@
 
 .hero-inner {
 	position: relative;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 20px 32px;
 	padding-top: 24px;
-	padding-bottom: 56px;
+	padding-bottom: 40px;
 
 	@include bp.mobile {
 		padding-top: 28px;
@@ -42,9 +46,8 @@
 }
 
 .hero-waves {
-	position: absolute;
-	right: var(--gutter);
-	bottom: 36px;
+	flex-shrink: 0;
+	margin-bottom: 6px;
 	width: 150px;
 	height: auto;
 	opacity: 0.9;
@@ -411,7 +414,7 @@
 
 .more {
 	margin-top: auto;
-	align-self: flex-start;
+	align-self: flex-end;
 	background: var(--navy);
 	color: #ffffff;
 	text-decoration: none;
