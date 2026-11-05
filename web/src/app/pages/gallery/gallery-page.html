@@ -80,7 +80,7 @@
 				</svg>
 			</button>
 		</div>
-		@for (group of visibleGroups(); track group.year; let first = $first) {
+		@for (group of groups(); track group.year; let first = $first) {
 			<section class="year" [id]="'rok-' + group.year" [attr.data-year-section]="group.year">
 				<h2>{{ group.year }}</h2>
 				<div class="grid">
@@ -96,6 +96,5 @@
 		@if (journal.error() && !groups().length) {
 			<p class="status">Alba se nepodařilo načíst. Zkuste to prosím později.</p>
 		}
-		<div class="sentinel" #sentinel aria-hidden="true"></div>
 	</div>
 </main>
