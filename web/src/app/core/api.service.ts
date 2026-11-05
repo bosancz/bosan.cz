@@ -3,16 +3,7 @@ import { Injectable, PLATFORM_ID, Signal, inject, signal } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
 import { firstValueFrom } from "rxjs";
 import { environment } from "../../environments/environment";
-import {
-	Album,
-	AlbumDetail,
-	AlbumPhoto,
-	JournalItem,
-	ProgramEvent,
-	PublicBoardMember,
-	PublicGroup,
-	PublicReport,
-} from "./schema";
+import { Album, AlbumDetail, AlbumPhoto, JournalItem, ProgramEvent, PublicBoardMember, PublicGroup } from "./schema";
 import { HydrationState } from "./hydration-state";
 
 export interface LiveData<T> {
@@ -94,22 +85,12 @@ export class ApiService {
 		return this.live<PublicBoardMember[]>("/board-members");
 	}
 
-	report(id: string | number): LiveData<PublicReport> {
-		return this.live<PublicReport>(`/reports/${encodeURIComponent(id)}`);
-	}
-
 	icalUrl(): string {
 		return this.url("/program/ical");
 	}
 
 	async fetchGalleryAlbumIds(): Promise<string[]> {
-		return (await this.fetchJournal()).flatMap((item) =>
-			item.albumId && !item.reportId ? [String(item.albumId)] : [],
-		);
-	}
-
-	async fetchReportIds(): Promise<string[]> {
-		return (await this.fetchJournal()).flatMap((item) => (item.reportId ? [String(item.reportId)] : []));
+		return (await this.fetchJournal()).map((item) => String(item.albumId));
 	}
 
 	private fetchJournal(): Promise<JournalItem[]> {

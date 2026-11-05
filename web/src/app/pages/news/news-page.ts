@@ -4,7 +4,7 @@ import { ApiService, LiveData } from "../../core/api.service";
 import { formatDateRange, formatWeekdayRange, monthName, parseDate } from "../../core/dates";
 import { eventTypeIcon } from "../../core/event-types";
 import { groupInfo, sortGroupIds } from "../../core/groups";
-import { Album, AlbumDetail, ProgramEvent, PublicReport } from "../../core/schema";
+import { Album, AlbumDetail, ProgramEvent } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
 import { InlineMarkdownPipe, ParagraphsPipe, markdownToText } from "../../core/markdown";
 import { NEWS_CONTENT } from "../../../content/content";
@@ -111,9 +111,8 @@ export class NewsPage {
 	private readonly program = this.api.program();
 	private readonly albums = this.api.recentAlbums(PHOTO_ALBUMS);
 	private readonly latest = this.api.latestJournal();
-	private readonly leadReport = signal<LiveData<PublicReport> | undefined>(undefined);
 	private readonly leadAlbum = signal<LiveData<AlbumDetail> | undefined>(undefined);
-	private leadKey?: string;
+	private leadAlbumId?: number;
 	private readonly today = isoDay(new Date());
 
 	protected readonly join = NEWS_CONTENT.join;
@@ -188,14 +187,12 @@ export class NewsPage {
 		if (!item) return null;
 		const url = item.photo?.urls.big;
 		return {
-			reportId: item.reportId,
 			albumId: item.albumId,
 			name: item.name.trim(),
 			dates: compactRange(item.dateFrom.slice(0, 10), item.dateTill.slice(0, 10)),
-			text: item.reportId
-				? excerpt(this.leadReport()?.value()?.summary ?? null, 320)
-				: markdownToText(this.leadAlbum()?.value()?.description ?? null) ||
-					"Podívej se, jak to u nás vypadalo. Fotky z akce jsou v galerii.",
+			text:
+				excerpt(this.leadAlbum()?.value()?.description ?? null, 320) ||
+				"Podívej se, jak to u nás vypadalo. Fotky z akce jsou v galerii.",
 			image: url ?? null,
 		};
 	});
@@ -216,17 +213,9 @@ export class NewsPage {
 	constructor() {
 		effect(() => {
 			const item = this.latest.value()?.[0];
-			const key = item?.reportId
-				? `report-${item.reportId}`
-				: item?.albumId
-					? `album-${item.albumId}`
-					: undefined;
-			if (!item || key === this.leadKey) return;
-			this.leadKey = key;
-			untracked(() => {
-				if (item.reportId) this.leadReport.set(this.api.report(item.reportId));
-				else if (item.albumId) this.leadAlbum.set(this.api.album(item.albumId));
-			});
+			if (!item || item.albumId === this.leadAlbumId) return;
+			this.leadAlbumId = item.albumId;
+			untracked(() => this.leadAlbum.set(this.api.album(item.albumId)));
 		});
 
 		this.seo.set({
