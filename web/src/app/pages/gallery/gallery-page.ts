@@ -117,7 +117,6 @@ export class GalleryPage {
 				cancelAnimationFrame(frame);
 			});
 			this.updateActive();
-
 		});
 	}
 
