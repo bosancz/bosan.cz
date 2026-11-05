@@ -365,7 +365,7 @@ h1 {
 	.hero-inner {
 		gap: 28px 24px;
 		padding-top: 28px;
-		padding-bottom: 44px;
+		padding-bottom: 20px;
 	}
 
 	.hero-text {
@@ -389,8 +389,7 @@ h1 {
 	}
 
 	.hero-photo {
-		flex-basis: 100%;
-		height: 240px;
+		display: none;
 	}
 
 	.toc-desktop {
