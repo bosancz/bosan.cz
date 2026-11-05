@@ -113,106 +113,6 @@
 				Odebírat v kalendáři
 			</a>
 		</div>
-
-		<div class="filter" role="group" aria-label="Filtr podle oddílů">
-			<a
-				class="all"
-				[class.active]="!selectedGroups().length"
-				routerLink="/program"
-				[attr.aria-current]="!selectedGroups().length ? 'true' : null"
-				>Všechny oddíly</a
-			>
-			@for (group of groups; track group.id) {
-				<a
-					class="chip"
-					[class.active]="isSelected(group)"
-					[class.dim]="selectedGroups().length && !isSelected(group)"
-					[style.background]="group.color"
-					[style.border-color]="group.color"
-					[style.color]="group.text"
-					routerLink="/program"
-					[queryParams]="toggleParams(group)"
-					[title]="group.name"
-					[attr.aria-current]="isSelected(group) ? 'true' : null"
-					>{{ group.id }}</a
-				>
-			}
-		</div>
-
-		<div class="select">
-			<button type="button" class="select-button" [attr.aria-expanded]="menuOpen()" (click)="toggleMenu()">
-				@if (selectedGroups().length) {
-					<span class="dots" aria-hidden="true">
-						@for (group of selectedGroups(); track group.id) {
-							<span class="dot" [style.background]="group.color"></span>
-						}
-					</span>
-					<span class="select-label">{{ selectedLabel() }}</span>
-				} @else {
-					<span class="dots" aria-hidden="true">
-						@for (group of [groups[0], groups[1], groups[2], groups[5]]; track group.id) {
-							<span class="dot" [style.background]="group.color"></span>
-						}
-					</span>
-					<span class="select-label">Všechny oddíly</span>
-				}
-				<svg class="chev" [class.up]="menuOpen()" viewBox="0 0 24 24" aria-hidden="true">
-					<path
-						d="M6 9l6 6 6-6"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2.6"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-				</svg>
-			</button>
-			@if (menuOpen()) {
-				<ul class="options">
-					<li>
-						<a
-							routerLink="/program"
-							[class.selected]="!selectedGroups().length"
-							(click)="menuOpen.set(false)"
-						>
-							<span class="dots" aria-hidden="true">
-								@for (group of [groups[0], groups[1], groups[2], groups[5]]; track group.id) {
-									<span class="dot" [style.background]="group.color"></span>
-								}
-							</span>
-							Všechny oddíly
-						</a>
-					</li>
-					@for (group of groups; track group.id) {
-						<li>
-							<a
-								routerLink="/program"
-								[queryParams]="toggleParams(group)"
-								[class.selected]="isSelected(group)"
-								[attr.aria-current]="isSelected(group) ? 'true' : null"
-							>
-								<span class="dot" [style.background]="group.color"></span>
-								{{ group.name }}
-								<span class="check" aria-hidden="true">
-									@if (isSelected(group)) {
-										<svg viewBox="0 0 24 24">
-											<path
-												d="M5 12.5l4.5 4.5L19 7.5"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="3"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-											/>
-										</svg>
-									}
-								</span>
-							</a>
-						</li>
-					}
-				</ul>
-			}
-		</div>
 	</div>
 </section>
 
@@ -316,7 +216,7 @@
 			@if (program.loading()) {
 				<p class="empty">Načítám program…</p>
 			} @else {
-				<p class="empty">Pro tento výběr zatím není v programu žádná akce.</p>
+				<p class="empty">Zatím není v programu žádná akce.</p>
 			}
 		}
 

@@ -1,22 +1,12 @@
-import {
-	ChangeDetectionStrategy,
-	Component,
-	Injector,
-	afterNextRender,
-	computed,
-	effect,
-	inject,
-	signal,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, Injector, afterNextRender, computed, effect, inject } from "@angular/core";
 import { DOCUMENT, NgTemplateOutlet } from "@angular/common";
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { map } from "rxjs";
 import { AccountService } from "../../core/account.service";
 import { ApiService } from "../../core/api.service";
 import { SeoService } from "../../core/seo.service";
 import { ProgramEvent } from "../../core/schema";
-import { CHILD_GROUPS, GroupInfo, groupInfo, sortGroupIds } from "../../core/groups";
+import { GroupInfo, groupInfo, sortGroupIds } from "../../core/groups";
 import { eventTypeIcon } from "../../core/event-types";
 import { formatPhone, phoneHref } from "../../core/phone";
 import { InlineMarkdownPipe, MarkdownPipe, markdownToText } from "../../core/markdown";
@@ -35,7 +25,6 @@ interface MonthSection {
 	selector: "bo-program-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [
-		RouterLink,
 		NgTemplateOutlet,
 		MarkdownPipe,
 		InlineMarkdownPipe,
@@ -56,32 +45,12 @@ export class ProgramPage {
 
 	protected readonly program = this.api.program();
 	protected readonly icalUrl = this.api.icalUrl();
-	protected readonly groups = CHILD_GROUPS;
-	protected readonly menuOpen = signal(false);
 	protected readonly dateRange = formatDateRange;
 	protected readonly weekdays = formatWeekdayRange;
 	protected readonly icon = eventTypeIcon;
 
-	private readonly selected = toSignal(this.route.queryParamMap.pipe(map((params) => params.get("oddil"))), {
-		initialValue: this.route.snapshot.queryParamMap.get("oddil"),
-	});
-
-	protected readonly selectedGroups = computed<GroupInfo[]>(() => {
-		const ids = (this.selected() ?? "").split(",").map((id) => id.trim());
-		return this.groups.filter((group) => ids.includes(group.id));
-	});
-
-	protected readonly selectedLabel = computed(() => {
-		const groups = this.selectedGroups();
-		if (groups.length === 1) return groups[0].name;
-		return `Oddíly ${groups.map((group) => group.id).join(", ")}`;
-	});
-
 	protected readonly sections = computed<MonthSection[]>(() => {
-		const ids = this.selectedGroups().map((group) => group.id);
-		const events = (this.program.value() ?? [])
-			.filter((event) => !ids.length || ids.some((id) => event.groups.includes(id)))
-			.sort((a, b) => a.dateFrom.localeCompare(b.dateFrom));
+		const events = [...(this.program.value() ?? [])].sort((a, b) => a.dateFrom.localeCompare(b.dateFrom));
 		const sections: MonthSection[] = [];
 		for (const event of events) {
 			const key = monthKey(event.dateFrom);
@@ -124,25 +93,13 @@ export class ProgramPage {
 			this.seo.set({
 				title: "Program akcí",
 				description:
-					"Program výprav, víkendovek a prázdninových akcí vodáckého oddílu ŠÁN pro děti z Prahy. Vyber si oddíl, najdi sraz a stáhni přihlášku.",
+					"Program výprav, víkendovek a prázdninových akcí vodáckého oddílu ŠÁN pro děti z Prahy. Najdi sraz a stáhni přihlášku.",
 				path: "/program",
 				image: "/img/og-default.jpg",
 				imageAlt: "ŠÁN – program akcí",
 				jsonLd: this.jsonLd(),
 			});
 		});
-	}
-
-	protected isSelected(group: GroupInfo): boolean {
-		return this.selectedGroups().includes(group);
-	}
-
-	protected toggleParams(group: GroupInfo): { oddil: string | null } {
-		const selected = this.selectedGroups();
-		const groups = selected.includes(group)
-			? selected.filter((item) => item !== group)
-			: this.groups.filter((item) => item === group || selected.includes(item));
-		return { oddil: groups.map((item) => item.id).join(",") || null };
 	}
 
 	protected groupsOf(event: ProgramEvent): GroupInfo[] {
@@ -163,10 +120,6 @@ export class ProgramPage {
 
 	protected radius(index: number): string {
 		return index % 2 === 0 ? "30px 22px 34px 20px" : "22px 30px 20px 34px";
-	}
-
-	protected toggleMenu(): void {
-		this.menuOpen.update((open) => !open);
 	}
 
 	private jsonLd(): object[] {
