@@ -6,7 +6,7 @@ import { eventTypeIcon } from "../../core/event-types";
 import { groupInfo, sortGroupIds } from "../../core/groups";
 import { Album } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
-import { InlineMarkdownPipe, ParagraphsPipe, markdownToText } from "../../core/markdown";
+import { InlineMarkdownPipe, ParagraphsPipe } from "../../core/markdown";
 import { NEWS_CONTENT } from "../../../content/content";
 import { TypographyPipe } from "../../core/typography";
 
@@ -24,7 +24,6 @@ interface EventCard {
 	dateParts: string[];
 	cancelled: boolean;
 	isNew: boolean;
-	text: string;
 	weekdays: string;
 	from: string;
 	groups: { id: string; name: string; color: string; text: string }[];
@@ -95,13 +94,6 @@ function longAlbumDates(album: Album): string {
 	return `${a.getUTCDate()}. ${genitive[a.getUTCMonth()]}${yearFrom} – ${b.getUTCDate()}. ${genitive[b.getUTCMonth()]} ${year}`;
 }
 
-function excerpt(text: string | null, max: number): string {
-	const first = markdownToText((text ?? "").split(/\n\s*\n/)[0]);
-	if (first.length <= max) return first;
-	const cut = first.slice(0, max);
-	return cut.slice(0, Math.max(cut.lastIndexOf(" "), 40)).replace(/[,.;:–-]+$/, "") + "…";
-}
-
 @Component({
 	selector: "bo-news-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -150,7 +142,6 @@ export class NewsPage {
 					e.status === "public" &&
 					!!e.publishedAt &&
 					new Date(e.publishedAt).getTime() >= Date.now() - NEWS_DAYS * DAY,
-				text: excerpt(e.description, 180),
 				groups: sortGroupIds(e.groups).map((id) => groupInfo(id)),
 			})),
 	);

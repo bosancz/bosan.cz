@@ -207,17 +207,6 @@
 	color: #ffffff;
 }
 
-.event-text {
-	margin: 0;
-	font-size: 15px;
-	line-height: 1.5;
-	color: var(--body-text);
-
-	@include bp.mobile {
-		display: none;
-	}
-}
-
 .events {
 	--when-width: 176px;
 	--axis-width: 56px;
