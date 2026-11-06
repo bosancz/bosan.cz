@@ -19,6 +19,28 @@
 </section>
 
 <main class="main">
+	<nav class="year-bar" aria-label="Roky">
+		<div class="year-bar-card" [class.at-start]="yearBarAtStart()" [class.at-end]="yearBarAtEnd()">
+			<div class="year-bar-scroll" #yearBar (scroll)="onYearBarScroll()">
+				<div class="year-bar-inner">
+					<span class="year-bar-track" aria-hidden="true"></span>
+					@for (group of groups(); track group.year) {
+						<a
+							class="year-chip"
+							[href]="'#rok-' + group.year"
+							[attr.data-bar-year]="group.year"
+							[class.active]="group.year === current()"
+							[attr.aria-current]="group.year === current() ? 'true' : null"
+							(click)="onYearChip($event, group.year)"
+							><span class="year-chip-label">{{ group.year }}</span
+							><span class="year-chip-dot" aria-hidden="true"></span
+						></a>
+					}
+				</div>
+			</div>
+		</div>
+	</nav>
+
 	<nav class="rail" aria-label="Roky">
 		<div class="rail-sticky">
 			<div
