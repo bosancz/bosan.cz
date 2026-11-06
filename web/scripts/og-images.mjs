@@ -150,7 +150,7 @@ async function main() {
 	const job = (file, item, label) => ({ file, item: item && { ...item, label }, photo: item?.photo?.urls.big });
 
 	const jobs = [
-		...routeIds("jak-jsme-se-meli/album").map((id) => job(`album-${id}.jpg`, albums.get(id), "FOTOGALERIE")),
+		...routeIds("fotogalerie/album").map((id) => job(`album-${id}.jpg`, albums.get(id), "FOTOGALERIE")),
 	];
 
 	const out = new URL("og/", dist);

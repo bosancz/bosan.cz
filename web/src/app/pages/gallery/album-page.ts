@@ -87,7 +87,7 @@ export class AlbumPage implements OnInit {
 					this.seo.set({
 						title: "Album nenalezeno",
 						description: "Požadované album se v fotogalerii dětské vodácké skupiny ŠÁN nepodařilo najít.",
-						path: `/jak-jsme-se-meli/album/${this.album()}`,
+						path: `/fotogalerie/album/${this.album()}`,
 						noindex: true,
 					});
 				}
@@ -107,7 +107,7 @@ export class AlbumPage implements OnInit {
 						.slice(0, 160)
 						.replace(/\s+\S*$/, "")
 						.replace(/[,.;:–-]+$/, "") + "…";
-		const path = `/jak-jsme-se-meli/album/${album.id}`;
+		const path = `/fotogalerie/album/${album.id}`;
 		this.seo.set({
 			title,
 			description,
@@ -132,7 +132,7 @@ export class AlbumPage implements OnInit {
 				isPartOf: {
 					"@type": "CollectionPage",
 					name: "Fotogalerie – ŠÁN",
-					url: this.seo.absoluteUrl("/jak-jsme-se-meli"),
+					url: this.seo.absoluteUrl("/fotogalerie"),
 				},
 			},
 		});
