@@ -257,6 +257,12 @@ h2 {
 		z-index: 1;
 		width: 40px;
 		pointer-events: none;
+		transition: opacity 0.2s;
+	}
+
+	&.at-start::before,
+	&.at-end::after {
+		opacity: 0;
 	}
 
 	&::before {
@@ -285,7 +291,7 @@ h2 {
 	position: relative;
 	display: flex;
 	width: max-content;
-	padding: 10px calc(50% - 32px) 12px;
+	padding: 10px 8px 12px;
 	min-width: 100%;
 }
 

@@ -20,8 +20,8 @@
 
 <main class="main">
 	<nav class="year-bar" aria-label="Roky">
-		<div class="year-bar-card">
-			<div class="year-bar-scroll" #yearBar>
+		<div class="year-bar-card" [class.at-start]="yearBarAtStart()" [class.at-end]="yearBarAtEnd()">
+			<div class="year-bar-scroll" #yearBar (scroll)="onYearBarScroll()">
 				<div class="year-bar-inner">
 					<span class="year-bar-track" aria-hidden="true"></span>
 					@for (group of groups(); track group.year) {

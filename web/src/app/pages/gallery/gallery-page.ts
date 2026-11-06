@@ -54,6 +54,8 @@ export class GalleryPage {
 	protected readonly activeYear = signal<number | undefined>(undefined);
 	protected readonly query = signal("");
 	protected readonly searchOpen = signal(false);
+	protected readonly yearBarAtStart = signal(true);
+	protected readonly yearBarAtEnd = signal(false);
 	private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>("searchInput");
 
 	protected readonly groups = computed<YearGroup[]>(() => {
@@ -164,6 +166,13 @@ export class GalleryPage {
 		this.goTo(year, 0);
 	}
 
+	protected onYearBarScroll(): void {
+		const bar = this.yearBar()?.nativeElement;
+		if (!bar) return;
+		this.yearBarAtStart.set(bar.scrollLeft <= 1);
+		this.yearBarAtEnd.set(bar.scrollLeft + bar.clientWidth >= bar.scrollWidth - 1);
+	}
+
 	protected onRailPointerDown(event: PointerEvent): void {
 		if (event.button) return;
 		event.preventDefault();
@@ -222,6 +231,7 @@ export class GalleryPage {
 		const chip = bar?.querySelector<HTMLElement>(`[data-bar-year="${year}"]`);
 		if (!bar || !chip || !bar.offsetParent) return;
 		bar.scrollTo({ left: chip.offsetLeft + chip.offsetWidth / 2 - bar.clientWidth / 2, behavior });
+		this.onYearBarScroll();
 	}
 
 	private updateActive(): void {
