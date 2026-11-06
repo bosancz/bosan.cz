@@ -5,15 +5,15 @@ export const routes: Routes = [
 	{ path: "aktualne", redirectTo: "", pathMatch: "full" },
 	{ path: "program", loadComponent: () => import("./pages/program/program-page").then((m) => m.ProgramPage) },
 	{
-		path: "jak-jsme-se-meli",
+		path: "fotogalerie",
 		loadComponent: () => import("./pages/gallery/gallery-page").then((m) => m.GalleryPage),
 	},
 	{
-		path: "jak-jsme-se-meli/album/:album",
+		path: "fotogalerie/album/:album",
 		loadComponent: () => import("./pages/gallery/album-page").then((m) => m.AlbumPage),
 	},
 	{
-		path: "jak-jsme-se-meli/album/:album/:photo",
+		path: "fotogalerie/album/:album/:photo",
 		loadComponent: () => import("./pages/gallery/album-page").then((m) => m.AlbumPage),
 	},
 	{ path: "tabor", loadComponent: () => import("./pages/camp/camp-page").then((m) => m.CampPage) },
