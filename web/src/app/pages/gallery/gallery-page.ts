@@ -48,6 +48,7 @@ export class GalleryPage {
 	private readonly injector = inject(Injector);
 	private readonly destroyRef = inject(DestroyRef);
 	private readonly rail = viewChild<ElementRef<HTMLElement>>("rail");
+	private readonly yearBar = viewChild<ElementRef<HTMLElement>>("yearBar");
 
 	protected readonly gallery = this.api.gallery();
 	protected readonly activeYear = signal<number | undefined>(undefined);
@@ -99,6 +100,19 @@ export class GalleryPage {
 			},
 		});
 
+		let barCentered = false;
+		effect(() => {
+			const year = this.current();
+			if (year === undefined) return;
+			afterNextRender(
+				() => {
+					this.centerYearBar(year, barCentered ? "smooth" : "instant");
+					barCentered = true;
+				},
+				{ injector: this.injector },
+			);
+		});
+
 		afterNextRender(() => {
 			let frame = 0;
 			const onScroll = () => {
@@ -145,6 +159,11 @@ export class GalleryPage {
 		if (event.detail === 0) this.goTo(year, 0);
 	}
 
+	protected onYearChip(event: MouseEvent, year: number): void {
+		event.preventDefault();
+		this.goTo(year, 0);
+	}
+
 	protected onRailPointerDown(event: PointerEvent): void {
 		if (event.button) return;
 		event.preventDefault();
@@ -185,15 +204,32 @@ export class GalleryPage {
 		if (!element) return;
 		const rect = element.getBoundingClientRect();
 		window.scrollTo({
-			top: rect.top + window.scrollY - 24 + fraction * Math.max(0, rect.height - window.innerHeight / 2),
+			top:
+				rect.top +
+				window.scrollY -
+				this.stickyOffset() +
+				fraction * Math.max(0, rect.height - window.innerHeight / 2),
 		});
+	}
+
+	private stickyOffset(): number {
+		const bar = this.yearBar()?.nativeElement.parentElement;
+		return bar?.offsetParent ? bar.offsetHeight + 16 : 24;
+	}
+
+	private centerYearBar(year: number, behavior: ScrollBehavior): void {
+		const bar = this.yearBar()?.nativeElement;
+		const chip = bar?.querySelector<HTMLElement>(`[data-bar-year="${year}"]`);
+		if (!bar || !chip || !bar.offsetParent) return;
+		bar.scrollTo({ left: chip.offsetLeft + chip.offsetWidth / 2 - bar.clientWidth / 2, behavior });
 	}
 
 	private updateActive(): void {
 		const sections = Array.from(this.document.querySelectorAll<HTMLElement>("[data-year-section]"));
 		let year: number | undefined;
 		for (const section of sections) {
-			if (section.getBoundingClientRect().top <= 160) year = Number(section.dataset["yearSection"]);
+			if (section.getBoundingClientRect().top <= this.stickyOffset() + 136)
+				year = Number(section.dataset["yearSection"]);
 			else break;
 		}
 		if (year === undefined && sections.length) year = Number(sections[0].dataset["yearSection"]);

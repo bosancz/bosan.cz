@@ -168,8 +168,8 @@ h1 {
 	}
 
 	@include bp.mobile {
-		padding-top: 40px;
-		padding-right: 64px;
+		padding-top: 20px;
+		padding-right: var(--gutter);
 		padding-bottom: 44px;
 	}
 }
@@ -224,9 +224,127 @@ h2 {
 	pointer-events: none;
 
 	@include bp.mobile {
-		right: 6px;
-		width: 50px;
+		display: none;
 	}
+}
+
+.year-bar {
+	display: none;
+
+	@include bp.mobile {
+		display: block;
+		position: sticky;
+		top: 0;
+		z-index: 3;
+		padding: 12px var(--gutter) 0;
+		background: linear-gradient(var(--light-2) 70%, transparent);
+	}
+}
+
+.year-bar-card {
+	position: relative;
+	overflow: hidden;
+	background: #fff;
+	border-radius: 18px 14px 20px 14px;
+	box-shadow: 0 6px 24px rgba(42, 52, 120, 0.1);
+
+	&::before,
+	&::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		z-index: 1;
+		width: 40px;
+		pointer-events: none;
+	}
+
+	&::before {
+		left: 0;
+		background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+	}
+
+	&::after {
+		right: 0;
+		background: linear-gradient(to left, #fff, rgba(255, 255, 255, 0));
+	}
+}
+
+.year-bar-scroll {
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	scrollbar-width: none;
+	touch-action: pan-x;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+.year-bar-inner {
+	position: relative;
+	display: flex;
+	width: max-content;
+	padding: 10px calc(50% - 32px) 12px;
+	min-width: 100%;
+}
+
+.year-bar-track {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 14px;
+	height: 3px;
+	border-radius: 2px;
+	background: #e3e6f3;
+}
+
+.year-chip {
+	position: relative;
+	flex: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 7px;
+	width: 64px;
+	font-size: 14px;
+	line-height: 18px;
+	font-weight: 700;
+	color: #5a6292;
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+
+	&.active {
+		font-size: 16px;
+		font-weight: 800;
+		color: var(--navy);
+
+		&::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 2px;
+			height: 3px;
+			border-radius: 2px;
+			background: var(--orange);
+		}
+
+		.year-chip-dot {
+			width: 9px;
+			height: 9px;
+			margin-bottom: -1px;
+			background: var(--orange);
+		}
+	}
+}
+
+.year-chip-dot {
+	position: relative;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: #9aa1c8;
 }
 
 .rail-sticky {
