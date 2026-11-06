@@ -5,7 +5,6 @@ resolver ${NGINX_LOCAL_RESOLVERS} ipv6=off;
 server {
 
   listen 80;
-  absolute_redirect off;
 
   gzip on;
   gzip_types application/json application/javascript text/javascript text/css image/svg+xml application/xml text/plain;
@@ -18,10 +17,6 @@ server {
     expires 1y;
     add_header Cache-Control "public, immutable";
     try_files $uri =404;
-  }
-
-  location ~ ^/jak-jsme-se-meli(/.*)?$ {
-    return 301 /fotogalerie$1$is_args$args;
   }
 
   location /fotogalerie/ {
