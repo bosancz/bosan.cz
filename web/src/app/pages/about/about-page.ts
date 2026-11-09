@@ -4,7 +4,7 @@ import { ORGANIZATION_LD, SeoService } from "../../core/seo.service";
 import { InlineMarkdownPipe, ParagraphsPipe } from "../../core/markdown";
 import { ABOUT_CONTENT } from "../../../content/content";
 import { goToSection } from "../../core/page-sections";
-import { CHILD_GROUPS, FRIENDS_CLUB } from "../../core/groups";
+import { CHILD_GROUPS } from "../../core/groups";
 import { AboutHistory } from "./about-history";
 
 const SECTIONS = [
@@ -27,7 +27,6 @@ export class AboutPage {
 	protected readonly content = ABOUT_CONTENT;
 	protected readonly sections = SECTIONS;
 	protected readonly groups = CHILD_GROUPS;
-	protected readonly friends = FRIENDS_CLUB;
 	protected readonly active = signal(SECTIONS[0].id);
 	protected readonly tocOpen = signal(false);
 
