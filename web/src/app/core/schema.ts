@@ -75,6 +75,7 @@ export interface GalleryItem {
 	summary: boolean;
 	chronicle: boolean;
 	photo: Photo | null;
+	previewPhotos?: Photo[];
 }
 
 export interface PublicGroupLeader {

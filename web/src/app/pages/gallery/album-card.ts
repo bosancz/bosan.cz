@@ -16,6 +16,7 @@ export class AlbumCard {
 	readonly eager = input(false);
 
 	protected readonly link = computed(() => ["/fotogalerie/album", this.item().albumId]);
+	protected readonly previews = computed(() => (this.item().previewPhotos ?? []).slice(0, 2));
 	protected readonly badges = computed(() => (this.item().chronicle ? ["Kronika"] : []));
 	protected readonly name = computed(() => albumName(this.item().name));
 	protected readonly dates = computed(() => albumDates(this.item().dateFrom, this.item().dateTill));
