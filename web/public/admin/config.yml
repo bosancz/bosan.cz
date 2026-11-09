@@ -242,3 +242,24 @@ collections:
               - { name: title, label: Nadpis, widget: string }
               - { <<: *inline, name: long, label: Text na počítači }
               - { <<: *inline, name: short, label: Text na mobilu }
+
+      - name: sponzori
+        label: Sponzoři
+        icon: handshake
+        file: web/src/content/sponzori.json
+        media_folder: /web/public/img/sponsors
+        public_folder: /img/sponsors
+        preview_path: /
+        fields:
+          - { name: title, label: Nadpis, widget: string }
+          - name: items
+            label: Sponzoři
+            label_singular: sponzora
+            hint: Loga se ukazují v patičce každé stránky v tomto pořadí. Nejlépe logo s průhledným pozadím.
+            widget: list
+            required: false
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: Název, widget: string }
+              - { name: url, label: Odkaz na web, widget: string }
+              - { name: logo, label: Logo, widget: image }

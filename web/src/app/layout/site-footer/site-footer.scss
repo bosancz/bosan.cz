@@ -6,6 +6,78 @@
 	color: #c9cee9;
 }
 
+.sponsors {
+	background: #fff;
+	border-top: 1px solid #e4e6f2;
+}
+
+.sponsors-inner {
+	max-width: var(--page-width);
+	margin: 0 auto;
+	padding: 22px var(--gutter);
+	display: flex;
+	align-items: center;
+	gap: 16px 40px;
+
+	@include bp.mobile {
+		flex-direction: column;
+		align-items: flex-start;
+		padding: 20px var(--gutter);
+	}
+}
+
+.sponsors-title {
+	margin: 0;
+	flex-shrink: 0;
+	font-size: 13px;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: #8f96c4;
+}
+
+.sponsors-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px 36px;
+
+	@include bp.mobile {
+		gap: 14px 24px;
+	}
+
+	a {
+		display: block;
+	}
+
+	img {
+		display: block;
+		height: 36px;
+		width: auto;
+		max-width: 120px;
+		object-fit: contain;
+		filter: grayscale(1);
+		opacity: 0.6;
+		transition:
+			filter 0.2s,
+			opacity 0.2s;
+
+		@include bp.mobile {
+			height: 30px;
+			max-width: 100px;
+		}
+	}
+
+	a:hover img,
+	a:focus-visible img {
+		filter: none;
+		opacity: 1;
+	}
+}
+
 .inner {
 	max-width: var(--page-width);
 	margin: 0 auto;

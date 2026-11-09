@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { APP_VERSION } from "../../../environments/version";
+import { SPONSORS_CONTENT } from "../../../content/content";
 
 @Component({
 	selector: "bo-site-footer",
@@ -11,4 +12,5 @@ import { APP_VERSION } from "../../../environments/version";
 })
 export class SiteFooter {
 	protected readonly version = APP_VERSION;
+	protected readonly sponsors = SPONSORS_CONTENT;
 }
