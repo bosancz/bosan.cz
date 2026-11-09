@@ -222,8 +222,7 @@ export class GalleryPage {
 	}
 
 	private stickyOffset(): number {
-		const bar = this.yearBar()?.nativeElement.parentElement;
-		return bar?.offsetParent ? bar.offsetHeight + 16 : 24;
+		return 24;
 	}
 
 	private centerYearBar(year: number, behavior: ScrollBehavior): void {
