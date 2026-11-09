@@ -234,10 +234,15 @@ h2 {
 	@include bp.mobile {
 		display: block;
 		position: sticky;
-		top: 0;
+		bottom: 0;
 		z-index: 3;
-		padding: 12px var(--gutter) 0;
-		background: linear-gradient(var(--light-2) 70%, transparent);
+		padding: 0 var(--gutter) calc(16px + env(safe-area-inset-bottom));
+		pointer-events: none;
+
+		.year-bar-card {
+			pointer-events: auto;
+			box-shadow: 0 8px 30px rgba(42, 52, 120, 0.28);
+		}
 	}
 }
 
