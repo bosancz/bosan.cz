@@ -1,13 +1,30 @@
 <a class="card" [routerLink]="link()">
-	<span class="thumb" [style.background]="item().photo?.bg ?? null">
+	<span
+		class="thumb"
+		[class.mosaic]="previews().length"
+		[class.single]="previews().length === 1"
+		[style.background]="previews().length ? null : (item().photo?.bg ?? null)"
+	>
 		@if (item().photo; as photo) {
 			<img
+				class="title-photo"
 				[src]="photo.urls.small"
 				[attr.width]="photo.width"
 				[attr.height]="photo.height"
 				alt=""
 				[attr.loading]="eager() ? null : 'lazy'"
 			/>
+			@for (preview of previews(); track preview.id) {
+				<img
+					class="preview"
+					[style.background]="preview.bg"
+					[src]="preview.urls.small"
+					[attr.width]="preview.width"
+					[attr.height]="preview.height"
+					alt=""
+					[attr.loading]="eager() ? null : 'lazy'"
+				/>
+			}
 		} @else {
 			<svg class="doc" aria-hidden="true" viewBox="0 0 24 24" width="56" height="56">
 				<path

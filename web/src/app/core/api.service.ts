@@ -23,6 +23,8 @@ export interface LiveData<T> {
 
 type Params = Record<string, string | number | boolean>;
 
+const GALLERY_PREVIEW_PHOTOS = 2;
+
 @Injectable({ providedIn: "root" })
 export class ApiService {
 	private readonly http = inject(HttpClient);
@@ -67,7 +69,7 @@ export class ApiService {
 	}
 
 	gallery(): LiveData<GalleryItem[]> {
-		return this.live<GalleryItem[]>("/gallery");
+		return this.live<GalleryItem[]>("/gallery", { previewPhotos: GALLERY_PREVIEW_PHOTOS });
 	}
 
 	latestAlbum(): LiveData<GalleryItem[]> {

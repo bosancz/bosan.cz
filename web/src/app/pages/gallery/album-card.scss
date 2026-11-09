@@ -30,6 +30,20 @@
 	}
 }
 
+.thumb.mosaic {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	grid-template-rows: repeat(2, minmax(0, 1fr));
+	gap: 3px;
+	height: 240px;
+	background: transparent;
+
+	.title-photo,
+	&.single .preview {
+		grid-row: 1 / -1;
+	}
+}
+
 .badges {
 	position: absolute;
 	top: 10px;
@@ -60,6 +74,11 @@
 	transform: scale(1.03);
 }
 
+.card:hover .thumb.mosaic img {
+	transform: none;
+	filter: brightness(1.06);
+}
+
 .text {
 	display: flex;
 	flex-direction: column;
@@ -85,6 +104,10 @@
 @include bp.mobile {
 	.thumb {
 		height: 190px;
+	}
+
+	.thumb.mosaic {
+		height: 220px;
 	}
 
 	.text {
