@@ -1,0 +1,12 @@
+{
+	"title": "Podporují nás",
+	"items": [
+		{ "name": "Hlavní město Praha", "url": "https://www.praha.eu", "logo": "/img/sponsors/praha.webp" },
+		{ "name": "MČ Praha 4", "url": "https://www.praha4.cz/", "logo": "/img/sponsors/praha4.webp" },
+		{ "name": "Forestlaan", "url": "https://www.forestlaan.cz/", "logo": "/img/sponsors/forestlaan.webp" },
+		{ "name": "Eurosignal", "url": "https://www.eurosignal.cz/", "logo": "/img/sponsors/eurosignal.webp" },
+		{ "name": "CompuNet", "url": "https://www.compunet.cz/", "logo": "/img/sponsors/compunet.webp" },
+		{ "name": "Kudyznudy.cz", "url": "https://www.kudyznudy.cz/", "logo": "/img/sponsors/kudyznudy.webp" },
+		{ "name": "Women for Women", "url": "https://women-for-women.cz/", "logo": "/img/sponsors/women-for-women.webp" }
+	]
+}

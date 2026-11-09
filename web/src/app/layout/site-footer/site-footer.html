@@ -1,4 +1,20 @@
 <footer>
+	@if (sponsors.items.length) {
+		<section class="sponsors" aria-labelledby="sponsors-title">
+			<div class="sponsors-inner">
+				<h2 id="sponsors-title" class="sponsors-title">{{ sponsors.title }}</h2>
+				<ul class="sponsors-list">
+					@for (sponsor of sponsors.items; track sponsor.url) {
+						<li>
+							<a [href]="sponsor.url" rel="noopener" target="_blank" [title]="sponsor.name">
+								<img [src]="sponsor.logo" [alt]="sponsor.name" loading="lazy" />
+							</a>
+						</li>
+					}
+				</ul>
+			</div>
+		</section>
+	}
 	<div class="inner">
 		<a routerLink="/" class="logo" aria-label="ŠÁN – úvodní stránka">
 			<img src="/img/logo.svg" alt="ŠÁN" width="118" height="44" loading="lazy" />

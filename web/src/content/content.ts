@@ -2,6 +2,7 @@ import aboutJson from "./o-nas.json";
 import campJson from "./tabor.json";
 import contactsJson from "./kontakty.json";
 import newsJson from "./aktualne.json";
+import sponsorsJson from "./sponzori.json";
 
 export interface ContentPhoto {
 	src: string;
@@ -67,7 +68,19 @@ export interface NewsContent {
 	join: { title: string; long: string; short: string };
 }
 
+export interface Sponsor {
+	name: string;
+	url: string;
+	logo: string;
+}
+
+export interface SponsorsContent {
+	title: string;
+	items: Sponsor[];
+}
+
 export const ABOUT_CONTENT = aboutJson as AboutContent;
 export const CAMP_CONTENT = campJson as CampContent;
 export const CONTACTS_CONTENT = contactsJson as ContactsContent;
 export const NEWS_CONTENT = newsJson as NewsContent;
+export const SPONSORS_CONTENT = sponsorsJson as SponsorsContent;
