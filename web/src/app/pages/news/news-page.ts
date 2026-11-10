@@ -3,7 +3,7 @@ import { RouterLink } from "@angular/router";
 import { ApiService } from "../../core/api.service";
 import { formatDateRange, formatWeekdayRange, monthName, parseDate } from "../../core/dates";
 import { eventTypeIcon } from "../../core/event-types";
-import { groupInfo, sortGroupIds } from "../../core/groups";
+import { eventGroupIds, groupInfo } from "../../core/groups";
 import { Album } from "../../core/schema";
 import { ORGANIZATION_LD, SITE_NAME, SeoService } from "../../core/seo.service";
 import { InlineMarkdownPipe, ParagraphsPipe } from "../../core/markdown";
@@ -142,7 +142,7 @@ export class NewsPage {
 					e.status === "public" &&
 					!!e.publishedAt &&
 					new Date(e.publishedAt).getTime() >= Date.now() - NEWS_DAYS * DAY,
-				groups: sortGroupIds(e.groups).map((id) => groupInfo(id)),
+				groups: eventGroupIds(e).map((id) => groupInfo(id)),
 			})),
 	);
 

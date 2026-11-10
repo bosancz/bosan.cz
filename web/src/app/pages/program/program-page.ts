@@ -6,7 +6,7 @@ import { AccountService } from "../../core/account.service";
 import { ApiService } from "../../core/api.service";
 import { SeoService } from "../../core/seo.service";
 import { ProgramEvent } from "../../core/schema";
-import { GroupInfo, groupInfo, sortGroupIds } from "../../core/groups";
+import { eventGroupIds, GroupInfo, groupInfo } from "../../core/groups";
 import { eventTypeIcon } from "../../core/event-types";
 import { formatPhone, phoneHref } from "../../core/phone";
 import { InlineMarkdownPipe, MarkdownPipe, markdownToText } from "../../core/markdown";
@@ -103,7 +103,7 @@ export class ProgramPage {
 	}
 
 	protected groupsOf(event: ProgramEvent): GroupInfo[] {
-		return sortGroupIds(event.groups).map(groupInfo);
+		return eventGroupIds(event).map(groupInfo);
 	}
 
 	protected leadersOf(event: ProgramEvent) {

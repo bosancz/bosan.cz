@@ -13,7 +13,7 @@ import {
 } from "@angular/core";
 import { ApiService, LiveData } from "../../core/api.service";
 import { AccountService } from "../../core/account.service";
-import { groupInfo, sortGroupIds } from "../../core/groups";
+import { eventGroupIds, groupInfo } from "../../core/groups";
 import { AlbumDetail, AlbumPhoto } from "../../core/schema";
 import { OG_IMAGE_SIZE, SeoService } from "../../core/seo.service";
 import { albumDatesWithYear, albumName } from "./gallery-dates";
@@ -59,7 +59,10 @@ export class AlbumPage implements OnInit {
 		const event = this.data()?.event;
 		return event ? eventWater(event) : "";
 	});
-	protected readonly groups = computed(() => sortGroupIds(this.data()?.event?.groups ?? []).map(groupInfo));
+	protected readonly groups = computed(() => {
+		const event = this.data()?.event;
+		return event ? eventGroupIds(event).map(groupInfo) : [];
+	});
 	protected readonly leaders = computed(() =>
 		(this.data()?.event?.leaders ?? []).map((leader) => leader.nickname).join(", "),
 	);
