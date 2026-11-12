@@ -46,7 +46,10 @@ export class EventsTimelineComponent implements OnInit {
 
     this.events = await this.api.get<Event[]>("program", { limit: this.limit || undefined });
 
-    this.events.forEach((event) => event.groups.sort((a, b) => a.localeCompare(b, undefined, { numeric: true })));
+    this.events.forEach((event) => {
+      event.groups.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+      if (event.leadersEvent && !event.groups.includes("V")) event.groups.push("V");
+    });
 
     this.loading = false;
   }
