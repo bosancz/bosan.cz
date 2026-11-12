@@ -17,18 +17,26 @@ export const CHILD_GROUPS: GroupInfo[] = [
 
 export const FRIENDS_CLUB: GroupInfo = { id: "KP", name: "Klub přátel", color: "#e28f26", text: "#2a3478" };
 
+export const LEADERS: GroupInfo = { id: "V", name: "Pro vedoucí", color: "#8a8f9c", text: "#ffffff" };
+
 export function groupInfo(id: string): GroupInfo {
 	return (
 		CHILD_GROUPS.find((group) => group.id === id) ??
-		(id === FRIENDS_CLUB.id ? FRIENDS_CLUB : { id, name: id, color: "#5a6292", text: "#ffffff" })
+		[FRIENDS_CLUB, LEADERS].find((group) => group.id === id) ?? { id, name: id, color: "#5a6292", text: "#ffffff" }
 	);
+}
+
+export function eventGroupIds(event: { groups: string[]; leadersEvent: boolean }): string[] {
+	return sortGroupIds(event.leadersEvent ? [...event.groups, LEADERS.id] : event.groups);
 }
 
 export function sortGroupIds(ids: string[]): string[] {
 	const rank = (id: string) => {
 		const index = CHILD_GROUPS.findIndex((group) => group.id === id);
 		if (index >= 0) return index;
-		return id === FRIENDS_CLUB.id ? CHILD_GROUPS.length + 1000 : CHILD_GROUPS.length + (Number(id) || 999);
+		if (id === FRIENDS_CLUB.id) return CHILD_GROUPS.length + 1000;
+		if (id === LEADERS.id) return CHILD_GROUPS.length + 1001;
+		return CHILD_GROUPS.length + (Number(id) || 999);
 	};
 	return [...ids].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, "cs"));
 }
