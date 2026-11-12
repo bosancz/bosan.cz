@@ -101,8 +101,8 @@ export const MemberGroups = asMemberGroups({
     children: false
   },
   "V": {
-    name: "Vedoucí",
-    color: "#000000",
+    name: "Pro vedoucí",
+    color: "#8a8f9c",
     real: false,
     active: true,
     event: true,
