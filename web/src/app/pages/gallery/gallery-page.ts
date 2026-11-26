@@ -54,6 +54,7 @@ export class GalleryPage {
 	protected readonly activeYear = signal<number | undefined>(undefined);
 	protected readonly query = signal("");
 	protected readonly searchOpen = signal(false);
+	protected readonly searching = computed(() => !!searchText(this.query()));
 	protected readonly yearBarAtStart = signal(true);
 	protected readonly yearBarAtEnd = signal(false);
 	private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>("searchInput");

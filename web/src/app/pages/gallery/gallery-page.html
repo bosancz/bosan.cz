@@ -84,8 +84,10 @@
 			<section class="year" [id]="'rok-' + group.year" [attr.data-year-section]="group.year">
 				<h2>{{ group.year }}</h2>
 				<div class="grid">
-					@for (item of group.items; track item.albumId; let i = $index) {
-						<bo-album-card [item]="item" [eager]="first && i < 4" />
+					@defer (on immediate; hydrate on viewport; hydrate when searching()) {
+						@for (item of group.items; track item.albumId; let i = $index) {
+							<bo-album-card [item]="item" [eager]="first && i < 4" />
+						}
 					}
 				</div>
 			</section>
