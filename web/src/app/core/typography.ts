@@ -1,4 +1,16 @@
-import { AfterViewInit, Directive, ElementRef, inject, Pipe, PipeTransform } from "@angular/core";
+import {
+	AfterViewInit,
+	Directive,
+	ElementRef,
+	Injectable,
+	inject,
+	makeStateKey,
+	Pipe,
+	PipeTransform,
+	PLATFORM_ID,
+	TransferState,
+} from "@angular/core";
+import { isPlatformServer } from "@angular/common";
 import type { MarkedExtension, Token, Tokens } from "marked";
 import { fixTypos } from "typopo";
 
@@ -9,11 +21,46 @@ const BLOCK_TYPES = new Set(["paragraph", "heading", "list", "blockquote", "code
 
 type TextLeaf = Tokens.Text | Tokens.Escape;
 
+const fixed = new Map<string, string>();
+
+const TYPOGRAPHY_STATE = makeStateKey<Record<string, string | 0>>("typography");
+
 export function fixTypography(text: string): string;
 export function fixTypography(text: string | null | undefined): string | null | undefined;
 export function fixTypography(text: string | null | undefined): string | null | undefined {
 	if (!text) return text;
-	return fixTypos(text, "cs", { removeLines: false });
+	let result = fixed.get(text);
+	if (result === undefined) {
+		result = fixTypos(text, "cs", { removeLines: false });
+		fixed.set(text, result);
+	}
+	return result;
+}
+
+@Injectable({ providedIn: "root" })
+export class TypographyService {
+	private readonly used = isPlatformServer(inject(PLATFORM_ID)) ? new Map<string, string>() : null;
+
+	constructor() {
+		const state = inject(TransferState);
+		if (this.used) {
+			const used = this.used;
+			state.onSerialize(TYPOGRAPHY_STATE, () =>
+				Object.fromEntries([...used].map(([text, result]) => [text, result === text ? 0 : result])),
+			);
+			return;
+		}
+		const transferred = state.get(TYPOGRAPHY_STATE, null);
+		if (!transferred) return;
+		state.remove(TYPOGRAPHY_STATE);
+		for (const [text, result] of Object.entries(transferred)) fixed.set(text, result === 0 ? text : result);
+	}
+
+	fix(text: string | null | undefined): string {
+		const result = fixTypography(text) ?? "";
+		if (text) this.used?.set(text, result);
+		return result;
+	}
 }
 
 export function fixTokensTypography<T extends Token[]>(tokens: T): T {
@@ -110,8 +157,10 @@ function isAutolink(link: Tokens.Link): boolean {
 
 @Pipe({ name: "typography" })
 export class TypographyPipe implements PipeTransform {
+	private readonly typography = inject(TypographyService);
+
 	transform(text: string | null | undefined): string {
-		return fixTypography(text) ?? "";
+		return this.typography.fix(text);
 	}
 }
 
