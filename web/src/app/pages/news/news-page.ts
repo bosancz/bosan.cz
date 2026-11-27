@@ -168,7 +168,7 @@ export class NewsPage {
 		this.seo.set({
 			title: SITE_NAME,
 			description:
-				"Sedm dětských vodáckých oddílů z Prahy pro kluky a holky od 7 do 15 let: schůzky v Podolí, víkendové výpravy, vodácké akce a letní tábor na ostrově Šán.",
+				"Sedm dětských vodáckých oddílů z Prahy pro kluky a holky od 7 do 15 let: schůzky v Hodkovičkách, víkendové výpravy, vodácké akce a letní tábor na ostrově Šán.",
 			path: "/",
 			image: "/img/og-default.jpg",
 			imageAlt: "Dětská vodácká skupina ŠÁN",
