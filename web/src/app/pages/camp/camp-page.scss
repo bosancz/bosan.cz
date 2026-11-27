@@ -915,42 +915,78 @@ h1 {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 12px;
+}
+
+.historie-camp {
 	display: flex;
-	flex-direction: column;
-	gap: 6px;
+	gap: 12px;
+	height: 100%;
+	padding: 12px 14px;
+	border: 1px solid #d5d8ea;
+	border-radius: 12px;
+	background: #fff;
+	color: var(--body-text);
+	text-decoration: none;
+	transition:
+		border-color 0.15s,
+		box-shadow 0.15s;
+
+	&.trip {
+		background: #fdf3e6;
+	}
+}
+
+a.historie-camp:hover {
+	border-color: var(--navy);
+	box-shadow: 0 2px 8px rgba(42, 52, 120, 0.12);
+}
+
+.historie-icon {
+	flex: 0 0 40px;
+	width: 40px;
+	height: 40px;
+}
+
+.historie-body {
+	min-width: 0;
+	flex: 1;
+	font-size: 14px;
+	line-height: 1.35;
+}
+
+.historie-name {
+	color: var(--navy);
 	font-size: 16px;
-
-	li {
-		display: grid;
-		grid-template-columns: 240px minmax(0, 1fr) 160px;
-		gap: 2px 24px;
-
-		@include bp.mobile {
-			grid-template-columns: minmax(0, 1fr);
-		}
-	}
-
-	a,
-	.historie-name {
-		color: var(--navy);
-		font-weight: 700;
-	}
+	font-weight: 700;
 }
 
-.historie-detail,
+.historie-dates,
 .historie-leader {
-	color: #4a5185;
+	color: var(--muted);
+}
+
+.historie-detail {
+	margin-top: 4px;
+	color: var(--navy);
+	font-weight: 600;
+}
+
+.historie-badge {
+	display: inline-block;
+	margin-right: 4px;
+	padding: 1px 6px;
+	border-radius: 999px;
+	background: #ffd400;
+	color: var(--navy);
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	vertical-align: 0.1em;
 }
 
 .historie-leader {
-	@include bp.mobile {
-		font-size: 14px;
-	}
-}
-
-.historie-detail:empty,
-.historie-leader:empty {
-	@include bp.mobile {
-		display: none;
-	}
+	margin-top: 4px;
 }

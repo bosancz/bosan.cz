@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from "@angular/common";
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -34,6 +35,7 @@ interface HistoryYear {
 	year: number;
 	camps: {
 		id: number;
+		trip: boolean;
 		label: string;
 		dates: string;
 		detail: string | null;
@@ -85,6 +87,7 @@ function historyYear(item: PublicCampHistoryYear): HistoryYear {
 		year: item.year,
 		camps: camps.map((camp) => ({
 			id: camp.id,
+			trip: camp.kind === "putak",
 			label: camp.kind === "putak" ? "Puťák" : "Tábor",
 			dates: dateRange(camp.dateFrom, camp.dateTill),
 			detail: camp.kind === "putak" ? camp.river : camp.theme,
@@ -115,7 +118,7 @@ const TOC: TocItem[] = [
 @Component({
 	selector: "bo-camp-page",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterLink, ParagraphsPipe, InlineMarkdownPipe],
+	imports: [NgTemplateOutlet, RouterLink, ParagraphsPipe, InlineMarkdownPipe],
 	templateUrl: "./camp-page.html",
 	styleUrl: "./camp-page.scss",
 })
