@@ -32,8 +32,14 @@ interface SessionView {
 
 interface HistoryYear {
 	year: number;
-	themes: string[];
-	camps: { id: number; name: string; river: string | null; trip: boolean; albumId: number | null }[];
+	camps: {
+		id: number;
+		label: string;
+		dates: string;
+		detail: string | null;
+		leader: string | null;
+		albumId: number | null;
+	}[];
 }
 
 const CHAPTER_LAYOUTS = ["single", "single", "pair", "trio"] as const;
@@ -42,6 +48,10 @@ const SESSION_MIN_DAYS = 7;
 function dayMonth(date: string): string {
 	const [, month, day] = date.split("-").map(Number);
 	return `${day}.\u00a0${month}.`;
+}
+
+function dateRange(from: string, till: string): string {
+	return from === till ? dayMonth(from) : `${dayMonth(from)} – ${dayMonth(till)}`;
 }
 
 function days(camp: PublicCamp): number {
@@ -69,16 +79,16 @@ function sessionView(camp: PublicCamp, index: number): SessionView {
 
 function historyYear(item: PublicCampHistoryYear): HistoryYear {
 	const camps = [...item.camps].sort(
-		(a, b) => Number(a.type === "puťák") - Number(b.type === "puťák") || a.dateFrom.localeCompare(b.dateFrom),
+		(a, b) => Number(a.kind === "putak") - Number(b.kind === "putak") || a.dateFrom.localeCompare(b.dateFrom),
 	);
 	return {
 		year: item.year,
-		themes: [...new Set(camps.filter((camp) => camp.type === "tábor" && camp.theme).map((camp) => camp.theme!))],
 		camps: camps.map((camp) => ({
 			id: camp.id,
-			name: camp.name,
-			river: camp.type === "puťák" ? camp.river : null,
-			trip: camp.type === "puťák",
+			label: camp.kind === "putak" ? "Puťák" : "Tábor",
+			dates: dateRange(camp.dateFrom, camp.dateTill),
+			detail: camp.kind === "putak" ? camp.river : camp.theme,
+			leader: camp.leader,
 			albumId: camp.albumId,
 		})),
 	};
@@ -121,7 +131,7 @@ export class CampPage {
 	protected readonly content = CAMP_CONTENT;
 	protected readonly sessions = computed(() =>
 		(this.camps.value() ?? [])
-			.filter((camp) => camp.type === "tábor" && days(camp) >= SESSION_MIN_DAYS)
+			.filter((camp) => camp.kind === "tabor" && days(camp) >= SESSION_MIN_DAYS)
 			.sort((a, b) => a.dateFrom.localeCompare(b.dateFrom))
 			.map(sessionView),
 	);

@@ -311,25 +311,21 @@
 			@for (item of historyYears(); track item.year) {
 				<li class="historie-year">
 					<div class="historie-label">{{ item.year }}</div>
-					<div class="historie-body">
-						@if (item.themes.length) {
-							<div class="historie-themes">{{ item.themes.join(", ") }}</div>
+					<ul class="historie-camps">
+						@for (camp of item.camps; track camp.id) {
+							<li>
+								@if (camp.albumId) {
+									<a [routerLink]="['/fotogalerie/album', camp.albumId]"
+										>{{ camp.label }} {{ camp.dates }}</a
+									>
+								} @else {
+									<span class="historie-name">{{ camp.label }} {{ camp.dates }}</span>
+								}
+								<span class="historie-detail">{{ camp.detail }}</span>
+								<span class="historie-leader">{{ camp.leader }}</span>
+							</li>
 						}
-						<ul class="historie-camps">
-							@for (camp of item.camps; track camp.id) {
-								<li [class.trip]="camp.trip">
-									@if (camp.albumId) {
-										<a [routerLink]="['/fotogalerie/album', camp.albumId]">{{ camp.name }}</a>
-									} @else {
-										<span>{{ camp.name }}</span>
-									}
-									@if (camp.river) {
-										<span class="historie-river">{{ camp.river }}</span>
-									}
-								</li>
-							}
-						</ul>
-					</div>
+					</ul>
 				</li>
 			}
 		</ol>

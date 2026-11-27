@@ -122,7 +122,7 @@ export interface GalleryStats {
 	photos: number;
 }
 
-export type CampType = "tábor" | "puťák";
+export type CampKind = "tabor" | "putak";
 
 export interface PublicCampLeader {
 	id: number;
@@ -135,7 +135,7 @@ export interface PublicCampLeader {
 
 export interface PublicCamp {
 	id: number;
-	type: CampType;
+	kind: CampKind;
 	name: string;
 	dateFrom: string;
 	dateTill: string;
@@ -151,13 +151,14 @@ export interface PublicCamp {
 
 export interface PublicCampHistoryItem {
 	id: number;
-	type: CampType;
+	kind: CampKind;
 	name: string;
 	dateFrom: string;
 	dateTill: string;
 	place: string | null;
 	river: string | null;
 	theme: string | null;
+	leader: string | null;
 	albumId: number | null;
 }
 

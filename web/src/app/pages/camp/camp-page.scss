@@ -911,34 +911,46 @@ h1 {
 	color: var(--navy);
 }
 
-.historie-themes {
-	font-weight: 800;
-	font-size: 17px;
-	color: var(--navy);
-	margin-bottom: 4px;
-}
-
 .historie-camps {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	display: flex;
-	flex-wrap: wrap;
-	gap: 4px 18px;
-	font-size: 15px;
-	color: #4a5185;
+	flex-direction: column;
+	gap: 6px;
+	font-size: 16px;
 
-	a {
+	li {
+		display: grid;
+		grid-template-columns: 240px minmax(0, 1fr) 160px;
+		gap: 2px 24px;
+
+		@include bp.mobile {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	a,
+	.historie-name {
 		color: var(--navy);
 		font-weight: 700;
 	}
 }
 
-.historie-river {
-	margin-left: 6px;
-	color: #6b719c;
+.historie-detail,
+.historie-leader {
+	color: #4a5185;
+}
 
-	&::before {
-		content: "· ";
+.historie-leader {
+	@include bp.mobile {
+		font-size: 14px;
+	}
+}
+
+.historie-detail:empty,
+.historie-leader:empty {
+	@include bp.mobile {
+		display: none;
 	}
 }
