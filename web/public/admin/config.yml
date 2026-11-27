@@ -112,28 +112,6 @@ collections:
             widget: object
             fields:
               - { <<: *inline, name: lead, label: Úvodní text }
-              - name: items
-                label: Turnusy
-                label_singular: turnus
-                widget: list
-                summary: "{{from | date('D. M.')}} – {{to | date('D. M. YYYY')}}"
-                fields:
-                  - { name: from, label: Od, widget: datetime, type: date, picker_utc: true }
-                  - { name: to, label: Do, widget: datetime, type: date, picker_utc: true }
-                  - name: groups
-                    label: Oddíly
-                    widget: select
-                    multiple: true
-                    options: ["3", "4", "5", "6", "7", "8", "22"]
-                  - name: leader
-                    label: Hlavní vedoucí
-                    widget: object
-                    summary: "{{nickname}}"
-                    fields:
-                      - { name: nickname, label: Přezdívka, widget: string }
-                      - { name: name, label: Jméno a příjmení, widget: string }
-                      - { name: email, label: E-mail, widget: string }
-                      - { name: phone, label: Telefon, widget: string }
           - name: life
             label: Táborový život
             widget: object

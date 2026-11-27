@@ -72,7 +72,7 @@
 		<h2 id="tabory" class="h2">tábory</h2>
 		<p class="turnusy-lead" [innerHTML]="content.sessions.lead | inlineMarkdown"></p>
 		<div class="turnusy-grid">
-			@for (turnus of sessions; track turnus.id) {
+			@for (turnus of sessions(); track turnus.id) {
 				<article class="turnus">
 					<div class="turnus-dates">
 						<time [attr.datetime]="turnus.from + '/' + turnus.to">{{ turnus.label }}</time>
@@ -87,49 +87,57 @@
 								</li>
 							}
 						</ul>
-						<div class="leader">
-							<span class="leader-pill">Hlavní vedoucí</span>
-							<div>
-								<div class="leader-nick">{{ turnus.leader.nickname }}</div>
-								<div class="leader-name">{{ turnus.leader.name }}</div>
+						@if (turnus.leader; as leader) {
+							<div class="leader">
+								<span class="leader-pill">Hlavní vedoucí</span>
+								<div>
+									<div class="leader-nick">{{ leader.nickname }}</div>
+									@if (leader.name) {
+										<div class="leader-name">{{ leader.name }}</div>
+									}
+								</div>
+								<div class="leader-contacts">
+									@if (leader.email) {
+										<a [href]="'mailto:' + leader.email" [title]="leader.email">
+											<svg viewBox="0 0 24 24" aria-hidden="true">
+												<rect
+													x="3"
+													y="5"
+													width="18"
+													height="14"
+													rx="3"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="2.2"
+												/>
+												<path
+													d="M4 7l8 6 8-6"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="2.2"
+													stroke-linejoin="round"
+												/>
+											</svg>
+											{{ leader.email }}
+										</a>
+									}
+									@if (leader.phone) {
+										<a [href]="tel(leader.phone)">
+											<svg viewBox="0 0 24 24" aria-hidden="true">
+												<path
+													d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="2.2"
+													stroke-linejoin="round"
+												/>
+											</svg>
+											{{ leader.phone }}
+										</a>
+									}
+								</div>
 							</div>
-							<div class="leader-contacts">
-								<a [href]="'mailto:' + turnus.leader.email" [title]="turnus.leader.email">
-									<svg viewBox="0 0 24 24" aria-hidden="true">
-										<rect
-											x="3"
-											y="5"
-											width="18"
-											height="14"
-											rx="3"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2.2"
-										/>
-										<path
-											d="M4 7l8 6 8-6"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2.2"
-											stroke-linejoin="round"
-										/>
-									</svg>
-									{{ turnus.leader.email }}
-								</a>
-								<a [href]="'tel:+420' + turnus.leader.phone.replaceAll(' ', '')">
-									<svg viewBox="0 0 24 24" aria-hidden="true">
-										<path
-											d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2.2"
-											stroke-linejoin="round"
-										/>
-									</svg>
-									{{ turnus.leader.phone }}
-								</a>
-							</div>
-						</div>
+						}
 					</div>
 				</article>
 			}
@@ -296,5 +304,34 @@
 			</div>
 			<a class="ostrov-link" routerLink="/kontakty">Chci vědět víc</a>
 		</div>
+	</section>
+	<section class="historie container" aria-labelledby="historie-taboru">
+		<h2 id="historie-taboru" class="h2">historie táborů</h2>
+		<ol class="historie-list">
+			@for (item of historyYears(); track item.year) {
+				<li class="historie-year">
+					<div class="historie-label">{{ item.year }}</div>
+					<div class="historie-body">
+						@if (item.themes.length) {
+							<div class="historie-themes">{{ item.themes.join(", ") }}</div>
+						}
+						<ul class="historie-camps">
+							@for (camp of item.camps; track camp.id) {
+								<li [class.trip]="camp.trip">
+									@if (camp.albumId) {
+										<a [routerLink]="['/fotogalerie/album', camp.albumId]">{{ camp.name }}</a>
+									} @else {
+										<span>{{ camp.name }}</span>
+									}
+									@if (camp.river) {
+										<span class="historie-river">{{ camp.river }}</span>
+									}
+								</li>
+							}
+						</ul>
+					</div>
+				</li>
+			}
+		</ol>
 	</section>
 </main>

@@ -10,40 +10,7 @@
 		}
 	},
 	"sessions": {
-		"lead": "Na Šán jezdíme každé léto na dva turnusy. Termíny na další rok zatím nevíme, ohlásíme je v Aktuálně, jakmile budou.",
-		"items": [
-			{
-				"from": "2026-07-04",
-				"to": "2026-07-24",
-				"groups": [
-					"3",
-					"4",
-					"8",
-					"22"
-				],
-				"leader": {
-					"nickname": "Pašík",
-					"name": "Václav Čechmánek",
-					"email": "pasik@bosan.cz",
-					"phone": "731 651 145"
-				}
-			},
-			{
-				"from": "2026-07-25",
-				"to": "2026-08-14",
-				"groups": [
-					"5",
-					"6",
-					"7"
-				],
-				"leader": {
-					"nickname": "Perla",
-					"name": "Valentýna Tyllová",
-					"email": "perla@bosan.cz",
-					"phone": "732 229 605"
-				}
-			}
-		]
+		"lead": "Na Šán jezdíme každé léto na dva turnusy. Termíny na další rok zatím nevíme, ohlásíme je v Aktuálně, jakmile budou."
 	},
 	"life": {
 		"text": "Obou táborů se zúčastní padesát šest dětí rozdělených do čtyř oddílů po dvou posádkách. Každá posádka se stará o svou devítikánoi, na které se plavíme po okolí Šánu a hrajeme většinu celotáborových her. K výcviku slouží i deblovky, kajaky a singlkanoe; nováčkům zapůjčíme kompletní vodácké vybavení.\n\nBěhem tábora se naučíme uzly, morseovku, topografii i zdravovědu a nechybí tradiční šánovské specialitky jako legendární Poseidonské hry.\n\nDěti pomáhají s chodem tábora — připravují dříví, člunaři vozí suroviny a vodu z druhého břehu. Tábor končí slavnostním táborákem, na který zveme rodiče a přátele.",

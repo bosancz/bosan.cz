@@ -20,13 +20,6 @@ export interface AboutContent {
 	groups: { text: string };
 }
 
-export interface CampSession {
-	from: string;
-	to: string;
-	groups: string[];
-	leader: { nickname: string; name: string; email: string; phone: string };
-}
-
 export interface CampChapter {
 	part: string;
 	title: string;
@@ -43,7 +36,7 @@ export interface CampSpecialDay {
 export interface CampContent {
 	seo: Seo;
 	hero: { lead: string; photo: ContentPhoto };
-	sessions: { lead: string; items: CampSession[] };
+	sessions: { lead: string };
 	life: { text: string; photos: ContentPhoto[] };
 	day: { lead: string; chapters: CampChapter[] };
 	specialDays: CampSpecialDay[];

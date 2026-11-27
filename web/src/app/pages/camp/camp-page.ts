@@ -6,15 +6,20 @@ import {
 	ElementRef,
 	Injector,
 	afterNextRender,
+	computed,
+	effect,
 	inject,
 	signal,
 } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { SeoService } from "../../core/seo.service";
-import { groupInfo } from "../../core/groups";
+import { groupInfo, sortGroupIds } from "../../core/groups";
 import { goToSection } from "../../core/page-sections";
 import { InlineMarkdownPipe, ParagraphsPipe } from "../../core/markdown";
 import { CAMP_CONTENT, CampChapter } from "../../../content/content";
+import { ApiService } from "../../core/api.service";
+import { formatPhone, phoneHref } from "../../core/phone";
+import { PublicCamp, PublicCampHistoryYear } from "../../core/schema";
 
 interface SessionView {
 	id: string;
@@ -22,24 +27,60 @@ interface SessionView {
 	to: string;
 	label: string;
 	groups: string[];
-	leader: { nickname: string; name: string; email: string; phone: string };
+	leader: { nickname: string; name: string; email: string | null; phone: string | null } | null;
+}
+
+interface HistoryYear {
+	year: number;
+	themes: string[];
+	camps: { id: number; name: string; river: string | null; trip: boolean; albumId: number | null }[];
 }
 
 const CHAPTER_LAYOUTS = ["single", "single", "pair", "trio"] as const;
+const SESSION_MIN_DAYS = 7;
 
 function dayMonth(date: string): string {
 	const [, month, day] = date.split("-").map(Number);
 	return `${day}.\u00a0${month}.`;
 }
 
-function sessionView(session: (typeof CAMP_CONTENT.sessions.items)[number], index: number): SessionView {
+function days(camp: PublicCamp): number {
+	return (Date.parse(camp.dateTill) - Date.parse(camp.dateFrom)) / 86_400_000 + 1;
+}
+
+function sessionView(camp: PublicCamp, index: number): SessionView {
+	const leader = camp.leader;
 	return {
 		id: `turnus-${index + 1}`,
-		from: session.from,
-		to: session.to,
-		label: `${dayMonth(session.from)} – ${dayMonth(session.to)}\u00a0${session.to.slice(0, 4)}`,
-		groups: session.groups,
-		leader: session.leader,
+		from: camp.dateFrom,
+		to: camp.dateTill,
+		label: `${dayMonth(camp.dateFrom)} – ${dayMonth(camp.dateTill)}\u00a0${camp.dateTill.slice(0, 4)}`,
+		groups: sortGroupIds(camp.groups),
+		leader: leader
+			? {
+					nickname: leader.nickname,
+					name: [leader.firstName, leader.lastName].filter(Boolean).join(" "),
+					email: leader.email,
+					phone: leader.mobile ? formatPhone(leader.mobile) : null,
+				}
+			: null,
+	};
+}
+
+function historyYear(item: PublicCampHistoryYear): HistoryYear {
+	const camps = [...item.camps].sort(
+		(a, b) => Number(a.type === "puťák") - Number(b.type === "puťák") || a.dateFrom.localeCompare(b.dateFrom),
+	);
+	return {
+		year: item.year,
+		themes: [...new Set(camps.filter((camp) => camp.type === "tábor" && camp.theme).map((camp) => camp.theme!))],
+		camps: camps.map((camp) => ({
+			id: camp.id,
+			name: camp.name,
+			river: camp.type === "puťák" ? camp.river : null,
+			trip: camp.type === "puťák",
+			albumId: camp.albumId,
+		})),
 	};
 }
 
@@ -58,6 +99,7 @@ const TOC: TocItem[] = [
 	{ id: "jeden-den-na-sanu", label: "jeden den na Šánu" },
 	{ id: "kolik-to-stoji", label: "kolik to stojí" },
 	{ id: "kde-tabor-je", label: "kde tábor je" },
+	{ id: "historie-taboru", label: "historie táborů" },
 ];
 
 @Component({
@@ -73,9 +115,17 @@ export class CampPage {
 	private readonly injector = inject(Injector);
 	private readonly destroyRef = inject(DestroyRef);
 	private readonly seo = inject(SeoService);
+	private readonly camps = inject(ApiService).camps();
+	private readonly history = inject(ApiService).campsHistory();
 
 	protected readonly content = CAMP_CONTENT;
-	protected readonly sessions = CAMP_CONTENT.sessions.items.map(sessionView);
+	protected readonly sessions = computed(() =>
+		(this.camps.value() ?? [])
+			.filter((camp) => camp.type === "tábor" && days(camp) >= SESSION_MIN_DAYS)
+			.sort((a, b) => a.dateFrom.localeCompare(b.dateFrom))
+			.map(sessionView),
+	);
+	protected readonly historyYears = computed(() => (this.history.value() ?? []).map(historyYear));
 	protected readonly prices = {
 		members: price(CAMP_CONTENT.price.members),
 		nonMembers: price(CAMP_CONTENT.price.nonMembers),
@@ -85,13 +135,15 @@ export class CampPage {
 	protected readonly tocOpen = signal(false);
 
 	constructor() {
-		this.seo.set({
-			title: "Tábor na ostrově Šán",
-			description: CAMP_CONTENT.seo.description,
-			path: "/tabor",
-			image: CAMP_CONTENT.hero.photo.src,
-			imageAlt: CAMP_CONTENT.hero.photo.alt,
-			jsonLd: this.jsonLd(),
+		effect(() => {
+			this.seo.set({
+				title: "Tábor na ostrově Šán",
+				description: CAMP_CONTENT.seo.description,
+				path: "/tabor",
+				image: CAMP_CONTENT.hero.photo.src,
+				imageAlt: CAMP_CONTENT.hero.photo.alt,
+				jsonLd: this.jsonLd(this.sessions()),
+			});
 		});
 
 		afterNextRender(() => {
@@ -137,7 +189,11 @@ export class CampPage {
 		this.tocOpen.set((event.target as HTMLDetailsElement).open);
 	}
 
-	private jsonLd(): object {
+	protected tel(phone: string): string {
+		return phoneHref(phone);
+	}
+
+	private jsonLd(sessions: SessionView[]): object {
 		const place = {
 			"@type": "Place",
 			name: "LVT ostrov Šán",
@@ -162,8 +218,8 @@ export class CampPage {
 			description: CAMP_CONTENT.seo.description,
 			eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
 			eventStatus: "https://schema.org/EventScheduled",
-			startDate: this.sessions[0]?.from,
-			endDate: this.sessions[this.sessions.length - 1]?.to,
+			startDate: sessions[0]?.from,
+			endDate: sessions[sessions.length - 1]?.to,
 			typicalAgeRange: "7-15",
 			image: this.seo.absoluteUrl(CAMP_CONTENT.hero.photo.src),
 			location: place,
@@ -184,7 +240,7 @@ export class CampPage {
 					url: this.seo.absoluteUrl("/tabor"),
 				},
 			],
-			subEvent: this.sessions.map((turnus, index) => ({
+			subEvent: sessions.map((turnus, index) => ({
 				"@type": "Event",
 				name: `Tábor na ostrově Šán, ${index + 1}. turnus`,
 				startDate: turnus.from,

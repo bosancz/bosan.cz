@@ -11,6 +11,8 @@ import {
 	GalleryItem,
 	ProgramEvent,
 	PublicBoardMember,
+	PublicCamp,
+	PublicCampHistoryYear,
 	PublicGroup,
 } from "./schema";
 import { HydrationState } from "./hydration-state";
@@ -90,6 +92,14 @@ export class ApiService {
 
 	albumPhotos(id: string | number): LiveData<AlbumPhoto[]> {
 		return this.live<AlbumPhoto[]>(`/albums/${encodeURIComponent(id)}/photos`);
+	}
+
+	camps(): LiveData<PublicCamp[]> {
+		return this.live<PublicCamp[]>("/camps");
+	}
+
+	campsHistory(): LiveData<PublicCampHistoryYear[]> {
+		return this.live<PublicCampHistoryYear[]>("/camps/history");
 	}
 
 	groups(): LiveData<PublicGroup[]> {
