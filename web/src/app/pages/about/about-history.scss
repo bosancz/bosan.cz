@@ -115,10 +115,24 @@
 		max-width: 640px;
 	}
 
+	&:has(.quote-note) {
+		columns: 1;
+		max-width: 640px;
+	}
+
 	bo-quote {
 		break-inside: avoid;
 		margin: 0 0 28px;
 	}
+}
+
+.quote-note {
+	margin: -12px 0 0;
+	padding-left: 40px;
+	font-size: 15px;
+	line-height: 1.6;
+	font-style: italic;
+	color: #6a6f91;
 }
 
 .year {
@@ -275,6 +289,10 @@
 
 	.entry-main .entry-text {
 		font-size: 15.5px;
+	}
+
+	.quote-note {
+		padding-left: 32px;
 	}
 
 	.photos img {
