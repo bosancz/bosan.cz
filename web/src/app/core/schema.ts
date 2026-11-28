@@ -121,3 +121,48 @@ export interface GalleryStats {
 	albums: number;
 	photos: number;
 }
+
+export type CampKind = "tabor" | "putak";
+
+export interface PublicCampLeader {
+	id: number;
+	nickname: string;
+	firstName: string | null;
+	lastName: string | null;
+	email: string | null;
+	mobile: string | null;
+}
+
+export interface PublicCamp {
+	id: number;
+	kind: CampKind;
+	name: string;
+	dateFrom: string;
+	dateTill: string;
+	place: string | null;
+	river: string | null;
+	price: number | null;
+	theme: string | null;
+	groups: string[];
+	leadersEvent: boolean;
+	leader: PublicCampLeader | null;
+	registrationUrl: string | null;
+}
+
+export interface PublicCampHistoryItem {
+	id: number;
+	kind: CampKind;
+	name: string;
+	dateFrom: string;
+	dateTill: string;
+	place: string | null;
+	river: string | null;
+	theme: string | null;
+	leader: string | null;
+	albumId: number | null;
+}
+
+export interface PublicCampHistoryYear {
+	year: number;
+	camps: PublicCampHistoryItem[];
+}
