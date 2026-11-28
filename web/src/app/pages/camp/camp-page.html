@@ -345,20 +345,17 @@
 <ng-template #campCard let-camp>
 	<img
 		class="historie-icon"
-		[src]="camp.trip ? '/img/event-types/backpack.svg' : '/img/event-types/tent.svg'"
+		[src]="camp.trip ? '/img/event-types/kayak.svg' : '/img/event-types/tent.svg'"
 		alt=""
 	/>
 	<div class="historie-body">
 		<div class="historie-name">{{ camp.label }}</div>
-		<div class="historie-dates">{{ camp.dates }}</div>
 		@if (camp.detail) {
 			<div class="historie-detail">
-				@if (!camp.trip) {
-					<span class="historie-badge">CTH</span>
-				}
 				{{ camp.detail }}
 			</div>
 		}
+		<div class="historie-dates">{{ camp.dates }}</div>
 		@if (camp.leader) {
 			<div class="historie-leader">{{ camp.leader }}</div>
 		}
